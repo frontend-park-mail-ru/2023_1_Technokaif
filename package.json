@@ -11,6 +11,16 @@
   "license": "ISC",
   "dependencies": {
     "cookie-parser": "^1.4.6",
-    "express": "^4.18.2"
-  }
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "uuid": "^9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frontend-park-mail-ru/2023_1_Technokaif.git"
+  },
+  "bugs": {
+    "url": "https://github.com/frontend-park-mail-ru/2023_1_Technokaif/issues"
+  },
+  "homepage": "https://github.com/frontend-park-mail-ru/2023_1_Technokaif#readme"
 }
