@@ -28,6 +28,7 @@
             const request = new Request(
                 url, {
                     method,
+                    credentials: "include",
                     headers: {
                         'content-type': 'application/json; charset=utf8'
                     },
@@ -38,7 +39,7 @@
             fetch(request).then(
                 response_raw => response_raw.json().then(
                       response_json => {
-                          callback(response_json.method, response_json.message)
+                          callback(response_json.jwt, response_json.method, response_json.message)
                       }
                 )
             );

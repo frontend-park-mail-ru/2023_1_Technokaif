@@ -1,6 +1,6 @@
 'use strict'
 
-import {createInput, createSelect, createCheckbox} from "../index.js"
+import {createInput, createSelect, createCheckbox} from "../utils/utils.js"
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
     'November', 'December']
@@ -101,6 +101,7 @@ export function renderSignup(parent) {
         const month = monthSelect.value;
         const day = dayInput.value;
         const year = yearInput.value;
+        // todo: convert month to int
         const date = {month, day, year}
 
         // todo: validate data
@@ -114,7 +115,8 @@ export function renderSignup(parent) {
                     localStorage.setItem('jwt', jwt);
                     // todo: make autologin of user
                     // may be having jwt is enough
-
+                    redirectToMain();
+                    
                     return;
                 } 
 
@@ -124,4 +126,8 @@ export function renderSignup(parent) {
     });
 
     parent.appendChild(form);
+}
+
+function redirectToMain() {
+
 }
