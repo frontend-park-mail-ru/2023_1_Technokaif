@@ -2,6 +2,33 @@ body {
     font-family: Helvetica, Arial, sans-serif;
 }
 
+#root {
+    display: grid;
+
+    grid-template-areas:
+        "menu content";
+
+    grid-template-rows: 100px 1fr;
+    grid-template-columns: min-content 1fr;
+}
+
+aside {
+    grid-area: menu;
+    font-size: 40px;
+    padding-left: 20px;
+}
+
+main {
+    grid-area: content;
+    padding: 0 40px 40px;
+}
+
+.active {
+    font-weight: bold;
+}
+
+
+
 input {
     display: block;
     height: 60px;

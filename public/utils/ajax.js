@@ -11,6 +11,7 @@
             this._ajax({
                 method: AJAX_METHODS.GET,
                 url,
+                body,
                 callback
             })
         }

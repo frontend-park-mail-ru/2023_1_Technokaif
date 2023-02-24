@@ -5,57 +5,6 @@ import {createInput, createSelect, createCheckbox} from "../utils/utils.js"
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
     'November', 'December']
 
-export function renderLogin(parent) {
-    const form = document.createElement('loginForm');
-
-    const emailInput = createInput('email', 'Email', 'email');
-    const passwordInput = createInput('password', 'Password', 'password');
-
-    const submitBtn = document.createElement('input');
-    submitBtn.type = 'submit';
-    submitBtn.value = 'Sign in';
-
-    form.appendChild(emailInput);
-    form.appendChild(passwordInput);
-    form.appendChild(submitBtn);
-
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const email = emailInput.value.trim();
-        const password = passwordInput.value;
-
-        // todo: validate data
-
-        Ajax.post({
-            url: '/auth/login',
-            body: {email, password},
-            callback: ({jwt, status, message}) => {
-                if (status === 200) {
-                    // goToPage(config.profile);
-                    localStorage.setItem('jwt', jwt);
-                    alert('Nice');
-                    return;
-                } 
-
-                alert(message);
-            }
-        })
-    });
-
-    parent.appendChild(form);
-    const registration = document.createElement('a');
-    registration.text = 'Dont have an account';
-    registration.href = '/';
-    parent.appendChild(registration);
-
-    registration.addEventListener('click', (e) => {
-        e.preventDefault();
-
-        renderSignup(parent);
-    });
-}
-
 export function renderSignup(parent) {
     const form = document.createElement('form');
 
@@ -116,9 +65,9 @@ export function renderSignup(parent) {
                     // todo: make autologin of user
                     // may be having jwt is enough
                     redirectToMain();
-                    
+
                     return;
-                } 
+                }
 
                 alert(message);
             }
@@ -126,8 +75,4 @@ export function renderSignup(parent) {
     });
 
     parent.appendChild(form);
-}
-
-function redirectToMain() {
-
 }
