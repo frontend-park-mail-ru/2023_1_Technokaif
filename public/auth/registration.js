@@ -64,6 +64,7 @@ export function renderSignup(parent) {
                     localStorage.setItem('jwt', jwt);
                     // todo: make autologin of user
                     // may be having jwt is enough
+                    // todo: login() user func post
                     redirectToMain();
 
                     return;

@@ -11,9 +11,10 @@ export function createInput(type, text, name) {
 
 export function createCheckbox(name = "") {
     const input = document.createElement('input');
-    input.type = type;
-    input.name = name;
-    input.placeholder = text;
+    input.type = "checkbox";
+    const label = document.createElement('label');
+    input.appendChild(label);
+    label.innerHTML = name;
 
     return input;
 }
@@ -25,6 +26,7 @@ export function createSelect(options, name) {
     options.forEach((name) => {
         const option = document.createElement('option');
         option.value = name;
+        option.innerText = name;
         select.appendChild(option);
     });
 
