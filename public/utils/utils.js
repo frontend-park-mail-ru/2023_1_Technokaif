@@ -10,13 +10,16 @@ export function createInput(type, text, name) {
 }
 
 export function createCheckbox(name = "") {
+    const div = document.createElement('sex-inside');
     const input = document.createElement('input');
     input.type = "checkbox";
     const label = document.createElement('label');
-    input.appendChild(label);
-    label.innerHTML = name;
+    label.textContent = name;
+    label.classList.add('text');
+    div.appendChild(input);
+    div.appendChild(label);
 
-    return input;
+    return div;
 }
 
 export function createSelect(options, name) {
