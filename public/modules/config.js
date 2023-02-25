@@ -1,7 +1,7 @@
 'use strict'
 
 import {renderLogin} from '../auth/auth.js'
-import {renderHome} from "../home/home";
+import {renderHome} from "../home/home.js";
 
 export const Names = {
     nameOfApp: 'Spotify',
@@ -17,13 +17,13 @@ export const config = {
     search: {
         name: 'Search',
         href: '/search',
-        render: renderLogin,
+        render: renderSearchPage,
         key: 'search',
     },
     library: {
         name: 'Your Library',
         href: '/library',
-        render: null,
+        render: renderLibrary,
         key: 'library'
     }
 }

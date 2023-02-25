@@ -1,18 +1,8 @@
-class Sidebar {
+class Main {
     #parent
-    #config
 
     constructor(parent, config) {
         this.#parent = parent;
-        this.#config = config;
-    }
-
-    get config() {
-        return this.#config;
-    }
-
-    set config(value) {
-        this.#config = value;
     }
 
     get items() {
@@ -42,4 +32,4 @@ class Sidebar {
     }
 }
 
-export default Sidebar;
+export default Main;

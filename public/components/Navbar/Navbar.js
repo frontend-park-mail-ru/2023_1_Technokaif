@@ -1,4 +1,4 @@
-class Sidebar {
+class Navbar {
     #parent
     #config
 
@@ -42,4 +42,4 @@ class Sidebar {
     }
 }
 
-export default Sidebar;
+export default Navbar;

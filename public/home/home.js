@@ -2,8 +2,9 @@
 
 export function renderHome(parent) {
     const home = document.createElement('div');
+
     Ajax.get({
-        url: '/feed',
+        url: '/home/content',
         callback: (status, responseString) => {
             let isAuthorized = false;
 
@@ -13,22 +14,27 @@ export function renderHome(parent) {
 
             if (!isAuthorized) {
                 alert('Нет авторизации!');
-                goToPage(config.login);
+
+                renderUnAuthHome(parent);
                 return;
             }
 
-            const images = JSON.parse(responseString);
+            const items = JSON.parse(responseString);
 
-            if (images && Array.isArray(images)) {
+            if (items && Array.isArray(items)) {
                 const div = document.createElement('div');
-                feedElement.appendChild(div);
+                home.appendChild(div);
 
-                images.forEach(({src, likes}) => {
-                    div.innerHTML += `<img src="${src}" width="500" /><div>${likes} лайков</div>`;
+                items.forEach(({text, description, imgSrc}) => {
+                    div.innerHTML += `<img src="${imgSrc}" width="500" /><div>${text}</div><div>${description}</div>`;
                 });
             }
         }
     })
 
     parent.appendChild(home);
+}
+
+function renderUnAuthHome(parent) {
+
 }

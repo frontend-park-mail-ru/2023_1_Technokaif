@@ -30,3 +30,29 @@ export function createSelect(options, name) {
 
     return select;
 }
+
+export function createDivAndInsertInParent(parent, ...classes) {
+    const divBlock = document.createElement('div');
+    classes.forEach((cl) => {
+        divBlock.classList.add(cl);
+    });
+
+    parent.appendChild(divBlock);
+    return divBlock;
+}
+
+export function insertIntoElement(parent, ...elements) {
+    elements.forEach((el) => {
+        parent.appendChild(el);
+    });
+}
+
+export function createSpanButton(clas, text, type = 'submit') {
+    const button = document.createElement('span');
+
+    button.classList.add(clas);
+    button.textContent = text;
+    button.type = type;
+
+    return button;
+}
