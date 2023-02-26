@@ -1,17 +1,17 @@
-'use strict'
+'use strict';
 
-import {createInput} from "../../utils/utils.js"
-import {renderSignup} from "./registration.js";
-import {checkIsEmail, validateUsername, validatePassword} from "./validation.js"
+import { createInput } from '../../utils/utils.js';
+import { renderSignup } from './registration.js';
+import { checkIsEmail, validateUsername, validatePassword } from './validation.js';
 
-export function renderLogin(parent) {
+export function renderLogin (parent) {
     const form = document.createElement('form');
 
     const mainLabelDiv = createElementAndAppend(form, 'div', 'blockMainLabel');
-    
+
     createElementAndAppend(mainLabelDiv, 'p', 'whatOperation').textContent = 'Fluire';
     createElementAndAppend(mainLabelDiv, 'p', 'operationDescription').textContent = 'Log in to continue';
-    
+
     const elements = createElementAndAppend(mainLabelDiv, 'div', 'blockMainLabel', 'elements');
     createElementAndAppend(elements, 'div', 'error-login');
 
@@ -32,27 +32,25 @@ export function renderLogin(parent) {
         if (e.target.type !== 'submit') {
             return;
         }
-        
+
         const login = loginInput.value.trim();
-        
+
         const password = passwordInput.value;
-        
-        const error_place = document.getElementsByClassName('error-login')[0];
-        error_place.innerHTML = '';
+
+        const errorPlace = document.getElementsByClassName('error-login')[0];
+        errorPlace.innerHTML = '';
         if (!checkIsEmail(login)) {
             if (!validateUsername(login)) {
-                error_place.innerHTML += '<p class="error">Error</p>';
+                errorPlace.innerHTML += '<p class="error">Error</p>';
                 return;
             }
         }
 
         if (!validatePassword(password)) {
-            error_place.innerHTML += '<p class="error">Error</p>';
-            return;
+            errorPlace.innerHTML += '<p class="error">Error</p>';
         }
-        
-        // todo ajax
 
+        // todo ajax
     });
 
     parent.appendChild(form);
@@ -69,7 +67,7 @@ export function renderLogin(parent) {
     });
 }
 
-function createElementAndAppend(parent, whatElement,...classes) {
+function createElementAndAppend (parent, whatElement, ...classes) {
     const element = document.createElement(whatElement);
     classes.forEach((tag) => {
         element.classList.add(tag);

@@ -1,0 +1,31 @@
+export function createTape (className, ...elements) {
+    const div = document.createElement('div');
+    div.classList.add(className);
+
+    elements.forEach((elem) => {
+        div.appendChild(elem);
+    });
+
+    return div;
+}
+
+export function createCoverForMusic (imgSrc, label, text, callback = null, className = '') {
+    const div = document.createElement('div');
+    div.classList.add(className);
+
+    const img = document.createElement('img');
+    img.src = imgSrc;
+
+    const labelEl = document.createElement('labelOfTrack');
+    const textEl = document.createElement('textOfTrack');
+
+    div.appendChild(img);
+    div.appendChild(labelEl);
+    div.appendChild(textEl);
+
+    if (callback) {
+        div.addEventListener('click', callback);
+    }
+
+    return div;
+}

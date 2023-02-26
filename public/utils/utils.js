@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-export function createInput(type, text, name) {
+export function createInput (type, text, name) {
     const input = document.createElement('input');
     input.type = type;
     input.name = name;
@@ -9,13 +9,13 @@ export function createInput(type, text, name) {
     return input;
 }
 
-export function createCheckbox(name = "", type = 'checkbox', nameInEl = '') {
+export function createCheckbox (name = '', type = 'checkbox', nameInEl = '') {
     const div = document.createElement('sex-inside');
     const input = document.createElement('input');
     input.type = type;
     if (nameInEl.length !== 0) {
         input.name = nameInEl;
-    } 
+    }
 
     const label = document.createElement('label');
     label.textContent = name;
@@ -26,7 +26,7 @@ export function createCheckbox(name = "", type = 'checkbox', nameInEl = '') {
     return div;
 }
 
-export function createSelect(options, name) {
+export function createSelect (options, name) {
     const select = document.createElement('select');
     select.name = name;
 
@@ -40,7 +40,7 @@ export function createSelect(options, name) {
     return select;
 }
 
-export function createDivAndInsertInParent(parent, ...classes) {
+export function createDivAndInsertInParent (parent, ...classes) {
     const divBlock = document.createElement('div');
     classes.forEach((cl) => {
         divBlock.classList.add(cl);
@@ -50,13 +50,13 @@ export function createDivAndInsertInParent(parent, ...classes) {
     return divBlock;
 }
 
-export function insertIntoElement(parent, ...elements) {
+export function insertIntoElement (parent, ...elements) {
     elements.forEach((el) => {
         parent.appendChild(el);
     });
 }
 
-export function createSpanButton(clas, text, type = 'submit') {
+export function createSpanButton (clas, text, type = 'submit') {
     const button = document.createElement('span');
 
     button.classList.add(clas);
