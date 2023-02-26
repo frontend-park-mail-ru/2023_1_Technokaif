@@ -1,6 +1,6 @@
 'use strict'
 
-import {createInput, createSelect, createCheckbox} from "../utils/utils.js"
+import {createInput, createSelect, createCheckbox} from "../../utils/utils.js"
 import {validateEmail, validatePassword, validateUsername, validateDay, validateMonth, validateYear, validateCheckbox} from "./validation.js"
 
 const Method = 'focusout';

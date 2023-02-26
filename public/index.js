@@ -12,10 +12,12 @@ import Navbar from "./components/Navbar/Navbar.js";
 console.log('lol kek cheburek');
 
 const rootElement = document.getElementById('root');
+const bodyElement = document.createElement('factBody');
 const menuElement = document.createElement('aside');
 const contentElement = document.createElement('main');
-rootElement.appendChild(menuElement);
-rootElement.appendChild(contentElement);
+rootElement.appendChild(bodyElement)
+bodyElement.appendChild(menuElement);
+bodyElement.appendChild(contentElement);
 
 function renderSidebar(parent) {
     const sidebar = new Menu(parent, sidebarConfig, "sidebar");

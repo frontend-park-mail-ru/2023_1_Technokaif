@@ -101,7 +101,7 @@ app.get('/me', (req, res) => {
 });
 
 app.get('/feed', (req, res) => {
-	const id = req.cookies['podvorot'];
+	const id = req.authorization['jwt'];
 	const emailSession = ids[id];
 	if (!emailSession || !users[emailSession]) {
 		return res.status(401).end();

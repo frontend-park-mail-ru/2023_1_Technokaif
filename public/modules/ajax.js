@@ -25,28 +25,20 @@
         }
 
         _ajax({method, url, body = null, callback = noop}) {
-            let request;
-            if (body === null) {
-                request = new Request(
-                    url, {
-                        method,
-                        credentials: "include",
-                        headers: {
-                            'content-type': 'application/json; charset=utf8'
-                        },
-                    }
-                );
-            } else {
-                request = new Request(
-                    url, {
-                        method,
-                        credentials: "include",
-                        headers: {
-                            'content-type': 'application/json; charset=utf8'
-                        },
-                        body: JSON.stringify(body)
-                    }
-                );
+            const request = new Request(
+                url, {
+                    method,
+                    credentials: "include",
+                    headers: {
+                        'content-type': 'application/json; charset=utf8'
+                    },
+                });
+
+            if (body !== null) {
+                request.body = JSON.stringify(body);
+            }
+            if (localStorage.getItem("jwt") !== null) {
+                request.authorization = localStorage.getItem("jwt");
             }
 
             fetch(request).then(

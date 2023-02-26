@@ -2,6 +2,7 @@
 
 import {createInput} from "../../utils/utils.js"
 import {renderSignup} from "./registration.js";
+import {unAuthNavConfig} from "../../modules/config.js";
 
 export function renderLogin(parent) {
     const form = document.createElement('loginForm');
@@ -44,12 +45,12 @@ export function renderLogin(parent) {
     parent.appendChild(form);
     const registration = document.createElement('a');
     registration.text = 'Dont have an account';
-    registration.href = '/';
+    registration.href = '/registration';
     parent.appendChild(registration);
 
     registration.addEventListener('click', (e) => {
         e.preventDefault();
 
-        renderSignup(parent);
+        redirect(unAuthNavConfig['registration'], parent);
     });
 }
