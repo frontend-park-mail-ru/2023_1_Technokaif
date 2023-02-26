@@ -17,9 +17,9 @@ class Content {
     }
 
     render() {
-        this.items.map(({key, href, name}, index) => {
+        this.items.map(({key, href, name, type}, index) => {
             const div = document.createElement('div');
-            const contentElement = document.createElement('a');
+            const contentElement = document.createElement(type);
 
             contentElement.textContent = name;
             contentElement.href = href;
