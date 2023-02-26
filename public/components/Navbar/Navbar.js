@@ -1,4 +1,4 @@
-class Content {
+class Navbar {
     #parent
     #config
     #name
@@ -35,4 +35,4 @@ class Content {
     }
 }
 
-export default Content;
+export default Navbar;

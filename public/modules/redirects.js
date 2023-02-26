@@ -1,15 +1,20 @@
 'use strict'
 
-function redirect(configSection, element) {
+function redirect(configSection, elements) {
     const el = document.querySelector(`[data-section="${configSection.key}"]`)
     if (el.classList.contains('active')) {
         return;
     }
 
-    element.innerHTML = '';
+    elements['renderArea'].innerHTML = '';
+    elements['elementToDestroy'].innerHTML = '';
 
-    document.querySelector('.active').classList.remove('active');
+    const activeElement = document.querySelector('.active');
+    if (activeElement !== undefined && activeElement !== null) {
+        activeElement.classList.remove('active');
+    }
+
     el.classList.add('active');
 
-    configSection.render(contentElement);
+    configSection.render(elements['renderArea']);
 }

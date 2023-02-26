@@ -3,7 +3,7 @@
 import {createInput, createSelect, createCheckbox} from "../../utils/utils.js"
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-    'November', 'December']
+    'November', 'December'];
 
 export function renderSignup(parent) {
     const form = document.createElement('form');

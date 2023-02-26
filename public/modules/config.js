@@ -1,7 +1,7 @@
 'use strict'
 
 import {renderLogin} from '../api/auth/auth.js'
-import {renderHome} from "../home/home.js";
+import {renderHome} from "../pages/home/home.js";
 import {renderSignup} from "../api/auth/registration.js";
 
 export const Names = {
@@ -21,11 +21,11 @@ export const componentsConfig = {
 }
 
 export const sidebarConfig = {
-    login: {
+    feed: {
         name: 'Home',
         href: '/feed',
         render: renderHome,
-        key: 'home',
+        key: 'feed',
     },
     search: {
         name: 'Search',
@@ -47,16 +47,19 @@ export const unAuthNavConfig = {
         href: '/premium',
         render: renderHome,
         key: 'premium',
-    }, signUp: {
+        type: 'a',
+    }, registration: {
         name: 'Sign up',
         href: '/auth/registration',
         render: renderSignup,
         key: 'registration',
-    }, logIn: {
+        type: 'a',
+    }, login: {
         name: 'Log in',
         href: '/auth/login',
         render: renderLogin,
         key: 'login',
+        type: 'button',
     }
 }
 
@@ -66,11 +69,13 @@ export const authNavConfig = {
         href: '/premium',
         render: renderHome,
         key: 'premium',
+        type: 'button',
     },
-    signUp: {
+    profile: {
         name: 'Profile',
         href: '/auth/registration',
         render: null,
         key: 'profile',
+        type: 'button',
     },
 }
