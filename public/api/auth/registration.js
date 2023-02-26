@@ -1,11 +1,7 @@
 'use strict'
 
-<<<<<<< HEAD:public/auth/registration.js
 import {createInput, createSelect, createCheckbox} from "../utils/utils.js"
 import {validateEmail, validatePassword, validateUsername, validateDay, validateMonth, validateYear, validateCheckbox} from "./validation.js"
-=======
-import {createInput, createSelect, createCheckbox} from "../../utils/utils.js"
->>>>>>> front/auth:public/api/auth/registration.js
 
 const Method = 'focusout';
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
