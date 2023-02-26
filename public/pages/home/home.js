@@ -1,5 +1,7 @@
 'use strict';
 
+import { createContent } from '../../components/MainWindowRender/mainWindow.js';
+
 export function renderHome (parent) {
     const home = document.createElement('div');
 
@@ -26,6 +28,7 @@ export function renderHome (parent) {
     });
 
     parent.appendChild(home);
+    createContent(home);
 }
 
 function renderUnAuthHome (parent) {

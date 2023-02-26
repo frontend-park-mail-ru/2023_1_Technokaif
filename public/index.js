@@ -1,5 +1,4 @@
 'use strict';
-
 import { renderLogin } from './api/auth/auth.js';
 import { checkAuth } from './api/auth/checkAuth.js';
 import { renderSignup } from './api/auth/registration.js';
@@ -17,6 +16,7 @@ const contentElement = document.createElement('main');
 rootElement.appendChild(menuElement);
 rootElement.appendChild(contentElement);
 
+// const Handlebars = require('handlebars'/);
 function renderSidebar (parent) {
     const sidebar = new Menu(parent, sidebarConfig, 'sidebar');
     sidebar.render();
@@ -81,4 +81,3 @@ function renderMainPage () {
 }
 
 renderMainPage();
-ss();
