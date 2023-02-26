@@ -46,7 +46,7 @@ export const sidebarConfig = {
         key: 'createPlaylist'
     },
     likedSongs: {
-        name: 'likedSongs',
+        name: 'Liked Songs',
         href: '/likedSongs',
         render: renderLibrary,
         key: 'likedSongs'

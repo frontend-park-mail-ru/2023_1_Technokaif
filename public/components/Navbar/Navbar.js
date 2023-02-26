@@ -1,23 +1,23 @@
 class Navbar {
-    #parent
-    #config
-    #name
+    #parent;
+    #config;
+    #name;
 
-    constructor(parent, config, name) {
+    constructor (parent, config, name) {
         this.#parent = parent;
         this.#config = config;
         this.#name = name;
     }
 
-    get items() {
+    get items () {
         return Object.entries(this.#config).map(([key, value]) => ({
             key,
             ...value
-        }))
+        }));
     }
 
-    render() {
-        this.items.map(({key, href, name, type}, index) => {
+    render () {
+        this.items.map(({ key, href, name, type }, index) => {
             const div = document.createElement('div');
             const contentElement = document.createElement(type);
 

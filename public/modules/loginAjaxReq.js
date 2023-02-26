@@ -6,11 +6,9 @@ export function loginAjax(login, password) {
     Ajax.post({
         url: '/auth/login',
         body: {login, password},
-        callback: ({status, message}) => {
+        callback: ({status, context}) => {
             if (status === 200) {
-                if (message.jwt !== undefined) {
-                    localStorage.setItem('jwt', message.jwt);
-                }
+                localStorage.setItem('jwt', context);
 
                 alert('Nice');
                 const element = document.getElementsByName('main');
@@ -18,7 +16,7 @@ export function loginAjax(login, password) {
                 return;
             }
 
-            alert(message);
+            alert(context);
         }
     });
 }

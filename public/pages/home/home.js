@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-export function renderHome(parent) {
+export function renderHome (parent) {
     const home = document.createElement('div');
 
     Ajax.get({
@@ -18,8 +18,14 @@ export function renderHome(parent) {
                 const div = document.createElement('div');
                 home.appendChild(div);
 
-                items.forEach(({text, description, imgSrc}) => {
-                    div.innerHTML += `<img src="${imgSrc}" width="500" /><div>${text}</div><div>${description}</div>`;
+                Object.entries(items).map(([key, value]) => ({
+                    key,
+                    ...value
+                }) => {
+                    div.innerHTML += `<p>key</p>`;
+                    value.forEach(({text, description, imgSrc}) => {
+                        div.innerHTML += `<img src="${imgSrc}" width="500" /><div>${text}</div><div>${description}</div>`;
+                    });
                 });
             }
         }
@@ -28,6 +34,6 @@ export function renderHome(parent) {
     parent.appendChild(home);
 }
 
-function renderUnAuthHome(parent) {
+function renderUnAuthHome (parent) {
 
 }

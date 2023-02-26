@@ -53,17 +53,22 @@ const users = {
 		sex: 'M',
 	},
 };
+
 const originalJwt = 'falksfasasfasfasf';
 
 app.post('/auth/signup', (req, res) => {
 	const password = req.body.password;
 	const email = req.body.email;
-	const age = req.body.age;
+	const username = req.body.username;
+	const firstName = req.body.firstName;
+	const lastName = req.body.lastName;
+	const date = req.body.date;
+	const sex = req.body.sex;
+
 	if (
-		!password || !email || !age ||
+		!password || !email ||
 		!password.match(/^\S{4,}$/) ||
-		!email.match(/@/) ||
-		!(typeof age === 'number' && age > 10 && age < 100)
+		!email.match(/@/)
 	) {
 		return res.status(400).json({error: 'Не валидные данные пользователя'});
 	}
@@ -71,13 +76,10 @@ app.post('/auth/signup', (req, res) => {
 		return res.status(400).json({error: 'Пользователь уже существует'});
 	}
 
-	const id = uuid();
-	const user = {password, email, age, images: []};
-	ids[id] = email;
-	users[email] = user;
+	users[email] = {password, email, username, firstName, lastName, date, sex};
 
-	res.cookie('podvorot', id, {expires: new Date(Date.now() + 1000 * 60 * 10)});
-	res.status(201).json({id});
+
+	res.status(200).json({id: 5});
 });
 
 app.post('/auth/login',  (req, res) => {
@@ -91,8 +93,7 @@ app.post('/auth/login',  (req, res) => {
 	}
 
 	res.headers['Authorization'] = originalJwt;
-
-	res.status(200).json();
+	res.status(200).json({jwt: originalJwt});
 });
 
 // app.get('/me', (req, res) => {
@@ -106,20 +107,10 @@ app.post('/auth/login',  (req, res) => {
 // });
 
 app.get('/feed', (req, res) => {
-	const id = req.headers['Authorization'];
-	const emailSession = ids[id];
-	if (!emailSession || !users[emailSession]) {
-		return res.status(401).end();
+	const jwt = req.headers['Authorization'];
+	if (jwt !== originalJwt) {
+		res
 	}
-
-	const result = Object
-		.values(users)
-		.filter(({email}) => email !== emailSession)
-		.map(user => user.images)
-		.filter(Boolean)
-	;
-
-	res.json(result.flat());
 });
 
 const port = process.env.PORT || 3000;

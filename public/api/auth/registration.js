@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 import {createInput, createSelect, createCheckbox} from "../../utils/utils.js"
 import {validateEmail, validatePassword, validateUsername, validateDay, validateMonth, validateYear, validateCheckbox} from "./validation.js"
@@ -7,7 +7,7 @@ const Method = 'focusout';
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
     'November', 'December'];
 
-export function renderSignup(parent) {
+export function renderSignup (parent) {
     const form = document.createElement('form');
 
     const divForNameAndElements = createElementAndAppend(form, 'div', 'blockMainLabel');
@@ -15,16 +15,15 @@ export function renderSignup(parent) {
     const mainLabelDiv = createElementAndAppend(divForNameAndElements, 'div', 'blockMainLabel');
     createElementAndAppend(mainLabelDiv, 'p', 'whatOperation').textContent = 'Registration';
     createElementAndAppend(mainLabelDiv, 'p', 'operationDescription').textContent = 'Register and listen for free';
-    
+
     const divForFields = createElementAndAppend(divForNameAndElements, 'div', 'elements');
-    
+
     const emailInput = createInput('email', 'Enter your email address', 'email');
     const confirmEmailInput = createInput('email', 'Confirm Email address', 'email');
     const passwordInput = createInput('password', 'Type your password', 'password');
     const firstNameInput = createInput('text', 'Enter your name', 'firstName');
     const lastNameInput = createInput('text', 'Enter your surname', 'lastName');
     const username = createInput('text', 'Enter your username', 'username');
-
 
     const divDate = document.createElement('div');
     divDate.classList.add('global-date');
@@ -34,11 +33,11 @@ export function renderSignup(parent) {
     const monthSelect = createSelect(MONTHS, 'month');
     const dayInput = createInput('text', 'DD', 'day');
     const yearInput = createInput('text', 'YYYY', 'year');
-    
+
     monthSelect.classList.add('date-element');
     dayInput.classList.add('date-element');
     yearInput.classList.add('date-element');
-    
+
     const div = document.createElement('div');
     divDate.appendChild(div);
     div.classList.add('date-pick');
@@ -47,61 +46,61 @@ export function renderSignup(parent) {
     div.appendChild(yearInput);
 
     const confirmCheckbox = createCheckbox('I allow my registration information to be shared with a Spotify partner' +
-        ' for advertising purposes.')
+        ' for advertising purposes.');
     const submitBtn = document.createElement('button');
     submitBtn.type = 'submit';
     submitBtn.textContent = 'Registration';
 
     divForFields.appendChild(emailInput);
     emailInput.setAttribute('id', 'email');
-    errorGenerate(Method, 
-                emailInput, 
-                createElementAndAppend(divForFields, 'div', 'error-email'), 
-                'err', 
-                validateEmail
-                );
-    
+    errorGenerate(Method,
+        emailInput,
+        createElementAndAppend(divForFields, 'div', 'error-email'),
+        'err',
+        validateEmail
+    );
+
     divForFields.appendChild(confirmEmailInput);
-    errorGenerate(Method, 
-        confirmEmailInput, 
-        createElementAndAppend(divForFields, 'div', 'error-confirmEmail'), 
-        'err', 
+    errorGenerate(Method,
+        confirmEmailInput,
+        createElementAndAppend(divForFields, 'div', 'error-confirmEmail'),
+        'err',
         (el) => {
             return validateEmail(el, emailInput.value);
         }
-        );
+    );
 
     divForFields.appendChild(passwordInput);
-    errorGenerate(Method, 
+    errorGenerate(Method,
         passwordInput,
-        createElementAndAppend(divForFields, 'div', 'error-password'), 
-        'err', 
+        createElementAndAppend(divForFields, 'div', 'error-password'),
+        'err',
         validatePassword
-        );
+    );
 
     divForFields.appendChild(firstNameInput);
-    errorGenerate(Method, 
+    errorGenerate(Method,
         firstNameInput,
-        createElementAndAppend(divForFields, 'div', 'error-first'), 
-        'err', 
+        createElementAndAppend(divForFields, 'div', 'error-first'),
+        'err',
         validateUsername
-        );
+    );
 
     divForFields.appendChild(lastNameInput);
-    errorGenerate(Method, 
+    errorGenerate(Method,
         lastNameInput,
-        createElementAndAppend(divForFields, 'div', 'error-last'), 
-        'err', 
+        createElementAndAppend(divForFields, 'div', 'error-last'),
+        'err',
         validateUsername
-        );
+    );
 
     divForFields.appendChild(username);
-    errorGenerate(Method, 
+    errorGenerate(Method,
         username,
-        createElementAndAppend(divForFields, 'div', 'error-username'), 
-        'err', 
+        createElementAndAppend(divForFields, 'div', 'error-username'),
+        'err',
         validateUsername
-        );
+    );
 
     divForFields.appendChild(divDate);
 
@@ -110,43 +109,41 @@ export function renderSignup(parent) {
         createElementAndAppend(divDate, 'div', 'error-month'),
         'err',
         validateMonth
-        );
+    );
 
     errorGenerate(Method,
         dayInput,
         createElementAndAppend(divDate, 'div', 'error-day'),
         'err1',
         validateDay
-        );
+    );
 
     errorGenerate(Method,
         yearInput,
         createElementAndAppend(divDate, 'div', 'error-year'),
         'err2',
         validateYear
-        );
+    );
 
-        
     const sexChoose = createElementAndAppend(divForFields, 'div', 'sex-choose');
-    
+
     const male = createCheckbox('male', 'radio', 'contact');
-    const female = createCheckbox('female', 'radio', 'contact')
-    const don = createCheckbox('Don', 'radio', 'contact')
+    const female = createCheckbox('female', 'radio', 'contact');
+    const don = createCheckbox('Don', 'radio', 'contact');
 
     sexChoose.appendChild(male);
     sexChoose.appendChild(female);
     sexChoose.appendChild(don);
-    let sex;
     
     // todo think about one method
-    const sex_error = createElementAndAppend(sexChoose, 'div', 'error-sex');
+    const sexError = createElementAndAppend(sexChoose, 'div', 'error-sex');
     sexChoose.addEventListener(Method, (el) => {
-        const where = sex_error;
+        const where = sexError;
         where.innerHTML = '';
-        
+
         // todo bad error
-        
-        let elements = [];
+
+        const elements = [];
         elements.push(don.children[0].checked);
         elements.push(male.children[0].checked);
         elements.push(female.children[0].checked);
@@ -159,7 +156,6 @@ export function renderSignup(parent) {
         }
     });
 
-    
     divForFields.appendChild(confirmCheckbox);
     divForFields.appendChild(submitBtn);
 
@@ -180,38 +176,38 @@ export function renderSignup(parent) {
             radioButtons[1].checked,
             radioButtons[2].checked
         );
-        
+
         if (errors.length !== 0) {
             errors.forEach((el) => {
-                switch(el) {
-                    case 'email':
-                        document.getElementsByClassName('error-email')[0].innerHTML = '<p class="error">Error</p>';
-                        document.getElementsByClassName('error-confirmEmail')[0].innerHTML = '<p class="error">Error</p>';
+                switch (el) {
+                case 'email':
+                    document.getElementsByClassName('error-email')[0].innerHTML = '<p class="error">Error</p>';
+                    document.getElementsByClassName('error-confirmEmail')[0].innerHTML = '<p class="error">Error</p>';
                     break;
-                    case 'password':
-                        document.getElementsByClassName('error-password')[0].innerHTML = '<p class="error">Error</p>';
+                case 'password':
+                    document.getElementsByClassName('error-password')[0].innerHTML = '<p class="error">Error</p>';
                     break;
-                    case 'first-name':
-                        document.getElementsByClassName('error-first')[0].innerHTML = '<p class="error">Error</p>';
+                case 'first-name':
+                    document.getElementsByClassName('error-first')[0].innerHTML = '<p class="error">Error</p>';
                     break;
-                    case 'last-name':
-                        document.getElementsByClassName('error-last')[0].innerHTML = '<p class="error">Error</p>';
+                case 'last-name':
+                    document.getElementsByClassName('error-last')[0].innerHTML = '<p class="error">Error</p>';
                     break;
-                    case 'username':
-                        document.getElementsByClassName('error-username')[0].innerHTML = '<p class="error">Error</p>';
+                case 'username':
+                    document.getElementsByClassName('error-username')[0].innerHTML = '<p class="error">Error</p>';
                     break;
-                    case 'day':
-                        document.getElementsByClassName('error-month')[0].innerHTML = '<p class="error">Error</p>';
+                case 'day':
+                    document.getElementsByClassName('error-month')[0].innerHTML = '<p class="error">Error</p>';
                     break;
-                    case 'month':
-                        document.getElementsByClassName('error-day')[0].innerHTML = '<p class="error">Error</p>';
+                case 'month':
+                    document.getElementsByClassName('error-day')[0].innerHTML = '<p class="error">Error</p>';
                     break;
-                    case 'year':
-                        document.getElementsByClassName('error-year')[0].innerHTML = '<p class="error">Error</p>';
+                case 'year':
+                    document.getElementsByClassName('error-year')[0].innerHTML = '<p class="error">Error</p>';
                     break;
-                    case 'sex':
-                        // todo bad error
-                        document.getElementsByClassName('sex-choose')[0].innerHTML = '<p class="error">Error</p>';
+                case 'sex':
+                    // todo bad error
+                    document.getElementsByClassName('sex-choose')[0].innerHTML = '<p class="error">Error</p>';
                     break;
                 }
             });
@@ -271,7 +267,7 @@ function getSexInString(sexDiv) {
     return sexInString;
 }
 
-function createElementAndAppend(parent, whatElement,...classes) {
+function createElementAndAppend (parent, whatElement, ...classes) {
     const element = document.createElement(whatElement);
     classes.forEach((tag) => {
         element.classList.add(tag);
@@ -281,10 +277,10 @@ function createElementAndAppend(parent, whatElement,...classes) {
     return element;
 }
 
-function errorGenerate(event, element, where, errorMessage, callback) {
+function errorGenerate (event, element, where, errorMessage, callback) {
     element.addEventListener(event, (el) => {
         where.innerHTML = '';
-        
+
         if (!callback(element.value)) {
             const message = document.createElement('p');
             message.textContent = errorMessage;
@@ -294,10 +290,10 @@ function errorGenerate(event, element, where, errorMessage, callback) {
     });
 }
 
-function validateAll(...params) {
-    let result = [];
-    
-    validateEmail(params[0],params[1]) ? '' : result.push('email');
+function validateAll (...params) {
+    const result = [];
+
+    validateEmail(params[0], params[1]) ? '' : result.push('email');
     validatePassword(params[2]) ? '' : result.push('password');
     validateUsername(params[3]) ? '' : result.push('first-name');
     validateUsername(params[4]) ? '' : result.push('last-name');
@@ -306,6 +302,6 @@ function validateAll(...params) {
     validateMonth(params[7]) ? '' : result.push('month');
     validateYear(params[8]) ? '' : result.push('year');
     validateCheckbox(params[9], params[10], params[11]) ? '' : result.push('sex');
-    
+
     return result;
 }

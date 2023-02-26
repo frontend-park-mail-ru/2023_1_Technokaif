@@ -25,32 +25,44 @@
         }
 
         _ajax({method, url, body = null, callback = noop}) {
-            const request = new Request(
-                url, {
-                    method,
-                    credentials: "include",
-                    headers: {
-                        'content-type': 'application/json; charset=utf8'
-                    },
-                });
-
-            if (body !== null) {
-                request.body = JSON.stringify(body);
+            let request = {};
+            if (body === null) {
+                const request = new Request(
+                    url, {
+                        method,
+                        credentials: "include",
+                        headers: {
+                            'content-type': 'application/json; charset=utf8'
+                        },
+                    });
+            } else {
+                const request = new Request(
+                    url, {
+                        method,
+                        credentials: "include",
+                        headers: {
+                            'content-type': 'application/json; charset=utf8'
+                        },
+                        body: JSON.stringify(body),
+                    });
             }
 
             if (method === AJAX_METHODS.GET) {
-                request.headers['Authorization'] = localStorage.getItem("jwt");
+                request.headers['Authorization'] = "Bearer " + localStorage.getItem("jwt");
             }
 
             fetch(request).then(
                 response_raw => response_raw.json().then(
                       response_json => {
-                          const jwtHeader = response_raw.getHeader('Authorization');
-                          if (jwtHeader !== undefined) {
-                              response_json['jwt'] = jwtHeader;
+                          let error;
+                          const status = response_raw.status;
+                          if (status !== 200) {
+                              error = response_json['error'];
+                              callback({status, error});
+                              return;
                           }
 
-                          callback(response_json.method, response_json.message)
+                          callback({status: status, context: response_json['jwt']});
                       }
                 )
             );
