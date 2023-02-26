@@ -1,8 +1,9 @@
 <script>
-    <div class={{divClass}}>
+    <div class={{classOfInput}}>
+        {{#if classOfError}}
+            <div class=classOfError></div>
+        {{/if}}
 
-        <p class = {{pClass}}> Text </p>
-
-
+        <input type={{typeOfInput}} name= {{nameOfInput}} placeholder={{placeholder}} {{#if id}} id={{id}} {{/if}}>
     </div>
 </script>
