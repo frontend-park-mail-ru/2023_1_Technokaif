@@ -34,10 +34,22 @@ export const sidebarConfig = {
         key: 'search',
     },
     library: {
-        name: 'Your Library',
+        name: 'Library',
         href: '/library',
         render: renderLibrary,
         key: 'library'
+    },
+    createPlaylist: {
+        name: 'Create Playlist',
+        href: '/createPlaylist',
+        render: renderLibrary,
+        key: 'createPlaylist'
+    },
+    likedSongs: {
+        name: 'Liked Songs',
+        href: '/likedSongs',
+        render: renderLibrary,
+        key: 'likedSongs'
     }
 }
 

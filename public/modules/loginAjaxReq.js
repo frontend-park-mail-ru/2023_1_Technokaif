@@ -2,20 +2,21 @@
 
 import {sidebarConfig} from "./config.js";
 
-function loginAjax(login, password) {
+export function loginAjax(login, password) {
     Ajax.post({
         url: '/auth/login',
-        body: {login, password},
-        callback: ({jwt, status, message}) => {
+        body: {username: login, password},
+        callback: ({status, context}) => {
             if (status === 200) {
-                localStorage.setItem('jwt', jwt);
+                localStorage.setItem('jwt', context);
+
                 alert('Nice');
-                const element = document.getElementsByName('main');
-                redirect(sidebarConfig['feed'], element);
+                const mainElement = document.getElementsByName('main');
+                redirect(sidebarConfig['feed'], mainElement);
                 return;
             }
 
-            alert(message);
+            alert(context);
         }
     });
 }

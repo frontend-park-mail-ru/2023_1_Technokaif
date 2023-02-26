@@ -1,8 +1,8 @@
 'use strict';
 
-import { createInput, createSelect, createCheckbox } from '../../utils/utils.js';
-import { validateEmail, validatePassword, validateUsername, validateDay, validateMonth, validateYear, validateCheckbox } from './validation.js';
-
+import {createInput, createSelect, createCheckbox} from "../../utils/utils.js"
+import {validateEmail, validatePassword, validateUsername, validateDay, validateMonth, validateYear, validateCheckbox} from "./validation.js"
+import {registerAjax} from "../../modules/registerAjaxReq.js"
 const Method = 'focusout';
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
     'November', 'December'];
@@ -134,7 +134,7 @@ export function renderSignup (parent) {
     sexChoose.appendChild(male);
     sexChoose.appendChild(female);
     sexChoose.appendChild(don);
-
+    
     // todo think about one method
     const sexError = createElementAndAppend(sexChoose, 'div', 'error-sex');
     sexChoose.addEventListener(Method, (el) => {
@@ -217,46 +217,56 @@ export function renderSignup (parent) {
         const email = emailInput.value.trim();
         const confirmEmail = confirmEmailInput.value.trim();
         const password = passwordInput.value;
+        const usernameData = username.value;
         const firstName = firstNameInput.value.trim();
         const lastName = lastNameInput.value.trim();
         const month = MONTHS.indexOf(monthSelect.value);
         const day = dayInput.value;
         const year = yearInput.value;
-        // todo: convert month to int
+
         let monthString = String(month);
-        if (month < 9) {
+        if (month <= 9) {
             monthString = '0' + monthString;
-        };
+        }
 
         let dayString = day;
-        if (day < 9) {
+        if (day <= 9) {
             dayString = '0' + day;
-        };
-
+        }
+        
         const date = [year, monthString, dayString].join('-');
+        const sex = getSexInString(sexChoose);
 
-        Ajax.post({
-            url: '/auth/signup',
-            body: { email, password, confirmEmail, firstName, lastName, date },
-            callback: ({ jwt, status, message }) => {
-                if (status === 200) {
-                    // goToPage(config.profile);
-                    localStorage.setItem('jwt', jwt);
-                    // todo: make autologin of user
-                    // may be having jwt is enough
-                    // todo: login() user func post
-                    redirectToMain();
-
-                    return;
-                }
-
-                alert(message);
-            }
-        });
+        registerAjax({email: email, password: password, username: usernameData, firstName: firstName,
+            lastName: lastName, date: date, sex: sex});
     });
 
     parent.appendChild(form);
-};
+}
+
+function getSexInString(sexDiv) {
+    let sexInString = "";
+    const itemsDivs = sexDiv.children;
+    for (let i = 0; i < 3; i++) {
+        if (itemsDivs[i].children[0].checked === true) {
+            switch (itemsDivs[i].children[1].value) {
+                case "male":
+                    sexInString = "M";
+                    break;
+                case "female":
+                    sexInString = "F";
+                    break;
+                case "Don":
+                    sexInString = "O";
+                    break;
+                default:
+                    sexInString = "O";
+            }
+        }
+    }
+
+    return sexInString;
+}
 
 function createElementAndAppend (parent, whatElement, ...classes) {
     const element = document.createElement(whatElement);
@@ -266,7 +276,7 @@ function createElementAndAppend (parent, whatElement, ...classes) {
 
     parent.appendChild(element);
     return element;
-};
+}
 
 function errorGenerate (event, element, where, errorMessage, callback) {
     element.addEventListener(event, (el) => {

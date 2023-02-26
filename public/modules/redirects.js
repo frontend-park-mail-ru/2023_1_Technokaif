@@ -1,13 +1,15 @@
 'use strict'
 
-function redirect(configSection, elements) {
-    const el = document.querySelector(`[data-section="${configSection.key}"]`)
-    if (el.classList.contains('active')) {
+// todo: el in redirect() can be null e.g. if we redirect from reg to auth. Change logic.
+function redirect(configSection, renderAreaElement, ...elementsToDestroy) {
+    const el = document.querySelector(`[data-section="${configSection.key}"]`);
+    if (el !== null && el.classList.contains('active')) {
         return;
     }
 
-    elements['renderArea'].innerHTML = '';
-    elements['elementToDestroy'].innerHTML = '';
+    elementsToDestroy.forEach((el) => {
+        el.innerHTML = '';
+    });
 
     const activeElement = document.querySelector('.active');
     if (activeElement !== undefined && activeElement !== null) {
@@ -16,5 +18,5 @@ function redirect(configSection, elements) {
 
     el.classList.add('active');
 
-    configSection.render(elements['renderArea']);
+    configSection.render(renderAreaElement);
 }

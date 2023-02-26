@@ -25,7 +25,7 @@
         }
 
         _ajax({method, url, body = null, callback = noop}) {
-            let request;
+            let request = {};
             if (body === null) {
                 request = new Request(
                     url, {
@@ -34,8 +34,7 @@
                         headers: {
                             'content-type': 'application/json; charset=utf8'
                         },
-                    }
-                );
+                    });
             } else {
                 request = new Request(
                     url, {
@@ -44,15 +43,26 @@
                         headers: {
                             'content-type': 'application/json; charset=utf8'
                         },
-                        body: JSON.stringify(body)
-                    }
-                );
+                        body: JSON.stringify(body),
+                    });
+            }
+
+            if (localStorage.getItem("jwt") != null && method === AJAX_METHODS.GET) {
+                request.headers['Authorization'] = "Bearer " + localStorage.getItem("jwt");
             }
 
             fetch(request).then(
                 response_raw => response_raw.json().then(
                       response_json => {
-                          callback(response_json.method, response_json.message)
+                          let error;
+                          const status = response_raw.status;
+                          if (status !== 200) {
+                              error = response_json['error'];
+                              callback({status, error});
+                              return;
+                          }
+
+                          callback({status: status, context: response_json['jwt']});
                       }
                 )
             );

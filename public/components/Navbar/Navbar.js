@@ -28,7 +28,11 @@ class Navbar {
             if (index === 0) {
                 contentElement.classList.add('active');
             }
+
             div.appendChild(contentElement);
+            if (key === 'premium') {
+                div.innerHTML += `<hr width=".1vw" height="80vw" color=#990;>`
+            }
 
             return div;
         }).forEach((e) => this.#parent.appendChild(e));

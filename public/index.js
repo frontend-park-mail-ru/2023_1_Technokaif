@@ -11,10 +11,12 @@ import Navbar from './components/Navbar/Navbar.js';
 console.log('lol kek cheburek');
 
 const rootElement = document.getElementById('root');
+const bodyElement = document.createElement('factBody');
 const menuElement = document.createElement('aside');
 const contentElement = document.createElement('main');
-rootElement.appendChild(menuElement);
-rootElement.appendChild(contentElement);
+rootElement.appendChild(bodyElement)
+bodyElement.appendChild(menuElement);
+bodyElement.appendChild(contentElement);
 
 // const Handlebars = require('handlebars'/);
 function renderSidebar (parent) {
@@ -54,13 +56,10 @@ contentElement.addEventListener('click', (e) => {
         const { section } = e.target.dataset;
         const elements = {};
         if (checkAuth()) {
-            elements.renderArea = contentElement;
+            redirect(authNavConfig[section], contentElement);
         } else {
-            elements.renderArea = menuElement;
-            elements.elementToDestroy = contentElement;
+            redirect(unAuthNavConfig[section], rootElement, contentElement, menuElement);
         }
-
-        redirect(unAuthNavConfig[section], elements);
     }
 });
 
@@ -70,7 +69,7 @@ function renderContent (parent) {
 
 function printLogo (parent) {
     const logoDiv = createDivAndInsertInParent(parent, 'logo');
-    logoDiv.innerHTML += '<h1>Fluire</h1>';
+    logoDiv.innerHTML += `<h1>Fluire</h1><hr>`
 }
 
 function renderMainPage () {

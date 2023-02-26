@@ -1,8 +1,10 @@
 'use strict';
 
-import { createInput } from '../../utils/utils.js';
-import { renderSignup } from './registration.js';
-import { checkIsEmail, validateUsername, validatePassword } from './validation.js';
+import {createInput} from "../../utils/utils.js"
+import {renderSignup} from "./registration.js";
+import {unAuthNavConfig} from "../../modules/config.js";
+import {checkIsEmail, validateUsername, validatePassword} from "./validation.js"
+import {loginAjax} from "../../modules/loginAjaxReq.js"
 
 export function renderLogin (parent) {
     const form = document.createElement('form');
@@ -50,20 +52,20 @@ export function renderLogin (parent) {
             errorPlace.innerHTML += '<p class="error">Error</p>';
         }
 
-        // todo ajax
+        loginAjax(login, password);
     });
 
     parent.appendChild(form);
     const registration = document.createElement('a');
     registration.text = 'Dont have an account';
-    registration.href = '/';
+    registration.href = '/registration';
     registration.classList.add('register-link');
     elements.appendChild(registration);
 
     registration.addEventListener('click', (e) => {
         e.preventDefault();
 
-        renderSignup(parent);
+        redirect(unAuthNavConfig['registration'], parent);
     });
 }
 
@@ -75,4 +77,4 @@ function createElementAndAppend (parent, whatElement, ...classes) {
 
     parent.appendChild(element);
     return element;
-};
+}
