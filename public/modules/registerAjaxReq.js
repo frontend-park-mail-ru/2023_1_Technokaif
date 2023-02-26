@@ -3,10 +3,11 @@
 import {sidebarConfig} from "./config.js";
 import {loginAjax} from "./loginAjaxReq.js";
 
-export function registerAjax(...data) {
+export function registerAjax(data) {
+    console.log(data);
     Ajax.post({
         url: '/auth/signup',
-        body: data.values(),
+        body: data,
         callback: ({status, context}) => {
             if (status === 200) {
                 // todo: skipped id in context without error

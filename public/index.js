@@ -83,4 +83,3 @@ function renderMainPage () {
 }
 
 renderMainPage();
-ss();

@@ -223,20 +223,23 @@ export function renderSignup (parent) {
         const month = MONTHS.indexOf(monthSelect.value);
         const day = dayInput.value;
         const year = yearInput.value;
+
         let monthString = String(month);
-        if (month < 9) {
+        if (month <= 9) {
             monthString = '0' + monthString;
         }
 
         let dayString = day;
-        if (day < 9) {
+        if (day <= 9) {
             dayString = '0' + day;
         }
         
         const date = [year, monthString, dayString].join('-');
+        console.log(date);
         const sex = getSexInString(sexChoose);
 
-        registerAjax({email, password, usernameData, firstName, lastName, date, sex});
+        registerAjax({email: email, password: password, username: usernameData, firstName: firstName,
+            lastName: lastName, date: date, sex: sex});
     });
 
     parent.appendChild(form);
