@@ -56,7 +56,7 @@ contentElement.addEventListener('click', (e) => {
         if (checkAuth()) {
             elements['renderArea'] = contentElement;
         } else {
-            elements['renderArea'] = menuElement;
+            elements['renderArea'] = rootElement;
             elements['elementToDestroy'] = contentElement;
         }
 
@@ -70,7 +70,7 @@ function renderContent(parent) {
 
 function printLogo(parent) {
     const logoDiv = createDivAndInsertInParent(parent, 'logo');
-    logoDiv.innerHTML += `<h1>Fluire</h1>`
+    logoDiv.innerHTML += `<h1>Fluire</h1><hr>`
 }
 
 function renderMainPage() {
