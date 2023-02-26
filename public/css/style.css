@@ -183,3 +183,18 @@ sex-inside{
 .error{
     color:#FFFFFF;
 }
+
+span {
+    color:black;
+    border-radius: 5%;
+    background-color: #FFFFFF;
+    
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+}
+
+.register-link{
+    margin-top: 10px;
+}

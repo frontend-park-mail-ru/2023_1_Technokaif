@@ -3,6 +3,10 @@
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
     'November', 'December']
 
+export function checkIsEmail(login) {
+    return validateEmail(login, login);
+}
+
 export function validatePassword(password) {
     return !!((/^.{8,20}$/).test(password) &&
         !(/[^a-z0-9]/i).test(password) &&
@@ -12,10 +16,12 @@ export function validatePassword(password) {
 
 export function validateDay(day) {
     // todo check not similar mounth
+    // todo check for empty string
     return day >=0 && day <= 31;
 }
 
 export function validateYear(year) {
+    // todo check for empty string
     return year >= 1920 && year <= new Date(Date.now()).getFullYear();
 }
 

@@ -1,6 +1,6 @@
 'use strict'
 
-import {createInput, createSelect, createCheckbox} from "../utils/utils.js"
+import {createInput, createSelect, createCheckbox} from "../../utils/utils.js"
 import {validateEmail, validatePassword, validateUsername, validateDay, validateMonth, validateYear, validateCheckbox} from "./validation.js"
 
 const Method = 'focusout';
@@ -143,6 +143,8 @@ export function renderSignup(parent) {
         const where = sex_error;
         where.innerHTML = '';
         
+        // todo bad error
+        
         let elements = [];
         elements.push(don.children[0].checked);
         elements.push(male.children[0].checked);
@@ -207,6 +209,7 @@ export function renderSignup(parent) {
                         document.getElementsByClassName('error-year')[0].innerHTML = '<p class="error">Error</p>';
                     break;
                     case 'sex':
+                        // todo bad error
                         document.getElementsByClassName('sex-choose')[0].innerHTML = '<p class="error">Error</p>';
                     break;
                 }
