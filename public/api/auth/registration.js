@@ -1,6 +1,6 @@
 'use strict'
 
-import {createInput, createSelect, createCheckbox} from "../utils/utils.js"
+import {createInput, createSelect, createCheckbox} from "../../utils/utils.js"
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
     'November', 'December']
@@ -72,7 +72,7 @@ export function renderSignup(parent) {
 
                 alert(message);
             }
-        })
+        });
     });
 
     parent.appendChild(form);

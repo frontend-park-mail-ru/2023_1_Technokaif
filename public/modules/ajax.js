@@ -11,7 +11,6 @@
             this._ajax({
                 method: AJAX_METHODS.GET,
                 url,
-                body,
                 callback
             })
         }
@@ -35,7 +34,7 @@
                     },
                     body: JSON.stringify(body)
                 }
-            )
+            );
 
             fetch(request).then(
                 response_raw => response_raw.json().then(

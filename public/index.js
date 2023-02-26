@@ -1,9 +1,11 @@
 'use strict'
 
-import {renderLogin} from "./auth/auth.js"
-import Sidebar from "./components/Sidebar/Sidebar.js"
-import {renderSignup} from "./auth/registration.js"
-import {config} from "./modules/config.js";
+import {renderLogin} from "./api/auth/auth.js"
+import {checkAuth} from "./api/auth/checkAuth.js"
+import {renderSignup} from "./api/auth/registration.js"
+import {authNavConfig, componentsConfig, sidebarConfig, unAuthNavConfig} from "./modules/config.js";
+import Menu from "./components/Menu/Menu.js";
+import {renderHome} from "./home/home.js";
 
 console.log('lol kek cheburek');
 
@@ -14,16 +16,44 @@ rootElement.appendChild(menuElement);
 rootElement.appendChild(contentElement);
 
 function renderSidebar(parent) {
-    const sidebar = new Sidebar(parent, config);
-    console.log(sidebar.items)
-    console.log(sidebar.config)
+    const sidebar = new Menu(parent, sidebarConfig, "sidebar");
     sidebar.render();
 }
 
+function renderNavbar(parent) {
+    let config = {};
+    if (checkAuth()) {
+        config = authNavConfig;
+    } else {
+        config = unAuthNavConfig;
+    }
+
+    const navbar = new Menu(parent, config, "navbar");
+    navbar.render();
+}
+
+menuElement.addEventListener('click', (e) => {
+    if (e.target instanceof HTMLAnchorElement) {
+        e.preventDefault();
+        const {section} = e.target.dataset;
+
+        redirect(sidebarConfig[section], contentElement);
+    }
+});
+
+contentElement.addEventListener('click', (e) => {
+    if (e.target instanceof HTMLAnchorElement) {
+        e.preventDefault();
+        const {section} = e.target.dataset;
+
+        redirect(unAuthNavConfig[section], contentElement);
+    }
+});
+
 function renderContent(parent) {
-    //const main = new Main(parent, )
-    renderSignup(parent);
+    renderHome(contentElement);
 }
 
 renderSidebar(menuElement);
+renderNavbar(contentElement);
 renderContent(contentElement);
