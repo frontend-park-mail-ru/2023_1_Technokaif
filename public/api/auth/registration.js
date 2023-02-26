@@ -245,9 +245,9 @@ export function renderSignup (parent) {
 function getSexInString(sexDiv) {
     let sexInString = "";
     const itemsDivs = sexDiv.children;
-    itemsDivs.forEach((element) => {
-        if (element.children[0].checked === true) {
-            switch (element.children[1].value) {
+    for (let i = 0; i < 3; i++) {
+        if (itemsDivs[i].children[0].checked === true) {
+            switch (itemsDivs[i].children[1].value) {
                 case "male":
                     sexInString = "M";
                     break;
@@ -261,7 +261,7 @@ function getSexInString(sexDiv) {
                     sexInString = "O";
             }
         }
-    });
+    }
 
     console.log(sexInString);
     return sexInString;
