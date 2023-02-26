@@ -9,14 +9,21 @@ export function createInput(type, text, name) {
     return input;
 }
 
-export function createCheckbox(name = "") {
+export function createCheckbox(name = "", type = 'checkbox', nameInEl = '') {
+    const div = document.createElement('sex-inside');
     const input = document.createElement('input');
-    input.type = "checkbox";
-    const label = document.createElement('label');
-    input.appendChild(label);
-    label.innerHTML = name;
+    input.type = type;
+    if (nameInEl.length !== 0) {
+        input.name = nameInEl;
+    } 
 
-    return input;
+    const label = document.createElement('label');
+    label.textContent = name;
+    label.classList.add('text');
+    div.appendChild(input);
+    div.appendChild(label);
+
+    return div;
 }
 
 export function createSelect(options, name) {
