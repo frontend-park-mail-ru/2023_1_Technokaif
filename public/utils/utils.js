@@ -9,10 +9,14 @@ export function createInput(type, text, name) {
     return input;
 }
 
-export function createCheckbox(name = "") {
+export function createCheckbox(name = "", type = 'checkbox', nameInEl = '') {
     const div = document.createElement('sex-inside');
     const input = document.createElement('input');
-    input.type = "checkbox";
+    input.type = type;
+    if (nameInEl.length !== 0) {
+        input.name = nameInEl;
+    } 
+
     const label = document.createElement('label');
     label.textContent = name;
     label.classList.add('text');

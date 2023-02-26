@@ -131,7 +131,7 @@ form {
 .global-date{
     display: flex;
     flex-direction: column;
-    align-items: last baseline;
+    /* align-items: last baseline; */
     color:#FFFFFF;
 
     font-size: 12px;
@@ -144,12 +144,16 @@ form {
     align-items: last baseline;
 }
 
-.sex-inside{
-    width: 31px;
-    height: 20px;
+sex-inside{
     color: #FFFFFF;
+    display: flex;
+    flex-direction: row;
 }
 
 .text{
+    color:#FFFFFF;
+}
+
+.error{
     color:#FFFFFF;
 }
