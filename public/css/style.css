@@ -24,7 +24,6 @@ aside {
 
 main {
     grid-area: main;
-
     padding: 0 40px 40px;
 }
 
@@ -32,12 +31,12 @@ main {
     font-weight: bold;
 }
 
-.menu__item > a {
+.sidebar__item > a {
     text-decoration: none;
     color: #d9d9d9;
 }
 
-.menu__item {
+.sidebar__item {
     padding-bottom: 15px;
     font-style: normal;
     font-weight: 700;
@@ -45,8 +44,35 @@ main {
     line-height: 17px;
 }
 
-.menu__item > a:hover {
+.logo {
+
+}
+
+.logo > h1 {
+    font-family: 'Poppins', serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 48px;
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+
     color: #FFFFFF;
+}
+
+.sidebar__item > a:hover {
+    color: #FFFFFF;
+}
+
+.navbar {
+    display: table;
+}
+
+.navbar__item {
+    display: table-cell;
+    padding-right: 10px;
 }
 
 input {

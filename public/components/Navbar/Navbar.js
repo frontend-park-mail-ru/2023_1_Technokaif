@@ -1,18 +1,12 @@
 class Navbar {
     #parent
     #config
+    #name
 
-    constructor(parent, config) {
+    constructor(parent, config, name) {
         this.#parent = parent;
         this.#config = config;
-    }
-
-    get config() {
-        return this.#config;
-    }
-
-    set config(value) {
-        this.#config = value;
+        this.#name = name;
     }
 
     get items() {
@@ -23,19 +17,18 @@ class Navbar {
     }
 
     render() {
-        this.items.map(({key, href, name}, index) => {
+        this.items.map(({key, href, name, type}, index) => {
             const div = document.createElement('div');
-            const sideBarElement = document.createElement('a');
+            const contentElement = document.createElement(type);
 
-            sideBarElement.textContent = name;
-            sideBarElement.href = href;
-            sideBarElement.dataset.section = key;
-            div.classList.add('menu__item')
-
+            contentElement.textContent = name;
+            contentElement.href = href;
+            contentElement.dataset.section = key;
+            div.classList.add(`${this.#name}__item`);
             if (index === 0) {
-                sideBarElement.classList.add('active');
+                contentElement.classList.add('active');
             }
-            div.appendChild(sideBarElement);
+            div.appendChild(contentElement);
 
             return div;
         }).forEach((e) => this.#parent.appendChild(e));

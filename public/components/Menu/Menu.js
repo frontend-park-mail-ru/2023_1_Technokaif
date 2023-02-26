@@ -1,10 +1,12 @@
-class Sidebar {
+class Menu {
     #parent
     #config
+    #name
 
-    constructor(parent, config) {
+    constructor(parent, config, name) {
         this.#parent = parent;
         this.#config = config;
+        this.#name = name;
     }
 
     get config() {
@@ -25,21 +27,21 @@ class Sidebar {
     render() {
         this.items.map(({key, href, name}, index) => {
             const div = document.createElement('div');
-            const sideBarElement = document.createElement('a');
+            const element = document.createElement('a');
 
-            sideBarElement.textContent = name;
-            sideBarElement.href = href;
-            sideBarElement.dataset.section = key;
-            div.classList.add('menu__item')
+            element.textContent = name;
+            element.href = href;
+            element.dataset.section = key;
+            div.classList.add(`${this.#name}__item`);
 
             if (index === 0) {
-                sideBarElement.classList.add('active');
+                element.classList.add('active');
             }
-            div.appendChild(sideBarElement);
+            div.appendChild(element);
 
             return div;
         }).forEach((e) => this.#parent.appendChild(e));
     }
 }
 
-export default Sidebar;
+export default Menu;
