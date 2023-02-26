@@ -37,13 +37,19 @@
             if (body !== null) {
                 request.body = JSON.stringify(body);
             }
-            if (localStorage.getItem("jwt") !== null) {
-                request.authorization = localStorage.getItem("jwt");
+
+            if (method === AJAX_METHODS.GET) {
+                request.headers['Authorization'] = localStorage.getItem("jwt");
             }
 
             fetch(request).then(
                 response_raw => response_raw.json().then(
                       response_json => {
+                          const jwtHeader = response_raw.getHeader('Authorization');
+                          if (jwtHeader !== undefined) {
+                              response_json['jwt'] = jwtHeader;
+                          }
+
                           callback(response_json.method, response_json.message)
                       }
                 )

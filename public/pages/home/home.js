@@ -23,7 +23,7 @@ export function renderHome(parent) {
                 });
             }
         }
-    })
+    });
 
     parent.appendChild(home);
 }

@@ -2,7 +2,7 @@
 
 import {createInput, createSelect, createCheckbox} from "../../utils/utils.js"
 import {validateEmail, validatePassword, validateUsername, validateDay, validateMonth, validateYear, validateCheckbox} from "./validation.js"
-
+import {registerAjax} from "../../modules/registerAjaxReq.js"
 const Method = 'focusout';
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
     'November', 'December'];
@@ -136,12 +136,15 @@ export function renderSignup(parent) {
     sexChoose.appendChild(male);
     sexChoose.appendChild(female);
     sexChoose.appendChild(don);
+    let sex;
     
     // todo think about one method
     const sex_error = createElementAndAppend(sexChoose, 'div', 'error-sex');
     sexChoose.addEventListener(Method, (el) => {
         const where = sex_error;
         where.innerHTML = '';
+        
+        // todo bad error
         
         let elements = [];
         elements.push(don.children[0].checked);
@@ -207,6 +210,7 @@ export function renderSignup(parent) {
                         document.getElementsByClassName('error-year')[0].innerHTML = '<p class="error">Error</p>';
                     break;
                     case 'sex':
+                        // todo bad error
                         document.getElementsByClassName('sex-choose')[0].innerHTML = '<p class="error">Error</p>';
                     break;
                 }
@@ -217,46 +221,55 @@ export function renderSignup(parent) {
         const email = emailInput.value.trim();
         const confirmEmail = confirmEmailInput.value.trim();
         const password = passwordInput.value;
+        const usernameData = username.value;
         const firstName = firstNameInput.value.trim();
         const lastName = lastNameInput.value.trim();
         const month = MONTHS.indexOf(monthSelect.value);
         const day = dayInput.value;
         const year = yearInput.value;
-        // todo: convert month to int
         let monthString = String(month);
         if (month < 9) {
             monthString = '0' + monthString;
-        };
+        }
 
         let dayString = day;
         if (day < 9) {
             dayString = '0' + day;
-        };
+        }
         
-        const date = [year, month, day].join('-');
+        const date = [year, monthString, dayString].join('-');
+        const sex = getSexInString(sexChoose);
 
-        Ajax.post({
-            url: '/auth/signup',
-            body: {email, password, confirmEmail, firstName, lastName, date},
-            callback: ({jwt, status, message}) => {
-                if (status === 200) {
-                    // goToPage(config.profile);
-                    localStorage.setItem('jwt', jwt);
-                    // todo: make autologin of user
-                    // may be having jwt is enough
-                    // todo: login() user func post
-                    redirectToMain();
-
-                    return;
-                }
-
-                alert(message);
-            }
-        });
+        registerAjax({email, password, usernameData, firstName, lastName, date, sex});
     });
 
     parent.appendChild(form);
-};
+}
+
+function getSexInString(sexDiv) {
+    let sexInString = "";
+    const itemsDivs = sexDiv.children;
+    itemsDivs.forEach((element) => {
+        if (element.children[0].checked === true) {
+            switch (element.children[1].value) {
+                case "male":
+                    sexInString = "M";
+                    break;
+                case "female":
+                    sexInString = "F";
+                    break;
+                case "Don":
+                    sexInString = "O";
+                    break;
+                default:
+                    sexInString = "O";
+            }
+        }
+    });
+
+    console.log(sexInString);
+    return sexInString;
+}
 
 function createElementAndAppend(parent, whatElement,...classes) {
     const element = document.createElement(whatElement);
@@ -266,7 +279,7 @@ function createElementAndAppend(parent, whatElement,...classes) {
 
     parent.appendChild(element);
     return element;
-};
+}
 
 function errorGenerate(event, element, where, errorMessage, callback) {
     element.addEventListener(event, (el) => {
