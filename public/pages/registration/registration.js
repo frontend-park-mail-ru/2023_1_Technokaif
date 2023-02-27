@@ -1,8 +1,8 @@
 'use strict';
 
 import {createInput, createSelect, createCheckbox} from "../../utils/utils.js"
-import {validateEmail, validatePassword, validateUsername, validateDay, validateMonth, validateYear, validateCheckbox} from "./validation.js"
-import {registerAjax} from "../../modules/registerAjaxReq.js"
+import {validateEmail, validatePassword, validateUsername, validateDay, validateMonth, validateYear, validateCheckbox} from "../../api/auth/validation.js"
+import {registerAjax} from "../../api/auth/registerAjaxReq.js"
 const Method = 'focusout';
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
     'November', 'December'];

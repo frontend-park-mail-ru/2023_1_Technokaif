@@ -14,4 +14,4 @@ module.exports = {
         indent: ['error', 4],
         semi: [2, 'always']
     }
-}
+};

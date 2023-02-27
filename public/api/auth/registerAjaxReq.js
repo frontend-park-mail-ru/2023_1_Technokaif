@@ -1,6 +1,6 @@
 'use strict'
 
-import {sidebarConfig} from "./config.js";
+import {sidebarConfig} from "../../utils/config.js";
 import {loginAjax} from "./loginAjaxReq.js";
 
 export function registerAjax(data) {

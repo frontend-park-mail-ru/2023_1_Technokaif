@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
 // todo: el in redirect() can be null e.g. if we redirect from reg to auth. Change logic.
-function redirect(configSection, renderAreaElement, ...elementsToDestroy) {
+export function redirect (configSection, renderAreaElement, ...elementsToDestroy) {
     const el = document.querySelector(`[data-section="${configSection.key}"]`);
     if (el !== null && el.classList.contains('active')) {
         return;

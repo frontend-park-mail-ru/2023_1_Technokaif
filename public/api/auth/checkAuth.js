@@ -1,5 +1,5 @@
-'use strict'
+'use strict';
 
-export function checkAuth() {
-    return (localStorage.getItem("jwt") !== null);
+export function checkAuth () {
+    return (localStorage.getItem('jwt') !== null);
 }

@@ -1,8 +1,8 @@
 'use strict'
 
-import {renderLogin} from '../api/auth/auth.js'
+import {renderLogin} from '../pages/login/auth.js'
 import {renderHome} from "../pages/home/home.js";
-import {renderSignup} from "../api/auth/registration.js";
+import {renderSignup} from "../pages/registration/registration.js";
 
 export const Names = {
     nameOfApp: 'Spotify',

@@ -1,10 +1,10 @@
 'use strict';
 
 import {createInput} from "../../utils/utils.js"
-import {renderSignup} from "./registration.js";
-import {unAuthNavConfig} from "../../modules/config.js";
-import {checkIsEmail, validateUsername, validatePassword} from "./validation.js"
-import {loginAjax} from "../../modules/loginAjaxReq.js"
+import {renderSignup} from "../registration/registration.js";
+import {unAuthNavConfig} from "../../utils/config.js";
+import {checkIsEmail, validateUsername, validatePassword} from "../../api/auth/validation.js"
+import {loginAjax} from "../../api/auth/loginAjaxReq.js"
 
 export function renderLogin (parent) {
     const form = document.createElement('form');
