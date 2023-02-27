@@ -1,12 +1,12 @@
-'use strict'
+'use strict';
 
-import {renderLogin} from '../pages/login/auth.js'
-import {renderHome} from "../pages/home/home.js";
-import {renderSignup} from "../pages/registration/registration.js";
+import { renderLogin } from '../pages/login/auth.js';
+import { renderHome } from '../pages/home/home.js';
+import { renderSignup } from '../pages/registration/registration.js';
 
 export const Names = {
-    nameOfApp: 'Spotify',
-}
+    nameOfApp: 'Spotify'
+};
 
 export const componentsConfig = {
     sidebar: {
@@ -18,20 +18,20 @@ export const componentsConfig = {
     content: {
 
     }
-}
+};
 
 export const sidebarConfig = {
     feed: {
         name: 'Home',
         href: '/feed',
         render: renderHome,
-        key: 'feed',
+        key: 'feed'
     },
     search: {
         name: 'Search',
         href: '/search',
         render: renderSearchPage,
-        key: 'search',
+        key: 'search'
     },
     library: {
         name: 'Library',
@@ -51,7 +51,7 @@ export const sidebarConfig = {
         render: renderLibrary,
         key: 'likedSongs'
     }
-}
+};
 
 export const unAuthNavConfig = {
     premium: {
@@ -59,21 +59,23 @@ export const unAuthNavConfig = {
         href: '/premium',
         render: renderHome,
         key: 'premium',
-        type: 'a',
-    }, registration: {
+        type: 'a'
+    },
+    registration: {
         name: 'Sign up',
         href: '/auth/registration',
         render: renderSignup,
         key: 'registration',
-        type: 'a',
-    }, login: {
+        type: 'a'
+    },
+    login: {
         name: 'Log in',
         href: '/auth/login',
         render: renderLogin,
         key: 'login',
-        type: 'button',
+        type: 'button'
     }
-}
+};
 
 export const authNavConfig = {
     premium: {
@@ -81,13 +83,13 @@ export const authNavConfig = {
         href: '/premium',
         render: renderHome,
         key: 'premium',
-        type: 'button',
+        type: 'button'
     },
     profile: {
         name: 'Profile',
         href: '/auth/registration',
         render: null,
         key: 'profile',
-        type: 'button',
-    },
-}
+        type: 'button'
+    }
+};

@@ -1,8 +1,8 @@
 'use strict';
 
-import {createInput, createSelect, createCheckbox} from "../../utils/utils.js"
-import {validateEmail, validatePassword, validateUsername, validateDay, validateMonth, validateYear, validateCheckbox} from "../../api/auth/validation.js"
-import {registerAjax} from "../../api/auth/registerAjaxReq.js"
+import { createInput, createSelect, createCheckbox} from '../../utils/utils.js';
+import { validateEmail, validatePassword, validateUsername, validateDay, validateMonth, validateYear, validateCheckbox } from '../../api/auth/validation.js';
+import { registerAjax } from '../../api/auth/registerAjaxReq.js';
 const Method = 'focusout';
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
     'November', 'December'];
@@ -134,7 +134,7 @@ export function renderSignup (parent) {
     sexChoose.appendChild(male);
     sexChoose.appendChild(female);
     sexChoose.appendChild(don);
-    
+
     // todo think about one method
     const sexError = createElementAndAppend(sexChoose, 'div', 'error-sex');
     sexChoose.addEventListener(Method, (el) => {
@@ -215,7 +215,6 @@ export function renderSignup (parent) {
         }
 
         const email = emailInput.value.trim();
-        const confirmEmail = confirmEmailInput.value.trim();
         const password = passwordInput.value;
         const usernameData = username.value;
         const firstName = firstNameInput.value.trim();
@@ -224,7 +223,7 @@ export function renderSignup (parent) {
         const day = dayInput.value;
         const year = yearInput.value;
 
-        let monthString = String(month);
+        let monthString = String(month + 1);
         if (month <= 9) {
             monthString = '0' + monthString;
         }
@@ -233,34 +232,41 @@ export function renderSignup (parent) {
         if (day <= 9) {
             dayString = '0' + day;
         }
-        
+
         const date = [year, monthString, dayString].join('-');
         const sex = getSexInString(sexChoose);
 
-        registerAjax({email: email, password: password, username: usernameData, firstName: firstName,
-            lastName: lastName, date: date, sex: sex});
+        registerAjax({
+            email,
+            password,
+            username: usernameData,
+            firstName,
+            lastName,
+            birthDate: date,
+            sex
+        });
     });
 
     parent.appendChild(form);
 }
 
-function getSexInString(sexDiv) {
-    let sexInString = "";
+function getSexInString (sexDiv) {
+    let sexInString = '';
     const itemsDivs = sexDiv.children;
     for (let i = 0; i < 3; i++) {
         if (itemsDivs[i].children[0].checked === true) {
             switch (itemsDivs[i].children[1].value) {
-                case "male":
-                    sexInString = "M";
-                    break;
-                case "female":
-                    sexInString = "F";
-                    break;
-                case "Don":
-                    sexInString = "O";
-                    break;
-                default:
-                    sexInString = "O";
+            case 'male':
+                sexInString = 'M';
+                break;
+            case 'female':
+                sexInString = 'F';
+                break;
+            case 'Don':
+                sexInString = 'O';
+                break;
+            default:
+                sexInString = 'O';
             }
         }
     }

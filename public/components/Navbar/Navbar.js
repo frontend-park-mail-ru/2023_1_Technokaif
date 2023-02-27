@@ -31,7 +31,7 @@ class Navbar {
 
             div.appendChild(contentElement);
             if (key === 'premium') {
-                div.innerHTML += `<hr width=".1vw" height="80vw" color=#990;>`
+                div.innerHTML += '<hr width=".1vw" height="80vw" color=#990;>';
             }
 
             return div;
