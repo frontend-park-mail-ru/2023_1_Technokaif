@@ -8,7 +8,7 @@ export function checkIsEmail(login) {
 }
 
 export function validatePassword(password) {
-    return !!((/^.{8,20}$/).test(password) &&
+    return ((/^.{8,20}$/).test(password) &&
         !(/[^a-z0-9]/i).test(password) &&
         password.search(/[A-Z]/g) &&
         password.search(/[0-9]/g));

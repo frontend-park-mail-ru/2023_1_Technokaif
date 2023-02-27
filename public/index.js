@@ -56,13 +56,10 @@ contentElement.addEventListener('click', (e) => {
         const { section } = e.target.dataset;
         const elements = {};
         if (checkAuth()) {
-            elements.renderArea = contentElement;
+            redirect(authNavConfig[section], contentElement);
         } else {
-            elements['renderArea'] = rootElement;
-            elements['elementToDestroy'] = contentElement;
+            redirect(unAuthNavConfig[section], rootElement, contentElement, menuElement);
         }
-
-        redirect(unAuthNavConfig[section], elements);
     }
 });
 

@@ -235,7 +235,6 @@ export function renderSignup (parent) {
         }
         
         const date = [year, monthString, dayString].join('-');
-        console.log(date);
         const sex = getSexInString(sexChoose);
 
         registerAjax({email: email, password: password, username: usernameData, firstName: firstName,
@@ -266,7 +265,6 @@ function getSexInString(sexDiv) {
         }
     }
 
-    console.log(sexInString);
     return sexInString;
 }
 

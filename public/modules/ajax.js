@@ -27,7 +27,7 @@
         _ajax({method, url, body = null, callback = noop}) {
             let request = {};
             if (body === null) {
-                const request = new Request(
+                request = new Request(
                     url, {
                         method,
                         credentials: "include",
@@ -36,7 +36,7 @@
                         },
                     });
             } else {
-                const request = new Request(
+                request = new Request(
                     url, {
                         method,
                         credentials: "include",
@@ -47,7 +47,7 @@
                     });
             }
 
-            if (method === AJAX_METHODS.GET) {
+            if (localStorage.getItem("jwt") != null && method === AJAX_METHODS.GET) {
                 request.headers['Authorization'] = "Bearer " + localStorage.getItem("jwt");
             }
 

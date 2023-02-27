@@ -108,13 +108,41 @@ app.post('/auth/login',  (req, res) => {
 
 app.get('/feed', (req, res) => {
 	const jwt = req.headers['Authorization'];
-	if (jwt !== originalJwt) {
-		res
+	if (jwt === undefined || jwt !== originalJwt) {
+		res.status(200).json({
+			focus: [
+				{
+					text: "Peacefull piano",
+					description: "Relax and indulge with beautiful piano pieces",
+					imgSrc: "/img/peace.jpeg",
+				},
+				{
+					text: "Peacefull piano",
+					description: "Relax and indulge with beautiful piano pieces",
+					imgSrc: "/img/peace.jpeg",
+				},
+			]
+		});
+	} else {
+		res.status(200).json({
+			playlists: [
+				{
+					text: "Peacefull piano",
+					description: "Relax and indulge with beautiful piano pieces",
+					imgSrc: "/img/peace.jpeg",
+				},
+				{
+					text: "Peacefull piano",
+					description: "Relax and indulge with beautiful piano pieces",
+					imgSrc: "/img/peace.jpeg",
+				}
+			]
+		});
 	}
 });
 
 const port = process.env.PORT || 3000;
 
 app.listen(port, function () {
-	console.log(`Server listening port ${port}`);
+		console.log(`Server listening port ${port}`);
 });
