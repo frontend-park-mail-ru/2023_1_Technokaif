@@ -15,14 +15,14 @@ const ID = {
     lastName: 'lastName',
     username: 'username',
     placement: 'placementId',
-    choose: 'divChooseId',
+    choose: 'regDate',
     day: 'day',
     month: 'month',
     year: 'year',
     male: 'male',
     female: 'female',
     dont: 'dont',
-    errorDate: 'errorDate'
+    errorDate: 'dateError'
 };
 
 export function renderSignup (parent) {
@@ -31,89 +31,89 @@ export function renderSignup (parent) {
         content: 'content',
         header: 'header',
         title: 'title',
-        titleClass: 'titleClass',
+        titleClass: 'page-title',
         titleName: 'Registration',
-        descriptionClass: 'descriptionClass',
-        descriptionLabelClass: 'descriptionLabelClass',
+        descriptionClass: 'page-description',
+        descriptionLabelClass: 'descriptionLabel',
         descriptionName: 'Register and listen for free',
-        divBeforeForm: null,
-        formDiv: 'formDiv',
+        divBeforeForm: 'reg',
+        formDiv: 'reg-form',
         inputs: [
             {
-                divBeforeInput: 'divBeforeInput',
+                divBeforeInput: 'reg-field',
                 typeOfInput: 'email',
                 nameOfField: 'email',
                 placeholder: 'Email',
-                classInp: 'classInp',
+                classInp: 'reg-input',
                 id: ID.email,
-                errorDiv: 'email-err',
-                errorId: null
+                errorDiv: 'reg-error',
+                errorId: 'emailError'
             },
             {
-                divBeforeInput: 'divBeforeInput',
+                divBeforeInput: 'reg-field',
                 typeOfInput: 'email',
                 nameOfField: 'email-confirm',
                 placeholder: 'Email confirm',
-                classInp: 'classInp',
+                classInp: 'reg-input',
                 id: ID.emailConf,
-                errorDiv: 'email-confirm-err',
-                errorId: null
+                errorDiv: 'reg-error',
+                errorId: 'emailConfirmError'
             },
             {
-                divBeforeInput: 'divBeforeInput',
+                divBeforeInput: 'reg-field',
                 typeOfInput: 'password',
                 nameOfField: 'password',
                 placeholder: 'Password',
-                classInp: 'classInp',
+                classInp: 'reg-input',
                 id: ID.password,
-                errorDiv: 'password-err',
-                errorId: null
+                errorDiv: 'reg-error',
+                errorId: 'passwordError'
             },
             {
-                divBeforeInput: 'divBeforeInput',
+                divBeforeInput: 'reg-field',
                 typeOfInput: 'text',
                 nameOfField: 'username',
                 placeholder: 'Username',
-                classInp: 'classInp',
+                classInp: 'reg-input',
                 id: ID.username,
-                errorDiv: 'username-err',
-                errorId: null
+                errorDiv: 'reg-error',
+                errorId: 'usernameError'
             },
             {
-                divBeforeInput: 'divBeforeInput',
+                divBeforeInput: 'reg-field',
                 typeOfInput: 'text',
                 nameOfField: 'firstName',
-                placeholder: 'First name',
-                classInp: 'classInp',
+                placeholder: 'Firstname',
+                classInp: 'reg-input',
                 id: ID.firstName,
-                errorDiv: 'firstName-err',
-                errorId: null
+                errorDiv: 'reg-error',
+                errorId: 'firstNameError'
             },
             {
-                divBeforeInput: 'divBeforeInput',
+                divBeforeInput: 'reg-field',
                 typeOfInput: 'text',
                 nameOfField: 'lastName',
-                placeholder: 'Last name',
-                classInp: 'classInp',
+                placeholder: 'Lastname',
+                classInp: 'reg-input',
                 id: ID.lastName,
-                errorDiv: 'lastName-err',
-                errorId: null
+                errorDiv: 'reg-error',
+                errorId: 'lastNameError'
             }
         ],
-        placementClass: 'placementClass',
+        placementClass: 'reg-date-and-sex',
         placementId: ID.placement,
-        divButton: 'divButton',
+        divButton: 'reg-btn',
         buttonType: 'submit',
-        buttonClass: 'buttonClass',
-        textButton: 'Sign in',
+        buttonClass: 'reg-btn',
+        textButton: 'Sign up',
         hrClass: null,
-        bottomClass: 'bottomClass',
-        divBottomLabel: 'divBottomLabel',
-        bottomLabelClass: 'bottomLabelClass',
+        bottomClass: 'reg-bottom',
+        divBottomLabel: 'have-acc-label',
+        bottomLabelClass: 'have-acc',
         bottomLabelText: 'Already have an account?',
         linkDiv: 'linkDiv',
         linkHref: '/',
-        linkClass: 'linkClass',
+        linkClass: 'reg-sign-in-btn',
         linkText: 'Login'
     });
 
@@ -123,21 +123,22 @@ export function renderSignup (parent) {
 
     const templateDate = Handlebars.compile(document.getElementById('date-template').innerHTML);
     const dates = templateDate({
-        dateMainDiv: 'dateMainDiv',
+        dateMainDiv: 'reg-date',
         divChooseId: ID.choose,
-        labelClass: 'labelClass',
-        labelText: 'Your date of birth',
-        dateChooseDiv: 'dateChooseDiv',
+        labelClass: 'reg-date-label',
+        labelText: 'Your date of birth:',
+        dateChooseDiv: 'reg-choose-date',
         divDayClass: null,
         typeOfDayInput: 'text',
-        dayClass: 'dayClass',
+        dayClass: 'reg-day',
         nameOfDayInput: 'nameOfDayInput',
         placeholderOfDay: 'Day',
         idOfDay: ID.day,
+
         divMonthClass: null,
         nameOfMonthInput: 'nameOfMonthInput',
         idOfMonth: ID.month,
-        selectClass: 'selectClass',
+        selectClass: 'reg-month',
         optionsDate: [
             {
                 option: 'January',
@@ -201,12 +202,12 @@ export function renderSignup (parent) {
             }
         ],
         divYearClass: null,
-        typeOfDayInput: 'text',
-        yearClass: 'yearClass',
+        typeOfYearInput: 'text',
+        yearClass: 'reg-year',
         nameOfYearInput: 'nameOfYearInput',
         placeholderOfYear: 'Year',
         idOfYear: ID.year,
-        errorDate: 'errorDate',
+        errorDate: 'reg-error',
         errorID: ID.errorDate
     });
     posWherePlace.innerHTML += dates;
@@ -214,35 +215,35 @@ export function renderSignup (parent) {
     const templateSex = Handlebars.compile(document.getElementById('sex-template').innerHTML);
     const sex = templateSex(
         {
-            mainSexDiv: 'mainSexDiv',
-            labelSex: 'labelSex',
-            labelClass: 'labelClass',
-            labelText: 'Please enter your gender',
-            divSexChoose: 'divSexChoose',
+            mainSexDiv: 'reg-sex',
+            labelSex: 'reg-sex-label',
+            labelClass: 'reg-label',
+            labelText: 'Your gender:',
+            divSexChoose: 'reg-choose-sex',
             sexes: [
                 {
-                    insideDivSex: 'insideDivSex',
+                    insideDivSex: 'reg-sex-var',
                     typeInput: 'radio',
                     nameInput: 'sex',
-                    classSexInput: 'classSexInput',
+                    classSexInput: 'reg-sex-radio',
                     id: ID.male,
                     classLabel: 'classLabel',
                     textLabel: 'Male'
                 },
                 {
-                    insideDivSex: 'insideDivSex',
+                    insideDivSex: 'reg-sex-var',
                     typeInput: 'radio',
                     nameInput: 'sex',
-                    classSexInput: 'classSexInput',
+                    classSexInput: 'reg-sex-radio',
                     id: ID.female,
                     classLabel: 'classLabel',
                     textLabel: 'Female'
                 },
                 {
-                    insideDivSex: 'insideDivSex',
+                    insideDivSex: 'reg-sex-var',
                     typeInput: 'radio',
                     nameInput: 'sex',
-                    classSexInput: 'classSexInput',
+                    classSexInput: 'reg-sex-radio',
                     id: ID.dont,
                     classLabel: 'classLabel',
                     textLabel: 'Other answer'
@@ -250,10 +251,45 @@ export function renderSignup (parent) {
             ],
             errorSex: 'error-gender'
         }
+    //     {
+    //     labelClass: 'textClass',
+    //     labelText: 'Choose your gender',
+    //     divMainSex: 'divMainSex',
+    //     divSexChoose: 'divSexChoose',
+    //     sexes: [
+    //         {
+    //             insideDivSex: 'insideDivSex',
+    //             type: 'Radio',
+    //             name: 'sexChoose',
+    //             classText: 'classText',
+    //             textLabel: 'Male',
+    //             classSex: 'sexClass',
+    //             id: 'idSex1'
+    //         },
+    //         {
+    //             insideDivSex: 'insideDivSex',
+    //             type: 'Radio',
+    //             name: 'sexChoose',
+    //             classText: 'classText',
+    //             textLabel: 'Female',
+    //             classSex: 'sexClass',
+    //             id: 'idSex2'
+    //         },
+    //         {
+    //             insideDivSex: 'insideDivSex',
+    //             type: 'Radio',
+    //             name: 'sexChoose',
+    //             classText: 'classText',
+    //             textLabel: 'Don\'t want to choose',
+    //             classSex: 'sexClass',
+    //             id: 'idSex3'
+    //         }
+    //     ],
+    //     'error-date': 'error-date'
+    // }
     );
     posWherePlace.innerHTML += sex;
 
-    
     // const form = document.createElement('form');
 
     // const divForNameAndElements = createElementAndAppend(form, 'div', 'blockMainLabel');

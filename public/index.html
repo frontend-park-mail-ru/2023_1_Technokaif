@@ -5,35 +5,9 @@
     <title>Fluir</title>
     <link rel="stylesheet" href="static/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-    <script src="components/MainWindowRender/mainWindow.hbs"></script>
 </head>
 
 <body>
-
-    <!-- Main page. Feed. -->
-    <script id="entry-template" type="text/x-handlebars-template">
-        <div class="mainWindow">
-            <p>{{this.focus.title}}</p>
-            {{#each keys}}
-                <div class="mainPageSet">
-                    <div class="setTitle">
-                        {{ this }}
-                    </div>
-                    <div class="setItems">
-                        {{#each values}}
-                            <div class="setItem">
-                                <img src="{{this.imgSrc}}">
-                                <h3>{{ this.title }}</h3>
-                                <p>{{ this.description }}</p>
-                            </div>
-                        {{/each }}
-                    </div>
-                </div>
-            {{/each}}
-        </div>
-    </script>
-
-
     <!-- Form template. -->
     <script type="text/x-handlebars-template" id="form-template">
         <div class="{{content}}">
@@ -122,6 +96,130 @@
             </div>
             <div class="{{errorDate}}" {{#if errorID}} id="{{errorID}}" {{/if}}>
 
+            </div>
+        </div>
+    </script>
+
+    <script type="text/x-handlebars-template" id="checkbox-template">
+        <div class="{{dateDivMain}}">
+            <p class='{{classOfDateText}}'></p>
+            <div class="{{dateDiv}}">
+                <input type={{typeOfDayInput}} name= {{nameOfDayInput}} placeholder={{placeholderOfDay}}>
+                <select name="{{nameOfSelect}}" class="{{classOfSelect}}">
+                    {{#each optionsDate}}
+                        <option value="{{this.option}}" {{#if this.class}} class={{this.class}} {{/if}}>{{this.text}}</option>
+                    {{/each}}
+                </select>
+                <input type={{typeOfYearInput}} name= {{nameOfYearInput}} placeholder={{placeholderOfYear}}>
+            </div>
+        </div>
+    </script>
+
+    <!-- Main page. Feed. -->
+    <script type="text/x-handlebars-template" id="main-page-template">
+        <div class="{{ mainPageWindowDiv }}">
+                <div class="{{tracksDiv}}">
+                    {{#each content.tracks}}
+                    <div class="{{../trackDiv}}">
+                        <div class="{{../trackImgDiv}}">
+                            <img class="{{../trackImg}}"
+                                    src=
+                                {{#if this.cover}}
+                                    "{{this.cover}}"
+                                {{else}}
+                                    "{{../defaultTrackCover}}"
+                                {{/if}}
+                            >
+                        </div>
+                        <div class="{{../trackNameDiv}}">
+                            <p>{{this.name}}</p>
+                        </div>
+                        <div class="{{../trackIdDiv}}">
+                            <p>{{this.id}}</p>
+                        </div>
+
+                        <div class="{{../artistsDiv}}">
+                            {{#each this.artists}}
+                            <div class="{{../../artistDiv}}">
+                                <div class="{{../../artistNameDiv}}">
+                                    <p>{{this.name}}</p>
+                                </div>
+                                <div class="{{../../artistIdDiv}}">
+                                    <p>{{this.id}}</p>
+                                </div>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+
+            <div class="{{artistsDiv}}">
+                {{#each content.artists}}
+                <div class="{{../../artistDiv}}">
+                    <div class="{{../../artistImgDiv}}">
+                        <img class="{{../../artistImg}}" src=
+                            {{#if this.cover}}
+                                "{{this.cover}}"
+                            {{else}}
+                                "{{../../defaultArtistCover}}"
+                            {{/if}}>
+                    </div>
+                    <div class="{{../../artistNameDiv}}">
+                        <p>{{this.name}}</p>
+                    </div>
+                    <div class="{{../../artistIdDiv}}">
+                        <p>{{this.id}}</p>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+
+            <div class="{{albumsDiv}}">
+                {{#each content.albums}}
+                <div class="{{../albumDiv}}">
+                    <div class="{{../albumImgDiv}}">
+                    <img class="{{../albumImg}}" src=
+                        {{#if this.cover}}
+                            "{{this.cover}}"
+                        {{else}}
+                            "{{../defaultAlbumCover}}"
+                        {{/if}}>
+                    </div>
+                    <div class="{{../albumNameDiv}}">
+                        <p>{{this.name}}</p>
+                    </div>
+                    <div class="{{../albumDescriptionDiv}}">
+                        <p>{{this.description}}</p>
+                    </div>
+                    <div class="{{../albumIdDiv}}">
+                        <p>{{this.id}}</p>
+                    </div>
+
+                    <div class="{{artistsDiv}}">
+                        {{#each this.artists}}
+                            <div class="{{../../artistDiv}}">
+                            <div class="{{../../artistImgDiv}}">
+                                <img class="{{../../artistImg}}"
+                                        src=
+                                    {{#if this.cover}}
+                                        "{{this.cover}}"
+                                    {{else}}
+                                        "{{../../defaultArtistCover}}"
+                                    {{/if}}
+                                    >
+                            </div>
+                            <div class="{{../../artistNameDiv}}">
+                                <p>{{this.name}}</p>
+                            </div>
+                            <div class="{{../../artistIdDiv}}">
+                                <p>{{this.id}}</p>
+                            </div>
+                            </div>
+                        {{/each}}
+                </div>
+                </div>
+                {{/each}}
             </div>
         </div>
     </script>

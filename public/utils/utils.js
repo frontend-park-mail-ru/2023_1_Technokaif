@@ -65,3 +65,9 @@ export function createSpanButton (clas, text, type = 'submit') {
 
     return button;
 }
+
+export function insertScriptAndReturnTemplate (parent, contextJson, templateHTML) {
+    const template = Handlebars.compile(templateHTML);
+
+    parent.innerHTML += template(contextJson);
+}

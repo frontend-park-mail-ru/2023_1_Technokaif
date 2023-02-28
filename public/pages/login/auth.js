@@ -3,6 +3,7 @@
 import { unAuthNavConfig } from '../../utils/config.js';
 import { checkIsEmail, validateUsername, validatePassword } from '../../api/auth/validation.js';
 import { loginAjax } from '../../api/auth/loginAjaxReq.js';
+import { redirect } from '../../modules/redirects.js';
 
 const ID = {
     form: 'idForm',
@@ -69,16 +70,8 @@ export function renderLogin (parent) {
     parent.innerHTML = textElements;
 
     const form = document.getElementsById(ID.form);
-    form.addEventListener('click', (e) => {
+    form.addEventListener('submit', (e) => {
         e.preventDefault();
-
-        if (e.target.type !== 'submit') {
-            if (!(e.target instanceof HTMLAnchorElement)) {
-                return null;
-            }
-
-            redirect(unAuthNavConfig.registration, parent);
-        }
 
         const login = document.getElementById(ID.login);
         const password = document.getElementById(ID.password);
@@ -101,5 +94,14 @@ export function renderLogin (parent) {
         }
 
         loginAjax(login, password);
+    });
+
+    // todo check if className same
+    console.log('elements');
+    parent.querySelector('a').addEventListener('click', (e) => {
+        e.preventDefault();
+
+        alert('Alert');
+        // redirect(unAuthNavConfig.registration, parent);
     });
 }

@@ -1,85 +1,84 @@
 import { createCoverForMusic, createLent } from '../TrackTape/trackTape.js';
+import { insertScriptAndReturnTemplate } from "../../utils/utils.js";
 
-export function createContent (parent) {
-    // const mainDiv = document.createElement('div');
-    // mainDiv.classList.add('content');
+export function createHomePageContent (parent) {
+    const templateOfMainPage = Handlebars.compile(document.getElementById('main-page-template').innerHTML);
+    const mainPage = templateOfMainPage({
+        mainPageWindowDiv: 'main-page-window',
 
-    // todo ajax get
-    // imitation of answer
-    const resultFromAjax = {
-        focus: [
-            {
-                title: 'label1',
-                description: 'description1',
-                imgSrc: '/static/img/peace.jpeg'
-            },
-            {
-                title: 'label2',
-                description: 'description2',
-                imgSrc: '/static/img/peace.jpeg'
-            },
-            {
-                title: 'label3',
-                description: 'description3',
-                imgSrc: '/static/img/peace.jpeg'
-            }
-        ],
-        playlist: [
-            {
-                title: 'label1',
-                description: 'description1',
-                imgSrc: '/static/img/peace.jpeg'
-            },
-            {
-                title: 'label2',
-                description: 'description2',
-                imgSrc: '/static/img/peace.jpeg'
-            },
-            {
-                title: 'label3',
-                description: 'description3',
-                imgSrc: '/static/img/peace.jpeg'
-            }
-        ]
-    };
-    //
+        tracksDiv: 'tracks',
+        trackDiv: 'track-item',
+        trackImgDiv: 'track-item-img',
+        trackImg: 'track-img',
+        trackNameDiv: 'track-name',
+        trackIdDiv: 'track-id',
 
-    // const keys = Object.keys(resultFromAjax);
-    //
-    // keys.forEach((key) => {
-    //     const elements = [];
-    //     resultFromAjax[key].forEach((el) => {
-    //         const [label, desc, imgSrc] = el;
-    //
-    //         // todo use callback to analyze where to go
-    //         // need url
-    //         elements.push(createCoverForMusic(imgSrc, label, desc, '', '', '', ''));
-    //     });
-    //
-    //     const tape = createLent(key, key + 'content', key + '-lent', '', ...elements);
-    //     mainDiv.appendChild(tape);
-    // });
-    //
-    // parent.appendChild(mainDiv);
-    Handlebars.registerHelper('keys', function (obj) {
-        return obj.keys;
+        artistsDiv: 'artists',
+        artistDiv: 'artist-item',
+        artistImgDiv: 'artist-item-img',
+        artistImg: 'artist-img',
+        artistNameDiv: 'artist-name',
+        artistIdDiv: 'artist-id',
+
+        albumsDiv: 'albums',
+        albumDiv: 'album-item',
+        albumImgDiv: 'album-item-img',
+        albumImg: 'album-img',
+        albumNameDiv: 'album-name',
+        albumIdDiv: 'album-id',
+
+        defaultAlbumCover: '/static/img/album.jpg',
+        defaultTrackCover: '/static/img/peace.jpeg',
+        defaultArtistCover: '/static/img/artist.jpg',
+
+        content: {
+            tracks: [
+                {
+                    name: 'Там где нас нет',
+                    id: 1,
+                    artists: [
+                        {
+                            name: 'Oxxxxy',
+                            id: 5
+                        }
+                    ]
+                },
+                {
+                    name: 'Там где нас нет',
+                    id: 1,
+                    artists: [
+                        {
+                            name: 'Oxxxxy',
+                            id: 5
+                        }
+                    ]
+                }
+            ],
+            albums: [
+                {
+                    name: 'Горгород',
+                    description: 'Известный артист читает известные треки',
+                    id: 1,
+                    artists: [
+                        {
+                            name: 'Oxxxxy',
+                            id: 5
+                        }
+                    ]
+                }
+            ],
+            artists: [
+                {
+                    name: 'Oxxxxy',
+                    id: 5
+                },
+                {
+                    name: 'Oxxxxy',
+                    id: 5
+                }
+            ]
+        }
     });
-    Handlebars.registerHelper('values', function (obj) {
-        return obj.values;
-    });
-    const element = document.getElementById('entry-template').innerHTML;
-    const template = Handlebars.compile(element);
-    console.log(template(resultFromAjax));
-    parent.innerHTML += template(resultFromAjax);
-    // Object.entries(resultFromAjax).map(([key, value]) => ({
-    //     key,
-    //     ...value
-    // }) => {
-    //     // div.innerHTML += `<p>${key}</p>`;
-    //     // value.forEach(({ text, description, imgSrc }) => {
-    //     //     div.innerHTML += `<img src="${imgSrc}" width="500" /><div>${text}</div><div>${description}</div>`;
-    //     // });
-    //
-    //
-    // });
+
+    parent.innerHTML += mainPage;
 }
