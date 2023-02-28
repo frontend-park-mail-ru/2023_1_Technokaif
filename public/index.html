@@ -9,6 +9,8 @@
 </head>
 
 <body>
+
+    <!-- Main page. Feed. -->
     <script id="entry-template" type="text/x-handlebars-template">
         <div class="mainWindow">
             <p>{{this.focus.title}}</p>
@@ -31,67 +33,95 @@
         </div>
     </script>
 
+
+    <!-- Form template. -->
     <script type="text/x-handlebars-template" id="form-template">
-        <div class="{{mainDiv}}">
-            <div class`="{{purposeClass}}">
-                <p class="nameClassOfPurpose">{{purposeText}}</p>
-                {{#if error-top}} 
-                    <div class="{{error-top}}"></div>
-                {{/if}}
-                <p class="purposeClass">{{purposeText}}</p>
+        <div class="{{content}}">
+            <div class="{{header}}">
+                <div class="{{title}}">
+                    <p class="{{titleClass}}">{{titleName}}</p>
+                </div>
+                {{#if error-top}}
+                    <div class="{{errorTop}}" {{#if topID}} id="{{topID}} {{/if}}"></div>
+                {{/if}} 
+                <div class="{{descriptionClass}}">
+                    <p class="{{descriptionLabelClass}}">{{descriptionName}}</p>
+                </div>
             </div>
-            <form class="{{formDiv}}" {{#if id}} id={{id}} {{/if}}>
-                <div>
+            <div {{#if divBeforeForm}}class="{{divBeforeForm}}" {{/if}}>
+                <form class="{{formDiv}}">
                     {{#each inputs}}
-                        <div class={{this.classOfInput}}>
-                            {{#if classOfError}}
-                                <div class={{this.classOfError}}></div>
-                            {{/if}}
-                
-                            <input type={{this.typeOfInput}} name= {{this.nameOfInput}} placeholder={{this.placeholder}} class= {{this.classInput}} {{#if this.id}} id={{this.id}} {{/if}}>
+                        <div class="{{this.divBeforeInput}}">
+                            <input type="{{this.typeOfInput}}" name="{{this.nameOfField}}" placeholder="{{this.placeholder}}" class="{{this.classInp}}" id="{{this.id}}">
+                            <div class="{{this.errorDiv}}" {{#if this.errorId}} id="{{this.errorId}}" {{/if}}></div>
                         </div>
                     {{/each}}
+                    {{#if placementClass}}
+                        <div class="{{placementClass}}" id="{{placementId}}"></div>
+                    {{/if}}
+                    
+                    <div class="{{divButton}}">
+                        <button type="{{buttonType}}" class="buttonClass">{{textButton}}</button>
+                    </div>
+                </form>
+                <hr {{#if hrClass}} class="{{hrClass}} {{/if}}">
+                <div class="{{bottomClass}}">
+                    <div class="{{divBottomLabel}}">
+                        <p class="{{bottomLabelClass}}">{{bottomLabelText}}</p>
+                    </div>
+                    <div class="{{linkDiv}}">
+                        <a href="{{linkHref}}" class="{{linkClass}}">{{linkText}}</a>
+                    </div>
                 </div>
-                <div id="{{forPlacement}}">
-                </div>
-                <div>
-                    <button type="{{buttonType}}" class="buttonClass">{{textButton}}</button>
-                </div>
-                <hr>
-                <div class="bottomClass">
-                    <p class="{{bottomLabelClass}}">{{bottomLabelText}}</p>
-                    <a href="{{linkHref}}" class="{{linkClass}}">{{linkText}}</a>
-                </div>
-            </form>
+            </div>
         </div>
     </script>
 
+
+    <!-- Template to choose sex -->
     <script type="text/x-handlebars-template" id="sex-template">
-        <div class="{{divMainSex}}">
-            <p class="{{label}}">{{labelText}}</p>
+        <div class="{{mainSexDiv}}">
+            <div class="{{labelSex}}">
+                <p class="{{labelClass}}">{{labelText}}</p>
+            </div>
             <div class="{{divSexChoose}}">
                 {{#each sexes}}
-                    <div class="{{insideDivSex}}">
-                        <input type="{{this.type}}" name="{{this.name}}" class="{{this.classSex}}" id={{this.id}}>
-                        <label for="{{this.id}}" class="{{this.classText}}">{{this.textLabel}}</label>
+                    <div class="{{this.insideDivSex}}">
+                        <input type="{{this.typeInput}}" name="{{this.nameInput}}" class="{{this.classSexInput}}" id={{this.id}}>
+                        <label for="{{this.id}}" class="{{this.classLabel}}">{{this.textLabel}}</label>
                     </div>
                 {{/each}}
             </div>
-            <div class="{{error-date}}"></div>
+            <div class="{{errorSex}}"></div>
         </div>
+
     </script>
 
+
+
+    <!-- Template to choose date -->
     <script type="text/x-handlebars-template" id="date-template">
-        <div class="{{dateDivMain}}">
-            <p class='{{classOfDateText}}'>{{labelText}}</p>
-            <div class="{{dateDiv}}">
-                   <input type={{typeOfDayInput}} class="{{dayClass}}" name= {{nameOfDayInput}} placeholder={{placeholderOfDay}}>
-                    <select name="{{nameOfSelect}}" class="{{classOfSelect}}">
+        <div class="{{dateMainDiv}}">
+            <label for="{{divChooseId}}" class="{{labelClass}}">{{labelText}}</label>
+            <div id="{{divChooseId}}" class="{{dateChooseDiv}}">
+                <div {{#if divDayClass}} class="{{divDayClass}} {{/if}}">
+                    <input type="{{typeOfDayInput}}" class="{{dayClass}}" name="{{nameOfDayInput}}" placeholder="{{placeholderOfDay}}" id="{{idOfDay}}">
+                </div>
+
+                <div {{#if divMonthClass}} class="{{divMonthClass}} {{/if}}">
+                    <select name="{{nameOfMonthInput}}" id="{{idOfMonth}}" class="{{selectClass}}">
                         {{#each optionsDate}}
-                            <option value="{{this.option}}" {{#if this.class}} class={{this.class}} {{/if}}>{{this.text}}</option>
+                            <option value="{{this.option}}" {{#if this.class}} class="{{this.class}}" {{/if}}>{{this.text}}</option>
                         {{/each}}
                     </select>
-                   <input type={{typeOfYearInput}} class="{{classYear}}" name= {{nameOfYearInput}} placeholder={{placeholderOfYear}}>
+                </div>
+
+                <div {{#if divYearClass}} class="{{divYearClass}} {{/if}}">
+                    <input type="{{typeOfDayInput}}" class="{{yearClass}}" name="{{nameOfYearInput}}" placeholder="{{placeholderOfYear}}" id="{{idOfYear}}">
+                </div>
+            </div>
+            <div class="{{errorDate}}" {{#if errorID}} id="{{errorID}}" {{/if}}>
+
             </div>
         </div>
     </script>
