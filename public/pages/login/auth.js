@@ -6,11 +6,19 @@ import { unAuthNavConfig } from '../../utils/config.js';
 import { checkIsEmail, validateUsername, validatePassword } from '../../api/auth/validation.js';
 import { loginAjax } from '../../api/auth/loginAjaxReq.js';
 
+const ID = {
+    form: 'idForm',
+    login: 'loginField',
+    password: 'passwordField',
+    errorLogin: 'errorPlace'
+};
+
 export function renderLogin (parent) {
     const template = Handlebars.compile(document.getElementById('form-template').innerHTML);
     const textElements = template({
         'error-top': 'error-login-all',
         formType: 'formClass',
+        id: ID.form,
         insideFormType: 'blockMain',
         namePurposeClass: 'blockMain',
         nameClass: 'whatOperation',
@@ -23,14 +31,18 @@ export function renderLogin (parent) {
                 classOfError: 'error-username',
                 typeOfInput: 'text',
                 nameOfInput: 'text',
-                placeholder: 'Username'
+                placeholder: 'Username',
+                classInput: 'classInput',
+                id: ID.login
             },
             {
                 classOfInput: 'password',
                 classOfError: 'error-password',
                 typeOfInput: 'password',
                 nameOfInput: 'password',
-                placeholder: 'Password'
+                placeholder: 'Password',
+                classInput: 'classInput',
+                id: ID.password
             }
         ],
         buttonType: 'submit',
@@ -65,6 +77,24 @@ export function renderLogin (parent) {
     // elements.appendChild(loginInput);
     // elements.appendChild(passwordInput);
     // elements.appendChild(submitBtn);
+    /// ******* */
+    // const form = document.getElementsById(ID.form);
+    // form.addEventListener('click', (e) => {
+    //     e.preventDefault();
+
+    //     if (e.target.type !== 'submit') {
+    //         return null;
+    //     }
+
+    //     const login = document.getElementById(ID.login);
+    //     const pass = document.getElementById(ID.password);
+
+    //     const errorPlac = document.getElementById(ID.errorLogin);
+    //     errorPlac.innerHTML = '';
+    //     if (!checkIsEmail(login.value.trim())) {
+
+    //     }
+    // });
 
     // form.addEventListener('click', (e) => {
     //     e.preventDefault();

@@ -32,7 +32,7 @@
     </script>
 
     <script type="text/x-handlebars-template" id="form-template">
-        <form class="{{formType}}">
+        <form class="{{formType}}" {{#if id}} id={{id}} {{/if}}>
             <div class="{{insideFormType}}">
                 <div class="{{namePurposeClass}}">
                     <p class="nameClass">{{textName}}</p>
@@ -48,7 +48,7 @@
                                 <div class={{this.classOfError}}></div>
                             {{/if}}
                 
-                            <input type={{this.typeOfInput}} name= {{this.nameOfInput}} placeholder={{this.placeholder}} {{#if this.id}} id={{this.id}} {{/if}}>
+                            <input type={{this.typeOfInput}} name= {{this.nameOfInput}} placeholder={{this.placeholder}} class= {{this.classInput}} {{#if this.id}} id={{this.id}} {{/if}}>
                         </div>
                     {{/each}}
                 </div>
@@ -68,12 +68,12 @@
 
     <script type="text/x-handlebars-template" id="sex-template">
         <div class="{{divMainSex}}">
-            <p class="{{labelClass}}">{{labelText}}</p>
+            <p class="{{label}}">{{labelText}}</p>
             <div class="{{divSexChoose}}">
                 {{#each sexes}}
                     <div class="{{insideDivSex}}">
-                        <input type="{{this.type}}" name="{{this.name}}">
-                        <p class="{{classText}}">{{textLabel}}</p>
+                        <input type="{{this.type}}" name="{{this.name}}" class="{{this.classSex}}" id={{this.id}}>
+                        <label for="{{this.id}}" class="{{this.classText}}">{{this.textLabel}}</label>
                     </div>
                 {{/each}}
             </div>
@@ -83,15 +83,15 @@
 
     <script type="text/x-handlebars-template" id="date-template">
         <div class="{{dateDivMain}}">
-            <p class='{{classOfDateText}}'></p>
+            <p class='{{classOfDateText}}'>{{labelText}}</p>
             <div class="{{dateDiv}}">
-                   <input type={{typeOfDayInput}} name= {{nameOfDayInput}} placeholder={{placeholderOfDay}}>
-                        <select name="{{nameOfSelect}}" class="{{classOfSelect}}">
-                            {{#each optionsDate}}
-                                <option value="{{this.option}}" {{#if this.class}} class={{this.class}} {{/if}}>{{this.text}}</option>
-                            {{/each}}
-                        </select>
-                   <input type={{typeOfYearInput}} name= {{nameOfYearInput}} placeholder={{placeholderOfYear}}>
+                   <input type={{typeOfDayInput}} class="{{dayClass}}" name= {{nameOfDayInput}} placeholder={{placeholderOfDay}}>
+                    <select name="{{nameOfSelect}}" class="{{classOfSelect}}">
+                        {{#each optionsDate}}
+                            <option value="{{this.option}}" {{#if this.class}} class={{this.class}} {{/if}}>{{this.text}}</option>
+                        {{/each}}
+                    </select>
+                   <input type={{typeOfYearInput}} class="{{classYear}}" name= {{nameOfYearInput}} placeholder={{placeholderOfYear}}>
             </div>
         </div>
     </script>

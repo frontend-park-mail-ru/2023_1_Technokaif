@@ -23,14 +23,16 @@ export function renderSignup (parent) {
                 classOfError: 'error-email',
                 typeOfInput: 'email',
                 nameOfInput: 'email',
-                placeholder: 'Email'
+                placeholder: 'Email',
+                classInput: 'classInput'
             },
             {
                 classOfInput: 'reg-email',
                 classOfError: 'error-confirm-email',
                 typeOfInput: 'email',
                 nameOfInput: 'email',
-                placeholder: 'Email'
+                placeholder: 'Email',
+                classInput: 'classInput'
             }
         ],
         forPlacement: 'idForPlace',
@@ -52,11 +54,13 @@ export function renderSignup (parent) {
     const templateDate = Handlebars.compile(document.getElementById('date-template').innerHTML);
     const dates = templateDate({
         dateDivMain: 'dateDivMain',
-        classOfDateText: 'Your sate of birth',
+        classOfDateText: 'dateClass',
+        labelText: 'Your date of birthday',
         dateDiv: 'dateDiv',
         typeOfDayInput: 'text',
         nameOfDayInput: 'day',
         placeholderOfDay: 'Day',
+        dayClass: 'dayClass',
         nameOfSelect: 'month',
         classOfSelect: 'select',
         optionsDate: [
@@ -111,7 +115,8 @@ export function renderSignup (parent) {
         ],
         typeOfYearInput: 'text',
         nameOfYearInput: 'year',
-        placeholderOfYear: 'Year'
+        placeholderOfYear: 'Year',
+        classYear: 'classYear'
     });
     posWherePlace.innerHTML += dates;
 
@@ -127,21 +132,27 @@ export function renderSignup (parent) {
                 type: 'Radio',
                 name: 'sexChoose',
                 classText: 'classText',
-                textLabel: 'Male'
+                textLabel: 'Male',
+                classSex: 'sexClass',
+                id: 'idSex1'
             },
             {
                 insideDivSex: 'insideDivSex',
                 type: 'Radio',
                 name: 'sexChoose',
                 classText: 'classText',
-                textLabel: 'Female'
+                textLabel: 'Female',
+                classSex: 'sexClass',
+                id: 'idSex2'
             },
             {
                 insideDivSex: 'insideDivSex',
                 type: 'Radio',
                 name: 'sexChoose',
                 classText: 'classText',
-                textLabel: 'Don\'t want to choose'
+                textLabel: 'Don\'t want to choose',
+                classSex: 'sexClass',
+                id: 'idSex3'
             }
         ],
         'error-date': 'error-date'
