@@ -1,4 +1,5 @@
 import { createCoverForMusic, createLent } from '../TrackTape/trackTape.js';
+import { insertScriptAndReturnTemplate } from "../../utils/utils.js";
 
 export function createContent (parent) {
     // const mainDiv = document.createElement('div');
@@ -67,10 +68,28 @@ export function createContent (parent) {
     Handlebars.registerHelper('values', function (obj) {
         return obj.values;
     });
-    const element = document.getElementById('entry-template').innerHTML;
-    const template = Handlebars.compile(element);
-    console.log(template(resultFromAjax));
-    parent.innerHTML += template(resultFromAjax);
+
+    insertScriptAndReturnTemplate(parent, resultFromAjax, `<div className="mainWindow">
+        <p>{{title}}</p>
+        {{#each keys}}
+        <div className="mainPageSet">
+            <div className="setTitle">
+                {{this}}
+            </div>
+            <div className="setItems">
+                {{#each values}}
+                <div className="setItem">
+                    <img src="{{this.imgSrc}}">
+                        <h3>{{this.title}}</h3>
+                        <p>{{this.description}}</p>
+                </div>
+                {{/each }}
+                    </div>
+                    </div>
+                {{/each}}
+                    </div>`
+    );
+
     // Object.entries(resultFromAjax).map(([key, value]) => ({
     //     key,
     //     ...value

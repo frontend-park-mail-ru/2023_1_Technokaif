@@ -9,27 +9,7 @@
 </head>
 
 <body>
-    <script id="entry-template" type="text/x-handlebars-template">
-        <div class="mainWindow">
-            <p>{{this.focus.title}}</p>
-            {{#each keys}}
-                <div class="mainPageSet">
-                    <div class="setTitle">
-                        {{ this }}
-                    </div>
-                    <div class="setItems">
-                        {{#each values}}
-                            <div class="setItem">
-                                <img src="{{this.imgSrc}}">
-                                <h3>{{ this.title }}</h3>
-                                <p>{{ this.description }}</p>
-                            </div>
-                        {{/each }}
-                    </div>
-                </div>
-            {{/each}}
-        </div>
-    </script>
+    <script id="entry-template" type="text/x-handlebars-template"></script>
 
     <div id="root"></div>
     <script src="index.js" type="module"></script>
