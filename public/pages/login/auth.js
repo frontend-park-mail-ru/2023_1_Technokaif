@@ -6,102 +6,128 @@ import { loginAjax } from '../../api/auth/loginAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
 
 const ID = {
-    form: 'idForm',
     login: 'loginField',
-    password: 'passwordField',
-    errorLogin: 'errorPlace'
+    password: 'passwordField'
+};
+
+const CLASS = {
+    errorTop: 'error-login-all'
 };
 
 export function renderLogin (parent) {
     const template = Handlebars.compile(document.getElementById('form-template').innerHTML);
     const textElements = template(
         {
-            errorTop: 'error-login-all',
+            errorTop: CLASS.errorTop,
             topID: null,
             content: 'content',
             header: 'header',
             title: 'title',
-            titleClass: 'titleClass',
+            titleClass: 'page-title',
             titleName: 'Fluire',
-            descriptionClass: 'descriptionClass',
-            descriptionLabelClass: 'descriptionLabelClass',
+            descriptionClass: 'page-description',
+            descriptionLabelClass: 'descriptionLabel',
             descriptionName: 'Log in to continue',
-            divBeforeForm: null,
-            formDiv: 'formDiv',
+            divBeforeForm: 'log',
+            formDiv: 'log-form',
             inputs: [
                 {
-                    divBeforeInput: 'divBeforeInput',
+                    divBeforeInput: 'log-field',
                     typeOfInput: 'text',
                     nameOfField: 'username',
                     placeholder: 'Username',
-                    classInp: 'classInp',
-                    id: ID.loginField,
-                    errorDiv: 'errorDiv',
+                    classInp: 'log-input',
+                    id: ID.login,
+                    errorDiv: 'log-error',
                     errorId: null
                 },
                 {
-                    divBeforeInput: 'divBeforeInput',
+                    divBeforeInput: 'log-field',
                     typeOfInput: 'password',
                     nameOfField: 'password',
                     placeholder: 'Password',
-                    classInp: 'classInp',
-                    id: ID.passwordField,
-                    errorDiv: 'errorDiv',
+                    classInp: 'log-input',
+                    id: ID.password,
+                    errorDiv: 'log-error',
                     errorId: null
                 }
             ],
             placementClass: null,
             placementId: null,
-            divButton: 'divButton',
+            divButton: 'log-date-and-sex',
             buttonType: 'submit',
-            buttonClass: 'buttonClass',
+            buttonClass: 'log-but',
             textButton: 'LOG IN',
             hrClass: null,
-            bottomClass: 'bottomClass',
-            divBottomLabel: 'divBottomLabel',
-            bottomLabelClass: 'bottomLabelClass',
+            bottomClass: 'log-bottom',
+            divBottomLabel: 'have-acc-label',
+            bottomLabelClass: 'have-acc',
             bottomLabelText: 'Don\'t have an account?',
             linkDiv: 'linkDiv',
             linkHref: '/',
-            linkClass: 'linkClass',
+            linkClass: 'log-sign-in-btn',
             linkText: 'Registration'
         });
 
     parent.innerHTML = textElements;
 
-    const form = document.getElementsById(ID.form);
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const login = document.getElementById(ID.login);
-        const password = document.getElementById(ID.password);
-
-        const errorPlac = document.getElementById(ID.errorLogin);
-        errorPlac.innerHTML = '';
-
-        const loginValue = login.value.trim();
-        if (!checkIsEmail(loginValue)) {
-            if (!validateUsername(loginValue)) {
-                // todo string can be global const
-                errorPlac.innerHTML = '<p> Invalid data</p>';
-                return null;
-            }
+    const loginField = parent.querySelector(`#${ID.login}`);
+    loginField.addEventListener('focusout', (e) => {
+        const errLogin = parent.querySelectorAll('.errorDiv')[0];
+        errLogin.innerHTML = '';
+        if (!validateUsername(loginField.value.trim())) {
+            errLogin.innerHTML = 'Login is invalid';
         }
-
-        if (!validatePassword(password.value)) {
-            errorPlac.innerHTML = '<p> Invalid data</p>';
-            return null;
-        }
-
-        loginAjax(login, password);
     });
 
-    // todo check if className same
-    console.log('elements');
+    const passwordField = parent.querySelector(`#${ID.password}`);
+    passwordField.addEventListener('focusout', (e) => {
+        const errPass = parent.querySelectorAll('.errorDiv')[1];
+        errPass.innerHTML = '';
+        if (!validatePassword(passwordField.value)) {
+            errPass.innerHTML = 'Password is invalid';
+        }
+    });
+
     parent.querySelector('a').addEventListener('click', (e) => {
         e.preventDefault();
 
-        alert('Alert');
-        // redirect(unAuthNavConfig.registration, parent);
+        redirect(unAuthNavConfig.registration, parent);
+    });
+
+    const form = parent.querySelector('.formDiv');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const errorPlac = parent.querySelector(`.${CLASS.errorTop}`);
+        errorPlac.innerHTML = '';
+
+        const errLogin = parent.querySelectorAll('.errorDiv')[0];
+        const errPass = parent.querySelectorAll('.errorDiv')[1];
+
+        let notValidFields = false;
+
+        const loginValue = loginField.value.trim();
+        const passwordValue = passwordField.value;
+
+        errLogin.innerHTML = '';
+        if (!checkIsEmail(loginValue)) {
+            if (!validateUsername(loginValue)) {
+                errLogin.innerHTML = 'Login is invalid';
+                notValidFields = true;
+            }
+        }
+
+        errPass.innerHTML = '';
+        if (!validatePassword(passwordValue)) {
+            errPass.innerHTML = 'Password is invalid';
+            notValidFields = true;
+        }
+
+        if (notValidFields) {
+            return null;
+        }
+
+        loginAjax(loginValue, passwordValue);
     });
 }

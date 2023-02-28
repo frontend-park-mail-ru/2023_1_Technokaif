@@ -102,7 +102,7 @@ export function renderSignup (parent) {
         ],
         placementClass: 'reg-date-and-sex',
         placementId: ID.placement,
-        divButton: 'reg-btn',
+        divButton: 'reg-date-and-sex',
         buttonType: 'submit',
         buttonClass: 'reg-btn',
         textButton: 'Sign up',
