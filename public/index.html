@@ -32,15 +32,15 @@
     </script>
 
     <script type="text/x-handlebars-template" id="form-template">
-        <form class="{{formType}}" {{#if id}} id={{id}} {{/if}}>
-            <div class="{{insideFormType}}">
-                <div class="{{namePurposeClass}}">
-                    <p class="nameClass">{{textName}}</p>
-                    {{#if error-top}} 
-                        <div class="{{error-top}}"></div>
-                    {{/if}}
-                    <p class="purposeClass">{{purposeText}}</p>
-                </div>
+        <div class="{{mainDiv}}">
+            <div class`="{{purposeClass}}">
+                <p class="nameClassOfPurpose">{{purposeText}}</p>
+                {{#if error-top}} 
+                    <div class="{{error-top}}"></div>
+                {{/if}}
+                <p class="purposeClass">{{purposeText}}</p>
+            </div>
+            <form class="{{formDiv}}" {{#if id}} id={{id}} {{/if}}>
                 <div>
                     {{#each inputs}}
                         <div class={{this.classOfInput}}>
@@ -62,8 +62,8 @@
                     <p class="{{bottomLabelClass}}">{{bottomLabelText}}</p>
                     <a href="{{linkHref}}" class="{{linkClass}}">{{linkText}}</a>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </script>
 
     <script type="text/x-handlebars-template" id="sex-template">
