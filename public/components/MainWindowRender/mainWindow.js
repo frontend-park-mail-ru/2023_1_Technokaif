@@ -1,8 +1,6 @@
-import { createCoverForMusic, createLent } from '../TrackTape/trackTape.js';
-import { insertScriptAndReturnTemplate } from "../../utils/utils.js";
-
-export function createHomePageContent (parent) {
+export function createHomePageContent (parent, items) {
     const templateOfMainPage = Handlebars.compile(document.getElementById('main-page-template').innerHTML);
+
     const mainPage = templateOfMainPage({
         mainPageWindowDiv: 'main-page-window',
 

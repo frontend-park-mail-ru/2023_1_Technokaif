@@ -8,7 +8,7 @@ import { createDivAndInsertInParent } from './utils/utils.js';
 import Navbar from './components/Navbar/Navbar.js';
 import { redirect } from './modules/redirects.js';
 
-console.log('lol kek cheburek');
+// console.log('lol kek cheburek');
 
 const rootElement = document.getElementById('root');
 const bodyElement = document.createElement('factBody');
@@ -57,13 +57,7 @@ function renderContent (parent) {
     renderHome(parent);
 }
 
-function printLogo (parent) {
-    const logoDiv = createDivAndInsertInParent(parent, 'logo');
-    logoDiv.innerHTML += '<h1>Fluire</h1><hr>';
-}
-
 function renderMainPage () {
-    printLogo(menuElement);
     renderSidebar(menuElement);
     renderNavbar(contentElement);
     renderContent(contentElement);

@@ -1,3 +1,5 @@
+import { createDivAndInsertInParent } from '../../utils/utils.js';
+
 class Menu {
     #parent;
     #config;
@@ -25,6 +27,8 @@ class Menu {
     }
 
     render () {
+        const logoDiv = createDivAndInsertInParent(this.#parent, 'logo');
+        logoDiv.innerHTML += '<h1>Fluire</h1><hr>';
         this.items.map(({ key, href, name }, index) => {
             const div = document.createElement('div');
             const element = document.createElement('a');

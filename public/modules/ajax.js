@@ -58,21 +58,21 @@
                         const status = responseRaw.status;
                         if (status !== 200) {
                             error = responseJson.error;
-                            callback({status, error});
+                            callback({ status, error });
                             return;
                         }
 
-                        callback({status, context: responseJson.jwt});
+                        callback({ status, context: responseJson.jwt });
                     }
                 )
             );
         }
 
-        function PromiseGet(url) {
+        PromiseGet (url) {
             return new Promise(function (resolve, reject) {
-                get(url, function (err, response) {
+                this.get(url, function (err, response) {
                     if (err !== 200) {
-                        reject(err)
+                        reject(err);
                     }
 
                     resolve(response);
@@ -80,11 +80,11 @@
             });
         }
 
-        function PromisePost(url, userData) {
+        PromisePost (url, userData) {
             return new Promise(function (resolve, reject) {
-                post(url, userData, function (err, response) {
+                this.post(url, userData, function (err, response) {
                     if (err !== 200) {
-                        reject(err)
+                        reject(err);
                     }
 
                     resolve(response);
@@ -94,4 +94,4 @@
     }
 
     window.Ajax = new Ajax();
-})()
+})();
