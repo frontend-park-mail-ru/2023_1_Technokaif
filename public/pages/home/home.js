@@ -1,6 +1,6 @@
 'use strict';
 
-import { createContent, createHomePageContent } from '../../components/MainWindowRender/mainWindow.js';
+import { createHomePageContent } from '../../components/MainWindowRender/mainWindow.js';
 
 export function renderHome (parent) {
     // window.Ajax.get({

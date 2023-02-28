@@ -1,9 +1,7 @@
 'use strict';
 
-import { renderLogin } from './pages/login/auth.js';
 import { checkAuth } from './api/auth/checkAuth.js';
-import { renderSignup } from './pages/registration/registration.js';
-import { authNavConfig, componentsConfig, sidebarConfig, unAuthNavConfig } from './utils/config.js';
+import { authNavConfig, sidebarConfig, unAuthNavConfig } from './utils/config.js';
 import Menu from './components/Menu/Menu.js';
 import { renderHome } from './pages/home/home.js';
 import { createDivAndInsertInParent } from './utils/utils.js';

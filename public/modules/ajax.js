@@ -7,7 +7,7 @@
     const noop = () => {};
 
     class Ajax {
-        get ({ url, callback }) {
+        get({url, callback}) {
             this._ajax({
                 method: AJAX_METHODS.GET,
                 url,
@@ -15,7 +15,7 @@
             });
         }
 
-        post ({ url, body, callback }) {
+        post({url, body, callback}) {
             this._ajax({
                 method: AJAX_METHODS.POST,
                 url,
@@ -24,7 +24,7 @@
             });
         }
 
-        _ajax ({ method, url, body = null, callback = noop }) {
+        _ajax({method, url, body = null, callback = noop}) {
             let request = {};
             if (body === null) {
                 request = new Request(
@@ -58,14 +58,38 @@
                         const status = responseRaw.status;
                         if (status !== 200) {
                             error = responseJson.error;
-                            callback({ status, error });
+                            callback({status, error});
                             return;
                         }
 
-                        callback({ status, context: responseJson.jwt });
+                        callback({status, context: responseJson.jwt});
                     }
                 )
             );
+        }
+
+        function PromiseGet(url) {
+            return new Promise(function (resolve, reject) {
+                get(url, function (err, response) {
+                    if (err !== 200) {
+                        reject(err)
+                    }
+
+                    resolve(response);
+                });
+            });
+        }
+
+        function PromisePost(url, userData) {
+            return new Promise(function (resolve, reject) {
+                post(url, userData, function (err, response) {
+                    if (err !== 200) {
+                        reject(err)
+                    }
+
+                    resolve(response);
+                });
+            });
         }
     }
 

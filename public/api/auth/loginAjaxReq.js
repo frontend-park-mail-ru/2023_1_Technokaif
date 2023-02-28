@@ -11,7 +11,6 @@ export function loginAjax (login, password) {
             if (status === 200) {
                 localStorage.setItem('jwt', context);
 
-                alert('Nice');
                 const mainElement = document.getElementsByName('main');
                 redirect(sidebarConfig.feed, mainElement);
                 return;
