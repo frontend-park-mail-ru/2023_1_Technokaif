@@ -37,7 +37,7 @@ body {
     margin-right: 15px;
 }
 
-.reg-field, .reg-input {
+.reg-field, .reg-input, .log-field, .log-input {
     width: 350px;
     height: 40px;
     margin-bottom: 30px;
@@ -60,7 +60,7 @@ body {
     display: flex;
 }
 
-.reg-date-and-sex {
+.reg-date-and-sex, .log-date-and-sex {
     margin-bottom: 30px;
 }
 
@@ -113,7 +113,8 @@ body {
     color: #333333;
 }
 
-.reg-bottom {
+
+.reg-bottom, .log-bottom {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
@@ -123,7 +124,7 @@ p {
     margin: 0px;
 }
 
-.reg-sign-in-btn {
+.reg-sign-in-btn, .log-sign-in-btn {
     height: 24px;
     text-decoration: none;
     background-color: white;
