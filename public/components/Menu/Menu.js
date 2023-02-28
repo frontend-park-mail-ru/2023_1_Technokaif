@@ -1,31 +1,31 @@
 class Menu {
-    #parent
-    #config
-    #name
+    #parent;
+    #config;
+    #name;
 
-    constructor(parent, config, name) {
+    constructor (parent, config, name) {
         this.#parent = parent;
         this.#config = config;
         this.#name = name;
     }
 
-    get config() {
+    get config () {
         return this.#config;
     }
 
-    set config(value) {
+    set config (value) {
         this.#config = value;
     }
 
-    get items() {
+    get items () {
         return Object.entries(this.#config).map(([key, value]) => ({
             key,
             ...value
-        }))
+        }));
     }
 
-    render() {
-        this.items.map(({key, href, name}, index) => {
+    render () {
+        this.items.map(({ key, href, name }, index) => {
             const div = document.createElement('div');
             const element = document.createElement('a');
 

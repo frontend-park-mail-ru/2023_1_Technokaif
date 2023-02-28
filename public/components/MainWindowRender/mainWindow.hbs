@@ -1,0 +1,21 @@
+<script id="entry-template" type="text/x-handlebars-template">
+    <div class="mainWindow">
+        {{this.focus.title}}
+        {{#each keys}}
+            <div class="mainPageSet">
+                <div class="setTitle">
+                    {{ this }}
+                </div>
+                <div class="setItems">
+                    {{#each values}}
+                    <div class="setItem">
+                        <img src="{{this.imgSrc}}">
+                        <h3>{{ this.title }}</h3>
+                        <p>{{ this.description }}</p>
+                    </div>
+                    {{/each }}
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</script>

@@ -53,6 +53,14 @@ export const sidebarConfig = {
     }
 };
 
+function renderLibrary () {
+
+}
+
+function renderSearchPage() {
+
+}
+
 export const unAuthNavConfig = {
     premium: {
         name: 'Premium',

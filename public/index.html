@@ -3,10 +3,34 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Fluir</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="components/MainWindowRender/mainWindow.hbs"></script>
 </head>
 
 <body>
+    <script id="entry-template" type="text/x-handlebars-template">
+        <div class="mainWindow">
+            <p>{{this.focus.title}}</p>
+            {{#each keys}}
+                <div class="mainPageSet">
+                    <div class="setTitle">
+                        {{ this }}
+                    </div>
+                    <div class="setItems">
+                        {{#each values}}
+                            <div class="setItem">
+                                <img src="{{this.imgSrc}}">
+                                <h3>{{ this.title }}</h3>
+                                <p>{{ this.description }}</p>
+                            </div>
+                        {{/each }}
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </script>
+
     <div id="root"></div>
     <script src="index.js" type="module"></script>
     <script src="pages/login/auth.js" type="module"></script>
@@ -17,11 +41,10 @@
     <script src="modules/redirects.js"></script>
     <script src="api/auth/loginAjaxReq.js" type="module"></script>
     <script src="api/auth/registerAjaxReq.js" type="module"></script>
-    <script src="content/content.js"></script>
     <script src="utils/config.js" type="module"></script>
     <script src="components/Navbar/Navbar.js" type="module"></script>
     <script src="components/TrackTape/trackTape.js" type="module"></script>
-    <script src="modules/handlebars-v4.7.7.js"></script>
+    <script src="static/js/handlebars-v4.7.7.js"></script>
 </body>
 
 </html>

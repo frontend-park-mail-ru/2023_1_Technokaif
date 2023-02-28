@@ -1,6 +1,7 @@
 {
   "name": "2023_1_technokaif",
   "version": "1.0.0",
+  "type": "commonjs",
   "description": "Frontend repo for Yandex.Music / Spotify project in technopark 2023 spring",
   "main": "index.js",
   "scripts": {
@@ -15,9 +16,9 @@
     "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
     "handlebars": "^4.7.7",
-    "jade": "^1.11.0",
+    "jade": "^1.9.2",
     "morgan": "^1.10.0",
-    "require": "^2.4.20",
+    "require": "^0.4.4",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
