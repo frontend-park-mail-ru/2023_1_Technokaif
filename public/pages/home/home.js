@@ -1,11 +1,8 @@
 'use strict';
 
-import { createContent } from '../../components/MainWindowRender/mainWindow.js';
+import { createContent, createHomePageContent } from '../../components/MainWindowRender/mainWindow.js';
 
 export function renderHome (parent) {
-    const home = document.createElement('div');
-    createContent(parent);
-
     // window.Ajax.get({
     //     url: '/feed',
     //     callback: (status, responseString) => {
@@ -36,8 +33,7 @@ export function renderHome (parent) {
     //     }
     // });
 
-    parent.appendChild(home);
-    createContent(home);
+    createHomePageContent(parent);
 }
 
 function renderUnAuthHome (parent) {

@@ -31,6 +31,13 @@ export function renderSignup (parent) {
                 typeOfInput: 'email',
                 nameOfInput: 'email',
                 placeholder: 'Email'
+            },
+            {
+                classOfInput: 'reg-username',
+                classOfError: 'error-username',
+                typeOfInput: 'username',
+                nameOfInput: 'username',
+                placeholder: 'Username'
             }
         ],
         forPlacement: 'idForPlace',
@@ -144,9 +151,42 @@ export function renderSignup (parent) {
                 textLabel: 'Don\'t want to choose'
             }
         ],
-        'error-date': 'error-date'
+        'error-sex': 'error-sex'
     });
     posWherePlace.innerHTML += sex;
+
+    const templateCheckbox = Handlebars.compile(document.getElementById('checkbox-template').innerHTML);
+    const checkbox = templateCheckbox({
+        labelClass: 'textClass',
+        labelText: 'Choose your gender',
+        divMainSex: 'divMainSex',
+        divSexChoose: 'divSexChoose',
+        sexes: [
+            {
+                insideDivSex: 'insideDivSex',
+                type: 'Radio',
+                name: 'sexChoose',
+                classText: 'classText',
+                textLabel: 'Male'
+            },
+            {
+                insideDivSex: 'insideDivSex',
+                type: 'Radio',
+                name: 'sexChoose',
+                classText: 'classText',
+                textLabel: 'Female'
+            },
+            {
+                insideDivSex: 'insideDivSex',
+                type: 'Radio',
+                name: 'sexChoose',
+                classText: 'classText',
+                textLabel: 'Don\'t want to choose'
+            }
+        ],
+        'error-date': 'error-date'
+    });
+    posWherePlace.innerHTML += checkbox;
 
     // const form = document.createElement('form');
 

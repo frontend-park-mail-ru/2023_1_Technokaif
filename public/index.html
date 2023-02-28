@@ -5,7 +5,6 @@
     <title>Fluir</title>
     <link rel="stylesheet" href="static/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-    <script src="components/MainWindowRender/mainWindow.hbs"></script>
 </head>
 
 <body>
@@ -51,9 +50,9 @@
             <p class="{{labelClass}}">{{labelText}}</p>
             <div class="{{divSexChoose}}">
                 {{#each sexes}}
-                    <div class="{{insideDivSex}}">
+                    <div class="{{this.insideDivSex}}">
                         <input type="{{this.type}}" name="{{this.name}}">
-                        <p class="{{classText}}">{{textLabel}}</p>
+                        <p class="{{this.classText}}">{{this.textLabel}}</p>
                     </div>
                 {{/each}}
             </div>
@@ -72,6 +71,129 @@
                             {{/each}}
                         </select>
                    <input type={{typeOfYearInput}} name= {{nameOfYearInput}} placeholder={{placeholderOfYear}}>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/x-handlebars-template" id="checkbox-template">
+        <div class="{{dateDivMain}}">
+            <p class='{{classOfDateText}}'></p>
+            <div class="{{dateDiv}}">
+                <input type={{typeOfDayInput}} name= {{nameOfDayInput}} placeholder={{placeholderOfDay}}>
+                <select name="{{nameOfSelect}}" class="{{classOfSelect}}">
+                    {{#each optionsDate}}
+                        <option value="{{this.option}}" {{#if this.class}} class={{this.class}} {{/if}}>{{this.text}}</option>
+                    {{/each}}
+                </select>
+                <input type={{typeOfYearInput}} name= {{nameOfYearInput}} placeholder={{placeholderOfYear}}>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/x-handlebars-template" id="main-page-template">
+        <div class="{{ mainPageWindowDiv }}">
+                <div class="{{tracksDiv}}">
+                    {{#each content.tracks}}
+                    <div class="{{../trackDiv}}">
+                        <div class="{{../trackImgDiv}}">
+                            <img class="{{../trackImg}}"
+                                    src=
+                                {{#if this.cover}}
+                                    "{{this.cover}}"
+                                {{else}}
+                                    "{{../defaultTrackCover}}"
+                                {{/if}}
+                            >
+                        </div>
+                        <div class="{{../trackNameDiv}}">
+                            <p>{{this.name}}</p>
+                        </div>
+                        <div class="{{../trackIdDiv}}">
+                            <p>{{this.id}}</p>
+                        </div>
+
+                        <div class="{{../artistsDiv}}">
+                            {{#each this.artists}}
+                            <div class="{{../../artistDiv}}">
+                                <div class="{{../../artistNameDiv}}">
+                                    <p>{{this.name}}</p>
+                                </div>
+                                <div class="{{../../artistIdDiv}}">
+                                    <p>{{this.id}}</p>
+                                </div>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+
+            <div class="{{artistsDiv}}">
+                {{#each content.artists}}
+                <div class="{{../../artistDiv}}">
+                    <div class="{{../../artistImgDiv}}">
+                        <img class="{{../../artistImg}}" src=
+                            {{#if this.cover}}
+                                "{{this.cover}}"
+                            {{else}}
+                                "{{../../defaultArtistCover}}"
+                            {{/if}}>
+                    </div>
+                    <div class="{{../../artistNameDiv}}">
+                        <p>{{this.name}}</p>
+                    </div>
+                    <div class="{{../../artistIdDiv}}">
+                        <p>{{this.id}}</p>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+
+            <div class="{{albumsDiv}}">
+                {{#each content.albums}}
+                <div class="{{../albumDiv}}">
+                    <div class="{{../albumImgDiv}}">
+                    <img class="{{../albumImg}}" src=
+                        {{#if this.cover}}
+                        "{{this.cover}}"
+                        {{else}}
+                            "{{../defaultAlbumCover}}"
+                        {{/if}}>
+                    </div>
+                    <div class="{{../albumNameDiv}}">
+                        <p>{{this.name}}</p>
+                    </div>
+                    <div class="{{../albumDescriptionDiv}}">
+                        <p>{{this.description}}</p>
+                    </div>
+                    <div class="{{../albumIdDiv}}">
+                        <p>{{this.id}}</p>
+                    </div>
+
+                    <div class="{{artistsDiv}}">
+                        {{#each this.artists}}
+                            <div class="{{../../artistDiv}}">
+                            <div class="{{../../artistImgDiv}}">
+                                <img class="{{../../artistImg}}"
+                                        src=
+                                    {{#if this.cover}}
+                                        "{{this.cover}}"
+                                    {{else}}
+                                        "{{../../defaultArtistCover}}"
+                                    {{/if}}
+                                    >
+                            </div>
+                            <div class="{{../../artistNameDiv}}">
+                                <p>{{this.name}}</p>
+                            </div>
+                            <div class="{{../../artistIdDiv}}">
+                                <p>{{this.id}}</p>
+                            </div>
+                            </div>
+                        {{/each}}
+                </div>
+                </div>
+                {{/each}}
             </div>
         </div>
     </script>
