@@ -31,6 +31,72 @@
         </div>
     </script>
 
+    <script type="text/x-handlebars-template" id="form-template">
+        <form class="{{formType}}">
+            <div class="{{insideFormType}}">
+                <div class="{{namePurposeClass}}">
+                    <p class="nameClass">{{textName}}</p>
+                    {{#if error-top}} 
+                        <div class="{{error-top}}"></div>
+                    {{/if}}
+                    <p class="purposeClass">{{purposeText}}</p>
+                </div>
+                <div>
+                    {{#each inputs}}
+                        <div class={{this.classOfInput}}>
+                            {{#if classOfError}}
+                                <div class={{this.classOfError}}></div>
+                            {{/if}}
+                
+                            <input type={{this.typeOfInput}} name= {{this.nameOfInput}} placeholder={{this.placeholder}} {{#if this.id}} id={{this.id}} {{/if}}>
+                        </div>
+                    {{/each}}
+                </div>
+                <div id="{{forPlacement}}">
+                </div>
+                <div>
+                    <button type="{{buttonType}}" class="buttonClass">{{textButton}}</button>
+                </div>
+                <hr>
+                <div class="bottomClass">
+                    <p class="{{bottomLabelClass}}">{{bottomLabelText}}</p>
+                    <a href="{{linkHref}}" class="{{linkClass}}">{{linkText}}</a>
+                </div>
+            </div>
+        </form>
+    </script>
+
+    <script type="text/x-handlebars-template" id="sex-template">
+        <div class="{{divMainSex}}">
+            <p class="{{labelClass}}">{{labelText}}</p>
+            <div class="{{divSexChoose}}">
+                {{#each sexes}}
+                    <div class="{{insideDivSex}}">
+                        <input type="{{this.type}}" name="{{this.name}}">
+                        <p class="{{classText}}">{{textLabel}}</p>
+                    </div>
+                {{/each}}
+            </div>
+            <div class="{{error-date}}"></div>
+        </div>
+    </script>
+
+    <script type="text/x-handlebars-template" id="date-template">
+        <div class="{{dateDivMain}}">
+            <p class='{{classOfDateText}}'></p>
+            <div class="{{dateDiv}}">
+                   <input type={{typeOfDayInput}} name= {{nameOfDayInput}} placeholder={{placeholderOfDay}}>
+                        <select name="{{nameOfSelect}}" class="{{classOfSelect}}">
+                            {{#each optionsDate}}
+                                <option value="{{this.option}}" {{#if this.class}} class={{this.class}} {{/if}}>{{this.text}}</option>
+                            {{/each}}
+                        </select>
+                   <input type={{typeOfYearInput}} name= {{nameOfYearInput}} placeholder={{placeholderOfYear}}>
+            </div>
+        </div>
+    </script>
+
+
     <div id="root"></div>
     <script src="index.js" type="module"></script>
     <script src="pages/login/auth.js" type="module"></script>
