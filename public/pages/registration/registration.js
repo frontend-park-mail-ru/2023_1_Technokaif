@@ -1,7 +1,7 @@
 'use strict';
 
-import { createInput, createSelect, createCheckbox} from '../../utils/utils.js';
-import { validateEmail, validatePassword, validateUsername, validateDay, validateMonth, validateYear, validateCheckbox } from '../../api/auth/validation.js';
+import { createInput, createSelect, createCheckbox } from '../../utils/utils.js';
+import { validateEmail, validatePassword, validateUsername, validateDay, validateMonth, validateYear, validateCheckbox, validateName } from '../../api/auth/validation.js';
 import { registerAjax } from '../../api/auth/registerAjaxReq.js';
 const Method = 'focusout';
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
@@ -83,7 +83,7 @@ export function renderSignup (parent) {
         firstNameInput,
         createElementAndAppend(divForFields, 'div', 'error-first'),
         'err',
-        validateUsername
+        validateName
     );
 
     divForFields.appendChild(lastNameInput);
@@ -91,7 +91,7 @@ export function renderSignup (parent) {
         lastNameInput,
         createElementAndAppend(divForFields, 'div', 'error-last'),
         'err',
-        validateUsername
+        validateName
     );
 
     divForFields.appendChild(username);
@@ -302,8 +302,8 @@ function validateAll (...params) {
 
     validateEmail(params[0], params[1]) ? '' : result.push('email');
     validatePassword(params[2]) ? '' : result.push('password');
-    validateUsername(params[3]) ? '' : result.push('first-name');
-    validateUsername(params[4]) ? '' : result.push('last-name');
+    validateName(params[3]) ? '' : result.push('first-name');
+    validateName(params[4]) ? '' : result.push('last-name');
     validateUsername(params[5]) ? '' : result.push('username');
     validateDay(params[6]) ? '' : result.push('day');
     validateMonth(params[7]) ? '' : result.push('month');
