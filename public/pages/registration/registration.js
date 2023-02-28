@@ -250,45 +250,10 @@ export function renderSignup (parent) {
             ],
             errorSex: 'error-gender'
         }
-    //     {
-    //     labelClass: 'textClass',
-    //     labelText: 'Choose your gender',
-    //     divMainSex: 'divMainSex',
-    //     divSexChoose: 'divSexChoose',
-    //     sexes: [
-    //         {
-    //             insideDivSex: 'insideDivSex',
-    //             type: 'Radio',
-    //             name: 'sexChoose',
-    //             classText: 'classText',
-    //             textLabel: 'Male',
-    //             classSex: 'sexClass',
-    //             id: 'idSex1'
-    //         },
-    //         {
-    //             insideDivSex: 'insideDivSex',
-    //             type: 'Radio',
-    //             name: 'sexChoose',
-    //             classText: 'classText',
-    //             textLabel: 'Female',
-    //             classSex: 'sexClass',
-    //             id: 'idSex2'
-    //         },
-    //         {
-    //             insideDivSex: 'insideDivSex',
-    //             type: 'Radio',
-    //             name: 'sexChoose',
-    //             classText: 'classText',
-    //             textLabel: 'Don\'t want to choose',
-    //             classSex: 'sexClass',
-    //             id: 'idSex3'
-    //         }
-    //     ],
-    //     'error-date': 'error-date'
-    // }
     );
     posWherePlace.innerHTML += sex;
 
+    
     // const form = document.createElement('form');
 
     // const divForNameAndElements = createElementAndAppend(form, 'div', 'blockMainLabel');
