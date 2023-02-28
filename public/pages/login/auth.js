@@ -6,43 +6,68 @@ import { unAuthNavConfig } from '../../utils/config.js';
 import { checkIsEmail, validateUsername, validatePassword } from '../../api/auth/validation.js';
 import { loginAjax } from '../../api/auth/loginAjaxReq.js';
 
+const ID = {
+    form: 'idForm',
+    login: 'loginField',
+    password: 'passwordField',
+    errorLogin: 'errorPlace'
+};
+
 export function renderLogin (parent) {
     const template = Handlebars.compile(document.getElementById('form-template').innerHTML);
-    const textElements = template({
-        'error-top': 'error-login-all',
-        formType: 'formClass',
-        insideFormType: 'blockMain',
-        namePurposeClass: 'blockMain',
-        nameClass: 'whatOperation',
-        textName: 'Fluire',
-        purposeClass: 'operationDescription',
-        purposeText: 'Log in to continue',
-        inputs: [
-            {
-                classOfInput: 'log-username',
-                classOfError: 'error-username',
-                typeOfInput: 'text',
-                nameOfInput: 'text',
-                placeholder: 'Username'
-            },
-            {
-                classOfInput: 'password',
-                classOfError: 'error-password',
-                typeOfInput: 'password',
-                nameOfInput: 'password',
-                placeholder: 'Password'
-            }
-        ],
-        buttonType: 'submit',
-        textButton: 'Log in',
-        buttonClass: 'buttonClass',
-        bottomClass: 'bottomClass',
-        bottomLabelClass: 'bottomText',
-        bottomLabelText: 'Don\'t have an account?',
-        linkHref: '/reg',
-        linkClass: 'linkClass',
-        linkText: 'Registration'
-    });
+    const textElements = template(
+        {
+            errorTop: 'error-login-all',
+            topID: null,
+            content: 'content',
+            header: 'header',
+            title: 'title',
+            titleClass: 'titleClass',
+            titleName: 'Fluire',
+            descriptionClass: 'descriptionClass',
+            descriptionLabelClass: 'descriptionLabelClass',
+            descriptionName: 'Log in to continue',
+            divBeforeForm: null,
+            formDiv: 'formDiv',
+            inputs: [
+                {
+                    divBeforeInput: 'divBeforeInput',
+                    typeOfInput: 'text',
+                    nameOfField: 'username',
+                    placeholder: 'Username',
+                    classInp: 'classInp',
+                    id: ID.loginField,
+                    errorDiv: 'errorDiv',
+                    errorId: null
+                },
+                {
+                    divBeforeInput: 'divBeforeInput',
+                    typeOfInput: 'password',
+                    nameOfField: 'password',
+                    placeholder: 'Password',
+                    classInp: 'classInp',
+                    id: ID.passwordField,
+                    errorDiv: 'errorDiv',
+                    errorId: null
+                }
+            ],
+            placementClass: null,
+            placementId: null,
+            divButton: 'divButton',
+            buttonType: 'submit',
+            buttonClass: 'buttonClass',
+            textButton: 'LOG IN',
+            hrClass: null,
+            bottomClass: 'bottomClass',
+            divBottomLabel: 'divBottomLabel',
+            bottomLabelClass: 'bottomLabelClass',
+            bottomLabelText: 'Don\'t have an account?',
+            linkDiv: 'linkDiv',
+            linkHref: '/',
+            linkClass: 'linkClass',
+            linkText: 'Registration'
+        });
+
     parent.innerHTML = textElements;
 
     // const form = document.createElement('form');
@@ -65,6 +90,24 @@ export function renderLogin (parent) {
     // elements.appendChild(loginInput);
     // elements.appendChild(passwordInput);
     // elements.appendChild(submitBtn);
+    /// ******* */
+    // const form = document.getElementsById(ID.form);
+    // form.addEventListener('click', (e) => {
+    //     e.preventDefault();
+
+    //     if (e.target.type !== 'submit') {
+    //         return null;
+    //     }
+
+    //     const login = document.getElementById(ID.login);
+    //     const pass = document.getElementById(ID.password);
+
+    //     const errorPlac = document.getElementById(ID.errorLogin);
+    //     errorPlac.innerHTML = '';
+    //     if (!checkIsEmail(login.value.trim())) {
+
+    //     }
+    // });
 
     // form.addEventListener('click', (e) => {
     //     e.preventDefault();

@@ -7,152 +7,286 @@ const Method = 'focusout';
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
     'November', 'December'];
 
+const ID = {
+    email: 'email',
+    emailConf: 'emailConf',
+    password: 'password',
+    firstName: 'firstName',
+    lastName: 'lastName',
+    username: 'username',
+    placement: 'placementId',
+    choose: 'divChooseId',
+    day: 'day',
+    month: 'month',
+    year: 'year',
+    male: 'male',
+    female: 'female',
+    dont: 'dont',
+    errorDate: 'errorDate'
+};
+
 export function renderSignup (parent) {
-    const template = Handlebars.compile(document.getElementById('form-template').innerHTML);
-    const textElements = template({
-        formType: 'formClass',
-        insideFormType: 'blockMain',
-        namePurposeClass: 'blockMain',
-        nameClass: 'whatOperation',
-        textName: 'Registration',
-        purposeClass: 'operationDescription',
-        purposeText: 'Register and listen for free',
+    const templateForm = Handlebars.compile(document.getElementById('form-template').innerHTML);
+    const textElements = templateForm({
+        content: 'content',
+        header: 'header',
+        title: 'title',
+        titleClass: 'titleClass',
+        titleName: 'Registration',
+        descriptionClass: 'descriptionClass',
+        descriptionLabelClass: 'descriptionLabelClass',
+        descriptionName: 'Register and listen for free',
+        divBeforeForm: null,
+        formDiv: 'formDiv',
         inputs: [
             {
-                classOfInput: 'reg-email',
-                classOfError: 'error-email',
+                divBeforeInput: 'divBeforeInput',
                 typeOfInput: 'email',
-                nameOfInput: 'email',
-                placeholder: 'Email'
+                nameOfField: 'email',
+                placeholder: 'Email',
+                classInp: 'classInp',
+                id: ID.email,
+                errorDiv: 'email-err',
+                errorId: null
             },
             {
-                classOfInput: 'reg-email',
-                classOfError: 'error-confirm-email',
+                divBeforeInput: 'divBeforeInput',
                 typeOfInput: 'email',
-                nameOfInput: 'email',
-                placeholder: 'Email'
+                nameOfField: 'email-confirm',
+                placeholder: 'Email confirm',
+                classInp: 'classInp',
+                id: ID.emailConf,
+                errorDiv: 'email-confirm-err',
+                errorId: null
             },
             {
-                classOfInput: 'reg-username',
-                classOfError: 'error-username',
-                typeOfInput: 'username',
-                nameOfInput: 'username',
-                placeholder: 'Username'
+                divBeforeInput: 'divBeforeInput',
+                typeOfInput: 'password',
+                nameOfField: 'password',
+                placeholder: 'Password',
+                classInp: 'classInp',
+                id: ID.password,
+                errorDiv: 'password-err',
+                errorId: null
+            },
+            {
+                divBeforeInput: 'divBeforeInput',
+                typeOfInput: 'text',
+                nameOfField: 'username',
+                placeholder: 'Username',
+                classInp: 'classInp',
+                id: ID.username,
+                errorDiv: 'username-err',
+                errorId: null
+            },
+            {
+                divBeforeInput: 'divBeforeInput',
+                typeOfInput: 'text',
+                nameOfField: 'firstName',
+                placeholder: 'First name',
+                classInp: 'classInp',
+                id: ID.firstName,
+                errorDiv: 'firstName-err',
+                errorId: null
+            },
+            {
+                divBeforeInput: 'divBeforeInput',
+                typeOfInput: 'text',
+                nameOfField: 'lastName',
+                placeholder: 'Last name',
+                classInp: 'classInp',
+                id: ID.lastName,
+                errorDiv: 'lastName-err',
+                errorId: null
             }
         ],
-        forPlacement: 'idForPlace',
+        placementClass: 'placementClass',
+        placementId: ID.placement,
+        divButton: 'divButton',
         buttonType: 'submit',
-        textButton: 'Registration',
         buttonClass: 'buttonClass',
+        textButton: 'Sign in',
+        hrClass: null,
         bottomClass: 'bottomClass',
-        bottomLabelClass: 'bottomText',
-        bottomLabelText: 'Already have an account',
-        linkHref: '/reg',
+        divBottomLabel: 'divBottomLabel',
+        bottomLabelClass: 'bottomLabelClass',
+        bottomLabelText: 'Already have an account?',
+        linkDiv: 'linkDiv',
+        linkHref: '/',
         linkClass: 'linkClass',
         linkText: 'Login'
     });
 
     parent.innerHTML = textElements;
 
-    const posWherePlace = document.getElementById('idForPlace');
+    const posWherePlace = document.getElementById(ID.placement);
 
     const templateDate = Handlebars.compile(document.getElementById('date-template').innerHTML);
     const dates = templateDate({
-        dateDivMain: 'dateDivMain',
-        classOfDateText: 'Your sate of birth',
-        dateDiv: 'dateDiv',
+        dateMainDiv: 'dateMainDiv',
+        divChooseId: ID.choose,
+        labelClass: 'labelClass',
+        labelText: 'Your date of birth',
+        dateChooseDiv: 'dateChooseDiv',
+        divDayClass: null,
         typeOfDayInput: 'text',
-        nameOfDayInput: 'day',
+        dayClass: 'dayClass',
+        nameOfDayInput: 'nameOfDayInput',
         placeholderOfDay: 'Day',
-        nameOfSelect: 'month',
-        classOfSelect: 'select',
+        idOfDay: ID.day,
+        divMonthClass: null,
+        nameOfMonthInput: 'nameOfMonthInput',
+        idOfMonth: ID.month,
+        selectClass: 'selectClass',
         optionsDate: [
             {
                 option: 'January',
+                class: null,
                 text: 'January'
             },
             {
                 option: 'February',
+                class: null,
                 text: 'February'
             },
             {
                 option: 'March',
+                class: null,
                 text: 'March'
             },
             {
                 option: 'April',
+                class: null,
                 text: 'April'
             },
             {
                 option: 'May',
+                class: null,
                 text: 'May'
             },
             {
                 option: 'June',
+                class: null,
                 text: 'June'
             },
             {
                 option: 'July',
+                class: null,
                 text: 'July'
             },
             {
                 option: 'August',
+                class: null,
                 text: 'August'
             },
             {
                 option: 'September',
+                class: null,
                 text: 'September'
             },
             {
                 option: 'October',
+                class: null,
                 text: 'October'
             },
             {
                 option: 'November',
+                class: null,
                 text: 'November'
             },
             {
                 option: 'December',
+                class: null,
                 text: 'December'
             }
         ],
-        typeOfYearInput: 'text',
-        nameOfYearInput: 'year',
-        placeholderOfYear: 'Year'
+        divYearClass: null,
+        typeOfDayInput: 'text',
+        yearClass: 'yearClass',
+        nameOfYearInput: 'nameOfYearInput',
+        placeholderOfYear: 'Year',
+        idOfYear: ID.year,
+        errorDate: 'errorDate',
+        errorID: ID.errorDate
     });
     posWherePlace.innerHTML += dates;
 
     const templateSex = Handlebars.compile(document.getElementById('sex-template').innerHTML);
-    const sex = templateSex({
-        labelClass: 'textClass',
-        labelText: 'Choose your gender',
-        divMainSex: 'divMainSex',
-        divSexChoose: 'divSexChoose',
-        sexes: [
-            {
-                insideDivSex: 'insideDivSex',
-                type: 'Radio',
-                name: 'sexChoose',
-                classText: 'classText',
-                textLabel: 'Male'
-            },
-            {
-                insideDivSex: 'insideDivSex',
-                type: 'Radio',
-                name: 'sexChoose',
-                classText: 'classText',
-                textLabel: 'Female'
-            },
-            {
-                insideDivSex: 'insideDivSex',
-                type: 'Radio',
-                name: 'sexChoose',
-                classText: 'classText',
-                textLabel: 'Don\'t want to choose'
-            }
-        ],
-        'error-sex': 'error-sex'
-    });
+    const sex = templateSex(
+        {
+            mainSexDiv: 'mainSexDiv',
+            labelSex: 'labelSex',
+            labelClass: 'labelClass',
+            labelText: 'Please enter your gender',
+            divSexChoose: 'divSexChoose',
+            sexes: [
+                {
+                    insideDivSex: 'insideDivSex',
+                    typeInput: 'radio',
+                    nameInput: 'sex',
+                    classSexInput: 'classSexInput',
+                    id: ID.male,
+                    classLabel: 'classLabel',
+                    textLabel: 'Male'
+                },
+                {
+                    insideDivSex: 'insideDivSex',
+                    typeInput: 'radio',
+                    nameInput: 'sex',
+                    classSexInput: 'classSexInput',
+                    id: ID.female,
+                    classLabel: 'classLabel',
+                    textLabel: 'Female'
+                },
+                {
+                    insideDivSex: 'insideDivSex',
+                    typeInput: 'radio',
+                    nameInput: 'sex',
+                    classSexInput: 'classSexInput',
+                    id: ID.dont,
+                    classLabel: 'classLabel',
+                    textLabel: 'Other answer'
+                }
+            ],
+            errorSex: 'error-gender'
+        }
+    //     {
+    //     labelClass: 'textClass',
+    //     labelText: 'Choose your gender',
+    //     divMainSex: 'divMainSex',
+    //     divSexChoose: 'divSexChoose',
+    //     sexes: [
+    //         {
+    //             insideDivSex: 'insideDivSex',
+    //             type: 'Radio',
+    //             name: 'sexChoose',
+    //             classText: 'classText',
+    //             textLabel: 'Male',
+    //             classSex: 'sexClass',
+    //             id: 'idSex1'
+    //         },
+    //         {
+    //             insideDivSex: 'insideDivSex',
+    //             type: 'Radio',
+    //             name: 'sexChoose',
+    //             classText: 'classText',
+    //             textLabel: 'Female',
+    //             classSex: 'sexClass',
+    //             id: 'idSex2'
+    //         },
+    //         {
+    //             insideDivSex: 'insideDivSex',
+    //             type: 'Radio',
+    //             name: 'sexChoose',
+    //             classText: 'classText',
+    //             textLabel: 'Don\'t want to choose',
+    //             classSex: 'sexClass',
+    //             id: 'idSex3'
+    //         }
+    //     ],
+    //     'error-date': 'error-date'
+    // }
+    );
     posWherePlace.innerHTML += sex;
 
     const templateCheckbox = Handlebars.compile(document.getElementById('checkbox-template').innerHTML);
@@ -186,7 +320,7 @@ export function renderSignup (parent) {
         ],
         'error-date': 'error-date'
     });
-    posWherePlace.innerHTML += checkbox;
+    posWherePlace.innerHTML += sex;
 
     // const form = document.createElement('form');
 
