@@ -45,8 +45,8 @@ const users = {
     },
     'aostapenko@mail.ru': {
         email: '2002marsic@mail.ru',
-        password: 'Pass25Dword',
-        username: 'Use24rname',
+        password: 'PassDword',
+        username: 'Username',
         firstName: 'firstName',
         lastName: 'lastName',
         date: '2022-04-12',

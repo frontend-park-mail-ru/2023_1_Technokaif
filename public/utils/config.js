@@ -3,7 +3,7 @@
 import { renderLogin } from '../pages/login/auth.js';
 import { renderHome } from '../pages/home/home.js';
 import { renderSignup } from '../pages/registration/registration.js';
-import {createHomePageContent} from "../components/MainWindowRender/mainWindow";
+import {createHomePageContent} from "../components/MainWindowRender/mainWindow.js";
 
 export const Names = {
     nameOfApp: 'Spotify'
@@ -25,7 +25,7 @@ export const sidebarConfig = {
     feed: {
         name: 'Home',
         href: '/feed',
-        render: createHomePageContent,
+        render: renderHome,
         key: 'feed',
         logoSrc: '/static/svg/VectorhomeLogo.svg'
     },
@@ -59,12 +59,12 @@ export const sidebarConfig = {
     }
 };
 
-function renderLibrary () {
-
+function renderLibrary (parent) {
+    parent.innerHTML = '';
 }
 
-function renderSearchPage () {
-
+function renderSearchPage (parent) {
+    parent.innerHTML = '';
 }
 
 export const unAuthNavConfig = {

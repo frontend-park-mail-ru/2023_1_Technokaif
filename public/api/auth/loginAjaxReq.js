@@ -3,6 +3,8 @@
 import { sidebarConfig } from '../../utils/config.js';
 import { redirect } from '../../modules/redirects.js';
 
+import { contentElement } from '../../index.js';
+
 export function loginAjax (login, password) {
     window.Ajax.post({
         url: '/auth/login',
@@ -11,8 +13,8 @@ export function loginAjax (login, password) {
             if (status === 200) {
                 localStorage.setItem('jwt', context.jwt);
 
-                const mainElement = document.getElementsByName('main');
-                redirect(sidebarConfig.feed, mainElement);
+                // const mainElement = document.getElementsByName('main');
+                redirect(sidebarConfig.feed, contentElement);
                 return;
             }
 

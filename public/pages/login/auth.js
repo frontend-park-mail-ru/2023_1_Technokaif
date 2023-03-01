@@ -1,7 +1,7 @@
 'use strict';
 
 import { unAuthNavConfig } from '../../utils/config.js';
-import { checkIsEmail, validateUsername, validatePassword } from '../../api/auth/validation.js';
+import {checkIsEmail, validateUsername, validatePassword, validateEmail} from '../../api/auth/validation.js';
 import { loginAjax } from '../../api/auth/loginAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
 
@@ -75,7 +75,7 @@ export function renderLogin (parent) {
     loginField.addEventListener('focusout', (e) => {
         const errLogin = document.querySelectorAll('.log-error')[0];
         errLogin.innerHTML = '';
-        if (!validateUsername(loginField.value.trim())) {
+        if (!validateUsername(loginField.value.trim()) && !validateEmail(loginField.value.trim())) {
             errLogin.innerHTML = 'Login is invalid or empty';
         }
     });

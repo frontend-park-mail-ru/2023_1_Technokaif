@@ -7,7 +7,7 @@
     const noop = () => {};
 
     class Ajax {
-        get({url, callback}) {
+        get ({ url, callback }) {
             this._ajax({
                 method: AJAX_METHODS.GET,
                 url,
@@ -15,7 +15,7 @@
             });
         }
 
-        post({url, body, callback}) {
+        post ({ url, body, callback }) {
             this._ajax({
                 method: AJAX_METHODS.POST,
                 url,
@@ -24,9 +24,9 @@
             });
         }
 
-        _ajax({method, url, body = null, callback = noop}) {
+        _ajax ({ method, url, body = null, callback = noop }) {
             let request = {};
-            url = '/api' + url;
+            // url = '/api' + url;
             if (body === null) {
                 request = new Request(
                     url, {

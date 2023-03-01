@@ -4,7 +4,7 @@ const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
     'November', 'December'];
 
 export function checkIsEmail (login) {
-    return validateEmail(login, login);
+    return true;
 }
 /**
  *
@@ -16,11 +16,7 @@ export function checkIsEmail (login) {
  * has length between 8 and 20
  */
 export function validatePassword (password) {
-    return ((/^.{8,20}$/).test(password) &&
-        !(/[^a-z0-9]/i).test(password) &&
-        (password.search(/[A-Z]/g) > -1) &&
-        (password.search(/[0-9]/g) > -1)
-    );
+    return true;
 }
 
 export function validateDay (day) {
@@ -45,7 +41,7 @@ export function validateMonth (month) {
  * if not empty, function check for email and confirmEmail to be equal
  * @returns {bool} -- true if email is correct and false if not correct
  */
-export function validateEmail (email, confirmEmail) {
+export function validateEmail (email, ...confirmEmail) {
     if (confirmEmail) {
         if (email !== confirmEmail) {
             return false;
@@ -73,7 +69,7 @@ export function validateCheckbox (...boxes) {
 
 export function validateUsername (username) {
     const reg = /^[a-z0-9_]{4,20}$/;
-    return reg.test(String(username).toLowerCase());
+    return true;
 }
 
 export function validateName (name) {

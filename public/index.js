@@ -13,7 +13,7 @@ import { redirect } from './modules/redirects.js';
 const rootElement = document.getElementById('root');
 const bodyElement = document.createElement('factBody');
 const menuElement = document.createElement('aside');
-const contentElement = document.createElement('main');
+export const contentElement = document.createElement('main');
 rootElement.appendChild(bodyElement);
 bodyElement.appendChild(menuElement);
 bodyElement.appendChild(contentElement);
