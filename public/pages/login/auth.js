@@ -54,7 +54,7 @@ export function renderLogin (parent) {
             ],
             placementClass: null,
             placementId: null,
-            divButton: 'log-btn',
+            divButton: 'log-btn auth-btn',
             buttonType: 'submit',
             buttonClass: 'log-but',
             textButton: 'LOG IN',
@@ -65,7 +65,7 @@ export function renderLogin (parent) {
             bottomLabelText: 'Don\'t have an account?',
             linkDiv: 'linkDiv',
             linkHref: '/',
-            linkClass: 'log-in-btn',
+            linkClass: 'log-reg-btn auth-btn',
             linkText: 'Registration'
         });
 

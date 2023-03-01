@@ -5,25 +5,22 @@ body {
     font-family: Helvetica, Arial, sans-serif;
 }
 
+p {
+    margin: 0px;
+}
+
 .page-title {
     font-size: 40px;
     font-weight: 700;
     height: 60px;
-    align-items: center;
+    text-align: center;
     margin-top: 30px;
-    margin-left: 35px;
 
     background: linear-gradient(180deg, rgba(255, 0, 0, 0.7) 0%, rgba(255, 199, 0, 0.7) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-fill-color: transparent;
-}
-
-log {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    /* text-fill-color: transparent; */
 }
 
 .page-description {
@@ -34,42 +31,23 @@ log {
     margin-bottom: 30px;
 }
 
-.reg-date, .reg-sex {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.reg-sex {
-    margin-top: 10px;
-}
-
-.reg-sex-var {
-    margin-right: 15px;
-}
-
-.reg-input {
-    width: 350px;
-    height: 40px;
+/* Form */
+.reg-field, .log-field {
+    overflow:hidden;
     margin-bottom: 30px;
 }
 
-.log-input, .reg-input {
+.reg-input, .log-input {
     width: 350px;
     height: 40px;
     margin-bottom: 5px;
 }
 
-.log-field, .reg-field {
-    overflow:hidden;
-    margin-bottom: 30px;
-}
-
-.log-error, .reg-error  {
+.reg-error, .log-error {
     color: red;
 }
 
-.reg-input {
+.reg-input, .log-input {
     padding-left: 10px;
     font-size: 15px;
     border: 0px black solid;
@@ -78,19 +56,26 @@ log {
     background-color: #333333;
 }
 
-.reg-choose-date {
-    display: flex;
-}
-
-.reg-choose-sex {
-    display: flex;
-}
-/* todo log-btn bad name  */
-.reg-date-and-sex, .log-btn {
+.reg-date-and-sex {
     margin-bottom: 30px;
 }
 
-.reg-choose-date {
+.reg-date, .reg-sex {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.reg-sex-label, .reg-date-label {
+    font-size: 15px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, .7);
+}
+.reg-date-label {
+    margin-top: -10px;
+}
+
+.reg-choose-date, .reg-choose-sex {
     display: flex;
 }
 
@@ -104,6 +89,7 @@ log {
 }
 
 .reg-month {
+    cursor: pointer;
     margin-left: 15px;
     border-radius: 5px;
     border: 1px rgba(255, 255, 255, .7) solid; 
@@ -127,48 +113,57 @@ log {
     height: 30px;
 }
 
-.reg-btn {
+.reg-sex {
+    margin-top: 10px;
+}
+
+.reg-sex-var {
+    margin-right: 15px;
+}
+
+.sex-var-label {
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* Buttons */
+.buttonclass {
+    background: linear-gradient(180deg, rgba(255, 0, 0, 0.7) 0%, rgba(255, 199, 0, 0.7) 100%);
+}
+
+.reg-btn, .log-btn {
     display: flex;
     justify-content: end;
 }
 
-.reg-btn button {
+.auth-btn button, .log-reg-btn, .reg-login-btn {
+    cursor: pointer;
     height: 28px;
     font-size: 16px;
     text-decoration: none;
-    background-color: white;
     border: 0px black solid;
-    padding: 5px 10px;
+    padding: 5px 15px;
     font-weight: 700;
-    color: #333333;
+    color: white;
+    border-radius: 14px;
 }
 
-
+/* bottom of pages */
 .reg-bottom, .log-bottom {
     display: flex;
     justify-content: space-between;
+    margin-top: 10px;
     margin-bottom: 20px;
 }
 
-p {
-    margin: 0px;
-}
-
-.reg-sign-in-btn, .log-in-btn {
-    height: 24px;
-    text-decoration: none;
+.reg-login-btn, .log-reg-btn {
     background-color: white;
     padding: 5px 10px;
     font-weight: 700;
     color: #333333;
 }
-
-.error {
-    text-decoration: none;
-    color: #ff0000;
-}
-
-
 
 /*
 factBody {

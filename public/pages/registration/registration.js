@@ -56,7 +56,7 @@ export function renderSignup (parent) {
         header: 'header',
         title: 'title',
         titleClass: 'page-title',
-        titleName: 'Registration',
+        titleName: 'Fluire',
         descriptionClass: 'page-description',
         descriptionLabelClass: 'descriptionLabel',
         descriptionName: 'Register and listen for free',
@@ -126,9 +126,9 @@ export function renderSignup (parent) {
         ],
         placementClass: 'reg-date-and-sex',
         placementId: ID.placement,
-        divButton: 'reg-date-and-sex',
+        divButton: 'reg-btn auth-btn',
         buttonType: 'submit',
-        buttonClass: 'reg-btn',
+        buttonClass: 'reg-btn auth-btn',
         textButton: 'Sign up',
         hrClass: null,
         bottomClass: 'reg-bottom',
@@ -137,7 +137,7 @@ export function renderSignup (parent) {
         bottomLabelText: 'Already have an account?',
         linkDiv: 'linkDiv',
         linkHref: '/',
-        linkClass: 'reg-sign-in-btn',
+        linkClass: 'reg-login-btn auth-btn',
         linkText: 'Login'
     });
 
@@ -255,7 +255,7 @@ export function renderSignup (parent) {
                     nameInput: 'sex',
                     classSexInput: 'reg-sex-radio',
                     id: ID.male,
-                    classLabel: 'classLabel',
+                    classLabel: 'sex-var-label',
                     textLabel: 'Male'
                 },
                 {
@@ -264,7 +264,7 @@ export function renderSignup (parent) {
                     nameInput: 'sex',
                     classSexInput: 'reg-sex-radio',
                     id: ID.female,
-                    classLabel: 'classLabel',
+                    classLabel: 'sex-var-label',
                     textLabel: 'Female'
                 },
                 {
@@ -273,7 +273,7 @@ export function renderSignup (parent) {
                     nameInput: 'sex',
                     classSexInput: 'reg-sex-radio',
                     id: ID.dont,
-                    classLabel: 'classLabel',
+                    classLabel: 'sex-var-label',
                     textLabel: 'Other answer'
                 }
             ],
@@ -363,7 +363,7 @@ export function renderSignup (parent) {
         if (!validateCheckbox(elements)) {
             const message = document.createElement('p');
             message.textContent = ERRORS.sex;
-            message.classList.add('error');
+            message.classList.add('reg-error');
 
             where.appendChild(message);
         }
