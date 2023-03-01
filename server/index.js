@@ -43,10 +43,10 @@ const users = {
         date: '2022-04-12',
         sex: 'M'
     },
-    'a.ostapenko@corp.mail.ru': {
-        email: 'a.ostapenko@corp.mail.ru',
-        password: 'password',
-        username: 'username',
+    'aostapenko@mail.ru': {
+        email: '2002marsic@mail.ru',
+        password: 'Pass25Dword',
+        username: 'Use24rname',
         firstName: 'firstName',
         lastName: 'lastName',
         date: '2022-04-12',

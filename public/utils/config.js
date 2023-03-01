@@ -3,6 +3,7 @@
 import { renderLogin } from '../pages/login/auth.js';
 import { renderHome } from '../pages/home/home.js';
 import { renderSignup } from '../pages/registration/registration.js';
+import {createHomePageContent} from "../components/MainWindowRender/mainWindow";
 
 export const Names = {
     nameOfApp: 'Spotify'
@@ -24,7 +25,7 @@ export const sidebarConfig = {
     feed: {
         name: 'Home',
         href: '/feed',
-        render: renderHome,
+        render: createHomePageContent,
         key: 'feed',
         logoSrc: '/static/svg/VectorhomeLogo.svg'
     },
