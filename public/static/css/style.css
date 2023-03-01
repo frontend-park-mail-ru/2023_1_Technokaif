@@ -59,8 +59,8 @@ body {
 .reg-choose-sex {
     display: flex;
 }
-
-.reg-date-and-sex, .log-date-and-sex {
+/* todo log-btn bad name  */
+.reg-date-and-sex, .log-btn {
     margin-bottom: 30px;
 }
 
@@ -124,13 +124,19 @@ p {
     margin: 0px;
 }
 
-.reg-sign-in-btn, .log-sign-in-btn {
+.reg-sign-in-btn, .log-in-btn {
     height: 24px;
     text-decoration: none;
     background-color: white;
     padding: 5px 10px;
     font-weight: 700;
     color: #333333;
+}
+
+.error {
+    text-decoration: none;
+    color: #ff0000;
+    margin: 40px;
 }
 
 /*
