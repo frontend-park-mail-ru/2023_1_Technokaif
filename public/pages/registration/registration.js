@@ -3,9 +3,25 @@
 import { createInput, createSelect, createCheckbox } from '../../utils/utils.js';
 import { validateEmail, validatePassword, validateUsername, validateDay, validateMonth, validateYear, validateCheckbox, validateName } from '../../api/auth/validation.js';
 import { registerAjax } from '../../api/auth/registerAjaxReq.js';
+import { redirect } from '../../modules/redirects.js';
+import { unAuthNavConfig } from '../../utils/config.js';
+
 const Method = 'focusout';
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
     'November', 'December'];
+
+const ERRORS = {
+    email: 'Enter an email address',
+    confirmEmail: 'Confirm your email addrewss',
+    password: 'Enter password',
+    username: 'Provide a name for your profile',
+    firstName: 'Write a first name',
+    lastName: 'Write a last name',
+    day: 'Choose correct day',
+    month: 'Choose correct month',
+    year: 'Choose correct year',
+    sex: 'Choose your gender'
+};
 
 const ID = {
     email: 'email',
@@ -22,7 +38,15 @@ const ID = {
     male: 'male',
     female: 'female',
     dont: 'dont',
-    errorDate: 'dateError'
+    errorDate: 'dateError',
+    emailErr: 'emailError',
+    emailConfErr: 'emailConfirmError',
+    passwordErr: 'passwordError',
+    usernameErr: 'usernameError',
+    firstNameErr: 'firstNameError',
+    lastNameErr: 'lastNameError',
+    monthErr: 'monthErr',
+    yearErr: 'yearErr'
 };
 
 export function renderSignup (parent) {
@@ -47,7 +71,7 @@ export function renderSignup (parent) {
                 classInp: 'reg-input',
                 id: ID.email,
                 errorDiv: 'reg-error',
-                errorId: 'emailError'
+                errorId: ID.emailErr
             },
             {
                 divBeforeInput: 'reg-field',
@@ -57,7 +81,7 @@ export function renderSignup (parent) {
                 classInp: 'reg-input',
                 id: ID.emailConf,
                 errorDiv: 'reg-error',
-                errorId: 'emailConfirmError'
+                errorId: ID.emailConfErr
             },
             {
                 divBeforeInput: 'reg-field',
@@ -67,7 +91,7 @@ export function renderSignup (parent) {
                 classInp: 'reg-input',
                 id: ID.password,
                 errorDiv: 'reg-error',
-                errorId: 'passwordError'
+                errorId: ID.passwordErr
             },
             {
                 divBeforeInput: 'reg-field',
@@ -77,7 +101,7 @@ export function renderSignup (parent) {
                 classInp: 'reg-input',
                 id: ID.username,
                 errorDiv: 'reg-error',
-                errorId: 'usernameError'
+                errorId: ID.usernameErr
             },
             {
                 divBeforeInput: 'reg-field',
@@ -87,7 +111,7 @@ export function renderSignup (parent) {
                 classInp: 'reg-input',
                 id: ID.firstName,
                 errorDiv: 'reg-error',
-                errorId: 'firstNameError'
+                errorId: ID.firstNameErr
             },
             {
                 divBeforeInput: 'reg-field',
@@ -97,7 +121,7 @@ export function renderSignup (parent) {
                 classInp: 'reg-input',
                 id: ID.lastName,
                 errorDiv: 'reg-error',
-                errorId: 'lastNameError'
+                errorId: ID.lastNameErr
             }
         ],
         placementClass: 'reg-date-and-sex',
@@ -208,7 +232,11 @@ export function renderSignup (parent) {
         placeholderOfYear: 'Year',
         idOfYear: ID.year,
         errorDate: 'reg-error',
-        errorID: ID.errorDate
+        errorID: ID.errorDate,
+        errorMonth: 'reg-error',
+        errorMonthID: ID.monthErr,
+        errorYear: 'reg-error',
+        errorYearID: ID.yearErr
     });
     posWherePlace.innerHTML += dates;
 
@@ -251,319 +279,198 @@ export function renderSignup (parent) {
             ],
             errorSex: 'error-gender'
         }
-    //     {
-    //     labelClass: 'textClass',
-    //     labelText: 'Choose your gender',
-    //     divMainSex: 'divMainSex',
-    //     divSexChoose: 'divSexChoose',
-    //     sexes: [
-    //         {
-    //             insideDivSex: 'insideDivSex',
-    //             type: 'Radio',
-    //             name: 'sexChoose',
-    //             classText: 'classText',
-    //             textLabel: 'Male',
-    //             classSex: 'sexClass',
-    //             id: 'idSex1'
-    //         },
-    //         {
-    //             insideDivSex: 'insideDivSex',
-    //             type: 'Radio',
-    //             name: 'sexChoose',
-    //             classText: 'classText',
-    //             textLabel: 'Female',
-    //             classSex: 'sexClass',
-    //             id: 'idSex2'
-    //         },
-    //         {
-    //             insideDivSex: 'insideDivSex',
-    //             type: 'Radio',
-    //             name: 'sexChoose',
-    //             classText: 'classText',
-    //             textLabel: 'Don\'t want to choose',
-    //             classSex: 'sexClass',
-    //             id: 'idSex3'
-    //         }
-    //     ],
-    //     'error-date': 'error-date'
-    // }
     );
     posWherePlace.innerHTML += sex;
 
-    // const form = document.createElement('form');
+    errorGenerate(Method,
+        document.getElementById(ID.email),
+        document.getElementById(ID.emailErr),
+        ERRORS.email,
+        validateEmail
+    );
 
-    // const divForNameAndElements = createElementAndAppend(form, 'div', 'blockMainLabel');
-
-    // const mainLabelDiv = createElementAndAppend(divForNameAndElements, 'div', 'blockMainLabel');
-    // createElementAndAppend(mainLabelDiv, 'p', 'whatOperation').textContent = 'Registration';
-    // createElementAndAppend(mainLabelDiv, 'p', 'operationDescription').textContent = 'Register and listen for free';
-
-    // const divForFields = createElementAndAppend(divForNameAndElements, 'div', 'elements');
-
-    // const emailInput = createInput('email', 'Enter your email address', 'email');
-    // const confirmEmailInput = createInput('email', 'Confirm Email address', 'email');
-    // const passwordInput = createInput('password', 'Type your password', 'password');
-    // const firstNameInput = createInput('text', 'Enter your name', 'firstName');
-    // const lastNameInput = createInput('text', 'Enter your surname', 'lastName');
-    // const username = createInput('text', 'Enter your username', 'username');
-
-    // const divDate = document.createElement('div');
-    // divDate.classList.add('global-date');
-
-    // createElementAndAppend(divDate, 'p').textContent = 'Your date of birth';
-
-    // const monthSelect = createSelect(MONTHS, 'month');
-    // const dayInput = createInput('text', 'DD', 'day');
-    // const yearInput = createInput('text', 'YYYY', 'year');
-
-    // monthSelect.classList.add('date-element');
-    // dayInput.classList.add('date-element');
-    // yearInput.classList.add('date-element');
-
-    // const div = document.createElement('div');
-    // divDate.appendChild(div);
-    // div.classList.add('date-pick');
-    // div.appendChild(dayInput);
-    // div.appendChild(monthSelect);
-    // div.appendChild(yearInput);
-
-    // const confirmCheckbox = createCheckbox('I allow my registration information to be shared with a Spotify partner' +
-    //     ' for advertising purposes.');
-    // const submitBtn = document.createElement('button');
-    // submitBtn.type = 'submit';
-    // submitBtn.textContent = 'Registration';
-
-    // divForFields.appendChild(emailInput);
-    // emailInput.setAttribute('id', 'email');
-    // errorGenerate(Method,
-    //     emailInput,
-    //     createElementAndAppend(divForFields, 'div', 'error-email'),
-    //     'err',
-    //     validateEmail
-    // );
-
-    // divForFields.appendChild(confirmEmailInput);
-    // errorGenerate(Method,
-    //     confirmEmailInput,
-    //     createElementAndAppend(divForFields, 'div', 'error-confirmEmail'),
-    //     'err',
-    //     (el) => {
-    //         return validateEmail(el, emailInput.value);
-    //     }
-    // );
-
-    // divForFields.appendChild(passwordInput);
-    // errorGenerate(Method,
-    //     passwordInput,
-    //     createElementAndAppend(divForFields, 'div', 'error-password'),
-    //     'err',
-    //     validatePassword
-    // );
-
-    // divForFields.appendChild(firstNameInput);
-    // errorGenerate(Method,
-    //     firstNameInput,
-    //     createElementAndAppend(divForFields, 'div', 'error-first'),
-    //     'err',
-    //     validateName
-    // );
-
-    // divForFields.appendChild(lastNameInput);
-    // errorGenerate(Method,
-    //     lastNameInput,
-    //     createElementAndAppend(divForFields, 'div', 'error-last'),
-    //     'err',
-    //     validateName
-    // );
-
-    // divForFields.appendChild(username);
-    // errorGenerate(Method,
-    //     username,
-    //     createElementAndAppend(divForFields, 'div', 'error-username'),
-    //     'err',
-    //     validateUsername
-    // );
-
-    // divForFields.appendChild(divDate);
-
-    // errorGenerate(Method,
-    //     monthSelect,
-    //     createElementAndAppend(divDate, 'div', 'error-month'),
-    //     'err',
-    //     validateMonth
-    // );
-
-    // errorGenerate(Method,
-    //     dayInput,
-    //     createElementAndAppend(divDate, 'div', 'error-day'),
-    //     'err1',
-    //     validateDay
-    // );
-
-    // errorGenerate(Method,
-    //     yearInput,
-    //     createElementAndAppend(divDate, 'div', 'error-year'),
-    //     'err2',
-    //     validateYear
-    // );
-
-    // const sexChoose = createElementAndAppend(divForFields, 'div', 'sex-choose');
-
-    // const male = createCheckbox('male', 'radio', 'contact');
-    // const female = createCheckbox('female', 'radio', 'contact');
-    // const don = createCheckbox('Don', 'radio', 'contact');
-
-    // sexChoose.appendChild(male);
-    // sexChoose.appendChild(female);
-    // sexChoose.appendChild(don);
-
-    // // todo think about one method
-    // const sexError = createElementAndAppend(sexChoose, 'div', 'error-sex');
-    // sexChoose.addEventListener(Method, (el) => {
-    //     const where = sexError;
-    //     where.innerHTML = '';
-
-    //     // todo bad error
-
-    //     const elements = [];
-    //     elements.push(don.children[0].checked);
-    //     elements.push(male.children[0].checked);
-    //     elements.push(female.children[0].checked);
-
-    //     if (!validateCheckbox(elements)) {
-    //         const message = document.createElement('p');
-    //         message.textContent = 'err';
-    //         message.classList.add('error');
-    //         where.appendChild(message);
-    //     }
-    // });
-
-    // divForFields.appendChild(confirmCheckbox);
-    // divForFields.appendChild(submitBtn);
-
-    // form.addEventListener('submit', (e) => {
-    //     e.preventDefault();
-    //     const radioButtons = document.querySelectorAll('input[type=radio]');
-    //     const errors = validateAll(
-    //         document.getElementsByName('email')[0].value,
-    //         document.getElementsByName('email')[1].value,
-    //         document.getElementsByName('password')[0].value,
-    //         document.getElementsByName('firstName')[0].value,
-    //         document.getElementsByName('lastName')[0].value,
-    //         document.getElementsByName('username')[0].value,
-    //         document.getElementsByName('day')[0].value,
-    //         document.getElementsByName('month')[0].value,
-    //         document.getElementsByName('year')[0].value,
-    //         radioButtons[0].checked,
-    //         radioButtons[1].checked,
-    //         radioButtons[2].checked
-    //     );
-
-    //     if (errors.length !== 0) {
-    //         errors.forEach((el) => {
-    //             switch (el) {
-    //             case 'email':
-    //                 document.getElementsByClassName('error-email')[0].innerHTML = '<p class="error">Error</p>';
-    //                 document.getElementsByClassName('error-confirmEmail')[0].innerHTML = '<p class="error">Error</p>';
-    //                 break;
-    //             case 'password':
-    //                 document.getElementsByClassName('error-password')[0].innerHTML = '<p class="error">Error</p>';
-    //                 break;
-    //             case 'first-name':
-    //                 document.getElementsByClassName('error-first')[0].innerHTML = '<p class="error">Error</p>';
-    //                 break;
-    //             case 'last-name':
-    //                 document.getElementsByClassName('error-last')[0].innerHTML = '<p class="error">Error</p>';
-    //                 break;
-    //             case 'username':
-    //                 document.getElementsByClassName('error-username')[0].innerHTML = '<p class="error">Error</p>';
-    //                 break;
-    //             case 'day':
-    //                 document.getElementsByClassName('error-month')[0].innerHTML = '<p class="error">Error</p>';
-    //                 break;
-    //             case 'month':
-    //                 document.getElementsByClassName('error-day')[0].innerHTML = '<p class="error">Error</p>';
-    //                 break;
-    //             case 'year':
-    //                 document.getElementsByClassName('error-year')[0].innerHTML = '<p class="error">Error</p>';
-    //                 break;
-    //             case 'sex':
-    //                 // todo bad error
-    //                 document.getElementsByClassName('sex-choose')[0].innerHTML = '<p class="error">Error</p>';
-    //                 break;
-    //             }
-    //         });
-    //         return;
-    //     }
-
-    //     const email = emailInput.value.trim();
-    //     const password = passwordInput.value;
-    //     const usernameData = username.value;
-    //     const firstName = firstNameInput.value.trim();
-    //     const lastName = lastNameInput.value.trim();
-    //     const month = MONTHS.indexOf(monthSelect.value);
-    //     const day = dayInput.value;
-    //     const year = yearInput.value;
-
-    //     let monthString = String(month + 1);
-    //     if (month <= 9) {
-    //         monthString = '0' + monthString;
-    //     }
-
-    //     let dayString = day;
-    //     if (day <= 9) {
-    //         dayString = '0' + day;
-    //     }
-
-    //     const date = [year, monthString, dayString].join('-');
-    //     const sex = getSexInString(sexChoose);
-
-    //     registerAjax({
-    //         email,
-    //         password,
-    //         username: usernameData,
-    //         firstName,
-    //         lastName,
-    //         birthDate: date,
-    //         sex
-    //     });
-    // });
-
-    // parent.appendChild(form);
-}
-
-function getSexInString (sexDiv) {
-    let sexInString = '';
-    const itemsDivs = sexDiv.children;
-    for (let i = 0; i < 3; i++) {
-        if (itemsDivs[i].children[0].checked === true) {
-            switch (itemsDivs[i].children[1].value) {
-            case 'male':
-                sexInString = 'M';
-                break;
-            case 'female':
-                sexInString = 'F';
-                break;
-            case 'Don':
-                sexInString = 'O';
-                break;
-            default:
-                sexInString = 'O';
-            }
+    errorGenerate(Method,
+        document.getElementById(ID.emailConf),
+        document.getElementById(ID.emailConfErr),
+        ERRORS.confirmEmail,
+        (el) => {
+            return validateEmail(el, document.getElementById(ID.email).value);
         }
-    }
+    );
 
-    return sexInString;
-}
+    errorGenerate(Method,
+        document.getElementById(ID.password),
+        document.getElementById(ID.passwordErr),
+        ERRORS.password,
+        validatePassword
+    );
 
-function createElementAndAppend (parent, whatElement, ...classes) {
-    const element = document.createElement(whatElement);
-    classes.forEach((tag) => {
-        element.classList.add(tag);
+    errorGenerate(Method,
+        document.getElementById(ID.firstName),
+        document.getElementById(ID.firstNameErr),
+        ERRORS.firstName,
+        validateName
+    );
+
+    errorGenerate(Method,
+        document.getElementById(ID.lastName),
+        document.getElementById(ID.lastNameErr),
+        ERRORS.lastName,
+        validateName
+    );
+
+    errorGenerate(Method,
+        document.getElementById(ID.username),
+        document.getElementById(ID.usernameErr),
+        ERRORS.username,
+        validateUsername
+    );
+
+    errorGenerate(Method,
+        document.getElementById(ID.month),
+        document.getElementById(ID.monthErr),
+        ERRORS.month,
+        validateMonth
+    );
+
+    errorGenerate(Method,
+        document.getElementById(ID.day),
+        document.getElementById(ID.errorDate),
+        ERRORS.day,
+        validateDay
+    );
+
+    errorGenerate(Method,
+        document.getElementById(ID.year),
+        document.getElementById(ID.yearErr),
+        ERRORS.year,
+        validateYear
+    );
+
+    const sexChoose = parent.querySelector('.reg-sex');
+    sexChoose.addEventListener(Method, (el) => {
+        const where = document.getElementById('error-gender');
+        where.innerHTML = '';
+
+        // todo bad error
+        const radioButtons = document.getElementsByClassName('reg-sex-radio');
+        const elements = [];
+
+        elements.push(radioButtons[0].checked);
+        elements.push(radioButtons[1].checked);
+        elements.push(radioButtons[2].checked);
+
+        if (!validateCheckbox(elements)) {
+            const message = document.createElement('p');
+            message.textContent = ERRORS.sex;
+            message.classList.add('error');
+
+            where.appendChild(message);
+        }
     });
 
-    parent.appendChild(element);
-    return element;
+    const form = parent.querySelector('.reg-form');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById(ID.email).value.trim();
+        const confEmail = document.getElementById(ID.emailConf).value.trim();
+        const password = document.getElementById(ID.password).value;
+        const username = document.getElementById(ID.username).value;
+        const firstName = document.getElementById(ID.firstName).value.trim();
+        const lastName = document.getElementById(ID.lastName).value.trim();
+        const monthInput = document.getElementById(ID.month).value;
+        const day = document.getElementById(ID.day).value;
+        const year = document.getElementById(ID.year).value;
+
+        const sexChoose = document.querySelectorAll('.reg-sex-radio');
+        const errors = validateAll(
+            email,
+            confEmail,
+            password,
+            firstName,
+            lastName,
+            username,
+            day,
+            monthInput,
+            year,
+            sexChoose[0].checked,
+            sexChoose[1].checked,
+            sexChoose[2].checked
+        );
+
+        console.log(errors);
+        if (errors.length !== 0) {
+            errors.forEach((el) => {
+                switch (el) {
+                case 'email':
+                    document.getElementById(ID.emailErr).innerHTML = `<p class="error">${ERRORS.email}</p>`;
+                    document.getElementById(ID.emailConfErr).innerHTML = `<p class="error">${ERRORS.confirmEmail}</p>`;
+                    break;
+                case 'password':
+                    document.getElementById(ID.passwordErr).innerHTML = `<p class="error">${ERRORS.password}</p>`;
+                    break;
+                case 'first-name':
+                    document.getElementById(ID.firstNameErr).innerHTML = `<p class="error">${ERRORS.firstName}</p>`;
+                    break;
+                case 'last-name':
+                    document.getElementById(ID.lastNameErr).innerHTML = `<p class="error">${ERRORS.lastName}</p>`;
+                    break;
+                case 'username':
+                    document.getElementById(ID.usernameErr).innerHTML = `<p class="error">${ERRORS.username}</p>`;
+                    break;
+                case 'day':
+                    document.getElementById(ID.errorDate).innerHTML = `<p class="error">${ERRORS.day}</p>`;
+                    break;
+                case 'month':
+                    document.getElementById(ID.monthErr).innerHTML = `<p class="error">${ERRORS.month}</p>`;
+                    break;
+                case 'year':
+                    document.getElementById(ID.yearErr).innerHTML = `<p class="error">${ERRORS.year}</p>`;
+                    break;
+                case 'sex':
+                    // todo bad error
+                    document.getElementsByClassName('error-gender')[0].innerHTML = `<p class="error">${ERRORS.sex}</p>`;
+                    break;
+                }
+            });
+            return;
+        }
+
+        const month = MONTHS.indexOf(monthInput);
+
+        const monthString = translateOneDigitToTwo(month + 1);
+        const dayString = translateOneDigitToTwo(day);
+
+        const date = [year, monthString, dayString].join('-');
+        const sex = getSexInString(sexChoose);
+
+        registerAjax({
+            email,
+            password,
+            username,
+            firstName,
+            lastName,
+            birthDate: date,
+            sex
+        });
+    });
+
+    parent.querySelector('a').addEventListener('click', (e) => {
+        e.preventDefault();
+
+        redirect(unAuthNavConfig.login, parent);
+    });
+}
+
+function getSexInString (sexChoose) {
+    if (sexChoose[0]) {
+        return 'M';
+    }
+    if (sexChoose[1]) {
+        return 'F';
+    }
+    return 'O';
 }
 
 function errorGenerate (event, element, where, errorMessage, callback) {
@@ -572,8 +479,9 @@ function errorGenerate (event, element, where, errorMessage, callback) {
 
         if (!callback(element.value)) {
             const message = document.createElement('p');
-            message.textContent = errorMessage;
             message.classList.add('error');
+            message.textContent = errorMessage;
+
             where.appendChild(message);
         }
     });
@@ -592,5 +500,13 @@ function validateAll (...params) {
     validateYear(params[8]) ? '' : result.push('year');
     validateCheckbox(params[9], params[10], params[11]) ? '' : result.push('sex');
 
+    return result;
+}
+
+function translateOneDigitToTwo (elemToTranslate) {
+    let result = elemToTranslate;
+    if (elemToTranslate <= 9) {
+        result = '0' + elemToTranslate;
+    }
     return result;
 }

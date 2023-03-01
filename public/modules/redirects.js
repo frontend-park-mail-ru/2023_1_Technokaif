@@ -16,7 +16,7 @@ export function redirect (configSection, renderAreaElement, ...elementsToDestroy
         activeElement.classList.remove('active');
     }
 
-    el.classList.add('active');
+    el?.classList.add('active');
 
     configSection.render(renderAreaElement);
 }

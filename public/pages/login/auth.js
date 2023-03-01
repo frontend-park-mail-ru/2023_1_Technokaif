@@ -54,7 +54,7 @@ export function renderLogin (parent) {
             ],
             placementClass: null,
             placementId: null,
-            divButton: 'log-date-and-sex',
+            divButton: 'log-btn',
             buttonType: 'submit',
             buttonClass: 'log-but',
             textButton: 'LOG IN',
@@ -65,7 +65,7 @@ export function renderLogin (parent) {
             bottomLabelText: 'Don\'t have an account?',
             linkDiv: 'linkDiv',
             linkHref: '/',
-            linkClass: 'log-sign-in-btn',
+            linkClass: 'log-in-btn',
             linkText: 'Registration'
         });
 
@@ -73,7 +73,7 @@ export function renderLogin (parent) {
 
     const loginField = parent.querySelector(`#${ID.login}`);
     loginField.addEventListener('focusout', (e) => {
-        const errLogin = parent.querySelectorAll('.errorDiv')[0];
+        const errLogin = document.querySelectorAll('.log-error')[0];
         errLogin.innerHTML = '';
         if (!validateUsername(loginField.value.trim())) {
             errLogin.innerHTML = 'Login is invalid';
@@ -82,7 +82,7 @@ export function renderLogin (parent) {
 
     const passwordField = parent.querySelector(`#${ID.password}`);
     passwordField.addEventListener('focusout', (e) => {
-        const errPass = parent.querySelectorAll('.errorDiv')[1];
+        const errPass = document.querySelectorAll('.log-error')[1];
         errPass.innerHTML = '';
         if (!validatePassword(passwordField.value)) {
             errPass.innerHTML = 'Password is invalid';
@@ -95,15 +95,15 @@ export function renderLogin (parent) {
         redirect(unAuthNavConfig.registration, parent);
     });
 
-    const form = parent.querySelector('.formDiv');
+    const form = parent.querySelector('.log-form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const errorPlac = parent.querySelector(`.${CLASS.errorTop}`);
+        const errorPlac = document.querySelector(`.${CLASS.errorTop}`);
         errorPlac.innerHTML = '';
 
-        const errLogin = parent.querySelectorAll('.errorDiv')[0];
-        const errPass = parent.querySelectorAll('.errorDiv')[1];
+        const errLogin = document.querySelectorAll('.log-error')[0];
+        const errPass = document.querySelectorAll('.log-error')[1];
 
         let notValidFields = false;
 

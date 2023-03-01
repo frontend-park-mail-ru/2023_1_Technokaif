@@ -18,15 +18,15 @@ export function checkIsEmail (login) {
 export function validatePassword (password) {
     return ((/^.{8,20}$/).test(password) &&
         !(/[^a-z0-9]/i).test(password) &&
-        (password.search(/[A-Z]/g) >= 0) &&
-        (password.search(/[0-9]/g) >= 0)
+        (password.search(/[A-Z]/g) > -1) &&
+        (password.search(/[0-9]/g) > -1)
     );
 }
 
 export function validateDay (day) {
     // todo: check not similar mounth
     // todo check for empty string
-    return day >= 0 && day <= 31;
+    return day > 1 && day <= 31;
 }
 
 export function validateYear (year) {
@@ -60,7 +60,7 @@ export function validateEmail (email, confirmEmail) {
 export function validateCheckbox (...boxes) {
     let flag = false;
     boxes.forEach((box) => {
-        if (!box) {
+        if (box) {
             if (flag) {
                 return false;
             }
