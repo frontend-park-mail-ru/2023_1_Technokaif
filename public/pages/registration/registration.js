@@ -362,10 +362,10 @@ export function renderSignup (parent) {
         elements.push(radioButtons[1].checked);
         elements.push(radioButtons[2].checked);
 
-        if (!validateCheckbox(elements)) {
+        if (!validateCheckbox(...elements)) {
             const message = document.createElement('p');
             message.textContent = ERRORS.sex;
-            message.classList.add('reg-error');
+            message.classList.add('error');
 
             where.appendChild(message);
         }
