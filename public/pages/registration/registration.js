@@ -8,7 +8,7 @@ import { unAuthNavConfig } from '../../utils/config.js';
 
 const Method = 'focusout';
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October','November', 'December'];
+    'July', 'August', 'September', 'October', 'November', 'December'];
 
 const ERRORS = {
     email: 'Enter an email address',
@@ -46,12 +46,14 @@ const ID = {
     firstNameErr: 'firstNameError',
     lastNameErr: 'lastNameError',
     monthErr: 'monthErr',
-    yearErr: 'yearErr'
+    yearErr: 'yearErr',
+    errorTop: 'errorTop'
 };
 
 export function renderSignup (parent) {
     const templateForm = Handlebars.compile(document.getElementById('form-template').innerHTML);
     const textElements = templateForm({
+        errorTop: ID.errorTop,
         content: 'content',
         header: 'header',
         title: 'title',
@@ -349,7 +351,7 @@ export function renderSignup (parent) {
 
     const sexChoose = parent.querySelector('.reg-sex');
     sexChoose.addEventListener(Method, (el) => {
-        const where = document.getElementById('error-gender');
+        const where = document.getElementsByClassName('error-gender')[0];
         where.innerHTML = '';
 
         // todo bad error
@@ -399,7 +401,6 @@ export function renderSignup (parent) {
             sexChoose[2].checked
         );
 
-        console.log(errors);
         if (errors.length !== 0) {
             errors.forEach((el) => {
                 switch (el) {
