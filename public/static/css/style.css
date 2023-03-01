@@ -45,6 +45,10 @@ p {
 .reg-error, .log-error, .error-gender {
     color: red;
     margin-top: 10px;
+    width: 100%;
+}
+.error {
+    width: 350px;
 }
 
 .error-server {

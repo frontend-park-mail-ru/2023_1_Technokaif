@@ -1,13 +1,19 @@
 'use strict';
 
 import { unAuthNavConfig } from '../../utils/config.js';
-import {checkIsEmail, validateUsername, validatePassword, validateEmail} from '../../api/auth/validation.js';
+import { checkIsEmail, validateUsername, validatePassword, validateEmail } from '../../api/auth/validation.js';
 import { loginAjax } from '../../api/auth/loginAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
 
 const ID = {
     login: 'loginField',
     password: 'passwordField'
+};
+
+const ERRORS = {
+    password: 'Your password is incorrect or empty. Forbiden: \' \" space \:. One big letter, one small letter, one digit minimum. Len 8-30',
+    email: 'Enter a correct email address. Contains one @. Forbiden: .. , <> () [] \',\' ; : \\ \/. .-_ at end of email. Len 8-30',
+    username: 'Your username is incorrect. Contains (a-z), (0-9), _ and len 8-30'
 };
 
 const CLASS = {
@@ -76,7 +82,11 @@ export function renderLogin (parent) {
         const errLogin = document.querySelectorAll('.log-error')[0];
         errLogin.innerHTML = '';
         if (!validateUsername(loginField.value.trim()) && !validateEmail(loginField.value.trim())) {
-            errLogin.innerHTML = 'Login is invalid or empty';
+            if (checkIsEmail(loginField.value.trim())) {
+                errLogin.innerHTML = `<p class="error">${ERRORS.email}</p>`;
+            } else {
+                errLogin.innerHTML = `<p class="error">${ERRORS.username}</p>`;
+            }
         }
     });
 
@@ -85,7 +95,7 @@ export function renderLogin (parent) {
         const errPass = document.querySelectorAll('.log-error')[1];
         errPass.innerHTML = '';
         if (!validatePassword(passwordField.value)) {
-            errPass.innerHTML = 'Password is invalid or empty';
+            errPass.innerHTML = `<p class="error">${ERRORS.password}</p>`;
         }
     });
 
@@ -111,16 +121,17 @@ export function renderLogin (parent) {
         const passwordValue = passwordField.value;
 
         errLogin.innerHTML = '';
-        if (!checkIsEmail(loginValue)) {
-            if (!validateUsername(loginValue)) {
-                errLogin.innerHTML = 'Login is invalid';
-                notValidFields = true;
+        if (!validateUsername(loginValue) && !validateEmail(loginValue)) {
+            if (checkIsEmail(loginValue)) {
+                errLogin.innerHTML = `<p class="error">${ERRORS.email}</p>`;
+            } else {
+                errLogin.innerHTML = `<p class="error">${ERRORS.username}</p>`;
             }
         }
 
         errPass.innerHTML = '';
         if (!validatePassword(passwordValue)) {
-            errPass.innerHTML = 'Password is invalid';
+            errPass.innerHTML = `<p class="error">${ERRORS.password}</p>`;
             notValidFields = true;
         }
 

@@ -4,7 +4,7 @@ const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
     'November', 'December'];
 
 export function checkIsEmail (login) {
-    return true;
+    return /@/.test(login);
 }
 /**
  *
@@ -16,7 +16,11 @@ export function checkIsEmail (login) {
  * has length between 8 and 20
  */
 export function validatePassword (password) {
-    return true;
+    return (!(/[\'\"\ \:]/g).test(password) &&
+    (/.{8,30}/g).test(password)) &&
+    (/[A-Z]/g).test(password) &&
+    (/[0-9]/g).test(password) &&
+    (/[a-z]/g).test(password);
 }
 
 export function validateDay (day) {
@@ -25,9 +29,14 @@ export function validateDay (day) {
     return day > 1 && day <= 31;
 }
 
+/**
+ *
+ * @param {string} year -- year to validate
+ * @returns {bool} -- return true if year >= 0 and year <= current year
+ */
 export function validateYear (year) {
     // todo check for empty string
-    return year >= 1920 && year <= new Date(Date.now()).getFullYear();
+    return year >= 0 && year <= new Date(Date.now()).getFullYear();
 }
 
 export function validateMonth (month) {
@@ -40,17 +49,36 @@ export function validateMonth (month) {
  * @param {string} confirmEmail --if confirmEmail empty, function only validate email.
  * if not empty, function check for email and confirmEmail to be equal
  * @returns {bool} -- true if email is correct and false if not correct
+ * Correct email:
+ *  Len 8-30;
+ *  Don't have:
+ *   ..;
+ *   .-_ in end;
+ *   <>()[],;:\/"
  */
 export function validateEmail (email, ...confirmEmail) {
-    if (confirmEmail) {
-        if (email !== confirmEmail) {
+    // todo async
+    if (confirmEmail.length !== 0) {
+        if (email !== confirmEmail[0]) {
             return false;
         }
     }
 
-    return (/^[\w.]+@{1}[\w]+[.]{1}[\w]+/i).test(email) &&
-        email.length > 10 &&
-        email.length < 30;
+    if (email.length < 8 || email.length > 30) {
+        return false;
+    }
+
+    if (email.search('..') === -1) {
+        return false;
+    }
+
+    const lastSymb = email[email.length];
+    if (lastSymb === '.' || lastSymb === '-' || lastSymb === '_') {
+        return false;
+    }
+
+    return ((/^[\w]+[\w\.\-]*@{1}[\w]+[\.]*[\w\.\-]*/gmi).test(email) && // symbols check
+    (!(/[\<\>\(\)\[\]\,\;\:\\\/\"]/gmi).test(email))); // check for forbiden symbols
 }
 
 export function validateCheckbox (...boxes) {
@@ -66,13 +94,23 @@ export function validateCheckbox (...boxes) {
 
     return flag;
 }
-
+/**
+ *
+ * @param {string} username -- username to validate
+ * @returns {bool} -- return true if:
+ * username len 4-30 and contains only _, letters, digits
+ */
 export function validateUsername (username) {
-    const reg = /^[a-z0-9_]{4,20}$/;
-    return true;
+    return (/[\w]{4,30}/gmi).test(username) &&
+    !(/[^\w]/gmi).test(username);
 }
 
+/**
+ *
+ * @param {string} name -- name to validate
+ * @returns {bool} -- return true if len 2-20 and contains only letters
+ */
 export function validateName (name) {
-    const reg = /^[a-z]{1,20}$/;
-    return reg.test(String(name).toLowerCase());
+    return ((/[a-z]{2,20}/gmi).test(name) &&
+    !(/[^a-z]/gmi).test(name));
 }

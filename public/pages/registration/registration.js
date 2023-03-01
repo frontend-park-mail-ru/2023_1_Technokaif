@@ -11,16 +11,16 @@ const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'];
 
 const ERRORS = {
-    email: 'Enter an email address',
-    confirmEmail: 'Confirm your email addrewss',
-    password: 'Enter password',
-    username: 'Provide a name for your profile',
-    firstName: 'Write a first name',
-    lastName: 'Write a last name',
-    day: 'Choose correct day',
-    month: 'Choose correct month',
-    year: 'Choose correct year',
-    sex: 'Choose your gender'
+    email: 'Enter a correct email address. Contains one @. Forbiden: .. , <> () [] \',\' ; : \\ \/. .-_ at end of email. Len 8-30',
+    confirmEmail: 'Your email and confirm email is different or incorrect.',
+    password: 'Your password is incorrect or empty. Forbiden: \' \" space \:. One big letter, one small letter, one digit minimum. Len 8-30',
+    username: 'Your username is incorrect. Contains (a-z), (0-9), _ and len 8-30',
+    firstName: 'Your first name is incorrect. Contains (a-z). Len 1-30',
+    lastName: 'Your last name is incorrect. Contains (a-z). Len 1-30',
+    day: 'Your day is incorrect.',
+    month: 'Your day is incorrect.',
+    year: 'Your year is incorrect.',
+    sex: 'Choose your gender.'
 };
 
 const ID = {
