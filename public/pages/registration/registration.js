@@ -7,8 +7,8 @@ import { redirect } from '../../modules/redirects.js';
 import { unAuthNavConfig } from '../../utils/config.js';
 
 const Method = 'focusout';
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-    'November', 'December'];
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October','November', 'December'];
 
 const ERRORS = {
     email: 'Enter an email address',

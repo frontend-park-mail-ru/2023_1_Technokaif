@@ -2,7 +2,7 @@ body {
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     background-color: #000000;
     color: white;
-    font-family: Helvetica, Arial, sans-serif;
+    /* font-family: Helvetica, Arial, sans-serif; */
 }
 
 p {
@@ -166,6 +166,7 @@ p {
 }
 
 
+/* Feed */
 factBody {
     display: grid;
 
@@ -178,7 +179,7 @@ factBody {
 
 aside {
     display: block;
-    margin-left: 23px;
+    margin-left: 24px;
     grid-area: menu;
 }
 
@@ -200,14 +201,13 @@ main {
     padding-bottom: 15px;
     font-style: normal;
     font-weight: 700;
-    font-size: 13.2393px;
+    font-size: 20px;
     line-height: 17px;
 }
 
 .logo > h1 {
-    font-family: 'Poppins', serif;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 36px;
     line-height: 20px;
 
@@ -232,7 +232,6 @@ main {
 .navbar__item {
     display: table-cell;
     padding-right: 10px;
-    font-family: 'Inter', cursive;
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
@@ -244,7 +243,6 @@ main {
 
 .navbar__item > a {
     text-decoration: none;
-    font-family: 'Inter', cursive;
     color: #d9d9d9;
 }
 
@@ -253,7 +251,6 @@ main {
     border-radius: 82px;
     width: 110px;
     height: 50px;
-    font-family: 'Inter', serif;
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
@@ -274,17 +271,6 @@ main {
     width: 100%;
 }
 
-span {
-    color:black;
-    border-radius: 5%;
-    background-color: #FFFFFF;
-    
-    display: flex;
-    justify-content: center;
-
-    width: 100%;
-}
-
 .register-link{
     margin-top: 10px;
 }
@@ -295,4 +281,24 @@ span {
     align-items: center;
 }
 
+.tracks, .albums, .artists {
+    display: flex;
+}
+
+.tracks {
+    flex-direction: column;
+}
+
+.track-item, .album-item, .artist-item {
+    padding-right: 10px;
+}
+
+.track-item {
+    display: flex;
+}
+
+.track-item img, .album-item img, .artist-item img {
+    height: 200px;
+    width: 200px;
+}
 
