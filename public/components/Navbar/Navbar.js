@@ -17,16 +17,26 @@ class Navbar {
     }
 
     render () {
-        this.items.map(({ key, href, name, type }, index) => {
+        this.items.map(({ key, href, name, type, logoSrc }, index) => {
             const div = document.createElement('div');
             const contentElement = document.createElement(type);
 
             contentElement.textContent = name;
             contentElement.href = href;
             contentElement.dataset.section = key;
-            div.classList.add(`${this.#name}__item`);
+            div.classList.add(`${key}__${this.#name}__item`);
             if (index === 0) {
                 contentElement.classList.add('active');
+            }
+
+            if (key === 'registration') {
+                const verticalLine = document.createElement('div');
+                div.appendChild(verticalLine);
+                verticalLine.classList.add('border-left');
+            }
+
+            if (logoSrc !== undefined) {
+                contentElement.href = logoSrc;
             }
 
             div.appendChild(contentElement);

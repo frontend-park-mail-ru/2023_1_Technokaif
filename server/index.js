@@ -119,6 +119,16 @@ app.get('/feed', (req, res) => {
                                 id: 5
                             }
                         ]
+                    },
+                    {
+                        name: 'Там где нас нет',
+                        id: 1,
+                        artists: [
+                            {
+                                name: 'Oxxxxy',
+                                id: 5
+                            }
+                        ]
                     }
                 ],
                 albums: [

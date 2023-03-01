@@ -38,7 +38,7 @@
                         <button type="{{buttonType}}" class="buttonClass">{{textButton}}</button>
                     </div>
                 </form>
-                <hr {{#if hrClass}} class="{{hrClass}} {{/if}}">
+                <hr {{#if hrClass}} class="{{hrClass}}", align="center" {{/if}}">
                 <div class="{{bottomClass}}">
                     <div class="{{divBottomLabel}}">
                         <p class="{{bottomLabelClass}}">{{bottomLabelText}}</p>
@@ -118,6 +118,16 @@
     <!-- Main page. Feed. -->
     <script type="text/x-handlebars-template" id="main-page-template">
         <div class="{{ mainPageWindowDiv }}">
+
+            <div class="{{tracksTitleDiv}}">
+                <div class="{{tracksTitle}}">
+                    <h2>Tracks</h2>
+                </div>
+                <div class="{{tracksFullList}}">
+                    <p>Show all</p>
+                </div>
+            </div>
+
                 <div class="{{tracksDiv}}">
                     {{#each content.tracks}}
                     <div class="{{../trackDiv}}">
@@ -134,45 +144,52 @@
                         <div class="{{../trackNameDiv}}">
                             <p>{{this.name}}</p>
                         </div>
-                        <div class="{{../trackIdDiv}}">
-                            <p>{{this.id}}</p>
-                        </div>
 
-                        <div class="{{../artistsDiv}}">
+                        <div class="{{../innerArtistsDiv}}">
                             {{#each this.artists}}
-                            <div class="{{../../artistDiv}}">
-                                <div class="{{../../artistNameDiv}}">
+                                <div class="{{../../innerArtistNameDiv}}">
                                     <p>{{this.name}}</p>
                                 </div>
-                                <div class="{{../../artistIdDiv}}">
-                                    <p>{{this.id}}</p>
-                                </div>
-                            </div>
                             {{/each}}
                         </div>
                     </div>
                     {{/each}}
                 </div>
 
+            <div class="{{artistsTitleDiv}}">
+                <div class="{{artistsTitle}}">
+                    <h2>Artists</h2>
+                </div>
+                <div class="{{artistsFullList}}">
+                    <p>Show all</p>
+                </div>
+            </div>
+
             <div class="{{artistsDiv}}">
                 {{#each content.artists}}
-                <div class="{{../../artistDiv}}">
-                    <div class="{{../../artistImgDiv}}">
-                        <img class="{{../../artistImg}}" src=
+                <div class="{{../artistDiv}}">
+                    <div class="{{../artistImgDiv}}">
+                        <img class="{{../artistImg}}" src=
                             {{#if this.cover}}
                                 "{{this.cover}}"
                             {{else}}
-                                "{{../../defaultArtistCover}}"
+                                "{{../defaultArtistCover}}"
                             {{/if}}>
                     </div>
                     <div class="{{../../artistNameDiv}}">
                         <p>{{this.name}}</p>
                     </div>
-                    <div class="{{../../artistIdDiv}}">
-                        <p>{{this.id}}</p>
-                    </div>
                 </div>
                 {{/each}}
+            </div>
+
+            <div class="{{albumsTitleDiv}}">
+                <div class="{{albumsTitle}}">
+                    <h2>Albums</h2>
+                </div>
+                <div class="{{albumsFullList}}">
+                    <p>Show all</p>
+                </div>
             </div>
 
             <div class="{{albumsDiv}}">
@@ -192,29 +209,11 @@
                     <div class="{{../albumDescriptionDiv}}">
                         <p>{{this.description}}</p>
                     </div>
-                    <div class="{{../albumIdDiv}}">
-                        <p>{{this.id}}</p>
-                    </div>
 
-                    <div class="{{artistsDiv}}">
+                    <div class="{{innerArtistsDiv}}">
                         {{#each this.artists}}
-                            <div class="{{../../artistDiv}}">
-                            <div class="{{../../artistImgDiv}}">
-                                <img class="{{../../artistImg}}"
-                                        src=
-                                    {{#if this.cover}}
-                                        "{{this.cover}}"
-                                    {{else}}
-                                        "{{../../defaultArtistCover}}"
-                                    {{/if}}
-                                    >
-                            </div>
-                            <div class="{{../../artistNameDiv}}">
+                            <div class="{{../../innerArtistNameDiv}}">
                                 <p>{{this.name}}</p>
-                            </div>
-                            <div class="{{../../artistIdDiv}}">
-                                <p>{{this.id}}</p>
-                            </div>
                             </div>
                         {{/each}}
                 </div>

@@ -2,7 +2,7 @@ body {
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     background-color: #000000;
     color: white;
-    /* font-family: Helvetica, Arial, sans-serif; */
+    margin: 0;
 }
 
 p {
@@ -20,7 +20,6 @@ p {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    /* text-fill-color: transparent; */
 }
 
 .page-description {
@@ -45,6 +44,7 @@ p {
 
 .reg-error, .log-error {
     color: red;
+    margin-top: 10px;
 }
 
 .reg-input, .log-input {
@@ -67,6 +67,7 @@ p {
 }
 
 .reg-sex-label, .reg-date-label {
+    margin-bottom: 15px;
     font-size: 15px;
     font-weight: 700;
     color: rgba(255, 255, 255, .7);
@@ -128,9 +129,26 @@ p {
     color: #ffffff;
 }
 
+/* next to form elements */
+
+.auth-form-hr, .menu-hr  {
+    margin: 30px 0;
+    background: rgba(255, 255, 255, 0.5);
+    width: auto;
+    height: 0.01em;
+}
+
+.menu-hr {
+    width: 216px;
+}
+
+.have-acc {
+    color: rgba(255, 255, 255, 0.5);
+}
+
 /* Buttons */
 .buttonclass {
-    background: linear-gradient(180deg, rgba(255, 0, 0, 0.7) 0%, rgba(255, 199, 0, 0.7) 100%);
+    background: #ffffff;
 }
 
 .reg-btn, .log-btn {
@@ -138,16 +156,21 @@ p {
     justify-content: end;
 }
 
+.log-btn button {
+    color: #333333;
+}
+
 .auth-btn button, .log-reg-btn, .reg-login-btn {
+    color: #333333;
     cursor: pointer;
-    height: 28px;
+    height: 50px;
+    width: 350px;
     font-size: 16px;
     text-decoration: none;
     border: 0px black solid;
     padding: 5px 15px;
     font-weight: 700;
-    color: white;
-    border-radius: 14px;
+    border-radius: 25px;
 }
 
 /* bottom of pages */
@@ -178,8 +201,10 @@ factBody {
 }
 
 aside {
-    display: block;
-    margin-left: 24px;
+    display: flex;
+    flex-direction: column;
+
+    margin: 0 23px;
     grid-area: menu;
 }
 
@@ -192,61 +217,87 @@ main {
     font-weight: bold;
 }
 
-.sidebar__item > a {
+/* Menu (sidebar) */
+
+.feed__sidebar__item > a, .search__sidebar__item > a, .library__sidebar__item > a, .createPlaylist__sidebar__item > a, .likedSongs__sidebar__item  > a {
+    width: 127px;
+    font-style: normal;
+    font-size: 18px;
+    line-height: 17px;
+    letter-spacing: -0.01em;
+
     text-decoration: none;
     color: #d9d9d9;
+    font-weight: bold;
+    margin-top: 5px;
 }
 
-.sidebar__item {
-    padding-bottom: 15px;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 17px;
+.feed__sidebar__item > img, .search__sidebar__item > img, .library__sidebar__item > img, .createPlaylist__sidebar__item > img, .likedSongs__sidebar__item > img {
+    margin-right: 16px;
+}
+
+.feed__sidebar__item, .search__sidebar__item, .library__sidebar__item, .createPlaylist__sidebar__item, .likedSongs__sidebar__item {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 16px;
+    margin-bottom: 15px;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
 }
 
 .logo > h1 {
     font-style: normal;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 36px;
     line-height: 20px;
 
     display: flex;
     align-items: center;
     text-align: center;
+    margin-bottom: 0;
 
     color: #FFFFFF;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.sidebar__item > a:hover {
+.feed__sidebar__item a:hover, .search__sidebar__item a:hover, .library__sidebar__item a:hover, .createPlaylist__sidebar__item a:hover, .likedSongs__sidebar__item a:hover, .navbar a:hover {
     color: #FFFFFF;
 }
 
+/* Navbar */
+
 .navbar {
-    display: table;
-    background-color: black;
+    background-color: #121212;
+    display: inline-flex;
+    justify-content: flex-end;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
     width: 100%;
+    height: 74px;
 }
 
-.navbar__item {
-    display: table-cell;
-    padding-right: 10px;
+.navbar a {
+    text-decoration: none;
+
+    margin: 0 30px;
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
     line-height: 19px;
     text-align: center;
 
-    color: #FFFFFF;
+    color: #a7a7a7;
 }
 
-.navbar__item > a {
-    text-decoration: none;
-    color: #d9d9d9;
-}
-
-.navbar__item > button {
+.login__navbar__item button {
+    margin-right: 40px;
     background: #FFFFFF;
     border-radius: 82px;
     width: 110px;
@@ -258,6 +309,86 @@ main {
     text-align: center;
 
     color: #000000;
+}
+
+.registration__navbar__item {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.border-left {
+    background: rgba(217, 217, 217, 0.7);
+    border-left: 1px solid #ffff;
+    margin: 0 10px;
+    height: 50px;
+    width: 1px;
+}
+
+/* Main page content */
+
+.main-page-window {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.albums-titles, .artists-titles, .tracks-titles {
+    align-items: center;
+    margin: 0 60px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.tracks-show-full, .artists-show-full, .albums-show-full {
+    color: #b3b3b3;
+}
+
+.tracks, .albums, .artists {
+    display: flex;
+    flex-flow: row nowrap;
+    margin: 0 40px;
+}
+
+.track-item, .album-item, .artist-item {
+    width: 175px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 16px;
+    margin: 0 20px;
+
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.album-description, .inner-artist-name {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 13.0667px;
+    line-height: 179.2%;
+
+    letter-spacing: -0.025em;
+
+    color: rgba(255, 255, 255, 0.6);
+}
+
+
+.track-name, .album-name, .artist-name {
+    word-wrap: break-word;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15.1076px;
+    line-height: 20px;
+    letter-spacing: -0.025em;
+
+    color: #FFFFFF;
+}
+
+.track-item img, .album-item img, .artist-item img {
+    height: 175px;
+    width: 175px;
 }
 
 
@@ -280,25 +411,3 @@ main {
     flex-direction: column;
     align-items: center;
 }
-
-.tracks, .albums, .artists {
-    display: flex;
-}
-
-.tracks {
-    flex-direction: column;
-}
-
-.track-item, .album-item, .artist-item {
-    padding-right: 10px;
-}
-
-.track-item {
-    display: flex;
-}
-
-.track-item img, .album-item img, .artist-item img {
-    height: 200px;
-    width: 200px;
-}
-

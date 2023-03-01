@@ -25,31 +25,36 @@ export const sidebarConfig = {
         name: 'Home',
         href: '/feed',
         render: renderHome,
-        key: 'feed'
+        key: 'feed',
+        logoSrc: '/static/svg/VectorhomeLogo.svg'
     },
     search: {
         name: 'Search',
         href: '/search',
         render: renderSearchPage,
-        key: 'search'
+        key: 'search',
+        logoSrc: '/static/svg/VectorsearchLogo.svg'
     },
     library: {
         name: 'Library',
         href: '/library',
         render: renderLibrary,
-        key: 'library'
+        key: 'library',
+        logoSrc: '/static/svg/librarylibraryLogo.svg'
     },
     createPlaylist: {
         name: 'Create Playlist',
         href: '/createPlaylist',
         render: renderLibrary,
-        key: 'createPlaylist'
+        key: 'createPlaylist',
+        logoSrc: '/static/svg/Frame 29createPlaylisLogo.svg'
     },
     likedSongs: {
         name: 'Liked Songs',
         href: '/likedSongs',
         render: renderLibrary,
-        key: 'likedSongs'
+        key: 'likedSongs',
+        logoSrc: '/static/svg/Frame 28likedSongsLogo.svg'
     }
 };
 
@@ -57,11 +62,27 @@ function renderLibrary () {
 
 }
 
-function renderSearchPage() {
+function renderSearchPage () {
 
 }
 
 export const unAuthNavConfig = {
+    left: {
+        name: 'back page button',
+        href: '/next',
+        render: renderHome,
+        key: 'next',
+        type: 'img',
+        logoSrc: '/static/svg/buttonprevBut.svg',
+    },
+    right: {
+        name: 'next page button',
+        href: '/prev',
+        render: renderHome,
+        key: 'prev',
+        type: 'img',
+        logoSrc: '/static/svg/buttonnextBut.svg',
+    },
     premium: {
         name: 'Premium',
         href: '/premium',

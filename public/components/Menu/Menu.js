@@ -28,19 +28,25 @@ class Menu {
 
     render () {
         const logoDiv = createDivAndInsertInParent(this.#parent, 'logo');
-        logoDiv.innerHTML += '<h1>Fluire</h1><hr>';
-        this.items.map(({ key, href, name }, index) => {
+        // maybe xss
+        logoDiv.innerHTML += '<h1>Fluire</h1><hr align="center", class="menu-hr">';
+        this.items.map(({ key, href, name, logoSrc }, index) => {
             const div = document.createElement('div');
             const element = document.createElement('a');
 
             element.textContent = name;
             element.href = href;
             element.dataset.section = key;
-            div.classList.add(`${this.#name}__item`);
+            div.classList.add(`${key}__${this.#name}__item`);
 
             if (index === 0) {
                 element.classList.add('active');
             }
+
+            const logo = document.createElement('img');
+            logo.src = logoSrc;
+            logo.classList.add(`${key}__logo`);
+            div.appendChild(logo);
             div.appendChild(element);
 
             return div;
