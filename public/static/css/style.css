@@ -42,9 +42,19 @@ p {
     margin-bottom: 5px;
 }
 
-.reg-error, .log-error {
+.reg-error, .log-error, .error-gender {
     color: red;
     margin-top: 10px;
+}
+
+.error-server {
+    color:white;
+    background-color: red;
+    width: 100%;
+}
+
+.error-message-server {
+    padding: 7px;
 }
 
 .reg-input, .log-input {

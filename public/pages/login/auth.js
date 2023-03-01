@@ -11,7 +11,7 @@ const ID = {
 };
 
 const CLASS = {
-    errorTop: 'error-login-all'
+    errorTop: 'error-server'
 };
 
 export function renderLogin (parent) {
