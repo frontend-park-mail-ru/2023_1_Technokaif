@@ -445,6 +445,15 @@ export function renderSignup (parent) {
         const date = [year, monthString, dayString].join('-');
         const sex = getSexInString(sexChoose);
 
+        console.log({
+            email,
+            password,
+            username,
+            firstName,
+            lastName,
+            birthDate: date,
+            sex
+        });
         registerAjax({
             email,
             password,
@@ -470,6 +479,7 @@ function getSexInString (sexChoose) {
     if (sexChoose[1]) {
         return 'F';
     }
+
     return 'O';
 }
 

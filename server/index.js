@@ -95,47 +95,103 @@ app.post('/auth/login', (req, res) => {
     res.status(200).json({ jwt: originalJwt });
 });
 
-// app.get('/me', (req, res) => {
-// 	const id = req.cookies['podvorot'];
-// 	const email = ids[id];
-// 	if (!email || !users[email]) {
-// 		return res.status(401).end();
-// 	}
-//
-// 	res.json(users[email]);
-// });
-
 app.get('/feed', (req, res) => {
     const jwt = req.headers.Authorization;
     if (jwt === undefined || jwt !== originalJwt) {
         res.status(200).json({
-            focus: [
-                {
-                    text: 'Peacefull piano',
-                    description: 'Relax and indulge with beautiful piano pieces',
-                    imgSrc: '/img/peace.jpeg'
-                },
-                {
-                    text: 'Peacefull piano',
-                    description: 'Relax and indulge with beautiful piano pieces',
-                    imgSrc: '/img/peace.jpeg'
-                }
-            ]
+                tracks: [
+                    {
+                        name: 'Там где нас нет',
+                        id: 1,
+                        artists: [
+                            {
+                                name: 'Oxxxxy',
+                                id: 5
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Там где нас нет',
+                        id: 1,
+                        artists: [
+                            {
+                                name: 'Oxxxxy',
+                                id: 5
+                            }
+                        ]
+                    }
+                ],
+                albums: [
+                    {
+                        name: 'Горгород',
+                        description: 'Известный артист читает известные треки',
+                        id: 1,
+                        artists: [
+                            {
+                                name: 'Oxxxxy',
+                                id: 5
+                            }
+                        ]
+                    }
+                ],
+                artists: [
+                    {
+                        name: 'Oxxxxy',
+                        id: 5
+                    },
+                    {
+                        name: 'Oxxxxy',
+                        id: 5
+                    }
+                ]
         });
     } else {
         res.status(200).json({
-            playlists: [
-                {
-                    text: 'Peacefull piano',
-                    description: 'Relax and indulge with beautiful piano pieces',
-                    imgSrc: '/img/peace.jpeg'
-                },
-                {
-                    text: 'Peacefull piano',
-                    description: 'Relax and indulge with beautiful piano pieces',
-                    imgSrc: '/img/peace.jpeg'
-                }
-            ]
+                tracks: [
+                    {
+                        name: 'Там где нас нет',
+                        id: 1,
+                        artists: [
+                            {
+                                name: 'Oxxxxy',
+                                id: 5
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Там где нас нет',
+                        id: 1,
+                        artists: [
+                            {
+                                name: 'Oxxxxy',
+                                id: 5
+                            }
+                        ]
+                    }
+                ],
+                albums: [
+                    {
+                        name: 'Горгород',
+                        description: 'Известный артист читает известные треки',
+                        id: 1,
+                        artists: [
+                            {
+                                name: 'Oxxxxy',
+                                id: 5
+                            }
+                        ]
+                    }
+                ],
+                artists: [
+                    {
+                        name: 'Oxxxxy',
+                        id: 5
+                    },
+                    {
+                        name: 'Oxxxxy',
+                        id: 5
+                    }
+                ]
         });
     }
 });

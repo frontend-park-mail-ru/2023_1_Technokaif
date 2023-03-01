@@ -5,14 +5,13 @@ import { createHomePageContent } from '../../components/MainWindowRender/mainWin
 export function renderHome (parent) {
     window.Ajax.get({
         url: '/feed',
-        callback: (status, responseString) => {
-            const items = JSON.parse(responseString);
+        callback: ({ status, context }) => {
             if (status === 200) {
-                createHomePageContent(parent, items);
+                createHomePageContent(parent, context);
                 return;
             }
 
-            alert('error');
+            alert('Error: ' + context);
         }
     });
 }

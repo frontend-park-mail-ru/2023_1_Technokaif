@@ -62,7 +62,8 @@
                             return;
                         }
 
-                        callback({ status, context: responseJson.jwt });
+                        console.log({ status, context: responseJson });
+                        callback({ status, context: responseJson });
                     }
                 )
             );

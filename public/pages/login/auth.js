@@ -76,7 +76,7 @@ export function renderLogin (parent) {
         const errLogin = document.querySelectorAll('.log-error')[0];
         errLogin.innerHTML = '';
         if (!validateUsername(loginField.value.trim())) {
-            errLogin.innerHTML = 'Login is invalid';
+            errLogin.innerHTML = 'Login is invalid or empty';
         }
     });
 
@@ -85,7 +85,7 @@ export function renderLogin (parent) {
         const errPass = document.querySelectorAll('.log-error')[1];
         errPass.innerHTML = '';
         if (!validatePassword(passwordField.value)) {
-            errPass.innerHTML = 'Password is invalid';
+            errPass.innerHTML = 'Password is invalid or empty';
         }
     });
 

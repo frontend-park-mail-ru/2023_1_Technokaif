@@ -29,53 +29,7 @@ export function createHomePageContent (parent, items) {
         defaultTrackCover: '/static/img/peace.jpeg',
         defaultArtistCover: '/static/img/artist.jpg',
 
-        content: {
-            tracks: [
-                {
-                    name: 'Там где нас нет',
-                    id: 1,
-                    artists: [
-                        {
-                            name: 'Oxxxxy',
-                            id: 5
-                        }
-                    ]
-                },
-                {
-                    name: 'Там где нас нет',
-                    id: 1,
-                    artists: [
-                        {
-                            name: 'Oxxxxy',
-                            id: 5
-                        }
-                    ]
-                }
-            ],
-            albums: [
-                {
-                    name: 'Горгород',
-                    description: 'Известный артист читает известные треки',
-                    id: 1,
-                    artists: [
-                        {
-                            name: 'Oxxxxy',
-                            id: 5
-                        }
-                    ]
-                }
-            ],
-            artists: [
-                {
-                    name: 'Oxxxxy',
-                    id: 5
-                },
-                {
-                    name: 'Oxxxxy',
-                    id: 5
-                }
-            ]
-        }
+        content: items
     });
 
     parent.innerHTML += mainPage;

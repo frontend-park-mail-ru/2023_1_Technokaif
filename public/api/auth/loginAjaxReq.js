@@ -9,7 +9,7 @@ export function loginAjax (login, password) {
         body: { username: login, password },
         callback: ({ status, context }) => {
             if (status === 200) {
-                localStorage.setItem('jwt', context);
+                localStorage.setItem('jwt', context.jwt);
 
                 const mainElement = document.getElementsByName('main');
                 redirect(sidebarConfig.feed, mainElement);

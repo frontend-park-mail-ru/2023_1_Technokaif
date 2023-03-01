@@ -12,6 +12,18 @@ body {
     align-items: center;
     margin-top: 30px;
     margin-left: 35px;
+
+    background: linear-gradient(180deg, rgba(255, 0, 0, 0.7) 0%, rgba(255, 199, 0, 0.7) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+log {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .page-description {
@@ -26,7 +38,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 60px;
 }
 
 .reg-sex {
@@ -37,10 +48,25 @@ body {
     margin-right: 15px;
 }
 
-.reg-field, .reg-input, .log-field, .log-input {
+.reg-input {
     width: 350px;
     height: 40px;
     margin-bottom: 30px;
+}
+
+.log-input, .reg-input {
+    width: 350px;
+    height: 40px;
+    margin-bottom: 5px;
+}
+
+.log-field, .reg-field {
+    overflow:hidden;
+    margin-bottom: 30px;
+}
+
+.log-error, .reg-error  {
+    color: red;
 }
 
 .reg-input {
@@ -85,6 +111,10 @@ body {
     background-color: transparent;
     width: 160px;
     height: 30px;
+}
+
+.reg-month>option {
+    color: black;
 }
 
 .reg-year {
@@ -137,6 +167,8 @@ p {
     text-decoration: none;
     color: #ff0000;
 }
+
+
 
 /*
 factBody {
