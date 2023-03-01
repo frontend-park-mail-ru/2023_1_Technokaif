@@ -3,6 +3,9 @@
 import { createInput, createSelect, createCheckbox } from '../../utils/utils.js';
 import { validateEmail, validatePassword, validateUsername, validateDay, validateMonth, validateYear, validateCheckbox, validateName } from '../../api/auth/validation.js';
 import { registerAjax } from '../../api/auth/registerAjaxReq.js';
+import { redirect } from '../../modules/redirects.js';
+import { unAuthNavConfig } from '../../utils/config.js';
+
 const Method = 'focusout';
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
     'November', 'December'];
@@ -276,42 +279,6 @@ export function renderSignup (parent) {
             ],
             errorSex: 'error-gender'
         }
-    //     {
-    //     labelClass: 'textClass',
-    //     labelText: 'Choose your gender',
-    //     divMainSex: 'divMainSex',
-    //     divSexChoose: 'divSexChoose',
-    //     sexes: [
-    //         {
-    //             insideDivSex: 'insideDivSex',
-    //             type: 'Radio',
-    //             name: 'sexChoose',
-    //             classText: 'classText',
-    //             textLabel: 'Male',
-    //             classSex: 'sexClass',
-    //             id: 'idSex1'
-    //         },
-    //         {
-    //             insideDivSex: 'insideDivSex',
-    //             type: 'Radio',
-    //             name: 'sexChoose',
-    //             classText: 'classText',
-    //             textLabel: 'Female',
-    //             classSex: 'sexClass',
-    //             id: 'idSex2'
-    //         },
-    //         {
-    //             insideDivSex: 'insideDivSex',
-    //             type: 'Radio',
-    //             name: 'sexChoose',
-    //             classText: 'classText',
-    //             textLabel: 'Don\'t want to choose',
-    //             classSex: 'sexClass',
-    //             id: 'idSex3'
-    //         }
-    //     ],
-    //     'error-date': 'error-date'
-    // }
     );
     posWherePlace.innerHTML += sex;
 
@@ -403,7 +370,6 @@ export function renderSignup (parent) {
     });
 
     const form = parent.querySelector('.reg-form');
-    console.log(parent.querySelectorAll('.reg-form'));
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -488,6 +454,12 @@ export function renderSignup (parent) {
             birthDate: date,
             sex
         });
+    });
+
+    parent.querySelector('a').addEventListener('click', (e) => {
+        e.preventDefault();
+
+        redirect(unAuthNavConfig.login, parent);
     });
 }
 
