@@ -129,7 +129,7 @@ export function renderSignup (parent) {
         divButton: 'reg-btn auth-btn',
         buttonType: 'submit',
         buttonClass: 'reg-btn auth-btn',
-        textButton: 'Sign up',
+        textButton: 'Sign Up',
         hrClass: null,
         bottomClass: 'reg-bottom',
         divBottomLabel: 'have-acc-label',

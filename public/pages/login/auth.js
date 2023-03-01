@@ -57,7 +57,7 @@ export function renderLogin (parent) {
             divButton: 'log-btn auth-btn',
             buttonType: 'submit',
             buttonClass: 'log-but',
-            textButton: 'LOG IN',
+            textButton: 'Sign In',
             hrClass: null,
             bottomClass: 'log-bottom',
             divBottomLabel: 'have-acc-label',
