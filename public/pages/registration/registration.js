@@ -47,7 +47,7 @@ const ID = {
     lastNameErr: 'lastNameError',
     monthErr: 'monthErr',
     yearErr: 'yearErr',
-    errorTop: 'errorTop'
+    errorTop: 'error-server'
 };
 
 export function renderSignup (parent) {
