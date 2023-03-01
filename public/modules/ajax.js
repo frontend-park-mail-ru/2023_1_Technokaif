@@ -26,6 +26,7 @@
 
         _ajax({method, url, body = null, callback = noop}) {
             let request = {};
+            method = '/api' + url;
             if (body === null) {
                 request = new Request(
                     url, {
