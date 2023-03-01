@@ -3,9 +3,15 @@
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
     'November', 'December'];
 
+/**
+ *
+ * @param {string} login -- string to check
+ * @returns {bool} -- return true if login contains @
+ */
 export function checkIsEmail (login) {
     return /@/.test(login);
 }
+
 /**
  *
  * @param {string} password -- password to validate
@@ -23,6 +29,12 @@ export function validatePassword (password) {
     (/[a-z]/g).test(password);
 }
 
+/**
+ *
+ * @param {string} day -- day to check
+ * @returns {bool} --return true if day is correct:
+ * in the range 1-31
+ */
 export function validateDay (day) {
     // todo: check not similar mounth
     // todo check for empty string
@@ -56,10 +68,10 @@ export function validateMonth (month) {
  *   .-_ in end;
  *   <>()[],;:\/"
  */
-export function validateEmail (email, ...confirmEmail) {
+export function validateEmail (email, confirmEmail = '') {
     // todo async
-    if (confirmEmail.length !== 0) {
-        if (email !== confirmEmail[0]) {
+    if (confirmEmail !== '') {
+        if (email !== confirmEmail) {
             return false;
         }
     }
@@ -82,18 +94,19 @@ export function validateEmail (email, ...confirmEmail) {
 }
 
 export function validateCheckbox (...boxes) {
-    let flag = false;
+    let isInputCorrect = false;
     boxes.forEach((box) => {
         if (box) {
-            if (flag) {
+            if (isInputCorrect) {
                 return false;
             }
-            flag = true;
+            isInputCorrect = true;
         }
     });
 
-    return flag;
+    return isInputCorrect;
 }
+
 /**
  *
  * @param {string} username -- username to validate
@@ -113,4 +126,20 @@ export function validateUsername (username) {
 export function validateName (name) {
     return ((/[a-z]{2,20}/gmi).test(name) &&
     !(/[^a-z]/gmi).test(name));
+}
+
+export function validateAll (...params) {
+    const result = [];
+
+    validateEmail(params[0], params[1]) ? '' : result.push('email');
+    validatePassword(params[2]) ? '' : result.push('password');
+    validateName(params[3]) ? '' : result.push('first-name');
+    validateName(params[4]) ? '' : result.push('last-name');
+    validateUsername(params[5]) ? '' : result.push('username');
+    validateDay(params[6]) ? '' : result.push('day');
+    validateMonth(params[7]) ? '' : result.push('month');
+    validateYear(params[8]) ? '' : result.push('year');
+    validateCheckbox(params[9], params[10], params[11]) ? '' : result.push('sex');
+
+    return result;
 }

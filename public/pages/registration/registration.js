@@ -1,7 +1,7 @@
 'use strict';
 
-import { createInput, createSelect, createCheckbox } from '../../utils/utils.js';
-import { validateEmail, validatePassword, validateUsername, validateDay, validateMonth, validateYear, validateCheckbox, validateName } from '../../api/auth/validation.js';
+import { validateAll, validateEmail, validatePassword, validateUsername, validateDay, validateMonth, validateYear, validateCheckbox, validateName } from '../../utils/validation.js';
+import { clearErrorsField } from '../../utils/clearFields.js';
 import { registerAjax } from '../../api/auth/registerAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
 import { unAuthNavConfig } from '../../utils/config.js';
@@ -15,8 +15,8 @@ const ERRORS = {
     confirmEmail: 'Your email and confirm email is different or incorrect.',
     password: 'Your password is incorrect or empty. Forbiden: \' \" space \:. One big letter, one small letter, one digit minimum. Len 8-30',
     username: 'Your username is incorrect. Contains (a-z), (0-9), _ and len 8-30',
-    firstName: 'Your first name is incorrect. Contains (a-z). Len 1-30',
-    lastName: 'Your last name is incorrect. Contains (a-z). Len 1-30',
+    firstName: 'Your first name is incorrect. Contains (a-z). Len 2-30',
+    lastName: 'Your last name is incorrect. Contains (a-z). Len 2-30',
     day: 'Your day is incorrect.',
     month: 'Your day is incorrect.',
     year: 'Your year is incorrect.',
@@ -401,37 +401,61 @@ export function renderSignup (parent) {
             sexChoose[2].checked
         );
 
+        const errorEmail = document.getElementById(ID.emailErr);
+        const errorConfEmail = document.getElementById(ID.emailConfErr);
+        const errorPassword = document.getElementById(ID.passwordErr);
+        const errorFirstName = document.getElementById(ID.firstNameErr);
+        const errorLastName = document.getElementById(ID.lastNameErr);
+        const errorUsername = document.getElementById(ID.usernameErr);
+        const errorDay = document.getElementById(ID.errorDate);
+        const errorMonth = document.getElementById(ID.monthErr);
+        const errorYear = document.getElementById(ID.yearErr);
+        const errorSex = document.getElementsByClassName('error-gender')[0];
+
+        clearErrorsField(
+            errorEmail,
+            errorConfEmail,
+            errorPassword,
+            errorFirstName,
+            errorLastName,
+            errorUsername,
+            errorDay,
+            errorMonth,
+            errorYear,
+            errorSex
+        );
+
         if (errors.length !== 0) {
             errors.forEach((el) => {
                 switch (el) {
                 case 'email':
-                    document.getElementById(ID.emailErr).innerHTML = `<p class="error">${ERRORS.email}</p>`;
-                    document.getElementById(ID.emailConfErr).innerHTML = `<p class="error">${ERRORS.confirmEmail}</p>`;
+                    errorEmail.innerHTML = `<p class="error">${ERRORS.email}</p>`;
+                    errorConfEmail.innerHTML = `<p class="error">${ERRORS.confirmEmail}</p>`;
                     break;
                 case 'password':
-                    document.getElementById(ID.passwordErr).innerHTML = `<p class="error">${ERRORS.password}</p>`;
+                    errorPassword.innerHTML = `<p class="error">${ERRORS.password}</p>`;
                     break;
                 case 'first-name':
-                    document.getElementById(ID.firstNameErr).innerHTML = `<p class="error">${ERRORS.firstName}</p>`;
+                    errorFirstName.innerHTML = `<p class="error">${ERRORS.firstName}</p>`;
                     break;
                 case 'last-name':
-                    document.getElementById(ID.lastNameErr).innerHTML = `<p class="error">${ERRORS.lastName}</p>`;
+                    errorLastName.innerHTML = `<p class="error">${ERRORS.lastName}</p>`;
                     break;
                 case 'username':
-                    document.getElementById(ID.usernameErr).innerHTML = `<p class="error">${ERRORS.username}</p>`;
+                    errorUsername.innerHTML = `<p class="error">${ERRORS.username}</p>`;
                     break;
                 case 'day':
-                    document.getElementById(ID.errorDate).innerHTML = `<p class="error">${ERRORS.day}</p>`;
+                    errorDay.innerHTML = `<p class="error">${ERRORS.day}</p>`;
                     break;
                 case 'month':
-                    document.getElementById(ID.monthErr).innerHTML = `<p class="error">${ERRORS.month}</p>`;
+                    errorMonth.innerHTML = `<p class="error">${ERRORS.month}</p>`;
                     break;
                 case 'year':
-                    document.getElementById(ID.yearErr).innerHTML = `<p class="error">${ERRORS.year}</p>`;
+                    errorYear.innerHTML = `<p class="error">${ERRORS.year}</p>`;
                     break;
                 case 'sex':
                     // todo bad error
-                    document.getElementsByClassName('error-gender')[0].innerHTML = `<p class="error">${ERRORS.sex}</p>`;
+                    errorSex.innerHTML = `<p class="error">${ERRORS.sex}</p>`;
                     break;
                 }
             });
@@ -496,22 +520,6 @@ function errorGenerate (event, element, where, errorMessage, callback) {
             where.appendChild(message);
         }
     });
-}
-
-function validateAll (...params) {
-    const result = [];
-
-    validateEmail(params[0], params[1]) ? '' : result.push('email');
-    validatePassword(params[2]) ? '' : result.push('password');
-    validateName(params[3]) ? '' : result.push('first-name');
-    validateName(params[4]) ? '' : result.push('last-name');
-    validateUsername(params[5]) ? '' : result.push('username');
-    validateDay(params[6]) ? '' : result.push('day');
-    validateMonth(params[7]) ? '' : result.push('month');
-    validateYear(params[8]) ? '' : result.push('year');
-    validateCheckbox(params[9], params[10], params[11]) ? '' : result.push('sex');
-
-    return result;
 }
 
 function translateOneDigitToTwo (elemToTranslate) {

@@ -1,7 +1,7 @@
 'use strict';
 
 import { unAuthNavConfig } from '../../utils/config.js';
-import { checkIsEmail, validateUsername, validatePassword, validateEmail } from '../../api/auth/validation.js';
+import { checkIsEmail, validateUsername, validatePassword, validateEmail } from '../../utils/validation.js';
 import { loginAjax } from '../../api/auth/loginAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
 
