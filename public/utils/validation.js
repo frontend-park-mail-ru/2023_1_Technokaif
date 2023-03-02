@@ -8,7 +8,7 @@ import { MONTHS } from './config.js';
  * @returns {bool} -- return true if login contains @
  */
 export function checkIsEmail (login) {
-    return /@/.test(login);
+    return !!login.match('@');
 }
 
 /**
@@ -21,7 +21,7 @@ export function checkIsEmail (login) {
  * has length between 8 and 20
  */
 export function validatePassword (password) {
-    return (!(/[\'\"\ \:]/g).test(password) &&
+        return (!(/[\'\"\ \:]/g).test(password) &&
     (/.{8,30}/g).test(password)) &&
     (/[A-Z]/g).test(password) &&
     (/[0-9]/g).test(password) &&

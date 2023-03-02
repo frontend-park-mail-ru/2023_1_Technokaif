@@ -26,19 +26,6 @@ export function createCheckbox (name = '', type = 'checkbox', nameInEl = '') {
     return div;
 }
 
-export function createSelect (options, name) {
-    const select = document.createElement('select');
-    select.name = name;
-
-    options.forEach((name) => {
-        const option = document.createElement('option');
-        option.value = name;
-        option.innerText = name;
-        select.appendChild(option);
-    });
-
-    return select;
-}
 
 export function createDivAndInsertInParent (parent, ...classes) {
     const divBlock = document.createElement('div');
@@ -48,22 +35,6 @@ export function createDivAndInsertInParent (parent, ...classes) {
 
     parent.appendChild(divBlock);
     return divBlock;
-}
-
-export function insertIntoElement (parent, ...elements) {
-    elements.forEach((el) => {
-        parent.appendChild(el);
-    });
-}
-
-export function createSpanButton (clas, text, type = 'submit') {
-    const button = document.createElement('span');
-
-    button.classList.add(clas);
-    button.textContent = text;
-    button.type = type;
-
-    return button;
 }
 
 export function insertScriptAndReturnTemplate (parent, contextJson, templateHTML) {

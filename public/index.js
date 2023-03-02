@@ -1,6 +1,6 @@
 'use strict';
 
-import { checkAuth } from './api/auth/checkAuth.js';
+import { checkAuth } from './utils/checkAuth.js';
 import { authNavConfig, sidebarConfig, unAuthNavConfig } from './utils/config.js';
 import Menu from './components/Menu/Menu.js';
 import { renderHome } from './pages/home/home.js';

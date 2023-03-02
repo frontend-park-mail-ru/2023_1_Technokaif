@@ -7,6 +7,7 @@ import { redirect } from '../../modules/redirects.js';
 import { ERRORS_LOG as ERRORS } from '../../utils/errors.js';
 import { ID_LOG as ID } from '../../utils/id.js';
 import { CLASS_LOG as CLASS, logFormSetup } from './authSetup.js';
+import { clearErrorsField as clearField } from '../../utils/clearFields.js';
 
 export function renderLogin (parent) {
     const template = Handlebars.compile(document.getElementById('form-template').innerHTML);
@@ -17,7 +18,8 @@ export function renderLogin (parent) {
     const loginField = parent.querySelector(`#${ID.login}`);
     loginField.addEventListener('focusout', (e) => {
         const errLogin = document.querySelectorAll(`.${CLASS.errorDiv}`)[0];
-        errLogin.innerHTML = '';
+        clearField(errLogin);
+
         if (!validateUsername(loginField.value.trim()) && !validateEmail(loginField.value.trim())) {
             if (checkIsEmail(loginField.value.trim())) {
                 errLogin.innerHTML = `<p class="error">${ERRORS.email}</p>`;
@@ -30,7 +32,8 @@ export function renderLogin (parent) {
     const passwordField = parent.querySelector(`#${ID.password}`);
     passwordField.addEventListener('focusout', (e) => {
         const errPass = document.querySelectorAll(`.${CLASS.errorDiv}`)[1];
-        errPass.innerHTML = '';
+        clearField(errPass);
+
         if (!validatePassword(passwordField.value)) {
             errPass.innerHTML = `<p class="error">${ERRORS.password}</p>`;
         }
@@ -47,7 +50,7 @@ export function renderLogin (parent) {
         e.preventDefault();
 
         const errorPlac = document.querySelector(`.${CLASS.errorDiv}`);
-        errorPlac.innerHTML = '';
+        clearField(errorPlac);
 
         const errLogin = document.querySelectorAll(`.${CLASS.errorDiv}`)[0];
         const errPass = document.querySelectorAll(`.${CLASS.errorDiv}`)[1];
@@ -57,7 +60,7 @@ export function renderLogin (parent) {
         const loginValue = loginField.value.trim();
         const passwordValue = passwordField.value;
 
-        errLogin.innerHTML = '';
+        clearField(errLogin);
         if (!validateUsername(loginValue) && !validateEmail(loginValue)) {
             if (checkIsEmail(loginValue)) {
                 errLogin.innerHTML = `<p class="error">${ERRORS.email}</p>`;
@@ -66,7 +69,7 @@ export function renderLogin (parent) {
             }
         }
 
-        errPass.innerHTML = '';
+        clearField(errPass);
         if (!validatePassword(passwordValue)) {
             errPass.innerHTML = `<p class="error">${ERRORS.password}</p>`;
             notValidFields = true;

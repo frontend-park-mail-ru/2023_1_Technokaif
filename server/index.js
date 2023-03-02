@@ -67,8 +67,8 @@ app.post('/auth/signup', (req, res) => {
 
     if (
         !password || !email ||
-		!password.match(/^\S{4,}$/) ||
-		!email.match(/@/)
+        !password.match(/^\S{4,}$/) ||
+        !email.match(/@/)
     ) {
         return res.status(400).json({ error: 'Не валидные данные пользователя' });
     }
@@ -99,109 +99,109 @@ app.get('/feed', (req, res) => {
     const jwt = req.headers.Authorization;
     if (jwt === undefined || jwt !== originalJwt) {
         res.status(200).json({
-                tracks: [
-                    {
-                        name: 'Там где нас нет',
-                        id: 1,
-                        artists: [
-                            {
-                                name: 'Oxxxxy',
-                                id: 5
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Там где нас нет',
-                        id: 1,
-                        artists: [
-                            {
-                                name: 'Oxxxxy',
-                                id: 5
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Там где нас нет',
-                        id: 1,
-                        artists: [
-                            {
-                                name: 'Oxxxxy',
-                                id: 5
-                            }
-                        ]
-                    }
-                ],
-                albums: [
-                    {
-                        name: 'Горгород',
-                        description: 'Известный артист читает известные треки',
-                        id: 1,
-                        artists: [
-                            {
-                                name: 'Oxxxxy',
-                                id: 5
-                            }
-                        ]
-                    }
-                ],
-                artists: [
-                    {
-                        name: 'Oxxxxy',
-                        id: 5
-                    },
-                    {
-                        name: 'Oxxxxy',
-                        id: 5
-                    }
-                ]
+            tracks: [
+                {
+                    name: 'Там где нас нет',
+                    id: 1,
+                    artists: [
+                        {
+                            name: 'Oxxxxy',
+                            id: 5
+                        }
+                    ]
+                },
+                {
+                    name: 'Там где нас нет',
+                    id: 1,
+                    artists: [
+                        {
+                            name: 'Oxxxxy',
+                            id: 5
+                        }
+                    ]
+                },
+                {
+                    name: 'Там где нас нет',
+                    id: 1,
+                    artists: [
+                        {
+                            name: 'Oxxxxy',
+                            id: 5
+                        }
+                    ]
+                }
+            ],
+            albums: [
+                {
+                    name: 'Горгород',
+                    description: 'Известный артист читает известные треки',
+                    id: 1,
+                    artists: [
+                        {
+                            name: 'Oxxxxy',
+                            id: 5
+                        }
+                    ]
+                }
+            ],
+            artists: [
+                {
+                    name: 'Oxxxxy',
+                    id: 5
+                },
+                {
+                    name: 'Oxxxxy',
+                    id: 5
+                }
+            ]
         });
     } else {
         res.status(200).json({
-                tracks: [
-                    {
-                        name: 'Там где нас нет',
-                        id: 1,
-                        artists: [
-                            {
-                                name: 'Oxxxxy',
-                                id: 5
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Там где нас нет',
-                        id: 1,
-                        artists: [
-                            {
-                                name: 'Oxxxxy',
-                                id: 5
-                            }
-                        ]
-                    }
-                ],
-                albums: [
-                    {
-                        name: 'Горгород',
-                        description: 'Известный артист читает известные треки',
-                        id: 1,
-                        artists: [
-                            {
-                                name: 'Oxxxxy',
-                                id: 5
-                            }
-                        ]
-                    }
-                ],
-                artists: [
-                    {
-                        name: 'Oxxxxy',
-                        id: 5
-                    },
-                    {
-                        name: 'Oxxxxy',
-                        id: 5
-                    }
-                ]
+            tracks: [
+                {
+                    name: 'Там где нас нет',
+                    id: 1,
+                    artists: [
+                        {
+                            name: 'Oxxxxy',
+                            id: 5
+                        }
+                    ]
+                },
+                {
+                    name: 'Там где нас нет',
+                    id: 1,
+                    artists: [
+                        {
+                            name: 'Oxxxxy',
+                            id: 5
+                        }
+                    ]
+                }
+            ],
+            albums: [
+                {
+                    name: 'Горгород',
+                    description: 'Известный артист читает известные треки',
+                    id: 1,
+                    artists: [
+                        {
+                            name: 'Oxxxxy',
+                            id: 5
+                        }
+                    ]
+                }
+            ],
+            artists: [
+                {
+                    name: 'Oxxxxy',
+                    id: 5
+                },
+                {
+                    name: 'Oxxxxy',
+                    id: 5
+                }
+            ]
         });
     }
 });
