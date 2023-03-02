@@ -4,7 +4,7 @@ import { sidebarConfig } from '../../utils/config.js';
 import { redirect } from '../../modules/redirects.js';
 
 import { contentElement } from '../../index.js';
-import { NAMES, PATH } from '../../utils/urls.js';
+import { PATH } from '../../utils/urls.js';
 
 export function loginAjax (login, password) {
     window.Ajax.post({
@@ -12,7 +12,7 @@ export function loginAjax (login, password) {
         body: { username: login, password },
         callback: ({ status, context }) => {
             if (status === 200) {
-                localStorage.setItem(NAMES.jwtInLocal, context.jwt);
+                localStorage.setItem('jwt', context.jwt);
 
                 // const mainElement = document.getElementsByName('main');
                 redirect(sidebarConfig.feed, contentElement);

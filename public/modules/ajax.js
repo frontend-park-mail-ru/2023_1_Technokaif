@@ -1,5 +1,3 @@
-import { NAMES } from '../utils/urls';
-
 (function () {
     const AJAX_METHODS = {
         GET: 'GET',
@@ -50,8 +48,8 @@ import { NAMES } from '../utils/urls';
                     });
             }
 
-            if (localStorage.getItem(NAMES.jwtInLocal) != null && method === AJAX_METHODS.GET) {
-                request.headers.Authorization = NAMES.bearer + ' ' + localStorage.getItem(NAMES.jwtInLocal);
+            if (localStorage.getItem('jwt') != null && method === AJAX_METHODS.GET) {
+                request.headers.Authorization = 'Bearer ' + localStorage.getItem('jwt');
             }
 
             fetch(request).then(
