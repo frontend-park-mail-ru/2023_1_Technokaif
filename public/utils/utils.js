@@ -71,3 +71,25 @@ export function insertScriptAndReturnTemplate (parent, contextJson, templateHTML
 
     parent.innerHTML += template(contextJson);
 }
+
+export function translateOneDigitToTwo (elemToTranslate) {
+    let result = elemToTranslate;
+    if (elemToTranslate <= 9) {
+        result = '0' + elemToTranslate;
+    }
+    return result;
+}
+
+export function errorGenerate (event, element, where, errorMessage, callback) {
+    element.addEventListener(event, (el) => {
+        where.innerHTML = '';
+
+        if (!callback(element.value)) {
+            const message = document.createElement('p');
+            message.classList.add('error');
+            message.textContent = errorMessage;
+
+            where.appendChild(message);
+        }
+    });
+}

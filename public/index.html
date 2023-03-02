@@ -8,8 +8,9 @@
 </head>
 
 <body>
+
     <!-- Form template. -->
-    <script type="text/x-handlebars-template" id="form-template">
+    <script type="text/x-handlebars-template" id='form-template' >
         <div class="{{content}}">
             <div class="{{header}}">
                 <div class="{{title}}">
@@ -38,7 +39,9 @@
                         <button type="{{buttonType}}" class="buttonClass">{{textButton}}</button>
                     </div>
                 </form>
-                <hr {{#if hrClass}} class="{{hrClass}}", align="center" {{/if}}">
+                <div {{#if divHrClass}} class="{{divHrClass}}" {{/if}}>
+                    <hr {{#if hrClass}} class="{{hrClass}}", align="center" {{/if}}">
+                </div>
                 <div class="{{bottomClass}}">
                     <div class="{{divBottomLabel}}">
                         <p class="{{bottomLabelClass}}">{{bottomLabelText}}</p>
@@ -225,13 +228,13 @@
 
 
     <div id="root"></div>
-    <script src="index.js" type="module"></script>
-    <script src="pages/login/auth.js" type="module"></script>
-    <script src="pages/registration/registration.js" type="module"></script>
-    <script src="api/auth/validation.js" type="module"></script>
-    <script src="api/auth/checkAuth.js" type="module"></script>
-    <script src="modules/ajax.js"></script>
-    <script src="modules/redirects.js"></script>
+    <script defer src="index.js" type="module"></script>
+    <script async src="pages/login/auth.js" type="module"></script>
+    <script async src="pages/registration/registration.js" type="module"></script>
+    <script async src="api/auth/validation.js" type="module"></script>
+    <script async src="api/auth/checkAuth.js" type="module"></script>
+    <script async src="modules/ajax.js"></script>
+    <script async src="modules/redirects.js"></script>
     <script src="api/auth/loginAjaxReq.js" type="module"></script>
     <script src="api/auth/registerAjaxReq.js" type="module"></script>
     <script src="utils/config.js" type="module"></script>

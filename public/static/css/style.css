@@ -148,7 +148,7 @@ p {
 .auth-form-hr, .menu-hr, .signup-hr  {
     margin: 30px 0;
     background: rgba(255, 255, 255, 0.5);
-    width: auto;
+    width: 60%;
     height: 0.01em;
 }
 
@@ -430,4 +430,9 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.hr-position {
+    display: flex;
+    justify-content: center;
 }

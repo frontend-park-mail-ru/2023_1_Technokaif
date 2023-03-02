@@ -1,7 +1,6 @@
 'use strict';
 // todo transfer in config
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-    'November', 'December'];
+import { MONTHS } from './config.js';
 
 /**
  *
@@ -114,7 +113,7 @@ export function validateCheckbox (...boxes) {
  * username len 4-30 and contains only _, letters, digits
  */
 export function validateUsername (username) {
-    return (/[\w]{4,30}/gmi).test(username) &&
+    return (/^[\w]{4,20}$/gmi).test(username) &&
     !(/[^\w]/gmi).test(username);
 }
 
@@ -124,14 +123,15 @@ export function validateUsername (username) {
  * @returns {bool} -- return true if len 2-20 and contains only letters
  */
 export function validateName (name) {
-    return ((/[a-z]{2,20}/gmi).test(name) &&
+    return ((/^[a-z]{2,20}$/gmi).test(name) &&
     !(/[^a-z]/gmi).test(name));
 }
 
 export function validateAll (...params) {
     const result = [];
 
-    validateEmail(params[0], params[1]) ? '' : result.push('email');
+    validateEmail(params[0]) ? '' : result.push('email');
+    validateEmail(params[0], params[1]) ? '' : result.push('emailConf');
     validatePassword(params[2]) ? '' : result.push('password');
     validateName(params[3]) ? '' : result.push('first-name');
     validateName(params[4]) ? '' : result.push('last-name');

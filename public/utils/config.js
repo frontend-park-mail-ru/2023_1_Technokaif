@@ -3,7 +3,10 @@
 import { renderLogin } from '../pages/login/auth.js';
 import { renderHome } from '../pages/home/home.js';
 import { renderSignup } from '../pages/registration/registration.js';
-import {createHomePageContent} from "../components/MainWindowRender/mainWindow.js";
+import { createHomePageContent } from '../components/MainWindowRender/mainWindow.js';
+
+export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'];
 
 export const Names = {
     nameOfApp: 'Spotify'
@@ -74,7 +77,7 @@ export const unAuthNavConfig = {
         render: renderHome,
         key: 'next',
         type: 'img',
-        logoSrc: '/static/svg/buttonprevBut.svg',
+        logoSrc: '/static/svg/buttonprevBut.svg'
     },
     right: {
         name: 'next page button',
@@ -82,7 +85,7 @@ export const unAuthNavConfig = {
         render: renderHome,
         key: 'prev',
         type: 'img',
-        logoSrc: '/static/svg/buttonnextBut.svg',
+        logoSrc: '/static/svg/buttonnextBut.svg'
     },
     premium: {
         name: 'Premium',
