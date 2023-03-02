@@ -44,11 +44,12 @@ p {
 
 .reg-error, .log-error, .error-gender {
     color: red;
-    margin-top: 10px;
     width: 100%;
 }
+
 .error {
     width: 350px;
+    margin-top: 15px;
 }
 
 .error-server {
@@ -62,9 +63,10 @@ p {
 }
 
 .reg-input, .log-input {
+    margin: 0;
     padding-left: 10px;
     font-size: 15px;
-    border: 0px black solid;
+    border: 0 black solid;
     font-weight: 700;
     color: rgba(255, 255, 255, .7);
     background-color: #333333;
