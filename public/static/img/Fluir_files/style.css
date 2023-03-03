@@ -142,7 +142,7 @@ p {
     cursor: pointer;
     font-size: 15px;
     font-weight: 700;
-    color: #f6f6f6;
+    color: #ffffff;
 }
 
 /* next to form elements */
@@ -164,7 +164,7 @@ p {
 
 /* Buttons */
 .buttonclass {
-    background: #f6f6f6;
+    background: #ffffff;
 }
 
 .reg-btn, .log-btn {
@@ -217,7 +217,6 @@ factBody {
 }
 
 aside {
-    position: fixed;
     display: flex;
     flex-direction: column;
 
@@ -230,6 +229,9 @@ main {
     background: linear-gradient(180deg, #1D0E46 0%, #000000 60.89%);
 }
 
+.active {
+    font-weight: bold;
+}
 
 /* Menu (sidebar) */
 
@@ -251,7 +253,7 @@ main {
 }
 
 .feed__sidebar__item, .search__sidebar__item, .library__sidebar__item, .createPlaylist__sidebar__item, .likedSongs__sidebar__item {
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
     align-items: center;
     padding: 0 16px;
@@ -276,7 +278,7 @@ main {
     text-align: center;
     margin-bottom: 0;
 
-    color: #f6f6f6;
+    color: #FFFFFF;
     text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
@@ -287,7 +289,7 @@ main {
 }
 
 .feed__sidebar__item a:hover, .search__sidebar__item a:hover, .library__sidebar__item a:hover, .createPlaylist__sidebar__item a:hover, .likedSongs__sidebar__item a:hover, .navbar a:hover {
-    color: #f6f6f6;
+    color: #FFFFFF;
 }
 
 /* Navbar */
@@ -299,13 +301,13 @@ main {
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
-    position: fixed;
-    width: calc(100% - 288px);
+    width: 100%;
     height: 74px;
 }
 
 .navbar a {
     text-decoration: none;
+
     margin: 0 30px;
     font-style: normal;
     font-weight: 700;
@@ -316,30 +318,9 @@ main {
     color: #a7a7a7;
 }
 
-.navbar button:hover, .navbar a:hover {
-    transform: scale(1.1);
-    animation-duration: 0.5s;
-    animation: transform;
-}
-
-.premium__navbar__item button, .profile__navbar__item button, .logout__navbar__item button {
-    margin-right: 40px;
-    font-weight: 700;
-    font-size: 12px;
-    line-height: 15px;
-    width: 90px;
-    height: 32px;
-    background-color: transparent;
-
-    border: 1px solid #F6F6F6;
-    border-radius: 82px;
-
-    color: #f6f6f6;
-}
-
 .login__navbar__item button {
     margin-right: 40px;
-    background: #F6F6F6;
+    background: #FFFFFF;
     border-radius: 82px;
     width: 110px;
     height: 50px;
@@ -353,14 +334,14 @@ main {
 }
 
 .registration__navbar__item {
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
     align-items: center;
 }
 
 .border-left {
     background: rgba(217, 217, 217, 0.7);
-    border-left: 1px solid #f6f6f6;
+    border-left: 1px solid #ffff;
     margin: 0 10px;
     height: 50px;
     width: 1px;
@@ -424,7 +405,7 @@ main {
     line-height: 20px;
     letter-spacing: -0.025em;
 
-    color: #f6f6f6;
+    color: #FFFFFF;
 }
 
 .track-item img, .album-item img, .artist-item img {
@@ -456,9 +437,4 @@ main {
 .hr-position {
     display: flex;
     justify-content: center;
-}
-
-.active {
-    font-weight: bold;
-    color: white;
 }

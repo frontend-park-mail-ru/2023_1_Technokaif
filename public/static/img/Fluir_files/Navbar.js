@@ -21,7 +21,7 @@ class Navbar {
     }
 
     callEventListener () {
-        document.getElementById('cont').addEventListener('click', (e) => {
+        document.getElementById('main').addEventListener('click', (e) => {
             console.log(this.#parent);
             if (e.target instanceof HTMLAnchorElement || e.target instanceof HTMLButtonElement) {
                 e.preventDefault();

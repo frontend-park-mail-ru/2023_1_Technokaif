@@ -45,7 +45,7 @@ const users = {
     },
     'aostapenko@mail.ru': {
         email: '2002marsic@mail.ru',
-        password: 'PassDword',
+        password: 'PassDword32',
         username: 'Username',
         firstName: 'firstName',
         lastName: 'lastName',
@@ -56,7 +56,7 @@ const users = {
 
 const originalJwt = 'falksfasasfasfasf';
 
-app.post('/auth/signup', (req, res) => {
+app.post('/api/auth/signup', (req, res) => {
     const password = req.body.password;
     const email = req.body.email;
     const username = req.body.username;
@@ -81,21 +81,24 @@ app.post('/auth/signup', (req, res) => {
     res.status(200).json({ id: 5 });
 });
 
-app.post('/auth/login', (req, res) => {
-    const password = req.body.password;
-    const email = req.body.email;
-    if (!password || !email) {
-        return res.status(400).json({ error: 'Не указан E-Mail или пароль' });
-    }
-    if (!users[email] || users[email].password !== password) {
-        return res.status(400).json({ error: 'Не верный E-Mail и/или пароль' });
-    }
+app.post('/api/auth/login', (req, res) => {
+    // const password = req.body.password;
+    // const email = req.body.username;
+    // if (!password || !email) {
+    //     return res.status(400).json({ error: 'Не указан E-Mail или пароль' });
+    // }
+    // if (!users[email] || users[email].password !== password) {
+    //     return res.status(400).json({ error: 'Не верный E-Mail и/или пароль' });
+    // }
 
-    res.headers.Authorization = originalJwt;
-    res.status(200).json({ jwt: originalJwt });
+    res.status(200).json({ jwt: 'fdfksldsdgsgs82358afs' });
 });
 
-app.get('/feed', (req, res) => {
+app.get('/api/auth/logout', (req, res) => {
+    res.status(200).json({err: 'sfffs'});
+});
+
+app.get('/api/feed', (req, res) => {
     const jwt = req.headers.Authorization;
     if (jwt === undefined || jwt !== originalJwt) {
         res.status(200).json({

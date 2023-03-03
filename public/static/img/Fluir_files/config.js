@@ -3,7 +3,6 @@
 import { renderLogin } from '../pages/login/auth.js';
 import { renderHome } from '../pages/home/home.js';
 import { renderSignup } from '../pages/registration/registration.js';
-import {logoutAjax} from "../api/auth/logoutAjaxReq.js";
 
 export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'];
@@ -108,16 +107,9 @@ export const authNavConfig = {
     },
     profile: {
         name: 'Profile',
-        href: '/profile',
+        href: '/auth/registration',
         render: null,
         key: 'profile',
-        type: 'button'
-    },
-    logout: {
-        name: 'Logout',
-        href: '/auth/logout',
-        render: logoutAjax,
-        key: 'logout',
         type: 'button'
     }
 };

@@ -1,5 +1,3 @@
-'use strict';
-
 const AJAX_METHODS = {
     GET: 'GET',
     POST: 'POST'

@@ -1,6 +1,6 @@
 'use strict';
 
-import { getAllErrors, validateEmail, validatePassword, validateUsername, validateDay, validateMonth, validateYear, validateCheckbox, validateName } from '../../utils/validation.js';
+import { validateAll, validateEmail, validatePassword, validateUsername, validateDay, validateMonth, validateYear, validateCheckbox, validateName } from '../../utils/validation.js';
 import { clearField } from '../../utils/clearFields.js';
 import { registerAjax } from '../../api/auth/registerAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
@@ -130,7 +130,7 @@ export function renderSignup (parent) {
         const year = document.getElementById(ID.year).value;
 
         const sexChoose = document.querySelectorAll('.reg-sex-radio');
-        const errors = getAllErrors(
+        const errors = validateAll(
             email,
             confEmail,
             password,

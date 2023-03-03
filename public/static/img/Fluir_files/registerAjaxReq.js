@@ -1,17 +1,17 @@
 'use strict';
 
-import { PATH } from '../../utils/urls.js';
+import { Ajax } from './ajax.js';
 import { loginAjax } from './loginAjaxReq.js';
-import { Ajax } from '../../modules/ajax.js';
 
 export function registerAjax (userData) {
+    console.log(userData);
     const AjaxReq = new Ajax();
     AjaxReq.post({
-        url: PATH.auth,
+        url: '/auth/signup',
         body: userData,
         callback: ({ status, context }) => {
             if (status === 200) {
-                // skipped id in context without error
+                // todo: skipped id in context without error
                 loginAjax(userData.email, userData.password);
                 return;
             }

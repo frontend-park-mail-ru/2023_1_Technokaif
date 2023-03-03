@@ -1,5 +1,5 @@
 export const PATH = {
-    feedApi: '/feed',
-    auth: '/auth/signup',
-    login: '/auth/login'
+    feedApi: '/api/feed',
+    auth: '/api/auth/signup',
+    login: '/api/auth/login'
 };

@@ -1,15 +1,16 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+
+<!-- saved from url=(0022)http://127.0.0.1:3000/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Fluir</title>
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="./Fluir_files/style.css">
 </head>
 
 <body>
 
     <!-- Form template. -->
-    <script type="text/x-handlebars-template" id='form-template' >
+    <script type="text/x-handlebars-template" id="form-template">
         <div class="{{content}}">
             <div class="{{header}}">
                 <div class="{{title}}">
@@ -226,19 +227,61 @@
     </script>
 
 
-    <div id="root"></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
-    <script src="index.js" type="module"></script>
-    <script src="pages/login/auth.js" type="module"></script>
-    <script src="pages/registration/registration.js" type="module"></script>
-    <script src="utils/validation.js" type="module"></script>
-    <script src="utils/checkAuth.js" type="module"></script>
-    <script src="modules/ajax.js" type="module"></script>
-    <script src="modules/redirects.js" type="module"></script>
-    <script src="api/auth/loginAjaxReq.js" type="module"></script>
-    <script src="api/auth/registerAjaxReq.js" type="module"></script>
-    <script src="utils/config.js" type="module"></script>
-    <script src="components/Navbar/Navbar.js" type="module"></script>
-</body>
+    <div id="root">
+        <div class="content">
+            <div class="header">
+                <div class="title">
+                    <p class="page-title">Fluire</p>
+                </div>
+                    <div class="error-server"></div>
+                <div class="page-description">
+                    <p class="descriptionLabel">Log in to continue</p>
+                </div>
+            </div>
+            <div class="log">
+                <form class="log-form">
+                        <div class="log-field">
+                            <input type="text" name="username" placeholder="Username" class="log-input" id="loginField">
+                            <div class="log-error"></div>
+                        </div>
+                        <div class="log-field">
+                            <input type="password" name="password" placeholder="Password" class="log-input" id="passwordField">
+                            <div class="log-error"></div>
+                        </div>
+                    
+                    <div class="log-btn auth-btn">
+                        <button type="submit" class="buttonClass">Sign In</button>
+                    </div>
+                </form>
+                <div class="hr-position">
+                    <hr class="auth-form-hr" ,="" align="center" "="">
+                </div>
+                <div class="log-bottom">
+                    <div class="have-acc-label">
+                        <p class="have-acc">Don't have an account?</p>
+                    </div>
+                    <div class="linkDiv">
+                        <a href="http://127.0.0.1:3000/" class="log-reg-btn auth-btn">Registration</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./Fluir_files/handlebars.min.js"></script>
+    <script src="./Fluir_files/index.js" type="module"></script>
+    <script src="./Fluir_files/auth.js" type="module"></script>
+    <script src="./Fluir_files/registration.js" type="module"></script>
+    <script src="./Fluir_files/validation.js" type="module"></script>
+    <script src="./Fluir_files/checkAuth.js" type="module"></script>
+    <script src="./Fluir_files/ajax.js"></script>
+    <script src="./Fluir_files/redirects.js"></script>
+    <script src="./Fluir_files/loginAjaxReq.js" type="module"></script>
+    <script src="./Fluir_files/registerAjaxReq.js" type="module"></script>
+    <script src="./Fluir_files/config.js" type="module"></script>
+    <script src="./Fluir_files/Navbar.js" type="module"></script>
+    <script src="./Fluir_files/trackTape.js" type="module"></script>
 
-</html>
+
+
+
+</body></html>
