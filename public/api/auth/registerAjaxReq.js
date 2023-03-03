@@ -1,10 +1,11 @@
 'use strict';
 
+import { PATH } from '../../utils/urls.js';
 import { loginAjax } from './loginAjaxReq.js';
 
 export function registerAjax (userData) {
     window.Ajax.post({
-        url: '/api/auth/signup',
+        url: PATH.auth,
         body: userData,
         callback: ({ status, context }) => {
             if (status === 200) {

@@ -1,4 +1,4 @@
-(function() {
+(function () {
     const AJAX_METHODS = {
         GET: 'GET',
         POST: 'POST'
