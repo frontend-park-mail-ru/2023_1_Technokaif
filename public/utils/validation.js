@@ -1,6 +1,9 @@
 'use strict';
-// todo transfer in config
+
 import { MONTHS } from './config.js';
+import { ERRORS_VALIDATE as ERRORS } from './validateConf.js';
+
+// TODO Rewrite docs
 
 /**
  *
@@ -20,12 +23,16 @@ export function checkIsEmail (login) {
  * has 1 or more digits like '0'
  * has length between 8 and 20
  */
-export function validatePassword (password) {
-    return (!(/[\'\"\ \:]/g).test(password) &&
+export function getPasswordError (password) {
+    if ((!(/[\'\"\ \:]/g).test(password) &&
     (/.{8,30}/g).test(password)) &&
     (/[A-Z]/g).test(password) &&
     (/[0-9]/g).test(password) &&
-    (/[a-z]/g).test(password);
+    (/[a-z]/g).test(password)) {
+        return null;
+    };
+
+    return ERRORS.password;
 }
 
 /**
@@ -34,10 +41,14 @@ export function validatePassword (password) {
  * @returns {bool} --return true if day is correct:
  * in the range 1-31
  */
-export function validateDay (day) {
+export function getDayError (day) {
     // todo: check not similar mounth
     // todo check for empty string
-    return day > 1 && day <= 31;
+    if (day > 1 && day <= 31) {
+        return null;
+    }
+
+    return ERRORS.day;
 }
 
 /**
@@ -45,13 +56,21 @@ export function validateDay (day) {
  * @param {string} year -- year to validate
  * @returns {bool} -- return true if year >= 0 and year <= current year
  */
-export function validateYear (year) {
+export function getYearError (year) {
     // todo check for empty string
-    return year >= 0 && year <= new Date(Date.now()).getFullYear();
+    if (year > 0 && year <= new Date(Date.now()).getFullYear()) {
+        return null;
+    };
+
+    return ERRORS.year;
 }
 
-export function validateMonth (month) {
-    return MONTHS.includes(month);
+export function getMonthError (month) {
+    if (MONTHS.includes(month)) {
+        return null;
+    };
+
+    return ERRORS.month;
 }
 
 /**
@@ -67,43 +86,58 @@ export function validateMonth (month) {
  *   .-_ in end;
  *   <>()[],;:\/"
  */
-export function validateEmail (email, confirmEmail = '') {
-    // todo async
-    if (confirmEmail !== '') {
-        if (email !== confirmEmail) {
-            return false;
-        }
+export function getEmailError (email, confirmEmail = '') {
+    let result = [];
+
+    if (email !== confirmEmail || confirmEmail === '') {
+        result.push(ERRORS.emailConf);
     }
 
     if (email.length < 8 || email.length > 30) {
-        return false;
+        result.push(ERRORS.email);
+        return result;
     }
 
     if (email.search('..') === -1) {
-        return false;
+        result.push(ERRORS.email);
+        return result;
     }
 
     const lastSymb = email[email.length];
     if (lastSymb === '.' || lastSymb === '-' || lastSymb === '_') {
-        return false;
+        result.push(ERRORS.email);
+        return result;
     }
 
-    return ((/^[\w]+[\w\.\-]*@{1}[\w]+[\.]*[\w\.\-]*/gmi).test(email) && // symbols check
-    (!(/[\<\>\(\)\[\]\,\;\:\\\/\"]/gmi).test(email))); // check for forbiden symbols
+    if (!((/^[\w]+[\w\.\-]*@{1}[\w]+[\.]*[\w\.\-]*/gmi).test(email) && // symbols check
+    (!(/[\<\>\(\)\[\]\,\;\:\\\/\"]/gmi).test(email)))) {
+        result.push(ERRORS.email);
+    }; // check for forbiden symbols
+
+    if (result.length === 0) {
+        result = null;
+    }
+
+    return result;
 }
 
-export function validateCheckbox (...boxes) {
+export function getSexError (...boxes) {
+    console.log('boxes', boxes);
     let isInputCorrect = false;
     boxes.forEach((box) => {
         if (box) {
             if (isInputCorrect) {
-                return false;
+                return ERRORS.sex;
             }
             isInputCorrect = true;
         }
     });
+    console.log('correct', isInputCorrect);
+    if (!isInputCorrect) {
+        return ERRORS.sex;
+    }
 
-    return isInputCorrect;
+    return null;
 }
 
 /**
@@ -112,9 +146,13 @@ export function validateCheckbox (...boxes) {
  * @returns {bool} -- return true if:
  * username len 4-30 and contains only _, letters, digits
  */
-export function validateUsername (username) {
-    return (/^[\w]{4,20}$/gmi).test(username) &&
-    !(/[^\w]/gmi).test(username);
+export function getUsernameError (username) {
+    if ((/^[\w]{4,20}$/gmi).test(username) &&
+    !(/[^\w]/gmi).test(username)) {
+        return null;
+    };
+
+    return ERRORS.username;
 }
 
 /**
@@ -122,55 +160,33 @@ export function validateUsername (username) {
  * @param {string} name -- name to validate
  * @returns {bool} -- return true if len 2-20 and contains only letters
  */
-export function validateName (name) {
-    return ((/^[a-z]{2,20}$/gmi).test(name) &&
-    !(/[^a-z]/gmi).test(name));
+export function getNameError (name) {
+    if ((/^[a-z]{2,20}$/gmi).test(name) &&
+    !(/[^a-z]/gmi).test(name)) {
+        return null;
+    };
+
+    return ERRORS.name;
 }
 
 export function getAllErrors (...params) {
-    // todo GetValidateError что то в этом духе
-    // return значения
-
     const result = [];
 
-    if (!validateEmail(params[0])) {
-        result.push('email');
+    const emailErrors = getEmailError(params[0], params[1]);
+    if (emailErrors) {
+        emailErrors.forEach((el) => {
+            result.push(el);
+        });
     }
 
-    if (!validateEmail(params[0], params[1])) {
-        result.push('emailConf');
-    }
+    result.push(getPasswordError(params[2]));
+    result.push('first' + getNameError(params[3]));
+    result.push('last' + getNameError(params[4]));
+    result.push(getUsernameError(params[5]));
+    result.push(getDayError(params[6]));
+    result.push(getMonthError(params[7]));
+    result.push(getYearError(params[8]));
+    result.push(getSexError(params[9], params[10], params[11]));
 
-    if (!validatePassword(params[2])) {
-        result.push('password');
-    }
-
-    if (!validateName(params[3])) {
-        result.push('first-name');
-    }
-
-    if (!validateName(params[4])) {
-        result.push('last-name');
-    }
-
-    if (!validateUsername(params[5])) {
-        result.push('username');
-    }
-
-    if (validateDay(params[6])) {
-        result.push('day');
-    }
-
-    if (validateMonth(params[7])) {
-        result.push('month');
-    }
-
-    if (validateYear(params[8])) {
-        result.push('year');
-    }
-    if (validateCheckbox(params[9], params[10], params[11])) {
-        result.push('sex');
-    }
-
-    return result;
+    return result.filter(Boolean);
 }

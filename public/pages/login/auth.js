@@ -1,7 +1,7 @@
 'use strict';
 
 import { unAuthNavConfig } from '../../utils/config.js';
-import { checkIsEmail, validateUsername, validatePassword, validateEmail } from '../../utils/validation.js';
+import { checkIsEmail, getUsernameError, getPasswordError, getEmailError } from '../../utils/validation.js';
 import { loginAjax } from '../../api/auth/loginAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
 import { ERRORS_LOG as ERRORS } from '../../utils/errors.js';
@@ -18,25 +18,15 @@ export function renderLogin (parent) {
     const loginField = parent.querySelector(`#${ID.login}`);
     loginField.addEventListener('focusout', (e) => {
         const errLogin = document.querySelectorAll(`.${CLASS.errorDiv}`)[0];
-        clearField(errLogin);
 
-        if (!validateUsername(loginField.value.trim()) && !validateEmail(loginField.value.trim())) {
-            if (checkIsEmail(loginField.value.trim())) {
-                errLogin.innerHTML = `<p class="error">${ERRORS.email}</p>`;
-            } else {
-                errLogin.innerHTML = `<p class="error">${ERRORS.username}</p>`;
-            }
-        }
+        setLoginErrors(errLogin, loginField.value.trim());
     });
 
     const passwordField = parent.querySelector(`#${ID.password}`);
     passwordField.addEventListener('focusout', (e) => {
         const errPass = document.querySelectorAll(`.${CLASS.errorDiv}`)[1];
-        clearField(errPass);
 
-        if (!validatePassword(passwordField.value)) {
-            errPass.innerHTML = `<p class="error">${ERRORS.password}</p>`;
-        }
+        setPassErrors(errPass, passwordField.value);
     });
 
     parent.querySelector('a').addEventListener('click', (e) => {
@@ -48,6 +38,7 @@ export function renderLogin (parent) {
     const form = parent.querySelector('.log-form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();
+        console.log('here');
 
         const errorPlac = document.querySelector(`.${CLASS.errorDiv}`);
         clearField(errorPlac);
@@ -55,25 +46,13 @@ export function renderLogin (parent) {
         const errLogin = document.querySelectorAll(`.${CLASS.errorDiv}`)[0];
         const errPass = document.querySelectorAll(`.${CLASS.errorDiv}`)[1];
 
-        let notValidFields = false;
-
         const loginValue = loginField.value.trim();
         const passwordValue = passwordField.value;
 
-        clearField(errLogin);
-        if (!validateUsername(loginValue) && !validateEmail(loginValue)) {
-            if (checkIsEmail(loginValue)) {
-                errLogin.innerHTML = `<p class="error">${ERRORS.email}</p>`;
-            } else {
-                errLogin.innerHTML = `<p class="error">${ERRORS.username}</p>`;
-            }
-        }
-
-        clearField(errPass);
-        if (!validatePassword(passwordValue)) {
-            errPass.innerHTML = `<p class="error">${ERRORS.password}</p>`;
+        let notValidFields = false;
+        if (setLoginErrors(errLogin, loginValue) || setPassErrors(errPass, passwordValue)) {
             notValidFields = true;
-        }
+        };
 
         if (notValidFields) {
             return null;
@@ -81,4 +60,31 @@ export function renderLogin (parent) {
 
         loginAjax(loginValue, passwordValue);
     });
+}
+
+function setLoginErrors (errPlace, loginValue) {
+    clearField(errPlace);
+    if (checkIsEmail(loginValue)) {
+        if (getEmailError(loginValue)) {
+            errPlace.innerHTML = `<p class="error">${ERRORS.email}</p>`;
+            return true;
+        }
+        return false;
+    }
+
+    if (getUsernameError(loginValue)) {
+        errPlace.innerHTML = `<p class="error">${ERRORS.username}</p>`;
+        return true;
+    }
+
+    return false;
+}
+
+function setPassErrors (errPlace, passwordValue) {
+    clearField(errPlace);
+    if (getPasswordError(passwordValue)) {
+        errPlace.innerHTML = `<p class="error">${ERRORS.password}</p>`;
+        return true;
+    }
+    return false;
 }

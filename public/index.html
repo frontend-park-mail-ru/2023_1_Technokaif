@@ -26,7 +26,7 @@
                 <form class="{{formDiv}}">
                     {{#each inputs}}
                         <div class="{{this.divBeforeInput}}">
-                            <input type="{{this.typeOfInput}}" name="{{this.nameOfField}}" placeholder="{{this.placeholder}}" class="{{this.classInp}}" id="{{this.id}}">
+                            <input type="{{this.typeOfInput}}" {{#if ../autocompleteOff}} autocomplete="x7pv66b" {{/if}} name="{{this.nameOfField}}" placeholder="{{this.placeholder}}" class="{{this.classInp}}" id="{{this.id}}">
                             <div class="{{this.errorDiv}}" {{#if this.errorId}} id="{{this.errorId}}" {{/if}}></div>
                         </div>
                     {{/each}}

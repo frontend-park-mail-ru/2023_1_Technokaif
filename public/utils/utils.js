@@ -26,7 +26,6 @@ export function createCheckbox (name = '', type = 'checkbox', nameInEl = '') {
     return div;
 }
 
-
 export function createDivAndInsertInParent (parent, ...classes) {
     const divBlock = document.createElement('div');
     classes.forEach((cl) => {
@@ -51,11 +50,12 @@ export function translateOneDigitToTwo (elemToTranslate) {
     return result;
 }
 
-export function errorGenerate (event, element, where, errorMessage, callback) {
+export function errorGenerate (event, element, where, errorMessage, checkForErrors) {
     element.addEventListener(event, (el) => {
         where.innerHTML = '';
 
-        if (!callback(element.value)) {
+        const errorExist = checkForErrors(element.value);
+        if (errorExist) {
             const message = document.createElement('p');
             message.classList.add('error');
             message.textContent = errorMessage;

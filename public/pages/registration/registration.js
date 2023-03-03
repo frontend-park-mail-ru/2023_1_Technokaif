@@ -1,6 +1,6 @@
 'use strict';
 
-import { getAllErrors, validateEmail, validatePassword, validateUsername, validateDay, validateMonth, validateYear, validateCheckbox, validateName } from '../../utils/validation.js';
+import { getAllErrors, getDayError, getEmailError, getMonthError, getNameError, getSexError, getUsernameError, getYearError, getPasswordError } from '../../utils/validation.js';
 import { clearField } from '../../utils/clearFields.js';
 import { registerAjax } from '../../api/auth/registerAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
@@ -9,6 +9,7 @@ import { sexSetup, regFormSetup, dateSetup } from './creationSetup.js';
 import { ERRORS_REG as ERRORS } from '../../utils/errors.js';
 import { ID_REG as ID } from '../../utils/id.js';
 import { translateOneDigitToTwo, errorGenerate } from '../../utils/utils.js';
+import { ERRORS_VALIDATE } from '../../utils/validateConf.js';
 
 const Method = 'focusout';
 
@@ -32,7 +33,9 @@ export function renderSignup (parent) {
         document.getElementById(ID.email),
         document.getElementById(ID.emailErr),
         ERRORS.email,
-        validateEmail
+        (el) => {
+            return getEmailError(el, el);
+        }
     );
 
     errorGenerate(Method,
@@ -40,7 +43,7 @@ export function renderSignup (parent) {
         document.getElementById(ID.emailConfErr),
         ERRORS.confirmEmail,
         (el) => {
-            return validateEmail(el, document.getElementById(ID.email).value);
+            return getEmailError(el, document.getElementById(ID.email).value);
         }
     );
 
@@ -48,49 +51,49 @@ export function renderSignup (parent) {
         document.getElementById(ID.password),
         document.getElementById(ID.passwordErr),
         ERRORS.password,
-        validatePassword
+        getPasswordError
     );
 
     errorGenerate(Method,
         document.getElementById(ID.firstName),
         document.getElementById(ID.firstNameErr),
         ERRORS.firstName,
-        validateName
+        getNameError
     );
 
     errorGenerate(Method,
         document.getElementById(ID.lastName),
         document.getElementById(ID.lastNameErr),
         ERRORS.lastName,
-        validateName
+        getNameError
     );
 
     errorGenerate(Method,
         document.getElementById(ID.username),
         document.getElementById(ID.usernameErr),
         ERRORS.username,
-        validateUsername
+        getUsernameError
     );
 
     errorGenerate(Method,
         document.getElementById(ID.month),
         document.getElementById(ID.monthErr),
         ERRORS.month,
-        validateMonth
+        getMonthError
     );
 
     errorGenerate(Method,
         document.getElementById(ID.day),
         document.getElementById(ID.errorDate),
         ERRORS.day,
-        validateDay
+        getDayError
     );
 
     errorGenerate(Method,
         document.getElementById(ID.year),
         document.getElementById(ID.yearErr),
         ERRORS.year,
-        validateYear
+        getYearError
     );
 
     const sexChoose = parent.querySelector('.reg-sex');
@@ -106,7 +109,7 @@ export function renderSignup (parent) {
         elements.push(radioButtons[1].checked);
         elements.push(radioButtons[2].checked);
 
-        if (!validateCheckbox(...elements)) {
+        if (getSexError(...elements)) {
             const message = document.createElement('p');
             message.textContent = ERRORS.sex;
             message.classList.add('error');
@@ -156,50 +159,37 @@ export function renderSignup (parent) {
         const errorYear = document.getElementById(ID.yearErr);
         const errorSex = document.getElementsByClassName('error-gender')[0];
 
-        clearField(
-            errorEmail,
-            errorConfEmail,
-            errorPassword,
-            errorFirstName,
-            errorLastName,
-            errorUsername,
-            errorDay,
-            errorMonth,
-            errorYear,
-            errorSex
-        );
-
         if (errors.length !== 0) {
             errors.forEach((el) => {
                 switch (el) {
-                case 'email':
+                case ERRORS_VALIDATE.email:
                     errorEmail.innerHTML = `<p class="error">${ERRORS.email}</p>`;
                     break;
-                case 'emailConf':
+                case ERRORS_VALIDATE.emailConf:
                     errorConfEmail.innerHTML = `<p class="error">${ERRORS.confirmEmail}</p>`;
                     break;
-                case 'password':
+                case ERRORS_VALIDATE.password:
                     errorPassword.innerHTML = `<p class="error">${ERRORS.password}</p>`;
                     break;
-                case 'first-name':
+                case 'first' + ERRORS_VALIDATE.name:
                     errorFirstName.innerHTML = `<p class="error">${ERRORS.firstName}</p>`;
                     break;
-                case 'last-name':
+                case 'last' + ERRORS_VALIDATE.name:
                     errorLastName.innerHTML = `<p class="error">${ERRORS.lastName}</p>`;
                     break;
-                case 'username':
+                case ERRORS_VALIDATE.username:
                     errorUsername.innerHTML = `<p class="error">${ERRORS.username}</p>`;
                     break;
-                case 'day':
+                case ERRORS_VALIDATE.day:
                     errorDay.innerHTML = `<p class="error">${ERRORS.day}</p>`;
                     break;
-                case 'month':
+                case ERRORS_VALIDATE.month:
                     errorMonth.innerHTML = `<p class="error">${ERRORS.month}</p>`;
                     break;
-                case 'year':
+                case ERRORS_VALIDATE.year:
                     errorYear.innerHTML = `<p class="error">${ERRORS.year}</p>`;
                     break;
-                case 'sex':
+                case ERRORS_VALIDATE.sex:
                     // todo bad error
                     errorSex.innerHTML = `<p class="error">${ERRORS.sex}</p>`;
                     break;
