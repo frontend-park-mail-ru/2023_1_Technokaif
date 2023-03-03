@@ -8,24 +8,24 @@ const AJAX_METHODS = {
 const noop = () => {};
 
 export class Ajax {
-    get ({ url, callback }) {
+    get ({ url, whatRender }) {
         this._ajax({
             method: AJAX_METHODS.GET,
             url,
-            callback
+            whatRender
         });
     }
 
-    post ({ url, body, callback }) {
+    post ({ url, body, whatRender }) {
         this._ajax({
             method: AJAX_METHODS.POST,
             url,
             body,
-            callback
+            whatRender
         });
     }
 
-    _ajax ({ method, url, body = null, callback = noop }) {
+    _ajax ({ method, url, body = null, whatRender = noop }) {
         let request = {};
         // url = '/api' + url;
         if (body === null) {
@@ -60,12 +60,12 @@ export class Ajax {
                     const status = responseRaw.status;
                     if (status !== 200) {
                         error = responseJson.error;
-                        callback({ status, error });
+                        whatRender({ status, error });
                         return;
                     }
 
                     console.log({ status, context: responseJson });
-                    callback({ status, context: responseJson });
+                    whatRender({ status, context: responseJson });
                 }
             )
         );

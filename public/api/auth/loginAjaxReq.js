@@ -10,7 +10,7 @@ export function loginAjax (login, password) {
     AjaxReq.post({
         url: PATH.login,
         body: { username: login, password },
-        callback: ({ status, context }) => {
+        whatRender: ({ status, context }) => {
             if (status === 200) {
                 localStorage.setItem('jwt', context.jwt);
 

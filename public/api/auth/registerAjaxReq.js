@@ -9,7 +9,7 @@ export function registerAjax (userData) {
     AjaxReq.post({
         url: PATH.auth,
         body: userData,
-        callback: ({ status, context }) => {
+        whatRender: ({ status, context }) => {
             if (status === 200) {
                 // skipped id in context without error
                 loginAjax(userData.email, userData.password);

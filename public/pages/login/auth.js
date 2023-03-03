@@ -64,8 +64,9 @@ export function renderLogin (parent) {
 
 function setLoginErrors (errPlace, loginValue) {
     clearField(errPlace);
+    console.log('email', getEmailError(loginValue));
     if (checkIsEmail(loginValue)) {
-        if (getEmailError(loginValue)) {
+        if (getEmailError(loginValue, loginValue)) {
             errPlace.innerHTML = `<p class="error">${ERRORS.email}</p>`;
             return true;
         }

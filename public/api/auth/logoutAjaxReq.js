@@ -9,7 +9,7 @@ export function logoutAjax () {
     const AjaxReq = new Ajax();
     AjaxReq.get({
         url: '/api/auth/logout',
-        callback: ({ status, context }) => {
+        whatRender: ({ status, context }) => {
             if (status !== 200) {
                 alert(context);
             }
