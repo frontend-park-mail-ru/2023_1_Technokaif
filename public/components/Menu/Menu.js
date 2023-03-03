@@ -1,4 +1,6 @@
 import { createDivAndInsertInParent } from '../../utils/utils.js';
+import { redirect } from "../../modules/redirects.js";
+import { sidebarConfig } from "../../utils/config.js";
 
 class Menu {
     #parent;
@@ -26,6 +28,17 @@ class Menu {
         }));
     }
 
+    callEventListener () {
+        this.#parent.addEventListener('click', (e) => {
+            if (e.target instanceof HTMLAnchorElement) {
+                e.preventDefault();
+
+                const { section } = e.target.dataset;
+                redirect(sidebarConfig[section]);
+            }
+        });
+    }
+
     render () {
         const logoDiv = createDivAndInsertInParent(this.#parent, 'logo');
         // maybe xss
@@ -51,6 +64,8 @@ class Menu {
 
             return div;
         }).forEach((e) => this.#parent.appendChild(e));
+
+        this.callEventListener();
     }
 }
 

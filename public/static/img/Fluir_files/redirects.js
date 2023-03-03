@@ -23,7 +23,6 @@ export function redirect (configSection) {
         clearBars();
     } else {
         if (document.getElementById('main') === null) {
-            clearBars();
             prePageRender();
         }
 

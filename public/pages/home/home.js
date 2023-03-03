@@ -1,17 +1,7 @@
 'use strict';
 
-import { createHomePageContent } from '../../components/MainWindowRender/mainWindow.js';
+import { feedAjax } from '../../api/feed.js';
 
 export function renderHome (parent) {
-    window.Ajax.get({
-        url: '/feed',
-        callback: ({ status, context }) => {
-            if (status === 200) {
-                createHomePageContent(parent, context);
-                return;
-            }
-
-            alert('Error: ' + context);
-        }
-    });
+    feedAjax(parent);
 }
