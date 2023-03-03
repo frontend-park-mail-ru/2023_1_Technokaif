@@ -122,7 +122,6 @@ export function getEmailError (email, confirmEmail = '') {
 }
 
 export function getSexError (...boxes) {
-    console.log('boxes', boxes);
     let isInputCorrect = false;
     boxes.forEach((box) => {
         if (box) {
@@ -132,7 +131,7 @@ export function getSexError (...boxes) {
             isInputCorrect = true;
         }
     });
-    console.log('correct', isInputCorrect);
+
     if (!isInputCorrect) {
         return ERRORS.sex;
     }

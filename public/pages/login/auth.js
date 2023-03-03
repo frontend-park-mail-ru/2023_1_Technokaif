@@ -38,7 +38,6 @@ export function renderLogin (parent) {
     const form = parent.querySelector('.log-form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        console.log('here');
 
         const errorPlac = document.querySelector(`.${CLASS.errorDiv}`);
         clearField(errorPlac);
@@ -50,9 +49,13 @@ export function renderLogin (parent) {
         const passwordValue = passwordField.value;
 
         let notValidFields = false;
-        if (setLoginErrors(errLogin, loginValue) || setPassErrors(errPass, passwordValue)) {
+        if (setLoginErrors(errLogin, loginValue)) {
             notValidFields = true;
         };
+
+        if (setPassErrors(errPass, passwordValue) || notValidFields) {
+            notValidFields = true;
+        }
 
         if (notValidFields) {
             return null;
@@ -64,7 +67,7 @@ export function renderLogin (parent) {
 
 function setLoginErrors (errPlace, loginValue) {
     clearField(errPlace);
-    console.log('email', getEmailError(loginValue));
+
     if (checkIsEmail(loginValue)) {
         if (getEmailError(loginValue, loginValue)) {
             errPlace.innerHTML = `<p class="error">${ERRORS.email}</p>`;
@@ -83,6 +86,7 @@ function setLoginErrors (errPlace, loginValue) {
 
 function setPassErrors (errPlace, passwordValue) {
     clearField(errPlace);
+
     if (getPasswordError(passwordValue)) {
         errPlace.innerHTML = `<p class="error">${ERRORS.password}</p>`;
         return true;
