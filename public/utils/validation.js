@@ -21,7 +21,7 @@ export function checkIsEmail (login) {
  * has length between 8 and 20
  */
 export function validatePassword (password) {
-        return (!(/[\'\"\ \:]/g).test(password) &&
+    return (!(/[\'\"\ \:]/g).test(password) &&
     (/.{8,30}/g).test(password)) &&
     (/[A-Z]/g).test(password) &&
     (/[0-9]/g).test(password) &&
@@ -127,19 +127,50 @@ export function validateName (name) {
     !(/[^a-z]/gmi).test(name));
 }
 
-export function validateAll (...params) {
+export function getAllErrors (...params) {
+    // todo GetValidateError что то в этом духе
+    // return значения
+
     const result = [];
 
-    validateEmail(params[0]) ? '' : result.push('email');
-    validateEmail(params[0], params[1]) ? '' : result.push('emailConf');
-    validatePassword(params[2]) ? '' : result.push('password');
-    validateName(params[3]) ? '' : result.push('first-name');
-    validateName(params[4]) ? '' : result.push('last-name');
-    validateUsername(params[5]) ? '' : result.push('username');
-    validateDay(params[6]) ? '' : result.push('day');
-    validateMonth(params[7]) ? '' : result.push('month');
-    validateYear(params[8]) ? '' : result.push('year');
-    validateCheckbox(params[9], params[10], params[11]) ? '' : result.push('sex');
+    if (!validateEmail(params[0])) {
+        result.push('email');
+    }
+
+    if (!validateEmail(params[0], params[1])) {
+        result.push('emailConf');
+    }
+
+    if (!validatePassword(params[2])) {
+        result.push('password');
+    }
+
+    if (!validateName(params[3])) {
+        result.push('first-name');
+    }
+
+    if (!validateName(params[4])) {
+        result.push('last-name');
+    }
+
+    if (!validateUsername(params[5])) {
+        result.push('username');
+    }
+
+    if (validateDay(params[6])) {
+        result.push('day');
+    }
+
+    if (validateMonth(params[7])) {
+        result.push('month');
+    }
+
+    if (validateYear(params[8])) {
+        result.push('year');
+    }
+    if (validateCheckbox(params[9], params[10], params[11])) {
+        result.push('sex');
+    }
 
     return result;
 }
