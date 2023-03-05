@@ -18,6 +18,8 @@ export function logFormSetup () {
         content: 'content',
         header: 'header',
         title: 'title',
+        logoSrc: '/static/svg/logo.svg',
+
         titleClass: 'page-title',
         titleName: 'Fluire',
         descriptionClass: 'page-description',

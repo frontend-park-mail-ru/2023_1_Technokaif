@@ -12,9 +12,10 @@
     <script type="text/x-handlebars-template" id='form-template' >
         <div class="{{content}}">
             <div class="{{header}}">
-                <div class="{{title}}">
+                <a class="{{title}}">
+                    <img src="{{logoSrc}}">
                     <p class="{{titleClass}}">{{titleName}}</p>
-                </div>
+                </a>
                 {{#if errorTop}}
                     <div class="{{errorTop}}" {{#if topID}} id="{{topID}}" {{/if}}></div>
                 {{/if}}
@@ -179,7 +180,7 @@
                                 "{{../defaultArtistCover}}"
                             {{/if}}>
                     </div>
-                    <div class="{{../../artistNameDiv}}">
+                    <div class="{{../artistNameDiv}}">
                         <p>{{this.name}}</p>
                     </div>
                 </div>

@@ -42,7 +42,7 @@ class Menu {
     render () {
         const logoDiv = createDivAndInsertInParent(this.#parent, 'logo');
         // maybe xss
-        logoDiv.innerHTML += '<h1>Fluire</h1><hr align="center", class="menu-hr">';
+        logoDiv.innerHTML += '<div class="menu-title"><img src="/static/svg/whiteLogo.svg"><h1>Fluire</h1></div><hr align="center", class="menu-hr">';
         this.items.map(({ key, href, name, logoSrc }, index) => {
             const div = document.createElement('div');
             const element = document.createElement('a');

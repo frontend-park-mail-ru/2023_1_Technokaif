@@ -231,7 +231,7 @@ export function renderSignup (parent) {
     parent.querySelector('a').addEventListener('click', (e) => {
         e.preventDefault();
 
-        redirect(unAuthNavConfig.login, parent);
+        redirect(unAuthNavConfig.login);
     });
 }
 

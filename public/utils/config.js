@@ -4,6 +4,7 @@ import { renderLogin } from '../pages/login/auth.js';
 import { renderHome } from '../pages/home/home.js';
 import { renderSignup } from '../pages/registration/registration.js';
 import { logoutAjax } from '../api/auth/logoutAjaxReq.js';
+import { redirect } from '../modules/redirects.js';
 
 export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'];
@@ -12,52 +13,6 @@ export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
 export const Names = {
     nameOfApp: 'Spotify'
 };
-
-export const sidebarConfig = {
-    feed: {
-        name: 'Home',
-        href: '/feed',
-        render: renderHome,
-        key: 'feed',
-        logoSrc: '/static/svg/VectorhomeLogo.svg'
-    },
-    search: {
-        name: 'Search',
-        href: '/search',
-        render: renderSearchPage,
-        key: 'search',
-        logoSrc: '/static/svg/VectorsearchLogo.svg'
-    },
-    library: {
-        name: 'Library',
-        href: '/library',
-        render: renderLibrary,
-        key: 'library',
-        logoSrc: '/static/svg/librarylibraryLogo.svg'
-    },
-    createPlaylist: {
-        name: 'Create Playlist',
-        href: '/createPlaylist',
-        render: renderLibrary,
-        key: 'createPlaylist',
-        logoSrc: '/static/svg/Frame 29createPlaylisLogo.svg'
-    },
-    likedSongs: {
-        name: 'Liked Songs',
-        href: '/likedSongs',
-        render: renderLibrary,
-        key: 'likedSongs',
-        logoSrc: '/static/svg/Frame 28likedSongsLogo.svg'
-    }
-};
-
-function renderLibrary (parent) {
-    parent.innerHTML = '';
-}
-
-function renderSearchPage (parent) {
-    parent.innerHTML = '';
-}
 
 export const unAuthNavConfig = {
     left: {
@@ -122,3 +77,48 @@ export const authNavConfig = {
         type: 'button'
     }
 };
+
+export const sidebarConfig = {
+    feed: {
+        name: 'Home',
+        href: '/feed',
+        render: renderHome,
+        key: 'feed',
+        logoSrc: '/static/svg/VectorhomeLogo.svg'
+    },
+    search: {
+        name: 'Search',
+        href: '/search',
+        render: renderLibrary,
+        key: 'search',
+        logoSrc: '/static/svg/VectorsearchLogo.svg'
+    },
+    library: {
+        name: 'Library',
+        href: '/library',
+        render: renderLibrary,
+        key: 'library',
+        logoSrc: '/static/svg/librarylibraryLogo.svg'
+    },
+    createPlaylist: {
+        name: 'Create Playlist',
+        href: '/createPlaylist',
+        render: renderLibrary,
+        key: 'createPlaylist',
+        logoSrc: '/static/svg/Frame 29createPlaylisLogo.svg'
+    },
+    likedSongs: {
+        name: 'Liked Songs',
+        href: '/likedSongs',
+        render: renderLibrary,
+        key: 'likedSongs',
+        logoSrc: '/static/svg/Frame 28likedSongsLogo.svg'
+    }
+};
+
+function renderLibrary (parent) {
+    parent.innerHTML = '';
+    if (localStorage.getItem('jwt') !== null) {
+        redirect(unAuthNavConfig.login);
+    }
+}

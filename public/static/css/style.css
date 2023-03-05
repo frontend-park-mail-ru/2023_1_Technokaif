@@ -23,12 +23,29 @@ p {
     margin: 0px;
 }
 
+.title {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.title img {
+    width: 50px;
+    height: 50px;
+    margin-right: 5px;
+}
+
 .page-title {
     font-size: var(--text-title);
     font-weight: 700;
-    height: 60px;
     text-align: center;
-    margin-top: 30px;
 
     background: linear-gradient(180deg, rgba(255, 0, 0, 0.7) 0%, rgba(255, 199, 0, 0.7) 100%);
     -webkit-background-clip: text;
@@ -189,6 +206,7 @@ p {
 
 .menu-hr {
     width: 216px;
+    margin: 10px 0 30px;
 }
 
 .have-acc {
@@ -197,6 +215,7 @@ p {
 
 /* Buttons */
 .buttonclass {
+    cursor: pointer;
     background: #f6f6f6;
 }
 
@@ -206,10 +225,12 @@ p {
 }
 
 .log-btn button {
+    cursor: pointer;
     color: #333333;
 }
 
 .auth-btn button, .log-reg-btn, .reg-login-btn {
+    cursor: pointer;
     color: #333333;
     cursor: pointer;
     height: 50px;
@@ -323,6 +344,17 @@ main {
     color: #f6f6f6;
 }
 
+.menu-title {
+    display: flex;
+    align-items: center;
+}
+
+.menu-title img {
+    margin-right: 5px;
+    width: 35px;
+    height: 35px;
+}
+
 /* Navbar */
 
 .navbar {
@@ -350,6 +382,7 @@ main {
 }
 
 .navbar button:hover, .navbar a:hover {
+    cursor: pointer;
     transform: scale(1.1);
     animation-duration: 0.5s;
     animation: transform;
@@ -448,7 +481,6 @@ main {
 
     color: rgba(255, 255, 255, 0.6);
 }
-
 
 .track-name, .album-name, .artist-name {
     word-wrap: break-word;

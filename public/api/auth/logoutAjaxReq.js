@@ -1,8 +1,8 @@
 'use strict';
 
 import { redirect } from '../../modules/redirects.js';
-import { sidebarConfig } from '../../utils/config.js';
-import { clearBars, prePageRender } from '../../utils/prePageRender.js';
+import { sidebarConfig, unAuthNavConfig } from '../../utils/config.js';
+import { clearBars } from '../../utils/prePageRender.js';
 import { Ajax } from '../../modules/ajax.js';
 
 /**
@@ -16,6 +16,8 @@ export function logoutAjax () {
         whatRender: ({ status, context }) => {
             if (status !== 200) {
                 alert(context);
+                localStorage.removeItem('jwt');
+                redirect(unAuthNavConfig.login);
                 return;
             }
 
