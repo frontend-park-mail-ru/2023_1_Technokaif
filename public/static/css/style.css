@@ -47,6 +47,8 @@ p {
 /* Form */
 .reg-field, .log-field {
     overflow:hidden;
+    display: flex;
+    flex-direction: column;
     margin-bottom: 30px;
 }
 
@@ -102,6 +104,13 @@ p {
     font-weight: 700;
     color: rgba(255, 255, 255, .7);
 }
+
+.reg-input-label {
+    font-size: var(--text-label);
+    font-weight: 700;
+    color: rgba(255, 255, 255, .7);
+}
+
 .reg-date-label {
     margin-top: -10px;
 }
