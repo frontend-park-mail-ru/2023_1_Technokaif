@@ -2,50 +2,6 @@ import { ID_REG as ID } from '../../utils/id.js';
 
 /**
  *
- * @returns -- all settings to sex template in register
- */
-export function sexSetup () {
-    return {
-        mainSexDiv: 'reg-sex',
-        labelSex: 'reg-sex-label',
-        labelClass: 'reg-label',
-        labelText: 'Your gender:',
-        divSexChoose: 'reg-choose-sex',
-        sexes: [
-            {
-                insideDivSex: 'reg-sex-var',
-                typeInput: 'radio',
-                nameInput: 'sex',
-                classSexInput: 'reg-sex-radio',
-                id: ID.male,
-                classLabel: 'sex-var-label',
-                textLabel: 'Male'
-            },
-            {
-                insideDivSex: 'reg-sex-var',
-                typeInput: 'radio',
-                nameInput: 'sex',
-                classSexInput: 'reg-sex-radio',
-                id: ID.female,
-                classLabel: 'sex-var-label',
-                textLabel: 'Female'
-            },
-            {
-                insideDivSex: 'reg-sex-var',
-                typeInput: 'radio',
-                nameInput: 'sex',
-                classSexInput: 'reg-sex-radio',
-                id: ID.dont,
-                classLabel: 'sex-var-label',
-                textLabel: 'Other answer'
-            }
-        ],
-        errorSex: 'error-gender'
-    };
-}
-
-/**
- *
  * @returns -- all settings to form template in register
  */
 export function regFormSetup () {
@@ -60,6 +16,7 @@ export function regFormSetup () {
         descriptionLabelClass: 'descriptionLabel',
         descriptionName: 'Register and listen for free',
         divBeforeForm: 'reg',
+        autocompleteOff: true,
         formDiv: 'reg-form',
         inputs: [
             {
@@ -139,6 +96,50 @@ export function regFormSetup () {
         linkHref: '/',
         linkClass: 'reg-login-btn auth-btn',
         linkText: 'Login'
+    };
+}
+
+/**
+ *
+ * @returns -- all settings to sex template in register
+ */
+export function sexSetup () {
+    return {
+        mainSexDiv: 'reg-sex',
+        labelSex: 'reg-sex-label',
+        labelClass: 'reg-label',
+        labelText: 'Your gender:',
+        divSexChoose: 'reg-choose-sex',
+        sexes: [
+            {
+                insideDivSex: 'reg-sex-var',
+                typeInput: 'radio',
+                nameInput: 'sex',
+                classSexInput: 'reg-sex-radio',
+                id: ID.male,
+                classLabel: 'sex-var-label',
+                textLabel: 'Male'
+            },
+            {
+                insideDivSex: 'reg-sex-var',
+                typeInput: 'radio',
+                nameInput: 'sex',
+                classSexInput: 'reg-sex-radio',
+                id: ID.female,
+                classLabel: 'sex-var-label',
+                textLabel: 'Female'
+            },
+            {
+                insideDivSex: 'reg-sex-var',
+                typeInput: 'radio',
+                nameInput: 'sex',
+                classSexInput: 'reg-sex-radio',
+                id: ID.dont,
+                classLabel: 'sex-var-label',
+                textLabel: 'Other answer'
+            }
+        ],
+        errorSex: 'error-gender'
     };
 }
 

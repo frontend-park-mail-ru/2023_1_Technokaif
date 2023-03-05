@@ -2,6 +2,7 @@
 
 import { PATH } from '../../utils/urls.js';
 import { loginAjax } from './loginAjaxReq.js';
+import { Ajax } from '../../modules/ajax.js';
 
 /**
  * Api-oriented register function.
@@ -9,10 +10,11 @@ import { loginAjax } from './loginAjaxReq.js';
  */
 
 export function registerAjax (userData) {
-    window.Ajax.post({
+    const AjaxReq = new Ajax();
+    AjaxReq.post({
         url: PATH.auth,
         body: userData,
-        callback: ({ status, context }) => {
+        whatRender: ({ status, context }) => {
             if (status === 200) {
                 // skipped id in context without error
                 loginAjax(userData.email, userData.password);

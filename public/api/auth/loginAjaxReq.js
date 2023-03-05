@@ -3,6 +3,7 @@
 import { sidebarConfig } from '../../utils/config.js';
 import { redirect } from '../../modules/redirects.js';
 import { PATH } from '../../utils/urls.js';
+import { Ajax } from '../../modules/ajax.js';
 
 /**
  * Api-oriented login function.
@@ -11,10 +12,11 @@ import { PATH } from '../../utils/urls.js';
  */
 
 export function loginAjax (login, password) {
-    window.Ajax.post({
+    const AjaxReq = new Ajax();
+    AjaxReq.post({
         url: PATH.login,
         body: { username: login, password },
-        callback: ({ status, context }) => {
+        whatRender: ({ status, context }) => {
             if (status === 200) {
                 localStorage.setItem('jwt', context.jwt);
 
