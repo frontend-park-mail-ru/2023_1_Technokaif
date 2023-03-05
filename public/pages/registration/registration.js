@@ -195,7 +195,6 @@ export function renderSignup (parent) {
                     break;
                 }
             });
-            return;
         }
 
         const month = MONTHS.indexOf(monthInput);
