@@ -35,7 +35,8 @@ export class Ajax {
                     method,
                     credentials: 'include',
                     headers: {
-                        'content-type': 'application/json;'
+                        'content-type': 'application/json;',
+                        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
                     }
                 });
         } else {
@@ -50,9 +51,9 @@ export class Ajax {
                 });
         }
 
-        if (localStorage.getItem('jwt') != null && method === AJAX_METHODS.GET) {
-            request.headers.Authorization = 'Bearer ' + localStorage.getItem('jwt');
-        }
+        // if (localStorage.getItem('jwt') != null && method === AJAX_METHODS.GET) {
+        //      =
+        // }
 
         fetch(request).then(
             responseRaw => responseRaw.json().then(
