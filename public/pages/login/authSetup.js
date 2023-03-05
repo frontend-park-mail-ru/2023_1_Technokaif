@@ -1,11 +1,4 @@
-import { ID_LOG as ID } from '../../utils/id.js';
-
-export const CLASS_LOG = {
-    errorTop: 'error-server',
-    divBeforeInput: 'log-field',
-    classInp: 'log-input',
-    errorDiv: 'log-error'
-};
+import { ID_LOG as ID, CLASS_LOG as CLASS } from '../../utils/id.js';
 
 /**
  *
@@ -13,11 +6,11 @@ export const CLASS_LOG = {
  */
 export function logFormSetup () {
     return {
-        errorTop: CLASS_LOG.errorTop,
+        errorTop: CLASS.errorTop,
         topID: null,
         content: 'content',
         header: 'header',
-        title: 'title',
+        title: CLASS.title,
         logoSrc: '/static/svg/logo.svg',
 
         titleClass: 'page-title',
@@ -29,27 +22,27 @@ export function logFormSetup () {
         formDiv: 'log-form',
         inputs: [
             {
-                divBeforeInput: CLASS_LOG.divBeforeInput,
+                divBeforeInput: CLASS.divBeforeInput,
                 typeOfInput: 'text',
                 nameOfField: 'username',
                 labelClass: 'log-input-label',
                 labelText: 'Login:',
                 placeholder: 'Your username or email',
-                classInp: CLASS_LOG.classInp,
+                classInp: CLASS.classInp,
                 id: ID.login,
-                errorDiv: CLASS_LOG.errorDiv,
+                errorDiv: CLASS.errorDiv,
                 errorId: null
             },
             {
-                divBeforeInput: CLASS_LOG.divBeforeInput,
+                divBeforeInput: CLASS.divBeforeInput,
                 typeOfInput: 'password',
                 nameOfField: 'password',
                 labelClass: 'log-input-label',
                 labelText: 'Password:',
                 placeholder: 'Your password',
-                classInp: CLASS_LOG.classInp,
+                classInp: CLASS.classInp,
                 id: ID.password,
-                errorDiv: CLASS_LOG.errorDiv,
+                errorDiv: CLASS.errorDiv,
                 errorId: null
             }
         ],
@@ -67,7 +60,7 @@ export function logFormSetup () {
         bottomLabelText: 'Don\'t have an account?',
         linkDiv: 'linkDiv',
         linkHref: '/',
-        linkClass: 'log-reg-btn auth-btn',
+        linkClass: CLASS.link,
         linkText: 'Registration'
     };
 }

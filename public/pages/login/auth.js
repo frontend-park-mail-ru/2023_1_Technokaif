@@ -1,12 +1,12 @@
 'use strict';
 
-import { unAuthNavConfig } from '../../utils/config.js';
+import { unAuthNavConfig, sidebarConfig } from '../../utils/config.js';
 import { checkIsEmail, getUsernameError, getPasswordError, getEmailError } from '../../utils/validation.js';
 import { loginAjax } from '../../api/auth/loginAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
 import { ERRORS_LOG as ERRORS } from '../../utils/errors.js';
-import { ID_LOG as ID } from '../../utils/id.js';
-import { CLASS_LOG as CLASS, logFormSetup } from './authSetup.js';
+import { ID_LOG as ID, CLASS_LOG as CLASS } from '../../utils/id.js';
+import { logFormSetup } from './authSetup.js';
 import { clearField } from '../../utils/clearFields.js';
 
 /**
@@ -33,10 +33,16 @@ export function renderLogin (parent) {
         setPassErrors(errPass, passwordField.value);
     });
 
-    parent.querySelector('a').addEventListener('click', (e) => {
+    parent.getElementsByClassName(CLASS.title)[0].addEventListener('click', (e) => {
         e.preventDefault();
 
-        redirect(unAuthNavConfig.registration, parent);
+        redirect(sidebarConfig.feed);
+    });
+
+    parent.getElementsByClassName(CLASS.link)[0].addEventListener('click', (e) => {
+        e.preventDefault();
+
+        redirect(unAuthNavConfig.registration);
     });
 
     const form = parent.querySelector('.log-form');

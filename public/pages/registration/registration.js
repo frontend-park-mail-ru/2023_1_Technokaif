@@ -4,10 +4,10 @@ import { getAllErrors, getDayError, getEmailError, getMonthError, getNameError, 
 import { clearField } from '../../utils/clearFields.js';
 import { registerAjax } from '../../api/auth/registerAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
-import {unAuthNavConfig, MONTHS, sidebarConfig} from '../../utils/config.js';
+import { unAuthNavConfig, MONTHS, sidebarConfig } from '../../utils/config.js';
 import { sexSetup, regFormSetup, dateSetup } from './creationSetup.js';
 import { ERRORS_REG as ERRORS } from '../../utils/errors.js';
-import { ID_REG as ID } from '../../utils/id.js';
+import { ID_REG as ID, CLASS_REG as CLASS } from '../../utils/id.js';
 import { translateOneDigitToTwo, errorGenerate } from '../../utils/utils.js';
 import { ERRORS_VALIDATE } from '../../utils/validateConf.js';
 
@@ -162,7 +162,6 @@ export function renderSignup (parent) {
         const errorMonth = document.getElementById(ID.monthErr);
         const errorYear = document.getElementById(ID.yearErr);
         const errorSex = document.getElementsByClassName('error-gender')[0];
-        
         if (errors.length !== 0) {
             errors.forEach((el) => {
                 switch (el) {
@@ -226,13 +225,13 @@ export function renderSignup (parent) {
         });
     });
 
-    parent.querySelector('a').addEventListener('click', (e) => {
+    parent.getElementsByClassName(CLASS.title)[0].addEventListener('click', (e) => {
         e.preventDefault();
 
         redirect(sidebarConfig.feed);
     });
 
-    parent.querySelector('a').addEventListener('click', (e) => {
+    parent.getElementsByClassName(CLASS.link)[0].addEventListener('click', (e) => {
         e.preventDefault();
 
         redirect(unAuthNavConfig.login);
