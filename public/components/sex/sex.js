@@ -1,6 +1,6 @@
-import { dateTemplate as templateHtml } from './date.hbs.js';
+import { sexTempate as templateHtml } from './sex.hbs.js';
 
-export class Date {
+export class Sex {
     #parent;
     #config;
 
@@ -14,8 +14,7 @@ export class Date {
     }
 
     render () {
-        const template1 = Handlebars.compile(templateHtml);
-        this.#parent.innerHTML = template1(this.#config);
+        this.#parent.innerHTML = this.HTML();
     }
 
     HTML (cfg = '') {
@@ -23,6 +22,7 @@ export class Date {
         if (cfg === '') {
             return template1(cfg);
         }
+
         return template1(this.#config);
     }
 }
