@@ -102,13 +102,23 @@ p {
     margin-bottom: 15px;
     font-size: var(--text-label);
     font-weight: 700;
-    color: rgba(255, 255, 255, .7);
+    color: rgba(255, 255, 255, .95);
 }
 
-.reg-input-label {
+.reg-input-label, .log-input-label {
     font-size: var(--text-label);
     font-weight: 700;
-    color: rgba(255, 255, 255, .7);
+    color: rgba(255, 255,255 , .95);
+}
+
+.reg-input:focus {
+    border: 0px solid black;
+    outline: none;
+}
+
+.log-input:focus {
+    border: 0px solid black;
+    outline: none;
 }
 
 .reg-date-label {
@@ -165,7 +175,7 @@ p {
     cursor: pointer;
     font-size: var(--text-label);
     font-weight: 700;
-    color: #f6f6f6;
+    color:rgba(255, 255, 255, .7);;
 }
 
 /* next to form elements */
