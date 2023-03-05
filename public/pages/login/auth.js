@@ -8,16 +8,15 @@ import { ERRORS_LOG as ERRORS } from '../../utils/errors.js';
 import { ID_LOG as ID, CLASS_LOG as CLASS } from '../../utils/id.js';
 import { logFormSetup } from './authSetup.js';
 import { clearField } from '../../utils/clearFields.js';
+import { Form } from '../../components/form/form.js';
 
 /**
  *
  * @param {HTMLElement} parent -- where to place Login page
  */
 export function renderLogin (parent) {
-    const template = Handlebars.compile(document.getElementById('form-template').innerHTML);
-    const textElements = template(logFormSetup());
-
-    parent.innerHTML = textElements;
+    const form1 = new Form(parent, logFormSetup());
+    form1.render();
 
     const loginField = parent.querySelector(`#${ID.login}`);
     loginField.addEventListener('focusout', (e) => {
