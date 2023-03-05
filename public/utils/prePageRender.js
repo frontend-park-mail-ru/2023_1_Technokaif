@@ -10,6 +10,9 @@ export function clearBars () {
     document.getElementById('root').innerHTML = '';
 }
 
+/**
+ * Render main components.
+ */
 export function prePageRender () {
     const bodyElement = document.createElement('factBody');
     const menuElement = document.createElement('aside');

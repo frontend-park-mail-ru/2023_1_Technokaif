@@ -4,7 +4,7 @@ import { getAllErrors, getDayError, getEmailError, getMonthError, getNameError, 
 import { clearField } from '../../utils/clearFields.js';
 import { registerAjax } from '../../api/auth/registerAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
-import { unAuthNavConfig, MONTHS } from '../../utils/config.js';
+import {unAuthNavConfig, MONTHS, sidebarConfig} from '../../utils/config.js';
 import { sexSetup, regFormSetup, dateSetup } from './creationSetup.js';
 import { ERRORS_REG as ERRORS } from '../../utils/errors.js';
 import { ID_REG as ID } from '../../utils/id.js';
@@ -14,7 +14,7 @@ import { ERRORS_VALIDATE } from '../../utils/validateConf.js';
 const Method = 'focusout';
 
 /**
- *
+ * Function rendering registration forms.
  * @param {HTMLElement} parent -- where to place Signup page
  */
 export function renderSignup (parent) {
@@ -137,7 +137,6 @@ export function renderSignup (parent) {
         const year = document.getElementById(ID.year).value;
 
         const sexChoose = document.querySelectorAll('.reg-sex-radio');
-        console.log(firstName, lastName);
         const errors = getAllErrors(
             email,
             confEmail,
@@ -163,8 +162,7 @@ export function renderSignup (parent) {
         const errorMonth = document.getElementById(ID.monthErr);
         const errorYear = document.getElementById(ID.yearErr);
         const errorSex = document.getElementsByClassName('error-gender')[0];
-
-        console.log(errors.length);
+        
         if (errors.length !== 0) {
             errors.forEach((el) => {
                 switch (el) {
@@ -226,6 +224,12 @@ export function renderSignup (parent) {
             birthDate: date,
             sex
         });
+    });
+
+    parent.querySelector('a').addEventListener('click', (e) => {
+        e.preventDefault();
+
+        redirect(sidebarConfig.feed);
     });
 
     parent.querySelector('a').addEventListener('click', (e) => {
