@@ -38,3 +38,18 @@ export const ID_LOG = {
     login: 'loginField',
     password: 'passwordField'
 };
+
+export const CLASS_REG = {
+    title: 'title',
+    link: 'reg-login-btn auth-btn'
+
+};
+
+export const CLASS_LOG = {
+    title: 'title',
+    link: 'log-reg-btn auth-btn',
+    errorTop: 'error-server',
+    divBeforeInput: 'log-field',
+    classInp: 'log-input',
+    errorDiv: 'log-error'
+};

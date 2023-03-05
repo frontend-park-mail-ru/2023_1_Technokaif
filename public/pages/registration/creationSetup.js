@@ -1,4 +1,4 @@
-import { ID_REG as ID } from '../../utils/id.js';
+import { ID_REG as ID, CLASS_REG as CLASS } from '../../utils/id.js';
 
 /**
  *
@@ -9,7 +9,7 @@ export function regFormSetup () {
         errorTop: ID.errorTop,
         content: 'content',
         header: 'header',
-        title: 'title',
+        title: CLASS.title,
         logoSrc: '/static/svg/logo.svg',
 
         titleClass: 'page-title',
@@ -108,7 +108,7 @@ export function regFormSetup () {
         bottomLabelText: 'Already have an account?',
         linkDiv: 'linkDiv',
         linkHref: '/',
-        linkClass: 'reg-login-btn auth-btn',
+        linkClass: CLASS.link,
         linkText: 'Login'
     };
 }
