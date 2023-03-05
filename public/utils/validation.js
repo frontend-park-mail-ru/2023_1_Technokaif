@@ -48,7 +48,7 @@ export function getPasswordError (password) {
  * else return 'day'
  */
 export function getDayError (day) {
-    if (day > 1 && day <= 31) {
+    if (day >= 1 && day <= 31) {
         return null;
     }
 
@@ -221,7 +221,6 @@ export function getAllErrors (...params) {
     }
 
     result.push(getPasswordError(params[2]));
-    console.log(params[3], params[4]);
 
     const firstErr = getNameError(params[3]);
     const lastErr = getNameError(params[4]);
