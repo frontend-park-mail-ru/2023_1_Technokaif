@@ -47,8 +47,8 @@ export function createHomePageContent (parent, items) {
         albumIdDiv: 'album-id',
         albumDescriptionDiv: 'album-description',
 
-        defaultAlbumCover: '/static/img/album.jpg',
-        defaultTrackCover: '/static/img/peace.jpeg',
+        defaultAlbumCover: '/static/img/album2.jpg',
+        defaultTrackCover: '/static/img/pink.jpeg',
         defaultArtistCover: '/static/img/singer.jpg',
 
         content: items
