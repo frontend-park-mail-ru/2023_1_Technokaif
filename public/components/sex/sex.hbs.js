@@ -1,3 +1,6 @@
+/**
+ * Contains template string for sex picker
+ */
 export const sexTempate =
 `
 <div class="{{mainSexDiv}}">
