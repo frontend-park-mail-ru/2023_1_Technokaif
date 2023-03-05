@@ -1,6 +1,6 @@
 'use strict';
 
-import { clearBars, prePageRender } from '../utils/prePageRender.js';
+import { clearBars, prePageRender } from '../utils/functions/prePageRender.js';
 
 export function redirect (configSection) {
     const el = document.querySelector(`[data-section="${configSection.key}"]`);

@@ -1,6 +1,6 @@
-import { createDivAndInsertInParent } from '../../utils/utils.js';
+import { createDivAndInsertInParent } from '../../utils/functions/utils.js';
 import { redirect } from '../../modules/redirects.js';
-import { sidebarConfig } from '../../utils/config.js';
+import { sidebarConfig } from '../../utils/config/config.js';
 
 class Menu {
     #parent;

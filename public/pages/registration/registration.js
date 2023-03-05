@@ -1,16 +1,16 @@
 'use strict';
 
-import { getAllErrors, getDayError, getEmailError, getMonthError, getNameError, getSexError, getUsernameError, getYearError, getPasswordError } from '../../utils/validation.js';
-import { clearField } from '../../utils/clearFields.js';
+import { getAllErrors, getDayError, getEmailError, getMonthError, getNameError, getSexError, getUsernameError, getYearError, getPasswordError } from '../../utils/functions/validation.js';
+import { clearField } from '../../utils/functions/clearFields.js';
 import { registerAjax } from '../../api/auth/registerAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
-import { unAuthNavConfig, MONTHS, sidebarConfig } from '../../utils/config.js';
+import { unAuthNavConfig, MONTHS, sidebarConfig } from '../../utils/config/config.js';
 import { sexSetup, regFormSetup, dateSetup } from './creationSetup.js';
-import { ERRORS_REG as ERRORS } from '../../utils/errors.js';
-import { ID_REG as ID, CLASS_REG as CLASS } from '../../utils/id.js';
-import { translateOneDigitToTwo, errorGenerate, eventListener } from '../../utils/utils.js';
-import { ERRORS_VALIDATE } from '../../utils/validateConf.js';
+import { ERRORS_REG as ERRORS } from '../../utils/config/errors.js';
+import { ID_REG as ID, CLASS_REG as CLASS } from '../../utils/config/id.js';
+import { ERRORS_VALIDATE } from '../../utils/config/validateConf.js';
 import { Form } from '../../components/form/form.js';
+import { errorGenerate, translateOneDigitToTwo } from '../../utils/functions/utils.js';
 const Method = 'focusout';
 
 /**
@@ -214,8 +214,17 @@ export function renderSignup (parent) {
         });
     });
 
-    eventListener(parent.getElementsByClassName(CLASS.title)[0], 'click', redirect(sidebarConfig.feed));
-    eventListener(parent.getElementsByClassName(CLASS.link)[0], 'click', redirect(unAuthNavConfig.login));
+    parent.getElementsByClassName(CLASS.title)[0].addEventListener('click', (e) => {
+        e.preventDefault();
+
+        redirect(sidebarConfig.feed);
+    });
+
+    parent.getElementsByClassName(CLASS.link)[0].addEventListener('click', (e) => {
+        e.preventDefault();
+
+        redirect(unAuthNavConfig.login);
+    });
 }
 
 /**

@@ -95,7 +95,7 @@ app.post('/api/auth/login', (req, res) => {
 });
 
 app.get('/api/auth/logout', (req, res) => {
-    res.status(200).json({err: 'sfffs'});
+    res.status(200).json({ err: 'sfffs' });
 });
 
 app.get('/api/feed', (req, res) => {

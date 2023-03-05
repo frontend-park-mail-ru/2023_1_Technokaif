@@ -20,8 +20,6 @@ export class Header {
 
     HTML (cfg = '') {
         const template1 = Handlebars.compile(templateHtml); // eslint-disable-line
-        console.log('foter');
-        console.log('foter');
         if (cfg === '') {
             return template1(cfg);
         }

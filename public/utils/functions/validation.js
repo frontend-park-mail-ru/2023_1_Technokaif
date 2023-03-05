@@ -1,7 +1,7 @@
 'use strict';
 
-import { MONTHS } from './config.js';
-import { ERRORS_VALIDATE as ERRORS } from './validateConf.js';
+import { MONTHS } from '../config/config.js';
+import { ERRORS_VALIDATE as ERRORS } from '../config/validateConf.js';
 
 /**
  *
@@ -63,7 +63,6 @@ export function getDayError (day) {
  * else 'year'
  */
 export function getYearError (year) {
-    // todo check for empty string
     if (year > 0 && year <= new Date(Date.now()).getFullYear()) {
         return null;
     };

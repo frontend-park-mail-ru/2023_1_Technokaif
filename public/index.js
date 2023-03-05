@@ -1,6 +1,6 @@
 'use strict';
 
-import { prePageRender } from './utils/prePageRender.js';
+import { prePageRender } from './utils/functions/prePageRender.js';
 import { renderHome } from './pages/home/home.js';
 
 function renderMainPage () {

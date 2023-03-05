@@ -2,7 +2,7 @@
 
 import { createHomePageContent } from '../components/MainWindowRender/mainWindow.js';
 import { Ajax } from '../modules/ajax.js';
-import { PATH } from '../utils/urls.js';
+import { PATH } from '../utils/config/urls.js';
 
 export function feedAjax (parent) {
     const AjaxReq = new Ajax();

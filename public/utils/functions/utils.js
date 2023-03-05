@@ -53,17 +53,3 @@ export function errorGenerate (event, element, where, errorMessage, checkForErro
         }
     });
 }
-
-/**
- *
- * @param {HTMLElement} element -- element to which apply event listener
- * @param {string} method -- method which trigger
- * @param {function} workFunction -- function that work
- */
-export function eventListener (element, method, workFunction) {
-    element.addEventListener(method, (e) => {
-        e.preventDefault();
-
-        workFunction();
-    });
-}
