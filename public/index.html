@@ -8,75 +8,6 @@
 
 <body>
 
-    <!-- Form template. -->
-    <script type="text/x-handlebars-template" id='form-template' >
-        <div class="{{content}}">
-            <div class="{{header}}">
-                <a class="{{title}}">
-                    <img src="{{logoSrc}}">
-                    <p class="{{titleClass}}">{{titleName}}</p>
-                </a>
-                {{#if errorTop}}
-                    <div class="{{errorTop}}" {{#if topID}} id="{{topID}}" {{/if}}></div>
-                {{/if}}
-                <div class="{{descriptionClass}}">
-                    <p class="{{descriptionLabelClass}}">{{descriptionName}}</p>
-                </div>
-            </div>
-            <div {{#if divBeforeForm}}class="{{divBeforeForm}}" {{/if}}>
-                <form class="{{formDiv}}">
-                    {{#each inputs}}
-                        <div class="{{this.divBeforeInput}}">
-                            <label for="{{this.id}}" class="{{this.labelClass}}">{{this.labelText}}</label>
-                            <input type="{{this.typeOfInput}}" {{#if ../autocompleteOff}} autocomplete="x7pv66b" {{/if}} name="{{this.nameOfField}}" placeholder="{{this.placeholder}}" class="{{this.classInp}}" id="{{this.id}}">
-                            <div class="{{this.errorDiv}}" {{#if this.errorId}} id="{{this.errorId}}" {{/if}}></div>
-                        </div>
-                    {{/each}}
-                    {{#if placementClass}}
-                        <div class="{{placementClass}}" id="{{placementId}}"></div>
-                    {{/if}}
-                    
-                    <div class="{{divButton}}">
-                        <button type="{{buttonType}}" class="buttonClass">{{textButton}}</button>
-                    </div>
-                </form>
-                <div {{#if divHrClass}} class="{{divHrClass}}" {{/if}}>
-                    <hr {{#if hrClass}} class="{{hrClass}}", align="center" {{/if}}">
-                </div>
-                <div class="{{bottomClass}}">
-                    <div class="{{divBottomLabel}}">
-                        <p class="{{bottomLabelClass}}">{{bottomLabelText}}</p>
-                    </div>
-                    <div class="{{linkDiv}}">
-                        <a href="{{linkHref}}" class="{{linkClass}}">{{linkText}}</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </script>
-
-
-    <!-- Template to choose sex -->
-    <script type="text/x-handlebars-template" id="sex-template">
-        <div class="{{mainSexDiv}}">
-            <div class="{{labelSex}}">
-                <p class="{{labelClass}}">{{labelText}}</p>
-            </div>
-            <div class="{{divSexChoose}}">
-                {{#each sexes}}
-                    <div class="{{this.insideDivSex}}">
-                        <input type="{{this.typeInput}}" name="{{this.nameInput}}" class="{{this.classSexInput}}" id={{this.id}}>
-                        <label for="{{this.id}}" class="{{this.classLabel}}">{{this.textLabel}}</label>
-                    </div>
-                {{/each}}
-            </div>
-            <div class="{{errorSex}}"></div>
-        </div>
-
-    </script>
-
-
-
     <!-- Template to choose date -->
     <script type="text/x-handlebars-template" id="date-template">
         <div class="{{dateMainDiv}}">
@@ -101,22 +32,6 @@
             <div class="{{errorDate}}" {{#if errorID}} id="{{errorID}}" {{/if}}></div>
             <div class="{{errorMonth}}" {{#if errorMonthID}} id="{{errorMonthID}}" {{/if}}></div>
             <div class="{{errorYear}}" {{#if errorYearID}} id="{{errorYearID}}" {{/if}}></div>
-        </div>
-    </script>
-
-    <!-- checkbox ?? -->
-    <script type="text/x-handlebars-template" id="checkbox-template">
-        <div class="{{dateDivMain}}">
-            <p class='{{classOfDateText}}'></p>
-            <div class="{{dateDiv}}">
-                <input type={{typeOfDayInput}} name= {{nameOfDayInput}} placeholder={{placeholderOfDay}}>
-                <select name="{{nameOfSelect}}" class="{{classOfSelect}}">
-                    {{#each optionsDate}}
-                        <option value="{{this.option}}" {{#if this.class}} class={{this.class}} {{/if}}>{{this.text}}</option>
-                    {{/each}}
-                </select>
-                <input type={{typeOfYearInput}} name= {{nameOfYearInput}} placeholder={{placeholderOfYear}}>
-            </div>
         </div>
     </script>
 
