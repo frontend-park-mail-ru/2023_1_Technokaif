@@ -5,6 +5,10 @@ import { sidebarConfig } from '../../utils/config.js';
 import { clearBars, prePageRender } from '../../utils/prePageRender.js';
 import { Ajax } from '../../modules/ajax.js';
 
+/**
+ * Api-oriented logout function.
+ */
+
 export function logoutAjax () {
     const AjaxReq = new Ajax();
     AjaxReq.get({
@@ -12,11 +16,11 @@ export function logoutAjax () {
         whatRender: ({ status, context }) => {
             if (status !== 200) {
                 alert(context);
+                return;
             }
 
             localStorage.removeItem('jwt');
             clearBars();
-            prePageRender();
             redirect(sidebarConfig.feed);
         }
     });

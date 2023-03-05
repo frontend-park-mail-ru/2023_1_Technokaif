@@ -4,6 +4,11 @@ import { PATH } from '../../utils/urls.js';
 import { loginAjax } from './loginAjaxReq.js';
 import { Ajax } from '../../modules/ajax.js';
 
+/**
+ * Api-oriented register function.
+ * @param {json} userData User data, that wll be sent to server to check existence of account.
+ */
+
 export function registerAjax (userData) {
     const AjaxReq = new Ajax();
     AjaxReq.post({

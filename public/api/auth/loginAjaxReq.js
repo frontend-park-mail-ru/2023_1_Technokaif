@@ -5,6 +5,12 @@ import { redirect } from '../../modules/redirects.js';
 import { PATH } from '../../utils/urls.js';
 import { Ajax } from '../../modules/ajax.js';
 
+/**
+ * Api-oriented login function.
+ * @param {string} login Login argument, that wll be sent to server.
+ * @param {string} password Password argument, that wll be sent to server.
+ */
+
 export function loginAjax (login, password) {
     const AjaxReq = new Ajax();
     AjaxReq.post({
