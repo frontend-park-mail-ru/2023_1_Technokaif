@@ -307,7 +307,7 @@ main {
 /* Navbar */
 
 .navbar {
-    background-color: #121212;
+    background-color: rgba(12, 12, 12, 0.8);
     display: flex;
     justify-content: flex-end;
     flex-direction: row;
@@ -386,6 +386,7 @@ main {
     display: flex;
     flex-direction: column;
     padding: 10px;
+    margin-top: 73px;
 }
 
 .albums-titles, .artists-titles, .tracks-titles {
