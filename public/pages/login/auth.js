@@ -9,6 +9,10 @@ import { ID_LOG as ID } from '../../utils/id.js';
 import { CLASS_LOG as CLASS, logFormSetup } from './authSetup.js';
 import { clearField } from '../../utils/clearFields.js';
 
+/**
+ *
+ * @param {HTMLElement} parent -- where to place Login page
+ */
 export function renderLogin (parent) {
     const template = Handlebars.compile(document.getElementById('form-template').innerHTML);
     const textElements = template(logFormSetup());
@@ -65,6 +69,12 @@ export function renderLogin (parent) {
     });
 }
 
+/**
+ *
+ * @param {HTMLElement} errPlace -- where to place error
+ * @param {string} loginValue -- value to check
+ * @returns true if error is set else false
+ */
 function setLoginErrors (errPlace, loginValue) {
     clearField(errPlace);
 
@@ -84,6 +94,12 @@ function setLoginErrors (errPlace, loginValue) {
     return false;
 }
 
+/**
+ *
+ * @param {HTMLElement} errPlace -- where to place error
+ * @param {string} passwordValue -- value to check
+ * @returns true if error is set else false
+ */
 function setPassErrors (errPlace, passwordValue) {
     clearField(errPlace);
 

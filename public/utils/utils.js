@@ -1,31 +1,11 @@
 'use strict';
 
-export function createInput (type, text, name) {
-    const input = document.createElement('input');
-    input.type = type;
-    input.name = name;
-    input.placeholder = text;
-
-    return input;
-}
-
-export function createCheckbox (name = '', type = 'checkbox', nameInEl = '') {
-    const div = document.createElement('sex-inside');
-    const input = document.createElement('input');
-    input.type = type;
-    if (nameInEl.length !== 0) {
-        input.name = nameInEl;
-    }
-
-    const label = document.createElement('label');
-    label.textContent = name;
-    label.classList.add('text');
-    div.appendChild(input);
-    div.appendChild(label);
-
-    return div;
-}
-
+/**
+ * Create div block with classes and apeend it to parent
+ * @param {HTMLElement} parent -- where to place div block
+ * @param  {...any} classes -- what classes div block contain
+ * @returns created div block
+ */
 export function createDivAndInsertInParent (parent, ...classes) {
     const divBlock = document.createElement('div');
     classes.forEach((cl) => {
@@ -50,6 +30,14 @@ export function translateOneDigitToTwo (elemToTranslate) {
     return result;
 }
 
+/**
+ * Create <p> element with class error. Add eventListener on element.
+ * @param {*} event -- what event trigger appearance of error
+ * @param {*} element -- which element to add the error
+ * @param {*} where -- where error be placed
+ * @param {*} errorMessage -- what message to display
+ * @param {*} checkForErrors -- function to determine the error
+ */
 export function errorGenerate (event, element, where, errorMessage, checkForErrors) {
     element.addEventListener(event, (el) => {
         where.innerHTML = '';

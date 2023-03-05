@@ -1,3 +1,6 @@
+/**
+ * All errors that register can output
+ */
 export const ERRORS_REG = {
     email: 'Enter a correct email address.',
     confirmEmail: 'Your email and confirm email is different or incorrect.',
@@ -11,6 +14,9 @@ export const ERRORS_REG = {
     sex: 'Choose your gender.'
 };
 
+/**
+ * All errors that login can output
+ */
 export const ERRORS_LOG = {
     password: 'Your password is incorrect or empty. Forbiden: \' \" space \:. One big letter, one small letter, one digit minimum. Length 8-30',
     email: 'Enter a correct email address.',

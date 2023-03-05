@@ -3,11 +3,12 @@
 import { renderLogin } from '../pages/login/auth.js';
 import { renderHome } from '../pages/home/home.js';
 import { renderSignup } from '../pages/registration/registration.js';
-import {logoutAjax} from "../api/auth/logoutAjaxReq.js";
+import { logoutAjax } from '../api/auth/logoutAjaxReq.js';
 
 export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'];
 
+// todo check and delete
 export const Names = {
     nameOfApp: 'Spotify'
 };

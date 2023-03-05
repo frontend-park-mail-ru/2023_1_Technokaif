@@ -1,3 +1,8 @@
+/**
+ *
+ * @param {HTMLElement} parent -- where to place Home page
+ * @param {*} items -- content of page
+ */
 export function createHomePageContent (parent, items) {
     const templateOfMainPage = Handlebars.compile(document.getElementById('main-page-template').innerHTML);
 

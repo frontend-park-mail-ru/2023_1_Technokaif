@@ -1,3 +1,6 @@
+/**
+ * All ID of register in template
+ */
 export const ID_REG = {
     formTemplate: 'form-template',
     dateTemplate: 'date-template',
@@ -28,6 +31,9 @@ export const ID_REG = {
     errorTop: 'error-server'
 };
 
+/**
+ * All ID of login in template
+ */
 export const ID_LOG = {
     login: 'loginField',
     password: 'passwordField'

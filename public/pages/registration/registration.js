@@ -13,6 +13,10 @@ import { ERRORS_VALIDATE } from '../../utils/validateConf.js';
 
 const Method = 'focusout';
 
+/**
+ *
+ * @param {HTMLElement} parent -- where to place Signup page
+ */
 export function renderSignup (parent) {
     const templateForm = Handlebars.compile(document.getElementById(ID.formTemplate).innerHTML);
     const textElements = templateForm(regFormSetup());
@@ -133,6 +137,7 @@ export function renderSignup (parent) {
         const year = document.getElementById(ID.year).value;
 
         const sexChoose = document.querySelectorAll('.reg-sex-radio');
+        console.log(firstName, lastName);
         const errors = getAllErrors(
             email,
             confEmail,
@@ -159,6 +164,7 @@ export function renderSignup (parent) {
         const errorYear = document.getElementById(ID.yearErr);
         const errorSex = document.getElementsByClassName('error-gender')[0];
 
+        console.log(errors.length);
         if (errors.length !== 0) {
             errors.forEach((el) => {
                 switch (el) {
@@ -195,6 +201,7 @@ export function renderSignup (parent) {
                     break;
                 }
             });
+
             return;
         }
 
@@ -228,6 +235,15 @@ export function renderSignup (parent) {
     });
 }
 
+/**
+ *
+ * @param  {...any} sexChoose -- true values
+ * sexChoose:
+ * [0] -- male
+ * [1] -- female
+ * else -- other
+ * @returns
+ */
 function getSexInString (...sexChoose) {
     if (sexChoose[0]) {
         return 'M';

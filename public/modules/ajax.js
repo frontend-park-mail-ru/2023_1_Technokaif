@@ -26,6 +26,7 @@ export class Ajax {
     }
 
     _ajax ({ method, url, body = null, whatRender = noop }) {
+        console.log('Ajax seends');
         let request = {};
         // url = '/api' + url;
         if (body === null) {

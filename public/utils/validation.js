@@ -3,8 +3,6 @@
 import { MONTHS } from './config.js';
 import { ERRORS_VALIDATE as ERRORS } from './validateConf.js';
 
-// TODO Rewrite docs
-
 /**
  *
  * @param {string} login -- string to check
@@ -17,11 +15,17 @@ export function checkIsEmail (login) {
 /**
  *
  * @param {string} password -- password to validate
- * @returns {bool} -- return true if password contains:
- * only digits and symbols from a to z
- * has 1 or more big letters like 'A'
- * has 1 or more digits like '0'
- * has length between 8 and 20
+ * @returns return null if password correct else return 'password'
+ * @description
+ * correct password contains:
+ *  1 or more big letters like 'A';
+ *  1 or more small letters lie 'a';
+ *  1 or more digits like '0';
+ *  length between 8 and 30;
+ *
+ * don't contain:
+ *
+ *  symbols: ' " : space";
  */
 export function getPasswordError (password) {
     if ((!(/[\'\"\ \:]/g).test(password) &&
@@ -38,12 +42,12 @@ export function getPasswordError (password) {
 /**
  *
  * @param {string} day -- day to check
- * @returns {bool} --return true if day is correct:
+ * @returns return null if day is correct:
  * in the range 1-31
+ *
+ * else return 'day'
  */
 export function getDayError (day) {
-    // todo: check not similar mounth
-    // todo check for empty string
     if (day > 1 && day <= 31) {
         return null;
     }
@@ -54,7 +58,9 @@ export function getDayError (day) {
 /**
  *
  * @param {string} year -- year to validate
- * @returns {bool} -- return true if year >= 0 and year <= current year
+ * @returns return null if year > 0 and year <= current year
+ *
+ * else 'year'
  */
 export function getYearError (year) {
     // todo check for empty string
@@ -65,6 +71,11 @@ export function getYearError (year) {
     return ERRORS.year;
 }
 
+/**
+ *
+ * @param {string} month
+ * @returns null if month in MONTHS struct else return 'month'
+ */
 export function getMonthError (month) {
     if (MONTHS.includes(month)) {
         return null;
@@ -78,9 +89,13 @@ export function getMonthError (month) {
  * @param {string} email -- email to validate
  * @param {string} confirmEmail --if confirmEmail empty, function only validate email.
  * if not empty, function check for email and confirmEmail to be equal
- * @returns {bool} -- true if email is correct and false if not correct
+ * @returns nill if email is correct and 'email' if not correct
+ *
+ * if confirmEmail given then return 'confemail' if email != confirmEmail
+ *
  * Correct email:
- *  Len 8-30;
+ *  Length 8-30;
+ *
  *  Don't have:
  *   ..;
  *   .-_ in end;
@@ -121,6 +136,15 @@ export function getEmailError (email, confirmEmail = '') {
     return result;
 }
 
+/**
+ *
+ * @param  {...any} boxes -- true of false values
+ * @returns null if correct else return 'sex'
+ *
+ * Correct:
+ *  Only one true value;
+ *  One true value exist;
+ */
 export function getSexError (...boxes) {
     let isInputCorrect = false;
     boxes.forEach((box) => {
@@ -142,8 +166,10 @@ export function getSexError (...boxes) {
 /**
  *
  * @param {string} username -- username to validate
- * @returns {bool} -- return true if:
- * username len 4-30 and contains only _, letters, digits
+ * @returns null if correct else 'username'
+ *
+ * Correct:
+ * username length 4-20 and contains only _, letters, digits
  */
 export function getUsernameError (username) {
     if ((/^[\w]{4,20}$/gmi).test(username) &&
@@ -157,17 +183,33 @@ export function getUsernameError (username) {
 /**
  *
  * @param {string} name -- name to validate
- * @returns {bool} -- return true if len 2-20 and contains only letters
+ * @returns null if correct else return 'name'
+ *
+ * Correct: if length 2-20 and contains only letters
  */
 export function getNameError (name) {
     if ((/^[a-z]{2,20}$/gmi).test(name) &&
-    !(/[^a-z]/gmi).test(name)) {
+    (!(/[^a-z]/gmi).test(name))) {
         return null;
     };
 
     return ERRORS.name;
 }
 
+/**
+ *
+ * @param  {...any} params -- all params to check
+ * [0, 1] -- email and confirm email
+ * [2] -- password
+ * [3] -- firstName
+ * [4] -- lastName
+ * [5] -- username
+ * [6] -- day
+ * [7] -- month
+ * [8] -- year
+ * [9-11] -- sex
+ * @returns null if correct else return array of strings with error elements
+ */
 export function getAllErrors (...params) {
     const result = [];
 
@@ -179,8 +221,19 @@ export function getAllErrors (...params) {
     }
 
     result.push(getPasswordError(params[2]));
-    result.push('first' + getNameError(params[3]));
-    result.push('last' + getNameError(params[4]));
+    console.log(params[3], params[4]);
+
+    const firstErr = getNameError(params[3]);
+    const lastErr = getNameError(params[4]);
+
+    if (firstErr) {
+        result.push('first' + firstErr);
+    }
+
+    if (firstErr) {
+        result.push('last' + lastErr);
+    }
+
     result.push(getUsernameError(params[5]));
     result.push(getDayError(params[6]));
     result.push(getMonthError(params[7]));
