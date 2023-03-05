@@ -1,8 +1,8 @@
-import {ArtistsComp} from "../ArtistsComp/ArtistsComp.js";
-import {TracksComp} from "../TracksComp/TracksComp.js";
-import {AlbumsComp} from "../AlbumsComp/AlbumsComp.js";
-import {mainPageTemplate as templateHtml} from "./mainWindow.hbs.js";
-import {homeSetup} from '../../pages/home/homeSetup.js';
+import { ArtistsComp } from '../ArtistsComp/ArtistsComp.js';
+import { TracksComp } from '../TracksComp/TracksComp.js';
+import { AlbumsComp } from '../AlbumsComp/AlbumsComp.js';
+import { mainPageTemplate as templateHtml } from './mainWindow.hbs.js';
+import { homeSetup } from '../../pages/home/homeSetup.js';
 
 /**
  *

@@ -1,5 +1,5 @@
 import { sexTempate as templateHtml } from './sex.hbs.js';
-// ask нужно ли расписывать все поля тут?
+
 export class Sex {
     #parent;
     #config;
