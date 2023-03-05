@@ -118,7 +118,7 @@ export const sidebarConfig = {
 
 function renderLibrary (parent) {
     parent.innerHTML = '';
-    if (localStorage.getItem('jwt') !== null) {
+    if (localStorage.getItem('jwt') === null) {
         redirect(unAuthNavConfig.login);
     }
 }

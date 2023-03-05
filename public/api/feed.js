@@ -1,6 +1,6 @@
 'use strict';
 
-import { createHomePageContent } from '../components/MainWindowRender/mainWindow.js';
+import { createHomePageContent } from '../components/MainWindowRender/MainWindow.js';
 import { Ajax } from '../modules/ajax.js';
 import { PATH } from '../utils/urls.js';
 
