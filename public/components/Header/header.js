@@ -14,12 +14,12 @@ export class Header {
     }
 
     render () {
-        const template1 = Handlebars.compile(templateHtml);
+        const template1 = Handlebars.compile(templateHtml); // eslint-disable-line
         this.#parent.innerHTML = template1(this.#config);
     }
 
     HTML (cfg = '') {
-        const template1 = Handlebars.compile(templateHtml);
+        const template1 = Handlebars.compile(templateHtml); // eslint-disable-line
         console.log('foter');
         console.log('foter');
         if (cfg === '') {

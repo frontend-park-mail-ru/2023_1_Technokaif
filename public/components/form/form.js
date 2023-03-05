@@ -38,7 +38,7 @@ export class Form {
     }
 
     HTML (cfg = '') {
-        const template1 = Handlebars.compile(templateHtml);
+        const template1 = Handlebars.compile(templateHtml); // eslint-disable-line
         if (cfg === '') {
             return template1(this.#config);
         }

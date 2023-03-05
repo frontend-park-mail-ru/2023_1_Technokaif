@@ -2,8 +2,8 @@
 
 import Menu from '../components/Menu/Menu.js';
 import { authNavConfig, sidebarConfig, unAuthNavConfig } from './config.js';
-import {checkAuth} from './checkAuth.js';
-import {createDivAndInsertInParent} from './utils.js';
+import { checkAuth } from './checkAuth.js';
+import { createDivAndInsertInParent } from './utils.js';
 import Navbar from '../components/Navbar/Navbar.js';
 
 export function clearBars () {

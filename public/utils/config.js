@@ -9,7 +9,6 @@ import { redirect } from '../modules/redirects.js';
 export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'];
 
-// todo check and delete
 export const Names = {
     nameOfApp: 'Spotify'
 };
@@ -118,7 +117,7 @@ export const sidebarConfig = {
 
 function renderLibrary (parent) {
     parent.innerHTML = '';
-    if (localStorage.getItem('jwt') !== null) {
+    if (localStorage.getItem('jwt') === null) {
         redirect(unAuthNavConfig.login);
     }
 }

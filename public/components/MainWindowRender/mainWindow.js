@@ -4,7 +4,7 @@
  * @param {*} items -- content of page
  */
 export function createHomePageContent (parent, items) {
-    const templateOfMainPage = Handlebars.compile(document.getElementById('main-page-template').innerHTML);
+    const templateOfMainPage = Handlebars.compile(document.getElementById('main-page-template').innerHTML); // eslint-disable-line
 
     const mainPage = templateOfMainPage({
         mainPageWindowDiv: 'main-page-window',

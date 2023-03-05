@@ -14,12 +14,12 @@ export class Date {
     }
 
     render () {
-        const template1 = Handlebars.compile(templateHtml);
+        const template1 = Handlebars.compile(templateHtml); // eslint-disable-line
         this.#parent.innerHTML = template1(this.#config);
     }
 
     HTML (cfg = '') {
-        const template1 = Handlebars.compile(templateHtml);
+        const template1 = Handlebars.compile(templateHtml); // eslint-disable-line
         if (cfg === '') {
             return template1(cfg);
         }

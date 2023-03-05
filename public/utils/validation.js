@@ -28,7 +28,7 @@ export function checkIsEmail (login) {
  *  symbols: ' " : space";
  */
 export function getPasswordError (password) {
-    if ((!(/[\'\"\ \:]/g).test(password) &&
+    if ((!(/[\'\"\ \:]/g).test(password) &&  // eslint-disable-line
     (/.{8,30}/g).test(password)) &&
     (/[A-Z]/g).test(password) &&
     (/[0-9]/g).test(password) &&
@@ -124,8 +124,8 @@ export function getEmailError (email, confirmEmail = '') {
         return result;
     }
 
-    if (!((/^[\w]+[\w\.\-]*@{1}[\w]+[\.]*[\w\.\-]*/gmi).test(email) && // symbols check
-    (!(/[\<\>\(\)\[\]\,\;\:\\\/\"]/gmi).test(email)))) {
+    if (!((/^[\w]+[\w\.\-]*@{1}[\w]+[\.]*[\w\.\-]*/gmi).test(email) && // eslint-disable-line
+    (!(/[\<\>\(\)\[\]\,\;\:\\\/\"]/gmi).test(email)))) { // eslint-disable-line
         result.push(ERRORS.email);
     }; // check for forbiden symbols
 

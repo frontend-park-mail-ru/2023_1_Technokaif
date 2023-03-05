@@ -16,12 +16,12 @@ export function createDivAndInsertInParent (parent, ...classes) {
     return divBlock;
 }
 
-export function insertScriptAndReturnTemplate (parent, contextJson, templateHTML) {
-    const template = Handlebars.compile(templateHTML);
-
-    parent.innerHTML += template(contextJson);
-}
-
+/**
+ *
+ * @param {string} elemToTranslate -- digit to translate to two digits
+ * @returns digits in two symbols
+ * @description if digits < 9 then it will return 0+digit else return digit
+ */
 export function translateOneDigitToTwo (elemToTranslate) {
     let result = elemToTranslate;
     if (elemToTranslate <= 9) {
@@ -30,13 +30,14 @@ export function translateOneDigitToTwo (elemToTranslate) {
     return result;
 }
 
+// ask как сделать перевод на новую строку
 /**
  * Create <p> element with class error. Add eventListener on element.
- * @param {*} event -- what event trigger appearance of error
- * @param {*} element -- which element to add the error
- * @param {*} where -- where error be placed
- * @param {*} errorMessage -- what message to display
- * @param {*} checkForErrors -- function to determine the error
+ * @param {string} event -- what event trigger appearance of error
+ * @param {HTMLElement} element -- which element to add the error
+ * @param {HTMLElement} where -- where error be placed
+ * @param {string} errorMessage -- what message to display
+ * @param {function} checkForErrors -- function to determine the error
  */
 export function errorGenerate (event, element, where, errorMessage, checkForErrors) {
     element.addEventListener(event, (el) => {
@@ -50,5 +51,19 @@ export function errorGenerate (event, element, where, errorMessage, checkForErro
 
             where.appendChild(message);
         }
+    });
+}
+
+/**
+ *
+ * @param {HTMLElement} element -- element to which apply event listener
+ * @param {string} method -- method which trigger
+ * @param {function} workFunction -- function that work
+ */
+export function eventListener (element, method, workFunction) {
+    element.addEventListener(method, (e) => {
+        e.preventDefault();
+
+        workFunction();
     });
 }
