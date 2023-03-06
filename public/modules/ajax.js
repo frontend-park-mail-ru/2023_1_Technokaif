@@ -53,11 +53,10 @@ export class Ajax {
         fetch(request).then(
             responseRaw => responseRaw.json().then(
                 responseJson => {
-                    let error;
                     const status = responseRaw.status;
                     if (status !== 200) {
-                        error = responseJson.message;
-                        whatRender({ status, error });
+                        const error = responseJson.message;
+                        whatRender({ status, context: error });
                         return;
                     }
 
