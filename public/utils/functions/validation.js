@@ -3,6 +3,7 @@
 import { MONTHS } from '../config/config.js';
 import { ERRORS_VALIDATE as ERRORS, alphabetBig, alphabetSmall, digits, forbidenEmailSymb } from '../config/validateConf.js';
 
+
 /**
  *
  * @param {string} login -- string to check
@@ -61,6 +62,7 @@ export function getPasswordError (password) {
 
     return ERRORS.password;
 };
+
 
 /**
  *
@@ -239,7 +241,7 @@ export function getUsernameError (username) {
 /**
  *
  * @param {string} name -- name to validate
- * returns null if correct else return 'name'
+ * @returns null if correct else return 'name'
  *
  * Correct: if length 2-20 and contains only letters
  */
