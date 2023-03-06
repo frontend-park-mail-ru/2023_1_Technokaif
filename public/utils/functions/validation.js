@@ -145,6 +145,27 @@ export function getEmailError (email, confirmEmail = '') {
         return result;
     }
 
+    if (!email.includes('@')) {
+        result.push(ERRORS.email);
+        return result;
+    }
+
+    if (email[email.indexOf('@') + 1] === '.') {
+        result.push(ERRORS.email);
+        return result;
+    }
+    const emailAfter = email.substring(email.indexOf('@') + 1);
+    if (!(emailAfter.includes('.'))) {
+        result.push(ERRORS.email);
+        return result;
+    }
+
+    if (emailAfter.includes('@')) {
+        console.log('@');
+        result.push(ERRORS.email);
+        return result;
+    }
+
     const lastSymb = email[email.length];
     if (lastSymb === '.' || lastSymb === '-' || lastSymb === '_') {
         result.push(ERRORS.email);
@@ -158,7 +179,7 @@ export function getEmailError (email, confirmEmail = '') {
         }
 
         if (!(alphabetBig.includes(email[i]) || alphabetSmall.includes(email[i]) ||
-            digits.includes(email[i]) || '.-_'.includes(email[i]))) {
+            digits.includes(email[i]) || '@.-_'.includes(email[i]))) {
             result.push(ERRORS.email);
         }
     }
@@ -212,7 +233,7 @@ export function getUsernameError (username) {
 
     for (let i = 0; i < username.length; i++) {
         if (!(alphabetBig.includes(username[i]) || alphabetSmall.includes(username[i]) ||
-            digits.includes(username[i]))) {
+            digits.includes(username[i]) || '_'.includes(username[i]))) {
             return ERRORS.username;
         }
     }
@@ -223,7 +244,7 @@ export function getUsernameError (username) {
 /**
  *
  * @param {string} name -- name to validate
- * @returns null if correct else return 'name'
+ * returns null if correct else return 'name'
  *
  * Correct: if length 2-20 and contains only letters
  */
@@ -238,7 +259,7 @@ export function getNameError (name) {
         }
     }
 
-    return ERRORS.name;
+    return null;
 }
 
 /**
