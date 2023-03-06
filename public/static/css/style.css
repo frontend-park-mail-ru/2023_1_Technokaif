@@ -9,7 +9,6 @@
     --text-navbar: 16px;
     --text-cover-artist: 13px;
     --text-cover-description: 12px;
-
 }
 
 body {
@@ -20,10 +19,11 @@ body {
 }
 
 p {
-    margin: 0px;
+    margin: 0;
 }
 
 .title {
+    cursor: pointers;
     margin-top: 20px;
     display: flex;
     align-items: center;
@@ -129,12 +129,12 @@ p {
 }
 
 .reg-input:focus {
-    border: 0px solid black;
+    border: 0 solid black;
     outline: none;
 }
 
 .log-input:focus {
-    border: 0px solid black;
+    border: 0 solid black;
     outline: none;
 }
 
@@ -232,12 +232,11 @@ p {
 .auth-btn button, .log-reg-btn, .reg-login-btn {
     cursor: pointer;
     color: #333333;
-    cursor: pointer;
     height: 50px;
     width: 350px;
     font-size: var(--text-label);
     text-decoration: none;
-    border: 0px black solid;
+    border: 0 black solid;
     padding: 5px 15px;
     font-weight: 700;
     border-radius: 25px;

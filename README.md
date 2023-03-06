@@ -3,6 +3,8 @@ Frontend repo for Yandex.Music / Spotify project in technopark 2023 spring
 
 ## [Ссылка на backend](https://github.com/go-park-mail-ru/2023_1_Technokaif)
 
+## Ссылка на деплой: http://89.208.199.114/
+
 ## Команда
 - Ярослав Кузьмин - [yarikTri](https://github.com/yarikTri)
 - Степан Попов - [stepanpopov](https://github.com/stepanpopov)
