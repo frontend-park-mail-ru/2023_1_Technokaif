@@ -1,5 +1,9 @@
 import { albumsTemplate as templateHtml } from './AlbumsComp.hbs.js';
 
+/**
+ * Class for albums content in main page.
+ *
+ */
 export class AlbumsComp {
     #parent;
     #config;

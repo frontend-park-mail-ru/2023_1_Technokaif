@@ -15,7 +15,7 @@ export function registerAjax (userData) {
         url: PATH.auth,
         body: userData,
         whatRender: ({ status, context }) => {
-            if (status === 200) {
+            if (status < 300) {
                 // skipped id in context without error
                 loginAjax(userData.email, userData.password);
                 return;

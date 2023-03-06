@@ -11,7 +11,7 @@ import { clearField } from '../../utils/functions/clearFields.js';
 import { Form } from '../../components/form/form.js';
 
 /**
- *
+ * Function rendering auth form.
  * @param {HTMLElement} parent -- where to place Login page
  */
 export function renderLogin (parent) {
@@ -75,7 +75,7 @@ export function renderLogin (parent) {
 }
 
 /**
- *
+ * Logic for auth form errors.
  * @param {HTMLElement} errPlace -- where to place error
  * @param {string} loginValue -- value to check
  * @returns true if error is set else false

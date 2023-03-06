@@ -1,5 +1,8 @@
 import { sexTempate as templateHtml } from './sex.hbs.js';
 
+/**
+ * Class for gender choose fields in forms.
+ */
 export class Sex {
     #parent;
     #config;
