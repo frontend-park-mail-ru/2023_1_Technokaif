@@ -145,6 +145,11 @@ export function getEmailError (email, confirmEmail = '') {
         return result;
     }
 
+    if (!email.includes('@')) {
+        result.push(ERRORS.email);
+        return result;
+    }
+
     const lastSymb = email[email.length];
     if (lastSymb === '.' || lastSymb === '-' || lastSymb === '_') {
         result.push(ERRORS.email);
@@ -223,7 +228,7 @@ export function getUsernameError (username) {
 /**
  *
  * @param {string} name -- name to validate
- * @returns null if correct else return 'name'
+ * returns null if correct else return 'name'
  *
  * Correct: if length 2-20 and contains only letters
  */
