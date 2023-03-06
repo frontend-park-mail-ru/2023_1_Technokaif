@@ -1,8 +1,8 @@
 import { ID_REG as ID, CLASS_REG as CLASS } from '../../utils/config/id.js';
 
 /**
- *
- * @returns -- all settings to form template in register
+ * Function to create registration form setup config for template.
+ * @returns {json} config -- config for template.
  */
 export function regFormSetup () {
     return {

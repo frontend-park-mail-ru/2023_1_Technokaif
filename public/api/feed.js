@@ -4,6 +4,10 @@ import { createHomePageContent } from '../components/MainWindowRender/mainWindow
 import { Ajax } from '../modules/ajax.js';
 import { PATH } from '../utils/config/urls.js';
 
+/**
+ * Function for main page content render.
+ * @param {HTMLElement} parent
+ */
 export function feedAjax (parent) {
     const AjaxReq = new Ajax();
     AjaxReq.get({

@@ -14,7 +14,7 @@ export function logoutAjax () {
     AjaxReq.get({
         url: '/api/auth/logout',
         whatRender: ({ status, context }) => {
-            if (status !== 200) {
+            if (status < 300) {
                 alert(context);
                 localStorage.removeItem('jwt');
                 redirect(unAuthNavConfig.login);

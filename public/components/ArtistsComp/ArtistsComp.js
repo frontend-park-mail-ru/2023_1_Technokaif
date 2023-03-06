@@ -1,5 +1,8 @@
 import { artistsTemplate as templateHtml } from './ArtistsComp.hbs.js';
 
+/**
+ * Class for artists content in main page.
+ */
 export class ArtistsComp {
     #parent;
     #config;

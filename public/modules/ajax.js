@@ -30,7 +30,6 @@ export class Ajax {
 
     _ajax ({ method, url, body = null, whatRender = noop }) {
         let request = {};
-        // url = '/api' + url;
         if (body === null) {
             request = new Request(
                 url, {
@@ -57,7 +56,7 @@ export class Ajax {
             responseRaw => responseRaw.json().then(
                 responseJson => {
                     const status = responseRaw.status;
-                    if (status !== 200) {
+                    if (!responseRaw.ok) {
                         const error = responseJson.message;
                         whatRender({ status, context: error });
                         return;

@@ -9,7 +9,6 @@
     --text-navbar: 16px;
     --text-cover-artist: 13px;
     --text-cover-description: 12px;
-
 }
 
 body {
@@ -24,6 +23,7 @@ p {
 }
 
 .title {
+    cursor: pointer;
     margin-top: 20px;
     display: flex;
     align-items: center;

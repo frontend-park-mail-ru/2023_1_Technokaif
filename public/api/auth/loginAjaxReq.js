@@ -17,7 +17,7 @@ export function loginAjax (login, password) {
         url: PATH.login,
         body: { username: login, password },
         whatRender: ({ status, context }) => {
-            if (status === 200) {
+            if (status < 300) {
                 localStorage.setItem('jwt', context.jwt);
 
                 redirect(sidebarConfig.feed);
