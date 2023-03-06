@@ -1,8 +1,8 @@
 'use strict';
 
-import { sidebarConfig } from '../../utils/config.js';
+import { sidebarConfig } from '../../utils/config/config.js';
 import { redirect } from '../../modules/redirects.js';
-import { PATH } from '../../utils/urls.js';
+import { PATH } from '../../utils/config/urls.js';
 import { Ajax } from '../../modules/ajax.js';
 
 /**

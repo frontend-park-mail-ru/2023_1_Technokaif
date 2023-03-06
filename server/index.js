@@ -4,7 +4,6 @@ const express = require('express');
 const body = require('body-parser');
 const cookie = require('cookie-parser');
 const morgan = require('morgan');
-const uuid = require('uuid').v4;
 const path = require('path');
 const app = express();
 
@@ -82,20 +81,20 @@ app.post('/api/auth/signup', (req, res) => {
 });
 
 app.post('/api/auth/login', (req, res) => {
-    // const password = req.body.password;
-    // const email = req.body.username;
-    // if (!password || !email) {
-    //     return res.status(400).json({ error: 'Не указан E-Mail или пароль' });
-    // }
-    // if (!users[email] || users[email].password !== password) {
-    //     return res.status(400).json({ error: 'Не верный E-Mail и/или пароль' });
-    // }
+    const password = req.body.password;
+    const email = req.body.username;
+    if (!password || !email) {
+        return res.status(400).json({ error: 'Не указан E-Mail или пароль' });
+    }
+    if (!users[email] || users[email].password !== password) {
+        return res.status(400).json({ error: 'Не верный E-Mail и/или пароль' });
+    }
 
     res.status(200).json({ jwt: 'fdfksldsdgsgs82358afs' });
 });
 
 app.get('/api/auth/logout', (req, res) => {
-    res.status(200).json({err: 'sfffs'});
+    res.status(200).json({ err: 'sfffs' });
 });
 
 app.get('/api/feed', (req, res) => {

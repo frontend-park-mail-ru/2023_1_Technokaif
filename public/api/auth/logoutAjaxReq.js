@@ -1,8 +1,8 @@
 'use strict';
 
 import { redirect } from '../../modules/redirects.js';
-import { sidebarConfig, unAuthNavConfig } from '../../utils/config.js';
-import { clearBars } from '../../utils/prePageRender.js';
+import { sidebarConfig, unAuthNavConfig } from '../../utils/config/config.js';
+import { clearBars } from '../../utils/functions/prePageRender.js';
 import { Ajax } from '../../modules/ajax.js';
 
 /**

@@ -1,4 +1,4 @@
-import { ID_LOG as ID, CLASS_LOG as CLASS } from '../../utils/id.js';
+import { ID_LOG as ID, CLASS_LOG as CLASS } from '../../utils/config/id.js';
 
 /**
  *

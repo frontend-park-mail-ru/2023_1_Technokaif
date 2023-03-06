@@ -1,6 +1,6 @@
 'use strict';
 
-import { PATH } from '../../utils/urls.js';
+import { PATH } from '../../utils/config/urls.js';
 import { loginAjax } from './loginAjaxReq.js';
 import { Ajax } from '../../modules/ajax.js';
 
