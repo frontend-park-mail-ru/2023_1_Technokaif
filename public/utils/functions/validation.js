@@ -3,13 +3,18 @@
 import { MONTHS } from '../config/config.js';
 import { ERRORS_VALIDATE as ERRORS } from '../config/validateConf.js';
 
+const alphabetBig = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const alphabetSmall = 'abcdefghijklmnopqrstuvwxyz';
+const digits = '0123456789';
+const forbidenEmailSymb = '<>()[],;:\\/';
+
 /**
  *
  * @param {string} login -- string to check
  * @returns {bool} -- return true if login contains @
  */
 export function checkIsEmail (login) {
-    return !!login.match('@');
+    return login.includes('@');
 }
 
 /**
@@ -28,16 +33,39 @@ export function checkIsEmail (login) {
  *  symbols: ' " : space";
  */
 export function getPasswordError (password) {
-    if ((!(/[\'\"\ \:]/g).test(password) &&  // eslint-disable-line
-    (/.{8,30}/g).test(password)) &&
-    (/[A-Z]/g).test(password) &&
-    (/[0-9]/g).test(password) &&
-    (/[a-z]/g).test(password)) {
+    if (password.includes('\'') || password.includes('\"') ||
+        password.includes('\ ') || password.includes('\:')) {
+        return ERRORS.password;
+    }
+
+    if (password.length < 8 || password.length > 30) {
+        return ERRORS.password;
+    }
+
+    let isBigExist = false;
+    let isSmallExist = false;
+    let isDigitsExist = false;
+
+    for (let i = 0; i < password.length; i++) {
+        if (alphabetBig.includes(password[i])) {
+            isBigExist = true;
+        }
+
+        if (alphabetSmall.includes(password[i])) {
+            isSmallExist = true;
+        }
+
+        if (digits.includes(password[i])) {
+            isDigitsExist = true;
+        }
+    }
+
+    if (isBigExist && isSmallExist && isDigitsExist) {
         return null;
-    };
+    }
 
     return ERRORS.password;
-}
+};
 
 /**
  *
@@ -123,10 +151,17 @@ export function getEmailError (email, confirmEmail = '') {
         return result;
     }
 
-    if (!((/^[\w]+[\w\.\-]*@{1}[\w]+[\.]*[\w\.\-]*/gmi).test(email) && // eslint-disable-line
-    (!(/[\<\>\(\)\[\]\,\;\:\\\/\"]/gmi).test(email)))) { // eslint-disable-line
-        result.push(ERRORS.email);
-    }; // check for forbiden symbols
+    for (let i = 0; i < email.length; i++) {
+        if (forbidenEmailSymb.includes(email[i])) {
+            result.push(ERRORS.email);
+            return result;
+        }
+
+        if (!(alphabetBig.includes(email[i]) || alphabetSmall.includes(email[i]) ||
+            digits.includes(email[i]) || '.-_'.includes(email[i]))) {
+            result.push(ERRORS.email);
+        }
+    }
 
     if (result.length === 0) {
         result = null;
@@ -171,12 +206,18 @@ export function getSexError (...boxes) {
  * username length 4-20 and contains only _, letters, digits
  */
 export function getUsernameError (username) {
-    if ((/^[\w]{4,20}$/gmi).test(username) &&
-    !(/[^\w]/gmi).test(username)) {
-        return null;
-    };
+    if (username.length < 4 || username.length > 20) {
+        return ERRORS.username;
+    }
 
-    return ERRORS.username;
+    for (let i = 0; i < username.length; i++) {
+        if (!(alphabetBig.includes(username[i]) || alphabetSmall.includes(username[i]) ||
+            digits.includes(username[i]))) {
+            return ERRORS.username;
+        }
+    }
+
+    return null;
 }
 
 /**
@@ -187,11 +228,16 @@ export function getUsernameError (username) {
  * Correct: if length 2-20 and contains only letters
  */
 export function getNameError (name) {
-    if ((/^[a-z]{2,20}$/gmi).test(name) &&
-    (!(/[^a-z]/gmi).test(name))) {
-        return null;
-    };
+    if (name.length < 2 || name.length > 20) {
+        return ERRORS.name;
+    }
 
+    for (let i = 0; i < username.length; i++) {
+        if (!(alphabetBig.includes(name[i]) || alphabetSmall.includes(name[i])) {
+            return ERRORS.name
+        }
+    }
+    
     return ERRORS.name;
 }
 
