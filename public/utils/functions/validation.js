@@ -1,12 +1,8 @@
 'use strict';
 
 import { MONTHS } from '../config/config.js';
-import { ERRORS_VALIDATE as ERRORS } from '../config/validateConf.js';
+import { ERRORS_VALIDATE as ERRORS, alphabetBig, alphabetSmall, digits, forbidenEmailSymb } from '../config/validateConf.js';
 
-const alphabetBig = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const alphabetSmall = 'abcdefghijklmnopqrstuvwxyz';
-const digits = '0123456789';
-const forbidenEmailSymb = '<>()[],;:\\/';
 
 /**
  *
@@ -33,8 +29,8 @@ export function checkIsEmail (login) {
  *  symbols: ' " : space";
  */
 export function getPasswordError (password) {
-    if (password.includes('\'') || password.includes('\"') ||
-        password.includes('\ ') || password.includes('\:')) {
+    if (password.includes('\'') || password.includes('\"') || // eslint-disable-line
+        password.includes('\ ') || password.includes('\:')) { // eslint-disable-line
         return ERRORS.password;
     }
 
@@ -66,6 +62,7 @@ export function getPasswordError (password) {
 
     return ERRORS.password;
 };
+
 
 /**
  *
@@ -244,7 +241,7 @@ export function getUsernameError (username) {
 /**
  *
  * @param {string} name -- name to validate
- * returns null if correct else return 'name'
+ * @returns null if correct else return 'name'
  *
  * Correct: if length 2-20 and contains only letters
  */

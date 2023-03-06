@@ -60,6 +60,7 @@ export class Ajax {
                     if (status !== 200) {
                         const error = responseJson.message;
                         whatRender({ status, context: error });
+
                         return;
                     }
 
