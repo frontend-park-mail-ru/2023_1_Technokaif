@@ -150,6 +150,22 @@ export function getEmailError (email, confirmEmail = '') {
         return result;
     }
 
+    if (email[email.indexOf('@') + 1] === '.') {
+        result.push(ERRORS.email);
+        return result;
+    }
+    const emailAfter = email.substring(email.indexOf('@') + 1);
+    if (!(emailAfter.includes('.'))) {
+        result.push(ERRORS.email);
+        return result;
+    }
+
+    if (emailAfter.includes('@')) {
+        console.log('@');
+        result.push(ERRORS.email);
+        return result;
+    }
+
     const lastSymb = email[email.length];
     if (lastSymb === '.' || lastSymb === '-' || lastSymb === '_') {
         result.push(ERRORS.email);
@@ -217,7 +233,7 @@ export function getUsernameError (username) {
 
     for (let i = 0; i < username.length; i++) {
         if (!(alphabetBig.includes(username[i]) || alphabetSmall.includes(username[i]) ||
-            digits.includes(username[i]))) {
+            digits.includes(username[i]) || '_'.includes(username[i]))) {
             return ERRORS.username;
         }
     }
