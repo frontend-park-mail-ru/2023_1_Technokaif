@@ -7,6 +7,7 @@ import { ID_REG as ID, CLASS_REG as CLASS } from '../../utils/config/id.js';
 export function regFormSetup () {
     return {
         errorTop: ID.errorTop,
+        errorText: 'error-text',
         content: 'content',
         header: 'header',
         title: CLASS.title,

@@ -7,6 +7,7 @@ import { ID_LOG as ID, CLASS_LOG as CLASS } from '../../utils/config/id.js';
 export function logFormSetup () {
     return {
         errorTop: CLASS.errorTop,
+        errorText: 'error-text',
         topID: 'serverErrors',
         content: 'content',
         header: 'header',

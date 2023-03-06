@@ -9,7 +9,7 @@ export const headerTemplate =
         <p class="{{titleClass}}">{{titleName}}</p>
     </a>
     {{#if errorTop}}
-        <div class="{{errorTop}}" {{#if topID}} id="{{topID}}" {{/if}}></div>
+        <div class="{{errorTop}}" {{#if topID}} id="{{topID}}" {{/if}}><p class="{{errorText}}"></p></div>
     {{/if}}
     <div class="{{descriptionClass}}">
         <p class="{{descriptionLabelClass}}">{{descriptionName}}</p>

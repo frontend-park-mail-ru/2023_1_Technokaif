@@ -24,7 +24,8 @@ export function loginAjax (login, password) {
                 return;
             }
 
-            alert(context);
+            document.getElementById('serverErrors').style.display = 'block';
+            document.getElementsByClassName('error-text')[0].innerText = context;
         }
     });
 }

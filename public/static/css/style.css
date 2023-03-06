@@ -86,9 +86,18 @@ p {
 }
 
 .error-server {
+    display: none;
+    margin-top: 45px;
     color:white;
     background-color: red;
     width: 100%;
+}
+
+.error-text {
+    font-weight: 600;
+    font-size: var(--text-label);
+    line-height: 18px;
+    padding: 10px;
 }
 
 .error-message-server {
