@@ -1,3 +1,6 @@
+/**
+ * Contains template string for header
+ */
 export const headerTemplate =
 `
 <div class="{{header}}">

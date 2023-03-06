@@ -1,3 +1,6 @@
+/**
+ * Contains template string for footer
+ */
 export const footerTemplate =
 `
 <div class="{{bottomClass}}">

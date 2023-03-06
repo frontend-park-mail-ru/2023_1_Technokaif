@@ -1,3 +1,6 @@
+/**
+ * Contains template string for date picker.
+ */
 export const dateTemplate =
 `
 <div class="{{dateMainDiv}}">

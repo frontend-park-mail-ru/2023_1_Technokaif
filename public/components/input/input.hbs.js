@@ -1,3 +1,6 @@
+/**
+ * Contains template string for input
+ */
 export const inputTemplate =
 `
 <div class="{{divBeforeInput}}">

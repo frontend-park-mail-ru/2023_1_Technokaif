@@ -1,5 +1,5 @@
 import { sexTempate as templateHtml } from './sex.hbs.js';
-
+// ask нужно ли расписывать все поля тут?
 export class Sex {
     #parent;
     #config;
@@ -18,7 +18,7 @@ export class Sex {
     }
 
     HTML (cfg = '') {
-        const template1 = Handlebars.compile(templateHtml);
+        const template1 = Handlebars.compile(templateHtml); // eslint-disable-line
         if (cfg === '') {
             return template1(cfg);
         }

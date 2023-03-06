@@ -39,12 +39,18 @@ export const ID_LOG = {
     password: 'passwordField'
 };
 
+/**
+ * All class for registration window
+ */
 export const CLASS_REG = {
     title: 'title',
     link: 'reg-login-btn auth-btn'
 
 };
 
+/**
+ * All class for login window
+ */
 export const CLASS_LOG = {
     title: 'title',
     link: 'log-reg-btn auth-btn',

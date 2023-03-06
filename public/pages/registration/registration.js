@@ -1,17 +1,16 @@
 'use strict';
 
-import { getAllErrors, getDayError, getEmailError, getMonthError, getNameError, getSexError, getUsernameError, getYearError, getPasswordError } from '../../utils/validation.js';
-import { clearField } from '../../utils/clearFields.js';
+import { getAllErrors, getDayError, getEmailError, getMonthError, getNameError, getSexError, getUsernameError, getYearError, getPasswordError } from '../../utils/functions/validation.js';
+import { clearField } from '../../utils/functions/clearFields.js';
 import { registerAjax } from '../../api/auth/registerAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
-import { unAuthNavConfig, MONTHS, sidebarConfig } from '../../utils/config.js';
+import { unAuthNavConfig, MONTHS, sidebarConfig } from '../../utils/config/config.js';
 import { sexSetup, regFormSetup, dateSetup } from './creationSetup.js';
-import { ERRORS_REG as ERRORS } from '../../utils/errors.js';
-import { ID_REG as ID, CLASS_REG as CLASS } from '../../utils/id.js';
-import { translateOneDigitToTwo, errorGenerate } from '../../utils/utils.js';
-import { ERRORS_VALIDATE } from '../../utils/validateConf.js';
-import { Header } from '../../components/Header/header.js';
+import { ERRORS_REG as ERRORS } from '../../utils/config/errors.js';
+import { ID_REG as ID, CLASS_REG as CLASS } from '../../utils/config/id.js';
+import { ERRORS_VALIDATE } from '../../utils/config/validateConf.js';
 import { Form } from '../../components/form/form.js';
+import { errorGenerate, translateOneDigitToTwo } from '../../utils/functions/utils.js';
 const Method = 'focusout';
 
 /**
@@ -21,21 +20,6 @@ const Method = 'focusout';
 export function renderSignup (parent) {
     const form1 = new Form(parent, regFormSetup(), sexSetup(), dateSetup());
     form1.render();
-
-    //     const templateForm = Handlebars.compile(document.getElementById(ID.formTemplate).innerHTML);
-    //     const textElements = templateForm(regFormSetup());
-
-    //     parent.innerHTML = textElements;
-
-    //     const posWherePlace = document.getElementById(ID.placement);
-
-    //     const templateDate = Handlebars.compile(document.getElementById(ID.dateTemplate).innerHTML);
-    //     const dates = templateDate(dateSetup());
-    //     posWherePlace.innerHTML += dates;
-
-    //     const templateSex = Handlebars.compile(document.getElementById(ID.sexTemplate).innerHTML);
-    //     const sex = templateSex(sexSetup());
-    //     posWherePlace.innerHTML += sex;
 
     errorGenerate(Method,
         document.getElementById(ID.email),
@@ -109,7 +93,6 @@ export function renderSignup (parent) {
         const where = document.getElementsByClassName('error-gender')[0];
         clearField(where);
 
-        // todo bad error
         const radioButtons = document.getElementsByClassName('reg-sex-radio');
         const elements = [];
 
@@ -127,6 +110,7 @@ export function renderSignup (parent) {
     });
 
     const form = parent.querySelector('.reg-form');
+    // ask can we decrease it size?
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -199,7 +183,6 @@ export function renderSignup (parent) {
                     errorYear.innerHTML = `<p class="error">${ERRORS.year}</p>`;
                     break;
                 case ERRORS_VALIDATE.sex:
-                    // todo bad error
                     errorSex.innerHTML = `<p class="error">${ERRORS.sex}</p>`;
                     break;
                 }

@@ -1,6 +1,6 @@
 import { redirect } from '../../modules/redirects.js';
-import { authNavConfig, unAuthNavConfig } from '../../utils/config.js';
-import { checkAuth } from '../../utils/checkAuth.js';
+import { authNavConfig, unAuthNavConfig } from '../../utils/config/config.js';
+import { checkAuth } from '../../utils/functions/checkAuth.js';
 
 class Navbar {
     #parent;

@@ -1,13 +1,13 @@
 'use strict';
 
-import { unAuthNavConfig, sidebarConfig } from '../../utils/config.js';
-import { checkIsEmail, getUsernameError, getPasswordError, getEmailError } from '../../utils/validation.js';
+import { unAuthNavConfig, sidebarConfig } from '../../utils/config/config.js';
+import { checkIsEmail, getUsernameError, getPasswordError, getEmailError } from '../../utils/functions/validation.js';
 import { loginAjax } from '../../api/auth/loginAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
-import { ERRORS_LOG as ERRORS } from '../../utils/errors.js';
-import { ID_LOG as ID, CLASS_LOG as CLASS } from '../../utils/id.js';
+import { ERRORS_LOG as ERRORS } from '../../utils/config/errors.js';
+import { ID_LOG as ID, CLASS_LOG as CLASS } from '../../utils/config/id.js';
 import { logFormSetup } from './authSetup.js';
-import { clearField } from '../../utils/clearFields.js';
+import { clearField } from '../../utils/functions/clearFields.js';
 import { Form } from '../../components/form/form.js';
 
 /**

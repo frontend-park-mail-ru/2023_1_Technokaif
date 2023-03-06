@@ -1,3 +1,6 @@
+/**
+ * Contains template string for form
+ */
 export const formTemplate =
 `
 <div class="{{content}}">
