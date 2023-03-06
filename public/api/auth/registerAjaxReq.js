@@ -21,7 +21,7 @@ export function registerAjax (userData) {
                 return;
             }
 
-            alert(context);
+            document.getElementById('serverErrors').innerText = context;
         }
     });
 }
