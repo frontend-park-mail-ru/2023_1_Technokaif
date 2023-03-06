@@ -110,7 +110,6 @@ export function renderSignup (parent) {
     });
 
     const form = parent.querySelector('.reg-form');
-    // ask can we decrease it size?
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 

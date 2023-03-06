@@ -2,6 +2,13 @@ import { redirect } from '../../modules/redirects.js';
 import { authNavConfig, unAuthNavConfig } from '../../utils/config/config.js';
 import { checkAuth } from '../../utils/functions/checkAuth.js';
 
+/**
+ * Class for Navbar element: Login, Registration, Logout and user info.
+ * @constructor
+ * @param {HTMLElement} parent - Element where to render.
+ * @param {json} config - Config with json fields.
+ * @param {string} name - Name using in classes.
+ */
 class Navbar {
     #parent;
     #config;
@@ -36,6 +43,13 @@ class Navbar {
     }
 
     render () {
+        console.log(this.items);
+
+        // const template= Handlebars.compile(templateHtml); // eslint-disable-line
+        // const templateInnerHtml = template({ items: this.items });
+        // console.log({ items: this.items });
+        // this.#parent.innerHTML += templateInnerHtml;
+
         this.items.map(({ key, href, name, type, logoSrc }, index) => {
             const div = document.createElement('div');
             const contentElement = document.createElement(type);

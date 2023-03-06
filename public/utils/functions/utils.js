@@ -30,7 +30,6 @@ export function translateOneDigitToTwo (elemToTranslate) {
     return result;
 }
 
-// ask как сделать перевод на новую строку
 /**
  * Create <p> element with class error. Add eventListener on element.
  * @param {string} event -- what event trigger appearance of error

@@ -1,7 +1,14 @@
-import { createDivAndInsertInParent } from '../../utils/functions/utils.js';
 import { redirect } from '../../modules/redirects.js';
 import { sidebarConfig } from '../../utils/config/config.js';
+import { menuTemplate as templateHtml } from './menu.hbs.js';
 
+/**
+ * Class for Menu: Home, Search, Library, Create Playlist, Liked Songs.
+ * @constructor
+ * @param {HTMLElement} parent - Element where to render.
+ * @param {json} config - Config with json fields.
+ * @param {string} name - Name using in classes.
+ */
 class Menu {
     #parent;
     #config;
@@ -40,32 +47,29 @@ class Menu {
     }
 
     render () {
-        const logoDiv = createDivAndInsertInParent(this.#parent, 'logo');
-        // maybe xss
-        logoDiv.innerHTML += '<div class="menu-title"><img src="/static/svg/whiteLogo.svg"><h1>Fluire</h1></div><hr align="center", class="menu-hr">';
-        this.items.map(({ key, href, name, logoSrc }, index) => {
-            const div = document.createElement('div');
-            const element = document.createElement('a');
+        const items = this.#translateToItems(this.#config);
+        items.name = this.#name;
 
-            element.textContent = name;
-            element.href = href;
-            element.dataset.section = key;
-            div.classList.add(`${key}__${this.#name}__item`);
-
-            if (index === 0) {
-                element.classList.add('active');
-            }
-
-            const logo = document.createElement('img');
-            logo.src = logoSrc;
-            logo.classList.add(`${key}__logo`);
-            div.appendChild(logo);
-            div.appendChild(element);
-
-            return div;
-        }).forEach((e) => this.#parent.appendChild(e));
+        const template= Handlebars.compile(templateHtml); // eslint-disable-line
+        const templateInnerHtml = template(items);
+        this.#parent.innerHTML += templateInnerHtml;
 
         this.callEventListener();
+    }
+
+    #translateToItems (lastCfg) {
+        const newcfg = { items: [] };
+        for (const obj in lastCfg) {
+            const tmpItem = {};
+
+            for (const property in lastCfg[obj]) {
+                tmpItem[property] = lastCfg[obj][property];
+            }
+
+            newcfg.items.push(tmpItem);
+        }
+
+        return newcfg;
     }
 }
 
