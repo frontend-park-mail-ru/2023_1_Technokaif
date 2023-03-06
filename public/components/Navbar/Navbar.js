@@ -39,37 +39,37 @@ class Navbar {
     render () {
         console.log(this.items);
 
-        const template= Handlebars.compile(templateHtml); // eslint-disable-line
-        const templateInnerHtml = template({ items: this.items });
-        console.log({ items: this.items });
-        this.#parent.innerHTML += templateInnerHtml;
+        // const template= Handlebars.compile(templateHtml); // eslint-disable-line
+        // const templateInnerHtml = template({ items: this.items });
+        // console.log({ items: this.items });
+        // this.#parent.innerHTML += templateInnerHtml;
 
-        // this.items.map(({ key, href, name, type, logoSrc }, index) => {
-        //     const div = document.createElement('div');
-        //     const contentElement = document.createElement(type);
+        this.items.map(({ key, href, name, type, logoSrc }, index) => {
+            const div = document.createElement('div');
+            const contentElement = document.createElement(type);
 
-        //     contentElement.textContent = name;
-        //     contentElement.href = href;
-        //     contentElement.dataset.section = key;
-        //     div.classList.add(`${key}__${this.#name}__item`);
-        //     if (index === 0) {
-        //         contentElement.classList.add('active');
-        //     }
+            contentElement.textContent = name;
+            contentElement.href = href;
+            contentElement.dataset.section = key;
+            div.classList.add(`${key}__${this.#name}__item`);
+            if (index === 0) {
+                contentElement.classList.add('active');
+            }
 
-        //     if (key === 'registration') {
-        //         const verticalLine = document.createElement('div');
-        //         div.appendChild(verticalLine);
-        //         verticalLine.classList.add('border-left');
-        //     }
+            if (key === 'registration') {
+                const verticalLine = document.createElement('div');
+                div.appendChild(verticalLine);
+                verticalLine.classList.add('border-left');
+            }
 
-        //     if (logoSrc !== undefined) {
-        //         contentElement.href = logoSrc;
-        //     }
+            if (logoSrc !== undefined) {
+                contentElement.href = logoSrc;
+            }
 
-        //     div.appendChild(contentElement);
+            div.appendChild(contentElement);
 
-        //     return div;
-        // }).forEach((e) => this.#parent.appendChild(e));
+            return div;
+        }).forEach((e) => this.#parent.appendChild(e));
 
         this.callEventListener();
     }

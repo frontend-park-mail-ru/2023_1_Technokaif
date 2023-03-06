@@ -232,12 +232,12 @@ export function getNameError (name) {
         return ERRORS.name;
     }
 
-    for (let i = 0; i < username.length; i++) {
-        if (!(alphabetBig.includes(name[i]) || alphabetSmall.includes(name[i])) {
-            return ERRORS.name
+    for (let i = 0; i < name.length; i++) {
+        if (!(alphabetBig.includes(name[i]) || alphabetSmall.includes(name[i]))) {
+            return ERRORS.name;
         }
     }
-    
+
     return ERRORS.name;
 }
 
