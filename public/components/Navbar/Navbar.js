@@ -42,13 +42,6 @@ class Navbar {
     }
 
     render () {
-        console.log(this.items);
-
-        // const template= Handlebars.compile(templateHtml); // eslint-disable-line
-        // const templateInnerHtml = template({ items: this.items });
-        // console.log({ items: this.items });
-        // this.#parent.innerHTML += templateInnerHtml;
-
         this.items.map(({ key, href, name, type, logoSrc }, index) => {
             const div = document.createElement('div');
             const contentElement = document.createElement(type);
