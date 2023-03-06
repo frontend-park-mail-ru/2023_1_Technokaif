@@ -7,6 +7,9 @@ const AJAX_METHODS = {
 
 const noop = () => {};
 
+/**
+ * Requests class for all server-api request work.
+ */
 export class Ajax {
     get ({ url, whatRender }) {
         this._ajax({

@@ -6,10 +6,16 @@ import { checkAuth } from './checkAuth.js';
 import { createDivAndInsertInParent } from './utils.js';
 import Navbar from '../../components/Navbar/Navbar.js';
 
+/**
+ * Function to clear root element.
+ */
 export function clearBars () {
     document.getElementById('root').innerHTML = '';
 }
 
+/**
+ * Render Navbar and Menu components.
+ */
 export function prePageRender () {
     const bodyElement = document.createElement('factBody');
     const menuElement = document.createElement('aside');

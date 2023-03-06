@@ -1,5 +1,8 @@
 import { tracksTemplate as templateHtml } from './TracksComp.hbs.js';
 
+/**
+ * Class for tracks content in main page.
+ */
 export class TracksComp {
     #parent;
     #config;

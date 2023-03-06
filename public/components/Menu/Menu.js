@@ -2,6 +2,13 @@ import { redirect } from '../../modules/redirects.js';
 import { sidebarConfig } from '../../utils/config/config.js';
 import { menuTemplate as templateHtml } from './menu.hbs.js';
 
+/**
+ * Class for Menu: Home, Search, Library, Create Playlist, Liked Songs.
+ * @constructor
+ * @param {HTMLElement} parent - Element where to render.
+ * @param {json} config - Config with json fields.
+ * @param {string} name - Name using in classes.
+ */
 class Menu {
     #parent;
     #config;

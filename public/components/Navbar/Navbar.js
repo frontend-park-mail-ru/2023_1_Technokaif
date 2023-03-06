@@ -7,6 +7,7 @@ import { checkAuth } from '../../utils/functions/checkAuth.js';
  * @constructor
  * @param {HTMLElement} parent - Element where to render.
  * @param {json} config - Config with json fields.
+ * @param {string} name - Name using in classes.
  */
 class Navbar {
     #parent;
