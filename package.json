@@ -1,0 +1,32 @@
+{
+  "name": "2023_1_technokaif",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "description": "Frontend repo for Yandex.Music / Spotify project in technopark 2023 spring",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.18.2",
+    "handlebars": "^4.7.7",
+    "jade": "^1.9.2",
+    "morgan": "^1.10.0",
+    "require": "^0.4.4",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.35.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "pug": "^3.0.2"
+  }
+}
