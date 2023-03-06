@@ -15,7 +15,6 @@ export function logoutAjax () {
         url: '/api/auth/logout',
         whatRender: ({ status, context }) => {
             if (status !== 200) {
-                alert(context);
                 localStorage.removeItem('jwt');
                 redirect(unAuthNavConfig.login);
                 return;
