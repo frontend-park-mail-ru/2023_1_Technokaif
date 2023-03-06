@@ -158,7 +158,7 @@ export function getEmailError (email, confirmEmail = '') {
         }
 
         if (!(alphabetBig.includes(email[i]) || alphabetSmall.includes(email[i]) ||
-            digits.includes(email[i]) || '.-_'.includes(email[i]))) {
+            digits.includes(email[i]) || '@.-_'.includes(email[i]))) {
             result.push(ERRORS.email);
         }
     }
@@ -229,16 +229,18 @@ export function getUsernameError (username) {
  */
 export function getNameError (name) {
     if (name.length < 2 || name.length > 20) {
+        console.log('Len', length);
         return ERRORS.name;
     }
 
     for (let i = 0; i < name.length; i++) {
         if (!(alphabetBig.includes(name[i]) || alphabetSmall.includes(name[i]))) {
+            console.log('Forbit', name[i]);
             return ERRORS.name;
         }
     }
 
-    return ERRORS.name;
+    return null;
 }
 
 /**
