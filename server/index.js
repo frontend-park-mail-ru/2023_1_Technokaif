@@ -82,14 +82,14 @@ app.post('/api/auth/signup', (req, res) => {
 });
 
 app.post('/api/auth/login', (req, res) => {
-    // const password = req.body.password;
-    // const email = req.body.username;
-    // if (!password || !email) {
-    //     return res.status(400).json({ error: 'Не указан E-Mail или пароль' });
-    // }
-    // if (!users[email] || users[email].password !== password) {
-    //     return res.status(400).json({ error: 'Не верный E-Mail и/или пароль' });
-    // }
+    const password = req.body.password;
+    const email = req.body.username;
+    if (!password || !email) {
+        return res.status(400).json({ error: 'Не указан E-Mail или пароль' });
+    }
+    if (!users[email] || users[email].password !== password) {
+        return res.status(400).json({ error: 'Не верный E-Mail и/или пароль' });
+    }
 
     res.status(200).json({ jwt: 'fdfksldsdgsgs82358afs' });
 });

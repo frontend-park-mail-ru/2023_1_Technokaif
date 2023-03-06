@@ -16,7 +16,7 @@ import { Form } from '../../components/form/form.js';
  */
 export function renderLogin (parent) {
     const form1 = new Form(parent, logFormSetup());
-    form1.render();``
+    form1.render();
 
     const loginField = parent.querySelector(`#${ID.login}`);
     loginField.addEventListener('focusout', (e) => {

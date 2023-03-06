@@ -50,10 +50,6 @@ export class Ajax {
                 });
         }
 
-        // if (localStorage.getItem('jwt') != null && method === AJAX_METHODS.GET) {
-        //      =
-        // }
-
         fetch(request).then(
             responseRaw => responseRaw.json().then(
                 responseJson => {

@@ -1,58 +1,63 @@
+import {ArtistsComp} from "../ArtistsComp/ArtistsComp.js";
+import {TracksComp} from "../TracksComp/TracksComp.js";
+import {AlbumsComp} from "../AlbumsComp/AlbumsComp.js";
+import {mainPageTemplate as templateHtml} from "./mainWindow.hbs.js";
+import {homeSetup} from '../../pages/home/homeSetup.js';
+
 /**
  *
  * @param {HTMLElement} parent -- where to place Home page
  * @param {*} items -- content of page
  */
+
+export class MainWindowContent {
+    #parent;
+    #config;
+
+    constructor (parent, config) {
+        this.#parent = parent;
+        this.#config = config;
+    }
+
+    get config () {
+        return this.#config;
+    }
+
+    render () {
+        this.#parent.innerHTML = this.HTML();
+        const insertBlock = this.#parent.querySelector('.main-page-window');
+        insertBlock.innerHTML += this.#renderArtists();
+        insertBlock.innerHTML += this.#renderTracks();
+        insertBlock.innerHTML += this.#renderAlbums();
+    }
+
+    HTML (cfg = '') {
+        // eslint-disable-next-line no-undef
+        const template1 = Handlebars.compile(templateHtml);
+        if (cfg === '') {
+            return template1(this.#config);
+        }
+
+        return template1(cfg);
+    }
+
+    #renderTracks () {
+        const tracks = new TracksComp(this.#parent, this.#config);
+        return tracks.HTML(this.#config);
+    }
+
+    #renderArtists () {
+        const artists = new ArtistsComp(this.#parent, this.#config);
+        return artists.HTML(this.#config);
+    }
+
+    #renderAlbums () {
+        const albums = new AlbumsComp(this.#parent, this.#config);
+        return albums.HTML(this.#config);
+    }
+}
+
 export function createHomePageContent (parent, items) {
-    const templateOfMainPage = Handlebars.compile(document.getElementById('main-page-template').innerHTML);
-
-    const mainPage = templateOfMainPage({
-        mainPageWindowDiv: 'main-page-window',
-
-        tracksTitleDiv: 'tracks-titles',
-        tracksTitle: 'tracks-title',
-        tracksFullList: 'tracks-show-full',
-
-        tracksDiv: 'tracks',
-        trackDiv: 'track-item',
-        trackImgDiv: 'track-item-img',
-        trackImg: 'track-img',
-        trackNameDiv: 'track-name',
-        trackIdDiv: 'track-id',
-
-        innerArtistsDiv: 'inner-artists',
-        innerArtistNameDiv: 'inner-artist-name',
-        innerArtistIdDiv: null,
-
-        artistsTitleDiv: 'artists-titles',
-        artistsTitle: 'artists-title',
-        artistsFullList: 'artists-show-full',
-
-        artistsDiv: 'artists',
-        artistDiv: 'artist-item',
-        artistImgDiv: 'artist-item-img',
-        artistImg: 'artist-img',
-        artistNameDiv: 'artist-name',
-        artistIdDiv: 'artist-id',
-
-        albumsTitleDiv: 'albums-titles',
-        albumsTitle: 'albums-title',
-        albumsFullList: 'albums-show-full',
-
-        albumsDiv: 'albums',
-        albumDiv: 'album-item',
-        albumImgDiv: 'album-item-img',
-        albumImg: 'album-img',
-        albumNameDiv: 'album-name',
-        albumIdDiv: 'album-id',
-        albumDescriptionDiv: 'album-description',
-
-        defaultAlbumCover: '/static/img/album2.jpg',
-        defaultTrackCover: '/static/img/pink.jpeg',
-        defaultArtistCover: '/static/img/singer.jpg',
-
-        content: items
-    });
-
-    parent.innerHTML += mainPage;
+    const mainPage = new MainWindowContent(parent, homeSetup(items));
+    mainPage.render();
 }
