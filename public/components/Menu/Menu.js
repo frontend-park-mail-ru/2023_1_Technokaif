@@ -1,4 +1,3 @@
-import { createDivAndInsertInParent } from '../../utils/functions/utils.js';
 import { redirect } from '../../modules/redirects.js';
 import { sidebarConfig } from '../../utils/config/config.js';
 import { menuTemplate as templateHtml } from './menu.hbs.js';
