@@ -14,7 +14,7 @@ import { errorGenerate, translateOneDigitToTwo } from '../../utils/functions/uti
 const Method = 'focusout';
 
 /**
- *
+ * Function rendering registration form.
  * @param {HTMLElement} parent -- where to place Signup page
  */
 export function renderSignup (parent) {

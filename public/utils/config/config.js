@@ -64,7 +64,7 @@ export const authNavConfig = {
     profile: {
         name: 'Profile',
         href: '/profile',
-        render: null,
+        render: renderHome,
         key: 'profile',
         type: 'button'
     },

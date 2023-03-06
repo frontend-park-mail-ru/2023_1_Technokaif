@@ -1,11 +1,11 @@
 import { ID_LOG as ID, CLASS_LOG as CLASS } from '../../utils/config/id.js';
 
 /**
- *
- * @returns -- all settings to form template in login
+ * Function to create login form setup config for template.
+ * @returns {json} config -- config for template.
  */
 export function logFormSetup () {
-    return {
+    return ({
         errorTop: CLASS.errorTop,
         topID: 'serverErrors',
         content: 'content',
@@ -62,5 +62,5 @@ export function logFormSetup () {
         linkHref: '/',
         linkClass: CLASS.link,
         linkText: 'Registration'
-    };
+    });
 }

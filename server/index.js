@@ -33,16 +33,16 @@ const users = {
         date: '2022-04-12',
         sex: 'M'
     },
-    'aleksandr.tsvetkov@corp.mail.ru': {
-        email: 'aleksandr.tsvetkov@corp.mail.ru',
-        password: 'password',
+    'aleksandr@mail.ru': {
+        email: 'aleksandr@mail.ru',
+        password: '321Kruto',
         username: 'username',
         firstName: 'firstName',
         lastName: 'lastName',
         date: '2022-04-12',
         sex: 'M'
     },
-    'aostapenko@mail.ru': {
+    '2002marsic@mail.ru': {
         email: '2002marsic@mail.ru',
         password: 'PassDword32',
         username: 'Username',
@@ -69,10 +69,10 @@ app.post('/api/auth/signup', (req, res) => {
         !password.match(/^\S{4,}$/) ||
         !email.match(/@/)
     ) {
-        return res.status(400).json({ error: 'Не валидные данные пользователя' });
+        return res.status(400).json({ message: 'Не валидные данные пользователя' });
     }
     if (users[email]) {
-        return res.status(400).json({ error: 'Пользователь уже существует' });
+        return res.status(400).json({ message: 'Пользователь уже существует' });
     }
 
     users[email] = { password, email, username, firstName, lastName, date, sex };
@@ -84,10 +84,10 @@ app.post('/api/auth/login', (req, res) => {
     const password = req.body.password;
     const email = req.body.username;
     if (!password || !email) {
-        return res.status(400).json({ error: 'Не указан E-Mail или пароль' });
+        return res.status(400).json({ message: 'Не указан E-Mail или пароль' });
     }
     if (!users[email] || users[email].password !== password) {
-        return res.status(400).json({ error: 'Не верный E-Mail и/или пароль' });
+        return res.status(400).json({ message: 'Не верный E-Mail и/или пароль' });
     }
 
     res.status(200).json({ jwt: 'fdfksldsdgsgs82358afs' });

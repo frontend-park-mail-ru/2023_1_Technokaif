@@ -1,4 +1,3 @@
-
 import { ArtistsComp } from '../ArtistsComp/ArtistsComp.js';
 import { TracksComp } from '../TracksComp/TracksComp.js';
 import { AlbumsComp } from '../AlbumsComp/AlbumsComp.js';

@@ -33,5 +33,7 @@ export function redirect (configSection) {
         root = document.getElementById('main');
     }
 
-    configSection.render(root);
+    if (configSection.render != null) {
+        configSection.render(root);
+    }
 }

@@ -1,5 +1,8 @@
 import { dateTemplate as templateHtml } from './date.hbs.js';
 
+/**
+ * Class for date fields manipulations.
+ */
 export class Date {
     #parent;
     #config;

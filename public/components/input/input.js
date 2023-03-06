@@ -1,5 +1,8 @@
 import { inputTemplate as templateHtml } from './input.hbs.js';
 
+/**
+ * Class of input field for forms.
+ */
 export class Input {
     #parent;
     #config;

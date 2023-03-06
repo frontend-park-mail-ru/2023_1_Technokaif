@@ -1,5 +1,8 @@
 import { headerTemplate as templateHtml } from './header.hbs.js';
 
+/**
+ * Class for header in login and registration.
+ */
 export class Header {
     #parent;
     #config;
