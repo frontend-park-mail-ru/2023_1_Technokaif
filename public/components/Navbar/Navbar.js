@@ -1,8 +1,13 @@
 import { redirect } from '../../modules/redirects.js';
 import { authNavConfig, unAuthNavConfig } from '../../utils/config/config.js';
 import { checkAuth } from '../../utils/functions/checkAuth.js';
-import { navbarTemplate as templateHtml } from './navbar.hbs.js';
 
+/**
+ * Class for Navbar element: Login, Registration, Logout and user info.
+ * @constructor
+ * @param {HTMLElement} parent - Element where to render.
+ * @param {json} config - Config with json fields.
+ */
 class Navbar {
     #parent;
     #config;

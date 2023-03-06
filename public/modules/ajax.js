@@ -56,7 +56,7 @@ export class Ajax {
                     let error;
                     const status = responseRaw.status;
                     if (status !== 200) {
-                        error = responseJson.error;
+                        error = responseJson.message;
                         whatRender({ status, error });
                         return;
                     }
