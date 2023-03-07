@@ -1,29 +1,39 @@
 export const tracksTemplate =
-`
-<div class="{{artistsTitleDiv}}">
-    <div class="{{artistsTitle}}">
-        <h2>Artists</h2>
+    `
+<div class="{{tracksTitleDiv}}">
+    <div class="{{tracksTitle}}">
+        <h2>Tracks</h2>
     </div>
-    <div class="{{artistsFullList}}">
+    <div class="{{tracksFullList}}">
         <p>Show all</p>
     </div>
 </div>
 
-<div class="{{artistsDiv}}">
-    {{#each content.artists}}
-        <div class="{{../artistDiv}}">
-            <div class="{{../artistImgDiv}}">
-                <img class="{{../artistImg}}" src=
+<div class="{{tracksDiv}}">
+    {{#each content.tracks}}
+        <div class="{{../trackDiv}}">
+            <div class="{{../trackImgDiv}}">
+                <img class="{{../trackImg}}"
+                    src=
                     {{#if this.cover}}
-                        "{{this.cover}}"
+                        "{{#convert}}{{this.cover}}{{/convert}}"
                     {{else}}
-                        "{{../defaultArtistCover}}"
-                    {{/if}}>
+                        "{{../defaultTrackCover}}"
+                    {{/if}}
+                    >
             </div>
-        <div class="{{../artistNameDiv}}">
-            <p>{{this.name}}</p>
+            <div class="{{../trackNameDiv}}">
+                <p>{{this.name}}</p>
+            </div>
+
+            <div class="{{../innerArtistsDiv}}">
+                {{#each this.artists}}
+                    <div class="{{../../innerArtistNameDiv}}">
+                        <p>{{this.name}}</p>
+                    </div>
+                {{/each}}
+            </div>
         </div>
-    </div>
     {{/each}}
 </div>
 `;

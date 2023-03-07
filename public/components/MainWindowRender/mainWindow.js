@@ -3,6 +3,7 @@ import { TracksComp } from '../TracksComp/TracksComp.js';
 import { AlbumsComp } from '../AlbumsComp/AlbumsComp.js';
 import { mainPageTemplate as templateHtml } from './mainWindow.hbs.js';
 import { homeSetup } from '../../pages/home/homeSetup.js';
+import { convertImgSrc } from '../../utils/functions/stringOperations.js';
 
 /**
  *
@@ -26,8 +27,8 @@ export class MainWindowContent {
     render () {
         this.#parent.innerHTML = this.HTML();
         const insertBlock = this.#parent.querySelector('.main-page-window');
-        insertBlock.innerHTML += this.#renderArtists();
         insertBlock.innerHTML += this.#renderTracks();
+        insertBlock.innerHTML += this.#renderArtists();
         insertBlock.innerHTML += this.#renderAlbums();
     }
 
@@ -58,6 +59,10 @@ export class MainWindowContent {
 }
 
 export function createHomePageContent (parent, items) {
+    Handlebars.registerHelper('convert', function (options) {
+        return convertImgSrc(options.fn(this));
+    });
+
     const mainPage = new MainWindowContent(parent, homeSetup(items));
     mainPage.render();
 }

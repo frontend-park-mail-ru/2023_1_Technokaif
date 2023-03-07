@@ -94,7 +94,7 @@ app.post('/api/auth/login', (req, res) => {
 });
 
 app.get('/api/auth/logout', (req, res) => {
-    res.status(200).json({ err: 'sfffs' });
+    res.status(200).json({ message: 'sfffs' });
 });
 
 app.get('/api/feed', (req, res) => {
@@ -149,6 +149,7 @@ app.get('/api/feed', (req, res) => {
             artists: [
                 {
                     name: 'Oxxxxy',
+                    cover: '/artists/oxxxymiron.jpg',
                     id: 5
                 },
                 {

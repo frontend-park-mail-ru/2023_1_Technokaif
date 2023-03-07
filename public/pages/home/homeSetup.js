@@ -46,9 +46,9 @@ export function homeSetup (items) {
         albumIdDiv: 'album-id',
         albumDescriptionDiv: 'album-description',
 
-        defaultAlbumCover: '/static/img/album2.jpg',
-        defaultTrackCover: '/static/img/pink.jpeg',
-        defaultArtistCover: '/static/img/singer.jpg',
+        defaultAlbumCover: '/static/img/albums/gorgorod.jpg',
+        defaultTrackCover: '/static/img/tracks/pink.jpeg',
+        defaultArtistCover: '/static/img/artists/singer.jpg',
 
         content: items
     });

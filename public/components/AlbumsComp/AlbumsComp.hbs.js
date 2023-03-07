@@ -15,7 +15,7 @@ export const albumsTemplate =
             <div class="{{../albumImgDiv}}">
                 <img class="{{../albumImg}}" src=
                     {{#if this.cover}}
-                        "{{this.cover}}"
+                        "{{#convert}}{{this.cover}}{{/convert}}"
                     {{else}}
                         "{{../defaultAlbumCover}}"
                     {{/if}}>
