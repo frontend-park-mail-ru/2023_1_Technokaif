@@ -14,7 +14,6 @@ export function logoutAjax() {
         whatRender: ({ status, context }) => {
             if (status < 300) {
                 localStorage.removeItem('jwt');
-                redirect(unAuthNavConfig.login);
                 return;
             }
 
