@@ -46,11 +46,17 @@ main {
     font-style: normal;
     font-weight: 700;
     font-size: var(--text-cover-artist);
-    line-height: 179.2%;
 
     letter-spacing: -0.025em;
 
     color: rgba(255, 255, 255, 0.6);
+}
+.inner-artist-name {
+    line-height: 179.2%;
+}
+
+.album-description {
+    line-height: 120%;
 }
 
 .track-name, .album-name, .artist-name {
