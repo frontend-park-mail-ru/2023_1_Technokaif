@@ -2,7 +2,9 @@ import { albumsTemplate as templateHtml } from './AlbumsComp.hbs.js';
 
 /**
  * Class for albums content in main page.
- *
+ * @constructor
+ * @param {HTMLElement} parent - Element where to render.
+ * @param {json} config - Config with json fields.
  */
 export class AlbumsComp {
     #parent;

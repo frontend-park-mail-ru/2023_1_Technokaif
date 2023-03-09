@@ -2,6 +2,9 @@ import { inputTemplate as templateHtml } from './input.hbs.js';
 
 /**
  * Class of input field for forms.
+ * @constructor
+ * @param {HTMLElement} parent - Element where to render.
+ * @param {json} config - Config with json fields.
  */
 export class Input {
     #parent;

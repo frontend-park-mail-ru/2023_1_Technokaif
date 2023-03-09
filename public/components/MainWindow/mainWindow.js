@@ -6,7 +6,7 @@ import { homeSetup } from '../../pages/home/homeSetup.js';
 import { convertImgSrc } from '../../utils/functions/stringOperations.js';
 
 /**
- *
+ * Class for main page content
  * @param {HTMLElement} parent -- where to place Home page
  * @param {*} items -- content of page
  */

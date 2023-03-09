@@ -2,6 +2,9 @@ import { artistsTemplate as templateHtml } from './ArtistsComp.hbs.js';
 
 /**
  * Class for artists content in main page.
+ * @constructor
+ * @param {HTMLElement} parent - Element where to render.
+ * @param {json} config - Config with json fields.
  */
 export class ArtistsComp {
     #parent;

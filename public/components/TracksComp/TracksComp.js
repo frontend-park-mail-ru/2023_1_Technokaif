@@ -2,6 +2,9 @@ import { tracksTemplate as templateHtml } from './TracksComp.hbs.js';
 
 /**
  * Class for tracks content in main page.
+ * @constructor
+ * @param {HTMLElement} parent - Element where to render.
+ * @param {json} config - Config with json fields.
  */
 export class TracksComp {
     #parent;

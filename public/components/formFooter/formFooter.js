@@ -1,5 +1,11 @@
 import { footerTemplate as templateHtml } from './formFooter.hbs.js';
 
+/**
+ * Class for next to form content(buttons...).
+ * @constructor
+ * @param {HTMLElement} parent - Element where to render.
+ * @param {json} config - Config with json fields.
+ */
 export class FormFooter {
     #parent;
 

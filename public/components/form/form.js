@@ -5,6 +5,14 @@ import { formTemplate as templateHtml } from './form.hbs.js';
 import { Sex } from '../sex/sex.js';
 import { Date } from '../date/date.js';
 
+/**
+ * Class for artists content in main page.
+ * @constructor
+ * @param {HTMLElement} parent - Element where to render.
+ * @param {json} config - Config with json general fields.
+ * @param {json} sexConf - Config with json fields for gender.
+ * @param {json} dateConf - Config with json fields for date fields.
+ */
 export class Form {
     #parent;
 

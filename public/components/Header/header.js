@@ -2,6 +2,9 @@ import { headerTemplate as templateHtml } from './header.hbs.js';
 
 /**
  * Class for header in login and registration.
+ * @constructor
+ * @param {HTMLElement} parent - Element where to render.
+ * @param {json} config - Config with json fields.
  */
 export class Header {
     #parent;
