@@ -1,12 +1,10 @@
-'use strict';
-
 import { clearBars, prePageRender } from '../utils/functions/prePageRender.js';
 
 /**
  * Function to redirect to any page.
  * @param {json} configSection -- json with current config options using to redirect to page.
  */
-export function redirect (configSection) {
+export function redirect(configSection) {
     const el = document.querySelector(`[data-section="${configSection.key}"]`);
     if (el !== null && el.classList.contains('active')) {
         return;

@@ -1,0 +1,58 @@
+.reg-date-and-sex {
+    margin-bottom: 30px;
+}
+
+.reg-date, .reg-sex {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.reg-sex-label, .reg-date-label {
+    margin-bottom: 15px;
+    font-size: var(--text-label);
+    font-weight: 700;
+    color: rgba(255, 255, 255, .95);
+}
+
+.reg-date-label {
+    margin-top: -10px;
+}
+
+.reg-choose-date, .reg-choose-sex {
+    display: flex;
+}
+
+.reg-day {
+    border-radius: 5px;
+    border: 1px rgba(255, 255, 255, .7) solid;
+    color: white;
+    background-color: transparent;
+    width: 80px;
+    height: 30px;
+}
+
+.reg-month {
+    cursor: pointer;
+    margin-left: 15px;
+    border-radius: 5px;
+    border: 1px rgba(255, 255, 255, .7) solid;
+    color: white;
+    background-color: transparent;
+    width: 160px;
+    height: 30px;
+}
+
+.reg-month>option {
+    color: black;
+}
+
+.reg-year {
+    margin-left: 15px;
+    border-radius: 5px;
+    border: 1px rgba(255, 255, 255, .7) solid;
+    color: white;
+    background-color: transparent;
+    width: 80px;
+    height: 30px;
+}

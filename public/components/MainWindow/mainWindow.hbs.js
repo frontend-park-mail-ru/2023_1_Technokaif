@@ -1,4 +1,3 @@
-export const mainPageTemplate =
-`
+export const mainPageTemplate = `
 <div class="{{ mainPageWindowDiv }}"></div>
 `;

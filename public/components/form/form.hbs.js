@@ -1,8 +1,7 @@
 /**
  * Contains template string for form
  */
-export const formTemplate =
-`
+export const formTemplate = `
 <div class="{{content}}">
     <div class="header-placement"></div>
     <div {{#if divBeforeForm}}class="{{divBeforeForm}}" {{/if}}>

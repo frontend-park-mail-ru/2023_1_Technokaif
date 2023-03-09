@@ -1,17 +1,17 @@
 module.exports = {
     env: {
         browser: true,
-        es2021: true
+        es2021: true,
     },
-    extends: 'standard',
+    extends: 'airbnb',
     overrides: [
     ],
     parserOptions: {
         ecmaVersion: 'latest',
-        sourceType: 'module'
+        sourceType: 'module',
     },
     rules: {
         indent: ['error', 4],
-        semi: [2, 'always']
-    }
+        semi: [2, 'always'],
+    },
 };

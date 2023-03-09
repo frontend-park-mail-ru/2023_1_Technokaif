@@ -13,18 +13,19 @@ import { convertImgSrc } from '../../utils/functions/stringOperations.js';
 
 export class MainWindowContent {
     #parent;
+
     #config;
 
-    constructor (parent, config) {
+    constructor(parent, config) {
         this.#parent = parent;
         this.#config = config;
     }
 
-    get config () {
+    get config() {
         return this.#config;
     }
 
-    render () {
+    render() {
         this.#parent.innerHTML = this.HTML();
         const insertBlock = this.#parent.querySelector('.main-page-window');
         insertBlock.innerHTML += this.#renderTracks();
@@ -32,7 +33,7 @@ export class MainWindowContent {
         insertBlock.innerHTML += this.#renderAlbums();
     }
 
-    HTML (cfg = '') {
+    HTML(cfg = '') {
         // eslint-disable-next-line no-undef
         const template1 = Handlebars.compile(templateHtml);
         if (cfg === '') {
@@ -42,23 +43,23 @@ export class MainWindowContent {
         return template1(cfg);
     }
 
-    #renderTracks () {
+    #renderTracks() {
         const tracks = new TracksComp(this.#parent, this.#config);
         return tracks.HTML(this.#config);
     }
 
-    #renderArtists () {
+    #renderArtists() {
         const artists = new ArtistsComp(this.#parent, this.#config);
         return artists.HTML(this.#config);
     }
 
-    #renderAlbums () {
+    #renderAlbums() {
         const albums = new AlbumsComp(this.#parent, this.#config);
         return albums.HTML(this.#config);
     }
 }
 
-export function createHomePageContent (parent, items) {
+export function createHomePageContent(parent, items) {
     Handlebars.registerHelper('convert', function (options) {
         return convertImgSrc(options.fn(this));
     });

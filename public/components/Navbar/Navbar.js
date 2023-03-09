@@ -11,23 +11,25 @@ import { checkAuth } from '../../utils/functions/checkAuth.js';
  */
 class Navbar {
     #parent;
+
     #config;
+
     #name;
 
-    constructor (parent, config, name) {
+    constructor(parent, config, name) {
         this.#parent = parent;
         this.#config = config;
         this.#name = name;
     }
 
-    get items () {
+    get items() {
         return Object.entries(this.#config).map(([key, value]) => ({
             key,
-            ...value
+            ...value,
         }));
     }
 
-    callEventListener () {
+    callEventListener() {
         document.getElementById('cont').addEventListener('click', (e) => {
             if (e.target instanceof HTMLAnchorElement || e.target instanceof HTMLButtonElement) {
                 e.preventDefault();
@@ -42,8 +44,10 @@ class Navbar {
         });
     }
 
-    render () {
-        this.items.map(({ key, href, name, type, logoSrc }, index) => {
+    render() {
+        this.items.map(({
+            key, href, name, type, logoSrc,
+        }, index) => {
             const div = document.createElement('div');
             const contentElement = document.createElement(type);
 

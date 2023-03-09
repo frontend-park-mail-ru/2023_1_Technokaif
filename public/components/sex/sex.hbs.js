@@ -1,8 +1,7 @@
 /**
  * Contains template string for sex picker
  */
-export const sexTempate =
-`
+export const sexTempate = `
 <div class="{{mainSexDiv}}">
     <div class="{{labelSex}}">
         <p class="{{labelClass}}">{{labelText}}</p>

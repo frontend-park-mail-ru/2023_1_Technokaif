@@ -1,5 +1,4 @@
-export const artistsTemplate =
-    `
+export const artistsTemplate = `
 <div class="{{artistsTitleDiv}}">
     <div class="{{artistsTitle}}">
         <h2>Artists</h2>

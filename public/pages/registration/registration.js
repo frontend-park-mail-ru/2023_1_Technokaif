@@ -1,6 +1,6 @@
-'use strict';
-
-import { getAllErrors, getDayError, getEmailError, getMonthError, getNameError, getSexError, getUsernameError, getYearError, getPasswordError } from '../../utils/functions/validation.js';
+import {
+    getAllErrors, getDayError, getEmailError, getMonthError, getNameError, getSexError, getUsernameError, getYearError, getPasswordError,
+} from '../../utils/functions/validation.js';
 import { clearField } from '../../utils/functions/clearFields.js';
 import { registerAjax } from '../../api/auth/registerAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
@@ -11,90 +11,95 @@ import { ID_REG as ID, CLASS_REG as CLASS } from '../../utils/config/id.js';
 import { ERRORS_VALIDATE } from '../../utils/config/validateConf.js';
 import { Form } from '../../components/form/form.js';
 import { errorGenerate, translateOneDigitToTwo } from '../../utils/functions/utils.js';
+
 const Method = 'focusout';
 
 /**
 Function rendering registration form.
  * @param {HTMLElement} parent -- where to place Signup page
  */
-export function renderSignup (parent) {
+export function renderSignup(parent) {
     const form1 = new Form(parent, regFormSetup(), sexSetup(), dateSetup());
     form1.render();
 
-    errorGenerate(Method,
+    errorGenerate(
+        Method,
         document.getElementById(ID.email),
         document.getElementById(ID.emailErr),
         ERRORS.email,
-        (el) => {
-            return getEmailError(el, el);
-        }
+        (el) => getEmailError(el, el),
     );
 
-    errorGenerate(Method,
+    errorGenerate(
+        Method,
         document.getElementById(ID.emailConf),
         document.getElementById(ID.emailConfErr),
         ERRORS.confirmEmail,
-        (el) => {
-            return getEmailError(el, document.getElementById(ID.email).value);
-        }
+        (el) => getEmailError(el, document.getElementById(ID.email).value),
     );
 
-    errorGenerate(Method,
+    errorGenerate(
+        Method,
         document.getElementById(ID.email),
         document.getElementById(ID.emailConfErr),
         ERRORS.confirmEmail,
-        (el) => {
-            return getEmailError(el, document.getElementById(ID.emailConf).value);
-        }
+        (el) => getEmailError(el, document.getElementById(ID.emailConf).value),
     );
 
-    errorGenerate(Method,
+    errorGenerate(
+        Method,
         document.getElementById(ID.password),
         document.getElementById(ID.passwordErr),
         ERRORS.password,
-        getPasswordError
+        getPasswordError,
     );
 
-    errorGenerate(Method,
+    errorGenerate(
+        Method,
         document.getElementById(ID.firstName),
         document.getElementById(ID.firstNameErr),
         ERRORS.firstName,
-        getNameError
+        getNameError,
     );
 
-    errorGenerate(Method,
+    errorGenerate(
+        Method,
         document.getElementById(ID.lastName),
         document.getElementById(ID.lastNameErr),
         ERRORS.lastName,
-        getNameError
+        getNameError,
     );
 
-    errorGenerate(Method,
+    errorGenerate(
+        Method,
         document.getElementById(ID.username),
         document.getElementById(ID.usernameErr),
         ERRORS.username,
-        getUsernameError
+        getUsernameError,
     );
 
-    errorGenerate(Method,
+    errorGenerate(
+        Method,
         document.getElementById(ID.month),
         document.getElementById(ID.monthErr),
         ERRORS.month,
-        getMonthError
+        getMonthError,
     );
 
-    errorGenerate(Method,
+    errorGenerate(
+        Method,
         document.getElementById(ID.day),
         document.getElementById(ID.errorDate),
         ERRORS.day,
-        getDayError
+        getDayError,
     );
 
-    errorGenerate(Method,
+    errorGenerate(
+        Method,
         document.getElementById(ID.year),
         document.getElementById(ID.yearErr),
         ERRORS.year,
-        getYearError
+        getYearError,
     );
 
     const sexChoose = parent.querySelector('.reg-sex');
@@ -146,7 +151,7 @@ export function renderSignup (parent) {
             year,
             sexChoose[0].checked,
             sexChoose[1].checked,
-            sexChoose[2].checked
+            sexChoose[2].checked,
         );
 
         const errorEmail = document.getElementById(ID.emailErr);
@@ -172,10 +177,10 @@ export function renderSignup (parent) {
                 case ERRORS_VALIDATE.password:
                     errorPassword.innerHTML = `<p class="error">${ERRORS.password}</p>`;
                     break;
-                case 'first' + ERRORS_VALIDATE.name:
+                case `first${ERRORS_VALIDATE.name}`:
                     errorFirstName.innerHTML = `<p class="error">${ERRORS.firstName}</p>`;
                     break;
-                case 'last' + ERRORS_VALIDATE.name:
+                case `last${ERRORS_VALIDATE.name}`:
                     errorLastName.innerHTML = `<p class="error">${ERRORS.lastName}</p>`;
                     break;
                 case ERRORS_VALIDATE.username:
@@ -208,7 +213,7 @@ export function renderSignup (parent) {
         const sex = getSexInString(
             sexChoose[0].checked,
             sexChoose[1].checked,
-            sexChoose[2].checked
+            sexChoose[2].checked,
         );
 
         registerAjax({
@@ -218,7 +223,7 @@ export function renderSignup (parent) {
             firstName,
             lastName,
             birthDate: date,
-            sex
+            sex,
         });
     });
 
@@ -244,7 +249,7 @@ export function renderSignup (parent) {
  * else -- other
  * @returns
  */
-function getSexInString (...sexChoose) {
+function getSexInString(...sexChoose) {
     if (sexChoose[0]) {
         return 'M';
     }

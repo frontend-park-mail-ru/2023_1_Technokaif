@@ -3,8 +3,7 @@ Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
     return (arg1 === arg2) ? options.fn(this) : options.inverse(this);
 });
 
-export const menuTemplate =
-`
+export const menuTemplate = `
 <div class="logo">
     <div class="menu-title">
         <img src="/static/svg/whiteLogo.svg">

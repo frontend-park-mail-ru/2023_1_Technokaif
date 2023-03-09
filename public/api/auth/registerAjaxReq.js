@@ -1,5 +1,3 @@
-'use strict';
-
 import { PATH } from '../../utils/config/urls.js';
 import { loginAjax } from './loginAjaxReq.js';
 import { Ajax } from '../../modules/ajax.js';
@@ -9,7 +7,7 @@ import { Ajax } from '../../modules/ajax.js';
  * @param {json} userData User data, that wll be sent to server to check existence of account.
  */
 
-export function registerAjax (userData) {
+export function registerAjax(userData) {
     const AjaxReq = new Ajax();
     AjaxReq.post({
         url: PATH.auth,
@@ -23,6 +21,6 @@ export function registerAjax (userData) {
 
             document.getElementById('serverErrors').style.display = 'block';
             document.getElementsByClassName('error-text')[0].innerText = context;
-        }
+        },
     });
 }

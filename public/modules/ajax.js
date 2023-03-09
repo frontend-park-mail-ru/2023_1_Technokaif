@@ -1,8 +1,6 @@
-'use strict';
-
 const AJAX_METHODS = {
     GET: 'GET',
-    POST: 'POST'
+    POST: 'POST',
 };
 
 const noop = () => {};
@@ -11,51 +9,51 @@ const noop = () => {};
  * Requests class for all server-api request work.
  */
 export class Ajax {
-    get ({ url, whatRender }) {
+    get({ url, whatRender }) {
         this._ajax({
             method: AJAX_METHODS.GET,
             url,
-            whatRender
+            whatRender,
         });
     }
 
-    post ({ url, body, whatRender }) {
+    post({ url, body, whatRender }) {
         this._ajax({
             method: AJAX_METHODS.POST,
             url,
             body,
-            whatRender
+            whatRender,
         });
     }
 
-    _ajax ({ method, url, body = null, whatRender = noop }) {
+    _ajax({
+        method, url, body = null, whatRender = noop,
+    }) {
         let request = {};
         if (body === null) {
-            request = new Request(
-                url, {
-                    method,
-                    credentials: 'include',
-                    headers: {
-                        'content-type': 'application/json;',
-                        Authorization: `Bearer ${localStorage.getItem('jwt')}`
-                    }
-                });
+            request = new Request(url, {
+                method,
+                credentials: 'include',
+                headers: {
+                    'content-type': 'application/json;',
+                    Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                },
+            });
         } else {
-            request = new Request(
-                url, {
-                    method,
-                    credentials: 'include',
-                    headers: {
-                        'content-type': 'application/json;'
-                    },
-                    body: JSON.stringify(body)
-                });
+            request = new Request(url, {
+                method,
+                credentials: 'include',
+                headers: {
+                    'content-type': 'application/json;',
+                },
+                body: JSON.stringify(body),
+            });
         }
 
         fetch(request).then(
-            responseRaw => responseRaw.json().then(
-                responseJson => {
-                    const status = responseRaw.status;
+            (responseRaw) => responseRaw.json().then(
+                (responseJson) => {
+                    const { status } = responseRaw;
                     if (!responseRaw.ok) {
                         const error = responseJson.message;
                         whatRender({ status, context: error });
@@ -63,14 +61,14 @@ export class Ajax {
                     }
 
                     whatRender({ status, context: responseJson });
-                }
-            )
+                },
+            ),
         );
     }
 
-    PromiseGet (url) {
+    PromiseGet(url) {
         return new Promise(function (resolve, reject) {
-            this.get(url, function (err, response) {
+            this.get(url, (err, response) => {
                 if (err !== 200) {
                     reject(err);
                 }
@@ -80,9 +78,9 @@ export class Ajax {
         });
     }
 
-    PromisePost (url, userData) {
+    PromisePost(url, userData) {
         return new Promise(function (resolve, reject) {
-            this.post(url, userData, function (err, response) {
+            this.post(url, userData, (err, response) => {
                 if (err !== 200) {
                     reject(err);
                 }

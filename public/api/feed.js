@@ -1,6 +1,4 @@
-'use strict';
-
-import { createHomePageContent } from '../components/MainWindowRender/mainWindow.js';
+import { createHomePageContent } from '../components/MainWindow/mainWindow.js';
 import { Ajax } from '../modules/ajax.js';
 import { PATH } from '../utils/config/urls.js';
 
@@ -8,7 +6,7 @@ import { PATH } from '../utils/config/urls.js';
  * Function for main page content render.
  * @param {HTMLElement} parent
  */
-export function feedAjax (parent) {
+export function feedAjax(parent) {
     const AjaxReq = new Ajax();
     AjaxReq.get({
         url: PATH.feedApi,
@@ -18,7 +16,7 @@ export function feedAjax (parent) {
                 return;
             }
 
-            alert('Error: ' + context);
-        }
+            alert(`Error: ${context}`);
+        },
     });
 }

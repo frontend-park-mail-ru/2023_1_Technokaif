@@ -1,12 +1,10 @@
-'use strict';
-
 /**
  * Create div block with classes and apeend it to parent
  * @param {HTMLElement} parent -- where to place div block
  * @param  {...any} classes -- what classes div block contain
  * @returns created div block
  */
-export function createDivAndInsertInParent (parent, ...classes) {
+export function createDivAndInsertInParent(parent, ...classes) {
     const divBlock = document.createElement('div');
     classes.forEach((cl) => {
         divBlock.classList.add(cl);
@@ -22,10 +20,10 @@ export function createDivAndInsertInParent (parent, ...classes) {
  * @returns digits in two symbols
  * @description if digits < 9 then it will return 0+digit else return digit
  */
-export function translateOneDigitToTwo (elemToTranslate) {
+export function translateOneDigitToTwo(elemToTranslate) {
     let result = elemToTranslate;
     if (elemToTranslate <= 9) {
-        result = '0' + elemToTranslate;
+        result = `0${elemToTranslate}`;
     }
     return result;
 }
@@ -38,9 +36,13 @@ export function translateOneDigitToTwo (elemToTranslate) {
  * @param {string} errorMessage -- what message to display
  * @param {function} checkForErrors -- function to determine the error
  */
-export function errorGenerate (event, element, where, errorMessage, checkForErrors) {
+export function errorGenerate(event, element, where, errorMessage, checkForErrors) {
     element.addEventListener(event, (el) => {
         where.innerHTML = '';
+
+        if (element.value === '') {
+            return;
+        }
 
         const errorExist = checkForErrors(element.value);
         if (errorExist) {

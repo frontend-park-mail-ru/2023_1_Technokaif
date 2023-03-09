@@ -1,11 +1,9 @@
-'use strict';
-
 /**
  * Function to create home setup config for template.
  * @param items -- some data from server about tracks, artists, albums.
  * @returns {json} config -- config for template.
  */
-export function homeSetup (items) {
+export function homeSetup(items) {
     return ({
         mainPageWindowDiv: 'main-page-window',
         tracksTitleDiv: 'tracks-titles',
@@ -50,6 +48,6 @@ export function homeSetup (items) {
         defaultTrackCover: '/static/img/tracks/pink.jpeg',
         defaultArtistCover: '/static/img/artists/singer.jpg',
 
-        content: items
+        content: items,
     });
 }

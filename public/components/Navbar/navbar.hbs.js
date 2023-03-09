@@ -3,8 +3,7 @@ Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
     return (arg1 === arg2) ? options.fn(this) : options.inverse(this);
 });
 
-export const navbarTemplate =
-`
+export const navbarTemplate = `
 {{#each items}}
     <div>
         <p> {{this.type}}</p>

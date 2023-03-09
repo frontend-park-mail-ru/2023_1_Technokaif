@@ -1,5 +1,3 @@
-'use strict';
-
 import { sidebarConfig } from '../../utils/config/config.js';
 import { redirect } from '../../modules/redirects.js';
 import { PATH } from '../../utils/config/urls.js';
@@ -11,7 +9,7 @@ import { Ajax } from '../../modules/ajax.js';
  * @param {string} password Password argument, that wll be sent to server.
  */
 
-export function loginAjax (login, password) {
+export function loginAjax(login, password) {
     const AjaxReq = new Ajax();
     AjaxReq.post({
         url: PATH.login,
@@ -26,6 +24,6 @@ export function loginAjax (login, password) {
 
             document.getElementById('serverErrors').style.display = 'block';
             document.getElementsByClassName('error-text')[0].innerText = context;
-        }
+        },
     });
 }

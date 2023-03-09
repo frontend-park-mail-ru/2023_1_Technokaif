@@ -1,19 +1,17 @@
-'use strict';
-
 import { MONTHS } from '../config/config.js';
 import { ERRORS_VALIDATE as ERRORS } from '../config/validateConf.js';
 
-const alphabetBig = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const alphabetSmall = 'abcdefghijklmnopqrstuvwxyz';
-const digits = '0123456789';
-const forbidenEmailSymb = '<>()[],;:\\/';
+const ALPHABET_BIG = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const ALPHABET_SMALL = 'abcdefghijklmnopqrstuvwxyz';
+const DIGITS = '0123456789';
+const FORBIDDEN_EMAIL_SYMBOLS = '<>()[],;:\\/';
 
 /**
  *
  * @param {string} login -- string to check
  * @returns {bool} -- return true if login contains @
  */
-export function checkIsEmail (login) {
+export function checkIsEmail(login) {
     return login.includes('@');
 }
 
@@ -32,9 +30,9 @@ export function checkIsEmail (login) {
  *
  *  symbols: ' " : space";
  */
-export function getPasswordError (password) {
-    if (password.includes('\'') || password.includes('\"') ||
-        password.includes('\ ') || password.includes('\:')) {
+export function getPasswordError(password) {
+    if (password.includes('\'') || password.includes('"')
+        || password.includes(' ') || password.includes(':')) {
         return ERRORS.password;
     }
 
@@ -47,15 +45,15 @@ export function getPasswordError (password) {
     let isDigitsExist = false;
 
     for (let i = 0; i < password.length; i++) {
-        if (alphabetBig.includes(password[i])) {
+        if (ALPHABET_BIG.includes(password[i])) {
             isBigExist = true;
         }
 
-        if (alphabetSmall.includes(password[i])) {
+        if (ALPHABET_SMALL.includes(password[i])) {
             isSmallExist = true;
         }
 
-        if (digits.includes(password[i])) {
+        if (DIGITS.includes(password[i])) {
             isDigitsExist = true;
         }
     }
@@ -65,7 +63,7 @@ export function getPasswordError (password) {
     }
 
     return ERRORS.password;
-};
+}
 
 /**
  *
@@ -75,7 +73,7 @@ export function getPasswordError (password) {
  *
  * else return 'day'
  */
-export function getDayError (day) {
+export function getDayError(day) {
     if (day >= 1 && day <= 31) {
         return null;
     }
@@ -90,10 +88,10 @@ export function getDayError (day) {
  *
  * else 'year'
  */
-export function getYearError (year) {
+export function getYearError(year) {
     if (year > 0 && year <= new Date(Date.now()).getFullYear()) {
         return null;
-    };
+    }
 
     return ERRORS.year;
 }
@@ -103,10 +101,10 @@ export function getYearError (year) {
  * @param {string} month
  * @returns null if month in MONTHS struct else return 'month'
  */
-export function getMonthError (month) {
+export function getMonthError(month) {
     if (MONTHS.includes(month)) {
         return null;
-    };
+    }
 
     return ERRORS.month;
 }
@@ -128,7 +126,7 @@ export function getMonthError (month) {
  *   .-_ in end;
  *   <>()[],;:\/"
  */
-export function getEmailError (email, confirmEmail = '') {
+export function getEmailError(email, confirmEmail = '') {
     let result = [];
 
     if (email !== confirmEmail || confirmEmail === '') {
@@ -161,7 +159,6 @@ export function getEmailError (email, confirmEmail = '') {
     }
 
     if (emailAfter.includes('@')) {
-        console.log('@');
         result.push(ERRORS.email);
         return result;
     }
@@ -173,13 +170,13 @@ export function getEmailError (email, confirmEmail = '') {
     }
 
     for (let i = 0; i < email.length; i++) {
-        if (forbidenEmailSymb.includes(email[i])) {
+        if (FORBIDDEN_EMAIL_SYMBOLS.includes(email[i])) {
             result.push(ERRORS.email);
             return result;
         }
 
-        if (!(alphabetBig.includes(email[i]) || alphabetSmall.includes(email[i]) ||
-            digits.includes(email[i]) || '@.-_'.includes(email[i]))) {
+        if (!(ALPHABET_BIG.includes(email[i]) || ALPHABET_SMALL.includes(email[i])
+            || DIGITS.includes(email[i]) || '@.-_'.includes(email[i]))) {
             result.push(ERRORS.email);
         }
     }
@@ -200,7 +197,7 @@ export function getEmailError (email, confirmEmail = '') {
  *  Only one true value;
  *  One true value exist;
  */
-export function getSexError (...boxes) {
+export function getSexError(...boxes) {
     let isInputCorrect = false;
     boxes.forEach((box) => {
         if (box) {
@@ -226,14 +223,14 @@ export function getSexError (...boxes) {
  * Correct:
  * username length 4-20 and contains only _, letters, digits
  */
-export function getUsernameError (username) {
+export function getUsernameError(username) {
     if (username.length < 4 || username.length > 20) {
         return ERRORS.username;
     }
 
     for (let i = 0; i < username.length; i++) {
-        if (!(alphabetBig.includes(username[i]) || alphabetSmall.includes(username[i]) ||
-            digits.includes(username[i]) || '_'.includes(username[i]))) {
+        if (!(ALPHABET_BIG.includes(username[i]) || ALPHABET_SMALL.includes(username[i])
+            || DIGITS.includes(username[i]) || '_'.includes(username[i]))) {
             return ERRORS.username;
         }
     }
@@ -248,13 +245,13 @@ export function getUsernameError (username) {
  *
  * Correct: if length 2-20 and contains only letters
  */
-export function getNameError (name) {
+export function getNameError(name) {
     if (name.length < 2 || name.length > 20) {
         return ERRORS.name;
     }
 
     for (let i = 0; i < name.length; i++) {
-        if (!(alphabetBig.includes(name[i]) || alphabetSmall.includes(name[i]))) {
+        if (!(ALPHABET_BIG.includes(name[i]) || ALPHABET_SMALL.includes(name[i]))) {
             return ERRORS.name;
         }
     }
@@ -276,7 +273,7 @@ export function getNameError (name) {
  * [9-11] -- sex
  * @returns null if correct else return array of strings with error elements
  */
-export function getAllErrors (...params) {
+export function getAllErrors(...params) {
     const result = [];
 
     const emailErrors = getEmailError(params[0], params[1]);
@@ -292,11 +289,11 @@ export function getAllErrors (...params) {
     const lastErr = getNameError(params[4]);
 
     if (firstErr) {
-        result.push('first' + firstErr);
+        result.push(`first${firstErr}`);
     }
 
     if (firstErr) {
-        result.push('last' + lastErr);
+        result.push(`last${lastErr}`);
     }
 
     result.push(getUsernameError(params[5]));

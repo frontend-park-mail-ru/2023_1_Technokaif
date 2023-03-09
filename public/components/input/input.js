@@ -5,22 +5,23 @@ import { inputTemplate as templateHtml } from './input.hbs.js';
  */
 export class Input {
     #parent;
+
     #config;
 
-    constructor (parent, config) {
+    constructor(parent, config) {
         this.#parent = parent;
         this.#config = config;
     }
 
-    get config () {
+    get config() {
         return this.#config;
     }
 
-    render () {
+    render() {
         this.#parent.innerHTML = this.HTML();
     }
 
-    HTML (cfg = '') {
+    HTML(cfg = '') {
         const template1 = Handlebars.compile(templateHtml); // eslint-disable-line
         if (cfg === '') {
             return template1(cfg);

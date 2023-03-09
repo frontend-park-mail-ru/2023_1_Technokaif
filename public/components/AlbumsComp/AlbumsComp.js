@@ -6,23 +6,24 @@ import { albumsTemplate as templateHtml } from './AlbumsComp.hbs.js';
  */
 export class AlbumsComp {
     #parent;
+
     #config;
 
-    constructor (parent, config) {
+    constructor(parent, config) {
         this.#parent = parent;
         this.#config = config;
     }
 
-    get config () {
+    get config() {
         return this.#config;
     }
 
-    render () {
+    render() {
         const template = Handlebars.compile(templateHtml);
         this.#parent.innerHTML = template(this.#config);
     }
 
-    HTML (cfg = '') {
+    HTML(cfg = '') {
         const template = Handlebars.compile(templateHtml);
         if (cfg === '') {
             return template(cfg);

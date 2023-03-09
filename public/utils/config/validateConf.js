@@ -10,5 +10,5 @@ export const ERRORS_VALIDATE = {
     name: 'Name',
     day: 'day',
     month: 'month',
-    year: 'year'
+    year: 'year',
 };

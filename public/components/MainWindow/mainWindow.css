@@ -1,0 +1,75 @@
+main {
+    grid-area: main;
+    background: linear-gradient(180deg, #1D0E46 0%, #000000 60.89%);
+}
+
+/* Main page content */
+
+.main-page-window {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin-top: 73px;
+}
+
+.albums-titles, .artists-titles, .tracks-titles {
+    align-items: center;
+    margin: 0 60px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.tracks-show-full, .artists-show-full, .albums-show-full {
+    color: #b3b3b3;
+}
+
+.tracks, .albums, .artists {
+    display: flex;
+    flex-flow: row nowrap;
+    margin: 0 40px;
+}
+
+.track-item, .album-item, .artist-item {
+    width: 175px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 16px;
+    margin: 0 20px;
+
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.album-description, .inner-artist-name {
+    font-style: normal;
+    font-weight: 700;
+    font-size: var(--text-cover-artist);
+    line-height: 179.2%;
+
+    letter-spacing: -0.025em;
+
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.track-name, .album-name, .artist-name {
+    word-wrap: break-word;
+    font-style: normal;
+    font-weight: 700;
+    font-size: var(--text-label);
+    line-height: 20px;
+    letter-spacing: -0.025em;
+
+    color: #f6f6f6;
+}
+
+.track-item img, .album-item img, .artist-item img {
+    height: 175px;
+    width: 175px;
+    border-radius: 5px;
+}
+
+.track-name, .artist-name, .album-name {
+    margin-top: 10px;
+}

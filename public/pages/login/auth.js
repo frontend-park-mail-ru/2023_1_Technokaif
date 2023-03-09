@@ -1,7 +1,7 @@
-'use strict';
-
 import { unAuthNavConfig, sidebarConfig } from '../../utils/config/config.js';
-import { checkIsEmail, getUsernameError, getPasswordError, getEmailError } from '../../utils/functions/validation.js';
+import {
+    checkIsEmail, getUsernameError, getPasswordError, getEmailError,
+} from '../../utils/functions/validation.js';
 import { loginAjax } from '../../api/auth/loginAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
 import { ERRORS_LOG as ERRORS } from '../../utils/config/errors.js';
@@ -14,7 +14,7 @@ import { Form } from '../../components/form/form.js';
  * Function rendering auth form.
  * @param {HTMLElement} parent -- where to place Login page
  */
-export function renderLogin (parent) {
+export function renderLogin(parent) {
     const form1 = new Form(parent, logFormSetup());
     form1.render();
 
@@ -60,7 +60,7 @@ export function renderLogin (parent) {
         let notValidFields = false;
         if (setLoginErrors(errLogin, loginValue)) {
             notValidFields = true;
-        };
+        }
 
         if (setPassErrors(errPass, passwordValue) || notValidFields) {
             notValidFields = true;
@@ -80,7 +80,7 @@ export function renderLogin (parent) {
  * @param {string} loginValue -- value to check
  * @returns true if error is set else false
  */
-function setLoginErrors (errPlace, loginValue) {
+function setLoginErrors(errPlace, loginValue) {
     clearField(errPlace);
 
     if (checkIsEmail(loginValue)) {
@@ -105,7 +105,7 @@ function setLoginErrors (errPlace, loginValue) {
  * @param {string} passwordValue -- value to check
  * @returns true if error is set else false
  */
-function setPassErrors (errPlace, passwordValue) {
+function setPassErrors(errPlace, passwordValue) {
     clearField(errPlace);
 
     if (getPasswordError(passwordValue)) {

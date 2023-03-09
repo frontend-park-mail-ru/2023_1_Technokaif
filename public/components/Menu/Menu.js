@@ -11,31 +11,33 @@ import { menuTemplate as templateHtml } from './menu.hbs.js';
  */
 class Menu {
     #parent;
+
     #config;
+
     #name;
 
-    constructor (parent, config, name) {
+    constructor(parent, config, name) {
         this.#parent = parent;
         this.#config = config;
         this.#name = name;
     }
 
-    get config () {
+    get config() {
         return this.#config;
     }
 
-    set config (value) {
+    set config(value) {
         this.#config = value;
     }
 
-    get items () {
+    get items() {
         return Object.entries(this.#config).map(([key, value]) => ({
             key,
-            ...value
+            ...value,
         }));
     }
 
-    callEventListener () {
+    callEventListener() {
         this.#parent.addEventListener('click', (e) => {
             if (e.target instanceof HTMLAnchorElement) {
                 e.preventDefault();
@@ -46,7 +48,7 @@ class Menu {
         });
     }
 
-    render () {
+    render() {
         const items = this.#translateToItems(this.#config);
         items.name = this.#name;
 
@@ -57,7 +59,7 @@ class Menu {
         this.callEventListener();
     }
 
-    #translateToItems (lastCfg) {
+    #translateToItems(lastCfg) {
         const newcfg = { items: [] };
         for (const obj in lastCfg) {
             const tmpItem = {};

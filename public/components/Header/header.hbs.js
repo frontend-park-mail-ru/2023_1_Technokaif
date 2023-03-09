@@ -1,8 +1,7 @@
 /**
  * Contains template string for header
  */
-export const headerTemplate =
-`
+export const headerTemplate = `
 <div class="{{header}}">
     <a class="{{title}}">
         <img src="{{logoSrc}}">

@@ -4,7 +4,7 @@ import { ID_LOG as ID, CLASS_LOG as CLASS } from '../../utils/config/id.js';
  * Function to create login form setup config for template.
  * @returns {json} config -- config for template.
  */
-export function logFormSetup () {
+export function logFormSetup() {
     return {
         errorTop: CLASS.errorTop,
         errorText: 'error-text',
@@ -32,7 +32,7 @@ export function logFormSetup () {
                 classInp: CLASS.classInp,
                 id: ID.login,
                 errorDiv: CLASS.errorDiv,
-                errorId: null
+                errorId: null,
             },
             {
                 divBeforeInput: CLASS.divBeforeInput,
@@ -44,8 +44,8 @@ export function logFormSetup () {
                 classInp: CLASS.classInp,
                 id: ID.password,
                 errorDiv: CLASS.errorDiv,
-                errorId: null
-            }
+                errorId: null,
+            },
         ],
         placementClass: null,
         placementId: null,
@@ -62,6 +62,6 @@ export function logFormSetup () {
         linkDiv: 'linkDiv',
         linkHref: '/',
         linkClass: CLASS.link,
-        linkText: 'Registration'
+        linkText: 'Registration',
     };
 }

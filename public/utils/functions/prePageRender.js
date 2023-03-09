@@ -1,5 +1,3 @@
-'use strict';
-
 import Menu from '../../components/Menu/Menu.js';
 import { authNavConfig, sidebarConfig, unAuthNavConfig } from '../config/config.js';
 import { checkAuth } from './checkAuth.js';
@@ -9,14 +7,14 @@ import Navbar from '../../components/Navbar/Navbar.js';
 /**
  * Function to clear root element.
  */
-export function clearBars () {
+export function clearBars() {
     document.getElementById('root').innerHTML = '';
 }
 
 /**
  * Render Navbar and Menu components.
  */
-export function prePageRender () {
+export function prePageRender() {
     const bodyElement = document.createElement('factBody');
     const menuElement = document.createElement('aside');
     const mainElement = document.createElement('main');
@@ -34,12 +32,12 @@ export function prePageRender () {
     mainElement.appendChild(contentElement);
 }
 
-function renderSidebar (parent) {
+function renderSidebar(parent) {
     const sidebar = new Menu(parent, sidebarConfig, 'sidebar');
     sidebar.render();
 }
 
-function renderNavbar (parent) {
+function renderNavbar(parent) {
     const config = (checkAuth()) ? authNavConfig : unAuthNavConfig;
 
     const navbarDiv = createDivAndInsertInParent(parent, 'navbar');
