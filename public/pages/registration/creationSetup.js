@@ -2,7 +2,7 @@ import { ID_REG as ID, CLASS_REG as CLASS } from '../../utils/config/id.js';
 
 /**
  * Function to create registration form setup config for template.
- * @returns {json} config -- config for template.
+ * @return {json} config -- config for template.
  */
 export function regFormSetup() {
     return {
@@ -116,7 +116,7 @@ export function regFormSetup() {
 
 /**
  *
- * @returns -- all settings to sex template in register
+ * @return -- all settings to sex template in register
  */
 export function sexSetup() {
     return {
@@ -160,7 +160,7 @@ export function sexSetup() {
 
 /**
  *
- * @returns -- all settings to date template in register
+ * @return -- all settings to date template in register
  */
 export function dateSetup() {
     return {

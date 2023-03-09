@@ -1,5 +1,5 @@
 import { redirect } from '../../modules/redirects.js';
-import { sidebarConfig, unAuthNavConfig } from '../../utils/config/config.js';
+import { sidebarConfig } from '../../utils/config/config.js';
 import { clearBars } from '../../utils/functions/prePageRender.js';
 import { Ajax } from '../../modules/ajax.js';
 
@@ -11,7 +11,7 @@ export function logoutAjax() {
     const AjaxReq = new Ajax();
     AjaxReq.get({
         url: '/api/auth/logout',
-        whatRender: ({ status, context }) => {
+        whatRender: () => {
             localStorage.removeItem('jwt');
             clearBars();
             redirect(sidebarConfig.feed);

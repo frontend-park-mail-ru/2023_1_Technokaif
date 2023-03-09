@@ -80,6 +80,7 @@ export class Form {
 
     #renderInputs() {
         let htmlInputs = '';
+        // eslint-disable-next-line no-restricted-syntax
         for (const obj of this.#config.inputs) {
             const inp = new Input(this.#parent, obj);
             htmlInputs += inp.HTML(obj);

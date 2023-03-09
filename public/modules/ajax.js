@@ -10,7 +10,7 @@ const noop = () => {};
  */
 export class Ajax {
     get({ url, whatRender }) {
-        this._ajax({
+        this.ajax({
             method: AJAX_METHODS.GET,
             url,
             whatRender,
@@ -18,7 +18,7 @@ export class Ajax {
     }
 
     post({ url, body, whatRender }) {
-        this._ajax({
+        this.ajax({
             method: AJAX_METHODS.POST,
             url,
             body,
@@ -26,7 +26,7 @@ export class Ajax {
         });
     }
 
-    _ajax({
+    ajax({
         method, url, body = null, whatRender = noop,
     }) {
         let request = {};
@@ -66,8 +66,9 @@ export class Ajax {
         );
     }
 
+    // eslint-disable-next-line class-methods-use-this
     PromiseGet(url) {
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
             this.get(url, (err, response) => {
                 if (err !== 200) {
                     reject(err);
@@ -78,8 +79,9 @@ export class Ajax {
         });
     }
 
+    // eslint-disable-next-line class-methods-use-this
     PromisePost(url, userData) {
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
             this.post(url, userData, (err, response) => {
                 if (err !== 200) {
                     reject(err);

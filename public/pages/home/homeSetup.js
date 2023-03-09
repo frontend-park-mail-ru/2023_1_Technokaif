@@ -1,7 +1,7 @@
 /**
  * Function to create home setup config for template.
  * @param items -- some data from server about tracks, artists, albums.
- * @returns {json} config -- config for template.
+ * @return {json} config -- config for template.
  */
 export function homeSetup(items) {
     return ({

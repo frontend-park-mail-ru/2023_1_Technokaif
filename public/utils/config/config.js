@@ -51,6 +51,13 @@ export const unAuthNavConfig = {
     },
 };
 
+function renderLibrary(parent) {
+    parent.innerHTML = '';
+    if (localStorage.getItem('jwt') === null) {
+        redirect(unAuthNavConfig.login);
+    }
+}
+
 export const authNavConfig = {
     premium: {
         name: 'Upgrade',
@@ -112,10 +119,3 @@ export const sidebarConfig = {
         logoSrc: '/static/svg/Frame 28likedSongsLogo.svg',
     },
 };
-
-function renderLibrary(parent) {
-    parent.innerHTML = '';
-    if (localStorage.getItem('jwt') === null) {
-        redirect(unAuthNavConfig.login);
-    }
-}

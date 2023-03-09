@@ -2,7 +2,7 @@
  * Create div block with classes and apeend it to parent
  * @param {HTMLElement} parent -- where to place div block
  * @param  {...any} classes -- what classes div block contain
- * @returns created div block
+ * @return created div block
  */
 export function createDivAndInsertInParent(parent, ...classes) {
     const divBlock = document.createElement('div');
@@ -17,7 +17,7 @@ export function createDivAndInsertInParent(parent, ...classes) {
 /**
  *
  * @param {string} elemToTranslate -- digit to translate to two digits
- * @returns digits in two symbols
+ * @return digits in two symbols
  * @description if digits < 9 then it will return 0+digit else return digit
  */
 export function translateOneDigitToTwo(elemToTranslate) {
@@ -37,7 +37,7 @@ export function translateOneDigitToTwo(elemToTranslate) {
  * @param {function} checkForErrors -- function to determine the error
  */
 export function errorGenerate(event, element, where, errorMessage, checkForErrors) {
-    element.addEventListener(event, (el) => {
+    element.addEventListener(event, () => {
         where.innerHTML = '';
 
         if (element.value === '') {

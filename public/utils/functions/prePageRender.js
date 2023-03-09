@@ -11,6 +11,19 @@ export function clearBars() {
     document.getElementById('root').innerHTML = '';
 }
 
+function renderSidebar(parent) {
+    const sidebar = new Menu(parent, sidebarConfig, 'sidebar');
+    sidebar.render();
+}
+
+function renderNavbar(parent) {
+    const config = (checkAuth()) ? authNavConfig : unAuthNavConfig;
+
+    const navbarDiv = createDivAndInsertInParent(parent, 'navbar');
+    const navbar = new Navbar(navbarDiv, config, 'navbar');
+    navbar.render();
+}
+
 /**
  * Render Navbar and Menu components.
  */
@@ -30,17 +43,4 @@ export function prePageRender() {
     bodyElement.appendChild(mainElement);
     renderNavbar(mainElement);
     mainElement.appendChild(contentElement);
-}
-
-function renderSidebar(parent) {
-    const sidebar = new Menu(parent, sidebarConfig, 'sidebar');
-    sidebar.render();
-}
-
-function renderNavbar(parent) {
-    const config = (checkAuth()) ? authNavConfig : unAuthNavConfig;
-
-    const navbarDiv = createDivAndInsertInParent(parent, 'navbar');
-    const navbar = new Navbar(navbarDiv, config, 'navbar');
-    navbar.render();
 }

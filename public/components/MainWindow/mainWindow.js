@@ -60,9 +60,8 @@ export class MainWindowContent {
 }
 
 export function createHomePageContent(parent, items) {
-    Handlebars.registerHelper('convert', function (options) {
-        return convertImgSrc(options.fn(this));
-    });
+    // eslint-disable-next-line no-undef
+    Handlebars.registerHelper('convert', (options) => convertImgSrc(options.fn(this)));
 
     const mainPage = new MainWindowContent(parent, homeSetup(items));
     mainPage.render();

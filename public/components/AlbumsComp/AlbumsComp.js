@@ -21,11 +21,13 @@ export class AlbumsComp {
     }
 
     render() {
+        // eslint-disable-next-line no-undef
         const template = Handlebars.compile(templateHtml);
         this.#parent.innerHTML = template(this.#config);
     }
 
     HTML(cfg = '') {
+        // eslint-disable-next-line no-undef
         const template = Handlebars.compile(templateHtml);
         if (cfg === '') {
             return template(cfg);

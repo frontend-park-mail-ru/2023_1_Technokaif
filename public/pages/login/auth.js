@@ -11,6 +11,47 @@ import { clearField } from '../../utils/functions/clearFields.js';
 import { Form } from '../../components/form/form.js';
 
 /**
+ * Logic for auth form errors.
+ * @param {HTMLElement} errPlace -- where to place error
+ * @param {string} loginValue -- value to check
+ * @return true if error is set else false
+ */
+function setLoginErrors(errPlace, loginValue) {
+    clearField(errPlace);
+
+    if (checkIsEmail(loginValue)) {
+        if (getEmailError(loginValue, loginValue)) {
+            errPlace.innerHTML = `<p class="error">${ERRORS.email}</p>`;
+            return true;
+        }
+        return false;
+    }
+
+    if (getUsernameError(loginValue)) {
+        errPlace.innerHTML = `<p class="error">${ERRORS.username}</p>`;
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ *
+ * @param {HTMLElement} errPlace -- where to place error
+ * @param {string} passwordValue -- value to check
+ * @return true if error is set else false
+ */
+function setPassErrors(errPlace, passwordValue) {
+    clearField(errPlace);
+
+    if (getPasswordError(passwordValue)) {
+        errPlace.innerHTML = `<p class="error">${ERRORS.password}</p>`;
+        return true;
+    }
+    return false;
+}
+
+/**
  * Function rendering auth form.
  * @param {HTMLElement} parent -- where to place Login page
  */
@@ -19,14 +60,14 @@ export function renderLogin(parent) {
     form1.render();
 
     const loginField = parent.querySelector(`#${ID.login}`);
-    loginField.addEventListener('focusout', (e) => {
+    loginField.addEventListener('focusout', () => {
         const errLogin = document.querySelectorAll(`.${CLASS.errorDiv}`)[0];
 
         setLoginErrors(errLogin, loginField.value.trim());
     });
 
     const passwordField = parent.querySelector(`#${ID.password}`);
-    passwordField.addEventListener('focusout', (e) => {
+    passwordField.addEventListener('focusout', () => {
         const errPass = document.querySelectorAll(`.${CLASS.errorDiv}`)[1];
 
         setPassErrors(errPass, passwordField.value);
@@ -72,45 +113,4 @@ export function renderLogin(parent) {
 
         loginAjax(loginValue, passwordValue);
     });
-}
-
-/**
- * Logic for auth form errors.
- * @param {HTMLElement} errPlace -- where to place error
- * @param {string} loginValue -- value to check
- * @returns true if error is set else false
- */
-function setLoginErrors(errPlace, loginValue) {
-    clearField(errPlace);
-
-    if (checkIsEmail(loginValue)) {
-        if (getEmailError(loginValue, loginValue)) {
-            errPlace.innerHTML = `<p class="error">${ERRORS.email}</p>`;
-            return true;
-        }
-        return false;
-    }
-
-    if (getUsernameError(loginValue)) {
-        errPlace.innerHTML = `<p class="error">${ERRORS.username}</p>`;
-        return true;
-    }
-
-    return false;
-}
-
-/**
- *
- * @param {HTMLElement} errPlace -- where to place error
- * @param {string} passwordValue -- value to check
- * @returns true if error is set else false
- */
-function setPassErrors(errPlace, passwordValue) {
-    clearField(errPlace);
-
-    if (getPasswordError(passwordValue)) {
-        errPlace.innerHTML = `<p class="error">${ERRORS.password}</p>`;
-        return true;
-    }
-    return false;
 }

@@ -1,5 +1,6 @@
 import {
-    getAllErrors, getDayError, getEmailError, getMonthError, getNameError, getSexError, getUsernameError, getYearError, getPasswordError,
+    getAllErrors, getDayError, getEmailError, getMonthError, getNameError, getSexError,
+    getUsernameError, getYearError, getPasswordError,
 } from '../../utils/functions/validation.js';
 import { clearField } from '../../utils/functions/clearFields.js';
 import { registerAjax } from '../../api/auth/registerAjaxReq.js';
@@ -13,6 +14,26 @@ import { Form } from '../../components/form/form.js';
 import { errorGenerate, translateOneDigitToTwo } from '../../utils/functions/utils.js';
 
 const Method = 'focusout';
+
+/**
+ *
+ * @param  {...any} sexChoose -- true values
+ * sexChoose:
+ * [0] -- male
+ * [1] -- female
+ * else -- other
+ * @returns
+ */
+function getSexInString(...sexChoose) {
+    if (sexChoose[0]) {
+        return 'M';
+    }
+    if (sexChoose[1]) {
+        return 'F';
+    }
+
+    return 'O';
+}
 
 /**
 Function rendering registration form.
@@ -103,7 +124,7 @@ export function renderSignup(parent) {
     );
 
     const sexChoose = parent.querySelector('.reg-sex');
-    sexChoose.addEventListener(Method, (el) => {
+    sexChoose.addEventListener(Method, () => {
         const where = document.getElementsByClassName('error-gender')[0];
         clearField(where);
 
@@ -137,7 +158,7 @@ export function renderSignup(parent) {
         const day = document.getElementById(ID.day).value;
         const year = document.getElementById(ID.year).value;
 
-        const sexChoose = document.querySelectorAll('.reg-sex-radio');
+        const gender = document.querySelectorAll('.reg-sex-radio');
 
         const errors = getAllErrors(
             email,
@@ -149,9 +170,9 @@ export function renderSignup(parent) {
             day,
             monthInput,
             year,
-            sexChoose[0].checked,
-            sexChoose[1].checked,
-            sexChoose[2].checked,
+            gender[0].checked,
+            gender[1].checked,
+            gender[2].checked,
         );
 
         const errorEmail = document.getElementById(ID.emailErr);
@@ -198,6 +219,7 @@ export function renderSignup(parent) {
                 case ERRORS_VALIDATE.sex:
                     errorSex.innerHTML = `<p class="error">${ERRORS.sex}</p>`;
                     break;
+                default:
                 }
             });
 
@@ -238,24 +260,4 @@ export function renderSignup(parent) {
 
         redirect(unAuthNavConfig.login);
     });
-}
-
-/**
- *
- * @param  {...any} sexChoose -- true values
- * sexChoose:
- * [0] -- male
- * [1] -- female
- * else -- other
- * @returns
- */
-function getSexInString(...sexChoose) {
-    if (sexChoose[0]) {
-        return 'M';
-    }
-    if (sexChoose[1]) {
-        return 'F';
-    }
-
-    return 'O';
 }

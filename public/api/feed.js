@@ -13,10 +13,7 @@ export function feedAjax(parent) {
         whatRender: ({ status, context }) => {
             if (status === 200) {
                 createHomePageContent(parent, context);
-                return;
             }
-
-            alert(`Error: ${context}`);
         },
     });
 }

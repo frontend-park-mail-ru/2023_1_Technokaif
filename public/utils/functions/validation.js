@@ -9,7 +9,7 @@ const FORBIDDEN_EMAIL_SYMBOLS = '<>()[],;:\\/';
 /**
  *
  * @param {string} login -- string to check
- * @returns {bool} -- return true if login contains @
+ * @return {bool} -- return true if login contains @
  */
 export function checkIsEmail(login) {
     return login.includes('@');
@@ -18,7 +18,7 @@ export function checkIsEmail(login) {
 /**
  *
  * @param {string} password -- password to validate
- * @returns return null if password correct else return 'password'
+ * @return return null if password correct else return 'password'
  * @description
  * correct password contains:
  *  1 or more big letters like 'A';
@@ -68,7 +68,7 @@ export function getPasswordError(password) {
 /**
  *
  * @param {string} day -- day to check
- * @returns return null if day is correct:
+ * @return return null if day is correct:
  * in the range 1-31
  *
  * else return 'day'
@@ -84,7 +84,7 @@ export function getDayError(day) {
 /**
  *
  * @param {string} year -- year to validate
- * @returns return null if year > 0 and year <= current year
+ * @return return null if year > 0 and year <= current year
  *
  * else 'year'
  */
@@ -99,7 +99,7 @@ export function getYearError(year) {
 /**
  *
  * @param {string} month
- * @returns null if month in MONTHS struct else return 'month'
+ * @return null if month in MONTHS struct else return 'month'
  */
 export function getMonthError(month) {
     if (MONTHS.includes(month)) {
@@ -114,7 +114,7 @@ export function getMonthError(month) {
  * @param {string} email -- email to validate
  * @param {string} confirmEmail --if confirmEmail empty, function only validate email.
  * if not empty, function check for email and confirmEmail to be equal
- * @returns nill if email is correct and 'email' if not correct
+ * @return nill if email is correct and 'email' if not correct
  *
  * if confirmEmail given then return 'confemail' if email != confirmEmail
  *
@@ -191,7 +191,7 @@ export function getEmailError(email, confirmEmail = '') {
 /**
  *
  * @param  {...any} boxes -- true of false values
- * @returns null if correct else return 'sex'
+ * @return null if correct else return 'sex'
  *
  * Correct:
  *  Only one true value;
@@ -218,7 +218,7 @@ export function getSexError(...boxes) {
 /**
  *
  * @param {string} username -- username to validate
- * @returns null if correct else 'username'
+ * @return null if correct else 'username'
  *
  * Correct:
  * username length 4-20 and contains only _, letters, digits
@@ -271,7 +271,7 @@ export function getNameError(name) {
  * [7] -- month
  * [8] -- year
  * [9-11] -- sex
- * @returns null if correct else return array of strings with error elements
+ * @return null if correct else return array of strings with error elements
  */
 export function getAllErrors(...params) {
     const result = [];

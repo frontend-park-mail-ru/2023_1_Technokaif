@@ -2,7 +2,7 @@ import { ID_LOG as ID, CLASS_LOG as CLASS } from '../../utils/config/id.js';
 
 /**
  * Function to create login form setup config for template.
- * @returns {json} config -- config for template.
+ * @return {json} config -- config for template.
  */
 export function logFormSetup() {
     return {
