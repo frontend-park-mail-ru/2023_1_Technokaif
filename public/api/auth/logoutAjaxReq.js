@@ -12,11 +12,6 @@ export function logoutAjax() {
     AjaxReq.get({
         url: '/api/auth/logout',
         whatRender: ({ status, context }) => {
-            if (status < 300) {
-                localStorage.removeItem('jwt');
-                return;
-            }
-
             localStorage.removeItem('jwt');
             clearBars();
             redirect(sidebarConfig.feed);
