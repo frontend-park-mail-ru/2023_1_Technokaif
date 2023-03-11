@@ -29,5 +29,12 @@ module.exports = {
         'class-methods-use-this': 'off',
         'guard-for-in': 'off',
         'no-restricted-syntax': 'off',
+        'no-undef': 'off',
     },
+    "eslintConfig": {
+        "globals": {
+            // remove error of undef handlebars
+            "Handlebars": true
+        }
+    }
 };

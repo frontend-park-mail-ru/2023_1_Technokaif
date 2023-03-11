@@ -34,7 +34,6 @@ export class MainWindowContent {
     }
 
     HTML(cfg = '') {
-        // eslint-disable-next-line no-undef
         const template1 = Handlebars.compile(templateHtml);
         if (cfg === '') {
             return template1(this.#config);
@@ -60,7 +59,6 @@ export class MainWindowContent {
 }
 
 export function createHomePageContent(parent, items) {
-    // eslint-disable-next-line no-undef
     Handlebars.registerHelper('convert', (options) => convertImgSrc(options.fn(this)));
 
     const mainPage = new MainWindowContent(parent, homeSetup(items));
