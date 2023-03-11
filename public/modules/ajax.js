@@ -66,7 +66,6 @@ export class Ajax {
         );
     }
 
-    // eslint-disable-next-line class-methods-use-this
     PromiseGet(url) {
         return new Promise((resolve, reject) => {
             this.get(url, (err, response) => {
@@ -79,7 +78,6 @@ export class Ajax {
         });
     }
 
-    // eslint-disable-next-line class-methods-use-this
     PromisePost(url, userData) {
         return new Promise((resolve, reject) => {
             this.post(url, userData, (err, response) => {

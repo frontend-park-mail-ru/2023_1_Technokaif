@@ -51,6 +51,10 @@ export const unAuthNavConfig = {
     },
 };
 
+/**
+ * 
+ * @param {HTMLElement} parent --  
+ */
 function renderLibrary(parent) {
     parent.innerHTML = '';
     if (localStorage.getItem('jwt') === null) {

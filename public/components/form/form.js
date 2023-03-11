@@ -50,7 +50,7 @@ export class Form {
     }
 
     HTML(cfg = '') {
-        const template1 = Handlebars.compile(templateHtml); // eslint-disable-line
+        const template1 = Handlebars.compile(templateHtml);
         if (cfg === '') {
             return template1(this.#config);
         }
@@ -80,7 +80,6 @@ export class Form {
 
     #renderInputs() {
         let htmlInputs = '';
-        // eslint-disable-next-line no-restricted-syntax
         for (const obj of this.#config.inputs) {
             const inp = new Input(this.#parent, obj);
             htmlInputs += inp.HTML(obj);

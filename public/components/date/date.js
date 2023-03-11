@@ -21,12 +21,12 @@ export class Date {
     }
 
     render() {
-        const template1 = Handlebars.compile(templateHtml); // eslint-disable-line
+        const template1 = Handlebars.compile(templateHtml);
         this.#parent.innerHTML = template1(this.#config);
     }
 
     HTML(cfg = '') {
-        const template1 = Handlebars.compile(templateHtml); // eslint-disable-line
+        const template1 = Handlebars.compile(templateHtml);
         if (cfg === '') {
             return template1(cfg);
         }

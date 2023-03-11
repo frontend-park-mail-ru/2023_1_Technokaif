@@ -11,23 +11,30 @@ export class ArtistsComp {
 
     #config;
 
+    /**
+     * Create Artist component. Empty innerHtml before placement
+     * @param {HTMLElement} parent -- where to place Album
+     * @param {object} config -- what config use to compule template
+     */
     constructor(parent, config) {
         this.#parent = parent;
         this.#config = config;
     }
 
-    get config() {
-        return this.#config;
-    }
-
+    /**
+     * @description render Artist in parent
+     */
     render() {
-        // eslint-disable-next-line no-undef
         const template = Handlebars.compile(templateHtml);
         this.#parent.innerHTML = template(this.#config);
     }
 
+    /**
+     * If cfg is given then return compiled template with cfg else with inner config
+     * @param {object} cfg -- external configure object
+     * @returns Html string of template to place
+    */
     HTML(cfg = '') {
-        // eslint-disable-next-line no-undef
         const template = Handlebars.compile(templateHtml);
         if (cfg === '') {
             return template(cfg);

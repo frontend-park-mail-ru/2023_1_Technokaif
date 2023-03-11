@@ -6,7 +6,6 @@ import { Ajax } from '../../modules/ajax.js';
 /**
  * Api-oriented logout function.
  */
-
 export function logoutAjax() {
     const AjaxReq = new Ajax();
     AjaxReq.get({

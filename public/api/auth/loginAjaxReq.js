@@ -8,7 +8,6 @@ import { Ajax } from '../../modules/ajax.js';
  * @param {string} login Login argument, that wll be sent to server.
  * @param {string} password Password argument, that wll be sent to server.
  */
-
 export function loginAjax(login, password) {
     const AjaxReq = new Ajax();
     AjaxReq.post({

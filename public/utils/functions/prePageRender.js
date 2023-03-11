@@ -11,11 +11,19 @@ export function clearBars() {
     document.getElementById('root').innerHTML = '';
 }
 
+/**
+ * Create Sidebar component and render it in parent
+ * @param {HTMLElement} parent -- where to place Sidebar
+ */
 function renderSidebar(parent) {
     const sidebar = new Menu(parent, sidebarConfig, 'sidebar');
     sidebar.render();
 }
 
+/**
+ * Create Navbar component and render it in parent
+ * @param {HTMLElement} parent -- where to place Navbar
+ */
 function renderNavbar(parent) {
     const config = (checkAuth()) ? authNavConfig : unAuthNavConfig;
 

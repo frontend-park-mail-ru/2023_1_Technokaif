@@ -25,7 +25,7 @@ export class Input {
     }
 
     HTML(cfg = '') {
-        const template1 = Handlebars.compile(templateHtml); // eslint-disable-line
+        const template1 = Handlebars.compile(templateHtml);
         if (cfg === '') {
             return template1(cfg);
         }

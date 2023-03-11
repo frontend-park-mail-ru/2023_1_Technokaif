@@ -52,7 +52,7 @@ class Menu {
         const items = this.#translateToItems(this.#config);
         items.name = this.#name;
 
-        const template= Handlebars.compile(templateHtml); // eslint-disable-line
+        const template = Handlebars.compile(templateHtml);
         const templateInnerHtml = template(items);
         this.#parent.innerHTML += templateInnerHtml;
 

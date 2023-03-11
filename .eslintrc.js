@@ -31,6 +31,15 @@ module.exports = {
         'guard-for-in': 'off',
         'no-restricted-syntax': 'off',
         'no-undef': 'off',
+        'require-jsdoc': ['error', {
+            require: {
+                FunctionDeclaration: true,
+                MethodDefinition: true,
+                ClassDeclaration: true,
+                ArrowFunctionExpression: false,
+                FunctionExpression: false,
+            },
+        }],
     },
     globals: {
         Handlebars: true,
