@@ -16,20 +16,21 @@ class Menu {
 
     #name;
 
+    /**
+     *
+     * @param {HTMLElement} parent -- where to place component
+     * @param {Object} config -- config to compile template
+     * @param {string} name -- name of Component
+     */
     constructor(parent, config, name) {
         this.#parent = parent;
         this.#config = config;
         this.#name = name;
     }
 
-    get config() {
-        return this.#config;
-    }
-
-    set config(value) {
-        this.#config = value;
-    }
-
+    /**
+     * @returns all entries in config
+     */
     get items() {
         return Object.entries(this.#config).map(([key, value]) => ({
             key,
@@ -37,8 +38,12 @@ class Menu {
         }));
     }
 
+    /**
+     * add event listener to component. On 'click' redirect to section on dataset
+     */
     callEventListener() {
         this.#parent.addEventListener('click', (e) => {
+            // TODO transfer e before if?
             if (e.target instanceof HTMLAnchorElement) {
                 e.preventDefault();
 
@@ -48,6 +53,9 @@ class Menu {
         });
     }
 
+    /**
+     * Render component in parent element
+     */
     render() {
         const items = this.#translateToItems(this.#config);
         items.name = this.#name;
@@ -59,6 +67,11 @@ class Menu {
         this.callEventListener();
     }
 
+    /**
+     * Get all Items from lastCfg and returns in object
+     * @param {config} lastCfg -- config where search items
+     * @returns newCfg -- items
+     */
     #translateToItems(lastCfg) {
         const newcfg = { items: [] };
         for (const obj in lastCfg) {

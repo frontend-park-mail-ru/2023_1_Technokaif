@@ -16,12 +16,21 @@ class Navbar {
 
     #name;
 
+    /**
+     *
+     * @param {HTMLElement} parent -- where to place
+     * @param {Object} config -- config to configure Navbar
+     * @param {string} name -- name of Navbar
+     */
     constructor(parent, config, name) {
         this.#parent = parent;
         this.#config = config;
         this.#name = name;
     }
 
+    /**
+     * Returns all entries of config
+     */
     get items() {
         return Object.entries(this.#config).map(([key, value]) => ({
             key,
@@ -29,6 +38,10 @@ class Navbar {
         }));
     }
 
+    /**
+     * Add event listener to component. If HTMLAnchorElement or HTMLButtonElement was 'clicked'
+     * then redirect to section in dataset of element
+     */
     callEventListener() {
         document.getElementById('cont').addEventListener('click', (e) => {
             e?.preventDefault?.();
@@ -45,6 +58,9 @@ class Navbar {
         });
     }
 
+    /**
+     * Render Navbar element in parent
+     */
     render() {
         this.items.map(({
             key, href, name, type, logoSrc,

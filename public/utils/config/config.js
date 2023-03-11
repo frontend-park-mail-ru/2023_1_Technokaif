@@ -52,10 +52,11 @@ export const unAuthNavConfig = {
 };
 
 /**
- * 
- * @param {HTMLElement} parent --  
+ * Redirect to lofin if not authorized
+ * @param {HTMLElement} parent -- parent where to empty innerHtml
  */
 function renderLibrary(parent) {
+    // TODO dummy fix
     parent.innerHTML = '';
     if (localStorage.getItem('jwt') === null) {
         redirect(unAuthNavConfig.login);
