@@ -20,6 +20,7 @@ module.exports = {
     rules: {
         indent: ['error', 4],
         semi: [2, 'always'],
+        // TODO https://trello.com/c/p715znYE trello task
         'consistent-return': 'off',
         'no-plusplus': 'off',
         'no-param-reassign': 'off',
@@ -31,10 +32,7 @@ module.exports = {
         'no-restricted-syntax': 'off',
         'no-undef': 'off',
     },
-    "eslintConfig": {
-        "globals": {
-            // remove error of undef handlebars
-            "Handlebars": true
-        }
-    }
+    globals: {
+        Handlebars: true,
+    },
 };
