@@ -4,6 +4,7 @@
   "description": "Frontend repo for Yandex.Music / Spotify project in technopark 2023 spring",
   "private": true,
   "scripts": {
+    "webser": "webpack --config webpack.config.js && npx webpack serve",
     "start": "node server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint ./",
@@ -15,11 +16,11 @@
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
-    "handlebars": "^4.7.7",
-    "jade": "^1.9.2",
+    "jade": "^0.31.2",
     "morgan": "^1.10.0",
     "require": "^0.4.4",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "webpack-node-externals": "^3.0.0"
   },
   "devDependencies": {
     "css-loader": "^6.7.3",
@@ -30,9 +31,14 @@
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-n": "^15.6.1",
     "eslint-plugin-promise": "^6.1.1",
+    "handlebars": "^4.7.7",
+    "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.0",
     "style-loader": "^3.3.1",
+    "svg-inline-loader": "^0.8.2",
+    "svgo-loader": "^4.0.0",
     "webpack": "^5.76.1",
-    "webpack-cli": "^5.0.1"
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1"
   }
 }
