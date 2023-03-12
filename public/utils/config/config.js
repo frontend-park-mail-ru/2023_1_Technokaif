@@ -11,6 +11,8 @@ export const Names = {
     nameOfApp: 'Spotify',
 };
 
+// TODO webpack img
+
 export const unAuthNavConfig = {
     left: {
         name: 'back page button',
