@@ -9,7 +9,7 @@ export const sexTempate = `
     <div class="{{divSexChoose}}">
         {{#each sexes}}
             <div class="{{this.insideDivSex}}">
-                <input type="{{this.typeInput}}" name="{{this.nameInput}}" class="{{this.classSexInput}}" id={{this.id}}>
+                <input type="{{this.typeInput}}" name="{{this.nameInput}}" class="{{this.classSexInput}}" value="{{this.id}}" id={{this.id}}>
                 <label for="{{this.id}}" class="{{this.classLabel}}">{{this.textLabel}}</label>
             </div>
         {{/each}}
