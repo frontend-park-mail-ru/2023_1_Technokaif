@@ -1,6 +1,6 @@
-Handlebars.registerHelper('ifEquals', (arg1, arg2, options) => ((arg1 === arg2) ? options.fn(this) : options.inverse(this)));
-
-export const navbarTemplate = `
+{{!-- Handlebars.registerHelper('ifEquals', (arg1, arg2, options) => ((arg1 === arg2) ? options.fn(this) : options.inverse(this))); --}}
+{{!-- todo helper --}}
+{{!-- todo Does it used? --}}
 {{#each items}}
     <div>
         <p> {{this.type}}</p>
@@ -12,4 +12,3 @@ export const navbarTemplate = `
         {{/ifEquals}}
     </div>
 {{/each}}
-`;

@@ -1,4 +1,4 @@
-import { tracksTemplate as templateHtml } from './TracksComp.hbs.js';
+import templateHtml from './TracksComp.handlebars';
 
 /**
  * Class for tracks content in main page.
@@ -25,7 +25,7 @@ export class TracksComp {
      * @description render Track in parent
      */
     render() {
-        const template = Handlebars.compile(templateHtml);
+        const template = templateHtml;
         this.#parent.innerHTML = template(this.#config);
     }
 
@@ -35,7 +35,7 @@ export class TracksComp {
      * @returns Html string of template to place
     */
     HTML(cfg = '') {
-        const template = Handlebars.compile(templateHtml);
+        const template = templateHtml;
         if (cfg === '') {
             return template(cfg);
         }

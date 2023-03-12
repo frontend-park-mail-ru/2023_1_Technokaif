@@ -1,6 +1,6 @@
 import { redirect } from '../../modules/redirects.js';
 import { sidebarConfig } from '../../utils/config/config.js';
-import { menuTemplate as templateHtml } from './menu.hbs.js';
+import templateHtml from './menu.handlebars';
 
 /**
  * Class for Menu: Home, Search, Library, Create Playlist, Liked Songs.
@@ -60,7 +60,7 @@ class Menu {
         const items = this.#translateToItems(this.#config);
         items.name = this.#name;
 
-        const template = Handlebars.compile(templateHtml);
+        const template = templateHtml;
         const templateInnerHtml = template(items);
         this.#parent.innerHTML += templateInnerHtml;
 

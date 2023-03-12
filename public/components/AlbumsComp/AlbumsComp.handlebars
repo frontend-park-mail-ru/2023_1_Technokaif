@@ -1,13 +1,11 @@
-export const albumsTemplate = `
-    <div class="{{albumsTitleDiv}}">
-        <div class="{{albumsTitle}}">
-            <h2>Albums</h2>
-        </div>
-        <div class="{{albumsFullList}}">
-            <p>Show all</p>
-        </div>
+<div class="{{albumsTitleDiv}}">
+    <div class="{{albumsTitle}}">
+        <h2>Albums</h2>
     </div>
-    
+    <div class="{{albumsFullList}}">
+        <p>Show all</p>
+    </div>
+</div>    
 <div class="{{albumsDiv}}">        
     {{#each content.albums}}
         <div class="{{../albumDiv}}">
@@ -37,4 +35,4 @@ export const albumsTemplate = `
         </div>
     {{/each}}
 </div>
-`;
+

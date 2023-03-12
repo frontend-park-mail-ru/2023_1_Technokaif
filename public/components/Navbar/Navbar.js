@@ -52,6 +52,8 @@ class Navbar {
                 if (checkAuth()) {
                     redirect(authNavConfig[section]);
                 } else {
+                    // todo Turbo console log install
+                    console.log(section, unAuthNavConfig, unAuthNavConfig[section]);
                     redirect(unAuthNavConfig[section]);
                 }
             }

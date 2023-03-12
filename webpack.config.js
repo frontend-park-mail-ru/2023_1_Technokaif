@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const nodeExternals = require('webpack-node-externals');
+// const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
     mode: 'development',
@@ -28,12 +28,6 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         clean: true,
     },
-    // target: 'node',
-    // externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
-    // externalsPresets: {
-    //     node: true, // in order to ignore built-in modules like path, fs, etc.
-    // },
-
     module: {
         rules: [
             {
@@ -41,13 +35,13 @@ module.exports = {
                 use: ['style-loader', 'css-loader'],
             },
             {
-                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                test: /\.(png|jpg|jpeg|gif)$/i,
                 type: 'asset/resource',
             },
             {
                 test: /\.handlebars$/,
                 loader: 'handlebars-loader',
-                exclude: /(node_modules|bower_components)/,
+                // exclude: /(node_modules|bower_components)/,
             },
             {
                 test: /\.html$/i,

@@ -6,14 +6,15 @@ import { clearBars, prePageRender } from '../utils/functions/prePageRender.js';
  */
 export function redirect(configSection) {
     const el = document.querySelector(`[data-section="${configSection.key}"]`);
-    if (el !== null && el.classList.contains('active')) {
+    // el !== null &&
+    if (el?.classList?.contains('active')) {
         return;
     }
 
-    const activeElement = document.querySelector('.active');
-    if (activeElement !== undefined && activeElement !== null) {
-        activeElement.classList.remove('active');
-    }
+    // const activeElement = document.querySelector('.active');
+    // if (activeElement !== undefined && activeElement !== null) {
+    //     activeElement.classList.remove('active');
+    // }
 
     el?.classList.add('active');
 

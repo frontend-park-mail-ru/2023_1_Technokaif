@@ -1,6 +1,6 @@
-Handlebars.registerHelper('ifEquals', (arg1, arg2, options) => ((arg1 === arg2) ? options.fn(this) : options.inverse(this)));
-
-export const menuTemplate = `
+{{!-- Handlebars.registerHelper('ifEquals', (arg1, arg2, options) => ((arg1 === arg2) ? options.fn(this) : options.inverse(this)));
+    // todo helper
+export const menuTemplate = ` --}}
 <div class="logo">
     <div class="menu-title">
         <img src="/static/svg/whiteLogo.svg">
@@ -18,4 +18,3 @@ export const menuTemplate = `
         </div>
     {{/each}}
 </div>
-`;

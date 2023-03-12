@@ -10,7 +10,7 @@ export function logFormSetup() {
         errorText: 'error-text',
         topID: 'serverErrors',
         content: 'content',
-        header: 'header',
+        formHeader: 'header',
         title: CLASS.title,
         logoSrc: '/static/svg/logo.svg',
 

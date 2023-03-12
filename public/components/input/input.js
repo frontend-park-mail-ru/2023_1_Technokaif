@@ -1,4 +1,4 @@
-import { inputTemplate as templateHtml } from './input.hbs.js';
+import templateHtml from './input.handlebars';
 
 /**
  * Class of input field for forms.
@@ -34,7 +34,7 @@ export class Input {
      * @returns Html string of template to place
     */
     HTML(cfg = '') {
-        const template1 = Handlebars.compile(templateHtml);
+        const template1 = templateHtml;
         if (cfg === '') {
             return template1(cfg);
         }

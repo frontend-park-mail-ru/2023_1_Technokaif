@@ -1,7 +1,7 @@
 import { FormFooter } from '../formFooter/formFooter.js';
 import { Header } from '../Header/header.js';
 import { Input } from '../input/input.js';
-import { formTemplate as templateHtml } from './form.hbs.js';
+import templateHtml from './form.handlebars';
 import { Sex } from '../sex/sex.js';
 import { Date } from '../date/date.js';
 
@@ -41,9 +41,11 @@ export class Form {
      */
     render() {
         this.#parent.innerHTML = this.HTML();
+        console.log('Render header html =', this.#renderHeader());
         this.#parent.querySelector('.header-placement').innerHTML = this.#renderHeader();
+        console.log('Render header finish');
         this.#parent.querySelector('.inputs-placement').innerHTML = this.#renderInputs();
-
+        console.log('Render inputs finish');
         if (this.#confDate !== '') {
             this.#parent.querySelector('.inputs-placement').innerHTML += this.#renderDate();
         }
@@ -61,7 +63,7 @@ export class Form {
      * @returns html string
      */
     HTML(cfg = '') {
-        const template1 = Handlebars.compile(templateHtml);
+        const template1 = templateHtml;
         if (cfg === '') {
             return template1(this.#config);
         }
@@ -83,8 +85,10 @@ export class Form {
      * @returns html string
      */
     #renderHeader() {
+        console.log(this.#config);
         const head = new Header(this.#parent, this.#config);
-        return head.HTML(this.#config);
+
+        return head.HTML();
     }
 
     /**
