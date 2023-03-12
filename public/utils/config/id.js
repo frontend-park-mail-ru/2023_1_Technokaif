@@ -28,7 +28,7 @@ export const ID_REG = {
     lastNameErr: 'lastNameError',
     monthErr: 'monthErr',
     yearErr: 'yearErr',
-    errorTop: 'error-server'
+    errorTop: 'error-server',
 };
 
 /**
@@ -36,7 +36,7 @@ export const ID_REG = {
  */
 export const ID_LOG = {
     login: 'loginField',
-    password: 'passwordField'
+    password: 'passwordField',
 };
 
 /**
@@ -44,7 +44,7 @@ export const ID_LOG = {
  */
 export const CLASS_REG = {
     title: 'title',
-    link: 'reg-login-btn auth-btn'
+    link: 'reg-login-btn auth-btn',
 
 };
 
@@ -57,5 +57,5 @@ export const CLASS_LOG = {
     errorTop: 'error-server',
     divBeforeInput: 'log-field',
     classInp: 'log-input',
-    errorDiv: 'log-error'
+    errorDiv: 'log-error',
 };

@@ -1,12 +1,13 @@
 import { ID_REG as ID, CLASS_REG as CLASS } from '../../utils/config/id.js';
 
 /**
- *
- * @returns -- all settings to form template in register
+ * Function to create registration form setup config for template.
+ * @return {json} config -- config for template.
  */
-export function regFormSetup () {
+export function regFormSetup() {
     return {
         errorTop: ID.errorTop,
+        errorText: 'error-text',
         content: 'content',
         header: 'header',
         title: CLASS.title,
@@ -31,7 +32,7 @@ export function regFormSetup () {
                 classInp: 'reg-input',
                 id: ID.email,
                 errorDiv: 'reg-error',
-                errorId: ID.emailErr
+                errorId: ID.emailErr,
             },
             {
                 divBeforeInput: 'reg-field',
@@ -43,7 +44,7 @@ export function regFormSetup () {
                 classInp: 'reg-input',
                 id: ID.emailConf,
                 errorDiv: 'reg-error',
-                errorId: ID.emailConfErr
+                errorId: ID.emailConfErr,
             },
             {
                 divBeforeInput: 'reg-field',
@@ -55,7 +56,7 @@ export function regFormSetup () {
                 classInp: 'reg-input',
                 id: ID.password,
                 errorDiv: 'reg-error',
-                errorId: ID.passwordErr
+                errorId: ID.passwordErr,
             },
             {
                 divBeforeInput: 'reg-field',
@@ -67,7 +68,7 @@ export function regFormSetup () {
                 classInp: 'reg-input',
                 id: ID.username,
                 errorDiv: 'reg-error',
-                errorId: ID.usernameErr
+                errorId: ID.usernameErr,
             },
             {
                 divBeforeInput: 'reg-field',
@@ -79,7 +80,7 @@ export function regFormSetup () {
                 classInp: 'reg-input',
                 id: ID.firstName,
                 errorDiv: 'reg-error',
-                errorId: ID.firstNameErr
+                errorId: ID.firstNameErr,
             },
             {
                 divBeforeInput: 'reg-field',
@@ -91,8 +92,8 @@ export function regFormSetup () {
                 classInp: 'reg-input',
                 id: ID.lastName,
                 errorDiv: 'reg-error',
-                errorId: ID.lastNameErr
-            }
+                errorId: ID.lastNameErr,
+            },
         ],
         placementClass: 'reg-date-and-sex',
         placementId: ID.placement,
@@ -109,15 +110,15 @@ export function regFormSetup () {
         linkDiv: 'linkDiv',
         linkHref: '/',
         linkClass: CLASS.link,
-        linkText: 'Login'
+        linkText: 'Login',
     };
 }
 
 /**
  *
- * @returns -- all settings to sex template in register
+ * @return -- all settings to sex template in register
  */
-export function sexSetup () {
+export function sexSetup() {
     return {
         mainSexDiv: 'reg-sex',
         labelSex: 'reg-sex-label',
@@ -132,7 +133,7 @@ export function sexSetup () {
                 classSexInput: 'reg-sex-radio',
                 id: ID.male,
                 classLabel: 'sex-var-label',
-                textLabel: 'Male'
+                textLabel: 'Male',
             },
             {
                 insideDivSex: 'reg-sex-var',
@@ -141,7 +142,7 @@ export function sexSetup () {
                 classSexInput: 'reg-sex-radio',
                 id: ID.female,
                 classLabel: 'sex-var-label',
-                textLabel: 'Female'
+                textLabel: 'Female',
             },
             {
                 insideDivSex: 'reg-sex-var',
@@ -150,18 +151,18 @@ export function sexSetup () {
                 classSexInput: 'reg-sex-radio',
                 id: ID.dont,
                 classLabel: 'sex-var-label',
-                textLabel: 'Other answer'
-            }
+                textLabel: 'Other answer',
+            },
         ],
-        errorSex: 'error-gender'
+        errorSex: 'error-gender',
     };
 }
 
 /**
  *
- * @returns -- all settings to date template in register
+ * @return -- all settings to date template in register
  */
-export function dateSetup () {
+export function dateSetup() {
     return {
         dateMainDiv: 'reg-date',
         divChooseId: ID.choose,
@@ -183,63 +184,63 @@ export function dateSetup () {
             {
                 option: 'January',
                 class: null,
-                text: 'January'
+                text: 'January',
             },
             {
                 option: 'February',
                 class: null,
-                text: 'February'
+                text: 'February',
             },
             {
                 option: 'March',
                 class: null,
-                text: 'March'
+                text: 'March',
             },
             {
                 option: 'April',
                 class: null,
-                text: 'April'
+                text: 'April',
             },
             {
                 option: 'May',
                 class: null,
-                text: 'May'
+                text: 'May',
             },
             {
                 option: 'June',
                 class: null,
-                text: 'June'
+                text: 'June',
             },
             {
                 option: 'July',
                 class: null,
-                text: 'July'
+                text: 'July',
             },
             {
                 option: 'August',
                 class: null,
-                text: 'August'
+                text: 'August',
             },
             {
                 option: 'September',
                 class: null,
-                text: 'September'
+                text: 'September',
             },
             {
                 option: 'October',
                 class: null,
-                text: 'October'
+                text: 'October',
             },
             {
                 option: 'November',
                 class: null,
-                text: 'November'
+                text: 'November',
             },
             {
                 option: 'December',
                 class: null,
-                text: 'December'
-            }
+                text: 'December',
+            },
         ],
         divYearClass: null,
         typeOfYearInput: 'text',
@@ -252,6 +253,6 @@ export function dateSetup () {
         errorMonth: 'reg-error',
         errorMonthID: ID.monthErr,
         errorYear: 'reg-error',
-        errorYearID: ID.yearErr
+        errorYearID: ID.yearErr,
     };
 }

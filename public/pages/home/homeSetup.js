@@ -1,6 +1,9 @@
-'use strict';
-
-export function homeSetup (items) {
+/**
+ * Function to create home setup config for template.
+ * @param items -- some data from server about tracks, artists, albums.
+ * @return {json} config -- config for template.
+ */
+export function homeSetup(items) {
     return ({
         mainPageWindowDiv: 'main-page-window',
         tracksTitleDiv: 'tracks-titles',
@@ -41,10 +44,10 @@ export function homeSetup (items) {
         albumIdDiv: 'album-id',
         albumDescriptionDiv: 'album-description',
 
-        defaultAlbumCover: '/static/img/album2.jpg',
-        defaultTrackCover: '/static/img/pink.jpeg',
-        defaultArtistCover: '/static/img/singer.jpg',
+        defaultAlbumCover: '/static/img/albums/gorgorod.jpg',
+        defaultTrackCover: '/static/img/tracks/pink.jpeg',
+        defaultArtistCover: '/static/img/artists/singer.jpg',
 
-        content: items
+        content: items,
     });
 }

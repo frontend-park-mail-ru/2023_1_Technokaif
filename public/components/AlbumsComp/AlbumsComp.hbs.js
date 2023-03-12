@@ -1,5 +1,4 @@
-export const albumsTemplate =
-`
+export const albumsTemplate = `
     <div class="{{albumsTitleDiv}}">
         <div class="{{albumsTitle}}">
             <h2>Albums</h2>
@@ -15,7 +14,7 @@ export const albumsTemplate =
             <div class="{{../albumImgDiv}}">
                 <img class="{{../albumImg}}" src=
                     {{#if this.cover}}
-                        "{{this.cover}}"
+                        "{{#convert}}{{this.cover}}{{/convert}}"
                     {{else}}
                         "{{../defaultAlbumCover}}"
                     {{/if}}>

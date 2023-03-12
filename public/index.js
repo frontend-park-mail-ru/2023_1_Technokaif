@@ -1,9 +1,10 @@
-'use strict';
-
 import { prePageRender } from './utils/functions/prePageRender.js';
 import { renderHome } from './pages/home/home.js';
 
-function renderMainPage () {
+/**
+ * Render main page of app
+ */
+function renderMainPage() {
     prePageRender();
     renderHome(document.getElementById('main'));
 }

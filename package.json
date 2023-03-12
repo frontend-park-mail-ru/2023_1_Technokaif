@@ -22,11 +22,12 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "eslint": "^8.35.0",
+    "eslint": "^8.36.0",
+    "eslint-config-airbnb": "^19.0.4",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-n": "^15.6.1",
-    "eslint-plugin-promise": "^6.1.1",
-    "pug": "^3.0.2"
+    "eslint-plugin-promise": "^6.1.1"
   }
 }

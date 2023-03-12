@@ -1,11 +1,9 @@
-'use strict';
-
 const express = require('express');
 const body = require('body-parser');
 const cookie = require('cookie-parser');
 const morgan = require('morgan');
-const uuid = require('uuid').v4;
 const path = require('path');
+
 const app = express();
 
 app.use(morgan('dev'));
@@ -22,7 +20,7 @@ const users = {
         firstName: 'firstName',
         lastName: 'lastName',
         date: '2022-04-12',
-        sex: 'M'
+        sex: 'M',
 
     },
     's.volodin@corp.mail.ru': {
@@ -32,70 +30,72 @@ const users = {
         firstName: 'firstName',
         lastName: 'lastName',
         date: '2022-04-12',
-        sex: 'M'
+        sex: 'M',
     },
-    'aleksandr.tsvetkov@corp.mail.ru': {
-        email: 'aleksandr.tsvetkov@corp.mail.ru',
-        password: 'password',
+    'aleksandr@mail.ru': {
+        email: 'aleksandr@mail.ru',
+        password: '321Kruto',
         username: 'username',
         firstName: 'firstName',
         lastName: 'lastName',
         date: '2022-04-12',
-        sex: 'M'
+        sex: 'M',
     },
-    'aostapenko@mail.ru': {
+    '2002marsic@mail.ru': {
         email: '2002marsic@mail.ru',
         password: 'PassDword32',
         username: 'Username',
         firstName: 'firstName',
         lastName: 'lastName',
         date: '2022-04-12',
-        sex: 'M'
-    }
+        sex: 'M',
+    },
 };
 
 const originalJwt = 'falksfasasfasfasf';
 
 app.post('/api/auth/signup', (req, res) => {
-    const password = req.body.password;
-    const email = req.body.email;
-    const username = req.body.username;
-    const firstName = req.body.firstName;
-    const lastName = req.body.lastName;
-    const date = req.body.date;
-    const sex = req.body.sex;
+    const { password } = req.body;
+    const { email } = req.body;
+    const { username } = req.body;
+    const { firstName } = req.body;
+    const { lastName } = req.body;
+    const { date } = req.body;
+    const { sex } = req.body;
 
     if (
-        !password || !email ||
-        !password.match(/^\S{4,}$/) ||
-        !email.match(/@/)
+        !password || !email
+        || !password.match(/^\S{4,}$/)
+        || !email.match(/@/)
     ) {
-        return res.status(400).json({ error: 'Не валидные данные пользователя' });
+        return res.status(400).json({ message: 'Не валидные данные пользователя' });
     }
     if (users[email]) {
-        return res.status(400).json({ error: 'Пользователь уже существует' });
+        return res.status(400).json({ message: 'Пользователь уже существует' });
     }
 
-    users[email] = { password, email, username, firstName, lastName, date, sex };
+    users[email] = {
+        password, email, username, firstName, lastName, date, sex,
+    };
 
     res.status(200).json({ id: 5 });
 });
 
 app.post('/api/auth/login', (req, res) => {
-    const password = req.body.password;
+    const { password } = req.body;
     const email = req.body.username;
     if (!password || !email) {
-        return res.status(400).json({ error: 'Не указан E-Mail или пароль' });
+        return res.status(400).json({ message: 'Не указан E-Mail или пароль' });
     }
     if (!users[email] || users[email].password !== password) {
-        return res.status(400).json({ error: 'Не верный E-Mail и/или пароль' });
+        return res.status(400).json({ message: 'Не верный E-Mail и/или пароль' });
     }
 
     res.status(200).json({ jwt: 'fdfksldsdgsgs82358afs' });
 });
 
 app.get('/api/auth/logout', (req, res) => {
-    res.status(200).json({ err: 'sfffs' });
+    res.status(200).json({ message: 'sfffs' });
 });
 
 app.get('/api/feed', (req, res) => {
@@ -109,9 +109,9 @@ app.get('/api/feed', (req, res) => {
                     artists: [
                         {
                             name: 'Oxxxxy',
-                            id: 5
-                        }
-                    ]
+                            id: 5,
+                        },
+                    ],
                 },
                 {
                     name: 'Там где нас нет',
@@ -119,9 +119,9 @@ app.get('/api/feed', (req, res) => {
                     artists: [
                         {
                             name: 'Oxxxxy',
-                            id: 5
-                        }
-                    ]
+                            id: 5,
+                        },
+                    ],
                 },
                 {
                     name: 'Там где нас нет',
@@ -129,10 +129,10 @@ app.get('/api/feed', (req, res) => {
                     artists: [
                         {
                             name: 'Oxxxxy',
-                            id: 5
-                        }
-                    ]
-                }
+                            id: 5,
+                        },
+                    ],
+                },
             ],
             albums: [
                 {
@@ -142,21 +142,22 @@ app.get('/api/feed', (req, res) => {
                     artists: [
                         {
                             name: 'Oxxxxy',
-                            id: 5
-                        }
-                    ]
-                }
+                            id: 5,
+                        },
+                    ],
+                },
             ],
             artists: [
                 {
                     name: 'Oxxxxy',
-                    id: 5
+                    cover: '/artists/oxxxymiron.jpg',
+                    id: 5,
                 },
                 {
                     name: 'Oxxxxy',
-                    id: 5
-                }
-            ]
+                    id: 5,
+                },
+            ],
         });
     } else {
         res.status(200).json({
@@ -167,9 +168,9 @@ app.get('/api/feed', (req, res) => {
                     artists: [
                         {
                             name: 'Oxxxxy',
-                            id: 5
-                        }
-                    ]
+                            id: 5,
+                        },
+                    ],
                 },
                 {
                     name: 'Там где нас нет',
@@ -177,10 +178,10 @@ app.get('/api/feed', (req, res) => {
                     artists: [
                         {
                             name: 'Oxxxxy',
-                            id: 5
-                        }
-                    ]
-                }
+                            id: 5,
+                        },
+                    ],
+                },
             ],
             albums: [
                 {
@@ -190,27 +191,27 @@ app.get('/api/feed', (req, res) => {
                     artists: [
                         {
                             name: 'Oxxxxy',
-                            id: 5
-                        }
-                    ]
-                }
+                            id: 5,
+                        },
+                    ],
+                },
             ],
             artists: [
                 {
                     name: 'Oxxxxy',
-                    id: 5
+                    id: 5,
                 },
                 {
                     name: 'Oxxxxy',
-                    id: 5
-                }
-            ]
+                    id: 5,
+                },
+            ],
         });
     }
 });
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, function () {
+app.listen(port, () => {
     console.log(`Server listening port ${port}`);
 });

@@ -1,8 +1,7 @@
 /**
- * Contains template string for footer
+ * Contains template string for formFooter
  */
-export const footerTemplate =
-`
+export const footerTemplate = `
 <div class="{{bottomClass}}">
     <div class="{{divBottomLabel}}">
         <p class="{{bottomLabelClass}}">{{bottomLabelText}}</p>

@@ -1,8 +1,7 @@
 /**
  * Contains template string for date picker.
  */
-export const dateTemplate =
-`
+export const dateTemplate = `
 <div class="{{dateMainDiv}}">
     <label for="{{divChooseId}}" class="{{labelClass}}">{{labelText}}</label>
     <div id="{{divChooseId}}" class="{{dateChooseDiv}}">

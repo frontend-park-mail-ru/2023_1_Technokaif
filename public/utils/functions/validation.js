@@ -1,21 +1,24 @@
-'use strict';
-
 import { MONTHS } from '../config/config.js';
 import { ERRORS_VALIDATE as ERRORS } from '../config/validateConf.js';
+
+const ALPHABET_BIG = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const ALPHABET_SMALL = 'abcdefghijklmnopqrstuvwxyz';
+const DIGITS = '0123456789';
+const FORBIDDEN_EMAIL_SYMBOLS = '<>()[],;:\\/';
 
 /**
  *
  * @param {string} login -- string to check
- * @returns {bool} -- return true if login contains @
+ * @return {bool} -- return true if login contains @
  */
-export function checkIsEmail (login) {
-    return !!login.match('@');
+export function checkIsEmail(login) {
+    return login.includes('@');
 }
 
 /**
  *
  * @param {string} password -- password to validate
- * @returns return null if password correct else return 'password'
+ * @return return null if password correct else return 'password'
  * @description
  * correct password contains:
  *  1 or more big letters like 'A';
@@ -27,14 +30,37 @@ export function checkIsEmail (login) {
  *
  *  symbols: ' " : space";
  */
-export function getPasswordError (password) {
-    if ((!(/[\'\"\ \:]/g).test(password) &&  // eslint-disable-line
-    (/.{8,30}/g).test(password)) &&
-    (/[A-Z]/g).test(password) &&
-    (/[0-9]/g).test(password) &&
-    (/[a-z]/g).test(password)) {
+export function getPasswordError(password) {
+    if (password.includes('\'') || password.includes('"')
+        || password.includes(' ') || password.includes(':')) {
+        return ERRORS.password;
+    }
+
+    if (password.length < 8 || password.length > 30) {
+        return ERRORS.password;
+    }
+
+    let isBigExist = false;
+    let isSmallExist = false;
+    let isDigitsExist = false;
+
+    for (let i = 0; i < password.length; i++) {
+        if (ALPHABET_BIG.includes(password[i])) {
+            isBigExist = true;
+        }
+
+        if (ALPHABET_SMALL.includes(password[i])) {
+            isSmallExist = true;
+        }
+
+        if (DIGITS.includes(password[i])) {
+            isDigitsExist = true;
+        }
+    }
+
+    if (isBigExist && isSmallExist && isDigitsExist) {
         return null;
-    };
+    }
 
     return ERRORS.password;
 }
@@ -42,12 +68,12 @@ export function getPasswordError (password) {
 /**
  *
  * @param {string} day -- day to check
- * @returns return null if day is correct:
+ * @return return null if day is correct:
  * in the range 1-31
  *
  * else return 'day'
  */
-export function getDayError (day) {
+export function getDayError(day) {
     if (day >= 1 && day <= 31) {
         return null;
     }
@@ -58,14 +84,14 @@ export function getDayError (day) {
 /**
  *
  * @param {string} year -- year to validate
- * @returns return null if year > 0 and year <= current year
+ * @return return null if year > 0 and year <= current year
  *
  * else 'year'
  */
-export function getYearError (year) {
+export function getYearError(year) {
     if (year > 0 && year <= new Date(Date.now()).getFullYear()) {
         return null;
-    };
+    }
 
     return ERRORS.year;
 }
@@ -73,12 +99,12 @@ export function getYearError (year) {
 /**
  *
  * @param {string} month
- * @returns null if month in MONTHS struct else return 'month'
+ * @return null if month in MONTHS struct else return 'month'
  */
-export function getMonthError (month) {
+export function getMonthError(month) {
     if (MONTHS.includes(month)) {
         return null;
-    };
+    }
 
     return ERRORS.month;
 }
@@ -88,7 +114,7 @@ export function getMonthError (month) {
  * @param {string} email -- email to validate
  * @param {string} confirmEmail --if confirmEmail empty, function only validate email.
  * if not empty, function check for email and confirmEmail to be equal
- * @returns nill if email is correct and 'email' if not correct
+ * @return nill if email is correct and 'email' if not correct
  *
  * if confirmEmail given then return 'confemail' if email != confirmEmail
  *
@@ -100,7 +126,7 @@ export function getMonthError (month) {
  *   .-_ in end;
  *   <>()[],;:\/"
  */
-export function getEmailError (email, confirmEmail = '') {
+export function getEmailError(email, confirmEmail = '') {
     let result = [];
 
     if (email !== confirmEmail || confirmEmail === '') {
@@ -117,16 +143,43 @@ export function getEmailError (email, confirmEmail = '') {
         return result;
     }
 
+    if (!email.includes('@')) {
+        result.push(ERRORS.email);
+        return result;
+    }
+
+    if (email[email.indexOf('@') + 1] === '.') {
+        result.push(ERRORS.email);
+        return result;
+    }
+    const emailAfter = email.substring(email.indexOf('@') + 1);
+    if (!(emailAfter.includes('.'))) {
+        result.push(ERRORS.email);
+        return result;
+    }
+
+    if (emailAfter.includes('@')) {
+        result.push(ERRORS.email);
+        return result;
+    }
+
     const lastSymb = email[email.length];
     if (lastSymb === '.' || lastSymb === '-' || lastSymb === '_') {
         result.push(ERRORS.email);
         return result;
     }
 
-    if (!((/^[\w]+[\w\.\-]*@{1}[\w]+[\.]*[\w\.\-]*/gmi).test(email) && // eslint-disable-line
-    (!(/[\<\>\(\)\[\]\,\;\:\\\/\"]/gmi).test(email)))) { // eslint-disable-line
-        result.push(ERRORS.email);
-    }; // check for forbiden symbols
+    for (let i = 0; i < email.length; i++) {
+        if (FORBIDDEN_EMAIL_SYMBOLS.includes(email[i])) {
+            result.push(ERRORS.email);
+            return result;
+        }
+
+        if (!(ALPHABET_BIG.includes(email[i]) || ALPHABET_SMALL.includes(email[i])
+            || DIGITS.includes(email[i]) || '@.-_'.includes(email[i]))) {
+            result.push(ERRORS.email);
+        }
+    }
 
     if (result.length === 0) {
         result = null;
@@ -137,23 +190,27 @@ export function getEmailError (email, confirmEmail = '') {
 
 /**
  *
- * @param  {...any} boxes -- true of false values
- * @returns null if correct else return 'sex'
+ * @param  {...any} boxes -- strings of sex
+ * @return null if correct else return 'sex'
  *
  * Correct:
- *  Only one true value;
- *  One true value exist;
+ *  Only one value;
+ *  Value: male, female, dont.
  */
-export function getSexError (...boxes) {
+export function getSexError(...boxes) {
+    boxes = boxes.filter(Boolean);
     let isInputCorrect = false;
-    boxes.forEach((box) => {
-        if (box) {
-            if (isInputCorrect) {
-                return ERRORS.sex;
-            }
+    if (boxes.length === 1) {
+        switch (boxes[0]) {
+        case 'male':
+        case 'female':
+        case 'dont':
             isInputCorrect = true;
+            break;
+        default:
+            isInputCorrect = false;
         }
-    });
+    }
 
     if (!isInputCorrect) {
         return ERRORS.sex;
@@ -165,34 +222,45 @@ export function getSexError (...boxes) {
 /**
  *
  * @param {string} username -- username to validate
- * @returns null if correct else 'username'
+ * @return null if correct else 'username'
  *
  * Correct:
  * username length 4-20 and contains only _, letters, digits
  */
-export function getUsernameError (username) {
-    if ((/^[\w]{4,20}$/gmi).test(username) &&
-    !(/[^\w]/gmi).test(username)) {
-        return null;
-    };
+export function getUsernameError(username) {
+    if (username.length < 4 || username.length > 20) {
+        return ERRORS.username;
+    }
 
-    return ERRORS.username;
+    for (let i = 0; i < username.length; i++) {
+        if (!(ALPHABET_BIG.includes(username[i]) || ALPHABET_SMALL.includes(username[i])
+            || DIGITS.includes(username[i]) || '_'.includes(username[i]))) {
+            return ERRORS.username;
+        }
+    }
+
+    return null;
 }
 
 /**
  *
  * @param {string} name -- name to validate
- * @returns null if correct else return 'name'
+ * returns null if correct else return 'name'
  *
  * Correct: if length 2-20 and contains only letters
  */
-export function getNameError (name) {
-    if ((/^[a-z]{2,20}$/gmi).test(name) &&
-    (!(/[^a-z]/gmi).test(name))) {
-        return null;
-    };
+export function getNameError(name) {
+    if (name.length < 2 || name.length > 20) {
+        return ERRORS.name;
+    }
 
-    return ERRORS.name;
+    for (let i = 0; i < name.length; i++) {
+        if (!(ALPHABET_BIG.includes(name[i]) || ALPHABET_SMALL.includes(name[i]))) {
+            return ERRORS.name;
+        }
+    }
+
+    return null;
 }
 
 /**
@@ -207,9 +275,9 @@ export function getNameError (name) {
  * [7] -- month
  * [8] -- year
  * [9-11] -- sex
- * @returns null if correct else return array of strings with error elements
+ * @return null if correct else return array of strings with error elements
  */
-export function getAllErrors (...params) {
+export function getAllErrors(...params) {
     const result = [];
 
     const emailErrors = getEmailError(params[0], params[1]);
@@ -225,11 +293,11 @@ export function getAllErrors (...params) {
     const lastErr = getNameError(params[4]);
 
     if (firstErr) {
-        result.push('first' + firstErr);
+        result.push(`first${firstErr}`);
     }
 
     if (firstErr) {
-        result.push('last' + lastErr);
+        result.push(`last${lastErr}`);
     }
 
     result.push(getUsernameError(params[5]));
