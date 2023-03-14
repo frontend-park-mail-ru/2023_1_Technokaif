@@ -43,10 +43,8 @@ class Menu {
      */
     callEventListener() {
         this.#parent.addEventListener('click', (e) => {
-            // TODO transfer e before if?
+            e.preventDefault();
             if (e.target instanceof HTMLAnchorElement) {
-                e.preventDefault();
-
                 const { section } = e.target.dataset;
                 redirect(sidebarConfig[section]);
             }

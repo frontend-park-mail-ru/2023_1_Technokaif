@@ -29,7 +29,7 @@ export class Header {
         this.#parent.innerHTML = template1(this.#config);
     }
 
-    // todo delete cfg input in html
+    // todo delete cfg input in html https://trello.com/c/H4uuLvUH
     /**
      * If cfg is given then return compiled template with cfg else with inner config
      * @param {object} cfg -- external configure object
@@ -38,10 +38,6 @@ export class Header {
     HTML(cfg = '') {
         const template1 = templateHtml;
         if (cfg === '') {
-            console.log('Head');
-            console.log(template1);
-            console.log('cfg = ', this.#config);
-            console.log('out = ', template1(this.#config));
             return templateHtml(this.#config);
         }
         return template1(cfg);

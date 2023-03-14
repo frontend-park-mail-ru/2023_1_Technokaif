@@ -1,4 +1,3 @@
-// import './index.html';
 import './static/css/style.css';
 import { prePageRender } from './utils/functions/prePageRender.js';
 import { renderHome } from './pages/home/home.js';

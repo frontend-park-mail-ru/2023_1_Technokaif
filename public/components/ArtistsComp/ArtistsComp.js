@@ -1,5 +1,3 @@
-// import Handlebars from 'handlebars';
-// import { artistsTemplate as templateHtml } from './ArtistsComp.hbs.js';
 import templateHtml from './ArtistsComp.handlebars';
 
 /**

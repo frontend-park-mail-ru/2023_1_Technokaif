@@ -41,7 +41,4 @@ module.exports = {
             },
         }],
     },
-    globals: {
-        Handlebars: true,
-    },
 };

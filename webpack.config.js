@@ -1,7 +1,6 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
     mode: 'development',
@@ -9,7 +8,6 @@ module.exports = {
     watch: true,
     plugins: [
         new HtmlWebpackPlugin({
-            // template: path.resolve(__dirname, 'public', 'index.html'),
             templateContent: `
                 <html>
                 <head>
@@ -34,11 +32,10 @@ module.exports = {
         }),
     ],
     output: {
-        filename: '[name].[contenthash].bundle.js', // TODO can write .[contenthash] for auto reload
+        filename: '[name].[contenthash].bundle.js',
         path: path.resolve(__dirname, 'dist'),
         clean: true,
     },
-
     module: {
         rules: [
             {
@@ -46,17 +43,12 @@ module.exports = {
                 use: ['style-loader', 'css-loader'],
             },
             {
-                test: /\.(png|jpg|jpeg|gif)$/i,
-                type: 'asset/resource',
-            },
-            {
                 test: /\.handlebars$/,
                 loader: 'handlebars-loader',
-                // exclude: /(node_modules|bower_components)/,
             },
             {
-                test: /\.html$/i,
-                loader: 'html-loader',
+                test: /\.(png|jpg|jpeg|gif)$/i,
+                type: 'asset/resource',
             },
             {
                 test: /\.svg$/,

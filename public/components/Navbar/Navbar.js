@@ -45,16 +45,14 @@ class Navbar {
     callEventListener() {
         document.getElementById('cont').addEventListener('click', (e) => {
             e?.preventDefault?.();
-            // TODO think about remove if
             if (e.target instanceof HTMLAnchorElement || e.target instanceof HTMLButtonElement) {
                 const { section } = e.target.dataset;
-                // maybe check for existing of section
-                if (checkAuth()) {
-                    redirect(authNavConfig[section]);
-                } else {
-                    // todo Turbo console log install
-                    console.log(section, unAuthNavConfig, unAuthNavConfig[section]);
-                    redirect(unAuthNavConfig[section]);
+                if (section) {
+                    if (checkAuth()) {
+                        redirect(authNavConfig[section]);
+                    } else {
+                        redirect(unAuthNavConfig[section]);
+                    }
                 }
             }
         });

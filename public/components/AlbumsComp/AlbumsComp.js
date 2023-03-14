@@ -1,6 +1,4 @@
-// import { albumsTemplate as templateHtml } from './AlbumsComp.hbs.js';
 import templateHtml from './AlbumsComp.handlebars';
-// const templateHtml = require('./AlbumsComp.handlebars');
 
 /**
  * Class for albums content in main page.

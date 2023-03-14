@@ -3,7 +3,6 @@ import { TracksComp } from '../TracksComp/TracksComp.js';
 import { AlbumsComp } from '../AlbumsComp/AlbumsComp.js';
 import templateHtml from './mainWindow.handlebars';
 import { homeSetup } from '../../pages/home/homeSetup.js';
-// import { convertImgSrc } from '../../utils/functions/stringOperations.js';
 
 /**
  * Class for main page content
@@ -84,8 +83,6 @@ export class MainWindowContent {
  * @param {Object} items -- what items to render
  */
 export function createHomePageContent(parent, items) {
-    // Handlebars.registerHelper('convert', (options) => convertImgSrc(options.fn(this)));
-    // todo helper
     const mainPage = new MainWindowContent(parent, homeSetup(items));
     mainPage.render();
 }
