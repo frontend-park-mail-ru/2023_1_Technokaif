@@ -1,10 +1,12 @@
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
     mode: 'development',
     entry: path.resolve(__dirname, 'public', 'index.js'),
+    watch: true,
     plugins: [
         new HtmlWebpackPlugin({
             // template: path.resolve(__dirname, 'public', 'index.html'),
@@ -14,7 +16,7 @@ module.exports = {
                     <meta charset="UTF-8">
                     <meta http-equiv="X-UA-Compatible" content="IE=edge">
                     <title>Fluir</title>
-                    <link rel="shortcut icon" type="image/jpg" href="./static/svg/whiteLogo.svg"/>
+                    <link rel="shortcut icon" type="image/jpg" href="./static/svg/whiteLogo.svg">
                 </head>
                 <body>
                     <div id="root"></div>
@@ -22,12 +24,21 @@ module.exports = {
                 </html>
             `,
         }),
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: './public/static',
+                    to: './static',
+                },
+            ],
+        }),
     ],
     output: {
         filename: '[name].[contenthash].bundle.js', // TODO can write .[contenthash] for auto reload
         path: path.resolve(__dirname, 'dist'),
         clean: true,
     },
+
     module: {
         rules: [
             {
