@@ -35,13 +35,10 @@
     "eslint-plugin-promise": "^6.1.1",
     "handlebars": "^4.7.7",
     "handlebars-loader": "^1.7.3",
-    "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.0",
     "style-loader": "^3.3.1",
-    "svg-inline-loader": "^0.8.2",
-    "svgo-loader": "^4.0.0",
     "webpack": "^5.76.1",
-    "webpack-cli": "^5.0.1",
+    "webpack-cl i": "^5.0.1",
     "webpack-dev-server": "^4.11.1"
   }
 }

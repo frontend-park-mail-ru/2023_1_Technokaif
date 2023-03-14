@@ -46,15 +46,6 @@ module.exports = {
                 test: /\.handlebars$/,
                 loader: 'handlebars-loader',
             },
-            {
-                test: /\.(png|jpg|jpeg|gif)$/i,
-                type: 'asset/resource',
-            },
-            {
-                test: /\.svg$/,
-                type: 'asset',
-                loader: 'svgo-loader',
-            },
         ],
     },
     resolve: {
