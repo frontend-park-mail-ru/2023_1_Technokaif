@@ -1,4 +1,4 @@
-import { sexTempate as templateHtml } from './sex.hbs.js';
+import templateHtml from './sex.handlebars';
 
 /**
  * Class for gender choose fields in forms.
@@ -34,7 +34,7 @@ export class Sex {
      * @returns Html string of template to place
     */
     HTML(cfg = '') {
-        const template1 = Handlebars.compile(templateHtml);
+        const template1 = templateHtml;
         if (cfg === '') {
             return template1(cfg);
         }

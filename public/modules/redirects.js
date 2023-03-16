@@ -6,7 +6,7 @@ import { clearBars, prePageRender } from '../utils/functions/prePageRender.js';
  */
 export function redirect(configSection) {
     const el = document.querySelector(`[data-section="${configSection.key}"]`);
-    if (el !== null && el.classList.contains('active')) {
+    if (el?.classList?.contains('active')) {
         return;
     }
 

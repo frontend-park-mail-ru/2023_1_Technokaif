@@ -1,4 +1,4 @@
-import { footerTemplate as templateHtml } from './formFooter.hbs.js';
+import templateHtml from './formFooter.handlebars';
 
 /**
  * Class for next to form content(buttons...).
@@ -25,7 +25,7 @@ export class FormFooter {
      * @description render FormFooter in parent
     */
     render() {
-        const template1 = Handlebars.compile(templateHtml);
+        const template1 = templateHtml;
         this.#parent.innerHTML = template1(this.#config);
     }
 
@@ -35,11 +35,11 @@ export class FormFooter {
      * @returns Html string of template to place
     */
     HTML(cfg = '') {
-        const template1 = Handlebars.compile(templateHtml);
+        const template1 = templateHtml;
         if (cfg === '') {
-            return template1(cfg);
+            return template1(this.#config);
         }
 
-        return template1(this.#config);
+        return template1(cfg);
     }
 }

@@ -1,4 +1,4 @@
-import { dateTemplate as templateHtml } from './date.hbs.js';
+import templateHtml from './date.handlebars';
 
 /**
  * Class for date fields manipulations.
@@ -25,7 +25,7 @@ export class Date {
      * @description render Date in parent
     */
     render() {
-        const template1 = Handlebars.compile(templateHtml);
+        const template1 = templateHtml;
         this.#parent.innerHTML = template1(this.#config);
     }
 
@@ -35,7 +35,7 @@ export class Date {
      * @returns Html string of template to place
     */
     HTML(cfg = '') {
-        const template1 = Handlebars.compile(templateHtml);
+        const template1 = templateHtml;
         if (cfg === '') {
             return template1(cfg);
         }

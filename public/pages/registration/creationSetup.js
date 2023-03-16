@@ -8,8 +8,9 @@ export function regFormSetup() {
     return {
         errorTop: ID.errorTop,
         errorText: 'error-text',
+        topID: 'null',
         content: 'content',
-        header: 'header',
+        formHeader: 'header',
         title: CLASS.title,
         logoSrc: '/static/svg/logo.svg',
 

@@ -1,4 +1,4 @@
-import { artistsTemplate as templateHtml } from './ArtistsComp.hbs.js';
+import templateHtml from './ArtistsComp.handlebars';
 
 /**
  * Class for artists content in main page.
@@ -25,7 +25,7 @@ export class ArtistsComp {
      * @description render Artist in parent
      */
     render() {
-        const template = Handlebars.compile(templateHtml);
+        const template = templateHtml;
         this.#parent.innerHTML = template(this.#config);
     }
 
@@ -35,7 +35,7 @@ export class ArtistsComp {
      * @returns Html string of template to place
     */
     HTML(cfg = '') {
-        const template = Handlebars.compile(templateHtml);
+        const template = templateHtml;
         if (cfg === '') {
             return template(cfg);
         }
