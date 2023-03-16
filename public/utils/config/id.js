@@ -54,8 +54,8 @@ export const CLASS_REG = {
 export const CLASS_LOG = {
     title: 'title',
     link: 'log-reg-btn auth-btn',
-    errorTop: 'error-server',
-    divBeforeInput: 'log-field',
-    classInp: 'log-input',
-    errorDiv: 'log-error',
+    errorTop: 'title__error-placement',
+    divBeforeInput: 'input-block',
+    classInp: 'input-block__input-element',
+    errorDiv: 'input-block__error-placement',
 };

@@ -1,0 +1,65 @@
+@image-width: 50px;
+@image-height: 50px;
+@image-margin: 5px;
+
+@title-font: 40px;
+
+@gradient-start: red;
+@gradient-end: #ffc700;
+
+@chars-weight: 700;
+
+@description-font: 24px;
+@description-height: 36px;
+@description-margin: 30px 0px 30px 0px;
+
+@error-color: #ffffff;
+@background-error: @gradient-start;
+@error-font: 15px;
+
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+.title {
+    cursor: pointer;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.title__img {
+    width: @image-width;
+    height: @image-height;
+    margin-right: @image-margin;
+}
+.title__name {
+    font-size: @title-font;
+    font-weight: @chars-weight;
+    text-align: center;
+    background: linear-gradient(180deg, rgba(@gradient-start, 0.7) 0%, rgba(@gradient-end, 0.7) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.title__page-description {
+    font-size: @description-font;
+    font-weight: @chars-weight;
+    height: @description-height; 
+    margin: @description-margin;
+}
+.title__error-placement {
+    display: none;
+    margin-top: 45px;
+    color: @error-color;
+    background-color: @background-error;
+    width: 100%;
+}
+.title__error-text {
+    font-weight: @chars-weight;
+    font-size: @error-font;
+    line-height: 18px;
+    padding: 10px;
+}

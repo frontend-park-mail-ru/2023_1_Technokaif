@@ -1,0 +1,27 @@
+.input-block {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.input-block__label {
+  margin-bottom: 5px;
+  font-size: 15px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+}
+.input-block__input-element {
+  font-size: 15px;
+  font-weight: 700;
+  border: 0 black solid;
+  padding-left: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  background-color: #333333;
+  width: 350px;
+  height: 40px;
+}
+.input-block__error-placement {
+  color: #cb0808;
+  width: 100%;
+  display: block;
+}
