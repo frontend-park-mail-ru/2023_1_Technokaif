@@ -62,6 +62,7 @@ class Navbar {
      * Render Navbar element in parent
      */
     render() {
+        // todo why not handlebars?
         this.items.map(({
             key, href, name, type, logoSrc,
         }, index) => {
@@ -71,15 +72,18 @@ class Navbar {
             contentElement.textContent = name;
             contentElement.href = href;
             contentElement.dataset.section = key;
-            div.classList.add(`${key}__${this.#name}__item`);
+            contentElement.classList.add(`${this.#name}__${key}`);
+            contentElement.classList.add('navbar__link');
+            div.classList.add(`${this.#name}__${key}__item`);
             if (index === 0) {
                 contentElement.classList.add('active');
             }
 
             if (key === 'registration') {
+                contentElement.classList.remove(`${this.#name}__${key}`);
                 const verticalLine = document.createElement('div');
                 div.appendChild(verticalLine);
-                verticalLine.classList.add('border-left');
+                verticalLine.classList.add('navbar__border-left');
             }
 
             if (logoSrc !== undefined) {
