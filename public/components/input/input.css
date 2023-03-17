@@ -25,3 +25,7 @@
   width: 100%;
   display: block;
 }
+.input-block__input-element:hover {
+  border: 0 solid black;
+  outline: none;
+}

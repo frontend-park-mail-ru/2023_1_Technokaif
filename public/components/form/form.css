@@ -1,49 +1,12 @@
-/* Form */
-.reg-field, .log-field {
-    overflow:hidden;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-}
-
-.reg-field label, .log-field label {
-    margin-bottom: 5px;
-}
-
-.reg-input, .log-input {
-    width: 350px;
-    height: 40px;
-    margin-bottom: 5px;
-}
-
-.reg-error, .log-error, .error-gender {
-    color: red;
-    width: 100%;
-}
-
-.reg-input, .log-input {
-    margin: 0;
-    padding-left: 10px;
-    font-size: var(--text-label);
-    border: 0 black solid;
-    font-weight: 700;
-    color: rgba(255, 255, 255, .7);
-    background-color: #333333;
-}
-
-
-.reg-input-label, .log-input-label {
-    font-size: var(--text-label);
-    font-weight: 700;
-    color: rgba(255, 255,255 , .95);
-}
-
-.reg-input:focus {
-    border: 0 solid black;
-    outline: none;
-}
-
-.log-input:focus {
-    border: 0 solid black;
-    outline: none;
+.form__button {
+  cursor: pointer;
+  color: #333333;
+  height: 50px;
+  width: 350px;
+  font-size: 15px;
+  text-decoration: none;
+  border: 0 black solid;
+  padding: 5px 15px;
+  font-weight: 700;
+  border-radius: 25px;
 }

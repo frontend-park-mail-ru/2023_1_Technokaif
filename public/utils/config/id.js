@@ -44,7 +44,7 @@ export const ID_LOG = {
  */
 export const CLASS_REG = {
     title: 'title',
-    link: 'reg-login-btn auth-btn',
+    link: 'bottom__button',
 
 };
 
@@ -53,7 +53,7 @@ export const CLASS_REG = {
  */
 export const CLASS_LOG = {
     title: 'title',
-    link: 'log-reg-btn auth-btn',
+    link: 'bottom__button',
     errorTop: 'title__error-placement',
     divBeforeInput: 'input-block',
     classInp: 'input-block__input-element',

@@ -138,7 +138,7 @@ export function renderSignup(parent) {
         }
     });
 
-    const form = parent.querySelector('.reg-form');
+    const form = parent.querySelector('.form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 

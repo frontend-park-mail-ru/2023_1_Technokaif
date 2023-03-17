@@ -1,38 +1,16 @@
-/* bottom of pages */
-
-.reg-btn, .log-btn {
-    display: flex;
-    justify-content: end;
+.bottom__placement {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
-
-.log-btn button {
-    cursor: pointer;
-    color: #333333;
+.bottom__link {
+  color: rgba(255, 255, 255, 0.5);
 }
-
-.auth-btn button, .log-reg-btn, .reg-login-btn {
-    cursor: pointer;
-    color: #333333;
-    height: 50px;
-    width: 350px;
-    font-size: var(--text-label);
-    text-decoration: none;
-    border: 0 black solid;
-    padding: 5px 15px;
-    font-weight: 700;
-    border-radius: 25px;
-}
-
-.reg-bottom, .log-bottom {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
-
-.reg-login-btn, .log-reg-btn {
-    background-color: white;
-    padding: 5px 10px;
-    font-weight: 700;
-    color: #333333;
+.bottom__button {
+  background-color: #ffffff;
+  padding: 5px 10px;
+  font-weight: 700;
+  color: #333333;
+  border-radius: 25px;
 }
