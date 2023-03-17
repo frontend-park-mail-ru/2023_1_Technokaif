@@ -1,0 +1,67 @@
+@show-color: #b3b3b3;
+@text-color-track: #ffffff;
+@small-radius: 5px;
+@name-font: 15px;
+@chars-weight: 700;
+@artist-name-font: 13px;
+
+.tape {
+
+}
+
+.tape__title {
+    align-items: center;
+    margin: 0 60px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.tape__show-text {
+    color: @show-color;
+}
+
+
+.tape__components {
+    display: flex;
+    flex-flow: row nowrap;
+    margin: 0 40px;
+}
+
+.track, .album, .artist{
+    width: 175px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 16px;
+    margin: 0 20px;
+    background: rgba(@text-color-track, .1);
+    border-radius: @small-radius;
+}
+
+.track__img, .album__img, .artist__img {
+    height: 175px;
+    width: 175px;
+    border-radius: @small-radius;
+}
+
+.track__name, .artist__name, .album__name {
+    margin-top: 10px;
+    word-wrap: break-word;
+    font-style: normal;
+    font-weight: @chars-weight;
+    font-size: @name-font;
+    line-height: 20px;
+    letter-spacing: -0.025em;
+
+    color: @text-color-track;
+}
+
+.track__artist-name, .album__description {
+    line-height: 179.2%;
+    font-size: @artist-name-font;
+    font-weight: @chars-weight;
+    font-style: normal;
+    letter-spacing: -0.025em;
+    color: rgba(@show-color, .6);
+}

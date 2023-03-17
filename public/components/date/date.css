@@ -1,58 +1,42 @@
-.reg-date-and-sex {
-    margin-bottom: 30px;
+.date {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
-
-.reg-date, .reg-sex {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.date__label {
+  margin-bottom: 15px;
+  font-size: 15px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  margin-top: -10px;
 }
-
-.reg-sex-label, .reg-date-label {
-    margin-bottom: 15px;
-    font-size: var(--text-label);
-    font-weight: 700;
-    color: rgba(255, 255, 255, .95);
+.date__choose-place {
+  display: flex;
 }
-
-.reg-date-label {
-    margin-top: -10px;
+.date__day,
+.date__month,
+.date__year {
+  margin-left: 15px;
+  border-radius: 5px;
+  border: 1px rgba(255, 255, 255, 0.7) solid;
+  color: #ffffff;
+  background-color: transparent;
 }
-
-.reg-choose-date, .reg-choose-sex {
-    display: flex;
+.date__day {
+  margin-left: 0px;
+  width: 80px;
+  height: 30px;
 }
-
-.reg-day {
-    border-radius: 5px;
-    border: 1px rgba(255, 255, 255, .7) solid;
-    color: white;
-    background-color: transparent;
-    width: 80px;
-    height: 30px;
+.date__month {
+  cursor: pointer;
+  width: 160px;
+  height: 30px;
 }
-
-.reg-month {
-    cursor: pointer;
-    margin-left: 15px;
-    border-radius: 5px;
-    border: 1px rgba(255, 255, 255, .7) solid;
-    color: white;
-    background-color: transparent;
-    width: 160px;
-    height: 30px;
+.date__month > option {
+  color: black;
 }
-
-.reg-month>option {
-    color: black;
-}
-
-.reg-year {
-    margin-left: 15px;
-    border-radius: 5px;
-    border: 1px rgba(255, 255, 255, .7) solid;
-    color: white;
-    background-color: transparent;
-    width: 80px;
-    height: 30px;
+.date__year {
+  width: 80px;
+  height: 30px;
 }

@@ -44,11 +44,11 @@ export class Form {
         this.#parent.querySelector('.header-placement').innerHTML = this.#renderHeader();
         this.#parent.querySelector('.inputs-placement').innerHTML = this.#renderInputs();
         if (this.#confDate !== '') {
-            this.#parent.querySelector('.inputs-placement').innerHTML += this.#renderDate();
+            this.#parent.querySelector('.form__placement-additionall').innerHTML += this.#renderDate();
         }
 
         if (this.#confSex !== '') {
-            this.#parent.querySelector('.inputs-placement').innerHTML += this.#renderSex();
+            this.#parent.querySelector('.form__placement-additionall').innerHTML += this.#renderSex();
         }
 
         this.#parent.querySelector('.bottom-placement').innerHTML = this.#renderFooter();

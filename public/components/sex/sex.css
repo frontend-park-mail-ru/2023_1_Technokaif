@@ -1,14 +1,21 @@
-.reg-sex {
-    margin-top: 10px;
+.sex {
+  margin-top: 10px;
 }
-
-.reg-sex-var {
-    margin-right: 15px;
+.sex__variable {
+  margin-right: 15px;
 }
-
-.sex-var-label {
-    cursor: pointer;
-    font-size: var(--text-label);
-    font-weight: 700;
-    color:rgba(255, 255, 255, .7);;
+.sex__label {
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+}
+.sex__description-label {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: rgba(255, 255, 255, 0.95);
+}
+.sex__choose {
+  display: flex;
 }
