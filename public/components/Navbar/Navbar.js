@@ -73,7 +73,16 @@ class Navbar {
             contentElement.href = href;
             contentElement.dataset.section = key;
             contentElement.classList.add(`${this.#name}__${key}`);
-            contentElement.classList.add('navbar__link');
+            // todo rewrite
+            switch (key) {
+            case 'premium':
+            case 'profile':
+            case 'logout':
+                contentElement.classList.add('navbar__button');
+                break;
+            default:
+                contentElement.classList.add('navbar__link');
+            }
             div.classList.add(`${this.#name}__${key}__item`);
             if (index === 0) {
                 // todo does it work?
@@ -95,6 +104,12 @@ class Navbar {
 
             return div;
         }).forEach((e) => this.#parent.appendChild(e));
+
+        if (this.#parent.querySelector('.navbar__login')) {
+            const premium = this.#parent.querySelector('.navbar__premium');
+            premium?.classList.remove('navbar__button');
+            premium?.classList.add('navbar__link');
+        }
 
         this.callEventListener();
     }
