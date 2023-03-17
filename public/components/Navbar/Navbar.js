@@ -76,6 +76,7 @@ class Navbar {
             contentElement.classList.add('navbar__link');
             div.classList.add(`${this.#name}__${key}__item`);
             if (index === 0) {
+                // todo does it work?
                 contentElement.classList.add('active');
             }
 

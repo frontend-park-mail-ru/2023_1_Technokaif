@@ -9,7 +9,6 @@
 
     text-decoration: none;
     color: @main-color;
-    font-weight: bold;
     margin-top: 5px;
 }
 
@@ -23,6 +22,10 @@
     align-items: center;
     padding: 0 16px;
     margin-bottom: 15px;
+}
+
+.sidebar__item-active {
+    font-weight: bold;
 }
 
 .sidebar__logo {
@@ -46,9 +49,12 @@
 }
 
 .sidebar {
+    position: fixed;
     display: flex;
-    justify-content: center;
     flex-direction: column;
+
+    margin: 0 23px;
+    grid-area: menu;
 }
 
 .sidebar__link:hover {
@@ -70,6 +76,10 @@
     margin-bottom: 40px;
 }
 
-.library__sidebar__item {
-    margin-bottom: 40px;
+.sidebar__hr {
+    background: rgba(@main-color, 0.5);
+    width: 60%;
+    height: 0.01em;
+    width: 216px;
+    margin: 10px 0 30px;
 }

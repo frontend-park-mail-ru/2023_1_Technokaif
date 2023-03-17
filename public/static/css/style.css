@@ -6,86 +6,12 @@
 @import "../../components/MainWindow/mainWindow.css";
 @import "../../components/Navbar/Navbar.css";
 @import "../../components/Menu/Menu.css";
-:root {
-  --text-title: 40px;
-  --text-logo: 36px;
-  --text-subtitle: 30px;
-  --text-usual: 24px;
-  --text-sidebar: 18px;
-  --text-label: 15px;
-  --text-navbar: 16px;
-  --text-cover-artist: 13px;
-  --text-cover-description: 12px;
-}
-body {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  background-color: #000000;
-  color: white;
-  margin: 0;
-}
 p {
   margin: 0;
 }
-.error {
-  width: 350px;
-  margin-top: 15px;
-}
-/* next to form elements */
-.auth-form-hr,
-.menu-hr,
-.signup-hr {
-  margin: 30px 0;
-  background: rgba(255, 255, 255, 0.5);
-  width: 60%;
-  height: 0.01em;
-}
-.menu-hr {
-  width: 216px;
-  margin: 10px 0 30px;
-}
-.have-acc {
-  color: rgba(255, 255, 255, 0.5);
-}
-/* Buttons */
-.buttonclass {
-  cursor: pointer;
-  background: #f6f6f6;
-}
-/* Feed */
-factBody {
-  display: grid;
-  grid-template-areas: "menu main";
-  grid-template-rows: 1fr;
-  grid-template-columns: 288px 1fr;
-}
-aside {
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  margin: 0 23px;
-  grid-area: menu;
-}
-.blockMainLabel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.elements {
-  width: 100%;
-}
-.register-link {
-  margin-top: 10px;
-}
-.content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.hr-position {
-  display: flex;
-  justify-content: center;
-}
-.active {
-  font-weight: bold;
-  color: white;
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: #0C0C0C;
+  color: #f2f2f2;
+  margin: 0;
 }

@@ -37,7 +37,9 @@ function renderNavbar(parent) {
  */
 export function prePageRender() {
     const bodyElement = document.createElement('factBody');
+    bodyElement.classList.add('main-page-window__factBody');
     const menuElement = document.createElement('aside');
+    menuElement.classList.add('sidebar');
     const mainElement = document.createElement('main');
     const contentElement = document.createElement('content-main');
     bodyElement.id = 'factBody';
