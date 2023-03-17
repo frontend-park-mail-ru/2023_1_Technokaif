@@ -5,12 +5,13 @@
   margin-bottom: 20px;
 }
 .bottom__link {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(242, 242, 242, 0.5);
 }
 .bottom__button {
-  background-color: #ffffff;
+  background-color: #f2f2f2;
   padding: 5px 10px;
   font-weight: 700;
   color: #333333;
   border-radius: 25px;
+  text-decoration: none;
 }

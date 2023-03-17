@@ -8,13 +8,13 @@
   cursor: pointer;
   font-size: 15px;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(242, 242, 242, 0.7);
 }
 .sex__description-label {
   font-size: 15px;
   font-weight: 700;
   margin-bottom: 15px;
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(242, 242, 242, 0.95);
 }
 .sex__choose {
   display: flex;
