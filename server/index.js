@@ -62,16 +62,16 @@ app.post('/api/auth/signup', (req, res) => {
     const { lastName } = req.body;
     const { date } = req.body;
     const { sex } = req.body;
-
+    console.log(password, email, username, firstName);
     if (
         !password || !email
         || !password.match(/^\S{4,}$/)
         || !email.match(/@/)
     ) {
-        return res.status(400).json({ message: 'Не валидные данные пользователя' });
+        return res.status(400).json({ message: 'Non valid user data' });
     }
     if (users[email]) {
-        return res.status(400).json({ message: 'Пользователь уже существует' });
+        return res.status(400).json({ message: 'User already exists' });
     }
 
     users[email] = {
@@ -84,18 +84,15 @@ app.post('/api/auth/signup', (req, res) => {
 app.post('/api/auth/login', (req, res) => {
     const { password } = req.body;
     const email = req.body.username;
-    if (!password || !email) {
-        return res.status(400).json({ message: 'Не указан E-Mail или пароль' });
-    }
     if (!users[email] || users[email].password !== password) {
-        return res.status(400).json({ message: 'Не верный E-Mail и/или пароль' });
+        return res.status(400).json({ message: 'Non valid E-Mail and/or password' });
     }
 
     res.status(200).json({ jwt: 'fdfksldsdgsgs82358afs' });
 });
 
 app.get('/api/auth/logout', (req, res) => {
-    res.status(200).json({ message: 'sfffs' });
+    res.status(200).json({ message: 'good' });
 });
 
 app.get('/api/feed', (req, res) => {
