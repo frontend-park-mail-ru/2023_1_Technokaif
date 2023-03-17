@@ -106,6 +106,3 @@ dist
 # .idea
 .idea/
 .vscode/
-
-# .css
-*.css
