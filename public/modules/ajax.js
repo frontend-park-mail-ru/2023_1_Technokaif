@@ -55,7 +55,7 @@ export class Ajax {
                 method,
                 credentials: 'include',
                 headers: {
-                    'content-type': 'application/json;',
+                    'content-type': 'application/json; charset=utf-8',
                     Authorization: `Bearer ${localStorage.getItem('jwt')}`,
                 },
             });
@@ -64,7 +64,7 @@ export class Ajax {
                 method,
                 credentials: 'include',
                 headers: {
-                    'content-type': 'application/json;',
+                    'content-type': 'application/json; charset=utf-8',
                 },
                 body: JSON.stringify(body),
             });
