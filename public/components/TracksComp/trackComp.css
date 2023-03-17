@@ -5,7 +5,7 @@
   justify-content: space-between;
 }
 .tape__show-text {
-  color: #b3b3b3;
+  color: #ffffff;
 }
 .tape__components {
   display: flex;
@@ -51,5 +51,5 @@
   font-weight: 700;
   font-style: normal;
   letter-spacing: -0.025em;
-  color: rgba(179, 179, 179, 0.6);
+  color: rgba(255, 255, 255, 0.6);
 }

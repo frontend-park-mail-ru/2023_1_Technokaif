@@ -19,7 +19,7 @@ export function registerAjax(userData) {
             }
 
             document.getElementById('serverErrors').style.display = 'block';
-            document.getElementsByClassName('error-text')[0].innerText = context;
+            document.getElementsByClassName('title__error-text')[0].innerText = context;
         },
     });
 }

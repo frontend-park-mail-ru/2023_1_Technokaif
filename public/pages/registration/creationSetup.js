@@ -8,7 +8,7 @@ export function regFormSetup() {
     return {
         errorTop: ID.errorTop,
         errorText: 'title__error-text',
-        topID: 'null',
+        topID: 'serverErrors',
         content: 'content',
         formHeader: 'header',
         title: CLASS.title,

@@ -85,7 +85,7 @@ export function renderLogin(parent) {
         redirect(unAuthNavConfig.registration);
     });
 
-    const form = parent.querySelector('.log-form');
+    const form = parent.querySelector('.form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 

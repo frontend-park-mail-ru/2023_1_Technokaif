@@ -11,6 +11,7 @@
   color: rgba(255, 255, 255, 0.95);
 }
 .input-block__input-element {
+  outline: 0;
   font-size: 15px;
   font-weight: 700;
   border: 0 black solid;
