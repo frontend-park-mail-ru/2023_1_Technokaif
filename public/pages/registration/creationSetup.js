@@ -12,7 +12,7 @@ export function regFormSetup() {
         content: 'content',
         formHeader: 'header',
         title: CLASS.title,
-        logoSrc: '/static/svg/logo.svg',
+        logoSrc: '/static/svg/whiteLogo.svg',
 
         titleClass: 'title__name',
         titleName: 'Fluire',
