@@ -8,7 +8,7 @@
   margin-bottom: 15px;
   font-size: 15px;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(242, 242, 242, 0.95);
   margin-top: -10px;
 }
 .date__choose-place {
@@ -17,11 +17,11 @@
 .date__day,
 .date__month,
 .date__year {
-  outline: 0;
+  outline: none;
   margin-left: 15px;
   border-radius: 5px;
-  border: 1px rgba(255, 255, 255, 0.7) solid;
-  color: #ffffff;
+  border: 1px rgba(242, 242, 242, 0.4) solid;
+  color: #f2f2f2;
   background-color: transparent;
 }
 .date__day {
@@ -35,7 +35,7 @@
   height: 30px;
 }
 .date__month > option {
-  color: black;
+  color: #0C0C0C;
 }
 .date__year {
   width: 80px;

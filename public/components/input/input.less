@@ -11,23 +11,23 @@
     margin-bottom: 5px;
     font-size: @text-label;
     font-weight: @chars-weight;
-    color: rgba(@text-color, 0.95);
+    color: rgba(@main-color, 0.95);
 }
 
 .input-block__input-element {
-    outline: 0;
+    outline: none;
     font-size: @text-label;
     font-weight: @chars-weight;
-    border: 0 @border-color solid;
+    border: 0 @opposed-main-color solid;
     padding-left: 10px;
-    color: rgba(@text-color, 0.7);
-    background-color: @input-background-color;
+    color: rgba(@main-color, 0.7);
+    background-color: @sub-color;
     width: 350px;
     height: 40px;
 }
 
 .input-block__error-placement {
-    color: @error-color;
+    color: @attractive-color;
     width: 100%;
     display: block;
 }

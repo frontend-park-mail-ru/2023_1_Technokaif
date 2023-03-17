@@ -11,7 +11,7 @@
     margin-bottom: 15px;
     font-size: @text-label;
     font-weight: @chars-weight;
-    color: rgba(@text-color, .95);
+    color: rgba(@main-color, .95);
     margin-top: -10px;
 }
 
@@ -20,11 +20,11 @@
 }
 
 .date__day, .date__month, .date__year {
-    outline: 0;
+    outline: none;
     margin-left: 15px;
     border-radius: @small-radius;
-    border: 1px rgba(@text-color, .7) solid;
-    color: @text-color;
+    border: 1px rgba(@main-color, .4) solid;
+    color: @main-color;
     background-color: transparent;
 }
 
@@ -41,7 +41,7 @@
 }
 
 .date__month>option {
-    color: black;
+    color: @opposed-main-color;
 }
 
 .date__year {
