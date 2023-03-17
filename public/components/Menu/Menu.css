@@ -1,72 +1,59 @@
-/* Menu (sidebar) */
-
-.feed__sidebar__item > a, .search__sidebar__item > a, .library__sidebar__item > a, .createPlaylist__sidebar__item > a, .likedSongs__sidebar__item  > a {
-    width: 127px;
-    font-style: normal;
-    font-size: var( --text-sidebar);
-    line-height: 17px;
-    letter-spacing: -0.01em;
-
-    text-decoration: none;
-    color: #d9d9d9;
-    font-weight: bold;
-    margin-top: 5px;
+.sidebar__link {
+  width: 127px;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 17px;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  color: #f2f2f2;
+  font-weight: bold;
+  margin-top: 5px;
 }
-
-.feed__sidebar__item > img, .search__sidebar__item > img, .library__sidebar__item > img, .createPlaylist__sidebar__item > img, .likedSongs__sidebar__item > img {
-    margin-right: 16px;
+.sidebar__img {
+  margin-right: 16px;
 }
-
-.feed__sidebar__item, .search__sidebar__item, .library__sidebar__item, .createPlaylist__sidebar__item, .likedSongs__sidebar__item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0 16px;
-    margin-bottom: 15px;
+.sidebar__item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 16px;
+  margin-bottom: 15px;
 }
-
-.logo {
-    display: flex;
-    flex-direction: column;
-
-    align-items: center;
+.sidebar__logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-
-.logo h1 {
-    font-style: normal;
-    font-weight: 600;
-    font-size: var(--text-logo);
-    line-height: 20px;
-
-    display: flex;
-    align-items: center;
-    text-align: center;
-
-    color: #f6f6f6;
-    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+.title__label {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #f2f2f2;
 }
-
 .sidebar {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
-
-.feed__sidebar__item a:hover, .search__sidebar__item a:hover, .library__sidebar__item a:hover, .createPlaylist__sidebar__item a:hover, .likedSongs__sidebar__item a:hover, .navbar a:hover {
-    color: #f6f6f6;
+.sidebar__link:hover {
+  color: #f2f2f2;
 }
-
-.menu-title {
-    display: flex;
-    align-items: center;
+.title {
+  display: flex;
+  align-items: center;
 }
-
-.menu-title img {
-    margin-right: 5px;
-    width: 35px;
-    height: 35px;
+.title__img {
+  margin-right: 5px;
+  width: 35px;
+  height: 35px;
 }
-
+.sidebar__space {
+  margin-bottom: 40px;
+}
 .library__sidebar__item {
-    margin-bottom: 40px;
+  margin-bottom: 40px;
 }
