@@ -19,7 +19,7 @@
   font-size: 40px;
   font-weight: 700;
   text-align: center;
-  background: linear-gradient(180deg, rgba(255, 0, 0, 0.7) 0%, rgba(255, 199, 0, 0.7) 100%);
+  background: linear-gradient(180deg, rgba(29, 14, 70, 0.7) 0%, rgba(99, 54, 122, 0.7) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -34,7 +34,7 @@
   display: none;
   margin-top: 45px;
   color: #ffffff;
-  background-color: red;
+  background-color: #A30606;
   width: 100%;
 }
 .title__error-text {

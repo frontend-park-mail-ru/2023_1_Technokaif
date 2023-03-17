@@ -1,6 +1,6 @@
 main {
   grid-area: main;
-  background: linear-gradient(180deg, #1D0E46 0%, #000000 60.89%);
+  background: linear-gradient(180deg, #1D0E46 0%, black 60.89%);
 }
 .main-page-window {
   display: flex;

@@ -1,12 +1,5 @@
 @import '../../static/css/constants.less';
 
-@show-color: #ffffff;
-@text-color-track: #ffffff;
-@small-radius: 5px;
-@name-font: 15px;
-@chars-weight: 700;
-@artist-name-font: 13px;
-
 .tape {
 
 }
@@ -19,7 +12,7 @@
 }
 
 .tape__show-text {
-    color: @show-color;
+    color: @text-color;
 }
 
 
@@ -37,7 +30,7 @@
     align-items: flex-start;
     padding: 12px 16px;
     margin: 0 20px;
-    background: rgba(@text-color-track, .1);
+    background: rgba(@text-color, .1);
     border-radius: @small-radius;
 }
 
@@ -52,11 +45,11 @@
     word-wrap: break-word;
     font-style: normal;
     font-weight: @chars-weight;
-    font-size: @name-font;
+    font-size: @text-label;
     line-height: 20px;
     letter-spacing: -0.025em;
 
-    color: @text-color-track;
+    color: @text-color;
 }
 
 .track__artist-name, .album__description {
@@ -65,5 +58,5 @@
     font-weight: @chars-weight;
     font-style: normal;
     letter-spacing: -0.025em;
-    color: rgba(@show-color, .6);
+    color: rgba(@text-color, .6);
 }

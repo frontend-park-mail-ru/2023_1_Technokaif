@@ -1,13 +1,7 @@
-@background-color: #0c0c0c;
-@text-color: #a7a7a7;
-@text-color-button: #000000;
-@text-font:15px;
-@background-button-color: #f6f6f6;
-@chars-weight: 700;
-@radius: 25px;
+@import '../../static/css/constants.less';
 
 .navbar {
-    background-color: rgba(@background-color, 0.8);
+    background-color: rgba(@background-color-gr, 0.8);
     display: flex;
     justify-content: flex-end;
     flex-direction: row;
@@ -23,11 +17,11 @@
     margin: 0 30px;
     font-style: normal;
     font-weight: @chars-weight;
-    font-size: @text-font;
+    font-size: @text-label;
     line-height: 19px;
     text-align: center;
 
-    color: @text-color;
+    color: @text-color-grey;
 }
 
 .navbar__link:hover, .navbar__button:hover {
@@ -45,7 +39,7 @@
     height: 50px;
     font-style: normal;
     font-weight: @chars-weight;
-    font-size: @text-font;
+    font-size: @text-label;
     line-height: 19px;
     text-align: center;
 
