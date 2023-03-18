@@ -1,4 +1,4 @@
-import { headerTemplate as templateHtml } from './header.hbs.js';
+import templateHtml from './header.handlebars';
 
 /**
  * Class for header in login and registration.
@@ -25,21 +25,21 @@ export class Header {
      * @description render Album in parent
     */
     render() {
-        const template1 = Handlebars.compile(templateHtml);
+        const template1 = templateHtml;
         this.#parent.innerHTML = template1(this.#config);
     }
 
+    // todo delete cfg input in html https://trello.com/c/H4uuLvUH
     /**
      * If cfg is given then return compiled template with cfg else with inner config
      * @param {object} cfg -- external configure object
      * @returns Html string of template to place
     */
     HTML(cfg = '') {
-        const template1 = Handlebars.compile(templateHtml);
+        const template1 = templateHtml;
         if (cfg === '') {
-            return template1(cfg);
+            return templateHtml(this.#config);
         }
-
-        return template1(this.#config);
+        return template1(cfg);
     }
 }

@@ -52,10 +52,11 @@ export const unAuthNavConfig = {
 };
 
 /**
- * 
- * @param {HTMLElement} parent --  
+ * Redirect to lofin if not authorized
+ * @param {HTMLElement} parent -- parent where to empty innerHtml
  */
 function renderLibrary(parent) {
+    // TODO dummy fix
     parent.innerHTML = '';
     if (localStorage.getItem('jwt') === null) {
         redirect(unAuthNavConfig.login);
@@ -66,7 +67,7 @@ export const authNavConfig = {
     premium: {
         name: 'Upgrade',
         href: '/premium',
-        render: renderHome,
+        render: null,
         key: 'premium',
         type: 'button',
     },

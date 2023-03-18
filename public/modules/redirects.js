@@ -5,17 +5,21 @@ import { clearBars, prePageRender } from '../utils/functions/prePageRender.js';
  * @param {json} configSection -- json with current config options using to redirect to page.
  */
 export function redirect(configSection) {
-    const el = document.querySelector(`[data-section="${configSection.key}"]`);
-    if (el !== null && el.classList.contains('active')) {
+    if (configSection.render === null) {
         return;
     }
 
-    const activeElement = document.querySelector('.active');
-    if (activeElement !== undefined && activeElement !== null) {
-        activeElement.classList.remove('active');
+    const el = document.querySelector(`[data-section="${configSection.key}"]`);
+    if (el?.classList?.contains('.sidebar__item-active')) {
+        return;
     }
 
-    el?.classList.add('active');
+    const activeElement = document.querySelector('.sidebar__item-active');
+    if (activeElement !== undefined && activeElement !== null) {
+        activeElement.classList.remove('sidebar__item-active');
+    }
+
+    el?.classList.add('sidebar__item-active');
 
     let root = null;
 
@@ -31,7 +35,7 @@ export function redirect(configSection) {
         root = document.getElementById('main');
     }
 
-    if (configSection.render != null) {
+    if (configSection.render !== null) {
         configSection.render(root);
     }
 }

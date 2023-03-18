@@ -54,3 +54,19 @@ export function errorGenerate(event, element, where, errorMessage, checkForError
         }
     });
 }
+
+/**
+ *
+ * @param {HTMLElements} buttons -- radio buttons to checked
+ * @returns array of string values of all checked buttons
+ */
+export function getCheckedValueRadioButtons(buttons) {
+    const rad = buttons;
+    const elements = [];
+    for (let i = 0; i < rad.length; i++) {
+        if (rad[i].checked) {
+            elements.push(rad[i].value);
+        }
+    }
+    return elements;
+}

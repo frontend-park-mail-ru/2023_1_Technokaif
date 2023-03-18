@@ -1,4 +1,4 @@
-import { footerTemplate as templateHtml } from './formFooter.hbs.js';
+import templateHtml from './formFooter.handlebars';
 
 /**
  * Class for next to form content(buttons...).
@@ -11,26 +11,35 @@ export class FormFooter {
 
     #config;
 
+    /**
+     * Create FormFooter component. Empty innerHtml before placement
+     * @param {HTMLElement} parent -- where to place FormFooter
+     * @param {object} config -- what config use to compule template
+     */
     constructor(parent, config) {
         this.#parent = parent;
         this.#config = config;
     }
 
-    get config() {
-        return this.#config;
-    }
-
+    /**
+     * @description render FormFooter in parent
+    */
     render() {
-        const template1 = Handlebars.compile(templateHtml);
+        const template1 = templateHtml;
         this.#parent.innerHTML = template1(this.#config);
     }
 
+    /**
+     * If cfg is given then return compiled template with cfg else with inner config
+     * @param {object} cfg -- external configure object
+     * @returns Html string of template to place
+    */
     HTML(cfg = '') {
-        const template1 = Handlebars.compile(templateHtml);
+        const template1 = templateHtml;
         if (cfg === '') {
-            return template1(cfg);
+            return template1(this.#config);
         }
 
-        return template1(this.#config);
+        return template1(cfg);
     }
 }

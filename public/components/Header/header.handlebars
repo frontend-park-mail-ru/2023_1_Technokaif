@@ -1,17 +1,12 @@
-/**
- * Contains template string for header
- */
-export const headerTemplate = `
-<div class="{{header}}">
+<div class="{{formHeader}}">
     <a class="{{title}}">
-        <img src="{{logoSrc}}">
+        <img class="title__img" src="{{logoSrc}}">
         <p class="{{titleClass}}">{{titleName}}</p>
     </a>
     {{#if errorTop}}
-        <div class="{{errorTop}}" {{#if topID}} id="{{topID}}" {{/if}}><p class="{{errorText}}"></p></div>
+        <p hidden class="{{errorText}}"></p>
     {{/if}}
     <div class="{{descriptionClass}}">
         <p class="{{descriptionLabelClass}}">{{descriptionName}}</p>
     </div>
 </div>
-`;

@@ -11,7 +11,7 @@ import { ERRORS_REG as ERRORS } from '../../utils/config/errors.js';
 import { ID_REG as ID, CLASS_REG as CLASS } from '../../utils/config/id.js';
 import { ERRORS_VALIDATE } from '../../utils/config/validateConf.js';
 import { Form } from '../../components/form/form.js';
-import { errorGenerate, translateOneDigitToTwo } from '../../utils/functions/utils.js';
+import { errorGenerate, translateOneDigitToTwo, getCheckedValueRadioButtons } from '../../utils/functions/utils.js';
 
 const Method = 'focusout';
 
@@ -24,15 +24,21 @@ const Method = 'focusout';
  * else -- other
  * @returns
  */
-function getSexInString(...sexChoose) {
-    if (sexChoose[0]) {
-        return 'M';
-    }
-    if (sexChoose[1]) {
-        return 'F';
+function getSexInString(sexChoose) {
+    let returnSymbol = '';
+    switch (sexChoose) {
+    case 'male':
+        returnSymbol = 'M';
+        break;
+    case 'female':
+        returnSymbol = 'F';
+        break;
+    case 'dont':
+    default:
+        returnSymbol = 'O';
     }
 
-    return 'O';
+    return returnSymbol;
 }
 
 /**
@@ -57,14 +63,6 @@ export function renderSignup(parent) {
         document.getElementById(ID.emailConfErr),
         ERRORS.confirmEmail,
         (el) => getEmailError(el, document.getElementById(ID.email).value),
-    );
-
-    errorGenerate(
-        Method,
-        document.getElementById(ID.email),
-        document.getElementById(ID.emailConfErr),
-        ERRORS.confirmEmail,
-        (el) => getEmailError(el, document.getElementById(ID.emailConf).value),
     );
 
     errorGenerate(
@@ -123,17 +121,13 @@ export function renderSignup(parent) {
         getYearError,
     );
 
-    const sexChoose = parent.querySelector('.reg-sex');
+    const sexChoose = parent.querySelector('.sex');
     sexChoose.addEventListener(Method, () => {
         const where = document.getElementsByClassName('error-gender')[0];
         clearField(where);
 
-        const radioButtons = document.getElementsByClassName('reg-sex-radio');
-        const elements = [];
-
-        elements.push(radioButtons[0].checked);
-        elements.push(radioButtons[1].checked);
-        elements.push(radioButtons[2].checked);
+        const rad = document.getElementsByName('sex');
+        const elements = getCheckedValueRadioButtons(rad);
 
         if (getSexError(...elements)) {
             const message = document.createElement('p');
@@ -144,7 +138,7 @@ export function renderSignup(parent) {
         }
     });
 
-    const form = parent.querySelector('.reg-form');
+    const form = parent.querySelector('.form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -158,7 +152,8 @@ export function renderSignup(parent) {
         const day = document.getElementById(ID.day).value;
         const year = document.getElementById(ID.year).value;
 
-        const gender = document.querySelectorAll('.reg-sex-radio');
+        const sexChooseButton = document.getElementsByName('sex');
+        const gender = getCheckedValueRadioButtons(sexChooseButton);
 
         const errors = getAllErrors(
             email,
@@ -170,9 +165,7 @@ export function renderSignup(parent) {
             day,
             monthInput,
             year,
-            gender[0].checked,
-            gender[1].checked,
-            gender[2].checked,
+            ...gender,
         );
 
         const errorEmail = document.getElementById(ID.emailErr);
@@ -232,11 +225,7 @@ export function renderSignup(parent) {
         const dayString = translateOneDigitToTwo(day);
 
         const date = [year, monthString, dayString].join('-');
-        const sex = getSexInString(
-            sexChoose[0].checked,
-            sexChoose[1].checked,
-            sexChoose[2].checked,
-        );
+        const sex = getSexInString(gender[0]);
 
         registerAjax({
             email,

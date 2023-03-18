@@ -1,0 +1,18 @@
+<div class="sidebar__logo">
+    <div class="title">
+        <img class="title__img" src="/static/svg/whiteLogo.svg">
+        <h1 class="title__label">Fluire</h1>
+    </div>
+</div>
+<div>
+    <hr align="center", class="sidebar__hr">
+    {{#each items}} 
+        <div class="sidebar__item">
+            <img src="{{logoSrc}}" class="sidebar__img">
+            <a href="{{this.href}}" data-section="{{key}}" class="sidebar__link {{#ifEquals @index 0}}sidebar__item-active{{/ifEquals}}">
+                {{name}}
+            </a>
+        </div>
+        {{#ifEquals key "library"}} <div class="sidebar__space"></div> {{/ifEquals}}
+    {{/each}}
+</div>

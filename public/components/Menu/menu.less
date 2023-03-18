@@ -1,0 +1,85 @@
+@import '../../static/css/constants';
+
+.sidebar__link {
+    width: 127px;
+    font-style: normal;
+    font-size: @font-sidebar;
+    line-height: 17px;
+    letter-spacing: -0.01em;
+
+    text-decoration: none;
+    color: @main-color;
+    margin-top: 5px;
+}
+
+.sidebar__img {
+    margin-right: 16px;
+}
+
+.sidebar__item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 16px;
+    margin-bottom: 15px;
+}
+
+.sidebar__item-active {
+    font-weight: bold;
+}
+
+.sidebar__logo {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+}
+
+.title__label {
+    font-style: normal;
+    font-weight: @chars-weight;
+    font-size: @font-logo;
+    line-height: 20px;
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: @main-color;
+}
+
+.sidebar {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+
+    margin: 0 23px;
+    grid-area: menu;
+}
+
+.sidebar__link:hover {
+    color: @main-color;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+}
+
+.title__img {
+    margin-right: 5px;
+    width: 35px;
+    height: 35px;
+}
+
+.sidebar__space {
+    margin-bottom: 40px;
+}
+
+.sidebar__hr {
+    background: rgba(@main-color, 0.5);
+    width: 60%;
+    height: 0.01em;
+    width: 216px;
+    margin: 10px 0 30px;
+}

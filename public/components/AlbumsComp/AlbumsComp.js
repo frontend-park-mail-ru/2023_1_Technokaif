@@ -1,4 +1,4 @@
-import { albumsTemplate as templateHtml } from './AlbumsComp.hbs.js';
+import templateHtml from './AlbumsComp.handlebars';
 
 /**
  * Class for albums content in main page.
@@ -25,7 +25,7 @@ export class AlbumsComp {
      * @description render Album in parent
      */
     render() {
-        const template = Handlebars.compile(templateHtml);
+        const template = templateHtml;
         this.#parent.innerHTML = template(this.#config);
     }
 
@@ -35,7 +35,7 @@ export class AlbumsComp {
      * @returns Html string of template to place
      */
     HTML(cfg = '') {
-        const template = Handlebars.compile(templateHtml);
+        const template = templateHtml;
         if (cfg === '') {
             return template(cfg);
         }

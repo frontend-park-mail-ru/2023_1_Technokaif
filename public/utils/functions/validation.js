@@ -190,23 +190,27 @@ export function getEmailError(email, confirmEmail = '') {
 
 /**
  *
- * @param  {...any} boxes -- true of false values
+ * @param  {...any} boxes -- strings of sex
  * @return null if correct else return 'sex'
  *
  * Correct:
- *  Only one true value;
- *  One true value exist;
+ *  Only one value;
+ *  Value: male, female, dont.
  */
 export function getSexError(...boxes) {
+    boxes = boxes.filter(Boolean);
     let isInputCorrect = false;
-    boxes.forEach((box) => {
-        if (box) {
-            if (isInputCorrect) {
-                return ERRORS.sex;
-            }
+    if (boxes.length === 1) {
+        switch (boxes[0]) {
+        case 'male':
+        case 'female':
+        case 'dont':
             isInputCorrect = true;
+            break;
+        default:
+            isInputCorrect = false;
         }
-    });
+    }
 
     if (!isInputCorrect) {
         return ERRORS.sex;

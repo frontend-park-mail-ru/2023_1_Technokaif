@@ -1,7 +1,3 @@
-/**
- * Contains template string for form
- */
-export const formTemplate = `
 <div class="{{content}}">
     <div class="header-placement"></div>
     <div {{#if divBeforeForm}}class="{{divBeforeForm}}" {{/if}}>
@@ -11,8 +7,8 @@ export const formTemplate = `
                 <div class="{{placementClass}}" id="{{placementId}}"></div>
             {{/if}}
             
-            <div class="{{divButton}}">
-                <button type="{{buttonType}}" class="buttonClass">{{textButton}}</button>
+            <div>
+                <button type="{{buttonType}}" class="{{divButton}}">{{textButton}}</button>
             </div>
         </form>
         <div {{#if divHrClass}} class="{{divHrClass}}" {{/if}}>
@@ -21,4 +17,3 @@ export const formTemplate = `
         <div class="bottom-placement"></div>
     </div>
 </div>
-`;
