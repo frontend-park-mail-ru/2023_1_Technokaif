@@ -1,3 +1,6 @@
+p {
+  margin: 0;
+}
 .input-block {
   display: flex;
   justify-content: center;
@@ -23,10 +26,12 @@
 }
 .input-block__error-placement {
   color: #A30606;
-  width: 100%;
   display: block;
+  width: 350px;
+  margin-top: 15px;
 }
 .input-block__input-element:hover {
   border: 0 solid black;
   outline: none;
 }
+/*# sourceMappingURL=input.css.map */
