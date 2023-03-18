@@ -1,4 +1,5 @@
 import templateHtml from './TracksComp.handlebars';
+import './trackComp.css';
 
 /**
  * Class for tracks content in main page.

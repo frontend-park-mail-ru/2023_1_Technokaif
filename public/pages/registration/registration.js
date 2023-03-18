@@ -121,7 +121,7 @@ export function renderSignup(parent) {
         getYearError,
     );
 
-    const sexChoose = parent.querySelector('.reg-sex');
+    const sexChoose = parent.querySelector('.sex');
     sexChoose.addEventListener(Method, () => {
         const where = document.getElementsByClassName('error-gender')[0];
         clearField(where);
@@ -138,7 +138,7 @@ export function renderSignup(parent) {
         }
     });
 
-    const form = parent.querySelector('.reg-form');
+    const form = parent.querySelector('.form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 

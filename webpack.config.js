@@ -5,7 +5,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     mode: 'development',
     entry: path.resolve(__dirname, 'public', 'index.js'),
-    watch: true,
     plugins: [
         new HtmlWebpackPlugin({
             templateContent: `
