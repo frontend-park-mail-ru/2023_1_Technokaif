@@ -18,8 +18,9 @@ export function registerAjax(userData) {
                 return;
             }
 
-            document.getElementById('serverErrors').style.display = 'block';
-            document.getElementsByClassName('title__error-text')[0].innerText = context;
+            const element = document.getElementsByClassName('title__error-text')[0];
+            element.hidden = false;
+            element.innerText = context;
         },
     });
 }
