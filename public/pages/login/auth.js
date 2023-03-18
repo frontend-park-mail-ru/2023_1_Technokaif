@@ -61,6 +61,10 @@ export function renderLogin(parent) {
 
     const loginField = parent.querySelector(`#${ID.login}`);
     loginField.addEventListener('focusout', () => {
+        if (loginField.value === '') {
+            return;
+        }
+
         const errLogin = document.querySelectorAll(`.${CLASS.errorDiv}`)[0];
 
         setLoginErrors(errLogin, loginField.value.trim());
@@ -68,6 +72,10 @@ export function renderLogin(parent) {
 
     const passwordField = parent.querySelector(`#${ID.password}`);
     passwordField.addEventListener('focusout', () => {
+        if (passwordField.value === '') {
+            return;
+        }
+
         const errPass = document.querySelectorAll(`.${CLASS.errorDiv}`)[1];
 
         setPassErrors(errPass, passwordField.value);
@@ -85,7 +93,7 @@ export function renderLogin(parent) {
         redirect(unAuthNavConfig.registration);
     });
 
-    const form = parent.querySelector('.log-form');
+    const form = parent.querySelector('.form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 

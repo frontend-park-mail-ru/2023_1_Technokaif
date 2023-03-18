@@ -10,10 +10,8 @@ export function feedAjax(parent) {
     const AjaxReq = new Ajax();
     AjaxReq.get({
         url: PATH.feedApi,
-        whatRender: ({ status, context }) => {
-            if (status === 200) {
-                createHomePageContent(parent, context);
-            }
+        resolve: (data) => {
+            createHomePageContent(parent, data);
         },
     });
 }

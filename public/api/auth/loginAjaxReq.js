@@ -13,16 +13,14 @@ export function loginAjax(login, password) {
     AjaxReq.post({
         url: PATH.login,
         body: { username: login, password },
-        whatRender: ({ status, context }) => {
-            if (status < 300) {
-                localStorage.setItem('jwt', context.jwt);
-
-                redirect(sidebarConfig.feed);
-                return;
-            }
-
-            document.getElementById('serverErrors').style.display = 'block';
-            document.getElementsByClassName('error-text')[0].innerText = context;
+        resolve: (data) => {
+            localStorage.setItem('jwt', data.jwt);
+            redirect(sidebarConfig.feed);
+        },
+        reject: (message) => {
+            const element = document.getElementsByClassName('title__error-text')[0];
+            element.hidden = false;
+            element.innerText = message;
         },
     });
 }

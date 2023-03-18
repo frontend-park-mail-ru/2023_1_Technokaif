@@ -11,15 +11,13 @@ export function registerAjax(userData) {
     AjaxReq.post({
         url: PATH.auth,
         body: userData,
-        whatRender: ({ status, context }) => {
-            if (status < 300) {
-                // skipped id in context without error
-                loginAjax(userData.email, userData.password);
-                return;
-            }
-
-            document.getElementById('serverErrors').style.display = 'block';
-            document.getElementsByClassName('error-text')[0].innerText = context;
+        resolve: () => {
+            loginAjax(userData.email, userData.password);
+        },
+        reject: (message) => {
+            const element = document.getElementsByClassName('title__error-text')[0];
+            element.hidden = false;
+            element.innerText = message;
         },
     });
 }
