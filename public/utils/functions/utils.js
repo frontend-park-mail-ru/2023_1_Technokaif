@@ -1,12 +1,10 @@
-'use strict';
-
 /**
  * Create div block with classes and apeend it to parent
  * @param {HTMLElement} parent -- where to place div block
  * @param  {...any} classes -- what classes div block contain
- * @returns created div block
+ * @return created div block
  */
-export function createDivAndInsertInParent (parent, ...classes) {
+export function createDivAndInsertInParent(parent, ...classes) {
     const divBlock = document.createElement('div');
     classes.forEach((cl) => {
         divBlock.classList.add(cl);
@@ -19,18 +17,17 @@ export function createDivAndInsertInParent (parent, ...classes) {
 /**
  *
  * @param {string} elemToTranslate -- digit to translate to two digits
- * @returns digits in two symbols
+ * @return digits in two symbols
  * @description if digits < 9 then it will return 0+digit else return digit
  */
-export function translateOneDigitToTwo (elemToTranslate) {
+export function translateOneDigitToTwo(elemToTranslate) {
     let result = elemToTranslate;
     if (elemToTranslate <= 9) {
-        result = '0' + elemToTranslate;
+        result = `0${elemToTranslate}`;
     }
     return result;
 }
 
-// ask как сделать перевод на новую строку
 /**
  * Create <p> element with class error. Add eventListener on element.
  * @param {string} event -- what event trigger appearance of error
@@ -39,9 +36,13 @@ export function translateOneDigitToTwo (elemToTranslate) {
  * @param {string} errorMessage -- what message to display
  * @param {function} checkForErrors -- function to determine the error
  */
-export function errorGenerate (event, element, where, errorMessage, checkForErrors) {
-    element.addEventListener(event, (el) => {
+export function errorGenerate(event, element, where, errorMessage, checkForErrors) {
+    element.addEventListener(event, () => {
         where.innerHTML = '';
+
+        if (element.value === '') {
+            return;
+        }
 
         const errorExist = checkForErrors(element.value);
         if (errorExist) {
@@ -52,4 +53,20 @@ export function errorGenerate (event, element, where, errorMessage, checkForErro
             where.appendChild(message);
         }
     });
+}
+
+/**
+ *
+ * @param {HTMLElements} buttons -- radio buttons to checked
+ * @returns array of string values of all checked buttons
+ */
+export function getCheckedValueRadioButtons(buttons) {
+    const rad = buttons;
+    const elements = [];
+    for (let i = 0; i < rad.length; i++) {
+        if (rad[i].checked) {
+            elements.push(rad[i].value);
+        }
+    }
+    return elements;
 }

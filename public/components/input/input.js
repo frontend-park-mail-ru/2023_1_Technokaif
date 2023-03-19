@@ -1,24 +1,41 @@
-import { inputTemplate as templateHtml } from './input.hbs.js';
+import templateHtml from './input.handlebars';
+import './input.css';
 
+/**
+ * Class of input field for forms.
+ * @constructor
+ * @param {HTMLElement} parent - Element where to render.
+ * @param {json} config - Config with json fields.
+ */
 export class Input {
     #parent;
+
     #config;
 
-    constructor (parent, config) {
+    /**
+     * Create Input component. Empty innerHtml before placement
+     * @param {HTMLElement} parent -- where to place Input
+     * @param {object} config -- what config use to compule template
+    */
+    constructor(parent, config) {
         this.#parent = parent;
         this.#config = config;
     }
 
-    get config () {
-        return this.#config;
-    }
-
-    render () {
+    /**
+     * @description render Input in parent
+     */
+    render() {
         this.#parent.innerHTML = this.HTML();
     }
 
-    HTML (cfg = '') {
-        const template1 = Handlebars.compile(templateHtml); // eslint-disable-line
+    /**
+     * If cfg is given then return compiled template with cfg else with inner config
+     * @param {object} cfg -- external configure object
+     * @returns Html string of template to place
+    */
+    HTML(cfg = '') {
+        const template1 = templateHtml;
         if (cfg === '') {
             return template1(cfg);
         }

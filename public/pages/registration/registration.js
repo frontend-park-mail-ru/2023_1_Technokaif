@@ -1,6 +1,7 @@
-'use strict';
-
-import { getAllErrors, getDayError, getEmailError, getMonthError, getNameError, getSexError, getUsernameError, getYearError, getPasswordError } from '../../utils/functions/validation.js';
+import {
+    getAllErrors, getDayError, getEmailError, getMonthError, getNameError, getSexError,
+    getUsernameError, getYearError, getPasswordError,
+} from '../../utils/functions/validation.js';
 import { clearField } from '../../utils/functions/clearFields.js';
 import { registerAjax } from '../../api/auth/registerAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
@@ -10,95 +11,123 @@ import { ERRORS_REG as ERRORS } from '../../utils/config/errors.js';
 import { ID_REG as ID, CLASS_REG as CLASS } from '../../utils/config/id.js';
 import { ERRORS_VALIDATE } from '../../utils/config/validateConf.js';
 import { Form } from '../../components/form/form.js';
-import { errorGenerate, translateOneDigitToTwo } from '../../utils/functions/utils.js';
+import { errorGenerate, translateOneDigitToTwo, getCheckedValueRadioButtons } from '../../utils/functions/utils.js';
+
 const Method = 'focusout';
 
 /**
  *
+ * @param  {...any} sexChoose -- true values
+ * sexChoose:
+ * [0] -- male
+ * [1] -- female
+ * else -- other
+ * @returns
+ */
+function getSexInString(sexChoose) {
+    let returnSymbol = '';
+    switch (sexChoose) {
+    case 'male':
+        returnSymbol = 'M';
+        break;
+    case 'female':
+        returnSymbol = 'F';
+        break;
+    case 'dont':
+    default:
+        returnSymbol = 'O';
+    }
+
+    return returnSymbol;
+}
+
+/**
+Function rendering registration form.
  * @param {HTMLElement} parent -- where to place Signup page
  */
-export function renderSignup (parent) {
+export function renderSignup(parent) {
     const form1 = new Form(parent, regFormSetup(), sexSetup(), dateSetup());
     form1.render();
 
-    errorGenerate(Method,
+    errorGenerate(
+        Method,
         document.getElementById(ID.email),
         document.getElementById(ID.emailErr),
         ERRORS.email,
-        (el) => {
-            return getEmailError(el, el);
-        }
+        (el) => getEmailError(el, el),
     );
 
-    errorGenerate(Method,
+    errorGenerate(
+        Method,
         document.getElementById(ID.emailConf),
         document.getElementById(ID.emailConfErr),
         ERRORS.confirmEmail,
-        (el) => {
-            return getEmailError(el, document.getElementById(ID.email).value);
-        }
+        (el) => getEmailError(el, document.getElementById(ID.email).value),
     );
 
-    errorGenerate(Method,
+    errorGenerate(
+        Method,
         document.getElementById(ID.password),
         document.getElementById(ID.passwordErr),
         ERRORS.password,
-        getPasswordError
+        getPasswordError,
     );
 
-    errorGenerate(Method,
+    errorGenerate(
+        Method,
         document.getElementById(ID.firstName),
         document.getElementById(ID.firstNameErr),
         ERRORS.firstName,
-        getNameError
+        getNameError,
     );
 
-    errorGenerate(Method,
+    errorGenerate(
+        Method,
         document.getElementById(ID.lastName),
         document.getElementById(ID.lastNameErr),
         ERRORS.lastName,
-        getNameError
+        getNameError,
     );
 
-    errorGenerate(Method,
+    errorGenerate(
+        Method,
         document.getElementById(ID.username),
         document.getElementById(ID.usernameErr),
         ERRORS.username,
-        getUsernameError
+        getUsernameError,
     );
 
-    errorGenerate(Method,
+    errorGenerate(
+        Method,
         document.getElementById(ID.month),
         document.getElementById(ID.monthErr),
         ERRORS.month,
-        getMonthError
+        getMonthError,
     );
 
-    errorGenerate(Method,
+    errorGenerate(
+        Method,
         document.getElementById(ID.day),
         document.getElementById(ID.errorDate),
         ERRORS.day,
-        getDayError
+        getDayError,
     );
 
-    errorGenerate(Method,
+    errorGenerate(
+        Method,
         document.getElementById(ID.year),
         document.getElementById(ID.yearErr),
         ERRORS.year,
-        getYearError
+        getYearError,
     );
 
-    const sexChoose = parent.querySelector('.reg-sex');
-    sexChoose.addEventListener(Method, (el) => {
+    const sexChoose = parent.querySelector('.sex');
+    sexChoose.addEventListener(Method, () => {
         const where = document.getElementsByClassName('error-gender')[0];
         clearField(where);
 
-        const radioButtons = document.getElementsByClassName('reg-sex-radio');
-        const elements = [];
-
-        elements.push(radioButtons[0].checked);
-        elements.push(radioButtons[1].checked);
-        elements.push(radioButtons[2].checked);
+        const rad = document.getElementsByName('sex');
+        const elements = getCheckedValueRadioButtons(rad);
 
         if (getSexError(...elements)) {
             const message = document.createElement('p');
@@ -109,8 +138,7 @@ export function renderSignup (parent) {
         }
     });
 
-    const form = parent.querySelector('.reg-form');
-    // ask can we decrease it size?
+    const form = parent.querySelector('.form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -124,7 +152,8 @@ export function renderSignup (parent) {
         const day = document.getElementById(ID.day).value;
         const year = document.getElementById(ID.year).value;
 
-        const sexChoose = document.querySelectorAll('.reg-sex-radio');
+        const sexChooseButton = document.getElementsByName('sex');
+        const gender = getCheckedValueRadioButtons(sexChooseButton);
 
         const errors = getAllErrors(
             email,
@@ -136,9 +165,7 @@ export function renderSignup (parent) {
             day,
             monthInput,
             year,
-            sexChoose[0].checked,
-            sexChoose[1].checked,
-            sexChoose[2].checked
+            ...gender,
         );
 
         const errorEmail = document.getElementById(ID.emailErr);
@@ -164,10 +191,10 @@ export function renderSignup (parent) {
                 case ERRORS_VALIDATE.password:
                     errorPassword.innerHTML = `<p class="error">${ERRORS.password}</p>`;
                     break;
-                case 'first' + ERRORS_VALIDATE.name:
+                case `first${ERRORS_VALIDATE.name}`:
                     errorFirstName.innerHTML = `<p class="error">${ERRORS.firstName}</p>`;
                     break;
-                case 'last' + ERRORS_VALIDATE.name:
+                case `last${ERRORS_VALIDATE.name}`:
                     errorLastName.innerHTML = `<p class="error">${ERRORS.lastName}</p>`;
                     break;
                 case ERRORS_VALIDATE.username:
@@ -185,6 +212,7 @@ export function renderSignup (parent) {
                 case ERRORS_VALIDATE.sex:
                     errorSex.innerHTML = `<p class="error">${ERRORS.sex}</p>`;
                     break;
+                default:
                 }
             });
 
@@ -197,11 +225,7 @@ export function renderSignup (parent) {
         const dayString = translateOneDigitToTwo(day);
 
         const date = [year, monthString, dayString].join('-');
-        const sex = getSexInString(
-            sexChoose[0].checked,
-            sexChoose[1].checked,
-            sexChoose[2].checked
-        );
+        const sex = getSexInString(gender[0]);
 
         registerAjax({
             email,
@@ -210,7 +234,7 @@ export function renderSignup (parent) {
             firstName,
             lastName,
             birthDate: date,
-            sex
+            sex,
         });
     });
 
@@ -225,24 +249,4 @@ export function renderSignup (parent) {
 
         redirect(unAuthNavConfig.login);
     });
-}
-
-/**
- *
- * @param  {...any} sexChoose -- true values
- * sexChoose:
- * [0] -- male
- * [1] -- female
- * else -- other
- * @returns
- */
-function getSexInString (...sexChoose) {
-    if (sexChoose[0]) {
-        return 'M';
-    }
-    if (sexChoose[1]) {
-        return 'F';
-    }
-
-    return 'O';
 }

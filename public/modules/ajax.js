@@ -1,93 +1,73 @@
-'use strict';
-
 const AJAX_METHODS = {
     GET: 'GET',
-    POST: 'POST'
+    POST: 'POST',
 };
 
 const noop = () => {};
 
+/**
+ * Requests class for all server-api request work.
+ */
 export class Ajax {
-    get ({ url, whatRender }) {
-        this._ajax({
+    /**
+     * Get data from server
+     * @param {string, function} url -- url where Get method is used
+     * @param {function} resolve -- function to render page and make actions in ok case
+     * @param {function} reject -- function to handle an error
+     */
+    get({ url, resolve = noop, reject = noop }) {
+        return fetch(url, {
             method: AJAX_METHODS.GET,
-            url,
-            whatRender
-        });
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+            },
+        })
+            .then((response) => response.json().then((data) => {
+                if (response.ok) {
+                    resolve(data);
+                } else {
+                    throw data.message;
+                }
+            }))
+            .catch((error) => {
+                reject(error);
+            });
     }
 
-    post ({ url, body, whatRender }) {
-        this._ajax({
+    /**
+     * Post data to server
+     * @param {string} url -- url where Post method is used
+     * @param {object} body -- body object with parameters
+     * @param {function} resolve -- function to render page and make actions in ok case
+     * @param {function} reject -- function to handle an error
+     */
+    post({
+        url,
+        body = null,
+        resolve = noop,
+        reject = noop,
+    }) {
+        return fetch(url, {
             method: AJAX_METHODS.POST,
-            url,
-            body,
-            whatRender
-        });
-    }
-
-    _ajax ({ method, url, body = null, whatRender = noop }) {
-        let request = {};
-        // url = '/api' + url;
-        if (body === null) {
-            request = new Request(
-                url, {
-                    method,
-                    credentials: 'include',
-                    headers: {
-                        'content-type': 'application/json;',
-                        Authorization: `Bearer ${localStorage.getItem('jwt')}`
-                    }
-                });
-        } else {
-            request = new Request(
-                url, {
-                    method,
-                    credentials: 'include',
-                    headers: {
-                        'content-type': 'application/json;'
-                    },
-                    body: JSON.stringify(body)
-                });
-        }
-
-        fetch(request).then(
-            responseRaw => responseRaw.json().then(
-                responseJson => {
-                    let error;
-                    const status = responseRaw.status;
-                    if (status !== 200) {
-                        error = responseJson.error;
-                        whatRender({ status, error });
-                        return;
-                    }
-
-                    whatRender({ status, context: responseJson });
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+            },
+            body: JSON.stringify(body),
+        })
+            .then((response) => response.json().then((data) => {
+                if (response.ok) {
+                    resolve(data);
+                } else {
+                    throw data.message;
                 }
-            )
-        );
-    }
-
-    PromiseGet (url) {
-        return new Promise(function (resolve, reject) {
-            this.get(url, function (err, response) {
-                if (err !== 200) {
-                    reject(err);
-                }
-
-                resolve(response);
+            }))
+            .catch((error) => {
+                reject(error);
             });
-        });
-    }
-
-    PromisePost (url, userData) {
-        return new Promise(function (resolve, reject) {
-            this.post(url, userData, function (err, response) {
-                if (err !== 200) {
-                    reject(err);
-                }
-
-                resolve(response);
-            });
-        });
     }
 }

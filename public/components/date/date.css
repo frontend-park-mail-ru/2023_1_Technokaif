@@ -1,0 +1,43 @@
+.date {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.date__label {
+  margin-bottom: 15px;
+  font-size: 15px;
+  font-weight: 700;
+  color: rgba(242, 242, 242, 0.95);
+  margin-top: -10px;
+}
+.date__choose-place {
+  display: flex;
+}
+.date__day,
+.date__month,
+.date__year {
+  outline: none;
+  margin-left: 15px;
+  border-radius: 5px;
+  border: 1px rgba(242, 242, 242, 0.4) solid;
+  color: #f2f2f2;
+  background-color: transparent;
+}
+.date__day {
+  margin-left: 0px;
+  width: 80px;
+  height: 30px;
+}
+.date__month {
+  cursor: pointer;
+  width: 160px;
+  height: 30px;
+}
+.date__month > option {
+  color: #0C0C0C;
+}
+.date__year {
+  width: 80px;
+  height: 30px;
+}

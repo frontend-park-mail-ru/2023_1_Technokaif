@@ -11,7 +11,7 @@ export const ERRORS_REG = {
     day: 'Incorrect day',
     month: 'Incorrect month',
     year: 'Incorrect year',
-    sex: 'Choose your gender.'
+    sex: 'Choose your gender.',
 };
 
 /**
@@ -20,5 +20,5 @@ export const ERRORS_REG = {
 export const ERRORS_LOG = {
     password: 'Incorrect password. Big letters, small letters and digits required. Length 8-30. Quotes, points and space forbidden',
     email: 'Enter a correct email address.',
-    username: 'Incorrect username. Contains letters, digits and "_". Length 4-20'
+    username: 'Incorrect username. Contains letters, digits and "_". Length 4-20',
 };

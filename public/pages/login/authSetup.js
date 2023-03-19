@@ -1,66 +1,67 @@
 import { ID_LOG as ID, CLASS_LOG as CLASS } from '../../utils/config/id.js';
 
 /**
- *
- * @returns -- all settings to form template in login
+ * Function to create login form setup config for template.
+ * @return {json} config -- config for template.
  */
-export function logFormSetup () {
+export function logFormSetup() {
     return {
         errorTop: CLASS.errorTop,
-        topID: null,
+        errorText: 'title__error-text',
+        topID: 'serverErrors',
         content: 'content',
-        header: 'header',
+        formHeader: 'header',
         title: CLASS.title,
         logoSrc: '/static/svg/logo.svg',
 
-        titleClass: 'page-title',
+        titleClass: 'title__name',
         titleName: 'Fluire',
-        descriptionClass: 'page-description',
+        descriptionClass: 'title__page-description',
         descriptionLabelClass: 'descriptionLabel',
         descriptionName: 'Log in to continue',
         divBeforeForm: 'log',
-        formDiv: 'log-form',
+        formDiv: 'form',
         inputs: [
             {
                 divBeforeInput: CLASS.divBeforeInput,
                 typeOfInput: 'text',
                 nameOfField: 'username',
-                labelClass: 'log-input-label',
+                labelClass: 'input-block__label',
                 labelText: 'Login:',
                 placeholder: 'Your username or email',
                 classInp: CLASS.classInp,
                 id: ID.login,
                 errorDiv: CLASS.errorDiv,
-                errorId: null
+                errorId: null,
             },
             {
                 divBeforeInput: CLASS.divBeforeInput,
                 typeOfInput: 'password',
                 nameOfField: 'password',
-                labelClass: 'log-input-label',
+                labelClass: 'input-block__label',
                 labelText: 'Password:',
                 placeholder: 'Your password',
                 classInp: CLASS.classInp,
                 id: ID.password,
                 errorDiv: CLASS.errorDiv,
-                errorId: null
-            }
+                errorId: null,
+            },
         ],
         placementClass: null,
         placementId: null,
-        divButton: 'log-btn auth-btn',
+        divButton: 'form__button',
         buttonType: 'submit',
-        buttonClass: 'log-but',
+        buttonClass: 'form__button',
         textButton: 'Sign In',
-        divHrClass: 'hr-position',
-        hrClass: 'auth-form-hr',
-        bottomClass: 'log-bottom',
+        divHrClass: 'form__hr-placement',
+        hrClass: 'form__hr',
+        bottomClass: 'bottom__placement',
         divBottomLabel: 'have-acc-label',
-        bottomLabelClass: 'have-acc',
+        bottomLabelClass: 'bottom__link',
         bottomLabelText: 'Don\'t have an account?',
         linkDiv: 'linkDiv',
         linkHref: '/',
         linkClass: CLASS.link,
-        linkText: 'Registration'
+        linkText: 'Registration',
     };
 }

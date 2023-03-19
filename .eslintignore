@@ -1,3 +1,3 @@
 /node_modules
 package-lock.json
-/static/js/handlebars-v4.7.7.js
+/dist

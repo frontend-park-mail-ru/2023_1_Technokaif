@@ -1,176 +1,178 @@
 import { ID_REG as ID, CLASS_REG as CLASS } from '../../utils/config/id.js';
 
 /**
- *
- * @returns -- all settings to form template in register
+ * Function to create registration form setup config for template.
+ * @return {json} config -- config for template.
  */
-export function regFormSetup () {
+export function regFormSetup() {
     return {
         errorTop: ID.errorTop,
+        errorText: 'title__error-text',
+        topID: 'serverErrors',
         content: 'content',
-        header: 'header',
+        formHeader: 'header',
         title: CLASS.title,
         logoSrc: '/static/svg/logo.svg',
 
-        titleClass: 'page-title',
+        titleClass: 'title__name',
         titleName: 'Fluire',
-        descriptionClass: 'page-description',
+        descriptionClass: 'title__page-description',
         descriptionLabelClass: 'descriptionLabel',
         descriptionName: 'Register and listen for free',
         divBeforeForm: 'reg',
         autocompleteOff: true,
-        formDiv: 'reg-form',
+        formDiv: 'form',
         inputs: [
             {
-                divBeforeInput: 'reg-field',
+                divBeforeInput: 'input-block',
                 typeOfInput: 'email',
                 nameOfField: 'email',
-                labelClass: 'reg-input-label',
+                labelClass: 'input-block__label',
                 labelText: 'Email:',
                 placeholder: 'Your email address',
-                classInp: 'reg-input',
+                classInp: 'input-block__input-element',
                 id: ID.email,
-                errorDiv: 'reg-error',
-                errorId: ID.emailErr
+                errorDiv: 'input-block__error-placement',
+                errorId: ID.emailErr,
             },
             {
-                divBeforeInput: 'reg-field',
+                divBeforeInput: 'input-block',
                 typeOfInput: 'email',
                 nameOfField: 'email-confirm',
-                labelClass: 'reg-input-label',
+                labelClass: 'input-block__label',
                 labelText: 'Confirm Email:',
                 placeholder: 'Your email address again',
-                classInp: 'reg-input',
+                classInp: 'input-block__input-element',
                 id: ID.emailConf,
-                errorDiv: 'reg-error',
-                errorId: ID.emailConfErr
+                errorDiv: 'input-block__error-placement',
+                errorId: ID.emailConfErr,
             },
             {
-                divBeforeInput: 'reg-field',
+                divBeforeInput: 'input-block',
                 typeOfInput: 'password',
                 nameOfField: 'password',
-                labelClass: 'reg-input-label',
+                labelClass: 'input-block__label',
                 labelText: 'Password:',
                 placeholder: 'Your password',
-                classInp: 'reg-input',
+                classInp: 'input-block__input-element',
                 id: ID.password,
-                errorDiv: 'reg-error',
-                errorId: ID.passwordErr
+                errorDiv: 'input-block__error-placement',
+                errorId: ID.passwordErr,
             },
             {
-                divBeforeInput: 'reg-field',
+                divBeforeInput: 'input-block',
                 typeOfInput: 'text',
                 nameOfField: 'username',
-                labelClass: 'reg-input-label',
+                labelClass: 'input-block__label',
                 labelText: 'Username:',
                 placeholder: 'Name of your account',
-                classInp: 'reg-input',
+                classInp: 'input-block__input-element',
                 id: ID.username,
-                errorDiv: 'reg-error',
-                errorId: ID.usernameErr
+                errorDiv: 'input-block__error-placement',
+                errorId: ID.usernameErr,
             },
             {
-                divBeforeInput: 'reg-field',
+                divBeforeInput: 'input-block',
                 typeOfInput: 'text',
                 nameOfField: 'firstName',
-                labelClass: 'reg-input-label',
+                labelClass: 'input-block__label',
                 labelText: 'Firstname:',
                 placeholder: 'Your firstname',
-                classInp: 'reg-input',
+                classInp: 'input-block__input-element',
                 id: ID.firstName,
-                errorDiv: 'reg-error',
-                errorId: ID.firstNameErr
+                errorDiv: 'input-block__error-placement',
+                errorId: ID.firstNameErr,
             },
             {
-                divBeforeInput: 'reg-field',
+                divBeforeInput: 'input-block',
                 typeOfInput: 'text',
                 nameOfField: 'lastName',
-                labelClass: 'reg-input-label',
+                labelClass: 'input-block__label',
                 labelText: 'Lastname:',
                 placeholder: 'Your lastname',
-                classInp: 'reg-input',
+                classInp: 'input-block__input-element',
                 id: ID.lastName,
-                errorDiv: 'reg-error',
-                errorId: ID.lastNameErr
-            }
+                errorDiv: 'input-block__error-placement',
+                errorId: ID.lastNameErr,
+            },
         ],
-        placementClass: 'reg-date-and-sex',
+        placementClass: 'form__placement-additionall',
         placementId: ID.placement,
-        divButton: 'reg-btn auth-btn',
+        divButton: 'form__button',
         buttonType: 'submit',
-        buttonClass: 'reg-btn auth-btn',
+        buttonClass: 'form__button',
         textButton: 'Sign Up',
-        divHrClass: 'hr-position',
-        hrClass: 'signup-hr',
-        bottomClass: 'reg-bottom',
+        divHrClass: 'form__hr-placement',
+        hrClass: 'form__hr',
+        bottomClass: 'bottom__placement',
         divBottomLabel: 'have-acc-label',
-        bottomLabelClass: 'have-acc',
+        bottomLabelClass: 'bottom__link',
         bottomLabelText: 'Already have an account?',
         linkDiv: 'linkDiv',
         linkHref: '/',
         linkClass: CLASS.link,
-        linkText: 'Login'
+        linkText: 'Login',
     };
 }
 
 /**
  *
- * @returns -- all settings to sex template in register
+ * @return -- all settings to sex template in register
  */
-export function sexSetup () {
+export function sexSetup() {
     return {
-        mainSexDiv: 'reg-sex',
-        labelSex: 'reg-sex-label',
+        mainSexDiv: 'sex',
+        labelSex: 'sex__description-label',
         labelClass: 'reg-label',
         labelText: 'Your gender:',
-        divSexChoose: 'reg-choose-sex',
+        divSexChoose: 'sex__choose',
         sexes: [
             {
-                insideDivSex: 'reg-sex-var',
+                insideDivSex: 'sex__variable',
                 typeInput: 'radio',
                 nameInput: 'sex',
                 classSexInput: 'reg-sex-radio',
                 id: ID.male,
-                classLabel: 'sex-var-label',
-                textLabel: 'Male'
+                classLabel: 'sex__label',
+                textLabel: 'Male',
             },
             {
-                insideDivSex: 'reg-sex-var',
+                insideDivSex: 'sex__variable',
                 typeInput: 'radio',
                 nameInput: 'sex',
                 classSexInput: 'reg-sex-radio',
                 id: ID.female,
-                classLabel: 'sex-var-label',
-                textLabel: 'Female'
+                classLabel: 'sex__label',
+                textLabel: 'Female',
             },
             {
-                insideDivSex: 'reg-sex-var',
+                insideDivSex: 'sex__variable',
                 typeInput: 'radio',
                 nameInput: 'sex',
                 classSexInput: 'reg-sex-radio',
                 id: ID.dont,
-                classLabel: 'sex-var-label',
-                textLabel: 'Other answer'
-            }
+                classLabel: 'sex__label',
+                textLabel: 'Other answer',
+            },
         ],
-        errorSex: 'error-gender'
+        errorSex: 'error-gender',
     };
 }
 
 /**
  *
- * @returns -- all settings to date template in register
+ * @return -- all settings to date template in register
  */
-export function dateSetup () {
+export function dateSetup() {
     return {
-        dateMainDiv: 'reg-date',
+        dateMainDiv: 'date',
         divChooseId: ID.choose,
-        labelClass: 'reg-date-label',
+        labelClass: 'date__label',
         labelText: 'Your date of birth:',
-        dateChooseDiv: 'reg-choose-date',
+        dateChooseDiv: 'date__choose-place',
         divDayClass: null,
         typeOfDayInput: 'text',
-        dayClass: 'reg-day',
+        dayClass: 'date__day',
         nameOfDayInput: 'nameOfDayInput',
         placeholderOfDay: 'Day',
         idOfDay: ID.day,
@@ -178,80 +180,80 @@ export function dateSetup () {
         divMonthClass: null,
         nameOfMonthInput: 'nameOfMonthInput',
         idOfMonth: ID.month,
-        selectClass: 'reg-month',
+        selectClass: 'date__month',
         optionsDate: [
             {
                 option: 'January',
                 class: null,
-                text: 'January'
+                text: 'January',
             },
             {
                 option: 'February',
                 class: null,
-                text: 'February'
+                text: 'February',
             },
             {
                 option: 'March',
                 class: null,
-                text: 'March'
+                text: 'March',
             },
             {
                 option: 'April',
                 class: null,
-                text: 'April'
+                text: 'April',
             },
             {
                 option: 'May',
                 class: null,
-                text: 'May'
+                text: 'May',
             },
             {
                 option: 'June',
                 class: null,
-                text: 'June'
+                text: 'June',
             },
             {
                 option: 'July',
                 class: null,
-                text: 'July'
+                text: 'July',
             },
             {
                 option: 'August',
                 class: null,
-                text: 'August'
+                text: 'August',
             },
             {
                 option: 'September',
                 class: null,
-                text: 'September'
+                text: 'September',
             },
             {
                 option: 'October',
                 class: null,
-                text: 'October'
+                text: 'October',
             },
             {
                 option: 'November',
                 class: null,
-                text: 'November'
+                text: 'November',
             },
             {
                 option: 'December',
                 class: null,
-                text: 'December'
-            }
+                text: 'December',
+            },
         ],
         divYearClass: null,
         typeOfYearInput: 'text',
-        yearClass: 'reg-year',
+        yearClass: 'date__year',
         nameOfYearInput: 'nameOfYearInput',
         placeholderOfYear: 'Year',
         idOfYear: ID.year,
-        errorDate: 'reg-error',
+        errorDate: 'input-block__error-placement',
         errorID: ID.errorDate,
-        errorMonth: 'reg-error',
+        errorMonth: 'input-block__error-placement',
         errorMonthID: ID.monthErr,
-        errorYear: 'reg-error',
-        errorYearID: ID.yearErr
+        errorYear: 'input-block__error-placement',
+        errorYearID: ID.yearErr,
     };
 }

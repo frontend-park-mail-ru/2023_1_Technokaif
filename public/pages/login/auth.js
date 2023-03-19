@@ -1,7 +1,7 @@
-'use strict';
-
 import { unAuthNavConfig, sidebarConfig } from '../../utils/config/config.js';
-import { checkIsEmail, getUsernameError, getPasswordError, getEmailError } from '../../utils/functions/validation.js';
+import {
+    checkIsEmail, getUsernameError, getPasswordError, getEmailError,
+} from '../../utils/functions/validation.js';
 import { loginAjax } from '../../api/auth/loginAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
 import { ERRORS_LOG as ERRORS } from '../../utils/config/errors.js';
@@ -11,76 +11,12 @@ import { clearField } from '../../utils/functions/clearFields.js';
 import { Form } from '../../components/form/form.js';
 
 /**
- *
- * @param {HTMLElement} parent -- where to place Login page
- */
-export function renderLogin (parent) {
-    const form1 = new Form(parent, logFormSetup());
-    form1.render();
-
-    const loginField = parent.querySelector(`#${ID.login}`);
-    loginField.addEventListener('focusout', (e) => {
-        const errLogin = document.querySelectorAll(`.${CLASS.errorDiv}`)[0];
-
-        setLoginErrors(errLogin, loginField.value.trim());
-    });
-
-    const passwordField = parent.querySelector(`#${ID.password}`);
-    passwordField.addEventListener('focusout', (e) => {
-        const errPass = document.querySelectorAll(`.${CLASS.errorDiv}`)[1];
-
-        setPassErrors(errPass, passwordField.value);
-    });
-
-    parent.getElementsByClassName(CLASS.title)[0].addEventListener('click', (e) => {
-        e.preventDefault();
-
-        redirect(sidebarConfig.feed);
-    });
-
-    parent.getElementsByClassName(CLASS.link)[0].addEventListener('click', (e) => {
-        e.preventDefault();
-
-        redirect(unAuthNavConfig.registration);
-    });
-
-    const form = parent.querySelector('.log-form');
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const errorPlac = document.querySelector(`.${CLASS.errorDiv}`);
-        clearField(errorPlac);
-
-        const errLogin = document.querySelectorAll(`.${CLASS.errorDiv}`)[0];
-        const errPass = document.querySelectorAll(`.${CLASS.errorDiv}`)[1];
-
-        const loginValue = loginField.value.trim();
-        const passwordValue = passwordField.value;
-
-        let notValidFields = false;
-        if (setLoginErrors(errLogin, loginValue)) {
-            notValidFields = true;
-        };
-
-        if (setPassErrors(errPass, passwordValue) || notValidFields) {
-            notValidFields = true;
-        }
-
-        if (notValidFields) {
-            return null;
-        }
-
-        loginAjax(loginValue, passwordValue);
-    });
-}
-
-/**
- *
+ * Logic for auth form errors.
  * @param {HTMLElement} errPlace -- where to place error
  * @param {string} loginValue -- value to check
- * @returns true if error is set else false
+ * @return true if error is set else false
  */
-function setLoginErrors (errPlace, loginValue) {
+function setLoginErrors(errPlace, loginValue) {
     clearField(errPlace);
 
     if (checkIsEmail(loginValue)) {
@@ -103,9 +39,9 @@ function setLoginErrors (errPlace, loginValue) {
  *
  * @param {HTMLElement} errPlace -- where to place error
  * @param {string} passwordValue -- value to check
- * @returns true if error is set else false
+ * @return true if error is set else false
  */
-function setPassErrors (errPlace, passwordValue) {
+function setPassErrors(errPlace, passwordValue) {
     clearField(errPlace);
 
     if (getPasswordError(passwordValue)) {
@@ -113,4 +49,76 @@ function setPassErrors (errPlace, passwordValue) {
         return true;
     }
     return false;
+}
+
+/**
+ * Function rendering auth form.
+ * @param {HTMLElement} parent -- where to place Login page
+ */
+export function renderLogin(parent) {
+    const form1 = new Form(parent, logFormSetup());
+    form1.render();
+
+    const loginField = parent.querySelector(`#${ID.login}`);
+    loginField.addEventListener('focusout', () => {
+        if (loginField.value === '') {
+            return;
+        }
+
+        const errLogin = document.querySelectorAll(`.${CLASS.errorDiv}`)[0];
+
+        setLoginErrors(errLogin, loginField.value.trim());
+    });
+
+    const passwordField = parent.querySelector(`#${ID.password}`);
+    passwordField.addEventListener('focusout', () => {
+        if (passwordField.value === '') {
+            return;
+        }
+
+        const errPass = document.querySelectorAll(`.${CLASS.errorDiv}`)[1];
+
+        setPassErrors(errPass, passwordField.value);
+    });
+
+    parent.getElementsByClassName(CLASS.title)[0].addEventListener('click', (e) => {
+        e.preventDefault();
+
+        redirect(sidebarConfig.feed);
+    });
+
+    parent.getElementsByClassName(CLASS.link)[0].addEventListener('click', (e) => {
+        e.preventDefault();
+
+        redirect(unAuthNavConfig.registration);
+    });
+
+    const form = parent.querySelector('.form');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const errorPlac = document.querySelector(`.${CLASS.errorDiv}`);
+        clearField(errorPlac);
+
+        const errLogin = document.querySelectorAll(`.${CLASS.errorDiv}`)[0];
+        const errPass = document.querySelectorAll(`.${CLASS.errorDiv}`)[1];
+
+        const loginValue = loginField.value.trim();
+        const passwordValue = passwordField.value;
+
+        let notValidFields = false;
+        if (setLoginErrors(errLogin, loginValue)) {
+            notValidFields = true;
+        }
+
+        if (setPassErrors(errPass, passwordValue) || notValidFields) {
+            notValidFields = true;
+        }
+
+        if (notValidFields) {
+            return null;
+        }
+
+        loginAjax(loginValue, passwordValue);
+    });
 }

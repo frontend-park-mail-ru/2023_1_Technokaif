@@ -1,50 +1,53 @@
-'use strict';
-
-export function homeSetup (items) {
+/**
+ * Function to create home setup config for template.
+ * @param items -- some data from server about tracks, artists, albums.
+ * @return {json} config -- config for template.
+ */
+export function homeSetup(items) {
     return ({
         mainPageWindowDiv: 'main-page-window',
-        tracksTitleDiv: 'tracks-titles',
+        tracksTitleDiv: 'tape__title',
         tracksTitle: 'tracks-title',
-        tracksFullList: 'tracks-show-full',
+        tracksFullList: 'tape__show-text',
 
-        tracksDiv: 'tracks',
-        trackDiv: 'track-item',
-        trackImgDiv: 'track-item-img',
-        trackImg: 'track-img',
-        trackNameDiv: 'track-name',
+        tracksDiv: 'tape__components',
+        trackDiv: 'track',
+        trackImgDiv: 'track-img',
+        trackImg: 'track__img',
+        trackNameDiv: 'track__name',
         trackIdDiv: 'track-id',
 
         innerArtistsDiv: 'inner-artists',
-        innerArtistNameDiv: 'inner-artist-name',
+        innerArtistNameDiv: 'track__artist-name',
         innerArtistIdDiv: null,
 
-        artistsTitleDiv: 'artists-titles',
+        artistsTitleDiv: 'tape__title',
         artistsTitle: 'artists-title',
-        artistsFullList: 'artists-show-full',
+        artistsFullList: 'tape__show-text',
 
-        artistsDiv: 'artists',
-        artistDiv: 'artist-item',
-        artistImgDiv: 'artist-item-img',
-        artistImg: 'artist-img',
-        artistNameDiv: 'artist-name',
+        artistsDiv: 'tape__components',
+        artistDiv: 'artist',
+        artistImgDiv: 'artist-img',
+        artistImg: 'artist__img',
+        artistNameDiv: 'artist__name',
         artistIdDiv: 'artist-id',
 
-        albumsTitleDiv: 'albums-titles',
+        albumsTitleDiv: 'tape__title',
         albumsTitle: 'albums-title',
-        albumsFullList: 'albums-show-full',
+        albumsFullList: 'tape__show-text',
 
-        albumsDiv: 'albums',
-        albumDiv: 'album-item',
-        albumImgDiv: 'album-item-img',
-        albumImg: 'album-img',
-        albumNameDiv: 'album-name',
+        albumsDiv: 'tape__components',
+        albumDiv: 'album',
+        albumImgDiv: 'album-img',
+        albumImg: 'album__img',
+        albumNameDiv: 'album__name',
         albumIdDiv: 'album-id',
-        albumDescriptionDiv: 'album-description',
+        albumDescriptionDiv: 'album__description',
 
-        defaultAlbumCover: '/static/img/album2.jpg',
-        defaultTrackCover: '/static/img/pink.jpeg',
-        defaultArtistCover: '/static/img/singer.jpg',
+        defaultAlbumCover: '/static/img/albums/gorgorod.jpg',
+        defaultTrackCover: '/static/img/tracks/pink.jpeg',
+        defaultArtistCover: '/static/img/artists/singer.jpg',
 
-        content: items
+        content: items,
     });
 }

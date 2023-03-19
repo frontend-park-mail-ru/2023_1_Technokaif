@@ -1,0 +1,35 @@
+p {
+  margin: 0;
+}
+.form__button {
+  cursor: pointer;
+  color: #333333;
+  height: 50px;
+  width: 350px;
+  font-size: 15px;
+  text-decoration: none;
+  border: 0 black solid;
+  padding: 5px 15px;
+  font-weight: 700;
+  border-radius: 25px;
+}
+.form__placement-additionall {
+  margin-bottom: 30px;
+}
+.form__hr-placement {
+  display: flex;
+  justify-content: center;
+}
+.form__hr {
+  margin: 30px 0;
+  background: rgba(242, 242, 242, 0.5);
+  width: 60%;
+  height: 0.01em;
+  display: flex;
+  justify-content: center;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
