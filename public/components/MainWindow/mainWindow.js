@@ -3,6 +3,8 @@ import { TracksComp } from '../TracksComp/TracksComp.js';
 import { AlbumsComp } from '../AlbumsComp/AlbumsComp.js';
 import templateHtml from './mainWindow.handlebars';
 import { homeSetup } from '../../pages/home/homeSetup.js';
+import { convertImgSrc } from '../../utils/functions/stringOperations.js';
+
 import './mainWindow.less';
 
 /**
@@ -31,6 +33,7 @@ export class MainWindowContent {
     render() {
         this.#parent.innerHTML = this.HTML();
         const insertBlock = this.#parent.querySelector('.main-page-window');
+
         insertBlock.innerHTML += this.#renderTracks();
         insertBlock.innerHTML += this.#renderArtists();
         insertBlock.innerHTML += this.#renderAlbums();
