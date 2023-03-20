@@ -3,6 +3,7 @@ import { TracksComp } from '../TracksComp/TracksComp.js';
 import { AlbumsComp } from '../AlbumsComp/AlbumsComp.js';
 import templateHtml from './mainWindow.handlebars';
 import { homeSetup } from '../../pages/home/homeSetup.js';
+import './mainWindow.less';
 
 /**
  * Class for main page content

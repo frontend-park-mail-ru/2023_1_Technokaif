@@ -1,4 +1,4 @@
-import './static/css/style.css';
+import './static/css/style.less';
 import { prePageRender } from './utils/functions/prePageRender.js';
 import { renderHome } from './pages/home/home.js';
 

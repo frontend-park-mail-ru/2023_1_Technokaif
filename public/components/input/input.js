@@ -1,5 +1,5 @@
 import templateHtml from './input.handlebars';
-import './input.css';
+import './input.less';
 
 /**
  * Class of input field for forms.
