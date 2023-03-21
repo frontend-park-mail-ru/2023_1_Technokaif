@@ -67,6 +67,14 @@ export function renderSignup(parent) {
 
     errorGenerate(
         Method,
+        document.getElementById(ID.email),
+        document.getElementById(ID.emailConfErr),
+        ERRORS.confirmEmail,
+        (el) => getEmailError(el, document.getElementById(ID.emailConf).value),
+    );
+
+    errorGenerate(
+        Method,
         document.getElementById(ID.password),
         document.getElementById(ID.passwordErr),
         ERRORS.password,
