@@ -62,7 +62,7 @@ app.post('/api/auth/signup', (req, res) => {
     const { lastName } = req.body;
     const { date } = req.body;
     const { sex } = req.body;
-    console.log(password, email, username, firstName);
+
     if (
         !password || !email
         || !password.match(/^\S{4,}$/)
@@ -212,5 +212,6 @@ app.get('/api/feed', (req, res) => {
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
+    // eslint-disable-next-line no-console
     console.log(`Server listening port ${port}`);
 });
