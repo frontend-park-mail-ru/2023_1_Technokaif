@@ -1,4 +1,4 @@
-import { ID_REG as ID } from '../config/id';
+import { ID_REG } from '../config/id';
 
 /**
  * Create div block with classes and apeend it to parent
@@ -42,7 +42,7 @@ export function errorGenerate(event, element, where, errorMessage, checkForError
     element.addEventListener(event, () => {
         where.innerHTML = '';
 
-        if (element.id === ID.email && where.value === '') {
+        if (element.id === ID_REG.email && where.value === '') {
             return;
         }
 

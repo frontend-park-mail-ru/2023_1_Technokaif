@@ -5,7 +5,7 @@ import {
 import { loginAjax } from '../../api/auth/loginAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
 import { ERRORS_LOG as ERRORS } from '../../utils/config/errors.js';
-import { ID_LOG as ID, CLASS_LOG as CLASS } from '../../utils/config/id.js';
+import { ID_LOG, CLASS_LOG as CLASS } from '../../utils/config/id.js';
 import { logFormSetup } from './authSetup.js';
 import { clearField } from '../../utils/functions/clearFields.js';
 import { Form } from '../../components/form/form.js';
@@ -59,7 +59,7 @@ export function renderLogin(parent) {
     const form1 = new Form(parent, logFormSetup());
     form1.render();
 
-    const loginField = parent.querySelector(`#${ID.login}`);
+    const loginField = parent.querySelector(`#${ID_LOG.login}`);
     loginField.addEventListener('focusout', () => {
         if (loginField.value === '') {
             return;
@@ -70,7 +70,7 @@ export function renderLogin(parent) {
         setLoginErrors(errLogin, loginField.value.trim());
     });
 
-    const passwordField = parent.querySelector(`#${ID.password}`);
+    const passwordField = parent.querySelector(`#${ID_LOG.password}`);
     passwordField.addEventListener('focusout', () => {
         if (passwordField.value === '') {
             return;

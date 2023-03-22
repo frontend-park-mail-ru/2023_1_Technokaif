@@ -1,4 +1,4 @@
-import { ID_REG as ID, CLASS_REG as CLASS } from '../../utils/config/id.js';
+import { ID_REG, CLASS_REG as CLASS } from '../../utils/config/id.js';
 
 /**
  * Function to create registration form setup config for template.
@@ -6,7 +6,7 @@ import { ID_REG as ID, CLASS_REG as CLASS } from '../../utils/config/id.js';
  */
 export function regFormSetup() {
     return {
-        errorTop: ID.errorTop,
+        errorTop: ID_REG.errorTop,
         errorText: 'title__error-text',
         topID: 'serverErrors',
         content: 'content',
@@ -31,9 +31,9 @@ export function regFormSetup() {
                 labelText: 'Email:',
                 placeholder: 'Your email address',
                 classInp: 'input-block__input-element',
-                id: ID.email,
+                id: ID_REG.email,
                 errorDiv: 'input-block__error-placement',
-                errorId: ID.emailErr,
+                errorId: ID_REG.emailErr,
             },
             {
                 divBeforeInput: 'input-block',
@@ -43,9 +43,9 @@ export function regFormSetup() {
                 labelText: 'Confirm Email:',
                 placeholder: 'Your email address again',
                 classInp: 'input-block__input-element',
-                id: ID.emailConf,
+                id: ID_REG.emailConf,
                 errorDiv: 'input-block__error-placement',
-                errorId: ID.emailConfErr,
+                errorId: ID_REG.emailConfErr,
             },
             {
                 divBeforeInput: 'input-block',
@@ -55,9 +55,9 @@ export function regFormSetup() {
                 labelText: 'Password:',
                 placeholder: 'Your password',
                 classInp: 'input-block__input-element',
-                id: ID.password,
+                id: ID_REG.password,
                 errorDiv: 'input-block__error-placement',
-                errorId: ID.passwordErr,
+                errorId: ID_REG.passwordErr,
             },
             {
                 divBeforeInput: 'input-block',
@@ -67,9 +67,9 @@ export function regFormSetup() {
                 labelText: 'Username:',
                 placeholder: 'Name of your account',
                 classInp: 'input-block__input-element',
-                id: ID.username,
+                id: ID_REG.username,
                 errorDiv: 'input-block__error-placement',
-                errorId: ID.usernameErr,
+                errorId: ID_REG.usernameErr,
             },
             {
                 divBeforeInput: 'input-block',
@@ -79,9 +79,9 @@ export function regFormSetup() {
                 labelText: 'Firstname:',
                 placeholder: 'Your firstname',
                 classInp: 'input-block__input-element',
-                id: ID.firstName,
+                id: ID_REG.firstName,
                 errorDiv: 'input-block__error-placement',
-                errorId: ID.firstNameErr,
+                errorId: ID_REG.firstNameErr,
             },
             {
                 divBeforeInput: 'input-block',
@@ -91,13 +91,13 @@ export function regFormSetup() {
                 labelText: 'Lastname:',
                 placeholder: 'Your lastname',
                 classInp: 'input-block__input-element',
-                id: ID.lastName,
+                id: ID_REG.lastName,
                 errorDiv: 'input-block__error-placement',
-                errorId: ID.lastNameErr,
+                errorId: ID_REG.lastNameErr,
             },
         ],
         placementClass: 'form__placement-additionall',
-        placementId: ID.placement,
+        placementId: ID_REG.placement,
         divButton: 'form__button',
         buttonType: 'submit',
         buttonClass: 'form__button',
@@ -132,7 +132,7 @@ export function sexSetup() {
                 typeInput: 'radio',
                 nameInput: 'sex',
                 classSexInput: 'reg-sex-radio',
-                id: ID.male,
+                id: ID_REG.male,
                 classLabel: 'sex__label',
                 textLabel: 'Male',
             },
@@ -141,7 +141,7 @@ export function sexSetup() {
                 typeInput: 'radio',
                 nameInput: 'sex',
                 classSexInput: 'reg-sex-radio',
-                id: ID.female,
+                id: ID_REG.female,
                 classLabel: 'sex__label',
                 textLabel: 'Female',
             },
@@ -150,7 +150,7 @@ export function sexSetup() {
                 typeInput: 'radio',
                 nameInput: 'sex',
                 classSexInput: 'reg-sex-radio',
-                id: ID.dont,
+                id: ID_REG.dont,
                 classLabel: 'sex__label',
                 textLabel: 'Other answer',
             },
@@ -166,7 +166,7 @@ export function sexSetup() {
 export function dateSetup() {
     return {
         dateMainDiv: 'date',
-        divChooseId: ID.choose,
+        divChooseId: ID_REG.choose,
         labelClass: 'date__label',
         labelText: 'Your date of birth:',
         dateChooseDiv: 'date__choose-place',
@@ -175,11 +175,11 @@ export function dateSetup() {
         dayClass: 'date__day',
         nameOfDayInput: 'nameOfDayInput',
         placeholderOfDay: 'Day',
-        idOfDay: ID.day,
+        idOfDay: ID_REG.day,
 
         divMonthClass: null,
         nameOfMonthInput: 'nameOfMonthInput',
-        idOfMonth: ID.month,
+        idOfMonth: ID_REG.month,
         selectClass: 'date__month',
         optionsDate: [
             {
@@ -248,12 +248,12 @@ export function dateSetup() {
         yearClass: 'date__year',
         nameOfYearInput: 'nameOfYearInput',
         placeholderOfYear: 'Year',
-        idOfYear: ID.year,
+        idOfYear: ID_REG.year,
         errorDate: 'input-block__error-placement',
-        errorID: ID.errorDate,
+        errorID: ID_REG.errorDate,
         errorMonth: 'input-block__error-placement',
-        errorMonthID: ID.monthErr,
+        errorMonthID: ID_REG.monthErr,
         errorYear: 'input-block__error-placement',
-        errorYearID: ID.yearErr,
+        errorYearID: ID_REG.yearErr,
     };
 }
