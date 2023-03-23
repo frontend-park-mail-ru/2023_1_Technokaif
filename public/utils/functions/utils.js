@@ -1,3 +1,5 @@
+import { ID_REG } from '../config/id';
+
 /**
  * Create div block with classes and apeend it to parent
  * @param {HTMLElement} parent -- where to place div block
@@ -39,6 +41,10 @@ export function translateOneDigitToTwo(elemToTranslate) {
 export function errorGenerate(event, element, where, errorMessage, checkForErrors) {
     element.addEventListener(event, () => {
         where.innerHTML = '';
+
+        if (element.id === ID_REG.email && where.value === '') {
+            return;
+        }
 
         if (element.value === '') {
             return;

@@ -8,7 +8,7 @@ import { redirect } from '../../modules/redirects.js';
 import { unAuthNavConfig, MONTHS, sidebarConfig } from '../../utils/config/config.js';
 import { sexSetup, regFormSetup, dateSetup } from './creationSetup.js';
 import { ERRORS_REG as ERRORS } from '../../utils/config/errors.js';
-import { ID_REG as ID, CLASS_REG as CLASS } from '../../utils/config/id.js';
+import { ID_REG, CLASS_REG as CLASS } from '../../utils/config/id.js';
 import { ERRORS_VALIDATE } from '../../utils/config/validateConf.js';
 import { Form } from '../../components/form/form.js';
 import { errorGenerate, translateOneDigitToTwo, getCheckedValueRadioButtons } from '../../utils/functions/utils.js';
@@ -51,72 +51,80 @@ export function renderSignup(parent) {
 
     errorGenerate(
         Method,
-        document.getElementById(ID.email),
-        document.getElementById(ID.emailErr),
+        document.getElementById(ID_REG.email),
+        document.getElementById(ID_REG.emailErr),
         ERRORS.email,
         (el) => getEmailError(el, el),
     );
 
     errorGenerate(
         Method,
-        document.getElementById(ID.emailConf),
-        document.getElementById(ID.emailConfErr),
+        document.getElementById(ID_REG.emailConf),
+        document.getElementById(ID_REG.emailConfErr),
         ERRORS.confirmEmail,
-        (el) => getEmailError(el, document.getElementById(ID.email).value),
+        (el) => getEmailError(el, document.getElementById(ID_REG.email).value),
     );
 
     errorGenerate(
         Method,
-        document.getElementById(ID.password),
-        document.getElementById(ID.passwordErr),
+        document.getElementById(ID_REG.email),
+        document.getElementById(ID_REG.emailConfErr),
+        ERRORS.confirmEmail,
+        (el) => getEmailError(el, document.getElementById(ID_REG.emailConf).value),
+    );
+
+    errorGenerate(
+        Method,
+        document.getElementById(ID_REG.password),
+        document.getElementById(ID_REG.passwordErr),
         ERRORS.password,
         getPasswordError,
     );
 
     errorGenerate(
         Method,
-        document.getElementById(ID.firstName),
-        document.getElementById(ID.firstNameErr),
+        document.getElementById(ID_REG.firstName),
+        document.getElementById(ID_REG.firstNameErr),
         ERRORS.firstName,
         getNameError,
     );
 
     errorGenerate(
         Method,
-        document.getElementById(ID.lastName),
-        document.getElementById(ID.lastNameErr),
+        document.getElementById(ID_REG.lastName),
+        document.getElementById(ID_REG.lastNameErr),
         ERRORS.lastName,
         getNameError,
     );
 
     errorGenerate(
         Method,
-        document.getElementById(ID.username),
-        document.getElementById(ID.usernameErr),
+        document.getElementById(ID_REG.username),
+        document.getElementById(ID_REG.usernameErr),
         ERRORS.username,
         getUsernameError,
     );
 
     errorGenerate(
         Method,
-        document.getElementById(ID.month),
-        document.getElementById(ID.monthErr),
+        document.getElementById(ID_REG.month),
+        document.getElementById(ID_REG.monthErr),
         ERRORS.month,
         getMonthError,
     );
 
     errorGenerate(
         Method,
-        document.getElementById(ID.day),
-        document.getElementById(ID.errorDate),
+        document.getElementById(ID_REG.day),
+        document.getElementById(ID_REG.errorDate),
         ERRORS.day,
         getDayError,
     );
 
     errorGenerate(
         Method,
-        document.getElementById(ID.year),
-        document.getElementById(ID.yearErr),
+        document.getElementById(ID_REG.year),
+        document.getElementById(ID_REG.yearErr),
         ERRORS.year,
         getYearError,
     );
@@ -142,15 +150,15 @@ export function renderSignup(parent) {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const email = document.getElementById(ID.email).value.trim();
-        const confEmail = document.getElementById(ID.emailConf).value.trim();
-        const password = document.getElementById(ID.password).value;
-        const username = document.getElementById(ID.username).value;
-        const firstName = document.getElementById(ID.firstName).value.trim();
-        const lastName = document.getElementById(ID.lastName).value.trim();
-        const monthInput = document.getElementById(ID.month).value;
-        const day = document.getElementById(ID.day).value;
-        const year = document.getElementById(ID.year).value;
+        const email = document.getElementById(ID_REG.email).value.trim();
+        const confEmail = document.getElementById(ID_REG.emailConf).value.trim();
+        const password = document.getElementById(ID_REG.password).value;
+        const username = document.getElementById(ID_REG.username).value;
+        const firstName = document.getElementById(ID_REG.firstName).value.trim();
+        const lastName = document.getElementById(ID_REG.lastName).value.trim();
+        const monthInput = document.getElementById(ID_REG.month).value;
+        const day = document.getElementById(ID_REG.day).value;
+        const year = document.getElementById(ID_REG.year).value;
 
         const sexChooseButton = document.getElementsByName('sex');
         const gender = getCheckedValueRadioButtons(sexChooseButton);
@@ -168,15 +176,15 @@ export function renderSignup(parent) {
             ...gender,
         );
 
-        const errorEmail = document.getElementById(ID.emailErr);
-        const errorConfEmail = document.getElementById(ID.emailConfErr);
-        const errorPassword = document.getElementById(ID.passwordErr);
-        const errorFirstName = document.getElementById(ID.firstNameErr);
-        const errorLastName = document.getElementById(ID.lastNameErr);
-        const errorUsername = document.getElementById(ID.usernameErr);
-        const errorDay = document.getElementById(ID.errorDate);
-        const errorMonth = document.getElementById(ID.monthErr);
-        const errorYear = document.getElementById(ID.yearErr);
+        const errorEmail = document.getElementById(ID_REG.emailErr);
+        const errorConfEmail = document.getElementById(ID_REG.emailConfErr);
+        const errorPassword = document.getElementById(ID_REG.passwordErr);
+        const errorFirstName = document.getElementById(ID_REG.firstNameErr);
+        const errorLastName = document.getElementById(ID_REG.lastNameErr);
+        const errorUsername = document.getElementById(ID_REG.usernameErr);
+        const errorDay = document.getElementById(ID_REG.errorDate);
+        const errorMonth = document.getElementById(ID_REG.monthErr);
+        const errorYear = document.getElementById(ID_REG.yearErr);
         const errorSex = document.getElementsByClassName('error-gender')[0];
 
         if (errors.length !== 0) {

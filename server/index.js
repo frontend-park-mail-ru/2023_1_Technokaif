@@ -103,6 +103,7 @@ app.get('/api/feed', (req, res) => {
                 {
                     name: 'Там где нас нет',
                     id: 1,
+                    cover: '/artists/instasamka.jpeg',
                     artists: [
                         {
                             name: 'Oxxxxy',
@@ -136,6 +137,7 @@ app.get('/api/feed', (req, res) => {
                     name: 'Горгород',
                     description: 'Известный артист читает известные треки',
                     id: 1,
+                    cover: '/artists/instasamka.jpeg',
                     artists: [
                         {
                             name: 'Oxxxxy',
@@ -147,8 +149,8 @@ app.get('/api/feed', (req, res) => {
             artists: [
                 {
                     name: 'Oxxxxy',
-                    cover: '/artists/oxxxymiron.jpg',
                     id: 5,
+                    cover: '/artists/instasamka.jpeg',
                 },
                 {
                     name: 'Oxxxxy',

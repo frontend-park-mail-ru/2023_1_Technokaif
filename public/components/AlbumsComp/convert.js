@@ -1,6 +1,5 @@
 import { convertImgSrc } from '../../utils/functions/stringOperations.js';
 
-// todo jsdoc
 /**
  *
  */

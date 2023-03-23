@@ -1,4 +1,4 @@
-import { ID_LOG as ID, CLASS_LOG as CLASS } from '../../utils/config/id.js';
+import { ID_LOG, CLASS_LOG as CLASS } from '../../utils/config/id.js';
 
 /**
  * Function to create login form setup config for template.
@@ -12,7 +12,7 @@ export function logFormSetup() {
         content: 'content',
         formHeader: 'header',
         title: CLASS.title,
-        logoSrc: '/static/svg/logo.svg',
+        logoSrc: '/static/svg/whiteLogo.svg',
 
         titleClass: 'title__name',
         titleName: 'Fluire',
@@ -30,7 +30,7 @@ export function logFormSetup() {
                 labelText: 'Login:',
                 placeholder: 'Your username or email',
                 classInp: CLASS.classInp,
-                id: ID.login,
+                id: ID_LOG.login,
                 errorDiv: CLASS.errorDiv,
                 errorId: null,
             },
@@ -42,7 +42,7 @@ export function logFormSetup() {
                 labelText: 'Password:',
                 placeholder: 'Your password',
                 classInp: CLASS.classInp,
-                id: ID.password,
+                id: ID_LOG.password,
                 errorDiv: CLASS.errorDiv,
                 errorId: null,
             },
