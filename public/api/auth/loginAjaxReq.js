@@ -1,7 +1,7 @@
 import { sidebarConfig } from '../../utils/config/config.js';
 import { redirect } from '../../modules/redirects.js';
 import { PATH } from '../../utils/config/urls.js';
-import { Ajax } from '../../modules/ajax.js';
+import Ajax from '../../modules/Ajax';
 
 /**
  * Api-oriented login function.
@@ -9,8 +9,7 @@ import { Ajax } from '../../modules/ajax.js';
  * @param {string} password Password argument, that wll be sent to server.
  */
 export function loginAjax(login, password) {
-    const AjaxReq = new Ajax();
-    AjaxReq.post({
+    Ajax.post({
         url: PATH.login,
         body: { username: login, password },
         resolve: (data) => {

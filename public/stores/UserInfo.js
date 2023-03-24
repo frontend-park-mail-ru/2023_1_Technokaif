@@ -37,7 +37,7 @@ export class UserInfo {
      * @param {JSON} action
      */
     dispatch(action) {
-        switch (action.name) {
+        switch (action.type) {
         default:
         }
     }

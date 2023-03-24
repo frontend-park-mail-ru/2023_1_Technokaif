@@ -8,7 +8,7 @@ const noop = () => {};
 /**
  * Requests class for all server-api request work.
  */
-export class Ajax {
+class Ajax {
     /**
      * Get data from server
      * @param {string, function} url -- url where Get method is used
@@ -71,3 +71,5 @@ export class Ajax {
             });
     }
 }
+
+export default new Ajax();

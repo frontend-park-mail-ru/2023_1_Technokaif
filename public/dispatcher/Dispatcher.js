@@ -1,7 +1,7 @@
 /**
  * Object to send all actions to stores
  */
-export class Dispatcher {
+class Dispatcher {
     /**
      * Bool. If Dispatcher send actions -- isDispatching = true, else false
      */
