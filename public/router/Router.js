@@ -2,6 +2,10 @@
  * Class for routing urls in app.
  */
 class Router {
+    /**
+     * Construct a router
+     * @param routes
+     */
     constructor(routes) {
         this.routes = routes;
         this.currentRoute = null;
@@ -11,6 +15,9 @@ class Router {
         window.addEventListener('popstate', this.onRouteChange);
     }
 
+    /**
+     * Event listener.
+     */
     onRouteChange() {
         const path = window.location.pathname;
         const route = this.routes.find((r) => r.path === path);
@@ -22,6 +29,10 @@ class Router {
         }
     }
 
+    /**
+     * Passing transmission from one page to another.
+     * @param path
+     */
     navigateTo(path) {
         this.history.pushState(null, null, path);
         this.onRouteChange();
