@@ -1,8 +1,7 @@
 import IStore from './IStore';
-import ActionTypes from '../actions/ActionTypes';
 
 /**
- * Store for
+ * Store for components.
  */
 class ComponentsStore extends IStore {
     /**
@@ -12,18 +11,31 @@ class ComponentsStore extends IStore {
         super('ComponentsStore');
     }
 
+    /**
+     * Function to check the existence of element.
+     * @param elementName
+     * @returns {boolean}
+     */
     checkElementExist(elementName) {
-        return document.querySelector(elementName);
+        return document.querySelector(elementName) !== null;
     }
 
+    /**
+     * Function to check position to place element.
+     * @param elementName
+     * @returns {Element}
+     */
     checkWhereToPlace(elementName) {
         switch (elementName) {
         case 'js__navbar':
-            return document.querySelector();
+            return document.querySelector('.cont');
         case 'js__sidebar':
-            break;
+            return document.querySelector('.main-page-window__factBody');
         case 'js__main-page-window':
-            break;
+            return document.querySelector('#main');
+        default:
+            console.error('position to place element by name', elementName, 'not found');
+            return document.querySelector('#root');
         }
     }
 }

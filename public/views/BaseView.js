@@ -1,7 +1,7 @@
 /**
  * Base View class to handle render functions.
  */
-class BaseView {
+export default class BaseView {
     #parent;
 
     #config;

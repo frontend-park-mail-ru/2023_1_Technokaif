@@ -1,3 +1,5 @@
+import BaseView from './BaseView';
+
 /**
  * Class for feed page view.
  */
