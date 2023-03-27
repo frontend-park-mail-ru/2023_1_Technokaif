@@ -1,14 +1,16 @@
 <div class="{{coverMainClass}}">
     <div class="{{imgDiv}}">
-        <img class="{{imgClass}}" src="{{#convert}}{{this.imgSrc}}{{/convert}}">
+        <img class="{{imgClass}}" src="{{#convert}}{{imgSrc}}{{/convert}}">
     </div>
 
     <div class="{{titleTextDiv}}">
         <p>{{titleText}}</p>
     </div>
-    <div class="{{descriptionDiv}}">
-            <p>{{descriptionText}}</p>
-    </div>
+    {{#if descriptionDiv}}
+        <div class="{{descriptionDiv}}">
+                <p>{{descriptionText}}</p>
+        </div>
+    {{/if}}
 
     {{#if footerMainDiv}}
         <div class="{{footerMainDiv}}">

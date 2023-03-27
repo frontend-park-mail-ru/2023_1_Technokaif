@@ -5,48 +5,29 @@
  */
 export function homeSetup(items) {
     return ({
-        mainPageWindowDiv: 'main-page-window',
-        tracksTitleDiv: 'tape__title',
-        tracksTitle: 'tracks-title',
-        tracksFullList: 'tape__show-text',
+        tapeDiv: 'tape__title',
+        titleMainDivClass: '',
+        titleOfTrackClass: '',
+        // titleText: '',
+        fullListClass: 'tape__show-text',
+        fullListText: 'Show all',
 
-        tracksDiv: 'tape__components',
-        trackDiv: 'track',
-        trackImgDiv: 'track-img',
-        trackImg: 'track__img',
-        trackNameDiv: 'track__name',
-        trackIdDiv: 'track-id',
+        contentDivClass: 'tape__components',
 
-        innerArtistsDiv: 'inner-artists',
-        innerArtistNameDiv: 'track__artist-name',
-        innerArtistIdDiv: null,
+        coverMainClass: 'component',
+        imgDiv: 'component__img-div',
+        // imgSrc: '',
+        imgClass: 'component__img',
 
-        artistsTitleDiv: 'tape__title',
-        artistsTitle: 'artists-title',
-        artistsFullList: 'tape__show-text',
+        titleTextDiv: 'component__title',
+        // titleText: '',
 
-        artistsDiv: 'tape__components',
-        artistDiv: 'artist',
-        artistImgDiv: 'artist-img',
-        artistImg: 'artist__img',
-        artistNameDiv: 'artist__name',
-        artistIdDiv: 'artist-id',
+        descriptionDiv: 'component__description',
+        // descriptionText: '',
 
-        albumsTitleDiv: 'tape__title',
-        albumsTitle: 'albums-title',
-        albumsFullList: 'tape__show-text',
-
-        albumsDiv: 'tape__components',
-        albumDiv: 'album',
-        albumImgDiv: 'album-img',
-        albumImg: 'album__img',
-        albumNameDiv: 'album__name',
-        albumIdDiv: 'album-id',
-        albumDescriptionDiv: 'album__description',
-
-        defaultAlbumCover: '/static/img/albums/gorgorod.jpg',
-        defaultTrackCover: '/static/img/tracks/pink.jpeg',
-        defaultArtistCover: '/static/img/artists/singer.jpg',
+        footerMainDiv: '',
+        footerElementDiv: 'component__description',
+        // footerElementText: '',
 
         content: items,
     });
