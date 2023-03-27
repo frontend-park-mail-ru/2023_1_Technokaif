@@ -11,26 +11,23 @@ class IStore extends EventEmitter {
      */
     #state;
 
+    #nameOfStore;
+
     /**
      * Construct a Store.
      */
-    constructor() {
+    constructor(name) {
         super();
-        Dispatcher.register(this.registerToActions.bind(this));
+        Dispatcher.register(this.dispatch.bind(this));
         this.#state = [];
+        this.#nameOfStore = name;
     }
 
     /** Switches over the action's type when an action is dispatched.
      *
-     * @param action
      */
-    registerToActions(action) {
-        switch (action.type) {
-        case ActionTypes.ADD_NEW_ITEM:
-            this.addNewItem(action.payload);
-            break;
-        default:
-        }
+    dispatch() {
+
     }
 
     /** Adds a new item to the list and emits a CHANGED event.
@@ -40,7 +37,7 @@ class IStore extends EventEmitter {
     addNewItem(item) {
         item.id = this.#state.length;
         this.#state.push(item);
-        this.emit(CHANGE);
+        this.jsEmit(CHANGE);
     }
 
     /** Returns the current store's state.
@@ -48,7 +45,10 @@ class IStore extends EventEmitter {
      * @returns {*}
      */
     getAllItems() {
-        return this.#state;
+        return {
+            name: this.#nameOfStore,
+            state: this.#state,
+        };
     }
 
     /** Hooks a React component's callback to the CHANGED event.
@@ -57,7 +57,7 @@ class IStore extends EventEmitter {
      * @param actionName
      */
     addChangeListener(callback, actionName = 'CHANGE') {
-        this.on(actionName, callback);
+        this.emitterAddListener(actionName, callback);
     }
 
     /** Removes the listener from the CHANGED event.
@@ -66,7 +66,7 @@ class IStore extends EventEmitter {
      * @param actionName
      */
     removeChangeListener(callback, actionName = 'CHANGE') {
-        this.removeListener(actionName, callback);
+        this.emitterRemoveListener(actionName, callback);
     }
 }
 

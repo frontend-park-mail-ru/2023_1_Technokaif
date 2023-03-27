@@ -16,7 +16,7 @@ class EventEmitter {
      * @param event
      * @param callback
      */
-    addListener(event, callback) {
+    emitterAddListener(event, callback) {
         if (!this.#events[event]) {
             this.#events[event] = [];
         }
@@ -29,7 +29,7 @@ class EventEmitter {
      * @param event
      * @param callback
      */
-    removeListener(event, callback) {
+    emitterRemoveListener(event, callback) {
         if (this.#events[event]) {
             this.#events[event] = this.#events[event].filter((cb) => cb !== callback);
         }
@@ -40,7 +40,7 @@ class EventEmitter {
      * @param event
      * @param args
      */
-    emit(event, ...args) {
+    jsEmit(event, ...args) {
         if (this.#events[event]) {
             this.#events[event].forEach((callback) => callback(...args));
         }
