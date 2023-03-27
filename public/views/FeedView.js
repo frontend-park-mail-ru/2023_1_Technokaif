@@ -30,15 +30,15 @@ class FeedView extends BaseView {
      */
     render() {
         super.render();
-        #renderNavbar();
-        #renderMenu();
-
+        this.#renderMenu();
+        this.#renderNavbar();
+        this.#renderFooter();
 
         this.callEventListener();
     }
 
     #renderNavbar() {
-        if () {
+        if (checkElementExist('js__navbar')) {
 
         }
     }
@@ -51,15 +51,15 @@ class FeedView extends BaseView {
 
     }
 
-    #renderTracksComp() {
+    #renderTracksTape() {
 
     }
 
-    #renderArtistsComp() {
+    #renderArtistsTape() {
 
     }
 
-    #renderAlbumsComp() {
+    #renderAlbumsTape() {
 
     }
 }

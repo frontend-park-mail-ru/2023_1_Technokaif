@@ -5,10 +5,23 @@ import IStore from './IStore';
  */
 class ComponentsStore extends IStore {
     /**
+     * JSON
+     * page: 'nameOfPage',
+     * need: [namesOfElements],
+     */
+    #whatNeedForPage;
+
+    /**
+     * Array of elements on page
+     */
+    #whatExistOnPage;
+
+    /**
      * Constructor for ComponentsStore.
      */
     constructor() {
         super('ComponentsStore');
+        this.#whatExistOnPage = [];
     }
 
     /**
@@ -37,6 +50,46 @@ class ComponentsStore extends IStore {
             console.error('position to place element by name', elementName, 'not found');
             return document.querySelector('#root');
         }
+    }
+
+    clearAllElements() {
+        this.#whatExistOnPage = [];
+    }
+
+    addElementOnPage(element) {
+        this.#whatExistOnPage.push(element);
+    }
+
+    /**
+     * Register page and it's requirement
+     * @param {string} nameOfPage - name of Page
+     * @param {Array} requiredElements - json with names of needed
+     */
+    register(nameOfPage, requiredElements) {
+        this.#whatNeedForPage.push({ nameOfPage, requiredElements });
+    }
+
+    checkElementsForPage(pageName) {
+        const page = this.#whatNeedForPage.find((element) => element.page === pageName);
+
+        const notExist = [];
+        page.namesOfElements.forEach((element) => {
+            const existOnPage = this.#whatExistOnPage.find(element);
+
+            if (!existOnPage) {
+                notExist.push(element);
+            }
+        });
+
+        // тут emit с тем, что не существует
+        // exapmle of js
+        /*
+            {
+                nameOfPage: name,
+                notExist: [strigns]
+            }
+
+        */
     }
 }
 
