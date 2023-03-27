@@ -1,3 +1,4 @@
+import { BaseView } from '../../views/BaseView';
 import templateHtml from './header.handlebars';
 
 /**
@@ -6,40 +7,13 @@ import templateHtml from './header.handlebars';
  * @param {HTMLElement} parent - Element where to render.
  * @param {json} config - Config with json fields.
  */
-export class Header {
-    #parent;
-
-    #config;
-
+export class Header extends BaseView {
     /**
      * Create Header component. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place Album
      * @param {object} config -- what config use to compule template
     */
     constructor(parent, config) {
-        this.#parent = parent;
-        this.#config = config;
-    }
-
-    /**
-     * @description render Album in parent
-    */
-    render() {
-        const template1 = templateHtml;
-        this.#parent.innerHTML = template1(this.#config);
-    }
-
-    // todo delete cfg input in html https://trello.com/c/H4uuLvUH
-    /**
-     * If cfg is given then return compiled template with cfg else with inner config
-     * @param {object} cfg -- external configure object
-     * @returns Html string of template to place
-    */
-    HTML(cfg = '') {
-        const template1 = templateHtml;
-        if (cfg === '') {
-            return templateHtml(this.#config);
-        }
-        return template1(cfg);
+        super(parent, config, templateHtml);
     }
 }
