@@ -5,34 +5,29 @@
  */
 export function homeSetup(items) {
     return ({
-        mainPageWindowDiv: 'main-page-window',
-        tracksTitleDiv: 'tape__title',
-        tracksTitle: 'tracks-title',
-        tracksFullList: 'tape__show-text',
+        tapeDiv: 'tape__title',
+        titleMainDivClass: '',
+        titleOfTrackClass: '',
+        // titleText: '',
+        fullListClass: 'tape__show-text',
+        fullListText: 'Show all',
 
-        coverMainClass: 'tape__components',
-        trackDiv: 'track',
-        imgDiv: 'track-img',
-        imgClass: 'track__img',
-        titleTextDiv: 'track__name',
-        trackIdDiv: 'track-id',
+        contentDivClass: 'tape__components',
 
-        footerMainDiv: 'inner-artists',
-        footerElementDiv: 'track__artist-name',
-        innerArtistIdDiv: null,
+        coverMainClass: 'component',
+        imgDiv: 'component__img-div',
+        // imgSrc: '',
+        imgClass: 'component__img',
 
-        artistsTitleDiv: 'tape__title',
-        artistsTitle: 'artists-title',
-        artistsFullList: 'tape__show-text',
+        titleTextDiv: 'component__title',
+        // titleText: '',
 
-        artistDiv: 'artist',
-        artistIdDiv: 'artist-id',
+        descriptionDiv: 'component__description',
+        // descriptionText: '',
 
-        albumsTitle: 'albums-title',
-        albumsFullList: 'tape__show-text',
-
-        albumDiv: 'album',
-        albumIdDiv: 'album-id',
+        footerMainDiv: '',
+        footerElementDiv: 'component__description',
+        // footerElementText: '',
 
         content: items,
     });

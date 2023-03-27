@@ -1,8 +1,5 @@
 @import '../../static/css/constants.less';
 
-.tape {
-
-}
 
 .tape__title {
     align-items: center;
@@ -22,7 +19,7 @@
     margin: 0 40px;
 }
 
-.track, .album, .artist{
+.component{
     width: 175px;
     overflow: hidden;
     display: flex;
@@ -34,13 +31,13 @@
     border-radius: @small-radius;
 }
 
-.track__img, .album__img, .artist__img {
+.component__img {
     height: 175px;
     width: 175px;
     border-radius: @small-radius;
 }
 
-.track__name, .artist__name, .album__name {
+.component__title {
     margin-top: 10px;
     word-wrap: break-word;
     font-style: normal;
@@ -52,7 +49,7 @@
     color: @main-color;
 }
 
-.track__artist-name, .album__description {
+.component__description {
     line-height: 179.2%;
     font-size: @artist-name-font;
     font-weight: @chars-weight;
