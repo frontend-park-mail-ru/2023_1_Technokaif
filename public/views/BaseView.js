@@ -53,17 +53,7 @@ export class BaseView {
     #renderComponentsList(list) {
         list.forEach((componentName) => {
             const parent = componentsStore.checkWhereToPlace(componentName);
-            switch (componentName) {
-            case componentsNames.NAVBAR:
-                this.#renderNavbar(parent);
-                break;
-            case componentsNames.SIDEBAR:
-                this.#renderSidebar(parent);
-                break;
-            default:
-                console.error('Component by name', componentName, 'not found');
-                return document.querySelector('#root');
-            }
+            if (StaticRange.)
         });
     }
 

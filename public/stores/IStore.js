@@ -67,7 +67,7 @@ class IStore extends EventEmitter {
      * Function to set new state.
      * @param newState
      */
-    setState(newState) {
+    set state(newState) {
         this.#state = newState;
     }
 
@@ -75,7 +75,7 @@ class IStore extends EventEmitter {
      *
      * @returns {*}
      */
-    getState() {
+    get state() {
         return {
             name: this.#nameOfStore,
             state: this.#state,
