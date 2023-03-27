@@ -12,6 +12,7 @@ class BaseView {
      * @param {object} config -- what config use to compile template
      */
     constructor(parent, config) {
+        this.#parent = parent;
         this.#config = config;
     }
 

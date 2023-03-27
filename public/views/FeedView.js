@@ -28,13 +28,17 @@ class FeedView extends BaseView {
      */
     render() {
         super.render();
-        // checks and renders
+        #renderNavbar();
+        #renderMenu();
+
 
         this.callEventListener();
     }
 
     #renderNavbar() {
+        if () {
 
+        }
     }
 
     #renderMenu() {
