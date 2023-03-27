@@ -2,7 +2,7 @@ import IStore from './IStore';
 
 import {
     getUsernameError, getPasswordError, getDayError, getYearError, getMonthError, getEmailError,
-    getSexError, getNameError,
+    getSexError, getNameError, checkIsEmail,
 } from '../utils/functions/validation.js';
 
 /**
@@ -82,8 +82,18 @@ class UserInfoStore extends IStore {
             super.chagneFieldInState('lastName', value);
             this.#getLastNameError();
             break;
-        case 'all':
+        case 'all_reg':
             this.#checkForAllErrors(value);
+            break;
+        case 'all_log':
+            this.#checkForErrorsInAuthorization(value);
+            break;
+        case 'log_username':
+            super.chagneFieldInState('login', value);
+            this.#getLoginError();
+            break;
+        case 'log_password':
+            this.#getPasswordError(value);
             break;
         default:
         }
@@ -205,11 +215,43 @@ class UserInfoStore extends IStore {
             }
         });
 
+        let status = 'OK';
         if (isErrorsExist) {
-            this.#emitResponse('all');
+            status = 'BAD';
         }
 
-        this.jsEmit('VALIDATE_ALL', isErrorsExist);
+        this.jsEmit('VALIDATE_ALL', status);
+    }
+
+    /**
+     * Check if field in authorization is correct
+     * @param {string} password - value of password
+     */
+    #checkForErrorsInAuthorization(password) {
+        this.#getLoginError();
+        this.#getPasswordError(password);
+
+        const errors = super.getValueInState('errors');
+        if (errors.login || errors.password) {
+            jsEmit('VALIDATE_ALL', 'BAD');
+        } else {
+            jsEmit('VALIDATE_ALL', 'OK');
+        }
+    }
+
+    /**
+     * Check if login is incorrect and emit signal if incorrect
+     */
+    #getLoginError() {
+        const login = super.getValueInState('login');
+        let errors;
+        if (checkIsEmail(login)) {
+            errors = getEmailError(login, login);
+        } else {
+            errors = getUsernameError(login);
+        }
+
+        this.#emitResponse('login', errors);
     }
 
     /**
