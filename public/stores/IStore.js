@@ -7,6 +7,7 @@ import EventEmitter from './EventEmitter';
 class IStore extends EventEmitter {
     /**
      * JSON object that store User information
+     * nameOfField
      */
     #state;
 
@@ -44,17 +45,6 @@ class IStore extends EventEmitter {
         }
     }
 
-    /** Returns the current store's state.
-     *
-     * @returns {*}
-     */
-    getState() {
-        return {
-            name: this.#nameOfStore,
-            state: this.#state,
-        };
-    }
-
     /** Hooks a React component's callback to the CHANGED event.
      *
      * @param callback
@@ -79,6 +69,35 @@ class IStore extends EventEmitter {
      */
     setState(newState) {
         this.#state = newState;
+    }
+
+    /** Returns the current store's state.
+     *
+     * @returns {*}
+     */
+    getState() {
+        return {
+            name: this.#nameOfStore,
+            state: this.#state,
+        };
+    }
+
+    /**
+     * Change field in state to new value or create field
+     * @param {string} nameOfField - name of field
+     * @param {*} value - value of field
+     */
+    chagneFieldInState(nameOfField, value) {
+        this.#state[nameOfField] = value;
+    }
+
+    /**
+     * Return value of field
+     * @param {string} nameOfField - name of field in state
+     * @returns {*} - value of this field
+     */
+    getValueInState(nameOfField) {
+        return this.#state[nameOfField];
     }
 }
 
