@@ -5,23 +5,33 @@ import { homeSetup } from '../../pages/home/homeSetup.js';
 import './mainWindow.less';
 
 /**
- * Class for main page content
- * @param {HTMLElement} parent -- where to place Home page
- * @param {*} items -- content of page
+ * Create MainWindow content with tapes
  */
 export class MainWindowContent {
+    /**
+     * Parent where to render
+     */
     #parent;
 
+    /**
+     * Config to use in tapes
+     */
     #configs;
+
+    /**
+     * Config to use in mainWindow
+     */
+    #config;
 
     /**
      * Create MainWindowContent component. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place MainWindowContent
      * @param {object} config -- what config use to compule template
      */
-    constructor(parent, configs) {
+    constructor(parent, configForMenu, configsForElements) {
         this.#parent = parent;
-        this.#configs = configs;
+        this.#configs = configsForElements;
+        this.#config = configForMenu;
     }
 
     /**
@@ -31,10 +41,9 @@ export class MainWindowContent {
         this.#parent.innerHTML = this.HTML();
         const insertBlock = this.#parent.querySelector('.main-page-window');
 
-        insertBlock.innerHTML = '';
-        this.#configs.forEach(configForInsertElement => {
-            const tape = new Tape(insertBlock, configForInsertElement)
-            insertBlock.innerHTML+= tape.HTML();
+        this.#configs.forEach((configForInsertElement) => {
+            const tape = new Tape(insertBlock, configForInsertElement);
+            insertBlock.innerHTML += tape.HTML();
         });
     }
 
@@ -46,8 +55,6 @@ export class MainWindowContent {
     HTML() {
         return templateHtml(this.#config);
     }
-
-    
 }
 
 /**
