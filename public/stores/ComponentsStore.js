@@ -24,6 +24,12 @@ class ComponentsStore extends IStore {
         this.#whatExistOnPage = [];
     }
 
+    dispatch(action) {
+        super.dispatch();
+
+        switch ()
+    }
+
     /**
      * Function to check the existence of element.
      * @param elementName

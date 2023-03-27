@@ -1,11 +1,11 @@
 import './tape.less';
 import templateHTML from './tape.handlebars';
-import { BaseView } from '../../views/BaseView';
+import { BaseComponent } from '../BaseComponent';
 
 /**
  * Tape for elements
  */
-export class Tape extends BaseView {
+export class Tape extends BaseComponent {
     /**
      * Create Track component. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place Track

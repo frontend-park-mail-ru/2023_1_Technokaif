@@ -1,5 +1,5 @@
-import { BaseView } from '../../views/BaseView';
 import templateHtml from './sex.handlebars';
+import { BaseComponent } from '../BaseComponent';
 
 /**
  * Class for gender choose fields in forms.
@@ -7,7 +7,7 @@ import templateHtml from './sex.handlebars';
  * @param {HTMLElement} parent - Element where to render.
  * @param {json} config - Config with json fields.
  */
-export class Sex extends BaseView {
+export class Sex extends BaseComponent {
     #parent;
 
     #config;

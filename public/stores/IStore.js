@@ -1,5 +1,4 @@
 import Dispatcher from '../dispatcher/Dispatcher.js';
-import ActionTypes from '../actions/ActionTypes';
 import EventEmitter from './EventEmitter';
 
 /**
@@ -33,11 +32,15 @@ class IStore extends EventEmitter {
     /** Adds a new item to the list and emits a CHANGED event.
      *
      * @param item
+     * @param eventName
      */
-    addNewItem(item) {
+    addNewItem(item, eventName = null) {
         item.id = this.#state.length;
         this.#state.push(item);
-        this.jsEmit(CHANGE);
+
+        if (eventName !== null) {
+            this.jsEmit(eventName);
+        }
     }
 
     /** Returns the current store's state.

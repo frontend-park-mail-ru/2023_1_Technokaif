@@ -1,5 +1,5 @@
-import { BaseView } from '../../views/BaseView';
 import templateHtml from './formFooter.handlebars';
+import { BaseComponent } from '../BaseComponent';
 
 /**
  * Class for next to form content(buttons...).
@@ -7,7 +7,7 @@ import templateHtml from './formFooter.handlebars';
  * @param {HTMLElement} parent - Element where to render.
  * @param {json} config - Config with json fields.
  */
-export class FormFooter extends BaseView {
+export class FormFooter extends BaseComponent {
     /**
      * Create FormFooter component. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place FormFooter
