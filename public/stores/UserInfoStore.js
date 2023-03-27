@@ -35,12 +35,28 @@ class UserInfoStore extends IStore {
             this.#validationDispatch(action.nameOfField, action.content);
             break;
             // todo check for message 'OK' or error
+            // resolved
         case ActionTypes.REGISTER_STATUS:
             // action.message
+            if (action.message !== 'OK') {
+                this.jsEmit('REGISTER_STATUS', action.message);
+            } else {
+                this.jsEmit('REGISTER_STATUS');
+            }
             break;
         case ActionTypes.LOGIN_STATUS:
+            if (action.message !== 'OK') {
+                this.jsEmit('LOGIN_STATUS', action.message);
+            } else {
+                this.jsEmit('LOGIN_STATUSS');
+            }
             break;
         case ActionTypes.LOGOUT_STATUS:
+            if (action.message !== 'OK') {
+                this.jsEmit('LOGOUT_STATUS', action.message);
+            } else {
+                this.jsEmit('LOGOUT_STATUS');
+            }
             break;
         default:
             console.error('undefined userInfo store action:', action.type);
@@ -108,6 +124,7 @@ class UserInfoStore extends IStore {
             break;
         default:
         }
+        this.jsEmit('CHANGE_FIELD'.concat(nameOfField));
     }
 
     /**
