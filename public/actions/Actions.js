@@ -13,6 +13,22 @@ const Actions = {
         });
     },
 
+    validationField(nameOfField, content) {
+        Dispatcher.dispatch({
+            type: ActionTypes.VALIDATION_FIELD,
+            nameOfField,
+            content,
+        });
+    },
+
+    validationResponse(nameOfField, status) {
+        Dispatcher.dispatch({
+            type: ActionTypes.VALIDATION,
+            nameOfField,
+            status,
+        });
+    },
+
 };
 
 export default Actions;

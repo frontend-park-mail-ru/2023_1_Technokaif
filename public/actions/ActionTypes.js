@@ -3,6 +3,10 @@ const ActionTypes = {
     LOGIN: 'LOGIN',
     REGISTER: 'REGISTER',
     INIT_COMPONENTS: 'INIT_COMPONENTS',
+
+    VALIDATION_FIELD: 'VALIDATION_FIELD',
+    SUBMIT_FORM: 'SUBMIT_FORM',
+    VALIDATION: 'VALIDATION',
 };
 
 export default ActionTypes;

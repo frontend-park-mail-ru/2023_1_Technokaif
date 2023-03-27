@@ -71,6 +71,15 @@ class IStore extends EventEmitter {
     removeChangeListener(callback, actionName = 'CHANGE') {
         this.emitterRemoveListener(actionName, callback);
     }
+
+    // todo think about name
+    getStatus() {
+        return this.#state;
+    }
+
+    setState(newState) {
+        this.#state = newState;
+    }
 }
 
 export default IStore;
