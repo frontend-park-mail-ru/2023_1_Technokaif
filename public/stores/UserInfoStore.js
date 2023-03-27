@@ -103,6 +103,7 @@ class UserInfoStore extends IStore {
      * Get username error
      */
     #getErrorsUsername() {
+        const username = super.getValueInState('username');
         const status = getUsernameError(username);
 
         this.#emitResponse('username', status);
@@ -122,6 +123,7 @@ class UserInfoStore extends IStore {
      * Get day error
      */
     #getDayError() {
+        const day = super.getValueInState('day');
         const status = getDayError(day);
 
         this.#emitResponse('day', status);
@@ -131,6 +133,7 @@ class UserInfoStore extends IStore {
      * Get year error
      */
     #getYearError() {
+        const year = super.getValueInState('year');
         const status = getYearError(year);
 
         this.#emitResponse('year', status);
@@ -140,6 +143,7 @@ class UserInfoStore extends IStore {
      * Get month error
      */
     #getMonthError() {
+        const month = super.getValueInState('month');
         const status = getMonthError(month);
 
         this.#emitResponse('month', status);
@@ -149,6 +153,7 @@ class UserInfoStore extends IStore {
      * Get email error
      */
     #getEmailError() {
+        const email = super.getValueInState('email');
         const status = getEmailError(email, email);
 
         this.#emitResponse('email', status);
@@ -158,6 +163,8 @@ class UserInfoStore extends IStore {
      * Get confEmail error
      */
     #getConfEmailError() {
+        const email = super.getValueInState('email');
+        const confEmail = super.getValueInState('confEmail');
         const status = getEmailError(email, confEmail);
 
         this.#emitResponse('confEmail', status);
@@ -167,7 +174,8 @@ class UserInfoStore extends IStore {
      * Get sex error
      */
     #getSexError() {
-        const status = getSexError(boxes);
+        const sex = super.getValueInState('sex');
+        const status = getSexError(sex);
 
         this.#emitResponse(username, status);
     }
@@ -176,6 +184,7 @@ class UserInfoStore extends IStore {
      * Get first name error
      */
     #getFirstNameError() {
+        const firstName = super.getValueInState('firstName');
         const status = getNameError(firstName);
 
         this.#emitResponse(firstName, status);
@@ -185,6 +194,7 @@ class UserInfoStore extends IStore {
      * Get last name error
      */
     #getLastNameError() {
+        const lastName = super.getValueInState('lastName');
         const status = getNameError(lastName);
 
         this.#emitResponse(lastName, status);
