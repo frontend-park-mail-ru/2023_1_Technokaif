@@ -1,6 +1,4 @@
-import { ArtistsComp } from '../ArtistsComp/ArtistsComp.js';
-import { TracksComp } from '../TracksComp/TracksComp.js';
-import { AlbumsComp } from '../AlbumsComp/AlbumsComp.js';
+import { Tape } from '../Tape/tape';
 import templateHtml from './mainWindow.handlebars';
 import { homeSetup } from '../../pages/home/homeSetup.js';
 
@@ -14,16 +12,16 @@ import './mainWindow.less';
 export class MainWindowContent {
     #parent;
 
-    #config;
+    #configs;
 
     /**
      * Create MainWindowContent component. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place MainWindowContent
      * @param {object} config -- what config use to compule template
      */
-    constructor(parent, config) {
+    constructor(parent, configs) {
         this.#parent = parent;
-        this.#config = config;
+        this.#configs = configs;
     }
 
     /**
@@ -33,9 +31,11 @@ export class MainWindowContent {
         this.#parent.innerHTML = this.HTML();
         const insertBlock = this.#parent.querySelector('.main-page-window');
 
-        insertBlock.innerHTML += this.#renderTracks();
-        insertBlock.innerHTML += this.#renderArtists();
-        insertBlock.innerHTML += this.#renderAlbums();
+        insertBlock.innerHTML = '';
+        this.#configs.forEach(configForInsertElement => {
+            const tape = new Tape(insertBlock, configForInsertElement)
+            insertBlock.innerHTML+= tape.HTML();
+        });
     }
 
     /**
@@ -43,41 +43,11 @@ export class MainWindowContent {
      * @param {object} cfg -- external configure object
      * @returns Html string of template to place
      */
-    HTML(cfg = '') {
-        const template1 = templateHtml;
-        if (cfg === '') {
-            return template1(this.#config);
-        }
-
-        return template1(cfg);
+    HTML() {
+        return templateHtml(this.#config);
     }
 
-    /**
-     * Render Tracks component
-     * @returns html string
-     */
-    #renderTracks() {
-        const tracks = new TracksComp(this.#parent, this.#config);
-        return tracks.HTML(this.#config);
-    }
-
-    /**
-     * Render Artists component
-     * @returns html string
-     */
-    #renderArtists() {
-        const artists = new ArtistsComp(this.#parent, this.#config);
-        return artists.HTML(this.#config);
-    }
-
-    /**
-     * Render Albums component
-     * @returns html string
-     */
-    #renderAlbums() {
-        const albums = new AlbumsComp(this.#parent, this.#config);
-        return albums.HTML(this.#config);
-    }
+    
 }
 
 /**
