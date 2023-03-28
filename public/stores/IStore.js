@@ -87,7 +87,7 @@ class IStore extends EventEmitter {
      * @param {string} nameOfField - name of field
      * @param {*} value - value of field
      */
-    chagneFieldInState(nameOfField, value) {
+    changeFieldInState(nameOfField, value) {
         this.#state[nameOfField] = value;
     }
 

@@ -28,14 +28,32 @@ const Actions = {
         });
     },
 
-    validationResponse(nameOfField, status) {
+    registerChangeState({
+        message,
+    }) {
         Dispatcher.dispatch({
-            type: ActionTypes.VALIDATION,
-            nameOfField,
-            status,
+            type: ActionTypes.REGISTER_STATUS,
+            message,
         });
     },
 
+    loginChangeState({
+        message,
+    }) {
+        Dispatcher.dispatch({
+            type: ActionTypes.LOGIN_STATUS,
+            message,
+        });
+    },
+
+    logoutChangeState({
+        message,
+    }) {
+        Dispatcher.dispatch({
+            type: ActionTypes.LOGOUT_STATUS,
+            message,
+        });
+    },
 };
 
 export default Actions;

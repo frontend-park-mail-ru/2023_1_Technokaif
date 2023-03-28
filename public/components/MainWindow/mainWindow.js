@@ -26,7 +26,8 @@ export class MainWindowContent {
     /**
      * Create MainWindowContent component. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place MainWindowContent
-     * @param {object} config -- what config use to compule template
+     * @param configForMenu
+     * @param configsForElements
      */
     constructor(parent, configForMenu, configsForElements) {
         this.#parent = parent;
@@ -49,7 +50,6 @@ export class MainWindowContent {
 
     /**
      * If cfg is given then return compiled template with cfg else with inner config
-     * @param {object} cfg -- external configure object
      * @returns Html string of template to place
      */
     HTML() {

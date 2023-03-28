@@ -1,11 +1,10 @@
 import ComponentsStore from '../stores/ComponentsStore';
-import Actions from '../actions/Actions';
 import { checkAuth } from '../utils/functions/checkAuth';
 import { authNavConfig, sidebarConfig, unAuthNavConfig } from '../utils/config/config';
 import { createDivAndInsertInParent } from '../utils/functions/utils';
 import Navbar from '../components/Navbar/Navbar';
 import Menu from '../components/Menu/Menu';
-import { prePageRender } from '../utils/functions/prePageRender';
+import { clearBars, prePageRender } from '../utils/functions/prePageRender';
 
 /**
  * Base View class to handle render functions.
@@ -21,6 +20,14 @@ export class BaseView {
      */
     constructor(name) {
         this.#viewName = name;
+    }
+
+    /**
+     * Function to get view name.
+     * @returns {string}
+     */
+    get name() {
+        return this.#viewName;
     }
 
     // todo: change function of navbar rendering. Make middleware for auth and navbar class inside
@@ -52,7 +59,7 @@ export class BaseView {
      */
     #renderComponentsList(list) {
         list.forEach((componentName) => {
-            const parent = componentsStore.checkWhereToPlace(componentName);
+            const parent = ComponentsStore.checkWhereToPlace(componentName);
             switch (componentName) {
             case componentsNames.NAVBAR:
                 this.#renderNavbar(parent);
@@ -61,8 +68,7 @@ export class BaseView {
                 this.#renderSidebar(parent);
                 break;
             default:
-                console.error('Component by name', componentName, 'not found');
-                return document.querySelector('#root');
+                break;
             }
         });
     }
@@ -71,8 +77,10 @@ export class BaseView {
      * Some logic before render.
      */
     #preRender() {
-        if (componentsStore.prePageNeed(this.#viewName)) {
+        if (ComponentsStore.prePageNeed(this.#viewName)) {
             prePageRender();
+        } else {
+            clearBars();
         }
     }
 
@@ -81,11 +89,12 @@ export class BaseView {
      */
     render() {
         this.#preRender();
+
         ComponentsStore.addChangeListener(
             this.#renderComponentsList,
             EventTypes.ON_NOT_RENDERED_ITEMS,
         );
 
-        Actions.whatRender(this.#viewName);
+        // Actions.whatRender(this.#viewName);
     }
 }

@@ -4,6 +4,7 @@ import {
     getUsernameError, getPasswordError, getDayError, getYearError, getMonthError, getEmailError,
     getSexError, getNameError, checkIsEmail,
 } from '../utils/functions/validation.js';
+import ActionTypes from '../actions/ActionTypes';
 
 /**
  * Class for user data storing.
@@ -28,11 +29,21 @@ class UserInfoStore extends IStore {
      */
     dispatch(action) {
         super.dispatch();
-        switch (action) {
-        case VALIDATION_FIELD:
+
+        switch (action.type) {
+        case ActionTypes.VALIDATION_FIELD:
             this.#validationDispatch(action.nameOfField, action.content);
             break;
+            // todo check for message 'OK' or error
+        case ActionTypes.REGISTER_STATUS:
+            // action.message
+            break;
+        case ActionTypes.LOGIN_STATUS:
+            break;
+        case ActionTypes.LOGOUT_STATUS:
+            break;
         default:
+            console.error('undefined userInfo store action:', action.type);
         }
     }
 
@@ -44,42 +55,42 @@ class UserInfoStore extends IStore {
     #validationDispatch(nameOfField, value) {
         switch (nameOfField) {
         case 'username':
-            super.chagneFieldInState('username', value);
+            super.changeFieldInState('username', value);
             this.#getErrorsUsername();
             break;
         case 'password':
             this.#getPasswordError(value);
             break;
         case 'day':
-            super.chagneFieldInState('day', value);
+            super.changeFieldInState('day', value);
             this.#getDayError();
             break;
         case 'month':
-            super.chagneFieldInState('month', value);
+            super.changeFieldInState('month', value);
             this.#getMonthError();
             break;
         case 'year':
-            super.chagneFieldInState('year', value);
+            super.changeFieldInState('year', value);
             this.#getYearError();
             break;
         case 'email':
-            super.chagneFieldInState('email', value);
+            super.changeFieldInState('email', value);
             this.#getEmailError();
             break;
         case 'confEmail':
-            super.chagneFieldInState('confEmail', value);
+            super.changeFieldInState('confEmail', value);
             this.#getConfEmailError();
             break;
         case 'sex':
-            super.chagneFieldInState('sex', value);
+            super.changeFieldInState('sex', value);
             this.#getSexError();
             break;
         case 'firstName':
-            super.chagneFieldInState('firstName', value);
+            super.changeFieldInState('firstName', value);
             this.#getFirstNameError();
             break;
         case 'lastName':
-            super.chagneFieldInState('lastName', value);
+            super.changeFieldInState('lastName', value);
             this.#getLastNameError();
             break;
         case 'all_reg':
@@ -89,7 +100,7 @@ class UserInfoStore extends IStore {
             this.#checkForErrorsInAuthorization(value);
             break;
         case 'log_username':
-            super.chagneFieldInState('login', value);
+            super.changeFieldInState('login', value);
             this.#getLoginError();
             break;
         case 'log_password':
@@ -220,6 +231,7 @@ class UserInfoStore extends IStore {
             status = 'BAD';
         }
 
+        // todo subscribe api request to this
         this.jsEmit('VALIDATE_ALL', status);
     }
 
@@ -233,9 +245,9 @@ class UserInfoStore extends IStore {
 
         const errors = super.getValueInState('errors');
         if (errors.login || errors.password) {
-            jsEmit('VALIDATE_ALL', 'BAD');
+            this.jsEmit('VALIDATE_ALL', 'BAD');
         } else {
-            jsEmit('VALIDATE_ALL', 'OK');
+            this.jsEmit('VALIDATE_ALL', 'OK');
         }
     }
 
@@ -261,11 +273,11 @@ class UserInfoStore extends IStore {
      */
     #emitResponse(nameOfField, status) {
         if (!status) {
-            this.jsEmit('VALIDATION'.concat('_', nameOfField), 'GOOD');
-            super.chagneFieldInState('errors', { name: nameOfField, error: false });
+            this.jsEmit('VALIDATION'.concat('_', nameOfField), 'OK');
+            super.changeFieldInState('errors', { name: nameOfField, error: false });
         } else {
             this.jsEmit('VALIDATION'.concat('_', nameOfField), 'BAD');
-            super.chagneFieldInState('errors', { name: nameOfField, error: true });
+            super.changeFieldInState('errors', { name: nameOfField, error: true });
         }
     }
 }

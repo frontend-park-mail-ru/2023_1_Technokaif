@@ -21,6 +21,12 @@ const ApiActions = {
         });
     },
 
+    logout() {
+        Dispatcher.dispatch({
+            type: ActionTypes.LOGOUT,
+        });
+    },
+
     feed(items) {
         Dispatcher.dispatch({
             type: ActionTypes.FEED,
