@@ -6,7 +6,6 @@ import Menu from '../components/Menu/Menu';
 import { clearBars, prePageRender } from '../utils/functions/prePageRender';
 import { componentsNames } from '../utils/config/ComponentsNames';
 import { EventTypes } from '../stores/EventTypes';
-import Actions from '../actions/Actions';
 
 /**
  * Base View class to handle render functions.
