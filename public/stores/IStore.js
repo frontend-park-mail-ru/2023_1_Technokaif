@@ -50,7 +50,7 @@ class IStore extends EventEmitter {
      * @param callback
      * @param actionName
      */
-    addChangeListener(callback, actionName = 'CHANGE') {
+    subscribe(callback, actionName = 'CHANGE') {
         this.emitterAddListener(actionName, callback);
     }
 
@@ -59,7 +59,7 @@ class IStore extends EventEmitter {
      * @param callback
      * @param actionName
      */
-    removeChangeListener(callback, actionName = 'CHANGE') {
+    unsubscribe(callback, actionName = 'CHANGE') {
         this.emitterRemoveListener(actionName, callback);
     }
 

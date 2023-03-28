@@ -1,6 +1,6 @@
 /**
  * Function to create home setup config for template.
- * @param items -- some data from server about tracks, artists, albums.
+ * @param items -- some data from server about some items. .
  * @return {json} config -- config for template.
  */
 export function homeSetup(items) {
@@ -16,18 +16,14 @@ export function homeSetup(items) {
 
         coverMainClass: 'component',
         imgDiv: 'component__img-div',
-        // imgSrc: '',
         imgClass: 'component__img',
 
         titleTextDiv: 'component__title',
-        // titleText: '',
 
         descriptionDiv: 'component__description',
-        // descriptionText: '',
 
         footerMainDiv: '',
         footerElementDiv: 'component__description',
-        // footerElementText: '',
 
         content: items,
     });

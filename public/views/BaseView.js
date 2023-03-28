@@ -60,6 +60,7 @@ export class BaseView {
     #renderComponentsList(list) {
         list.forEach((componentName) => {
             const parent = ComponentsStore.checkWhereToPlace(componentName);
+
             switch (componentName) {
             case componentsNames.NAVBAR:
                 this.#renderNavbar(parent);
@@ -90,7 +91,7 @@ export class BaseView {
     render() {
         this.#preRender();
 
-        ComponentsStore.addChangeListener(
+        ComponentsStore.subscribe(
             this.#renderComponentsList,
             EventTypes.ON_NOT_RENDERED_ITEMS,
         );

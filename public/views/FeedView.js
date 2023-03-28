@@ -56,7 +56,7 @@ export class FeedView extends BaseView {
     render() {
         super.render();
 
-        ComponentsStore.addChangeListener(
+        ComponentsStore.subscribe(
             this.renderComponentsList,
             EventTypes.ON_NOT_RENDERED_ITEMS,
         );

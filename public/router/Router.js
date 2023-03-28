@@ -1,22 +1,3 @@
-/* eslint-disable max-classes-per-file */
-/**
- * All actions
- */
-export class Action {
-    /**
-     * Create action
-     * @param {JSON} state - state of store
-     * @returns {JSON} - action for dispatcher
-     */
-    create(state) {
-        // TODO use dispatch method of dispatcher
-        return {
-            type: 'StoreChange',
-            state,
-        };
-    }
-}
-
 /**
  * Class for routing urls in app.
  */
