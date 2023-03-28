@@ -1,5 +1,6 @@
 import ActionTypes from '../actions/ActionTypes';
 
+// TODO rename file to content
 /**
  * Stores Content of pages like artists, tracks.
  */
@@ -24,11 +25,15 @@ class Content extends IStore {
         super.state = {};
     }
 
+    /**
+     * dispatch actions on enter
+     * @param {*} action - action
+     */
     dispatch(action) {
         super.dispatch();
         switch (action.type) {
         case ActionTypes.FEED_GOT_CONTENT:
-
+            this.#addContentOnFeed(action.items);
             break;
         default:
         }
@@ -40,8 +45,6 @@ class Content extends IStore {
      * @param {JSON} content - content
      */
     #addContentOnFeed(items) {
-        const { items } = action;
-x
         for (const nameOfContent in items) {
             this.#addContentOnFeed(nameOfContent, items[nameOfContent]);
         }
