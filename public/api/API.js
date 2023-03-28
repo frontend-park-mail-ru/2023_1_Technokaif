@@ -1,6 +1,5 @@
 import { loginAjax } from './auth/loginAjaxReq';
 import { registerAjax } from './auth/registerAjaxReq';
-import ApiActions from '../actions/ApiActions';
 import IStore from '../stores/IStore';
 import ActionTypes from '../actions/ActionTypes';
 import { feedAjax } from './feed';
@@ -34,7 +33,7 @@ class API extends IStore {
             this.logoutRequest();
             break;
         case ActionTypes.FEED:
-            this.feedRequest(action.items);
+            this.feedRequest(action);
             break;
         default:
             console.error('invalid api type:', action.type);
@@ -77,7 +76,7 @@ class API extends IStore {
      */
     feedRequest() {
         const items = feedAjax();
-        ApiActions.feed(items);
+        Actions.feedAddContent(items);
     }
 }
 

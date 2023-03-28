@@ -1,9 +1,8 @@
 import { BaseView } from './BaseView';
 import { MainWindowContent } from '../components/MainWindow/mainWindow';
-import { homeSetup } from '../pages/home/homeSetup';
-import API from '../api/API';
 import ComponentsStore from '../stores/ComponentsStore';
 import Actions from '../actions/Actions';
+import ApiActions from '../actions/ApiActions';
 
 /**
  * Class for feed page view.
@@ -22,8 +21,8 @@ export class FeedView extends BaseView {
      * @param {HTMLElement} parent -- where to place Sidebar
      */
     #renderFeedContent(parent) {
-        API.feedRequest();
-        const mainPage = new MainWindowContent(parent, homeSetup(items));
+        ApiActions.feed();
+        const mainPage = new MainWindowContent(parent, { mainPageWindowDiv: 'main-page-window' }, []);
         mainPage.render();
     }
 
@@ -44,6 +43,8 @@ export class FeedView extends BaseView {
             switch (componentName) {
             // todo make another cases (like mainWindowContent)
             case componentsNames.MAIN_PAGE_WINDOW:
+
+                break;
             default:
                 break;
             }

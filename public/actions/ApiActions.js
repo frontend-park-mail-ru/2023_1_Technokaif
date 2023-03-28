@@ -27,10 +27,9 @@ const ApiActions = {
         });
     },
 
-    feed(items) {
+    feed() {
         Dispatcher.dispatch({
             type: ActionTypes.FEED,
-            items,
         });
     },
 };

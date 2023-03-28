@@ -13,6 +13,8 @@ const ActionTypes = {
     REGISTER_STATUS: 'REGISTER_STATUS',
     LOGIN_STATUS: 'LOGIN_STATUS',
     LOGOUT_STATUS: 'LOGOUT_STATUS',
+
+    FEED_GOT_CONTENT: 'FEED_GOT_CONTENT',
 };
 
 export default ActionTypes;

@@ -54,6 +54,13 @@ const Actions = {
             message,
         });
     },
+
+    feedAddContent(items) {
+        Dispatcher.dispatch({
+            type: ActionTypes.FEED_GOT_CONTENT,
+            items,
+        });
+    },
 };
 
 export default Actions;
