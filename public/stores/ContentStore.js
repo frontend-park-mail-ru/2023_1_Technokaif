@@ -1,10 +1,11 @@
 import ActionTypes from '../actions/ActionTypes';
+import IStore from './IStore';
 
 // TODO rename file to content
 /**
  * Stores Content of pages like artists, tracks.
  */
-class Content extends IStore {
+class ContentStore extends IStore {
     /**
      * Create state
      * @example
@@ -41,15 +42,12 @@ class Content extends IStore {
 
     /**
      * Add content on feed
-     * @param {string} nameOfContent - name of content
-     * @param {JSON} content - content
+     * @param items
      */
     #addContentOnFeed(items) {
         for (const nameOfContent in items) {
-            this.#addContentOnFeed(nameOfContent, items[nameOfContent]);
+            this.#addContent(pageNames.FEED, nameOfContent, items[nameOfContent]);
         }
-
-        this.#addContent('feed', nameOfContent, content);
     }
 
     /**
@@ -60,8 +58,8 @@ class Content extends IStore {
      */
     #addContent(page, nameOfContent, content) {
         super.state[page][nameOfContent].push(content);
-        this.jsEmit('CHANGE_CONTENT', nameOfContent);
+        this.jsEmit(EventTypes.CHANGE_CONTENT, nameOfContent);
     }
 }
 
-export default new Content();
+export default new ContentStore();

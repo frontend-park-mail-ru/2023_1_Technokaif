@@ -1,13 +1,16 @@
 import './static/css/style.less';
-import { prePageRender } from './utils/functions/prePageRender.js';
-import { renderHome } from './pages/home/home.js';
+import Router from './router/Router';
+import { FeedView } from './views/FeedView';
+import ComponentsStore from './stores/ComponentsStore';
 
 /**
  * Render main page of app
  */
 function renderMainPage() {
-    prePageRender();
-    renderHome(document.getElementById('main'));
+    ComponentsStore.register(pageNames.FEED, [componentsNames.NAVBAR, componentsNames.SIDEBAR,
+        componentsNames.MAIN_PAGE_WINDOW]);
+    Router.register('/', () => { const feed = new FeedView(); feed.render(); }, ComponentsStore);
+    Router.start();
 }
 
 renderMainPage();

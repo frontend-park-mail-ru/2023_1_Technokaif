@@ -1,5 +1,4 @@
 import { renderLogin } from '../../pages/login/auth.js';
-import { renderHome } from '../../pages/home/home.js';
 import { renderSignup } from '../../pages/registration/registration.js';
 import { logoutAjax } from '../../api/auth/logoutAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
@@ -91,7 +90,7 @@ export const sidebarConfig = {
     feed: {
         name: 'Home',
         href: '/feed',
-        render: renderHome,
+        render: renderLibrary,
         key: 'feed',
         logoSrc: '/static/svg/VectorhomeLogo.svg',
     },

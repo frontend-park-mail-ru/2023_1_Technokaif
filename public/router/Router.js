@@ -52,6 +52,8 @@ class Router extends IStore {
      */
     start() {
         window.addEventListener('popstate', (event) => {
+            event.preventDefault();
+
             if (event.state) {
                 this.back();
             } else {
@@ -72,7 +74,7 @@ class Router extends IStore {
      */
     go(path) {
         const object = this.#routes.find((routeObj) => routeObj.path === path);
-        const stateStore = object.store.getState();
+        const stateStore = object.store.state;
 
         this.#history.pushState(stateStore, '', this.#currentUrl);
 

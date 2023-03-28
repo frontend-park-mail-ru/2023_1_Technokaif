@@ -3,12 +3,12 @@
  * @param items -- some data from server about some items. .
  * @return {json} config -- config for template.
  */
-export function homeSetup(items) {
+export function homeSetup(title, items) {
     return ({
         tapeDiv: 'tape__title',
         titleMainDivClass: '',
         titleOfTrackClass: '',
-        // titleText: '',
+        titleText: title,
         fullListClass: 'tape__show-text',
         fullListText: 'Show all',
 
@@ -24,6 +24,7 @@ export function homeSetup(items) {
 
         footerMainDiv: '',
         footerElementDiv: 'component__description',
+        footerElements: 'artists',
 
         content: items,
     });
