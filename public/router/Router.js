@@ -44,7 +44,7 @@ class Router {
     }
 
     /**
-     *
+     * Add event listener for popstate. Get URL from window and render this page.
      */
     start() {
         window.addEventListener('popstate', (event) => {
