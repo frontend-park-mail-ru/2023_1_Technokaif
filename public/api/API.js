@@ -3,6 +3,7 @@ import { registerAjax } from './auth/registerAjaxReq';
 import ApiActions from '../actions/ApiActions';
 import IStore from '../stores/IStore';
 import ActionTypes from '../actions/ActionTypes';
+import { feedAjax } from './feed';
 
 /**
  * Class using for getting data from backend.
@@ -51,6 +52,14 @@ class API extends IStore {
     registerRequest(data) {
         registerAjax(data);
         ApiActions.register(data);
+    }
+
+    /**
+     * Function to get feed page data from server.
+     */
+    feedRequest() {
+        const items = feedAjax();
+        ApiActions.feed(items);
     }
 }
 

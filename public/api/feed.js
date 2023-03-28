@@ -1,16 +1,19 @@
-import { createHomePageContent } from '../components/MainWindow/mainWindow.js';
 import Ajax from '../modules/Ajax.js';
 import { PATH } from '../utils/config/urls.js';
 
+// todo: change logic to three requests and concatenation to one items object to return.
 /**
  * Function for main page content render.
- * @param {HTMLElement} parent
  */
-export function feedAjax(parent) {
+export function feedAjax() {
+    let items = {};
     Ajax.get({
         url: PATH.feedApi,
         resolve: (data) => {
-            createHomePageContent(parent, data);
+            items = data;
+            return data;
         },
     });
+
+    return items;
 }

@@ -18,7 +18,7 @@ class IStore extends EventEmitter {
     constructor(name) {
         super();
         Dispatcher.register(this.dispatch.bind(this));
-        this.#state = [];
+        this.#state = {};
         this.#nameOfStore = name;
     }
 
@@ -31,12 +31,13 @@ class IStore extends EventEmitter {
 
     /** Adds a new item to the list and emits a CHANGED event.
      *
-     * @param item
+     * @param itemObj
      * @param eventName
      */
-    addNewItem(item, eventName = null) {
-        item.id = this.#state.length;
-        this.#state.push(item);
+    addNewItem(itemObj, eventName = null) {
+        for (const [key, value] of Object.entries(itemObj)) {
+            this.#state[key] = value;
+        }
 
         if (eventName !== null) {
             this.jsEmit(eventName);
@@ -47,7 +48,7 @@ class IStore extends EventEmitter {
      *
      * @returns {*}
      */
-    getAllItems() {
+    getState() {
         return {
             name: this.#nameOfStore,
             state: this.#state,
@@ -70,6 +71,14 @@ class IStore extends EventEmitter {
      */
     removeChangeListener(callback, actionName = 'CHANGE') {
         this.emitterRemoveListener(actionName, callback);
+    }
+
+    /**
+     * Function to set new state.
+     * @param newState
+     */
+    setState(newState) {
+        this.#state = newState;
     }
 }
 

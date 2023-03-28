@@ -36,6 +36,9 @@ class ComponentsStore extends IStore {
         case ActionTypes.CHECK_WHAT_RENDER:
             this.#checkElementsForPage(action.name);
             break;
+        case ActionTypes.ADD_COMPONENT_ON_PAGE:
+            this.#addElementOnPage(action.name);
+            break;
         default:
             console.error('invalid action in componentsStore');
         }
@@ -48,11 +51,11 @@ class ComponentsStore extends IStore {
      */
     checkWhereToPlace(elementName) {
         switch (elementName) {
-        case 'js__navbar':
+        case componentsNames.NAVBAR:
             return document.querySelector('.cont');
-        case 'js__sidebar':
+        case componentsNames.SIDEBAR:
             return document.querySelector('.main-page-window__factBody');
-        case 'js__main-page-window':
+        case componentsNames.MAIN_PAGE_WINDOW:
             return document.querySelector('#main');
         default:
             console.error('position to place element by name', elementName, 'not found');
@@ -60,23 +63,36 @@ class ComponentsStore extends IStore {
         }
     }
 
-    clearAllElements() {
+    /**
+     * Function to clear #whatExistOnPage field.
+     */
+    #clearAllElements() {
         this.#whatExistOnPage = [];
     }
 
-    addElementOnPage(element) {
+    /**
+     * Add element in local and state variables.
+     * @param element
+     */
+    #addElementOnPage(element) {
         this.#whatExistOnPage.push(element);
+        this.addNewItem(this.#whatExistOnPage);
     }
 
     /**
-     * Register page and it's requirement
+     * Register the page and it's requirement.
      * @param {string} nameOfPage - name of Page
      * @param {Array} requiredElements - json with names of needed
      */
     register(nameOfPage, requiredElements) {
-        this.#whatNeedForPage.push({ nameOfPage, requiredElements });
+        this.#whatNeedForPage.push({ page: nameOfPage, namesOfElements: requiredElements });
+        this.addNewItem(this.#whatNeedForPage);
     }
 
+    /**
+     * Check what elements we need to render and emit callbacks to render.
+     * @param pageName
+     */
     #checkElementsForPage(pageName) {
         const page = this.#whatNeedForPage.find((element) => element.page === pageName);
 
@@ -84,12 +100,23 @@ class ComponentsStore extends IStore {
         page.namesOfElements.forEach((element) => {
             const existOnPage = this.#whatExistOnPage.find(element);
 
-            if (!existOnPage) {
+            if (existOnPage === undefined) {
                 notExist.push(element);
             }
         });
 
-        this.jsEmit(EventTypes.ON_NOT_RENDERED_ITEMS, notExist);
+        if (notExist !== []) {
+            this.jsEmit(EventTypes.ON_NOT_RENDERED_ITEMS, notExist);
+        }
+    }
+
+    /**
+     * Function to check if we need to create a
+     * @param pageName
+     * @returns {boolean}
+     */
+    prePageNeed(pageName) {
+        return !(pageName === pageNames.LOGIN || pageName === pageNames.REGISTER);
     }
 }
 

@@ -12,12 +12,30 @@ const Actions = {
             url,
         });
     },
+
     whatRender(name) {
         Dispatcher.dispatch({
             type: ActionTypes.CHECK_WHAT_RENDER,
             name,
         });
     },
+
+    validationField(nameOfField, content) {
+        Dispatcher.dispatch({
+            type: ActionTypes.VALIDATION_FIELD,
+            nameOfField,
+            content,
+        });
+    },
+
+    validationResponse(nameOfField, status) {
+        Dispatcher.dispatch({
+            type: ActionTypes.VALIDATION,
+            nameOfField,
+            status,
+        });
+    },
+
 };
 
 export default Actions;

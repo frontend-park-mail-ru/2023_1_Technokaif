@@ -20,6 +20,13 @@ const ApiActions = {
             data,
         });
     },
+
+    feed(items) {
+        Dispatcher.dispatch({
+            type: ActionTypes.FEED,
+            items,
+        });
+    },
 };
 
 export default ApiActions;
