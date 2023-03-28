@@ -8,6 +8,9 @@ import ActionTypes from '../actions/ActionTypes';
  * Class using for getting data from backend.
  */
 class API extends IStore {
+    /**
+     * Constructor for api store.
+     */
     constructor() {
         super('api');
     }

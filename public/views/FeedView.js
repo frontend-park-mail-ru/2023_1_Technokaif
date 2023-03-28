@@ -1,25 +1,18 @@
-import BaseView from './BaseView';
+import { BaseView } from './BaseView';
 
 /**
  * Class for feed page view.
  */
-class FeedView extends BaseView {
+export class FeedView extends BaseView {
     /**
-     * Element
+     * Constructor for feed page view.
      */
-    #parent;
-
-    /**
-     * Constructor for feed page.
-     * @param parent
-     */
-    constructor(parent) {
-        super();
-        this.#parent = parent;
+    constructor() {
+        super('feed');
     }
 
     /**
-     *
+     * Function to create a callback on event.
      */
     callEventListener() {
 
@@ -30,36 +23,6 @@ class FeedView extends BaseView {
      */
     render() {
         super.render();
-        this.#renderMenu();
-        this.#renderNavbar();
-        this.#renderFooter();
-
         this.callEventListener();
-    }
-
-    #renderNavbar() {
-        if (checkElementExist('js__navbar')) {
-
-        }
-    }
-
-    #renderMenu() {
-
-    }
-
-    #renderFooter() {
-
-    }
-
-    #renderTracksTape() {
-
-    }
-
-    #renderArtistsTape() {
-
-    }
-
-    #renderAlbumsTape() {
-
     }
 }

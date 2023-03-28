@@ -12,7 +12,12 @@ const Actions = {
             url,
         });
     },
-
+    whatRender(name) {
+        Dispatcher.dispatch({
+            type: ActionTypes.CHECK_WHAT_RENDER,
+            name,
+        });
+    },
 };
 
 export default Actions;

@@ -1,4 +1,5 @@
 import IStore from './IStore';
+import ActionTypes from '../actions/ActionTypes';
 
 /**
  * Store for components.
@@ -24,19 +25,20 @@ class ComponentsStore extends IStore {
         this.#whatExistOnPage = [];
     }
 
+    /**
+     * Function to handle dispatcher behaviour.
+     * @param action
+     */
     dispatch(action) {
         super.dispatch();
 
-        switch ()
-    }
-
-    /**
-     * Function to check the existence of element.
-     * @param elementName
-     * @returns {boolean}
-     */
-    checkElementExist(elementName) {
-        return document.querySelector(elementName) !== null;
+        switch (action.type) {
+        case ActionTypes.CHECK_WHAT_RENDER:
+            this.#checkElementsForPage(action.name);
+            break;
+        default:
+            console.error('invalid action in componentsStore');
+        }
     }
 
     /**
@@ -75,7 +77,7 @@ class ComponentsStore extends IStore {
         this.#whatNeedForPage.push({ nameOfPage, requiredElements });
     }
 
-    checkElementsForPage(pageName) {
+    #checkElementsForPage(pageName) {
         const page = this.#whatNeedForPage.find((element) => element.page === pageName);
 
         const notExist = [];
@@ -87,15 +89,7 @@ class ComponentsStore extends IStore {
             }
         });
 
-        // тут emit с тем, что не существует
-        // exapmle of js
-        /*
-            {
-                nameOfPage: name,
-                notExist: [strigns]
-            }
-
-        */
+        this.jsEmit(EventTypes.ON_NOT_RENDERED_ITEMS, notExist);
     }
 }
 

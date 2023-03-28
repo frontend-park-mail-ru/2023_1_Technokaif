@@ -1,0 +1,3 @@
+EventTypes = {
+    ON_NOT_RENDERED_ITEMS: 'ON_NOT_RENDERED_ITEMS',
+};
