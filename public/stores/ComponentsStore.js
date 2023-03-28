@@ -56,7 +56,7 @@ class ComponentsStore extends IStore {
     checkWhereToPlace(elementName) {
         switch (elementName) {
         case componentsNames.NAVBAR:
-            return document.querySelector('.cont');
+            return document.querySelector('.navbar');
         case componentsNames.SIDEBAR:
             return document.querySelector('.main-page-window__factBody');
         case componentsNames.MAIN_PAGE_WINDOW:
@@ -102,7 +102,7 @@ class ComponentsStore extends IStore {
 
         const notExist = [];
         page.namesOfElements.forEach((element) => {
-            const existOnPage = this.#whatExistOnPage.find(element);
+            const existOnPage = this.#whatExistOnPage.find((el) => el === element);
 
             if (existOnPage === undefined) {
                 notExist.push(element);

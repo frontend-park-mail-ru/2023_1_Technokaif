@@ -61,7 +61,7 @@ class Router extends IStore {
             }
         });
 
-        if (window.location.href === '') {
+        if (window.location.pathname === '') {
             console.error('No routes');
         } else {
             this.routeChange();
@@ -74,14 +74,19 @@ class Router extends IStore {
      */
     go(path) {
         const object = this.#routes.find((routeObj) => routeObj.path === path);
-        console.log(this.#routes);
-        console.log(path);
+        if (!object) {
+            this.go('/');
+            return;
+        }
+
         const stateStore = object.store.state;
 
-        this.#history.pushState(stateStore, '', this.#currentUrl);
+        if (window.location.pathname !== path) {
+            this.#history.pushState(stateStore, '', this.#currentUrl);
+        }
 
         this.#currentUrl = path;
-        window.location.href = this.#currentUrl;
+        // window.location.pathname = this.#currentUrl;
         object.render();
 
         this.jsEmit('PAGE_CHANGED');
@@ -118,7 +123,6 @@ class Router extends IStore {
         const object = this.#routes.find((routeObj) => routeObj.path === state.url);
         this.#currentUrl = state.url;
 
-        window.location.href = this.#currentUrl;
         object.render();
 
         this.jsEmit('PAGE_CHANGED');

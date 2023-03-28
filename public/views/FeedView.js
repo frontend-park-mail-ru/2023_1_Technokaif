@@ -70,9 +70,8 @@ export class FeedView extends BaseView {
      */
     render() {
         super.render();
-
         ComponentsStore.subscribe(
-            this.#renderComponentsList,
+            () => this.#renderComponentsList,
             EventTypes.ON_NOT_RENDERED_ITEMS,
         );
 

@@ -1,12 +1,12 @@
 import ComponentsStore from '../stores/ComponentsStore';
 import { checkAuth } from '../utils/functions/checkAuth';
 import { authNavConfig, sidebarConfig, unAuthNavConfig } from '../utils/config/config';
-import { createDivAndInsertInParent } from '../utils/functions/utils';
 import Navbar from '../components/Navbar/Navbar';
 import Menu from '../components/Menu/Menu';
 import { clearBars, prePageRender } from '../utils/functions/prePageRender';
 import { componentsNames } from '../utils/config/ComponentsNames';
 import { EventTypes } from '../stores/EventTypes';
+import Actions from '../actions/Actions';
 
 /**
  * Base View class to handle render functions.
@@ -39,10 +39,9 @@ export class BaseView {
      * @param {HTMLElement} parent -- where to place Navbar
      */
     #renderNavbar(parent) {
+        console.log(parent);
         const config = (checkAuth()) ? authNavConfig : unAuthNavConfig;
-
-        const navbarDiv = createDivAndInsertInParent(parent, 'navbar');
-        const navbar = new Navbar(navbarDiv, config, 'navbar');
+        const navbar = new Navbar(parent, config, 'navbar');
         navbar.render();
     }
 
@@ -59,7 +58,7 @@ export class BaseView {
      * Callback to pass throw store to subscribe rendering components.
      * @param list
      */
-    #renderComponentsList(list) {
+    renderComponentsList(list) {
         list.forEach((componentName) => {
             const parent = ComponentsStore.checkWhereToPlace(componentName);
 
@@ -94,7 +93,10 @@ export class BaseView {
         this.#preRender();
 
         ComponentsStore.subscribe(
-            this.#renderComponentsList,
+            (list) => {
+                console.log(this);
+                this.renderComponentsList(list);
+            },
             EventTypes.ON_NOT_RENDERED_ITEMS,
         );
 
