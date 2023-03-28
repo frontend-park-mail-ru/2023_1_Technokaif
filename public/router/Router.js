@@ -1,7 +1,9 @@
+import IStore from '../stores/IStore';
+
 /**
  * Class for routing urls in app.
  */
-class Router {
+class Router extends IStore {
     /**
      * History object.
      */
@@ -21,14 +23,16 @@ class Router {
      * Construct a router
      */
     constructor() {
+        super('Router');
         this.routes = [];
-        this.history = window.history;
+        this.#history = window.history;
     }
 
     /**
      * Register path to render function
-     * @param {string} path -- url adress
-     * @param {*} render -- function to call on url
+     * @param {string} path - url adress
+     * @param {*} render - function to call on url
+     * @param {IStore   } store - store to get state from and save it on popstate
      */
     register(path, render, store) {
         if (this.#routes.find({ path, render, store })) {
@@ -75,6 +79,8 @@ class Router {
         this.#currentUrl = path;
         window.location.href = this.#currentUrl;
         object.render();
+
+        this.jsEmit('PAGE_CHANGED');
     }
 
     /**
@@ -109,8 +115,9 @@ class Router {
         this.#currentUrl = state.url;
 
         window.location.href = this.#currentUrl;
-        Action.create(state.state);
         object.render();
+
+        this.jsEmit('PAGE_CHANGED');
     }
 }
 
