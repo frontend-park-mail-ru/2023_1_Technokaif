@@ -47,4 +47,4 @@ class EventEmitter {
     }
 }
 
-export default new EventEmitter();
+export default EventEmitter;

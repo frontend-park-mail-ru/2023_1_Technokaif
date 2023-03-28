@@ -1,4 +1,4 @@
-EventTypes = {
+export const EventTypes = {
     ON_NOT_RENDERED_ITEMS: 'ON_NOT_RENDERED_ITEMS',
     CHANGE_CONTENT: 'CHANGE_CONTENT',
 

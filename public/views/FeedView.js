@@ -5,6 +5,9 @@ import Actions from '../actions/Actions';
 import ApiActions from '../actions/ApiActions';
 import ContentStore from '../stores/ContentStore';
 import { homeSetup } from '../pages/home/homeSetup';
+import { pageNames } from '../utils/config/pageNames';
+import { EventTypes } from '../stores/EventTypes';
+import { componentsNames } from '../utils/config/ComponentsNames';
 
 /**
  * Class for feed page view.

@@ -24,7 +24,7 @@ class Router extends IStore {
      */
     constructor() {
         super('Router');
-        this.routes = [];
+        this.#routes = [];
         this.#history = window.history;
     }
 
@@ -35,7 +35,7 @@ class Router extends IStore {
      * @param {IStore   } store - store to get state from and save it on popstate
      */
     register(path, render, store) {
-        if (this.#routes.find({ path, render, store })) {
+        if (this.#routes.find((obj) => obj === { path, render, store })) {
             console.error('Routes already exist');
             return;
         }
@@ -74,6 +74,8 @@ class Router extends IStore {
      */
     go(path) {
         const object = this.#routes.find((routeObj) => routeObj.path === path);
+        console.log(this.#routes);
+        console.log(path);
         const stateStore = object.store.state;
 
         this.#history.pushState(stateStore, '', this.#currentUrl);
@@ -105,7 +107,7 @@ class Router extends IStore {
      * If page route was changed.
      */
     routeChange() {
-        this.go(window.location.href);
+        this.go(window.location.pathname);
     }
 
     /**

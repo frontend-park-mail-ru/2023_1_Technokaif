@@ -1,5 +1,6 @@
 import ActionTypes from '../actions/ActionTypes';
 import IStore from './IStore';
+import { EventTypes } from './EventTypes';
 
 // TODO rename file to content
 /**

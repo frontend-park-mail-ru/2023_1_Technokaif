@@ -1,5 +1,8 @@
 import IStore from './IStore';
 import ActionTypes from '../actions/ActionTypes';
+import { EventTypes } from './EventTypes';
+import { componentsNames } from '../utils/config/ComponentsNames';
+import { pageNames } from '../utils/config/pageNames';
 
 /**
  * Store for components.
@@ -23,6 +26,7 @@ class ComponentsStore extends IStore {
     constructor() {
         super('ComponentsStore');
         this.#whatExistOnPage = [];
+        this.#whatNeedForPage = [];
     }
 
     /**

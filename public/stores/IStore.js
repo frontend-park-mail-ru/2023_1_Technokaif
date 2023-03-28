@@ -71,15 +71,20 @@ class IStore extends EventEmitter {
         this.#state = newState;
     }
 
-    /** Returns the current store's state.
-     *
-     * @returns {*}
+    /**
+     * Returns the current store's state.
+     * @returns {json}
      */
     get state() {
-        return {
-            name: this.#nameOfStore,
-            state: this.#state,
-        };
+        return this.#state;
+    }
+
+    /**
+     * Returns the store's name.
+     * @returns {string}
+     */
+    get name() {
+        return this.#nameOfStore;
     }
 
     /**

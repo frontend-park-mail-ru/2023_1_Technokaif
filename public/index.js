@@ -2,6 +2,8 @@ import './static/css/style.less';
 import Router from './router/Router';
 import { FeedView } from './views/FeedView';
 import ComponentsStore from './stores/ComponentsStore';
+import { pageNames } from './utils/config/pageNames';
+import { componentsNames } from './utils/config/ComponentsNames';
 
 /**
  * Render main page of app
