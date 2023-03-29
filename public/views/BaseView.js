@@ -38,7 +38,6 @@ export class BaseView {
      * @param {HTMLElement} parent -- where to place Navbar
      */
     #renderNavbar(parent) {
-        console.log(parent);
         const config = (checkAuth()) ? authNavConfig : unAuthNavConfig;
         const navbar = new Navbar(parent, config, 'navbar');
         navbar.render();
@@ -93,7 +92,6 @@ export class BaseView {
 
         ComponentsStore.subscribe(
             (list) => {
-                console.log(this);
                 this.renderComponentsList(list);
             },
             EventTypes.ON_NOT_RENDERED_ITEMS,

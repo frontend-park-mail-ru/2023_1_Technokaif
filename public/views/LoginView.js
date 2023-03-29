@@ -27,8 +27,4 @@ export class LoginView extends BaseView {
         super.render();
         this.callEventListener();
     }
-
-    #render() {
-
-    }
 }

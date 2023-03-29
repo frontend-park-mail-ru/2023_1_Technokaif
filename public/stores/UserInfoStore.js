@@ -2,7 +2,7 @@ import IStore from './IStore';
 
 import {
     getUsernameError, getPasswordError, getDayError, getYearError, getMonthError, getEmailError,
-    getSexError, getNameError, checkIsEmail,
+    getSexError, getNameError, checkIsEmail, translateMonthStrToInt,
 } from '../utils/functions/validation.js';
 import ActionTypes from '../actions/ActionTypes';
 
@@ -59,6 +59,7 @@ class UserInfoStore extends IStore {
             }
             break;
         default:
+            // eslint-disable-next-line no-console
             console.error('undefined userInfo store action:', action.type);
         }
     }
@@ -173,6 +174,7 @@ class UserInfoStore extends IStore {
     #getMonthError() {
         const { month } = super.state;
         const status = getMonthError(month);
+        super.state.monthInt = translateMonthStrToInt(month);
 
         this.#emitResponse('month', status);
     }
