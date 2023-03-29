@@ -4,6 +4,8 @@ import { pageNames } from '../utils/config/pageNames';
 import UserInfoStore from '../stores/UserInfoStore';
 import Actions from '../actions/Actions';
 
+// todo Validate all create func to check
+
 const METHOD = 'focusout';
 // todo temporary json
 const ElementsClassForRegister = {
@@ -57,10 +59,14 @@ export class RegisterView extends BaseView {
         };
     }
 
-    /**
-     * Function to create a callback on event.
-     */
+    // todo create jsdoc
+    /** */
     callEventListener() {
+
+    }
+
+    /** Function to create a callback on event. */
+    #addEventListenerInsideElements() {
         this.#createActionsForFields();
         UserInfoStore.subscribe(this.dispatchErrors, 'VALIDATION_ERR');
     }
@@ -208,7 +214,7 @@ export class RegisterView extends BaseView {
             );
             break;
         default:
-            console.error('Not nameOfField on render page', nameOfField);
+            console.error('Not nameOfField on register page', nameOfField);
         }
     }
 
@@ -232,5 +238,6 @@ export class RegisterView extends BaseView {
     render() {
         super.render();
         this.callEventListener();
+        this.#addEventListenerInsideElements();
     }
 }
