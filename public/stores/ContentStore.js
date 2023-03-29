@@ -47,9 +47,12 @@ class ContentStore extends IStore {
      * @param items
      */
     #addContentOnFeed(items) {
+        console.log('items_addContent', items);
         for (const nameOfContent in items) {
             this.#addContent(pageNames.FEED, nameOfContent, items[nameOfContent]);
         }
+
+        this.jsEmit(EventTypes.CHANGE_CONTENT);
     }
 
     /**
@@ -59,7 +62,10 @@ class ContentStore extends IStore {
      * @param {JSON} content - json of content
      */
     #addContent(page, nameOfContent, content) {
-        super.state[page][nameOfContent].push(content);
+        if (super.state[page] === undefined) {
+            super.state[page] = {};
+        }
+        super.state[page][nameOfContent] = content;
         this.jsEmit(EventTypes.CHANGE_CONTENT, nameOfContent);
     }
 }

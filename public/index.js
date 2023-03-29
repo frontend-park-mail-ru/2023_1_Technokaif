@@ -4,6 +4,8 @@ import { FeedView } from './views/FeedView';
 import ComponentsStore from './stores/ComponentsStore';
 import { pageNames } from './utils/config/pageNames';
 import { componentsNames } from './utils/config/ComponentsNames';
+import API from './api/API';
+import UserInfoStore from './stores/UserInfoStore';
 
 /**
  * Render main page of app
@@ -11,7 +13,10 @@ import { componentsNames } from './utils/config/ComponentsNames';
 function renderMainPage() {
     ComponentsStore.register(pageNames.FEED, [componentsNames.NAVBAR, componentsNames.SIDEBAR,
         componentsNames.MAIN_PAGE_WINDOW]);
-    Router.register('/', () => { const feed = new FeedView(); feed.render(); }, ComponentsStore);
+    // todo first load stores singletons (check webpack) then delete new
+    new API.constructor();
+    new UserInfoStore.constructor();
+    Router.register('/', () => { const feed = new FeedView(); feed.render(); }, [ComponentsStore]);
     Router.start();
 }
 

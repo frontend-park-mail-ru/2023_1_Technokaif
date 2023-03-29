@@ -59,7 +59,6 @@ class UserInfoStore extends IStore {
             }
             break;
         default:
-            console.error('undefined userInfo store action:', action.type);
         }
     }
 
@@ -205,7 +204,7 @@ class UserInfoStore extends IStore {
         const { sex } = super.state;
         const status = getSexError(sex);
 
-        this.#emitResponse(username, status);
+        this.#emitResponse('username', status);
     }
 
     /**

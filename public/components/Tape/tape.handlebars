@@ -10,8 +10,8 @@
     </div>
 
     <div class="{{contentDivClass}}">
-        {{#each content as |item|}}
-            {{> ../Cover/cover.handlebars}}
+        {{#each content}}
+            {{> ../Cover/cover.handlebars item = this}}
         {{/each}}
     </div>
 </div>

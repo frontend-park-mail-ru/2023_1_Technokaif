@@ -19,9 +19,9 @@ class Router extends IStore {
 
     /**
      * Register path to render function
-     * @param {string} path - url adress
+     * @param {string} path - url address
      * @param {*} render - function to call on url
-     * @param {IStore   } store - store to get state from and save it on popstate
+     * @param stores
      */
     register(path, render, stores) {
         if (this.#routes.find((obj) => obj === { path, render, stores })) {

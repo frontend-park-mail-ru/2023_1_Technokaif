@@ -44,7 +44,6 @@ class ComponentsStore extends IStore {
             this.#addElementOnPage(action.name);
             break;
         default:
-            console.error('invalid action in componentsStore');
         }
     }
 
@@ -58,7 +57,7 @@ class ComponentsStore extends IStore {
         case componentsNames.NAVBAR:
             return document.querySelector('.navbar');
         case componentsNames.SIDEBAR:
-            return document.querySelector('.main-page-window__factBody');
+            return document.querySelector(`.${componentsNames.SIDEBAR}`);
         case componentsNames.MAIN_PAGE_WINDOW:
             return document.querySelector('#main');
         default:

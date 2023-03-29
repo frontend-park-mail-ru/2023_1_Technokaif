@@ -51,7 +51,7 @@ export class FeedView extends BaseView {
      * Callback to pass throw store to subscribe rendering components.
      * @param list
      */
-    #renderComponentsList(list) {
+    #renderFeedComponents(list) {
         list.forEach((componentName) => {
             const parent = ComponentsStore.checkWhereToPlace(componentName);
             switch (componentName) {
@@ -71,7 +71,9 @@ export class FeedView extends BaseView {
     render() {
         super.render();
         ComponentsStore.subscribe(
-            () => this.#renderComponentsList,
+            (list) => {
+                this.#renderFeedComponents(list);
+            },
             EventTypes.ON_NOT_RENDERED_ITEMS,
         );
 

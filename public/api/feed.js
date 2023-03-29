@@ -5,15 +5,19 @@ import { PATH } from '../utils/config/urls.js';
 /**
  * Function for main page content render.
  */
-export function feedAjax() {
-    let items = {};
-    Ajax.get({
+export async function feedAjax() {
+    let items = { s: 'fsfs' };
+
+    // todo change double then
+    await Ajax.get({
         url: PATH.feedApi,
-        resolve: (data) => {
-            items = data;
-            return data;
+        reject: (message) => {
+            console.error('Feed api error:', message);
         },
+    }).then((data) => {
+        items = data;
     });
 
+    console.log('items', items);
     return items;
 }

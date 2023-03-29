@@ -22,6 +22,8 @@ class API extends IStore {
      * @param action
      */
     dispatch(action) {
+        super.dispatch();
+
         switch (action.type) {
         case ActionTypes.LOGIN:
             this.loginRequest(action.username, action.password);
@@ -33,10 +35,9 @@ class API extends IStore {
             this.logoutRequest();
             break;
         case ActionTypes.FEED:
-            this.feedRequest(action);
+            this.feedRequest();
             break;
         default:
-            console.error('invalid api type:', action.type);
         }
     }
 
@@ -75,8 +76,7 @@ class API extends IStore {
      * Function to get feed page data from server.
      */
     feedRequest() {
-        const items = feedAjax();
-        Actions.feedAddContent(items);
+        feedAjax().then((items) => Actions.feedAddContent(items));
     }
 }
 
