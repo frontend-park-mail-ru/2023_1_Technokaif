@@ -4,24 +4,13 @@ import IStore from '../stores/IStore';
  * Class for routing urls in app.
  */
 class Router extends IStore {
-    /**
-     * History object.
-     */
+    /** History object. */
     #history;
 
-    /**
-     * List of routes.
-     */
+    /** List of routes. */
     #routes;
 
-    /**
-     * Where we are here
-     */
-    #currentUrl;
-
-    /**
-     * Construct a router
-     */
+    /** Construct a router */
     constructor() {
         super('Router');
         this.#routes = [];
@@ -34,8 +23,8 @@ class Router extends IStore {
      * @param {*} render - function to call on url
      * @param {IStore   } store - store to get state from and save it on popstate
      */
-    register(path, render, store) {
-        if (this.#routes.find((obj) => obj === { path, render, store })) {
+    register(path, render, stores) {
+        if (this.#routes.find((obj) => obj === { path, render, stores })) {
             console.error('Routes already exist');
             return;
         }
@@ -43,13 +32,11 @@ class Router extends IStore {
         this.#routes.push({
             path,
             render,
-            store,
+            store: stores,
         });
     }
 
-    /**
-     * Add event listener for popstate. Get URL from window and render this page.
-     */
+    /** Add event listener for popstate. Get URL from window and render this page. */
     start() {
         window.addEventListener('popstate', (event) => {
             event.preventDefault();
@@ -79,52 +66,43 @@ class Router extends IStore {
             return;
         }
 
-        const stateStore = object.store.state;
+        const initValue = [];
+        const stateStore = object.store.reduce(
+            (accumulator, currentValue) => accumulator.push(currentValue.state),
+            initValue,
+        );
 
         if (window.location.pathname !== path) {
-            this.#history.pushState(stateStore, '', this.#currentUrl);
+            this.#history.pushState(stateStore, '', path);
         }
 
-        this.#currentUrl = path;
-        // window.location.pathname = this.#currentUrl;
         object.render();
-
         this.jsEmit('PAGE_CHANGED');
     }
 
-    /**
-     * Render page that was before in history
-     */
+    /** Render page that was before in history */
     back() {
         this.#history.back();
         this.#render();
     }
 
-    /**
-     * Render page that was after in history
-     */
+    /** Render page that was after in history  */
     forward() {
         this.#history.forward();
         this.#render();
     }
 
-    /**
-     * If page route was changed.
-     */
+    /** If page route was changed. */
     routeChange() {
         this.go(window.location.pathname);
     }
 
-    /**
-     * Render page in current state of history. Refresh store.
-     */
+    /** Render page in current state of history. Refresh store. */
     #render() {
         const { state } = this.#history;
         const object = this.#routes.find((routeObj) => routeObj.path === state.url);
-        this.#currentUrl = state.url;
 
         object.render();
-
         this.jsEmit('PAGE_CHANGED');
     }
 }
