@@ -4,11 +4,11 @@
     </div>
     <div class="{{divSexChoose}}">
         {{#each sexes}}
-            <div class="{{this.insideDivSex}}">
+            <div class="{{this.insideDivSex}} js__gender">
                 <input type="{{this.typeInput}}" name="{{this.nameInput}}" class="{{this.classSexInput}}" value="{{this.id}}" id={{this.id}}>
                 <label for="{{this.id}}" class="{{this.classLabel}}">{{this.textLabel}}</label>
             </div>
         {{/each}}
     </div>
-    <div class="{{errorSex}}"></div>
+    <div class="{{errorSex}} js__error__gender"></div>
 </div>

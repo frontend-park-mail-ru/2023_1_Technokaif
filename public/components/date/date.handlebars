@@ -1,11 +1,11 @@
 <div class="{{dateMainDiv}}">
     <label for="{{divChooseId}}" class="{{labelClass}}">{{labelText}}</label>
     <div id="{{divChooseId}}" class="{{dateChooseDiv}}">
-        <div {{#if divDayClass}} class="{{divDayClass}} {{/if}}">
-            <input type="{{typeOfDayInput}}" class="{{dayClass}}" name="{{nameOfDayInput}}" placeholder="{{placeholderOfDay}}" id="{{idOfDay}}">
+        <div class="{{#if divDayClass}} {{divDayClass}} {{/if}} js__day">g
+            <input type="{{typeOfDayInput}}" class="{{dayClass}}" name="{{nameOfDayInput}}" placeholder="{{placeholderOfDay}}" id="{{idOfDay}}" autocomplete="x7pv66b">
         </div>
 
-        <div {{#if divMonthClass}} class="{{divMonthClass}} {{/if}}">
+        <div class = "{{#if divMonthClass}}{{divMonthClass}} {{/if}} js__month">
             <select name="{{nameOfMonthInput}}" id="{{idOfMonth}}" class="{{selectClass}}">
                 {{#each optionsDate}}
                     <option value="{{this.option}}" {{#if this.class}} class="{{this.class}}" {{/if}}>{{this.text}}</option>
@@ -13,11 +13,11 @@
             </select>
         </div>
 
-        <div {{#if divYearClass}} class="{{divYearClass}} {{/if}}">
-            <input type="{{typeOfDayInput}}" class="{{yearClass}}" name="{{nameOfYearInput}}" placeholder="{{placeholderOfYear}}" id="{{idOfYear}}">
+        <div class = "{{#if divYearClass}} {{divYearClass}} {{/if}} js__year">
+            <input type="{{typeOfDayInput}}" class="{{yearClass}}" name="{{nameOfYearInput}}" placeholder="{{placeholderOfYear}}" id="{{idOfYear}}" autocomplete="x7pv66b">
         </div>
     </div>
-    <div class="{{errorDate}}" {{#if errorID}} id="{{errorID}}" {{/if}}></div>
-    <div class="{{errorMonth}}" {{#if errorMonthID}} id="{{errorMonthID}}" {{/if}}></div>
-    <div class="{{errorYear}}" {{#if errorYearID}} id="{{errorYearID}}" {{/if}}></div>
+    <div class="{{errorDate}} js__error__day" {{#if errorID}} id="{{errorID}}" {{/if}}></div>
+    <div class="{{errorMonth}} js__error__month" {{#if errorMonthID}} id="{{errorMonthID}}" {{/if}}></div>
+    <div class="{{errorYear}} js__error__year" {{#if errorYearID}} id="{{errorYearID}}" {{/if}}></div>
 </div>
