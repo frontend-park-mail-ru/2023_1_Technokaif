@@ -48,7 +48,7 @@ class UserInfoStore extends IStore {
             if (action.message !== 'OK') {
                 this.jsEmit('LOGIN_STATUS', action.message);
             } else {
-                this.jsEmit('LOGIN_STATUSS');
+                this.jsEmit('LOGIN_STATUS');
             }
             break;
         case ActionTypes.LOGOUT_STATUS:
@@ -284,13 +284,16 @@ class UserInfoStore extends IStore {
     #getLoginError() {
         const login = super.getValueInState('login');
         let errors;
+        let nameOfField;
         if (checkIsEmail(login)) {
             errors = getEmailError(login, login);
+            nameOfField = 'email';
         } else {
             errors = getUsernameError(login);
+            nameOfField = 'username';
         }
 
-        this.#emitResponse('login', errors);
+        this.#emitResponse(nameOfField, errors);
     }
 
     /**
@@ -300,10 +303,10 @@ class UserInfoStore extends IStore {
      */
     #emitResponse(nameOfField, status) {
         if (!status) {
-            this.jsEmit('VALIDATION'.concat('_', nameOfField), 'OK');
+            this.jsEmit('VALIDATION_ERR', nameOfField, 'OK');
             super.changeFieldInState('errors', { name: nameOfField, error: false });
         } else {
-            this.jsEmit('VALIDATION'.concat('_', nameOfField), 'BAD');
+            this.jsEmit('VALIDATION_ERR', nameOfField, 'BAD');
             super.changeFieldInState('errors', { name: nameOfField, error: true });
         }
     }

@@ -18,11 +18,17 @@ export class LoginView extends BaseView {
 
     }
 
+    // TODO methods for register error messages
+
     /**
      * Render all view by components.
      */
     render() {
         super.render();
         this.callEventListener();
+    }
+
+    #render() {
+
     }
 }
