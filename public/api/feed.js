@@ -18,6 +18,5 @@ export async function feedAjax() {
         items = data;
     });
 
-    console.log('items', items);
     return items;
 }

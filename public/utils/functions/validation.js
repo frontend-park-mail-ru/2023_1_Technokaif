@@ -110,6 +110,15 @@ export function getMonthError(month) {
 }
 
 /**
+ * Return integer value of month string
+ * @param {string} - monthStr
+ * @returns {int} - month number
+ */
+export function translateMonthStrToInt(monthStr) {
+    return MONTHS.findIndex(monthStr) + 1;
+}
+
+/**
  *
  * @param {string} email -- email to validate
  * @param {string} confirmEmail --if confirmEmail empty, function only validate email.

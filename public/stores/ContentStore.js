@@ -47,7 +47,6 @@ class ContentStore extends IStore {
      * @param items
      */
     #addContentOnFeed(items) {
-        console.log('items_addContent', items);
         for (const nameOfContent in items) {
             this.#addContent(pageNames.FEED, nameOfContent, items[nameOfContent]);
         }

@@ -14,7 +14,9 @@ function renderMainPage() {
     ComponentsStore.register(pageNames.FEED, [componentsNames.NAVBAR, componentsNames.SIDEBAR,
         componentsNames.MAIN_PAGE_WINDOW]);
     // todo first load stores singletons (check webpack) then delete new
+    // eslint-disable-next-line no-new
     new API.constructor();
+    // eslint-disable-next-line no-new
     new UserInfoStore.constructor();
     Router.register('/', () => { const feed = new FeedView(); feed.render(); }, [ComponentsStore]);
     Router.start();

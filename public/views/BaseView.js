@@ -99,6 +99,6 @@ export class BaseView {
             EventTypes.ON_NOT_RENDERED_ITEMS,
         );
 
-        // Actions.whatRender(this.#viewName);
+        Actions.whatRender(this.#viewName);
     }
 }
