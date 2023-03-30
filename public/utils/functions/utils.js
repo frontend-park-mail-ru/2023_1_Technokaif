@@ -76,3 +76,41 @@ export function getCheckedValueRadioButtons(buttons) {
     }
     return elements;
 }
+
+/**
+ *
+ * @param  {...any} sexChoose -- true values
+ * sexChoose:
+ * [0] -- male
+ * [1] -- female
+ * else -- other
+ * @returns
+ */
+export function getSexInString(sexChoose) {
+    let returnSymbol = '';
+    switch (sexChoose) {
+    case 'male':
+        returnSymbol = 'M';
+        break;
+    case 'female':
+        returnSymbol = 'F';
+        break;
+    case 'dont':
+    default:
+        returnSymbol = 'O';
+    }
+
+    return returnSymbol;
+}
+
+/**
+ * Check for empty value or null value
+ * @param value
+ * @returns {boolean} - if value == '' it will return true
+ */
+export function checkForEmpty(value) {
+    if (!value || value === '' || value === []) {
+        return true;
+    }
+    return false;
+}
