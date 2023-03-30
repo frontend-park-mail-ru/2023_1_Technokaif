@@ -13,11 +13,11 @@ const METHOD = 'focusout';
 const ElementsClassForRegister = {
     login: 'js__login',
     email: 'js__email',
-    confEmail: 'js__confEmail',
+    confEmail: 'js__email-confirm',
     password: 'js__password',
     username: 'js__username',
-    firstName: 'js__firstName',
-    lastName: 'js__lastName',
+    firstName: 'js__firstname',
+    lastName: 'js__lastname',
     day: 'js__day',
     month: 'js__month',
     year: 'js__year',
@@ -25,7 +25,7 @@ const ElementsClassForRegister = {
 
     login_error: 'js__error__login',
     email_error: 'js__error__email',
-    confEmail_error: 'js__error__confEmail',
+    confEmail_error: 'js__error__email-confirm',
     password_error: 'js__error__password',
     username_error: 'js__error__username',
     firstName_error: 'js__error__firstName',
@@ -70,72 +70,86 @@ class RegisterView extends BaseView {
     /** Function to create a callback on event. */
     #addEventListenerInsideElements() {
         this.#createActionsForFields();
-        UserInfoStore.subscribe(this.dispatchErrors, EventTypes.VALIDATION_RESPONSE);
+        UserInfoStore.subscribe(
+            (name, status) => { this.dispatchErrors(name, status); },
+            EventTypes.VALIDATION_RESPONSE,
+        );
+        UserInfoStore.subscribe(
+            (status) => { this.sendAllData(status); },
+            EventTypes.SEND_DATA,
+        );
     }
 
     /** Create listeners for fields. Send actions to dispatchers. */
     #createActionsForFields() {
-        const email = document.querySelector(this.#inputsOnView.email);
+        const email = document.querySelector(`.${this.#inputsOnView.email}`);
+
         email.addEventListener(METHOD, (event) => {
             event.preventDefault();
-            Actions.validationField('email', document.querySelector(this.#inputsOnView.email).value());
+            Actions.validationField('email', document.querySelector(`.${this.#inputsOnView.email}`).value);
         });
 
-        const confEmail = document.querySelector(this.#inputsOnView.confemail);
+        const confEmail = document.querySelector(`.${this.#inputsOnView.confEmail}`);
         confEmail.addEventListener(METHOD, (event) => {
             event.preventDefault();
-            Actions.validationField('confEmail', document.querySelector(this.#inputsOnView.confEmail).value());
+            Actions.validationField('confEmail', document.querySelector(`.${this.#inputsOnView.confEmail}`).value);
         });
 
-        const password = document.querySelector(this.#inputsOnView.password);
+        const password = document.querySelector(`.${this.#inputsOnView.password}`);
         password.addEventListener(METHOD, (event) => {
             event.preventDefault();
-            Actions.validationField('password', document.querySelector(this.#inputsOnView.password).value());
+            Actions.validationField('password', document.querySelector(`.${this.#inputsOnView.password}`).value);
         });
 
-        const username = document.querySelector(this.#inputsOnView.username);
+        const username = document.querySelector(`.${this.#inputsOnView.username}`);
         username.addEventListener(METHOD, (event) => {
             event.preventDefault();
-            Actions.validationField('username', document.querySelector(this.#inputsOnView.username).value());
+            Actions.validationField('username', document.querySelector(`.${this.#inputsOnView.username}`).value);
         });
 
-        const firstName = document.querySelector(this.#inputsOnView.firstName);
+        const firstName = document.querySelector(`.${this.#inputsOnView.firstName}`);
         firstName.addEventListener(METHOD, (event) => {
             event.preventDefault();
-            Actions.validationField('firstName', document.querySelector(this.#inputsOnView.firstName).value());
+            Actions.validationField('firstName', document.querySelector(`.${this.#inputsOnView.firstName}`).value);
         });
 
-        const lastName = document.querySelector(this.#inputsOnView.lastName);
+        const lastName = document.querySelector(`.${this.#inputsOnView.lastName}`);
         lastName.addEventListener(METHOD, (event) => {
             event.preventDefault();
-            Actions.validationField('lastName', document.querySelector(this.#inputsOnView.lastName).value());
+            Actions.validationField('lastName', document.querySelector(`.${this.#inputsOnView.lastName}`).value);
         });
 
-        const day = document.querySelector(this.#inputsOnView.day);
+        const day = document.querySelector(`.${this.#inputsOnView.day}`);
         day.addEventListener(METHOD, (event) => {
             event.preventDefault();
-            Actions.validationField('day', document.querySelector(this.#inputsOnView.day).value());
+            Actions.validationField('day', document.querySelector(`.${this.#inputsOnView.day}`).value);
         });
 
-        const month = document.querySelector(this.#inputsOnView.month);
+        const month = document.querySelector(`.${this.#inputsOnView.month}`);
         month.addEventListener(METHOD, (event) => {
             event.preventDefault();
-            Actions.validationField('month', document.querySelector(this.#inputsOnView.month).value());
+            Actions.validationField('month', document.querySelector(`.${this.#inputsOnView.month}`).value);
         });
 
-        const year = document.querySelector(this.#inputsOnView.year);
+        const year = document.querySelector(`.${this.#inputsOnView.year}`);
         year.addEventListener(METHOD, (event) => {
             event.preventDefault();
-            Actions.validationField('year', document.querySelector(this.#inputsOnView.year).value());
+            Actions.validationField('year', document.querySelector(`.${this.#inputsOnView.year}`).value);
         });
 
-        const genders = document.querySelectorAll(this.#inputsOnView.gender);
-        for (const gender of genders) {
-            gender.addEventListener(METHOD, (event) => {
-                event.preventDefault();
-                Actions.validationField('sex', document.querySelector(this.#inputsOnView.gender).value());
-            });
-        }
+        const genders = document.querySelector(`.${this.#inputsOnView.gender}`);
+        genders.addEventListener(METHOD, () => {
+            const radioButtons = document.querySelectorAll(`.${this.#inputsOnView.gender_element}`);
+            const elementsValues = getCheckedValueRadioButtons(radioButtons);
+
+            Actions.validationField('sex', { gender: elementsValues });
+        });
+
+        const button = document.querySelector('.form__button');
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+            Actions.validateAll('validate_register', password.value);
+        });
     }
 
     /**
@@ -152,7 +166,7 @@ class RegisterView extends BaseView {
                 ERRORS_REG.email,
             );
             break;
-        case 'emailConf':
+        case 'confEmail':
             this.#errorsRender(
                 ElementsClassForRegister.confEmail_error,
                 status,
@@ -234,6 +248,16 @@ class RegisterView extends BaseView {
         } else {
             placeForError.innerHTML = `<p class="error">${error}</p>`;
         }
+    }
+
+    /**
+     * If status === 'OK' then send data to backend
+     * @param status
+     */
+    sendAllData(status) {
+        // eslint-disable-next-line no-unused-vars
+        status = 1;
+        // todo call api here
     }
 
     /** Render all view by components. */
