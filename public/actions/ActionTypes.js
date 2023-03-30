@@ -16,6 +16,7 @@ const ActionTypes = {
     LOGOUT_STATUS: 'LOGOUT_STATUS',
 
     FEED_GOT_CONTENT: 'FEED_GOT_CONTENT',
+    CHANGE_STORE: 'CHANGE_STORE',
 };
 
 export default ActionTypes;

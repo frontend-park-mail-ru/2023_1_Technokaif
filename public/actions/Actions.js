@@ -75,6 +75,13 @@ const Actions = {
             items,
         });
     },
+
+    sendStoreState(item) {
+        Dispatcher.dispatch({
+            type: ActionTypes.CHANGE_STORE,
+            item,
+        });
+    },
 };
 
 export default Actions;

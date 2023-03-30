@@ -1,20 +1,19 @@
 import IStore from '../stores/IStore';
+import Actions from '../actions/Actions';
 
 /**
  * Class for routing urls in app.
  */
 class Router extends IStore {
-    /** History object. */
-    #history;
-
     /** List of routes. */
     #routes;
+
+    #currentLen;
 
     /** Construct a router */
     constructor() {
         super('Router');
         this.#routes = [];
-        this.#history = window.history;
     }
 
     /**
@@ -41,18 +40,23 @@ class Router extends IStore {
         window.addEventListener('popstate', (event) => {
             event.preventDefault();
 
-            if (event.state) {
+            // todo = can be bad desicion
+            if (event.state.historyLen <= this.#currentLen) {
                 this.back();
             } else {
                 this.forward();
             }
+            this.#currentLen = event.state.history;
         });
 
-        if (window.location.pathname === '') {
-            console.error('No routes');
-        } else {
-            this.routeChange();
-        }
+        // todo check and remvove
+
+        // if (window.location.pathname === '') {
+        //     console.error('No routes');
+        // } else {
+        //     this.routeChange();
+        // }
+        this.go(window.location.pathname);
     }
 
     /**
@@ -68,11 +72,19 @@ class Router extends IStore {
 
         const stateStore = [];
         for (const state in object.store) {
-            stateStore.push(object.store[state].state);
+            // todo rewrite method of getState in feed
+
+            if (!(object.store[state]?.state[0]?.page === 'FEED')) {
+                stateStore.push(object.store[state].state);
+            }
         }
 
+        // todo was changed for work on popstate
+        this.#currentLen = window.history.length;
+        window.history.pushState({ historyLen: this.#currentLen, stateInHistory: stateStore }, '', path);
+
         if (window.location.pathname !== path) {
-            this.#history.pushState(stateStore, '', path);
+            window.history.pushState(stateStoreObj, '', path);
         }
 
         object.render();
@@ -81,13 +93,11 @@ class Router extends IStore {
 
     /** Render page that was before in history */
     back() {
-        this.#history.back();
         this.#render();
     }
 
     /** Render page that was after in history  */
     forward() {
-        this.#history.forward();
         this.#render();
     }
 
@@ -96,11 +106,18 @@ class Router extends IStore {
         this.go(window.location.pathname);
     }
 
+    /** Send actions with store states after forward/backward transfer */
+    #sendStoresChanges(states) {
+        for (const state in states) {
+            Actions.sendStoreState(state);
+        }
+    }
+
     /** Render page in current state of history. Refresh store. */
     #render() {
-        const { state } = this.#history;
-        const object = this.#routes.find((routeObj) => routeObj.path === state.url);
+        const object = this.#routes.find((routeObj) => routeObj.path === window.location.pathname);
 
+        this.#sendStoresChanges(window.history.state.stateInHistory);
         object.render();
         this.jsEmit('PAGE_CHANGED');
     }

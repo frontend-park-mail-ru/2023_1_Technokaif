@@ -4,6 +4,10 @@ import Actions from '../actions/Actions';
 import UserInfoStore from '../stores/UserInfoStore';
 import { ERRORS_LOG } from '../utils/config/errors';
 import { EventTypes } from '../stores/EventTypes';
+import { Form } from '../components/form/form';
+import { logFormSetup } from '../pages/login/authSetup';
+import ComponentsStore from '../stores/ComponentsStore';
+import { componentsNames } from '../utils/config/ComponentsNames';
 
 const METHOD = 'focusout';
 // todo temporary json
@@ -98,6 +102,11 @@ export class LoginView extends BaseView {
      */
     render() {
         super.render();
+        const form1 = new Form(
+            ComponentsStore.checkWhereToPlace(componentsNames.FORM),
+            logFormSetup(),
+        );
+        form1.render();
         this.callEventListener();
         this.#addEventListenerInsideElements();
         Actions.whatRender(super.name);
