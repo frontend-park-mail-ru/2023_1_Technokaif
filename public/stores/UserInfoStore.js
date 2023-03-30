@@ -6,7 +6,6 @@ import {
 } from '../utils/functions/validation.js';
 import ActionTypes from '../actions/ActionTypes';
 import { EventTypes } from './EventTypes';
-import { checkForEmpty, getSexInString } from '../utils/functions/utils';
 
 /**
  * Class for user data storing.
@@ -94,13 +93,14 @@ class UserInfoStore extends IStore {
             this.#getConfEmailError();
             break;
         case 'sex':
-            this.#getSexError(value);
+            super.changeFieldInState('sex', value);
+            this.#getSexError();
             break;
         case 'firstName':
             super.changeFieldInState('firstName', value);
             this.#getFirstNameError();
             break;
-        case 'lastname':
+        case 'lastName':
             super.changeFieldInState('lastName', value);
             this.#getLastNameError();
             break;
@@ -127,13 +127,7 @@ class UserInfoStore extends IStore {
      */
     #getErrorsUsername() {
         const { username } = super.state;
-
-        let status;
-        if (checkForEmpty(username)) {
-            status = 'BAD';
-        } else {
-            status = getUsernameError(username);
-        }
+        const status = getUsernameError(username);
 
         this.#emitResponse('username', status);
     }
@@ -143,12 +137,7 @@ class UserInfoStore extends IStore {
      * @param {string} password - password value
      */
     #getPasswordError(password) {
-        let status;
-        if (!checkForEmpty(password)) {
-            status = getPasswordError(password);
-        } else {
-            status = 'BAD';
-        }
+        const status = getPasswordError(password);
 
         this.#emitResponse('password', status);
     }
@@ -158,13 +147,7 @@ class UserInfoStore extends IStore {
      */
     #getDayError() {
         const { day } = super.state;
-
-        let status;
-        if (checkForEmpty(day)) {
-            status = 'BAD';
-        } else {
-            status = getDayError(day);
-        }
+        const status = getDayError(day);
 
         this.#emitResponse('day', status);
     }
@@ -174,12 +157,7 @@ class UserInfoStore extends IStore {
      */
     #getYearError() {
         const { year } = super.state;
-        let status;
-        if (checkForEmpty(year)) {
-            status = 'BAD';
-        } else {
-            status = getYearError(year);
-        }
+        const status = getYearError(year);
 
         this.#emitResponse('year', status);
     }
@@ -189,16 +167,8 @@ class UserInfoStore extends IStore {
      */
     #getMonthError() {
         const { month } = super.state;
-        let status;
-        if (checkForEmpty(month)) {
-            status = 'BAD';
-        } else {
-            status = getMonthError(month);
-
-            if (!status) {
-                super.state.monthInt = translateMonthStrToInt(month);
-            }
-        }
+        const status = getMonthError(month);
+        super.state.monthInt = translateMonthStrToInt(month);
 
         this.#emitResponse('month', status);
     }
@@ -208,12 +178,7 @@ class UserInfoStore extends IStore {
      */
     #getEmailError() {
         const { email } = super.state;
-        let status;
-        if (checkForEmpty(email)) {
-            status = 'BAD';
-        } else {
-            status = getEmailError(email, email);
-        }
+        const status = getEmailError(email, email);
 
         this.#emitResponse('email', status);
     }
@@ -224,12 +189,7 @@ class UserInfoStore extends IStore {
     #getConfEmailError() {
         const { email } = super.state;
         const { confEmail } = super.state;
-        let status;
-        if (checkForEmpty(email) || checkForEmpty(confEmail)) {
-            status = 'BAD';
-        } else {
-            status = getEmailError(email, confEmail);
-        }
+        const status = getEmailError(email, confEmail);
 
         this.#emitResponse('confEmail', status);
     }
@@ -237,25 +197,11 @@ class UserInfoStore extends IStore {
     /**
      * Get sex error
      */
-    #getSexError(sex) {
-        if (!sex) {
-            this.#emitResponse('gender', 'BAD');
-            return;
-        }
+    #getSexError() {
+        const { sex } = super.state;
+        const status = getSexError(sex);
 
-        const { gender } = sex;
-        let status;
-        if (gender.length < 2 && !checkForEmpty(gender)) {
-            status = getSexError(...gender);
-        } else {
-            status = 'false';
-        }
-
-        if (!status) {
-            super.changeFieldInState('gender', getSexInString(gender[0]));
-        }
-
-        this.#emitResponse('gender', status);
+        this.#emitResponse('username', status);
     }
 
     /**
@@ -263,14 +209,9 @@ class UserInfoStore extends IStore {
      */
     #getFirstNameError() {
         const { firstName } = super.state;
-        let status;
-        if (checkForEmpty(firstName)) {
-            status = 'BAD';
-        } else {
-            status = getNameError(firstName);
-        }
+        const status = getNameError(firstName);
 
-        this.#emitResponse('firstName', status);
+        this.#emitResponse(firstName, status);
     }
 
     /**
@@ -278,15 +219,9 @@ class UserInfoStore extends IStore {
      */
     #getLastNameError() {
         const { lastName } = super.state;
-        let status;
+        const status = getNameError(lastName);
 
-        if (checkForEmpty(lastName)) {
-            status = 'BAD';
-        } else {
-            status = getNameError(lastName);
-        }
-
-        this.#emitResponse('lastName', status);
+        this.#emitResponse(lastName, status);
     }
 
     /**
@@ -308,11 +243,11 @@ class UserInfoStore extends IStore {
         let isErrorsExist = false;
         const { errors } = super.state;
 
-        for (const element in errors) {
-            if (errors[element].error) {
+        errors.forEach((element) => {
+            if (element.error) {
                 isErrorsExist = true;
             }
-        }
+        });
 
         let status = 'OK';
         if (isErrorsExist) {
@@ -349,10 +284,8 @@ class UserInfoStore extends IStore {
         const login = super.getValueInState('login');
 
         let errors;
-        let nameOfField = 'username';
-        if (checkForEmpty(login)) {
-            errors = 'error';
-        } else if (checkIsEmail(login)) {
+        let nameOfField;
+        if (checkIsEmail(login)) {
             errors = getEmailError(login, login);
             nameOfField = 'email';
         } else {

@@ -13,11 +13,11 @@ const METHOD = 'focusout';
 const ElementsClassForRegister = {
     login: 'js__login',
     email: 'js__email',
-    confEmail: 'js__email-confirm',
+    confEmail: 'js__confEmail',
     password: 'js__password',
     username: 'js__username',
-    firstName: 'js__firstname',
-    lastName: 'js__lastname',
+    firstName: 'js__firstName',
+    lastName: 'js__lastName',
     day: 'js__day',
     month: 'js__month',
     year: 'js__year',
@@ -25,7 +25,7 @@ const ElementsClassForRegister = {
 
     login_error: 'js__error__login',
     email_error: 'js__error__email',
-    confEmail_error: 'js__error__email-confirm',
+    confEmail_error: 'js__error__confEmail',
     password_error: 'js__error__password',
     username_error: 'js__error__username',
     firstName_error: 'js__error__firstName',
@@ -58,7 +58,6 @@ class RegisterView extends BaseView {
             month: ElementsClassForRegister.month,
             year: ElementsClassForRegister.year,
             gender: ElementsClassForRegister.gender,
-            gender_element: ElementsClassForRegister.gender_element,
         };
     }
 
@@ -71,14 +70,7 @@ class RegisterView extends BaseView {
     /** Function to create a callback on event. */
     #addEventListenerInsideElements() {
         this.#createActionsForFields();
-        UserInfoStore.subscribe(
-            (name, status) => { this.dispatchErrors(name, status); },
-            EventTypes.VALIDATION_RESPONSE,
-        );
-        UserInfoStore.subscribe(
-            (status) => { this.sendAllData(status); },
-            EventTypes.SEND_DATA,
-        );
+        UserInfoStore.subscribe(this.dispatchErrors, EventTypes.VALIDATION_RESPONSE);
     }
 
     /** Create listeners for fields. Send actions to dispatchers. */
@@ -242,16 +234,6 @@ class RegisterView extends BaseView {
         } else {
             placeForError.innerHTML = `<p class="error">${error}</p>`;
         }
-    }
-
-    /**
-     * If status === 'OK' then send data to backend
-     * @param status
-     */
-    sendAllData(status) {
-        // eslint-disable-next-line no-unused-vars
-        status = 1;
-        // todo call api here
     }
 
     /** Render all view by components. */

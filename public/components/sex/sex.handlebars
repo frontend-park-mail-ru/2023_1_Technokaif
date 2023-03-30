@@ -2,10 +2,10 @@
     <div class="{{labelSex}}">
         <p class="{{labelClass}}">{{labelText}}</p>
     </div>
-    <div class="{{divSexChoose}} js__gender">
+    <div class="{{divSexChoose}}">
         {{#each sexes}}
-            <div class="{{this.insideDivSex}}">
-                <input type="{{this.typeInput}}" name="{{this.nameInput}}" class="{{this.classSexInput}} js__gender__element" value="{{this.id}}" id={{this.id}}>
+            <div class="{{this.insideDivSex}} js__gender">
+                <input type="{{this.typeInput}}" name="{{this.nameInput}}" class="{{this.classSexInput}}" value="{{this.id}}" id={{this.id}}>
                 <label for="{{this.id}}" class="{{this.classLabel}}">{{this.textLabel}}</label>
             </div>
         {{/each}}
