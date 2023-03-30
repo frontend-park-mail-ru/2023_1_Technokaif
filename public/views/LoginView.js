@@ -63,6 +63,7 @@ export class LoginView extends BaseView {
      * @param status
      */
     sendAllData(status) {
+        console.log('STATUS', status);
         if (status === 'OK') {
             const { login } = UserInfoStore.state;
             ApiActions.login(login, document.querySelector(`.${this.#inputsOnView.password}`).value);

@@ -17,6 +17,8 @@ class UserInfoStore extends IStore {
      */
     constructor() {
         super('userInfo');
+        const state = super.state;
+        state.errors = {};
     }
 
     /**
@@ -309,7 +311,7 @@ class UserInfoStore extends IStore {
         const { errors } = super.state;
 
         for (const element in errors) {
-            if (errors[element].error) {
+            if (errors[element].error && errors[element].nameOfField !== 'login') {
                 isErrorsExist = true;
             }
         }
@@ -360,6 +362,12 @@ class UserInfoStore extends IStore {
             nameOfField = 'username';
         }
 
+        if (!errors) {
+            super.state.errors.login = true;
+        } else {
+            super.state.errors.login = false;
+        }
+
         this.#emitResponse(nameOfField, errors);
     }
 
@@ -369,12 +377,15 @@ class UserInfoStore extends IStore {
      * @param {*} status - errors
      */
     #emitResponse(nameOfField, status) {
+        const state = super.state;
         if (!status) {
             this.jsEmit(EventTypes.VALIDATION_RESPONSE, nameOfField, 'OK');
-            super.changeFieldInState('errors', { name: nameOfField, error: false });
+            // super.changeFieldInState('errors', { name: nameOfField, error: false });
+            state.errors[nameOfField] = false;
         } else {
             this.jsEmit(EventTypes.VALIDATION_RESPONSE, nameOfField, 'BAD');
-            super.changeFieldInState('errors', { name: nameOfField, error: true });
+            // super.changeFieldInState('errors', { name: nameOfField, error: true });
+            state.errors[nameOfField] = true;
         }
     }
 }

@@ -43,10 +43,12 @@ export class Form {
         this.#parent.innerHTML = this.HTML();
         this.#parent.querySelector('.header-placement').innerHTML = this.#renderHeader();
         this.#parent.querySelector('.inputs-placement').innerHTML = this.#renderInputs();
+        console.log('Date ', this.#confDate);
         if (this.#confDate !== '') {
             this.#parent.querySelector('.form__placement-additionall').innerHTML += this.#renderDate();
         }
 
+        console.log('Sex ', this.#confSex);
         if (this.#confSex !== '') {
             this.#parent.querySelector('.form__placement-additionall').innerHTML += this.#renderSex();
         }
