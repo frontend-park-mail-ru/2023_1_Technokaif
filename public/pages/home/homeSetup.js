@@ -5,8 +5,8 @@
  */
 export function homeSetup(title, items) {
     return ({
-        tapeDiv: 'tape__title',
-        titleMainDivClass: '',
+        tapeDiv: 'tape',
+        titleMainDivClass: 'tape__title',
         titleOfTrackClass: '',
         titleText: title,
         fullListClass: 'tape__show-text',

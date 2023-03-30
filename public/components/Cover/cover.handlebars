@@ -1,21 +1,21 @@
-<div class="{{coverMainClass}}">
-    <div class="{{imgDiv}}">
-        <img class="{{imgClass}}" src="{{#convert}}{{item.cover}}{{/convert}}">
+<div class="{{root.coverMainClass}}">
+    <div class="{{root.imgDiv}}">
+        <img class="{{root.imgClass}}" src="{{#convert}}{{item.cover}}{{/convert}}">
     </div>
 
-    <div class="{{titleTextDiv}}">
+    <div class="{{root.titleTextDiv}}">
         <p>{{item.name}}</p>
     </div>
     {{#if item.description}}
-        <div class="{{descriptionDiv}}">
-                <p>{{item.description}}</p>
+        <div class="{{root.descriptionDiv}}">
+            <p>{{item.description}}</p>
         </div>
     {{/if}}
 
-    {{#if footerElements}}
-        <div class="{{footerMainDiv}}">
-            {{#each footerElements}}
-                <div class="{{footerElementDiv}}">
+    {{#if root.footerElements}}
+        <div class="{{root.footerMainDiv}}">
+            {{#each root.footerElements}}
+                <div class="{{root.footerElementDiv}}">
                     <p>{{this.name}}</p>
                 </div>
             {{/each}}

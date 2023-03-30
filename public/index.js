@@ -6,19 +6,41 @@ import { pageNames } from './utils/config/pageNames';
 import { componentsNames } from './utils/config/ComponentsNames';
 import API from './api/API';
 import UserInfoStore from './stores/UserInfoStore';
+import ContentStore from './stores/ContentStore';
+import { LoginView } from './views/LoginView';
+import { RegisterView } from './views/RegisterView';
+import ComponentsRenders from './components/ComponentsRenders';
 
 /**
  * Render main page of app
  */
 function renderMainPage() {
-    ComponentsStore.register(pageNames.FEED, [componentsNames.NAVBAR, componentsNames.SIDEBAR,
-        componentsNames.MAIN_PAGE_WINDOW]);
-    // todo first load stores singletons (check webpack) then delete new
-    // eslint-disable-next-line no-new
-    new API.constructor();
-    // eslint-disable-next-line no-new
-    new UserInfoStore.constructor();
-    Router.register('/', () => { const feed = new FeedView(); feed.render(); }, [ComponentsStore]);
+    ComponentsStore.register(
+        pageNames.FEED,
+        [
+            {
+                name: componentsNames.NAVBAR,
+                render: ComponentsRenders.renderNavbar,
+                unrender: ComponentsRenders.unrenderNavbar,
+            },
+            {
+                name: componentsNames.SIDEBAR,
+                render: ComponentsRenders.renderSidebar,
+                unrender: ComponentsRenders.unrenderSidebar,
+            },
+            {
+                name: componentsNames.MAIN_PAGE_WINDOW,
+                render: ComponentsRenders.renderFeedContent,
+                unrender: ComponentsRenders.unrenderFeedContent,
+            },
+        ],
+    );
+
+    // ComponentsStore.register(pageNames.LOGIN, [componentsNames.FORM]);
+    // ComponentsStore.register(pageNames.REGISTER, [componentsNames.FORM]);
+    Router.register('/', () => { const feed = new FeedView(); feed.render(); }, [ComponentsStore, API, ContentStore]);
+    Router.register('/login', () => { const login = new LoginView(); login.render(); }, [ComponentsStore, API, UserInfoStore]);
+    Router.register('/register', () => { const register = new RegisterView(); register.render(); }, [ComponentsStore, API, UserInfoStore]);
     Router.start();
 }
 

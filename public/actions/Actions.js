@@ -20,6 +20,20 @@ const Actions = {
         });
     },
 
+    addElementOnPage(name) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ADD_COMPONENT_ON_PAGE,
+            name,
+        });
+    },
+
+    removeElementFromPage(name) {
+        Dispatcher.dispatch({
+            type: ActionTypes.REMOVE_COMPONENT_FROM_PAGE,
+            name,
+        });
+    },
+
     validationField(nameOfField, content) {
         Dispatcher.dispatch({
             type: ActionTypes.VALIDATION_FIELD,

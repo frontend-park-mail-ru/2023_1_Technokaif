@@ -1,11 +1,7 @@
 import ComponentsStore from '../stores/ComponentsStore';
-import { checkAuth } from '../utils/functions/checkAuth';
-import { authNavConfig, sidebarConfig, unAuthNavConfig } from '../utils/config/config';
-import Navbar from '../components/Navbar/Navbar';
-import Menu from '../components/Menu/Menu';
 import { clearBars, prePageRender } from '../utils/functions/prePageRender';
-import { componentsNames } from '../utils/config/ComponentsNames';
 import { EventTypes } from '../stores/EventTypes';
+import Actions from '../actions/Actions';
 
 /**
  * Base View class to handle render functions.
@@ -31,45 +27,33 @@ export class BaseView {
         return this.#viewName;
     }
 
-    // todo: change function of navbar rendering. Make middleware for auth and navbar class inside
-    //  navbar component render.
-    /**
-     * Create Navbar component and render it in parent
-     * @param {HTMLElement} parent -- where to place Navbar
-     */
-    #renderNavbar(parent) {
-        const config = (checkAuth()) ? authNavConfig : unAuthNavConfig;
-        const navbar = new Navbar(parent, config, 'navbar');
-        navbar.render();
-    }
-
-    /**
-     * Create Sidebar component and render it in parent
-     * @param {HTMLElement} parent -- where to place Sidebar
-     */
-    #renderSidebar(parent) {
-        const sidebar = new Menu(parent, sidebarConfig, 'sidebar');
-        sidebar.render();
-    }
-
     /**
      * Callback to pass throw store to subscribe rendering components.
      * @param list
      */
     renderComponentsList(list) {
-        list.forEach((componentName) => {
+        list.forEach((component) => {
+            const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);
-
-            switch (componentName) {
-            case componentsNames.NAVBAR:
-                this.#renderNavbar(parent);
-                break;
-            case componentsNames.SIDEBAR:
-                this.#renderSidebar(parent);
-                break;
-            default:
-                break;
+            if (component.render.length !== 2) {
+                component.render(parent);
             }
+
+            Actions.addElementOnPage(componentName);
+        });
+    }
+
+    /**
+     * Callback to pass throw store to subscribe unrender of components.
+     * @param list
+     */
+    unrenderComponentsList(list) {
+        list.forEach((component) => {
+            // only one key because of structure (check ComponentsStore register())
+            const componentName = component.name;
+            const parent = ComponentsStore.checkWhereToPlace(componentName);
+            component.unrender(parent);
+            Actions.removeElementFromPage(componentName);
         });
     }
 
@@ -98,7 +82,11 @@ export class BaseView {
             },
             EventTypes.ON_NOT_RENDERED_ITEMS,
         );
-
-        Actions.whatRender(this.#viewName);
+        ComponentsStore.subscribe(
+            (list) => {
+                this.unrenderComponentsList(list);
+            },
+            EventTypes.ON_REMOVE_ANOTHER_ITEMS,
+        );
     }
 }

@@ -3,6 +3,7 @@ import { ERRORS_REG } from '../utils/config/errors';
 import { pageNames } from '../utils/config/pageNames';
 import UserInfoStore from '../stores/UserInfoStore';
 import Actions from '../actions/Actions';
+import { EventTypes } from '../stores/EventTypes';
 
 // todo Validate all create func to check
 
@@ -68,7 +69,7 @@ export class RegisterView extends BaseView {
     /** Function to create a callback on event. */
     #addEventListenerInsideElements() {
         this.#createActionsForFields();
-        UserInfoStore.subscribe(this.dispatchErrors, 'VALIDATION_ERR');
+        UserInfoStore.subscribe(this.dispatchErrors, EventTypes.VALIDATION_RESPONSE);
     }
 
     /** Create listeners for fields. Send actions to dispatchers. */
@@ -239,5 +240,6 @@ export class RegisterView extends BaseView {
         super.render();
         this.callEventListener();
         this.#addEventListenerInsideElements();
+        Actions.whatRender(super.name);
     }
 }

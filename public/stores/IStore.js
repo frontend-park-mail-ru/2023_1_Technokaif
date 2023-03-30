@@ -30,8 +30,8 @@ class IStore extends EventEmitter {
 
     }
 
-    /** Adds a new item to the list and emits a CHANGED event.
-     *
+    /**
+     * Adds a new item to the list and emits a CHANGED event.
      * @param itemObj
      * @param eventName
      */
@@ -42,6 +42,16 @@ class IStore extends EventEmitter {
 
         if (eventName !== null) {
             this.jsEmit(eventName);
+        }
+    }
+
+    /**
+     * Remove an element.
+     * @param itemObj
+     */
+    removeItem(itemObj) {
+        for (const key of Object.keys(itemObj)) {
+            delete this.#state[key];
         }
     }
 

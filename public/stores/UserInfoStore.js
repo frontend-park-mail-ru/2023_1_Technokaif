@@ -5,6 +5,7 @@ import {
     getSexError, getNameError, checkIsEmail, translateMonthStrToInt,
 } from '../utils/functions/validation.js';
 import ActionTypes from '../actions/ActionTypes';
+import { EventTypes } from './EventTypes';
 
 /**
  * Class for user data storing.
@@ -303,10 +304,10 @@ class UserInfoStore extends IStore {
      */
     #emitResponse(nameOfField, status) {
         if (!status) {
-            this.jsEmit('VALIDATION_ERR', nameOfField, 'OK');
+            this.jsEmit(EventTypes.VALIDATION_RESPONSE, nameOfField, 'OK');
             super.changeFieldInState('errors', { name: nameOfField, error: false });
         } else {
-            this.jsEmit('VALIDATION_ERR', nameOfField, 'BAD');
+            this.jsEmit(EventTypes.VALIDATION_RESPONSE, nameOfField, 'BAD');
             super.changeFieldInState('errors', { name: nameOfField, error: true });
         }
     }

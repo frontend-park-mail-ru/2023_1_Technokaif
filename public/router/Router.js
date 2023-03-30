@@ -66,11 +66,10 @@ class Router extends IStore {
             return;
         }
 
-        const initValue = [];
-        const stateStore = object.store.reduce(
-            (accumulator, currentValue) => accumulator.push(currentValue.state),
-            initValue,
-        );
+        const stateStore = [];
+        for (const state in object.store) {
+            stateStore.push(object.store[state].state);
+        }
 
         if (window.location.pathname !== path) {
             this.#history.pushState(stateStore, '', path);

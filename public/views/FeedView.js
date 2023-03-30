@@ -1,5 +1,4 @@
 import { BaseView } from './BaseView';
-import { MainWindowContent } from '../components/MainWindow/mainWindow';
 import ComponentsStore from '../stores/ComponentsStore';
 import Actions from '../actions/Actions';
 import ApiActions from '../actions/ApiActions';
@@ -20,12 +19,12 @@ export class FeedView extends BaseView {
         super(pageNames.FEED);
     }
 
-    // todo: make render of feed content to work throw actions in store.
     /**
      * Create feed content component and render it in parent
      * @param {HTMLElement} parent -- where to place Sidebar
+     * @param component -- component with render callback to render
      */
-    #renderFeedContent(parent) {
+    #renderFeedContent(parent, component) {
         ContentStore.subscribe(() => {
             const state = ContentStore.state[pageNames.FEED];
             const configs = [];
@@ -33,8 +32,8 @@ export class FeedView extends BaseView {
                 configs.push(homeSetup(key, state[key]));
             }
 
-            const mainPage = new MainWindowContent(parent, { mainPageWindowDiv: 'main-page-window' }, configs);
-            mainPage.render();
+            // todo fuck go back its strange dynamic logic
+            component.render(parent, configs);
         }, EventTypes.CHANGE_CONTENT);
 
         ApiActions.feed();
@@ -52,15 +51,15 @@ export class FeedView extends BaseView {
      * @param list
      */
     #renderFeedComponents(list) {
-        list.forEach((componentName) => {
+        list.forEach((component) => {
+            const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);
             switch (componentName) {
-            // todo make another cases (like mainWindowContent)
             case componentsNames.MAIN_PAGE_WINDOW:
-                this.#renderFeedContent(parent);
+                this.#renderFeedContent(parent, component);
+                Actions.addElementOnPage(componentName);
                 break;
             default:
-                break;
             }
         });
     }

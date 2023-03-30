@@ -43,6 +43,9 @@ class ComponentsStore extends IStore {
         case ActionTypes.ADD_COMPONENT_ON_PAGE:
             this.#addElementOnPage(action.name);
             break;
+        case ActionTypes.REMOVE_COMPONENT_FROM_PAGE:
+            this.#removeElementFromPage(action.name);
+            break;
         default:
         }
     }
@@ -60,6 +63,8 @@ class ComponentsStore extends IStore {
             return document.querySelector(`.${componentsNames.SIDEBAR}`);
         case componentsNames.MAIN_PAGE_WINDOW:
             return document.querySelector('#main');
+        case componentsNames.FORM:
+            return document.querySelector('#root');
         default:
             console.error('position to place element by name', elementName, 'not found');
             return document.querySelector('#root');
@@ -83,12 +88,34 @@ class ComponentsStore extends IStore {
     }
 
     /**
+     * Remove element from local and state variables.
+     * @param element
+     */
+    #removeElementFromPage(element) {
+        this.#whatExistOnPage.filter((elem) => (elem !== element));
+        this.removeItem(this.#whatExistOnPage);
+    }
+
+    /**
      * Register the page and it's requirement.
      * @param {string} nameOfPage - name of Page
-     * @param {Array} requiredElements - json with names of needed
+     * @param {json} requiredComponents
+     * @example of requiredComponents
+     * [
+     *     {
+     *          name: component1,
+     *          render: renderCallback1,
+     *          unrender: unrenderCallback1
+     *     },
+     *     {
+     *          name: component2,
+     *          render: renderCallback2,
+     *          unrender: unrenderCallback2
+     *     },
+     * ]
      */
-    register(nameOfPage, requiredElements) {
-        this.#whatNeedForPage.push({ page: nameOfPage, namesOfElements: requiredElements });
+    register(nameOfPage, requiredComponents) {
+        this.#whatNeedForPage.push({ page: nameOfPage, components: requiredComponents });
         this.addNewItem(this.#whatNeedForPage);
     }
 
@@ -97,16 +124,25 @@ class ComponentsStore extends IStore {
      * @param pageName
      */
     #checkElementsForPage(pageName) {
-        const page = this.#whatNeedForPage.find((element) => element.page === pageName);
+        const { components } = this.#whatNeedForPage.find((element) => element.page === pageName);
 
         const notExist = [];
-        page.namesOfElements.forEach((element) => {
-            const existOnPage = this.#whatExistOnPage.find((el) => el === element);
+        const alreadyExist = [];
+        components.forEach((component) => {
+            const alreadyExistsOnPage = this.#whatExistOnPage.find(
+                (currentComponent) => currentComponent === component,
+            );
 
-            if (existOnPage === undefined) {
-                notExist.push(element);
+            if (alreadyExistsOnPage === undefined) {
+                notExist.push(component);
+            } else {
+                alreadyExist.push(alreadyExistsOnPage);
             }
         });
+
+        if (alreadyExist !== []) {
+            this.jsEmit(EventTypes.ON_REMOVE_ANOTHER_ITEMS, alreadyExist);
+        }
 
         if (notExist !== []) {
             this.jsEmit(EventTypes.ON_NOT_RENDERED_ITEMS, notExist);

@@ -11,7 +11,7 @@
 
     <div class="{{contentDivClass}}">
         {{#each content}}
-            {{> ../Cover/cover.handlebars item = this}}
+            {{> ../Cover/cover.handlebars item = this root = ../. }}
         {{/each}}
     </div>
 </div>

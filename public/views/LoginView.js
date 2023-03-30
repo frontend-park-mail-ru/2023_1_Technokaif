@@ -3,6 +3,7 @@ import { pageNames } from '../utils/config/pageNames';
 import Actions from '../actions/Actions';
 import UserInfoStore from '../stores/UserInfoStore';
 import { ERRORS_LOG } from '../utils/config/errors';
+import { EventTypes } from '../stores/EventTypes';
 
 const METHOD = 'focusout';
 // todo temporary json
@@ -58,7 +59,7 @@ export class LoginView extends BaseView {
     /** Function to create a callback on event. */
     #addEventListenerInsideElements() {
         this.#createActionsForFields();
-        UserInfoStore.subscribe(this.dispatchErrors, 'VALIDATION_ERR');
+        UserInfoStore.subscribe(this.dispatchErrors, EventTypes.VALIDATION_RESPONSE);
     }
 
     /** Create listeners for fields. Send actions to dispatchers. */
@@ -99,5 +100,6 @@ export class LoginView extends BaseView {
         super.render();
         this.callEventListener();
         this.#addEventListenerInsideElements();
+        Actions.whatRender(super.name);
     }
 }
