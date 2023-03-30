@@ -1,6 +1,4 @@
-import { redirect } from '../../modules/redirects.js';
-import { authNavConfig, unAuthNavConfig } from '../../utils/config/config.js';
-import { checkAuth } from '../../utils/functions/checkAuth.js';
+import Router from '../../router/Router';
 
 /**
  * Class for Navbar element: Login, Registration, Logout and user info.
@@ -43,17 +41,11 @@ class Navbar {
      * then redirect to section in dataset of element
      */
     callEventListener() {
-        document.getElementById('cont').addEventListener('click', (e) => {
+        document.querySelector('#cont').addEventListener('click', (e) => {
             e?.preventDefault?.();
             if (e.target instanceof HTMLAnchorElement || e.target instanceof HTMLButtonElement) {
                 const { section } = e.target.dataset;
-                if (section) {
-                    if (checkAuth()) {
-                        redirect(authNavConfig[section]);
-                    } else {
-                        redirect(unAuthNavConfig[section]);
-                    }
-                }
+                Router.go(this.#config[section].href);
             }
         });
     }

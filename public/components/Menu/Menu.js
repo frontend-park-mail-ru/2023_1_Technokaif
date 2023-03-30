@@ -1,5 +1,4 @@
-import { redirect } from '../../modules/redirects.js';
-import { sidebarConfig } from '../../utils/config/config.js';
+import Router from '../../router/Router';
 import templateHtml from './menu.handlebars';
 
 /**
@@ -46,7 +45,7 @@ class Menu {
             e.preventDefault();
             if (e.target instanceof HTMLAnchorElement) {
                 const { section } = e.target.dataset;
-                redirect(sidebarConfig[section]);
+                Router.go(this.#config[section].href);
             }
         });
     }
