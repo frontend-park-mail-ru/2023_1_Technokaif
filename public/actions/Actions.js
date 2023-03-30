@@ -42,6 +42,15 @@ const Actions = {
         });
     },
 
+    validateAll(nameOfValidation, content) {
+        const nameOfField = nameOfValidation;
+        Dispatcher.dispatch({
+            type: ActionTypes.VALIDATION_CHECK_CORRECT_ALL,
+            nameOfField,
+            content,
+        });
+    },
+
     registerChangeState({
         message,
     }) {

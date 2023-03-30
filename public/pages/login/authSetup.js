@@ -25,7 +25,7 @@ export function logFormSetup() {
             {
                 divBeforeInput: CLASS.divBeforeInput,
                 typeOfInput: 'text',
-                nameOfField: 'username',
+                nameOfField: 'login',
                 labelClass: 'input-block__label',
                 labelText: 'Login:',
                 placeholder: 'Your username or email',

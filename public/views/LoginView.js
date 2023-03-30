@@ -50,7 +50,7 @@ export class LoginView extends BaseView {
             this.#errorsRender(ElementsClassForLogin.login_error, status, ERRORS_LOG.username);
             break;
         case 'email':
-            this.#errorsRender(ElementsClassForLogin.email_error, status, ERRORS_LOG.email);
+            this.#errorsRender(ElementsClassForLogin.login_error, status, ERRORS_LOG.email);
             break;
         case 'password':
             this.#errorsRender(ElementsClassForLogin.password_error, status, ERRORS_LOG.password);
@@ -60,24 +60,47 @@ export class LoginView extends BaseView {
         }
     }
 
+    /**
+     * If status === 'OK' then send data to backend
+     * @param status
+     */
+    sendAllData(status) {
+        // eslint-disable-next-line no-unused-vars
+        status = 1;
+        // todo call api here
+    }
+
     /** Function to create a callback on event. */
     #addEventListenerInsideElements() {
         this.#createActionsForFields();
-        UserInfoStore.subscribe(this.dispatchErrors, EventTypes.VALIDATION_RESPONSE);
+        UserInfoStore.subscribe(
+            (name, status) => { this.dispatchErrors(name, status); },
+            EventTypes.VALIDATION_RESPONSE,
+        );
+        UserInfoStore.subscribe(
+            (status) => { this.sendAllData(status); },
+            EventTypes.SEND_DATA,
+        );
     }
 
     /** Create listeners for fields. Send actions to dispatchers. */
     #createActionsForFields() {
-        const login = document.querySelector(this.#inputsOnView.login);
+        const login = document.querySelector(`.${this.#inputsOnView.login}`);
         login.addEventListener(METHOD, (event) => {
             event.preventDefault();
-            Actions.validationField('log_username', document.querySelector(this.#inputsOnView.login).value());
+            Actions.validationField('log_username', document.querySelector(`.${this.#inputsOnView.login}`).value);
         });
 
-        const password = document.querySelector(this.#inputsOnView.password);
+        const password = document.querySelector(`.${this.#inputsOnView.password}`);
         password.addEventListener(METHOD, (event) => {
             event.preventDefault();
-            Actions.validationField('log_password', document.querySelector(this.#inputsOnView.password).value());
+            Actions.validationField('log_password', document.querySelector(`.${this.#inputsOnView.password}`).value);
+        });
+
+        const button = document.querySelector('.form__button');
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+            Actions.validateAll('validate_login', password.value);
         });
     }
 

@@ -36,6 +36,12 @@ function renderMainPage() {
         ],
     );
 
+    ComponentsStore.register(
+        pageNames.LOGIN,
+        [
+        ],
+    );
+
     // ComponentsStore.register(pageNames.LOGIN, [componentsNames.FORM]);
     // ComponentsStore.register(pageNames.REGISTER, [componentsNames.FORM]);
     Router.register('/', () => { const feed = new FeedView(); feed.render(); }, [ComponentsStore, API, ContentStore]);

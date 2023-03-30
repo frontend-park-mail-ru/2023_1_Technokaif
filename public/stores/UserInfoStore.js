@@ -32,6 +32,7 @@ class UserInfoStore extends IStore {
         super.dispatch();
 
         switch (action.type) {
+        case ActionTypes.VALIDATION_CHECK_CORRECT_ALL:
         case ActionTypes.VALIDATION_FIELD:
             this.#validationDispatch(action.nameOfField, action.content);
             break;
@@ -109,10 +110,10 @@ class UserInfoStore extends IStore {
             super.changeFieldInState('lastName', value);
             this.#getLastNameError();
             break;
-        case 'all_reg':
+        case 'validate_register':
             this.#checkForAllErrors(value);
             break;
-        case 'all_log':
+        case 'validate_login':
             this.#checkForErrorsInAuthorization(value);
             break;
         case 'log_username':
@@ -260,7 +261,7 @@ class UserInfoStore extends IStore {
         }
 
         // todo subscribe api request to this
-        this.jsEmit('VALIDATE_ALL', status);
+        this.jsEmit(EventTypes.SEND_DATA, status);
     }
 
     /**
@@ -272,11 +273,14 @@ class UserInfoStore extends IStore {
         this.#getPasswordError(password);
 
         const errors = super.getValueInState('errors');
+        let status;
         if (errors.login || errors.password) {
-            this.jsEmit('VALIDATE_ALL', 'BAD');
+            status = 'BAD';
         } else {
-            this.jsEmit('VALIDATE_ALL', 'OK');
+            status = 'OK';
         }
+
+        this.jsEmit(EventTypes.SEND_DATA, status);
     }
 
     /**
@@ -284,6 +288,7 @@ class UserInfoStore extends IStore {
      */
     #getLoginError() {
         const login = super.getValueInState('login');
+
         let errors;
         let nameOfField;
         if (checkIsEmail(login)) {
