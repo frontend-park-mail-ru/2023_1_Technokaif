@@ -1,5 +1,5 @@
 import ComponentsStore from '../stores/ComponentsStore';
-import { clearBars, prePageRender } from '../utils/functions/prePageRender';
+import { prePageRender } from '../utils/functions/prePageRender';
 import { EventTypes } from '../stores/EventTypes';
 import Actions from '../actions/Actions';
 
@@ -12,11 +12,14 @@ export class BaseView {
      */
     #viewName;
 
+    #unsubscribe;
+
     /**
      * Constructor for base view.
      */
     constructor(name) {
         this.#viewName = name;
+        this.#unsubscribe = [];
     }
 
     /**
@@ -32,6 +35,7 @@ export class BaseView {
      * @param list
      */
     renderComponentsList(list) {
+        console.log('render', list);
         list.forEach((component) => {
             const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);
@@ -48,8 +52,8 @@ export class BaseView {
      * @param list
      */
     unrenderComponentsList(list) {
+        console.log('unrender', list);
         list.forEach((component) => {
-            // only one key because of structure (check ComponentsStore register())
             const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);
             component.unrender(parent);
@@ -63,11 +67,14 @@ export class BaseView {
     #preRender() {
         if (ComponentsStore.prePageNeed(this.#viewName)) {
             prePageRender();
-        } else {
-            // todo make unregister
-            // todo think about all unregisters
-            clearBars();
         }
+    }
+
+    /**
+     * Function to unsubscribe from componentsStore
+     */
+    componentsStoreUnsubscribe() {
+        ComponentsStore.unsubscribeAll();
     }
 
     /**

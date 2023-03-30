@@ -4,6 +4,9 @@ import Navbar from './Navbar/Navbar';
 import Menu from './Menu/Menu';
 import { MainWindowContent } from './MainWindow/mainWindow';
 import { componentsNames } from '../utils/config/ComponentsNames';
+import { Form } from './form/form';
+import { logFormSetup } from '../pages/login/authSetup';
+import { regFormSetup } from '../pages/registration/creationSetup';
 
 /**
  * Class for components renders functions.
@@ -26,7 +29,7 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- from what delete component
      */
     unrenderNavbar(parent) {
-        parent.removeChild(document.querySelector(`.${componentsNames.NAVBAR}`));
+        document.querySelector('#cont').removeChild(document.querySelector(`.${componentsNames.NAVBAR}`));
     }
 
     /**
@@ -43,7 +46,7 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- from what delete component
      */
     unrenderSidebar(parent) {
-        parent.removeChild(document.querySelector(`.${componentsNames.SIDEBAR}`));
+        document.querySelector('#factBody').removeChild(document.querySelector(`.${componentsNames.SIDEBAR}`));
     }
 
     /**
@@ -62,6 +65,52 @@ class ComponentsRenders {
      */
     unrenderFeedContent(parent) {
         parent.removeChild(document.querySelector(`.${componentsNames.MAIN_PAGE_WINDOW}`));
+    }
+
+    /**
+     * Create Form for login component and render it in parent
+     * @param {HTMLElement} parent -- where to place Sidebar
+     */
+    renderFormLogin(parent) {
+        const form = new Form(
+            parent,
+            logFormSetup(),
+        );
+
+        form.render();
+    }
+
+    /**
+     * Destroy Form for login component in parent block
+     * @param {HTMLElement} parent -- from what delete component
+     */
+    unrenderFormLogin(parent) {
+        parent.removeChild(document.querySelector(`.${componentsNames.FORM}`));
+    }
+
+    /**
+     * Create Form for register component and render it in parent
+     * @param {HTMLElement} parent -- where to place Sidebar
+     * @param genderConfig
+     * @param dateConfig
+     */
+    renderFormRegister(parent, genderConfig, dateConfig) {
+        const form = new Form(
+            parent,
+            regFormSetup(),
+            genderConfig,
+            dateConfig,
+        );
+
+        form.render();
+    }
+
+    /**
+     * Destroy Form for register component in parent block
+     * @param {HTMLElement} parent -- from what delete component
+     */
+    unrenderFormRegister(parent) {
+        parent.removeChild(document.querySelector(`.${componentsNames.FORM}`));
     }
 }
 

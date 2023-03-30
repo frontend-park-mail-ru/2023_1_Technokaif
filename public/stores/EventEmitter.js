@@ -1,7 +1,7 @@
 /**
  * Class to emit events and add/remove actions.
  */
-class EventEmitter {
+export default class EventEmitter {
     #events;
 
     /**
@@ -36,6 +36,13 @@ class EventEmitter {
     }
 
     /**
+     * Remove all listeners.
+     */
+    emitterRemoveAllListeners() {
+        this.#events = [];
+    }
+
+    /**
      * Emit an event.
      * @param event
      * @param args
@@ -46,5 +53,3 @@ class EventEmitter {
         }
     }
 }
-
-export default EventEmitter;

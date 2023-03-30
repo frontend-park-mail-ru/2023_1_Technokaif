@@ -40,7 +40,7 @@ class Router extends IStore {
         window.addEventListener('popstate', (event) => {
             event.preventDefault();
 
-            // todo = can be bad desicion
+            // todo = can be bad decision
             if (event.state.historyLen <= this.#currentLen) {
                 this.back();
             } else {
@@ -49,13 +49,6 @@ class Router extends IStore {
             this.#currentLen = event.state.history;
         });
 
-        // todo check and remvove
-
-        // if (window.location.pathname === '') {
-        //     console.error('No routes');
-        // } else {
-        //     this.routeChange();
-        // }
         this.go(window.location.pathname);
     }
 
@@ -72,11 +65,7 @@ class Router extends IStore {
 
         const stateStore = [];
         for (const state in object.store) {
-            // todo rewrite method of getState in feed
-
-            if (!(object.store[state]?.state[0]?.page === 'FEED')) {
-                stateStore.push(object.store[state].state);
-            }
+            stateStore.push(object.store[state].state);
         }
 
         // todo was changed for work on popstate
@@ -87,6 +76,7 @@ class Router extends IStore {
             window.history.pushState(stateStoreObj, '', path);
         }
 
+        console.log('in go', object);
         object.render();
         this.jsEmit('PAGE_CHANGED');
     }
@@ -101,11 +91,6 @@ class Router extends IStore {
         this.#render();
     }
 
-    /** If page route was changed. */
-    routeChange() {
-        this.go(window.location.pathname);
-    }
-
     /** Send actions with store states after forward/backward transfer */
     #sendStoresChanges(states) {
         for (const state in states) {
@@ -116,7 +101,7 @@ class Router extends IStore {
     /** Render page in current state of history. Refresh store. */
     #render() {
         const object = this.#routes.find((routeObj) => routeObj.path === window.location.pathname);
-
+        console.log('in render', object);
         this.#sendStoresChanges(window.history.state.stateInHistory);
         object.render();
         this.jsEmit('PAGE_CHANGED');

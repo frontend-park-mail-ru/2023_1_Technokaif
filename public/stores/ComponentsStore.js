@@ -21,12 +21,18 @@ class ComponentsStore extends IStore {
     #whatExistOnPage;
 
     /**
+     * Array of all various elements
+     */
+    #allElements;
+
+    /**
      * Constructor for ComponentsStore.
      */
     constructor() {
         super('ComponentsStore');
         this.#whatExistOnPage = [];
         this.#whatNeedForPage = [];
+        this.#allElements = [];
     }
 
     /**
@@ -117,6 +123,11 @@ class ComponentsStore extends IStore {
     register(nameOfPage, requiredComponents) {
         this.#whatNeedForPage.push({ page: nameOfPage, components: requiredComponents });
         this.addNewItem(this.#whatNeedForPage);
+        requiredComponents.forEach((component) => {
+            if (!this.#allElements.includes(component)) {
+                this.#allElements.push(component);
+            }
+        });
     }
 
     /**
@@ -127,7 +138,6 @@ class ComponentsStore extends IStore {
         const { components } = this.#whatNeedForPage.find((element) => element.page === pageName);
 
         const notExist = [];
-        const alreadyExist = [];
         components.forEach((component) => {
             const alreadyExistsOnPage = this.#whatExistOnPage.find(
                 (currentComponent) => currentComponent === component,
@@ -135,16 +145,22 @@ class ComponentsStore extends IStore {
 
             if (alreadyExistsOnPage === undefined) {
                 notExist.push(component);
-            } else {
-                alreadyExist.push(alreadyExistsOnPage);
             }
         });
 
-        if (alreadyExist !== []) {
-            this.jsEmit(EventTypes.ON_REMOVE_ANOTHER_ITEMS, alreadyExist);
+        let needToBeDeletedExist = this.#whatExistOnPage.filter(
+            (elementOnPage) => !components.includes(elementOnPage),
+        );
+
+        needToBeDeletedExist = needToBeDeletedExist.filter(
+            (item, index) => needToBeDeletedExist.indexOf(item) === index,
+        ).map((element) => this.#allElements.find((elem) => elem.name === element));
+
+        if (needToBeDeletedExist.length !== 0) {
+            this.jsEmit(EventTypes.ON_REMOVE_ANOTHER_ITEMS, needToBeDeletedExist);
         }
 
-        if (notExist !== []) {
+        if (notExist.length !== 0) {
             this.jsEmit(EventTypes.ON_NOT_RENDERED_ITEMS, notExist);
         }
     }

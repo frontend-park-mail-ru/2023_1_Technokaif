@@ -4,10 +4,8 @@ import Actions from '../actions/Actions';
 import UserInfoStore from '../stores/UserInfoStore';
 import { ERRORS_LOG } from '../utils/config/errors';
 import { EventTypes } from '../stores/EventTypes';
-import { Form } from '../components/form/form';
-import { logFormSetup } from '../pages/login/authSetup';
+import ApiActions from '../actions/ApiActions';
 import ComponentsStore from '../stores/ComponentsStore';
-import { componentsNames } from '../utils/config/ComponentsNames';
 
 const METHOD = 'focusout';
 // todo temporary json
@@ -65,9 +63,10 @@ export class LoginView extends BaseView {
      * @param status
      */
     sendAllData(status) {
-        // eslint-disable-next-line no-unused-vars
-        status = 1;
-        // todo call api here
+        if (status === 'OK') {
+            const { login } = UserInfoStore.state;
+            ApiActions.login(login, document.querySelector(`.${this.#inputsOnView.password}`).value);
+        }
     }
 
     /** Function to create a callback on event. */
@@ -125,13 +124,26 @@ export class LoginView extends BaseView {
      */
     render() {
         super.render();
-        const form1 = new Form(
-            ComponentsStore.checkWhereToPlace(componentsNames.FORM),
-            logFormSetup(),
-        );
-        form1.render();
+
+        Actions.whatRender(super.name);
+        ComponentsStore.unsubscribeAll();
+
         this.callEventListener();
         this.#addEventListenerInsideElements();
-        Actions.whatRender(super.name);
+
+        /* todo async functions dispatch from general scope and unsubscribe after base class render
+        todo happened and login didn't send Action. THINK ABOUT IT OR DO LIKE this case.
+        */
+        // const renderSup = async () => {
+        //     await super.render();
+        // };
+        //
+        // renderSup().then(() => {
+        //     Actions.whatRender(super.name);
+        //     this.callEventListener();
+        //     this.#addEventListenerInsideElements();
+        // });
     }
 }
+
+export default new LoginView();

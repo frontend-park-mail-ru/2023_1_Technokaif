@@ -17,7 +17,7 @@ class IStore extends EventEmitter {
      * Construct a Store.
      */
     constructor(name) {
-        super();
+        super(name);
         Dispatcher.register(this.dispatch.bind(this));
         this.#state = {};
         this.#nameOfStore = name;
@@ -64,13 +64,20 @@ class IStore extends EventEmitter {
         this.emitterAddListener(actionName, callback);
     }
 
-    /** Removes the listener from the CHANGED event.
-     *
+    /**
+     * Removes the listener from the CHANGED event.
      * @param callback
      * @param actionName
      */
     unsubscribe(callback, actionName = 'CHANGE') {
         this.emitterRemoveListener(actionName, callback);
+    }
+
+    /**
+     * Removes all listener from all events.
+     */
+    unsubscribeAll() {
+        this.emitterRemoveAllListeners();
     }
 
     /**

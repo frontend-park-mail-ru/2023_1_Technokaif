@@ -4,6 +4,7 @@ import { pageNames } from '../utils/config/pageNames';
 import UserInfoStore from '../stores/UserInfoStore';
 import Actions from '../actions/Actions';
 import { EventTypes } from '../stores/EventTypes';
+import ComponentsStore from '../stores/ComponentsStore';
 
 // todo Validate all create func to check
 
@@ -38,7 +39,7 @@ const ElementsClassForRegister = {
 /**
  * Class for feed page view.
  */
-export class RegisterView extends BaseView {
+class RegisterView extends BaseView {
     #inputsOnView;
 
     /**
@@ -237,9 +238,17 @@ export class RegisterView extends BaseView {
 
     /** Render all view by components. */
     render() {
-        super.render();
-        this.callEventListener();
-        this.#addEventListenerInsideElements();
-        Actions.whatRender(super.name);
+        const renderSup = async () => {
+            await super.render();
+        };
+        renderSup().then(() => {
+            Actions.whatRender(super.name);
+            ComponentsStore.unsubscribeAll();
+
+            this.callEventListener();
+            this.#addEventListenerInsideElements();
+        });
     }
 }
+
+export default new RegisterView();

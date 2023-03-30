@@ -11,7 +11,7 @@ import { componentsNames } from '../utils/config/ComponentsNames';
 /**
  * Class for feed page view.
  */
-export class FeedView extends BaseView {
+class FeedView extends BaseView {
     /**
      * Constructor for feed page view.
      */
@@ -77,6 +77,9 @@ export class FeedView extends BaseView {
         );
 
         Actions.whatRender(super.name);
+        ComponentsStore.unsubscribeAll();
         this.callEventListener();
     }
 }
+
+export default new FeedView();

@@ -19,12 +19,6 @@ class UserInfoStore extends IStore {
     }
 
     /**
-     * Function to handle dispatcher behaviour.
-     * @param action
-     */
-    #info;
-
-    /**
      * Dispatching func.
      * @param {json} action
      */
