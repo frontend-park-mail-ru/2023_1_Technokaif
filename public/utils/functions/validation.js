@@ -115,7 +115,7 @@ export function getMonthError(month) {
  * @returns {int} - month number
  */
 export function translateMonthStrToInt(monthStr) {
-    return MONTHS.findIndex(monthStr) + 1;
+    return MONTHS.findIndex((month) => monthStr === month) + 1;
 }
 
 /**

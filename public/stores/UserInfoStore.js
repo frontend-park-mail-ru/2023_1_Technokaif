@@ -6,6 +6,7 @@ import {
 } from '../utils/functions/validation.js';
 import ActionTypes from '../actions/ActionTypes';
 import { EventTypes } from './EventTypes';
+import { checkForEmpty, getSexInString } from '../utils/functions/utils';
 
 /**
  * Class for user data storing.
@@ -16,6 +17,8 @@ class UserInfoStore extends IStore {
      */
     constructor() {
         super('userInfo');
+        const state = super.state;
+        state.errors = {};
     }
 
     /**
@@ -93,14 +96,13 @@ class UserInfoStore extends IStore {
             this.#getConfEmailError();
             break;
         case 'sex':
-            super.changeFieldInState('sex', value);
-            this.#getSexError();
+            this.#getSexError(value);
             break;
-        case 'firstName':
+        case 'firstname':
             super.changeFieldInState('firstName', value);
             this.#getFirstNameError();
             break;
-        case 'lastName':
+        case 'lastname':
             super.changeFieldInState('lastName', value);
             this.#getLastNameError();
             break;
@@ -127,7 +129,13 @@ class UserInfoStore extends IStore {
      */
     #getErrorsUsername() {
         const { username } = super.state;
-        const status = getUsernameError(username);
+
+        let status;
+        if (checkForEmpty(username)) {
+            status = 'BAD';
+        } else {
+            status = getUsernameError(username);
+        }
 
         this.#emitResponse('username', status);
     }
@@ -137,7 +145,12 @@ class UserInfoStore extends IStore {
      * @param {string} password - password value
      */
     #getPasswordError(password) {
-        const status = getPasswordError(password);
+        let status;
+        if (!checkForEmpty(password)) {
+            status = getPasswordError(password);
+        } else {
+            status = 'BAD';
+        }
 
         this.#emitResponse('password', status);
     }
@@ -147,7 +160,13 @@ class UserInfoStore extends IStore {
      */
     #getDayError() {
         const { day } = super.state;
-        const status = getDayError(day);
+
+        let status;
+        if (checkForEmpty(day)) {
+            status = 'BAD';
+        } else {
+            status = getDayError(day);
+        }
 
         this.#emitResponse('day', status);
     }
@@ -157,7 +176,12 @@ class UserInfoStore extends IStore {
      */
     #getYearError() {
         const { year } = super.state;
-        const status = getYearError(year);
+        let status;
+        if (checkForEmpty(year)) {
+            status = 'BAD';
+        } else {
+            status = getYearError(year);
+        }
 
         this.#emitResponse('year', status);
     }
@@ -167,8 +191,16 @@ class UserInfoStore extends IStore {
      */
     #getMonthError() {
         const { month } = super.state;
-        const status = getMonthError(month);
-        super.state.monthInt = translateMonthStrToInt(month);
+        let status;
+        if (checkForEmpty(month)) {
+            status = 'BAD';
+        } else {
+            status = getMonthError(month);
+
+            if (!status) {
+                super.state.monthInt = translateMonthStrToInt(month);
+            }
+        }
 
         this.#emitResponse('month', status);
     }
@@ -178,7 +210,12 @@ class UserInfoStore extends IStore {
      */
     #getEmailError() {
         const { email } = super.state;
-        const status = getEmailError(email, email);
+        let status;
+        if (checkForEmpty(email)) {
+            status = 'BAD';
+        } else {
+            status = getEmailError(email, email);
+        }
 
         this.#emitResponse('email', status);
     }
@@ -189,7 +226,12 @@ class UserInfoStore extends IStore {
     #getConfEmailError() {
         const { email } = super.state;
         const { confEmail } = super.state;
-        const status = getEmailError(email, confEmail);
+        let status;
+        if (checkForEmpty(email) || checkForEmpty(confEmail)) {
+            status = 'BAD';
+        } else {
+            status = getEmailError(email, confEmail);
+        }
 
         this.#emitResponse('confEmail', status);
     }
@@ -197,11 +239,25 @@ class UserInfoStore extends IStore {
     /**
      * Get sex error
      */
-    #getSexError() {
-        const { sex } = super.state;
-        const status = getSexError(sex);
+    #getSexError(sex) {
+        if (!sex) {
+            this.#emitResponse('gender', 'BAD');
+            return;
+        }
 
-        this.#emitResponse('username', status);
+        const { gender } = sex;
+        let status;
+        if (gender.length < 2 && !checkForEmpty(gender)) {
+            status = getSexError(...gender);
+        } else {
+            status = 'false';
+        }
+
+        if (!status) {
+            super.changeFieldInState('gender', getSexInString(gender[0]));
+        }
+
+        this.#emitResponse('gender', status);
     }
 
     /**
@@ -209,9 +265,14 @@ class UserInfoStore extends IStore {
      */
     #getFirstNameError() {
         const { firstName } = super.state;
-        const status = getNameError(firstName);
+        let status;
+        if (checkForEmpty(firstName)) {
+            status = 'BAD';
+        } else {
+            status = getNameError(firstName);
+        }
 
-        this.#emitResponse(firstName, status);
+        this.#emitResponse('firstName', status);
     }
 
     /**
@@ -219,9 +280,15 @@ class UserInfoStore extends IStore {
      */
     #getLastNameError() {
         const { lastName } = super.state;
-        const status = getNameError(lastName);
+        let status;
 
-        this.#emitResponse(lastName, status);
+        if (checkForEmpty(lastName)) {
+            status = 'BAD';
+        } else {
+            status = getNameError(lastName);
+        }
+
+        this.#emitResponse('lastName', status);
     }
 
     /**
@@ -236,18 +303,18 @@ class UserInfoStore extends IStore {
         this.#getMonthError();
         this.#getEmailError();
         this.#getConfEmailError();
-        this.#getSexError();
         this.#getFirstNameError();
         this.#getLastNameError();
+        this.#checkValueGender();
 
         let isErrorsExist = false;
         const { errors } = super.state;
 
-        errors.forEach((element) => {
-            if (element.error) {
+        for (const element in errors) {
+            if (errors[element].error && errors[element].nameOfField !== 'login') {
                 isErrorsExist = true;
             }
-        });
+        }
 
         let status = 'OK';
         if (isErrorsExist) {
@@ -256,6 +323,19 @@ class UserInfoStore extends IStore {
 
         // todo subscribe api request to this
         this.jsEmit(EventTypes.SEND_DATA, status);
+    }
+
+    /** if gender is 'M/S/O' then OK' */
+    #checkValueGender() {
+        switch (super.state.gender) {
+        case 'O':
+        case 'F':
+        case 'M':
+            super.state.errors.gender = false;
+            break;
+        default:
+            super.state.errors.gender = true;
+        }
     }
 
     /**
@@ -284,13 +364,21 @@ class UserInfoStore extends IStore {
         const login = super.getValueInState('login');
 
         let errors;
-        let nameOfField;
-        if (checkIsEmail(login)) {
+        let nameOfField = 'username';
+        if (checkForEmpty(login)) {
+            errors = 'error';
+        } else if (checkIsEmail(login)) {
             errors = getEmailError(login, login);
             nameOfField = 'email';
         } else {
             errors = getUsernameError(login);
             nameOfField = 'username';
+        }
+
+        if (errors) {
+            super.state.errors.login = true;
+        } else {
+            super.state.errors.login = false;
         }
 
         this.#emitResponse(nameOfField, errors);
@@ -302,12 +390,15 @@ class UserInfoStore extends IStore {
      * @param {*} status - errors
      */
     #emitResponse(nameOfField, status) {
+        const state = super.state;
         if (!status) {
             this.jsEmit(EventTypes.VALIDATION_RESPONSE, nameOfField, 'OK');
-            super.changeFieldInState('errors', { name: nameOfField, error: false });
+            // super.changeFieldInState('errors', { name: nameOfField, error: false });
+            state.errors[nameOfField] = false;
         } else {
             this.jsEmit(EventTypes.VALIDATION_RESPONSE, nameOfField, 'BAD');
-            super.changeFieldInState('errors', { name: nameOfField, error: true });
+            // super.changeFieldInState('errors', { name: nameOfField, error: true });
+            state.errors[nameOfField] = true;
         }
     }
 }

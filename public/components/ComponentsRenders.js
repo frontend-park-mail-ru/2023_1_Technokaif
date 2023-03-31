@@ -6,7 +6,7 @@ import { MainWindowContent } from './MainWindow/mainWindow';
 import { componentsNames } from '../utils/config/ComponentsNames';
 import { Form } from './form/form';
 import { logFormSetup } from '../pages/login/authSetup';
-import { regFormSetup } from '../pages/registration/creationSetup';
+import { dateSetup, regFormSetup, sexSetup } from '../pages/registration/creationSetup';
 
 /**
  * Class for components renders functions.
@@ -95,11 +95,12 @@ class ComponentsRenders {
      * @param dateConfig
      */
     renderFormRegister(parent, genderConfig, dateConfig) {
+        // todo don't send configs here....
         const form = new Form(
             parent,
             regFormSetup(),
-            genderConfig,
-            dateConfig,
+            sexSetup(),
+            dateSetup(),
         );
 
         form.render();
