@@ -85,15 +85,16 @@ export class BaseView {
 
         ComponentsStore.subscribe(
             (list) => {
-                this.renderComponentsList(list);
-            },
-            EventTypes.ON_NOT_RENDERED_ITEMS,
-        );
-        ComponentsStore.subscribe(
-            (list) => {
                 this.unrenderComponentsList(list);
             },
             EventTypes.ON_REMOVE_ANOTHER_ITEMS,
+        );
+
+        ComponentsStore.subscribe(
+            (list) => {
+                this.renderComponentsList(list);
+            },
+            EventTypes.ON_NOT_RENDERED_ITEMS,
         );
     }
 }
