@@ -31,10 +31,13 @@ class Ajax {
 
                     return data;
                 }
+
                 throw data.message;
             }))
             .catch((error) => {
                 reject(error);
+
+                throw error;
             });
     }
 
@@ -63,12 +66,16 @@ class Ajax {
             .then((response) => response.json().then((data) => {
                 if (response.ok) {
                     resolve(data);
-                } else {
-                    throw data.message;
+
+                    return data;
                 }
+
+                throw data.message;
             }))
             .catch((error) => {
                 reject(error);
+
+                throw error;
             });
     }
 }

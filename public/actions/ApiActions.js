@@ -2,7 +2,7 @@ import Dispatcher from '../dispatcher/Dispatcher.js';
 import ActionTypes from './ActionTypes.js';
 
 /**
- * Global
+ * Global Api actions creator
  * @type {{login(): void}}
  */
 const ApiActions = {

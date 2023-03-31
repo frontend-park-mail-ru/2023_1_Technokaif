@@ -8,18 +8,20 @@ const logout = () => {
 /**
  * Api-oriented logout function.
  */
-export function logoutAjax() {
+export async function logoutAjax() {
     let mes;
-    Ajax.get({
+    await Ajax.get({
         url: PATH.logout,
         resolve: () => {
-            mes = 'OK';
             logout();
         },
-        reject: (message) => {
-            mes = message;
+        reject: () => {
             logout();
         },
+    }).then(() => {
+        mes = 'OK';
+    }).catch((message) => {
+        mes = message;
     });
 
     return mes;

@@ -7,6 +7,7 @@ import { EventTypes } from '../stores/EventTypes';
 import ApiActions from '../actions/ApiActions';
 import ComponentsStore from '../stores/ComponentsStore';
 import Router from '../router/Router';
+import userInfoStore from '../stores/UserInfoStore';
 
 const METHOD = 'focusout';
 // todo temporary json
@@ -34,10 +35,6 @@ export class LoginView extends BaseView {
         };
     }
 
-    // todo write jsdoc
-    /** */
-    callEventListener() {}
-
     /**
      * Dispatch errors
      * @param nameOfField - name of field for errors
@@ -62,11 +59,39 @@ export class LoginView extends BaseView {
     /**
      * If status === 'OK' then send data to backend
      * @param status
+     * @param fieldsWithErrors
      */
-    sendAllData(status) {
+    sendAllData(status, fieldsWithErrors) {
         if (status === 'OK') {
-            const { login } = UserInfoStore.state;
-            ApiActions.login(login, document.querySelector(`.${this.#inputsOnView.password}`).value);
+            const { login } = userInfoStore.state;
+            ApiActions.login(
+                login,
+                document.querySelector(`.${this.#inputsOnView.password}`).value,
+            );
+        } else if (fieldsWithErrors.length === 0) {
+            console.error('login error occurred: on errors in form fields got 0 fields with error');
+        } else {
+            fieldsWithErrors.forEach((fieldWithError) => {
+                this.#errorsRender(
+                    this.#inputsOnView[fieldWithError],
+                    status,
+                    ERRORS_LOG[fieldWithError],
+                );
+            });
+        }
+    }
+
+    /**
+     * Method to handle api response from login
+     * @param message
+     */
+    #handleLoginResponse(message) {
+        if (message === 'OK') {
+            Router.go('/');
+        } else {
+            const element = document.querySelector('.title__error-text');
+            element.hidden = false;
+            element.innerText = message;
         }
     }
 
@@ -80,6 +105,12 @@ export class LoginView extends BaseView {
         UserInfoStore.subscribe(
             (status) => { this.sendAllData(status); },
             EventTypes.SEND_DATA,
+        );
+        UserInfoStore.subscribe(
+            (message) => {
+                this.#handleLoginResponse(message);
+            },
+            EventTypes.LOGIN_STATUS,
         );
     }
 
@@ -135,7 +166,6 @@ export class LoginView extends BaseView {
         Actions.whatRender(super.name);
         ComponentsStore.unsubscribeAll();
 
-        this.callEventListener();
         this.#addEventListenerInsideElements();
 
         /* todo async functions dispatch from general scope and unsubscribe after base class render

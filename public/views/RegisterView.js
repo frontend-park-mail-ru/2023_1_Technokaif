@@ -7,6 +7,7 @@ import { EventTypes } from '../stores/EventTypes';
 import ComponentsStore from '../stores/ComponentsStore';
 import Router from '../router/Router';
 import { getCheckedValueRadioButtons } from '../utils/functions/utils';
+import ApiActions from '../actions/ApiActions';
 
 // todo Validate all create func to check
 
@@ -65,12 +66,6 @@ class RegisterView extends BaseView {
         };
     }
 
-    // todo create jsdoc
-    /** */
-    callEventListener() {
-
-    }
-
     /** Function to create a callback on event. */
     #addEventListenerInsideElements() {
         this.#createActionsForFields();
@@ -79,8 +74,25 @@ class RegisterView extends BaseView {
             EventTypes.VALIDATION_RESPONSE,
         );
         UserInfoStore.subscribe(
-            (status) => { this.sendAllData(status); },
+            (status, errorList) => { this.sendAllData(status, errorList); },
             EventTypes.SEND_DATA,
+        );
+
+        UserInfoStore.subscribe(
+            (message) => {
+                if (message === 'OK') {
+                    Router.go('/');
+                } else {
+                    console.error('failed after login with succeeded reg data');
+                }
+            },
+            EventTypes.LOGIN_STATUS,
+        );
+        UserInfoStore.subscribe(
+            (message) => {
+                this.#loginAfterSuccessRegistration(message);
+            },
+            EventTypes.REGISTER_STATUS,
         );
     }
 
@@ -263,11 +275,48 @@ class RegisterView extends BaseView {
     /**
      * If status === 'OK' then send data to backend
      * @param status
+     * @param fieldsWithErrors
      */
-    sendAllData(status) {
-        // eslint-disable-next-line no-unused-vars
-        status = 1;
-        // todo call api here
+    sendAllData(status, fieldsWithErrors) {
+        if (status === 'OK') {
+            const { state } = UserInfoStore;
+            ApiActions.register({
+                username: state.username,
+                email: state.email,
+                firstName: state.firstName,
+                lastName: state.lastName,
+                sex: state.gender,
+                birthDate: [state.year, state.month, state.day].join('-'),
+                password: document.querySelector(`.${this.#inputsOnView.password}`).value,
+            });
+        } else if (fieldsWithErrors.length === 0) {
+            console.error('reg error occurred: on errors in form fields got 0 fields with error');
+        } else {
+            fieldsWithErrors.forEach((fieldWithError) => {
+                this.#errorsRender(
+                    this.#inputsOnView[fieldWithError],
+                    status,
+                    ERRORS_REG[fieldWithError],
+                );
+            });
+        }
+    }
+
+    /**
+     * Method to handle api response to login after success registration
+     * @param message
+     */
+    #loginAfterSuccessRegistration(message) {
+        if (message === 'OK') {
+            ApiActions.login(
+                document.querySelector(`.${this.#inputsOnView.username}`).value,
+                document.querySelector(`.${this.#inputsOnView.password}`).value,
+            );
+        } else {
+            const element = document.querySelector('.title__error-text');
+            element.hidden = false;
+            element.innerText = message;
+        }
     }
 
     /** Render all view by components. */
@@ -280,7 +329,6 @@ class RegisterView extends BaseView {
             ComponentsStore.unsubscribeAll();
             UserInfoStore.unsubscribeAll();
 
-            this.callEventListener();
             this.#addEventListenerInsideElements();
         });
     }

@@ -33,29 +33,14 @@ class UserInfoStore extends IStore {
         case ActionTypes.VALIDATION_FIELD:
             this.#validationDispatch(action.nameOfField, action.content);
             break;
-            // todo check for message 'OK' or error
-            // resolved
         case ActionTypes.REGISTER_STATUS:
-            // action.message
-            if (action.message !== 'OK') {
-                this.jsEmit('REGISTER_STATUS', action.message);
-            } else {
-                this.jsEmit('REGISTER_STATUS');
-            }
+            this.jsEmit('REGISTER_STATUS', action.message);
             break;
         case ActionTypes.LOGIN_STATUS:
-            if (action.message !== 'OK') {
-                this.jsEmit('LOGIN_STATUS', action.message);
-            } else {
-                this.jsEmit('LOGIN_STATUS');
-            }
+            this.jsEmit('LOGIN_STATUS', action.message);
             break;
         case ActionTypes.LOGOUT_STATUS:
-            if (action.message !== 'OK') {
-                this.jsEmit('LOGOUT_STATUS', action.message);
-            } else {
-                this.jsEmit('LOGOUT_STATUS');
-            }
+            this.jsEmit('LOGOUT_STATUS', action.message);
             break;
         default:
         }
@@ -107,10 +92,10 @@ class UserInfoStore extends IStore {
             this.#getLastNameError();
             break;
         case 'validate_register':
-            this.#checkForAllErrors(value);
+            this.#checkForErrorsInRegistration(value);
             break;
         case 'validate_login':
-            this.#checkForErrorsInAuthorization(value);
+            this.#checkForErrorsInLogin(value);
             break;
         case 'log_username':
             super.changeFieldInState('login', value);
@@ -295,7 +280,7 @@ class UserInfoStore extends IStore {
      * Check for existence of errors in fields
      * @param {string} password - password value
      */
-    #checkForAllErrors(password) {
+    #checkForErrorsInRegistration(password) {
         this.#getErrorsUsername();
         this.#getPasswordError(password);
         this.#getDayError();
@@ -307,22 +292,18 @@ class UserInfoStore extends IStore {
         this.#getLastNameError();
         this.#checkValueGender();
 
-        let isErrorsExist = false;
         const { errors } = super.state;
 
-        for (const element in errors) {
-            if (errors[element].error && errors[element].nameOfField !== 'login') {
-                isErrorsExist = true;
+        let status = 'OK';
+        const fieldsWithErrors = [];
+        for (const errorField in errors) {
+            if (errorField !== 'login' && errors[errorField] === true) {
+                fieldsWithErrors.push(errorField);
+                status = 'BAD';
             }
         }
 
-        let status = 'OK';
-        if (isErrorsExist) {
-            status = 'BAD';
-        }
-
-        // todo subscribe api request to this
-        this.jsEmit(EventTypes.SEND_DATA, status);
+        this.jsEmit(EventTypes.SEND_DATA, status, fieldsWithErrors);
     }
 
     /** if gender is 'M/S/O' then OK' */
@@ -342,19 +323,30 @@ class UserInfoStore extends IStore {
      * Check if field in authorization is correct
      * @param {string} password - value of password
      */
-    #checkForErrorsInAuthorization(password) {
-        this.#getLoginError();
+    #checkForErrorsInLogin(password) {
+        const loginField = this.#getLoginError();
         this.#getPasswordError(password);
 
         const errors = super.getValueInState('errors');
-        let status;
-        if (errors.login || errors.password) {
-            status = 'BAD';
-        } else {
-            status = 'OK';
+        let status = 'OK';
+        const fieldsWithErrors = [];
+        for (const errorField in errors) {
+            if (errors[errorField] === true) {
+                switch (errorField) {
+                case 'login':
+                    fieldsWithErrors.push(loginField);
+                    break;
+                case 'password':
+                    fieldsWithErrors.push(errorField);
+                    break;
+                default:
+                }
+
+                status = 'BAD';
+            }
         }
 
-        this.jsEmit(EventTypes.SEND_DATA, status);
+        this.jsEmit(EventTypes.SEND_DATA, status, fieldsWithErrors);
     }
 
     /**
@@ -382,6 +374,9 @@ class UserInfoStore extends IStore {
         }
 
         this.#emitResponse(nameOfField, errors);
+
+        // todo return name usage for login all submit work
+        return nameOfField;
     }
 
     /**
@@ -393,11 +388,9 @@ class UserInfoStore extends IStore {
         const state = super.state;
         if (!status) {
             this.jsEmit(EventTypes.VALIDATION_RESPONSE, nameOfField, 'OK');
-            // super.changeFieldInState('errors', { name: nameOfField, error: false });
             state.errors[nameOfField] = false;
         } else {
             this.jsEmit(EventTypes.VALIDATION_RESPONSE, nameOfField, 'BAD');
-            // super.changeFieldInState('errors', { name: nameOfField, error: true });
             state.errors[nameOfField] = true;
         }
     }

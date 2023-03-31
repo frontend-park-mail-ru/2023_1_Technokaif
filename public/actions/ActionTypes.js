@@ -1,10 +1,12 @@
+/** Global object types for Actions */
 const ActionTypes = {
-    ROUTE: 'ROUTE',
+    /** Send data in API store from Views */
     LOGIN: 'LOGIN',
     LOGOUT: 'LOGOUT',
     REGISTER: 'REGISTER',
     FEED: 'FEED',
 
+    /** ComponentsStore checks for what render and handle un/render */
     CHECK_WHAT_RENDER: 'CHECK_WHAT_RENDER',
     ADD_COMPONENT_ON_PAGE: 'ADD_COMPONENT_ON_PAGE',
     REMOVE_COMPONENT_FROM_PAGE: 'REMOVE_COMPONENT_FROM_PAGE',
@@ -19,7 +21,11 @@ const ActionTypes = {
     /** Send when click on button in register/login */
     VALIDATION_CHECK_CORRECT_ALL: 'VALIDATION_CHECK_CORRECT_ALL',
 
+    /** Send when api request returned data and add it in state after emit a CHANGE_CONTENT event */
     FEED_GOT_CONTENT: 'FEED_GOT_CONTENT',
+
+    // now it's not working
+    /** Router usage ActionType for Stores adaptation */
     CHANGE_STORE: 'CHANGE_STORE',
 };
 

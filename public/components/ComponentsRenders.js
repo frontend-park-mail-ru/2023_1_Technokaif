@@ -94,7 +94,7 @@ class ComponentsRenders {
      * @param genderConfig
      * @param dateConfig
      */
-    renderFormRegister(parent, genderConfig, dateConfig) {
+    renderFormRegister(parent) {
         // todo don't send configs here....
         const form = new Form(
             parent,

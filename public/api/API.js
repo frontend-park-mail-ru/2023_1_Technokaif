@@ -47,10 +47,11 @@ class API extends IStore {
      * @param password
      */
     loginRequest(login, password) {
-        const message = loginAjax(login, password);
-        Actions.loginChangeState({
-            message,
-        });
+        loginAjax(login, password).then(
+            (message) => Actions.loginChangeState({
+                message,
+            }),
+        );
     }
 
     /**
@@ -58,18 +59,22 @@ class API extends IStore {
      * @param data
      */
     registerRequest(data) {
-        const message = registerAjax(data);
-        Actions.registerChangeState({ message });
+        registerAjax(data).then(
+            (message) => Actions.registerChangeState({
+                message,
+            }),
+        );
     }
 
     /**
      * Function to log out and request about to server.
      */
     logoutRequest() {
-        const message = logoutAjax();
-        Actions.logoutChangeState({
-            message,
-        });
+        logoutAjax().then(
+            (message) => Actions.logoutChangeState({
+                message,
+            }),
+        );
     }
 
     /**
