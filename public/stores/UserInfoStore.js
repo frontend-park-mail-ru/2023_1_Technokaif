@@ -98,7 +98,7 @@ class UserInfoStore extends IStore {
         case 'sex':
             this.#getSexError(value);
             break;
-        case 'firstName':
+        case 'firstname':
             super.changeFieldInState('firstName', value);
             this.#getFirstNameError();
             break;
@@ -303,9 +303,9 @@ class UserInfoStore extends IStore {
         this.#getMonthError();
         this.#getEmailError();
         this.#getConfEmailError();
-        this.#getSexError();
         this.#getFirstNameError();
         this.#getLastNameError();
+        this.#checkValueGender();
 
         let isErrorsExist = false;
         const { errors } = super.state;
@@ -323,6 +323,19 @@ class UserInfoStore extends IStore {
 
         // todo subscribe api request to this
         this.jsEmit(EventTypes.SEND_DATA, status);
+    }
+
+    /** if gender is 'M/S/O' then OK' */
+    #checkValueGender() {
+        switch (super.state.gender) {
+        case 'O':
+        case 'F':
+        case 'M':
+            super.state.errors.gender = false;
+            break;
+        default:
+            super.state.errors.gender = true;
+        }
     }
 
     /**
@@ -362,7 +375,7 @@ class UserInfoStore extends IStore {
             nameOfField = 'username';
         }
 
-        if (!errors) {
+        if (errors) {
             super.state.errors.login = true;
         } else {
             super.state.errors.login = false;

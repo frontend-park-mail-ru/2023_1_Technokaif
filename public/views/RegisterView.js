@@ -6,6 +6,7 @@ import Actions from '../actions/Actions';
 import { EventTypes } from '../stores/EventTypes';
 import ComponentsStore from '../stores/ComponentsStore';
 import Router from '../router/Router';
+import { getCheckedValueRadioButtons } from '../utils/functions/utils';
 
 // todo Validate all create func to check
 
@@ -23,6 +24,7 @@ const ElementsClassForRegister = {
     month: 'js__month',
     year: 'js__year',
     gender: 'js__gender',
+    gender_element: 'js__gender__element',
 
     login_error: 'js__error__login',
     email_error: 'js__error__email',
@@ -59,6 +61,7 @@ class RegisterView extends BaseView {
             month: ElementsClassForRegister.month,
             year: ElementsClassForRegister.year,
             gender: ElementsClassForRegister.gender,
+            gender_element: ElementsClassForRegister.gender_element,
         };
     }
 
@@ -111,13 +114,13 @@ class RegisterView extends BaseView {
         const firstName = document.querySelector(`.${this.#inputsOnView.firstName}`);
         firstName.addEventListener(METHOD, (event) => {
             event.preventDefault();
-            Actions.validationField('firstName', document.querySelector(`.${this.#inputsOnView.firstName}`).value);
+            Actions.validationField('firstname', document.querySelector(`.${this.#inputsOnView.firstName}`).value);
         });
 
         const lastName = document.querySelector(`.${this.#inputsOnView.lastName}`);
         lastName.addEventListener(METHOD, (event) => {
             event.preventDefault();
-            Actions.validationField('lastName', document.querySelector(`.${this.#inputsOnView.lastName}`).value);
+            Actions.validationField('lastname', document.querySelector(`.${this.#inputsOnView.lastName}`).value);
         });
 
         const day = document.querySelector(`.${this.#inputsOnView.day}`);
