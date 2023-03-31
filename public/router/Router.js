@@ -76,7 +76,6 @@ class Router extends IStore {
             window.history.pushState(stateStoreObj, '', path);
         }
 
-        console.log('in go', object);
         object.render();
         this.jsEmit('PAGE_CHANGED');
     }
@@ -101,7 +100,6 @@ class Router extends IStore {
     /** Render page in current state of history. Refresh store. */
     #render() {
         const object = this.#routes.find((routeObj) => routeObj.path === window.location.pathname);
-        console.log('in render', object);
         this.#sendStoresChanges(window.history.state.stateInHistory);
         object.render();
         this.jsEmit('PAGE_CHANGED');

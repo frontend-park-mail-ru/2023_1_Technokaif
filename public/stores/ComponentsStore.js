@@ -98,7 +98,7 @@ class ComponentsStore extends IStore {
      * @param element
      */
     #removeElementFromPage(element) {
-        this.#whatExistOnPage.filter((elem) => (elem !== element));
+        this.#whatExistOnPage = this.#whatExistOnPage.filter((elem) => (elem !== element));
         this.removeItem(this.#whatExistOnPage);
     }
 
@@ -140,7 +140,7 @@ class ComponentsStore extends IStore {
         const notExist = [];
         components.forEach((component) => {
             const alreadyExistsOnPage = this.#whatExistOnPage.find(
-                (currentComponent) => currentComponent === component,
+                (currentComponent) => currentComponent === component.name,
             );
 
             if (alreadyExistsOnPage === undefined) {

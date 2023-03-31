@@ -35,7 +35,6 @@ export class BaseView {
      * @param list
      */
     renderComponentsList(list) {
-        console.log('render', list);
         list.forEach((component) => {
             const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);
@@ -52,7 +51,6 @@ export class BaseView {
      * @param list
      */
     unrenderComponentsList(list) {
-        console.log('unrender', list);
         list.forEach((component) => {
             const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);
