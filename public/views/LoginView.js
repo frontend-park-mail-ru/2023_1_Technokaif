@@ -6,6 +6,7 @@ import { ERRORS_LOG } from '../utils/config/errors';
 import { EventTypes } from '../stores/EventTypes';
 import ApiActions from '../actions/ApiActions';
 import ComponentsStore from '../stores/ComponentsStore';
+import Router from '../router/Router';
 
 const METHOD = 'focusout';
 // todo temporary json
@@ -101,6 +102,12 @@ export class LoginView extends BaseView {
             event.preventDefault();
             Actions.validateAll('validate_login', password.value);
         });
+
+        const bottomButton = document.querySelector('.bottom__button');
+        bottomButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            Router.go('/register');
+        });
     }
 
     /**
@@ -124,7 +131,7 @@ export class LoginView extends BaseView {
      */
     render() {
         super.render();
-
+        UserInfoStore.unsubscribeAll();
         Actions.whatRender(super.name);
         ComponentsStore.unsubscribeAll();
 

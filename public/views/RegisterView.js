@@ -5,6 +5,7 @@ import UserInfoStore from '../stores/UserInfoStore';
 import Actions from '../actions/Actions';
 import { EventTypes } from '../stores/EventTypes';
 import ComponentsStore from '../stores/ComponentsStore';
+import Router from '../router/Router';
 
 // todo Validate all create func to check
 
@@ -150,6 +151,12 @@ class RegisterView extends BaseView {
             event.preventDefault();
             Actions.validateAll('validate_register', password.value);
         });
+
+        const bottomButton = document.querySelector('.bottom__button');
+        bottomButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            Router.go('/login');
+        });
     }
 
     /**
@@ -268,6 +275,7 @@ class RegisterView extends BaseView {
         renderSup().then(() => {
             Actions.whatRender(super.name);
             ComponentsStore.unsubscribeAll();
+            UserInfoStore.unsubscribeAll();
 
             this.callEventListener();
             this.#addEventListenerInsideElements();
