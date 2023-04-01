@@ -44,6 +44,7 @@ class ComponentsStore extends IStore {
 
         switch (action.type) {
         case ActionTypes.CHECK_WHAT_RENDER:
+            console.log('in components store');
             this.#checkElementsForPage(action.name);
             break;
         case ActionTypes.ADD_COMPONENT_ON_PAGE:
@@ -178,6 +179,9 @@ class ComponentsStore extends IStore {
         if (notExist.length !== 0) {
             this.jsEmit(EventTypes.ON_NOT_RENDERED_ITEMS, notExist);
         }
+
+        console.log('in components store func', notExist);
+        console.log('in components store func not need', needToBeDeletedExist);
     }
 
     /**

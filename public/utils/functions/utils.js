@@ -109,8 +109,5 @@ export function getSexInString(sexChoose) {
  * @returns {boolean} - if value == '' it will return true
  */
 export function checkForEmpty(value) {
-    if (!value || value === '' || value === []) {
-        return true;
-    }
-    return false;
+    return !value || value === '' || value === [];
 }

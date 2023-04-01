@@ -195,14 +195,15 @@ class UserInfoStore extends IStore {
      */
     #getEmailError() {
         const { email } = super.state;
+        const { confEmail } = super.state;
         let status;
-        if (checkForEmpty(email)) {
+        if (checkForEmpty(email) || checkForEmpty(confEmail)) {
             status = 'BAD';
         } else {
-            status = getEmailError(email, email);
+            status = getEmailError(email, confEmail);
         }
 
-        this.#emitResponse('email', status);
+        this.#emitResponse('confEmail', status);
     }
 
     /**
@@ -295,15 +296,13 @@ class UserInfoStore extends IStore {
         const { errors } = super.state;
 
         let status = 'OK';
-        const fieldsWithErrors = [];
         for (const errorField in errors) {
             if (errorField !== 'login' && errors[errorField] === true) {
-                fieldsWithErrors.push(errorField);
                 status = 'BAD';
             }
         }
 
-        this.jsEmit(EventTypes.SEND_DATA, status, fieldsWithErrors);
+        this.jsEmit(EventTypes.SEND_DATA, status);
     }
 
     /** if gender is 'M/S/O' then OK' */
@@ -324,29 +323,18 @@ class UserInfoStore extends IStore {
      * @param {string} password - value of password
      */
     #checkForErrorsInLogin(password) {
-        const loginField = this.#getLoginError();
+        this.#getLoginError();
         this.#getPasswordError(password);
 
         const errors = super.getValueInState('errors');
         let status = 'OK';
-        const fieldsWithErrors = [];
         for (const errorField in errors) {
-            if (errors[errorField] === true) {
-                switch (errorField) {
-                case 'login':
-                    fieldsWithErrors.push(loginField);
-                    break;
-                case 'password':
-                    fieldsWithErrors.push(errorField);
-                    break;
-                default:
-                }
-
+            if (errors[errorField] === true && (errorField === 'login' || errorField === 'password')) {
                 status = 'BAD';
             }
         }
 
-        this.jsEmit(EventTypes.SEND_DATA, status, fieldsWithErrors);
+        this.jsEmit(EventTypes.SEND_DATA, status);
     }
 
     /**
@@ -367,16 +355,9 @@ class UserInfoStore extends IStore {
             nameOfField = 'username';
         }
 
-        if (errors) {
-            super.state.errors.login = true;
-        } else {
-            super.state.errors.login = false;
-        }
+        super.state.errors.login = !!errors;
 
         this.#emitResponse(nameOfField, errors);
-
-        // todo return name usage for login all submit work
-        return nameOfField;
     }
 
     /**

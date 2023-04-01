@@ -91,8 +91,6 @@ class ComponentsRenders {
     /**
      * Create Form for register component and render it in parent
      * @param {HTMLElement} parent -- where to place Sidebar
-     * @param genderConfig
-     * @param dateConfig
      */
     renderFormRegister(parent) {
         // todo don't send configs here....

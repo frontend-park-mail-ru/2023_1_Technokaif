@@ -19,7 +19,7 @@ const users = {
         username: 'username',
         firstName: 'firstName',
         lastName: 'lastName',
-        date: '2022-04-12',
+        birthDate: '2022-04-12',
         sex: 'M',
 
     },
@@ -29,7 +29,7 @@ const users = {
         username: 'username',
         firstName: 'firstName',
         lastName: 'lastName',
-        date: '2022-04-12',
+        birthDate: '2022-04-12',
         sex: 'M',
     },
     'aleksandr@mail.ru': {
@@ -38,7 +38,7 @@ const users = {
         username: 'username',
         firstName: 'firstName',
         lastName: 'lastName',
-        date: '2022-04-12',
+        birthDate: '2022-04-12',
         sex: 'M',
     },
     '2002marsic@mail.ru': {
@@ -47,7 +47,7 @@ const users = {
         username: 'Username',
         firstName: 'firstName',
         lastName: 'lastName',
-        date: '2022-04-12',
+        birthDate: '2022-04-12',
         sex: 'M',
     },
 };
@@ -207,6 +207,10 @@ app.get('/api/feed', (req, res) => {
             ],
         });
     }
+});
+
+app.get(/^((?!\/(static|api)).)*$/, (req, res) => {
+    res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
 });
 
 const port = process.env.PORT || 3000;

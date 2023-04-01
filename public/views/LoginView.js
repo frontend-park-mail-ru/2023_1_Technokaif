@@ -59,25 +59,14 @@ export class LoginView extends BaseView {
     /**
      * If status === 'OK' then send data to backend
      * @param status
-     * @param fieldsWithErrors
      */
-    sendAllData(status, fieldsWithErrors) {
+    sendAllData(status) {
         if (status === 'OK') {
             const { login } = userInfoStore.state;
             ApiActions.login(
                 login,
                 document.querySelector(`.${this.#inputsOnView.password}`).value,
             );
-        } else if (fieldsWithErrors.length === 0) {
-            console.error('login error occurred: on errors in form fields got 0 fields with error');
-        } else {
-            fieldsWithErrors.forEach((fieldWithError) => {
-                this.#errorsRender(
-                    this.#inputsOnView[fieldWithError],
-                    status,
-                    ERRORS_LOG[fieldWithError],
-                );
-            });
         }
     }
 

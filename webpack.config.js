@@ -4,6 +4,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'development',
+    watch: true,
+    watchOptions: {
+        aggregateTimeout: 200,
+        poll: 1000,
+        ignored: /node_modules/,
+    },
+    devServer: {
+        historyApiFallback: true,
+    },
     entry: path.resolve(__dirname, 'public', 'index.js'),
     plugins: [
         new HtmlWebpackPlugin({

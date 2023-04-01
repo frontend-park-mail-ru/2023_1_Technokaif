@@ -74,7 +74,7 @@ class RegisterView extends BaseView {
             EventTypes.VALIDATION_RESPONSE,
         );
         UserInfoStore.subscribe(
-            (status, errorList) => { this.sendAllData(status, errorList); },
+            (status) => { this.sendAllData(status); },
             EventTypes.SEND_DATA,
         );
 
@@ -99,7 +99,6 @@ class RegisterView extends BaseView {
     /** Create listeners for fields. Send actions to dispatchers. */
     #createActionsForFields() {
         const email = document.querySelector(`.${this.#inputsOnView.email}`);
-
         email.addEventListener(METHOD, (event) => {
             event.preventDefault();
             Actions.validationField('email', document.querySelector(`.${this.#inputsOnView.email}`).value);
@@ -275,9 +274,8 @@ class RegisterView extends BaseView {
     /**
      * If status === 'OK' then send data to backend
      * @param status
-     * @param fieldsWithErrors
      */
-    sendAllData(status, fieldsWithErrors) {
+    sendAllData(status) {
         if (status === 'OK') {
             const { state } = UserInfoStore;
             ApiActions.register({
@@ -288,16 +286,6 @@ class RegisterView extends BaseView {
                 sex: state.gender,
                 birthDate: [state.year, state.month, state.day].join('-'),
                 password: document.querySelector(`.${this.#inputsOnView.password}`).value,
-            });
-        } else if (fieldsWithErrors.length === 0) {
-            console.error('reg error occurred: on errors in form fields got 0 fields with error');
-        } else {
-            fieldsWithErrors.forEach((fieldWithError) => {
-                this.#errorsRender(
-                    this.#inputsOnView[fieldWithError],
-                    status,
-                    ERRORS_REG[fieldWithError],
-                );
             });
         }
     }
