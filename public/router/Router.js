@@ -59,7 +59,7 @@ class Router extends IStore {
     go(path) {
         const object = this.#routes.find((routeObj) => routeObj.path === path);
         if (!object) {
-            this.go('/');
+            this.go('/login');
             return;
         }
 

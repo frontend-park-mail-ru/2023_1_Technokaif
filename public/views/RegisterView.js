@@ -9,6 +9,7 @@ import Router from '../router/Router';
 import { getCheckedValueRadioButtons } from '../utils/functions/utils';
 import ApiActions from '../actions/ApiActions';
 import API from '../stores/API';
+import unsubscribeFromAllStores from '../utils/functions/unsubscribeFromAllStores';
 
 // todo Validate all create func to check
 
@@ -82,8 +83,6 @@ class RegisterView extends BaseView {
         API.subscribe(
             (message) => {
                 if (message === 'OK') {
-                    UserInfoStore.unsubscribeAll();
-                    API.unsubscribeAll();
                     Router.go('/');
                 } else {
                     console.error('failed after login with succeeded reg data');
@@ -317,10 +316,9 @@ class RegisterView extends BaseView {
 
     /** Render all view by components. */
     render() {
+        unsubscribeFromAllStores();
         super.render();
-        UserInfoStore.unsubscribeAll();
         Actions.whatRender(super.name);
-        ComponentsStore.unsubscribeAll();
 
         this.#addEventListenerInsideElements();
     }

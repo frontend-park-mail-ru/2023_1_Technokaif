@@ -9,6 +9,7 @@ import ComponentsStore from '../stores/ComponentsStore';
 import Router from '../router/Router';
 import userInfoStore from '../stores/UserInfoStore';
 import API from '../stores/API';
+import unsubscribeFromAllStores from '../utils/functions/unsubscribeFromAllStores';
 
 const METHOD = 'focusout';
 // todo temporary json
@@ -77,8 +78,6 @@ export class LoginView extends BaseView {
      */
     #handleLoginResponse(message) {
         if (message === 'OK') {
-            UserInfoStore.unsubscribeAll();
-            API.unsubscribeAll();
             Router.go('/');
         } else {
             const element = document.querySelector('.title__error-text');
@@ -158,10 +157,9 @@ export class LoginView extends BaseView {
      * Render all view by components.
      */
     render() {
+        unsubscribeFromAllStores();
         super.render();
-        UserInfoStore.unsubscribeAll();
         Actions.whatRender(super.name);
-        ComponentsStore.unsubscribeAll();
 
         this.#addEventListenerInsideElements();
     }

@@ -7,6 +7,7 @@ import { homeSetup } from '../utils/setup/homeSetup';
 import { pageNames } from '../utils/config/pageNames';
 import { EventTypes } from '../utils/config/EventTypes';
 import { componentsNames } from '../utils/config/componentsNames';
+import unsubscribeFromAllStores from '../utils/functions/unsubscribeFromAllStores';
 
 /**
  * Class for feed page view.
@@ -63,8 +64,6 @@ class FeedView extends BaseView {
                 break;
             default:
             }
-
-            ComponentsStore.unsubscribeAll();
         });
     }
 
@@ -72,6 +71,7 @@ class FeedView extends BaseView {
      * Render all view by components.
      */
     render() {
+        unsubscribeFromAllStores();
         super.render();
         this.#addSubscribes();
 
