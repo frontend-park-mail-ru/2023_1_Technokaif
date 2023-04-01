@@ -91,7 +91,7 @@ class RegisterView extends BaseView {
             },
             EventTypes.LOGIN_STATUS,
         );
-        UserInfoStore.subscribe(
+        API.subscribe(
             (message) => {
                 this.#loginAfterSuccessRegistration(message);
             },
