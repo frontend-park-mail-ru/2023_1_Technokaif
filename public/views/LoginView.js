@@ -6,7 +6,6 @@ import { ERRORS_LOG } from '../utils/config/errors';
 import { EventTypes } from '../utils/config/EventTypes';
 import ApiActions from '../actions/ApiActions';
 import Router from '../router/Router';
-import userInfoStore from '../stores/UserInfoStore';
 import API from '../stores/API';
 import unsubscribeFromAllStores from '../utils/functions/unsubscribeFromAllStores';
 
@@ -63,7 +62,7 @@ export class LoginView extends BaseView {
      */
     sendAllData(status) {
         if (status === 'OK') {
-            const { login } = userInfoStore.state;
+            const { login } = UserInfoStore.state;
             ApiActions.login(
                 login,
                 document.querySelector(`.${this.#inputsOnView.password}`).value,

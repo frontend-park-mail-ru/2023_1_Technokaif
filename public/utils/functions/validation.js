@@ -12,6 +12,9 @@ const FORBIDDEN_EMAIL_SYMBOLS = '<>()[],;:\\/';
  * @return {bool} -- return true if login contains @
  */
 export function checkIsEmail(login) {
+    if (!login || login === '') {
+        return false;
+    }
     return login.includes('@');
 }
 
@@ -138,6 +141,10 @@ export function translateMonthStrToInt(monthStr) {
 export function getEmailError(email, confirmEmail = '') {
     let result = [];
 
+    if (!email || email === '') {
+        return ERRORS.email;
+    }
+
     if (email !== confirmEmail || confirmEmail === '') {
         result.push(ERRORS.emailConf);
     }
@@ -207,6 +214,9 @@ export function getEmailError(email, confirmEmail = '') {
  *  Value: male, female, dont.
  */
 export function getSexError(...boxes) {
+    if (!boxes || boxes.length === 0) {
+        return ERRORS.sex;
+    }
     let isInputCorrect = false;
     switch (boxes[0]) {
     case 'male':
@@ -234,6 +244,9 @@ export function getSexError(...boxes) {
  * username length 4-20 and contains only _, letters, digits
  */
 export function getUsernameError(username) {
+    if (!username || username === '') {
+        return ERRORS.username;
+    }
     if (username.length < 4 || username.length > 20) {
         return ERRORS.username;
     }
@@ -256,6 +269,9 @@ export function getUsernameError(username) {
  * Correct: if length 2-20 and contains only letters
  */
 export function getNameError(name) {
+    if (!name || name === '') {
+        return ERRORS.name;
+    }
     if (name.length < 2 || name.length > 20) {
         return ERRORS.name;
     }

@@ -8,8 +8,13 @@ import ActionTypes from '../actions/ActionTypes';
 import { EventTypes } from '../utils/config/EventTypes';
 import { checkForEmpty, getSexInString } from '../utils/functions/utils';
 
+const EMPTY_ERROR = 'EMPTY';
+const OK_RESPONSE = 'OK';
+const BAD_RESPONSE = 'BAD';
+
 /**
- * Class for user data storing.
+ * Class for User information.
+ * Can validate information.
  */
 class UserInfoStore extends IStore {
     /**
@@ -76,11 +81,11 @@ class UserInfoStore extends IStore {
             break;
         case 'firstname':
             super.changeFieldInState('firstName', value);
-            this.#getFirstNameError();
+            this.#checkName('firstName');
             break;
         case 'lastname':
             super.changeFieldInState('lastName', value);
-            this.#getLastNameError();
+            this.#checkName('lastName');
             break;
         case 'validate_register':
             this.#checkForErrorsInRegistration(value);
@@ -101,75 +106,106 @@ class UserInfoStore extends IStore {
     }
 
     /**
-     * Get username error
+     * If username correct will emit 'OK' else 'BAD'
+     * If field is empty will return 'OK' without loginType flag
+     * @param {boolean} loginType if true will return 'BAD' when empty field
      */
-    #getErrorsUsername() {
+    #getErrorsUsername(loginType = false) {
         const { username } = super.state;
 
         let status;
         if (checkForEmpty(username)) {
-            status = 'BAD';
+            status = EMPTY_ERROR;
         } else {
             status = getUsernameError(username);
         }
 
-        this.#emitResponse('username', status);
+        if (status !== EMPTY_ERROR || loginType) {
+            this.#emitResponse('username', status);
+        }
+
+        if (status === EMPTY_ERROR && !loginType) {
+            this.#emitResponse('username', OK_RESPONSE);
+        }
     }
 
     /**
-     * Check for errors in password value
-     * @param {string} password - password value
+     * If password correct will emit 'OK' else 'BAD'
+     * If field is empty will return 'OK' without loginType flag
+     * @param {string} password value to check for error
+     * @param {boolean} loginType if true will return 'BAD' when empty field
      */
-    #getPasswordError(password) {
+    #getPasswordError(password, loginType = false) {
         let status;
         if (!checkForEmpty(password)) {
             status = getPasswordError(password);
         } else {
-            status = 'BAD';
+            status = EMPTY_ERROR;
         }
 
-        this.#emitResponse('password', status);
+        if (status !== EMPTY_ERROR || loginType) {
+            this.#emitResponse('password', status);
+        }
+        if (status === EMPTY_ERROR && !loginType) {
+            this.#emitResponse('password', OK_RESPONSE);
+        }
     }
 
     /**
-     * Get day error
+     * If day correct will emit 'OK' else 'BAD'
+     * If field is empty will return 'OK' without loginType flag
+     * @param {boolean} loginType if true will return 'BAD' when empty field
      */
-    #getDayError() {
+    #getDayError(loginType = false) {
         const { day } = super.state;
 
         let status;
         if (checkForEmpty(day)) {
-            status = 'BAD';
+            status = EMPTY_ERROR;
         } else {
             status = getDayError(day);
         }
 
-        this.#emitResponse('day', status);
+        if (status !== EMPTY_ERROR || loginType) {
+            this.#emitResponse('day', status);
+        }
+        if (status === EMPTY_ERROR && !loginType) {
+            this.#emitResponse('day', OK_RESPONSE);
+        }
     }
 
     /**
-     * Get year error
+     * If year correct will emit 'OK' else 'BAD'
+     * If field is empty will return 'OK' without loginType flag
+     * @param {boolean} loginType if true will return 'BAD' when empty field
      */
-    #getYearError() {
+    #getYearError(loginType = false) {
         const { year } = super.state;
         let status;
         if (checkForEmpty(year)) {
-            status = 'BAD';
+            status = EMPTY_ERROR;
         } else {
             status = getYearError(year);
         }
 
-        this.#emitResponse('year', status);
+        if (status !== EMPTY_ERROR || loginType) {
+            this.#emitResponse('year', status);
+        }
+        if (status === EMPTY_ERROR && !loginType) {
+            this.#emitResponse('year', OK_RESPONSE);
+        }
     }
 
     /**
-     * Get month error
+     * If month correct will emit 'OK' else 'BAD'
+     * If field is empty will return 'OK' without loginType flag
+     * @param {boolean} loginType if true will return 'BAD' when empty field
      */
-    #getMonthError() {
+    #getMonthError(loginType = false) {
         const { month } = super.state;
         let status;
-        if (checkForEmpty(month)) {
-            status = 'BAD';
+        if (checkForEmpty(month) && !loginType) {
+            status = EMPTY_ERROR;
         } else {
             status = getMonthError(month);
 
@@ -178,125 +214,151 @@ class UserInfoStore extends IStore {
             }
         }
 
-        this.#emitResponse('month', status);
+        if (status !== EMPTY_ERROR) {
+            this.#emitResponse('month', status);
+        }
+        if (status === EMPTY_ERROR) {
+            this.#emitResponse('month', OK_RESPONSE);
+        }
     }
 
     /**
-     * Get email error
+     * If email correct will emit 'OK' else 'BAD'
+     * If field is empty will return 'OK' without loginType flag
+     *
+     * Emit confEmail signal with 'BAD' status if confEmail not correct
+     * or empty with loginType flag
+     * @param {boolean} loginType if true will return 'BAD' when empty field
      */
-    #getEmailError() {
+    #getEmailError(loginType = false) {
         const { email } = super.state;
         const { confEmail } = super.state;
         let status;
-        if (checkForEmpty(email) || checkForEmpty(confEmail)) {
-            status = 'BAD';
+        if (checkForEmpty(email) && !loginType) {
+            status = EMPTY_ERROR;
         } else {
-            status = getEmailError(email, confEmail);
+            status = getEmailError(email, confEmail) || [];
+            if (Array.isArray(status) && status.length === 0) {
+                status = OK_RESPONSE;
+            }
         }
 
-        this.#emitResponse('confEmail', status);
+        if (status !== EMPTY_ERROR) {
+            if (status.indexOf('email') < 0) {
+                this.#emitResponse('email', OK_RESPONSE);
+            } else {
+                this.#emitResponse('email', BAD_RESPONSE);
+            }
+
+            if (status.indexOf('emailConf') < 0 || (!loginType && checkForEmpty(confEmail))) {
+                this.#emitResponse('confEmail', OK_RESPONSE);
+            } else {
+                this.#emitResponse('confEmail', BAD_RESPONSE);
+            }
+        } else {
+            this.#emitResponse('email', OK_RESPONSE);
+            this.#emitResponse('confEmail', OK_RESPONSE);
+        }
     }
 
     /**
-     * Get confEmail error
+     * If confirmation email correct will emit 'OK' else 'BAD'
+     * If field is empty will return 'OK' without loginType flag
+     * If email field is empty will return 'OK' without loginType flag
+     *
+     * Emit confEmail signal with 'BAD' status if confEmail not correct
+     * or empty with loginType flag
+     * @param {boolean} loginType if true will return 'BAD' when empty field
      */
-    #getConfEmailError() {
+    #getConfEmailError(loginType = false) {
         const { email } = super.state;
         const { confEmail } = super.state;
         let status;
-        if (checkForEmpty(email) || checkForEmpty(confEmail)) {
-            status = 'BAD';
+        if (checkForEmpty(email) && !loginType) {
+            status = EMPTY_ERROR;
         } else {
-            status = getEmailError(email, confEmail);
+            status = getEmailError(email, confEmail) || [];
+            if (Array.isArray(status) && status.length === 0) {
+                status = OK_RESPONSE;
+            }
         }
 
-        this.#emitResponse('confEmail', status);
+        if (status !== EMPTY_ERROR) {
+            this.#emitResponse('confEmail', status);
+        } else {
+            this.#emitResponse('confEmail', OK_RESPONSE);
+        }
     }
 
     /**
-     * Get sex error
+     * If gender correct will emit 'OK' else 'BAD'
+     * If gender field is empty will return 'OK' without loginType flag
+     *
+     * @param {string} sex value from user
+     * @param {boolean} loginType if true will return 'BAD' when empty field
      */
-    #getSexError(sex) {
+    #getSexError(sex, loginType = false) {
         if (!sex) {
-            this.#emitResponse('gender', 'BAD');
+            this.#emitResponse('gender', BAD_RESPONSE);
             return;
         }
 
         const { gender } = sex;
         let status;
-        if (gender.length < 2 && !checkForEmpty(gender)) {
+        if (checkForEmpty(gender) && !loginType) {
+            status = EMPTY_ERROR;
+        } else if (gender.length < 2) {
             status = getSexError(...gender);
         } else {
-            status = 'false';
+            status = BAD_RESPONSE;
         }
 
         if (!status) {
             super.changeFieldInState('gender', getSexInString(gender[0]));
+            status = OK_RESPONSE;
         }
 
-        this.#emitResponse('gender', status);
+        if (status !== EMPTY_ERROR) {
+            this.#emitResponse('gender', status);
+        }
+        if (status === EMPTY_ERROR) {
+            this.#emitResponse('gender', OK_RESPONSE);
+        }
     }
 
     /**
-     * Get first name error
+     * Get value from state with name of nameOfField
+     * If name correct then emit 'OK' signal else 'BAD'
+     *
+     * If empty field without loginType flag emit 'OK'
+     * @param {string} nameOfField what field to check
+     * @param {boolean} loginType
      */
-    #getFirstNameError() {
-        const { firstName } = super.state;
-        let status;
-        if (checkForEmpty(firstName)) {
-            status = 'BAD';
-        } else {
-            status = getNameError(firstName);
-        }
-
-        this.#emitResponse('firstName', status);
-    }
-
-    /**
-     * Get last name error
-     */
-    #getLastNameError() {
-        const { lastName } = super.state;
+    #checkName(nameOfField, loginType = false) {
+        const valueOfField = super.state[nameOfField];
         let status;
 
-        if (checkForEmpty(lastName)) {
-            status = 'BAD';
+        if (checkForEmpty(valueOfField) && !loginType) {
+            status = EMPTY_ERROR;
         } else {
-            status = getNameError(lastName);
-        }
-
-        this.#emitResponse('lastName', status);
-    }
-
-    /**
-     * Check for existence of errors in fields
-     * @param {string} password - password value
-     */
-    #checkForErrorsInRegistration(password) {
-        this.#getErrorsUsername();
-        this.#getPasswordError(password);
-        this.#getDayError();
-        this.#getYearError();
-        this.#getMonthError();
-        this.#getEmailError();
-        this.#getConfEmailError();
-        this.#getFirstNameError();
-        this.#getLastNameError();
-        this.#checkValueGender();
-
-        const { errors } = super.state;
-
-        let status = 'OK';
-        for (const errorField in errors) {
-            if (errorField !== 'login' && errors[errorField] === true) {
-                status = 'BAD';
+            status = getNameError(valueOfField);
+            if (!status) {
+                status = OK_RESPONSE;
             }
         }
 
-        this.jsEmit(EventTypes.SEND_DATA, status);
+        if (status !== EMPTY_ERROR) {
+            this.#emitResponse(nameOfField, status);
+        }
+        if (status === EMPTY_ERROR) {
+            this.#emitResponse(nameOfField, OK_RESPONSE);
+        }
     }
 
-    /** if gender is 'M/S/O' then OK' */
+    /**
+     * If gender in Store is 'M'/'F'/'O' then change state errors gender to false
+     * else change to true
+     * */
     #checkValueGender() {
         switch (super.state.gender) {
         case 'O':
@@ -310,34 +372,18 @@ class UserInfoStore extends IStore {
     }
 
     /**
-     * Check if field in authorization is correct
-     * @param {string} password - value of password
+     * If login is incorrect emit signal 'BAD' else 'OK'
+     *
+     * If login isn't email or username it will generate 'BAD' signal
+     * @param {boolean} loginType if true then emit signal on empty field else not emit
      */
-    #checkForErrorsInLogin(password) {
-        this.#getLoginError();
-        this.#getPasswordError(password);
-
-        const errors = super.getValueInState('errors');
-        let status = 'OK';
-        for (const errorField in errors) {
-            if (errors[errorField] === true && (errorField === 'login' || errorField === 'password')) {
-                status = 'BAD';
-            }
-        }
-
-        this.jsEmit(EventTypes.SEND_DATA, status);
-    }
-
-    /**
-     * Check if login is incorrect and emit signal if incorrect
-     */
-    #getLoginError() {
+    #getLoginError(loginType = false) {
         const login = super.getValueInState('login');
 
         let errors;
         let nameOfField = 'username';
-        if (checkForEmpty(login)) {
-            errors = 'error';
+        if (checkForEmpty(login) && !loginType) {
+            errors = EMPTY_ERROR;
         } else if (checkIsEmail(login)) {
             errors = getEmailError(login, login);
             nameOfField = 'email';
@@ -348,23 +394,86 @@ class UserInfoStore extends IStore {
 
         super.state.errors.login = !!errors;
 
-        this.#emitResponse(nameOfField, errors);
+        if (errors !== EMPTY_ERROR) {
+            this.#emitResponse(nameOfField, errors);
+        }
+        if (errors === EMPTY_ERROR) {
+            this.#emitResponse(nameOfField, OK_RESPONSE);
+        }
     }
 
     /**
-     * If status exist then errors also exist
-     * @param {string} nameOfField - where error was
-     * @param {*} status - errors
+     * If status not exist or exist and its value equal 'OK' then it will emit
+     * signal with value VALIDATION_RESPONSE, nameOfField, 'OK'
+     * Update error state with nameOfField to false
+     *
+     * If status exist or not equal 'OK' then it will emit
+     * signal with value VALIDATION_RESPONSE, nameOfField, 'BAD'
+     * Update error state with nameOfField to true
+     *
+     * @param {string} nameOfField what field is emit signal
+     * @param status status of validation
      */
     #emitResponse(nameOfField, status) {
         const state = super.state;
-        if (!status) {
-            this.jsEmit(EventTypes.VALIDATION_RESPONSE, nameOfField, 'OK');
+        if (!status || status === OK_RESPONSE) {
+            this.jsEmit(EventTypes.VALIDATION_RESPONSE, nameOfField, OK_RESPONSE);
             state.errors[nameOfField] = false;
         } else {
-            this.jsEmit(EventTypes.VALIDATION_RESPONSE, nameOfField, 'BAD');
+            this.jsEmit(EventTypes.VALIDATION_RESPONSE, nameOfField, BAD_RESPONSE);
             state.errors[nameOfField] = true;
         }
+    }
+
+    /**
+     * Check for errors in login fields. Fields must be upload before this method.
+     * If all fields without errors then it will emit signal 'OK'
+     * If errors exist then it will emit 'BAD'
+     * @param {string} password - value of password
+     */
+    #checkForErrorsInLogin(password) {
+        this.#getLoginError(true);
+        this.#getPasswordError(password, true);
+
+        const errors = super.getValueInState('errors');
+        let status = OK_RESPONSE;
+        for (const errorField in errors) {
+            if (errors[errorField] === true && (errorField === 'login' || errorField === 'password')) {
+                status = BAD_RESPONSE;
+            }
+        }
+
+        this.jsEmit(EventTypes.SEND_DATA, status);
+    }
+
+    /**
+     * Check for errors in registration fields. Fields must be upload before this method.
+     * If all fields without errors then it will emit signal 'OK'
+     * If errors exist then it will emit 'BAD'
+     * @param {string} password - password value to check
+     */
+    #checkForErrorsInRegistration(password) {
+        this.#getErrorsUsername(true);
+        this.#getPasswordError(password, true);
+        this.#getDayError(true);
+        this.#getYearError(true);
+        this.#getMonthError(true);
+        this.#getEmailError(true);
+        this.#getConfEmailError(true);
+        this.#checkName('firstName', true);
+        this.#checkName('lastName', true);
+        this.#checkValueGender();
+
+        const { errors } = super.state;
+
+        let status = OK_RESPONSE;
+        for (const errorField in errors) {
+            if (errorField !== 'login' && errors[errorField] === true) {
+                status = BAD_RESPONSE;
+            }
+        }
+
+        this.jsEmit(EventTypes.SEND_DATA, status);
     }
 }
 
