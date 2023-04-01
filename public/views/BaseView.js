@@ -4,6 +4,7 @@ import { EventTypes } from '../utils/config/EventTypes';
 import Actions from '../actions/Actions';
 import UserInfoStore from '../stores/UserInfoStore';
 import { componentsNames } from '../utils/config/componentsNames';
+import API from '../stores/API';
 
 /**
  * Base View class to handle render functions.
@@ -66,7 +67,7 @@ export class BaseView {
             EventTypes.ON_NOT_RENDERED_ITEMS,
         );
 
-        UserInfoStore.subscribe(
+        API.subscribe(
             (message) => {
                 if (message !== 'OK') {
                     console.error('bad respond from server during logout');
@@ -113,13 +114,6 @@ export class BaseView {
         if (ComponentsStore.prePageNeed(this.#viewName)) {
             prePageRender();
         }
-    }
-
-    /**
-     * Function to unsubscribe from componentsStore
-     */
-    componentsStoreUnsubscribe() {
-        ComponentsStore.unsubscribeAll();
     }
 
     /**

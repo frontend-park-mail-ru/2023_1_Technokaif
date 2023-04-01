@@ -5,6 +5,7 @@ import ActionTypes from '../actions/ActionTypes';
 import { feedAjax } from '../api/feed';
 import Actions from '../actions/Actions';
 import { logoutAjax } from '../api/auth/logoutAjaxReq';
+import { EventTypes } from '../utils/config/EventTypes';
 
 /**
  * Class using for getting data from backend.
@@ -48,9 +49,7 @@ class API extends IStore {
      */
     loginRequest(login, password) {
         loginAjax(login, password).then(
-            (message) => Actions.loginChangeState({
-                message,
-            }),
+            (message) => this.jsEmit(EventTypes.LOGIN_STATUS, message),
         );
     }
 
@@ -60,9 +59,7 @@ class API extends IStore {
      */
     registerRequest(data) {
         registerAjax(data).then(
-            (message) => Actions.registerChangeState({
-                message,
-            }),
+            (message) => this.jsEmit(EventTypes.REGISTER_STATUS, message),
         );
     }
 
@@ -71,9 +68,7 @@ class API extends IStore {
      */
     logoutRequest() {
         logoutAjax().then(
-            (message) => Actions.logoutChangeState({
-                message,
-            }),
+            (message) => this.jsEmit(EventTypes.LOGOUT_STATUS, message),
         );
     }
 

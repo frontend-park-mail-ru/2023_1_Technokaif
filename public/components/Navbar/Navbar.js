@@ -49,7 +49,7 @@ class Navbar {
                 const { section } = e.target.dataset;
                 if (section === 'logout') {
                     ApiActions.logout();
-                } else {
+                } else if (Object.keys(this.#config).includes(section)) {
                     Router.go(this.#config[section].href);
                 }
             }

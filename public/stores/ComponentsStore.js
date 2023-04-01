@@ -111,7 +111,7 @@ class ComponentsStore extends IStore {
      */
     #removeElementFromPage(element) {
         this.#whatExistOnPage = this.#whatExistOnPage.filter((elem) => (elem !== element));
-        this.removeItem(this.#whatExistOnPage);
+        this.addNewItem(this.#whatExistOnPage);
     }
 
     /**

@@ -33,15 +33,6 @@ class UserInfoStore extends IStore {
         case ActionTypes.VALIDATION_FIELD:
             this.#validationDispatch(action.nameOfField, action.content);
             break;
-        case ActionTypes.REGISTER_STATUS:
-            this.jsEmit(EventTypes.REGISTER_STATUS, action.message);
-            break;
-        case ActionTypes.LOGIN_STATUS:
-            this.jsEmit(EventTypes.LOGIN_STATUS, action.message);
-            break;
-        case ActionTypes.LOGOUT_STATUS:
-            this.jsEmit(EventTypes.LOGOUT_STATUS, action.message);
-            break;
         default:
         }
     }

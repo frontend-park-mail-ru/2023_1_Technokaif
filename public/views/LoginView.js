@@ -8,6 +8,7 @@ import ApiActions from '../actions/ApiActions';
 import ComponentsStore from '../stores/ComponentsStore';
 import Router from '../router/Router';
 import userInfoStore from '../stores/UserInfoStore';
+import API from '../stores/API';
 
 const METHOD = 'focusout';
 // todo temporary json
@@ -76,6 +77,8 @@ export class LoginView extends BaseView {
      */
     #handleLoginResponse(message) {
         if (message === 'OK') {
+            UserInfoStore.unsubscribeAll();
+            API.unsubscribeAll();
             Router.go('/');
         } else {
             const element = document.querySelector('.title__error-text');
@@ -95,7 +98,7 @@ export class LoginView extends BaseView {
             (status) => { this.sendAllData(status); },
             EventTypes.SEND_DATA,
         );
-        UserInfoStore.subscribe(
+        API.subscribe(
             (message) => {
                 this.#handleLoginResponse(message);
             },
@@ -123,16 +126,10 @@ export class LoginView extends BaseView {
             Router.go('/');
         });
 
-        // const button = document.querySelector('.form__button');
         document.querySelector('.content').addEventListener('submit', (event) => {
             event.preventDefault();
             Actions.validateAll('validate_login', password.value);
         });
-        // todo check submit don't work
-        // button.addEventListener('click', (event) => {
-        //     event.preventDefault();
-        //     Actions.validateAll('validate_login', password.value);
-        // });
 
         const bottomButton = document.querySelector('.bottom__button');
         bottomButton.addEventListener('click', (event) => {

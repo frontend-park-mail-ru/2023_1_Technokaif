@@ -63,9 +63,9 @@ class FeedView extends BaseView {
                 break;
             default:
             }
-        });
 
-        ComponentsStore.unsubscribeAll();
+            ComponentsStore.unsubscribeAll();
+        });
     }
 
     /**

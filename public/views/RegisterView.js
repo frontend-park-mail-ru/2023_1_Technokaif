@@ -8,6 +8,7 @@ import ComponentsStore from '../stores/ComponentsStore';
 import Router from '../router/Router';
 import { getCheckedValueRadioButtons } from '../utils/functions/utils';
 import ApiActions from '../actions/ApiActions';
+import API from '../stores/API';
 
 // todo Validate all create func to check
 
@@ -78,9 +79,11 @@ class RegisterView extends BaseView {
             EventTypes.SEND_DATA,
         );
 
-        UserInfoStore.subscribe(
+        API.subscribe(
             (message) => {
                 if (message === 'OK') {
+                    UserInfoStore.unsubscribeAll();
+                    API.unsubscribeAll();
                     Router.go('/');
                 } else {
                     console.error('failed after login with succeeded reg data');
@@ -166,12 +169,6 @@ class RegisterView extends BaseView {
             Router.go('/');
         });
 
-        // const button = document.querySelector('.form__button');
-        // button.addEventListener('click', (event) => {
-        //     event.preventDefault();
-        //     Actions.validateAll('validate_register', password.value);
-        // });
-        // todo check why submit don't work
         document.querySelector('.content').addEventListener('submit', (event) => {
             event.preventDefault();
             Actions.validateAll('validate_register', password.value);
