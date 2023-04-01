@@ -1,6 +1,6 @@
 import ActionTypes from '../actions/ActionTypes';
 import IStore from './IStore';
-import { EventTypes } from './EventTypes';
+import { EventTypes } from '../utils/config/EventTypes';
 import { pageNames } from '../utils/config/pageNames';
 
 // TODO rename file to content

@@ -3,7 +3,7 @@ import { pageNames } from '../utils/config/pageNames';
 import Actions from '../actions/Actions';
 import UserInfoStore from '../stores/UserInfoStore';
 import { ERRORS_LOG } from '../utils/config/errors';
-import { EventTypes } from '../stores/EventTypes';
+import { EventTypes } from '../utils/config/EventTypes';
 import ApiActions from '../actions/ApiActions';
 import ComponentsStore from '../stores/ComponentsStore';
 import Router from '../router/Router';
@@ -117,11 +117,22 @@ export class LoginView extends BaseView {
             Actions.validationField('log_password', document.querySelector(`.${this.#inputsOnView.password}`).value);
         });
 
-        const button = document.querySelector('.form__button');
-        button.addEventListener('click', (event) => {
+        const header = document.querySelector('.header');
+        header.addEventListener('click', (event) => {
+            event.preventDefault();
+            Router.go('/');
+        });
+
+        // const button = document.querySelector('.form__button');
+        document.querySelector('.content').addEventListener('submit', (event) => {
             event.preventDefault();
             Actions.validateAll('validate_login', password.value);
         });
+        // todo check submit don't work
+        // button.addEventListener('click', (event) => {
+        //     event.preventDefault();
+        //     Actions.validateAll('validate_login', password.value);
+        // });
 
         const bottomButton = document.querySelector('.bottom__button');
         bottomButton.addEventListener('click', (event) => {
@@ -156,19 +167,6 @@ export class LoginView extends BaseView {
         ComponentsStore.unsubscribeAll();
 
         this.#addEventListenerInsideElements();
-
-        /* todo async functions dispatch from general scope and unsubscribe after base class render
-        todo happened and login didn't send Action. THINK ABOUT IT OR DO LIKE this case.
-        */
-        // const renderSup = async () => {
-        //     await super.render();
-        // };
-        //
-        // renderSup().then(() => {
-        //     Actions.whatRender(super.name);
-        //     this.callEventListener();
-        //     this.#addEventListenerInsideElements();
-        // });
     }
 }
 

@@ -3,7 +3,7 @@ import { ERRORS_REG } from '../utils/config/errors';
 import { pageNames } from '../utils/config/pageNames';
 import UserInfoStore from '../stores/UserInfoStore';
 import Actions from '../actions/Actions';
-import { EventTypes } from '../stores/EventTypes';
+import { EventTypes } from '../utils/config/EventTypes';
 import ComponentsStore from '../stores/ComponentsStore';
 import Router from '../router/Router';
 import { getCheckedValueRadioButtons } from '../utils/functions/utils';
@@ -160,8 +160,19 @@ class RegisterView extends BaseView {
             Actions.validationField('sex', { gender: elementsValues });
         });
 
-        const button = document.querySelector('.form__button');
-        button.addEventListener('click', (event) => {
+        const header = document.querySelector('.header');
+        header.addEventListener('click', (event) => {
+            event.preventDefault();
+            Router.go('/');
+        });
+
+        // const button = document.querySelector('.form__button');
+        // button.addEventListener('click', (event) => {
+        //     event.preventDefault();
+        //     Actions.validateAll('validate_register', password.value);
+        // });
+        // todo check why submit don't work
+        document.querySelector('.content').addEventListener('submit', (event) => {
             event.preventDefault();
             Actions.validateAll('validate_register', password.value);
         });
@@ -297,7 +308,7 @@ class RegisterView extends BaseView {
     #loginAfterSuccessRegistration(message) {
         if (message === 'OK') {
             ApiActions.login(
-                document.querySelector(`.${this.#inputsOnView.username}`).value,
+                document.querySelector(`.${this.#inputsOnView.email}`).value,
                 document.querySelector(`.${this.#inputsOnView.password}`).value,
             );
         } else {
@@ -309,16 +320,12 @@ class RegisterView extends BaseView {
 
     /** Render all view by components. */
     render() {
-        const renderSup = async () => {
-            await super.render();
-        };
-        renderSup().then(() => {
-            Actions.whatRender(super.name);
-            ComponentsStore.unsubscribeAll();
-            UserInfoStore.unsubscribeAll();
+        super.render();
+        UserInfoStore.unsubscribeAll();
+        Actions.whatRender(super.name);
+        ComponentsStore.unsubscribeAll();
 
-            this.#addEventListenerInsideElements();
-        });
+        this.#addEventListenerInsideElements();
     }
 }
 

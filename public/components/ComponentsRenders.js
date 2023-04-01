@@ -3,10 +3,10 @@ import { authNavConfig, sidebarConfig, unAuthNavConfig } from '../utils/config/c
 import Navbar from './Navbar/Navbar';
 import Menu from './Menu/Menu';
 import { MainWindowContent } from './MainWindow/mainWindow';
-import { componentsNames } from '../utils/config/ComponentsNames';
 import { Form } from './form/form';
-import { logFormSetup } from '../pages/login/authSetup';
-import { dateSetup, regFormSetup, sexSetup } from '../pages/registration/creationSetup';
+import { logFormSetup } from '../utils/config/loginSetup';
+import { dateSetup, regFormSetup, sexSetup } from '../utils/config/registrationSetup';
+import { componentsJSNames } from '../utils/config/componentsJSNames';
 
 /**
  * Class for components renders functions.
@@ -29,7 +29,7 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- from what delete component
      */
     unrenderNavbar(parent) {
-        document.querySelector('#cont').removeChild(document.querySelector(`.${componentsNames.NAVBAR}`));
+        document.querySelector('#cont').removeChild(document.querySelector(`.${componentsJSNames.NAVBAR}`));
     }
 
     /**
@@ -46,7 +46,7 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- from what delete component
      */
     unrenderSidebar(parent) {
-        document.querySelector('#factBody').removeChild(document.querySelector(`.${componentsNames.SIDEBAR}`));
+        document.querySelector('#factBody').removeChild(document.querySelector(`.${componentsJSNames.SIDEBAR}`));
     }
 
     /**
@@ -64,7 +64,7 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- from what delete component
      */
     unrenderFeedContent(parent) {
-        parent.removeChild(document.querySelector(`.${componentsNames.MAIN_PAGE_WINDOW}`));
+        parent.removeChild(document.querySelector(`.${componentsJSNames.FEED_CONTENT}`));
     }
 
     /**
@@ -85,7 +85,7 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- from what delete component
      */
     unrenderFormLogin(parent) {
-        parent.removeChild(document.querySelector(`.${componentsNames.FORM}`));
+        parent.removeChild(document.querySelector(`.${componentsJSNames.FORM}`));
     }
 
     /**
@@ -93,7 +93,6 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- where to place Sidebar
      */
     renderFormRegister(parent) {
-        // todo don't send configs here....
         const form = new Form(
             parent,
             regFormSetup(),
@@ -109,7 +108,7 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- from what delete component
      */
     unrenderFormRegister(parent) {
-        parent.removeChild(document.querySelector(`.${componentsNames.FORM}`));
+        parent.removeChild(document.querySelector(`.${componentsJSNames.FORM}`));
     }
 }
 

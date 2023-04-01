@@ -1,8 +1,9 @@
 import IStore from './IStore';
 import ActionTypes from '../actions/ActionTypes';
-import { EventTypes } from './EventTypes';
-import { componentsNames } from '../utils/config/ComponentsNames';
+import { EventTypes } from '../utils/config/EventTypes';
+import { componentsNames } from '../utils/config/componentsNames';
 import { pageNames } from '../utils/config/pageNames';
+import { componentsJSNames } from '../utils/config/componentsJSNames';
 
 /**
  * Store for components.
@@ -44,7 +45,6 @@ class ComponentsStore extends IStore {
 
         switch (action.type) {
         case ActionTypes.CHECK_WHAT_RENDER:
-            console.log('in components store');
             this.#checkElementsForPage(action.name);
             break;
         case ActionTypes.ADD_COMPONENT_ON_PAGE:
@@ -65,12 +65,13 @@ class ComponentsStore extends IStore {
     checkWhereToPlace(elementName) {
         switch (elementName) {
         case componentsNames.NAVBAR:
-            return document.querySelector('.navbar');
+            return document.querySelector(`.${componentsJSNames.NAVBAR}`);
         case componentsNames.SIDEBAR:
-            return document.querySelector(`.${componentsNames.SIDEBAR}`);
-        case componentsNames.MAIN_PAGE_WINDOW:
+            return document.querySelector(`.${componentsJSNames.SIDEBAR}`);
+        case componentsNames.FEED_CONTENT:
             return document.querySelector('#main');
-        case componentsNames.FORM:
+        case componentsNames.LOGIN_FORM:
+        case componentsNames.REGISTER_FORM:
             return document.querySelector('#root');
         default:
             console.error('position to place element by name', elementName, 'not found');
@@ -92,6 +93,16 @@ class ComponentsStore extends IStore {
     #addElementOnPage(element) {
         this.#whatExistOnPage.push(element);
         this.addNewItem(this.#whatExistOnPage);
+    }
+
+    // todo unsafe method. we could just get every render function from every code point.
+    /**
+     * Returns a render function of component
+     * @param name
+     * @returns {*}
+     */
+    getComponentByName(name) {
+        return this.#allElements.find((component) => component.name === name);
     }
 
     /**
@@ -161,27 +172,9 @@ class ComponentsStore extends IStore {
             this.jsEmit(EventTypes.ON_REMOVE_ANOTHER_ITEMS, needToBeDeletedExist);
         }
 
-        // todo костыль
-        if (components[0].name === 'content') {
-            // reg or login
-            const index = notExist.findIndex((el) => el.name === 'content');
-            if (index === -1) {
-                const indexLast = this.#allElements.findIndex((el) => el.name === 'content');
-                let element;
-                if (pageName === 'LOGIN') {
-                    element = this.#allElements.at(indexLast);
-                } else {
-                    element = this.#allElements.at(indexLast + 1);
-                }
-                notExist.push(element);
-            }
-        }
         if (notExist.length !== 0) {
             this.jsEmit(EventTypes.ON_NOT_RENDERED_ITEMS, notExist);
         }
-
-        console.log('in components store func', notExist);
-        console.log('in components store func not need', needToBeDeletedExist);
     }
 
     /**

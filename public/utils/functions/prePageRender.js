@@ -1,4 +1,4 @@
-import { componentsNames } from '../config/ComponentsNames';
+import { componentsJSNames } from '../config/componentsJSNames';
 
 /**
  * Function to clear root element.
@@ -19,7 +19,7 @@ export function prePageRender() {
     bodyElement.classList.add('main-page-window__factBody');
     const menuElement = document.createElement('aside');
     menuElement.classList.add('sidebar');
-    menuElement.classList.add(componentsNames.SIDEBAR);
+    menuElement.classList.add(componentsJSNames.SIDEBAR);
     const mainElement = document.createElement('main');
     const contentElement = document.createElement('content-main');
     bodyElement.id = 'factBody';
@@ -28,7 +28,7 @@ export function prePageRender() {
 
     const sidebarElement = document.createElement('div');
     sidebarElement.classList.add('navbar');
-    sidebarElement.classList.add(componentsNames.NAVBAR);
+    sidebarElement.classList.add(componentsJSNames.NAVBAR);
 
     const root = document.getElementById('root');
     root.appendChild(bodyElement);

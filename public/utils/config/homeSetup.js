@@ -1,5 +1,6 @@
 /**
  * Function to create home setup config for template.
+ * @param title
  * @param items -- some data from server about some items. .
  * @return {json} config -- config for template.
  */

@@ -1,10 +1,10 @@
-import { loginAjax } from './auth/loginAjaxReq';
-import { registerAjax } from './auth/registerAjaxReq';
-import IStore from '../stores/IStore';
+import { loginAjax } from '../api/auth/loginAjaxReq';
+import { registerAjax } from '../api/auth/registerAjaxReq';
+import IStore from './IStore';
 import ActionTypes from '../actions/ActionTypes';
-import { feedAjax } from './feed';
+import { feedAjax } from '../api/feed';
 import Actions from '../actions/Actions';
-import { logoutAjax } from './auth/logoutAjaxReq';
+import { logoutAjax } from '../api/auth/logoutAjaxReq';
 
 /**
  * Class using for getting data from backend.

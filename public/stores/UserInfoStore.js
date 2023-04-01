@@ -5,7 +5,7 @@ import {
     getSexError, getNameError, checkIsEmail, translateMonthStrToInt,
 } from '../utils/functions/validation.js';
 import ActionTypes from '../actions/ActionTypes';
-import { EventTypes } from './EventTypes';
+import { EventTypes } from '../utils/config/EventTypes';
 import { checkForEmpty, getSexInString } from '../utils/functions/utils';
 
 /**
@@ -34,13 +34,13 @@ class UserInfoStore extends IStore {
             this.#validationDispatch(action.nameOfField, action.content);
             break;
         case ActionTypes.REGISTER_STATUS:
-            this.jsEmit('REGISTER_STATUS', action.message);
+            this.jsEmit(EventTypes.REGISTER_STATUS, action.message);
             break;
         case ActionTypes.LOGIN_STATUS:
-            this.jsEmit('LOGIN_STATUS', action.message);
+            this.jsEmit(EventTypes.LOGIN_STATUS, action.message);
             break;
         case ActionTypes.LOGOUT_STATUS:
-            this.jsEmit('LOGOUT_STATUS', action.message);
+            this.jsEmit(EventTypes.LOGOUT_STATUS, action.message);
             break;
         default:
         }

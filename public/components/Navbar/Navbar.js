@@ -1,4 +1,5 @@
 import Router from '../../router/Router';
+import ApiActions from '../../actions/ApiActions';
 
 /**
  * Class for Navbar element: Login, Registration, Logout and user info.
@@ -42,10 +43,15 @@ class Navbar {
      */
     callEventListener() {
         document.querySelector('#cont').addEventListener('click', (e) => {
+            // todo replace events from navbar to view
             e?.preventDefault?.();
             if (e.target instanceof HTMLAnchorElement || e.target instanceof HTMLButtonElement) {
                 const { section } = e.target.dataset;
-                Router.go(this.#config[section].href);
+                if (section === 'logout') {
+                    ApiActions.logout();
+                } else {
+                    Router.go(this.#config[section].href);
+                }
             }
         });
     }

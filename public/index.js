@@ -3,8 +3,8 @@ import Router from './router/Router';
 import FeedView from './views/FeedView';
 import ComponentsStore from './stores/ComponentsStore';
 import { pageNames } from './utils/config/pageNames';
-import { componentsNames } from './utils/config/ComponentsNames';
-import API from './api/API';
+import { componentsNames } from './utils/config/componentsNames';
+import API from './stores/API';
 import UserInfoStore from './stores/UserInfoStore';
 import ContentStore from './stores/ContentStore';
 import LoginView from './views/LoginView';
@@ -29,7 +29,7 @@ function renderMainPage() {
                 unrender: ComponentsRenders.unrenderSidebar,
             },
             {
-                name: componentsNames.MAIN_PAGE_WINDOW,
+                name: componentsNames.FEED_CONTENT,
                 render: ComponentsRenders.renderFeedContent,
                 unrender: ComponentsRenders.unrenderFeedContent,
             },
@@ -40,7 +40,7 @@ function renderMainPage() {
         pageNames.LOGIN,
         [
             {
-                name: componentsNames.FORM,
+                name: componentsNames.LOGIN_FORM,
                 render: ComponentsRenders.renderFormLogin,
                 unrender: ComponentsRenders.unrenderFormLogin,
             },
@@ -51,7 +51,7 @@ function renderMainPage() {
         pageNames.REGISTER,
         [
             {
-                name: componentsNames.FORM,
+                name: componentsNames.REGISTER_FORM,
                 render: ComponentsRenders.renderFormRegister,
                 unrender: ComponentsRenders.unrenderFormRegister,
             },

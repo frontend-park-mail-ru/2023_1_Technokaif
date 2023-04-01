@@ -1,4 +1,4 @@
-import { ID_REG, CLASS_REG as CLASS } from '../../utils/config/id.js';
+import { ID_REG, CLASS_REG as CLASS } from './id.js';
 
 /**
  * Function to create registration form setup config for template.
@@ -10,6 +10,7 @@ export function regFormSetup() {
         errorText: 'title__error-text',
         topID: 'serverErrors',
         content: 'content',
+        registrationContent: 'registration-content',
         formHeader: 'header',
         title: CLASS.title,
         logoSrc: '/static/svg/whiteLogo.svg',

@@ -92,7 +92,7 @@ app.post('/api/auth/login', (req, res) => {
 });
 
 app.get('/api/auth/logout', (req, res) => {
-    res.status(200).json({ message: 'good' });
+    res.status(200).json({ status: 'OK' });
 });
 
 app.get('/api/feed', (req, res) => {

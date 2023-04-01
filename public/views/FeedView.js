@@ -3,15 +3,20 @@ import ComponentsStore from '../stores/ComponentsStore';
 import Actions from '../actions/Actions';
 import ApiActions from '../actions/ApiActions';
 import ContentStore from '../stores/ContentStore';
-import { homeSetup } from '../pages/home/homeSetup';
+import { homeSetup } from '../utils/config/homeSetup';
 import { pageNames } from '../utils/config/pageNames';
-import { EventTypes } from '../stores/EventTypes';
-import { componentsNames } from '../utils/config/ComponentsNames';
+import { EventTypes } from '../utils/config/EventTypes';
+import { componentsNames } from '../utils/config/componentsNames';
 
 /**
  * Class for feed page view.
  */
 class FeedView extends BaseView {
+    /**
+     * A variable to save feed component beyond two events - render and api request
+     */
+    #feedComponent;
+
     /**
      * Constructor for feed page view.
      */
@@ -20,11 +25,16 @@ class FeedView extends BaseView {
     }
 
     /**
-     * Create feed content component and render it in parent
-     * @param {HTMLElement} parent -- where to place Sidebar
-     * @param component -- component with render callback to render
+     * Function to make all special subscribes for FeedView
      */
-    #renderFeedContent(parent, component) {
+    #addSubscribes() {
+        ComponentsStore.subscribe(
+            (list) => {
+                this.#renderFeedComponents(list);
+            },
+            EventTypes.ON_NOT_RENDERED_ITEMS,
+        );
+
         ContentStore.subscribe(() => {
             const state = ContentStore.state[pageNames.FEED];
             const configs = [];
@@ -32,18 +42,10 @@ class FeedView extends BaseView {
                 configs.push(homeSetup(key, state[key]));
             }
 
-            // todo fuck go back its strange dynamic logic
-            component.render(parent, configs);
+            const componentName = this.#feedComponent.name;
+            const parent = ComponentsStore.checkWhereToPlace(componentName);
+            this.#feedComponent.render(parent, configs);
         }, EventTypes.CHANGE_CONTENT);
-
-        ApiActions.feed();
-    }
-
-    /**
-     * Function to create a callback on event.
-     */
-    callEventListener() {
-
     }
 
     /**
@@ -53,15 +55,17 @@ class FeedView extends BaseView {
     #renderFeedComponents(list) {
         list.forEach((component) => {
             const componentName = component.name;
-            const parent = ComponentsStore.checkWhereToPlace(componentName);
             switch (componentName) {
-            case componentsNames.MAIN_PAGE_WINDOW:
-                this.#renderFeedContent(parent, component);
+            case componentsNames.FEED_CONTENT:
+                this.#feedComponent = component;
+                ApiActions.feed();
                 Actions.addElementOnPage(componentName);
                 break;
             default:
             }
         });
+
+        ComponentsStore.unsubscribeAll();
     }
 
     /**
@@ -69,16 +73,9 @@ class FeedView extends BaseView {
      */
     render() {
         super.render();
-        ComponentsStore.subscribe(
-            (list) => {
-                this.#renderFeedComponents(list);
-            },
-            EventTypes.ON_NOT_RENDERED_ITEMS,
-        );
+        this.#addSubscribes();
 
         Actions.whatRender(super.name);
-        ComponentsStore.unsubscribeAll();
-        this.callEventListener();
     }
 }
 

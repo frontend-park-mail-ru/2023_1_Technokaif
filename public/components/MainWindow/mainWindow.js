@@ -1,6 +1,6 @@
 import { Tape } from '../Tape/tape';
 import templateHtml from './mainWindow.handlebars';
-import { homeSetup } from '../../pages/home/homeSetup.js';
+import { homeSetup } from '../../utils/config/homeSetup.js';
 
 import './mainWindow.less';
 

@@ -1,4 +1,4 @@
-import { ID_LOG, CLASS_LOG as CLASS } from '../../utils/config/id.js';
+import { ID_LOG, CLASS_LOG as CLASS } from './id.js';
 
 /**
  * Function to create login form setup config for template.
@@ -10,6 +10,7 @@ export function logFormSetup() {
         errorText: 'title__error-text',
         topID: 'serverErrors',
         content: 'content',
+        loginContent: 'login-content',
         formHeader: 'header',
         title: CLASS.title,
         logoSrc: '/static/svg/whiteLogo.svg',
