@@ -5,7 +5,6 @@ import UserInfoStore from '../stores/UserInfoStore';
 import { ERRORS_LOG } from '../utils/config/errors';
 import { EventTypes } from '../utils/config/EventTypes';
 import ApiActions from '../actions/ApiActions';
-import ComponentsStore from '../stores/ComponentsStore';
 import Router from '../router/Router';
 import userInfoStore from '../stores/UserInfoStore';
 import API from '../stores/API';

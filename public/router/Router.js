@@ -1,5 +1,6 @@
 import IStore from '../stores/IStore';
 import Actions from '../actions/Actions';
+import { authNavConfig, sidebarConfig, unAuthNavConfig } from '../utils/config/config';
 
 /**
  * Class for routing urls in app.
@@ -8,12 +9,16 @@ class Router extends IStore {
     /** List of routes. */
     #routes;
 
+    /** */
+    #pageNotFoundRoute;
+
     #currentLen;
 
     /** Construct a router */
     constructor() {
         super('Router');
         this.#routes = [];
+        this.#pageNotFoundRoute = '/404';
     }
 
     /**
@@ -57,10 +62,25 @@ class Router extends IStore {
      * @param {string} path - url
      */
     go(path) {
-        const object = this.#routes.find((routeObj) => routeObj.path === path);
+        let object = this.#routes.find((routeObj) => routeObj.path === path);
+        let foundInFutureLinks = false;
         if (!object) {
-            this.go('/login');
-            return;
+            for (const key in unAuthNavConfig) {
+                if (unAuthNavConfig[key].href === path) foundInFutureLinks = true;
+            }
+            for (const key in authNavConfig) {
+                if (authNavConfig[key].href === path) foundInFutureLinks = true;
+            }
+            for (const key in sidebarConfig) {
+                if (sidebarConfig[key].href === path) foundInFutureLinks = true;
+            }
+
+            if (foundInFutureLinks) {
+                this.go('/login');
+                return;
+            }
+
+            object = this.#routes.find((routeObj) => routeObj.path === this.#pageNotFoundRoute);
         }
 
         const stateStore = [];
@@ -73,10 +93,12 @@ class Router extends IStore {
         window.history.pushState({ historyLen: this.#currentLen, stateInHistory: stateStore }, '', path);
 
         if (window.location.pathname !== path) {
-            window.history.pushState(stateStoreObj, '', path);
+            window.history.pushState(stateStore, '', path);
         }
 
         object.render();
+
+        // todo useless emit
         this.jsEmit('PAGE_CHANGED');
     }
 

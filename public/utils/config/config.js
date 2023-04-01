@@ -44,14 +44,12 @@ export const authNavConfig = {
     premium: {
         name: 'Upgrade',
         href: '/premium',
-        render: null,
         key: 'premium',
         type: 'button',
     },
     profile: {
         name: 'Profile',
         href: '/profile',
-        render: null,
         key: 'profile',
         type: 'button',
     },

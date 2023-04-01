@@ -72,6 +72,7 @@ class ComponentsStore extends IStore {
             return document.querySelector('#main');
         case componentsNames.LOGIN_FORM:
         case componentsNames.REGISTER_FORM:
+        case componentsNames.PAGE404:
             return document.querySelector('#root');
         default:
             console.error('position to place element by name', elementName, 'not found');

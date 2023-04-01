@@ -2,10 +2,12 @@ import { loginAjax } from '../api/auth/loginAjaxReq';
 import { registerAjax } from '../api/auth/registerAjaxReq';
 import IStore from './IStore';
 import ActionTypes from '../actions/ActionTypes';
-import { feedAjax } from '../api/feed';
+import { feedAjax, feedAlbumsAjax } from '../api/albums/feedAlbumsAjaxRequest';
 import Actions from '../actions/Actions';
 import { logoutAjax } from '../api/auth/logoutAjaxReq';
 import { EventTypes } from '../utils/config/EventTypes';
+import { feedTracksAjax } from '../api/tracks/feedTracksAjaxRequest';
+import { feedArtistsAjax } from '../api/artists/feedArtistsAjaxRequest';
 
 /**
  * Class using for getting data from backend.
@@ -76,7 +78,9 @@ class API extends IStore {
      * Function to get feed page data from server.
      */
     feedRequest() {
-        feedAjax().then((items) => Actions.feedAddContent(items));
+        feedTracksAjax().then((tracks) => Actions.feedAddContent({ Tracks: tracks }));
+        feedArtistsAjax().then((artists) => Actions.feedAddContent({ Artists: artists }));
+        feedAlbumsAjax().then((albums) => Actions.feedAddContent({ Albums: albums }));
     }
 }
 

@@ -4,6 +4,7 @@ import { Input } from '../input/input.js';
 import templateHtml from './form.handlebars';
 import { Sex } from '../sex/sex.js';
 import { Date } from '../date/date.js';
+import { Button } from '../Button/button';
 
 /**
  * Class for artists content in main page.
@@ -50,6 +51,8 @@ export class Form {
         if (this.#confSex !== '') {
             this.#parent.querySelector('.form__placement-additionall').innerHTML += this.#renderSex();
         }
+
+        this.#parent.querySelector('.button-placement').innerHTML = this.#renderButton();
 
         this.#parent.querySelector('.bottom-placement').innerHTML = this.#renderFooter();
     }
@@ -117,5 +120,14 @@ export class Form {
         }
 
         return htmlInputs;
+    }
+
+    /**
+     * Return button element html
+     * @returns html string
+     */
+    #renderButton() {
+        const submitButton = new Button(this.#parent, this.#config);
+        return submitButton.HTML();
     }
 }

@@ -20,7 +20,7 @@ export class BaseComponent {
     /**
      * Create BaseModel. Empty innerHtml before placement
      * @param {HTMLElement} parent - where to place MainWindowContent
-     * @param {JSON} config - what config use to compile template
+     * @param {Object} config - what config use to compile template
      * @param {function} template - template to create elements
      */
     constructor(parent, config, template) {

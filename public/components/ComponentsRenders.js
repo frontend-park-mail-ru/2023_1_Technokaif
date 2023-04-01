@@ -7,6 +7,8 @@ import { Form } from './form/form';
 import { logFormSetup } from '../utils/setup/loginSetup';
 import { dateSetup, regFormSetup, sexSetup } from '../utils/setup/registrationSetup';
 import { componentsJSNames } from '../utils/config/componentsJSNames';
+import { HeaderWithButton } from './HeadetWithButton/headerWithButton';
+import { page404Setup } from '../utils/setup/page404Setup';
 
 /**
  * Class for components renders functions.
@@ -109,6 +111,23 @@ class ComponentsRenders {
      */
     unrenderFormRegister(parent) {
         parent.removeChild(document.querySelector(`.${componentsJSNames.FORM}`));
+    }
+
+    /**
+     * Create Page404
+     * @param {HTMLElement} parent -- where to place Sidebar
+     */
+    renderPage404(parent) {
+        const page404 = new HeaderWithButton(parent, page404Setup());
+        page404.render();
+    }
+
+    /**
+     * Destroy Page404 component in parent block
+     * @param {HTMLElement} parent -- from what delete component
+     */
+    unrenderPage404(parent) {
+        parent.removeChild(document.querySelector(`.${componentsJSNames.PAGE404}`));
     }
 }
 
