@@ -1,4 +1,4 @@
-import { ID_REG, CLASS_REG as CLASS } from './id.js';
+import { ID_REG, CLASS_REG as CLASS } from '../config/id.js';
 
 /**
  * Function to create registration form setup config for template.
@@ -183,6 +183,11 @@ export function dateSetup() {
         idOfMonth: ID_REG.month,
         selectClass: 'date__month',
         optionsDate: [
+            {
+                option: '----',
+                class: null,
+                text: '----',
+            },
             {
                 option: 'January',
                 class: null,

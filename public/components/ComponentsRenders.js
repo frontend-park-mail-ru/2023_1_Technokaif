@@ -4,8 +4,8 @@ import Navbar from './Navbar/Navbar';
 import Menu from './Menu/Menu';
 import { MainWindowContent } from './MainWindow/mainWindow';
 import { Form } from './form/form';
-import { logFormSetup } from '../utils/config/loginSetup';
-import { dateSetup, regFormSetup, sexSetup } from '../utils/config/registrationSetup';
+import { logFormSetup } from '../utils/setup/loginSetup';
+import { dateSetup, regFormSetup, sexSetup } from '../utils/setup/registrationSetup';
 import { componentsJSNames } from '../utils/config/componentsJSNames';
 
 /**

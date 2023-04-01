@@ -1,4 +1,4 @@
-import { ID_LOG, CLASS_LOG as CLASS } from './id.js';
+import { ID_LOG, CLASS_LOG as CLASS } from '../config/id.js';
 
 /**
  * Function to create login form setup config for template.
