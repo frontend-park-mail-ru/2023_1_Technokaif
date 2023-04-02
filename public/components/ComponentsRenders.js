@@ -9,6 +9,7 @@ import { dateSetup, regFormSetup, sexSetup } from '../utils/setup/registrationSe
 import { componentsJSNames } from '../utils/config/componentsJSNames';
 import { HeaderWithButton } from './HeadetWithButton/headerWithButton';
 import { page404Setup } from '../utils/setup/page404Setup';
+import { componentsNames } from '../utils/config/componentsNames';
 
 /**
  * Class for components renders functions.
@@ -22,8 +23,22 @@ class ComponentsRenders {
      */
     renderNavbar(parent) {
         const config = (checkAuth()) ? authNavConfig : unAuthNavConfig;
-        const navbar = new Navbar(parent, config, 'navbar');
+        const name = (checkAuth()) ? 'authNavbar' : 'unAuthNavbar';
+
+        const navbar = new Navbar(parent, config, name);
         navbar.render();
+    }
+
+    /**
+     * Rerender Navbar component in parent
+     * @param {HTMLElement} parent -- where to place Navbar
+     */
+    reRenderNavbar(parent) {
+        const config = (checkAuth()) ? authNavConfig : unAuthNavConfig;
+        const name = (checkAuth()) ? 'authNavbar' : 'unAuthNavbar';
+
+        const navbar = new Navbar(parent, config, name);
+        navbar.reRender();
     }
 
     /**
@@ -31,7 +46,7 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- from what delete component
      */
     unrenderNavbar(parent) {
-        document.querySelector('#cont').removeChild(document.querySelector(`.${componentsJSNames.NAVBAR}`));
+        parent.removeChild(document.querySelector(`.${componentsJSNames.NAVBAR}`));
     }
 
     /**
@@ -48,7 +63,27 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- from what delete component
      */
     unrenderSidebar(parent) {
-        document.querySelector('#factBody').removeChild(document.querySelector(`.${componentsJSNames.SIDEBAR}`));
+        parent.removeChild(document.querySelector(`.${componentsJSNames.SIDEBAR}`));
+    }
+
+    /**
+     * Create Sidebar component and render it in parent
+     * @param {HTMLElement} parent -- where to place Sidebar
+     */
+    renderMainElement(parent) {
+        const main = document.createElement('main');
+        main.classList.add(`${componentsJSNames.MAIN}`, `${componentsNames.MAIN}`);
+        main.id = 'cont';
+
+        parent.appendChild(main);
+    }
+
+    /**
+     * Destroy Sidebar component in parent block
+     * @param {HTMLElement} parent -- from what delete component
+     */
+    unrenderMainElement(parent) {
+        parent.removeChild(document.querySelector(`.${componentsJSNames.MAIN}`));
     }
 
     /**

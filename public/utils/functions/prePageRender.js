@@ -11,29 +11,10 @@ export function clearBars() {
  * Render Navbar and Menu components.
  */
 export function prePageRender() {
-    if (document.querySelector('factBody')) {
-        return;
-    }
-
-    const bodyElement = document.createElement('factBody');
+    const bodyElement = document.createElement('factbody');
     bodyElement.classList.add('main-page-window__factBody');
-    const menuElement = document.createElement('aside');
-    menuElement.classList.add('sidebar');
-    menuElement.classList.add(componentsJSNames.SIDEBAR);
-    const mainElement = document.createElement('main');
-    const contentElement = document.createElement('content-main');
-    bodyElement.id = 'factBody';
-    contentElement.id = 'main';
-    mainElement.id = 'cont';
+    bodyElement.id = `${componentsJSNames.BODY}`;
 
-    const sidebarElement = document.createElement('div');
-    sidebarElement.classList.add('navbar');
-    sidebarElement.classList.add(componentsJSNames.NAVBAR);
-
-    const root = document.getElementById('root');
+    const root = document.querySelector('#root');
     root.appendChild(bodyElement);
-    bodyElement.appendChild(menuElement);
-    bodyElement.appendChild(mainElement);
-    mainElement.appendChild(sidebarElement);
-    mainElement.appendChild(contentElement);
 }

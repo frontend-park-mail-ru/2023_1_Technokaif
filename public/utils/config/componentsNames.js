@@ -1,4 +1,5 @@
 export const componentsNames = {
+    MAIN: 'main',
     NAVBAR: 'js__navbar',
     SIDEBAR: 'js__sidebar',
     FEED_CONTENT: 'js__main-page-window',

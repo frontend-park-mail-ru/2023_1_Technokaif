@@ -1,25 +1,11 @@
 export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'];
 
-export const Names = {
+export const NAMES = {
     nameOfApp: 'Spotify',
 };
 
 export const unAuthNavConfig = {
-    left: {
-        name: 'back page button',
-        href: '/next',
-        key: 'next',
-        type: 'img',
-        logoSrc: '/static/svg/buttonprevBut.svg',
-    },
-    right: {
-        name: 'next page button',
-        href: '/prev',
-        key: 'prev',
-        type: 'img',
-        logoSrc: '/static/svg/buttonnextBut.svg',
-    },
     premium: {
         name: 'Premium',
         href: '/premium',

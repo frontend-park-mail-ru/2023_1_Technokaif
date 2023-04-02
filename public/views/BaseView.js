@@ -2,9 +2,9 @@ import ComponentsStore from '../stores/ComponentsStore';
 import { prePageRender } from '../utils/functions/prePageRender';
 import { EventTypes } from '../utils/config/EventTypes';
 import Actions from '../actions/Actions';
-import UserInfoStore from '../stores/UserInfoStore';
 import { componentsNames } from '../utils/config/componentsNames';
 import API from '../stores/API';
+import ComponentsRenders from '../components/ComponentsRenders';
 
 /**
  * Base View class to handle render functions.
@@ -34,19 +34,14 @@ export class BaseView {
     }
 
     // todo do not use render of Navbar without Action. At least make an action.
+    //  And don't use rerender right where.
     /**
      * Function to render Navbar element after logout
      */
     #renderNavbarAfterLogout() {
-        const navbarComponent = ComponentsStore.getComponentByName(componentsNames.NAVBAR);
-        navbarComponent.unrender();
-        const navbarDiv = document.createElement('div');
-        navbarDiv.classList.add(`${componentsNames.NAVBAR}`);
-        navbarDiv.classList.add('navbar');
-
-        document.querySelector('#cont').insertBefore(navbarDiv, document.querySelector('#cont').firstChild);
         const parent = ComponentsStore.checkWhereToPlace(componentsNames.NAVBAR);
-        navbarComponent.render(parent);
+
+        ComponentsRenders.reRenderNavbar(parent);
     }
 
     /**
@@ -99,6 +94,7 @@ export class BaseView {
      * @param list
      */
     unrenderComponentsList(list) {
+        console.log(list);
         list.forEach((component) => {
             const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);
@@ -111,7 +107,7 @@ export class BaseView {
      * Some logic before render.
      */
     #preRender() {
-        if (ComponentsStore.prePageNeed(this.#viewName)) {
+        if (ComponentsStore.prePageNeed()) {
             prePageRender();
         }
     }

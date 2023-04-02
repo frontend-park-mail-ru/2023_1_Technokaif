@@ -20,14 +20,19 @@ function renderMainPage() {
         pageNames.FEED,
         [
             {
-                name: componentsNames.NAVBAR,
-                render: ComponentsRenders.renderNavbar,
-                unrender: ComponentsRenders.unrenderNavbar,
-            },
-            {
                 name: componentsNames.SIDEBAR,
                 render: ComponentsRenders.renderSidebar,
                 unrender: ComponentsRenders.unrenderSidebar,
+            },
+            {
+                name: componentsNames.MAIN,
+                render: ComponentsRenders.renderMainElement,
+                unrender: ComponentsRenders.unrenderMainElement,
+            },
+            {
+                name: componentsNames.NAVBAR,
+                render: ComponentsRenders.renderNavbar,
+                unrender: ComponentsRenders.unrenderNavbar,
             },
             {
                 name: componentsNames.FEED_CONTENT,

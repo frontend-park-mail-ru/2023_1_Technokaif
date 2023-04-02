@@ -37,6 +37,7 @@ class FeedView extends BaseView {
         );
 
         ContentStore.subscribe(() => {
+            console.log('in content');
             const state = ContentStore.state[pageNames.FEED];
             const configs = [];
             for (const key in state) {

@@ -1,6 +1,5 @@
 import { Tape } from '../Tape/tape';
 import templateHtml from './mainWindow.handlebars';
-import { homeSetup } from '../../utils/setup/homeSetup.js';
 
 import './mainWindow.less';
 
@@ -39,7 +38,7 @@ export class MainWindowContent {
      * @description render MainWindowContent in parent
      */
     render() {
-        this.#parent.innerHTML = this.HTML();
+        this.#parent.innerHTML += this.HTML();
         const insertBlock = this.#parent.querySelector('.main-page-window');
 
         this.#configs.forEach((configForInsertElement) => {
@@ -55,14 +54,4 @@ export class MainWindowContent {
     HTML() {
         return templateHtml(this.#config);
     }
-}
-
-/**
- * Create HomePageContent
- * @param {HTMLElement} parent -- where to render
- * @param {Object} items -- what items to render
- */
-export function createHomePageContent(parent, items) {
-    const mainPage = new MainWindowContent(parent, homeSetup(items));
-    mainPage.render();
 }

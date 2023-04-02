@@ -64,19 +64,19 @@ class ComponentsStore extends IStore {
      */
     checkWhereToPlace(elementName) {
         switch (elementName) {
-        case componentsNames.NAVBAR:
-            return document.querySelector(`.${componentsJSNames.NAVBAR}`);
         case componentsNames.SIDEBAR:
-            return document.querySelector(`.${componentsJSNames.SIDEBAR}`);
+        case componentsNames.MAIN:
+            return document.querySelector(`#${componentsJSNames.BODY}`);
+        case componentsNames.NAVBAR:
         case componentsNames.FEED_CONTENT:
-            return document.querySelector('#main');
+            return document.querySelector(`.${componentsJSNames.MAIN}`);
         case componentsNames.LOGIN_FORM:
         case componentsNames.REGISTER_FORM:
         case componentsNames.PAGE404:
-            return document.querySelector('#root');
+            return document.querySelector(`#${componentsJSNames.ROOT}`);
         default:
             console.error('position to place element by name', elementName, 'not found');
-            return document.querySelector('#root');
+            return document.querySelector(`#${componentsJSNames.ROOT}`);
         }
     }
 
@@ -94,16 +94,6 @@ class ComponentsStore extends IStore {
     #addElementOnPage(element) {
         this.#whatExistOnPage.push(element);
         this.addNewItem(this.#whatExistOnPage);
-    }
-
-    // todo unsafe method. we could just get every render function from every code point.
-    /**
-     * Returns a render function of component
-     * @param name
-     * @returns {*}
-     */
-    getComponentByName(name) {
-        return this.#allElements.find((component) => component.name === name);
     }
 
     /**
@@ -167,7 +157,7 @@ class ComponentsStore extends IStore {
 
         needToBeDeletedExist = needToBeDeletedExist.filter(
             (item, index) => needToBeDeletedExist.indexOf(item) === index,
-        ).map((element) => this.#allElements.find((elem) => elem.name === element));
+        ).map((element) => this.#allElements.find((elem) => elem.name === element)).reverse();
 
         if (needToBeDeletedExist.length !== 0) {
             this.jsEmit(EventTypes.ON_REMOVE_ANOTHER_ITEMS, needToBeDeletedExist);
@@ -179,12 +169,11 @@ class ComponentsStore extends IStore {
     }
 
     /**
-     * Function to check if we need to create a
-     * @param pageName
+     * Function to check if we need to create a document elements
      * @returns {boolean}
      */
-    prePageNeed(pageName) {
-        return !(pageName === pageNames.LOGIN || pageName === pageNames.REGISTER);
+    prePageNeed() {
+        return !(document.querySelector(`${componentsJSNames.MAIN}`));
     }
 }
 

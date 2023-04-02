@@ -2,7 +2,7 @@ import { loginAjax } from '../api/auth/loginAjaxReq';
 import { registerAjax } from '../api/auth/registerAjaxReq';
 import IStore from './IStore';
 import ActionTypes from '../actions/ActionTypes';
-import { feedAjax, feedAlbumsAjax } from '../api/albums/feedAlbumsAjaxRequest';
+import { feedAlbumsAjax } from '../api/albums/feedAlbumsAjaxRequest';
 import Actions from '../actions/Actions';
 import { logoutAjax } from '../api/auth/logoutAjaxReq';
 import { EventTypes } from '../utils/config/EventTypes';
@@ -80,7 +80,9 @@ class API extends IStore {
     feedRequest() {
         feedTracksAjax().then((tracks) => Actions.feedAddContent({ Tracks: tracks }));
         feedArtistsAjax().then((artists) => Actions.feedAddContent({ Artists: artists }));
-        feedAlbumsAjax().then((albums) => Actions.feedAddContent({ Albums: albums }));
+        feedAlbumsAjax().then((albums) => Actions.feedAddContent({ Albums: albums })).then(() => {
+            Actions.feedAllDataReceived();
+        });
     }
 }
 

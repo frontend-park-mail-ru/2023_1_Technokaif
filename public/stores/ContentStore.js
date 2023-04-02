@@ -38,6 +38,9 @@ class ContentStore extends IStore {
         case ActionTypes.FEED_GOT_CONTENT:
             this.#addContentOnFeed(action.items);
             break;
+        case ActionTypes.FEED_ALL_CONTENT_RECEIVED:
+            this.jsEmit(EventTypes.CHANGE_CONTENT);
+            break;
         default:
         }
     }
@@ -50,8 +53,6 @@ class ContentStore extends IStore {
         for (const nameOfContent in items) {
             this.#addContent(pageNames.FEED, nameOfContent, items[nameOfContent]);
         }
-
-        this.jsEmit(EventTypes.CHANGE_CONTENT);
     }
 
     /**
@@ -64,8 +65,8 @@ class ContentStore extends IStore {
         if (super.state[page] === undefined) {
             super.state[page] = {};
         }
+
         super.state[page][nameOfContent] = content;
-        this.jsEmit(EventTypes.CHANGE_CONTENT, nameOfContent);
     }
 }
 

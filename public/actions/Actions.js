@@ -50,41 +50,18 @@ const Actions = {
         });
     },
 
-    /** Action to handle an error status after register post request */
-    registerChangeState({
-        message,
-    }) {
-        Dispatcher.dispatch({
-            type: ActionTypes.REGISTER_STATUS,
-            message,
-        });
-    },
-
-    /** Action to handle an error status after login post request */
-    loginChangeState({
-        message,
-    }) {
-        Dispatcher.dispatch({
-            type: ActionTypes.LOGIN_STATUS,
-            message,
-        });
-    },
-
-    /** Action to handle an error status after logout post request */
-    logoutChangeState({
-        message,
-    }) {
-        Dispatcher.dispatch({
-            type: ActionTypes.LOGOUT_STATUS,
-            message,
-        });
-    },
-
     /** Action to add items got from feed api in ContentStore */
     feedAddContent(items) {
         Dispatcher.dispatch({
             type: ActionTypes.FEED_GOT_CONTENT,
             items,
+        });
+    },
+
+    /** Action to say that all items has already been sent */
+    feedAllDataReceived() {
+        Dispatcher.dispatch({
+            type: ActionTypes.FEED_ALL_CONTENT_RECEIVED,
         });
     },
 

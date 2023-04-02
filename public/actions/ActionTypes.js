@@ -23,6 +23,7 @@ const ActionTypes = {
 
     /** Send when api request returned data and add it in state after emit a CHANGE_CONTENT event */
     FEED_GOT_CONTENT: 'FEED_GOT_CONTENT',
+    FEED_ALL_CONTENT_RECEIVED: 'FEED_ALL_CONTENT_RECEIVED',
 
     // now it's not working
     /** Router usage ActionType for Stores adaptation */

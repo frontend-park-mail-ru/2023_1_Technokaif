@@ -1,11 +1,24 @@
-{{#each items}}
-    <div>
-        <p> {{this.type}}</p>
-        <{{this.type}} href="{{this.href}}" data-section="{{this.key}}" {{#ifEquals @index 0}} class="active" {{/ifEquals}}>
-            {{this.textContent}}
-        </{{this.type}}>
-        {{#ifEquals key 'registration'}} 
-            <div class="navbar__border-left"></div>
-        {{/ifEquals}}
-    </div>
-{{/each}}
+<div class="navbar js__navbar">
+    {{#each items}}
+        <div class="navbar__{{this.key}}__item">
+            {{#ifEquals this.key 'registration'}}
+                <div class="navbar__border-left"></div>
+            {{/ifEquals}}
+
+            <{{this.type}} href="{{this.href}}" data-section="{{this.key}}" class="{{#ifNotEquals key 'registration'}}
+                navbar__{{this.key}}
+            {{/ifNotEquals}}
+            {{#ifAllEquals this.key 'registration' 'login'}} navbar__link {{/ifAllEquals}}
+            {{#ifAllEquals this.key 'profile' 'logout'}} navbar__button {{/ifAllEquals}}
+            {{#ifEquals this.key 'premium'}}
+                {{#ifEquals ../name 'unAuthNavbar'}}
+                    navbar__link
+                {{else}}
+                    navbar__button
+                {{/ifEquals}}
+            {{/ifEquals}}">
+                {{this.name}}
+            </{{this.type}}>
+        </div>
+    {{/each}}
+</div>
