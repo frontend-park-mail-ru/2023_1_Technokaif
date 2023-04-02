@@ -2,7 +2,6 @@ import IStore from './IStore';
 import ActionTypes from '../actions/ActionTypes';
 import { EventTypes } from '../utils/config/EventTypes';
 import { componentsNames } from '../utils/config/componentsNames';
-import { pageNames } from '../utils/config/pageNames';
 import { componentsJSNames } from '../utils/config/componentsJSNames';
 
 /**
@@ -70,6 +69,7 @@ class ComponentsStore extends IStore {
         case componentsNames.NAVBAR:
         case componentsNames.FEED_CONTENT:
             return document.querySelector(`.${componentsJSNames.MAIN}`);
+        case componentsNames.USER:
         case componentsNames.LOGIN_FORM:
         case componentsNames.REGISTER_FORM:
         case componentsNames.PAGE404:

@@ -94,7 +94,6 @@ export class BaseView {
      * @param list
      */
     unrenderComponentsList(list) {
-        console.log(list);
         list.forEach((component) => {
             const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);

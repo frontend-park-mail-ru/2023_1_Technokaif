@@ -10,6 +10,8 @@ import { componentsJSNames } from '../utils/config/componentsJSNames';
 import { HeaderWithButton } from './HeadetWithButton/headerWithButton';
 import { page404Setup } from '../utils/setup/page404Setup';
 import { componentsNames } from '../utils/config/componentsNames';
+import { userSetup } from '../utils/setup/userSetup';
+import { User } from './userComponent/user';
 
 /**
  * Class for components renders functions.
@@ -163,6 +165,23 @@ class ComponentsRenders {
      */
     unrenderPage404(parent) {
         parent.removeChild(document.querySelector(`.${componentsJSNames.PAGE404}`));
+    }
+
+    /**
+     * Create UserPage
+     * @param {HTMLElement} parent -- where to place Sidebar
+     */
+    renderUserPage(parent) {
+        const user = new User(parent, userSetup());
+        user.render();
+    }
+
+    /**
+     * Destroy UserPage component in parent block
+     * @param {HTMLElement} parent -- from what delete component
+     */
+    unrenderUserPage(parent) {
+        parent.removeChild(document.querySelector(`.${componentsJSNames.USER}`));
     }
 }
 

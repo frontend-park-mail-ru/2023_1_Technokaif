@@ -1,0 +1,81 @@
+@import '../../static/css/constants';
+
+.user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.user__blocks-space {
+  display: inherit;
+  width: 40px;
+}
+
+.user__form-placement {
+  margin-top: 35px;
+  display: flex;
+  align-items: center;
+}
+
+.user-profile {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.user-profile__horizontal-space {
+  width: 10px;
+}
+
+.user-profile__vertical-space {
+  height: 20px;
+}
+
+.user-profile__img {
+  width: 150px;
+  height: 150px;
+  border-radius: 100px;
+}
+
+.user-profile__initials-text {
+  margin-top: 15px;
+  font-size: @title-font;
+  font-weight: @chars-weight;
+}
+
+.user-profile__username-text {
+  font-size: @font-input-element;
+  font-weight: @chars-weight;
+}
+
+.form-data {
+  margin-right: 20px;
+}
+
+.user_button-placement {
+  display: flex;
+}
+
+.user__button-cancel {
+  background-color: transparent;
+  color: @shadow-color;
+  border-style: none;
+  font-family: Poppins;
+  font-size: @description-font;
+  font-weight: @chars-weight;
+  cursor: pointer;
+}
+
+.user__button-save {
+  background-color: @main-color;
+  color: @opposed-main-color;
+  font-family: Poppins;
+  font-size: @description-font;
+  font-weight: @chars-weight;
+  border-radius: @big-radius;
+  margin-left: 250px;
+  width: 200px;
+  height: 70px;
+  cursor: pointer;
+}

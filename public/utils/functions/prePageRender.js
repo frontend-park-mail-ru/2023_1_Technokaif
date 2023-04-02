@@ -4,7 +4,7 @@ import { componentsJSNames } from '../config/componentsJSNames';
  * Function to clear root element.
  */
 export function clearBars() {
-    document.getElementById('root').innerHTML = '';
+    document.querySelector('#root').innerHTML = '';
 }
 
 /**

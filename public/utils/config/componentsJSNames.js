@@ -12,4 +12,5 @@ export const componentsJSNames = {
     FEED_CONTENT: 'js__main-page-window',
     FORM: 'content',
     PAGE404: 'page404-block',
+    USER: 'user',
 };

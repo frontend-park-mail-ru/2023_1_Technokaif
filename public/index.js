@@ -11,6 +11,7 @@ import LoginView from './views/LoginView';
 import RegisterView from './views/RegisterView';
 import ComponentsRenders from './components/ComponentsRenders';
 import Page404View from './views/Page404View';
+import UserView from './views/UserView';
 
 /**
  * Render main page of app
@@ -75,10 +76,23 @@ function renderMainPage() {
         ],
     );
 
+    ComponentsStore.register(
+        pageNames.USER,
+        [
+            {
+                name: componentsNames.USER,
+                render: ComponentsRenders.renderUserPage,
+                unrender: ComponentsRenders.unrenderUserPage,
+            },
+        ],
+    );
+
     Router.register('/', () => { FeedView.render(); }, [API, ContentStore]);
     Router.register('/login', () => { LoginView.render(); }, [API, UserInfoStore]);
     Router.register('/register', () => { RegisterView.render(); }, [API, UserInfoStore]);
     Router.register('/404', () => { Page404View.render(); }, [API, UserInfoStore]);
+    Router.register('/profile', () => { UserView.render(); }, [API, UserInfoStore]);
+
     Router.start();
 }
 

@@ -6,4 +6,5 @@ export const componentsNames = {
     LOGIN_FORM: 'login-content',
     REGISTER_FORM: 'registration-content',
     PAGE404: 'page404-block',
+    USER: 'js__USER',
 };

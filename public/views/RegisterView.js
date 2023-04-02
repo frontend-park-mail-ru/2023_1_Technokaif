@@ -4,7 +4,6 @@ import { pageNames } from '../utils/config/pageNames';
 import UserInfoStore from '../stores/UserInfoStore';
 import Actions from '../actions/Actions';
 import { EventTypes } from '../utils/config/EventTypes';
-import ComponentsStore from '../stores/ComponentsStore';
 import Router from '../router/Router';
 import { getCheckedValueRadioButtons } from '../utils/functions/utils';
 import ApiActions from '../actions/ApiActions';

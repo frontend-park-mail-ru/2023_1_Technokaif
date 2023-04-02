@@ -33,12 +33,12 @@ export class BaseComponent {
      * Render element in parent. Clear parent before.
      */
     render() {
-        this.#parent.innerHTML = this.#template(this.#config);
+        this.#parent.innerHTML += this.#template(this.#config);
     }
 
     /** Append element to parent without clearing it */
     appendElement() {
-        this.#parent.innerHTML = this.#template(this.#config);
+        this.#parent.innerHTML += this.#template(this.#config);
     }
 
     /**

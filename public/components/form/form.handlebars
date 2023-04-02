@@ -8,9 +8,11 @@
             {{/if}}
             <div class="button-placement"></div>
         </form>
-        <div {{#if divHrClass}} class="{{divHrClass}}" {{/if}}>
-            <hr {{#if hrClass}} class="{{hrClass}}", align="center"{{/if}}>
-        </div>
+        {{#if hrClass}}
+            <div {{#if divHrClass}} class="{{divHrClass}}" {{/if}}>
+                <hr {{#if hrClass}} class="{{hrClass}}", align="center"{{/if}}>
+            </div>
+        {{/if}}
         <div class="bottom-placement"></div>
     </div>
 </div>

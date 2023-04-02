@@ -21,6 +21,8 @@ export class Form {
 
     #confSex;
 
+    #insertedElement;
+
     #confDate;
 
     /**
@@ -35,26 +37,29 @@ export class Form {
         this.#config = config;
         this.#confDate = dateConf;
         this.#confSex = sexConf;
+        this.#insertedElement = null;
     }
 
     /**
      *  @description render Form in parent element
      */
     render() {
-        this.#parent.innerHTML = this.HTML();
-        this.#parent.querySelector('.header-placement').innerHTML = this.#renderHeader();
-        this.#parent.querySelector('.inputs-placement').innerHTML = this.#renderInputs();
+        this.#parent.innerHTML += this.HTML();
+        this.#insertedElement = this.#parent.querySelector(`.${this.#config.content}`);
+        this.#insertedElement.querySelector('.header-placement').innerHTML = this.#renderHeader();
+        this.#insertedElement.querySelector('.inputs-placement').innerHTML = this.#renderInputs();
         if (this.#confDate !== '') {
-            this.#parent.querySelector('.form__placement-additionall').innerHTML += this.#renderDate();
+            this.#insertedElement.querySelector('.form__placement-additionall').innerHTML += this.#renderDate();
         }
 
         if (this.#confSex !== '') {
-            this.#parent.querySelector('.form__placement-additionall').innerHTML += this.#renderSex();
+            this.#insertedElement.querySelector('.form__placement-additionall').innerHTML += this.#renderSex();
         }
 
-        this.#parent.querySelector('.button-placement').innerHTML = this.#renderButton();
-
-        this.#parent.querySelector('.bottom-placement').innerHTML = this.#renderFooter();
+        if (this.#config['bottom-placement']) {
+            this.#insertedElement.querySelector('.button-placement').innerHTML = this.#renderButton();
+            this.#insertedElement.querySelector('.bottom-placement').innerHTML = this.#renderFooter();
+        }
     }
 
     /**
@@ -76,8 +81,11 @@ export class Form {
      * @returns html string
      */
     #renderFooter() {
-        const footer = new FormFooter(this.#parent, this.#config);
-        return footer.HTML(this.#config);
+        if (this.#config.bottomClass) {
+            const footer = new FormFooter(this.#parent, this.#config);
+            return footer.HTML(this.#config);
+        }
+        return '';
     }
 
     /**
@@ -85,9 +93,11 @@ export class Form {
      * @returns html string
      */
     #renderHeader() {
-        const head = new Header(this.#parent, this.#config);
-
-        return head.HTML();
+        if (this.#config.formHeader) {
+            const head = new Header(this.#parent, this.#config);
+            return head.HTML();
+        }
+        return '';
     }
 
     /**
