@@ -12,6 +12,9 @@ const FORBIDDEN_EMAIL_SYMBOLS = '<>()[],;:\\/';
  * @return {bool} -- return true if login contains @
  */
 export function checkIsEmail(login) {
+    if (!login || login === '') {
+        return false;
+    }
     return login.includes('@');
 }
 
@@ -110,6 +113,15 @@ export function getMonthError(month) {
 }
 
 /**
+ * Return integer value of month string
+ * @param {string} - monthStr
+ * @returns {int} - month number
+ */
+export function translateMonthStrToInt(monthStr) {
+    return MONTHS.findIndex((month) => monthStr === month) + 1;
+}
+
+/**
  *
  * @param {string} email -- email to validate
  * @param {string} confirmEmail --if confirmEmail empty, function only validate email.
@@ -128,6 +140,10 @@ export function getMonthError(month) {
  */
 export function getEmailError(email, confirmEmail = '') {
     let result = [];
+
+    if (!email || email === '') {
+        return ERRORS.email;
+    }
 
     if (email !== confirmEmail || confirmEmail === '') {
         result.push(ERRORS.emailConf);
@@ -198,18 +214,18 @@ export function getEmailError(email, confirmEmail = '') {
  *  Value: male, female, dont.
  */
 export function getSexError(...boxes) {
-    boxes = boxes.filter(Boolean);
+    if (!boxes || boxes.length === 0) {
+        return ERRORS.sex;
+    }
     let isInputCorrect = false;
-    if (boxes.length === 1) {
-        switch (boxes[0]) {
-        case 'male':
-        case 'female':
-        case 'dont':
-            isInputCorrect = true;
-            break;
-        default:
-            isInputCorrect = false;
-        }
+    switch (boxes[0]) {
+    case 'male':
+    case 'female':
+    case 'dont':
+        isInputCorrect = true;
+        break;
+    default:
+        isInputCorrect = false;
     }
 
     if (!isInputCorrect) {
@@ -228,6 +244,9 @@ export function getSexError(...boxes) {
  * username length 4-20 and contains only _, letters, digits
  */
 export function getUsernameError(username) {
+    if (!username || username === '') {
+        return ERRORS.username;
+    }
     if (username.length < 4 || username.length > 20) {
         return ERRORS.username;
     }
@@ -250,6 +269,9 @@ export function getUsernameError(username) {
  * Correct: if length 2-20 and contains only letters
  */
 export function getNameError(name) {
+    if (!name || name === '') {
+        return ERRORS.name;
+    }
     if (name.length < 2 || name.length > 20) {
         return ERRORS.name;
     }

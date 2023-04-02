@@ -6,7 +6,7 @@ import { clearField } from '../../utils/functions/clearFields.js';
 import { registerAjax } from '../../api/auth/registerAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
 import { unAuthNavConfig, MONTHS, sidebarConfig } from '../../utils/config/config.js';
-import { sexSetup, regFormSetup, dateSetup } from './creationSetup.js';
+import { sexSetup, regFormSetup, dateSetup } from '../../utils/setup/registrationSetup.js';
 import { ERRORS_REG as ERRORS } from '../../utils/config/errors.js';
 import { ID_REG, CLASS_REG as CLASS } from '../../utils/config/id.js';
 import { ERRORS_VALIDATE } from '../../utils/config/validateConf.js';

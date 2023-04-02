@@ -109,3 +109,5 @@ dist
 
 # jscpd
 report
+
+/template-html

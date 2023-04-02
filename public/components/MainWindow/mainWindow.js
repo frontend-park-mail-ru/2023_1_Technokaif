@@ -1,91 +1,57 @@
-import { ArtistsComp } from '../ArtistsComp/ArtistsComp.js';
-import { TracksComp } from '../TracksComp/TracksComp.js';
-import { AlbumsComp } from '../AlbumsComp/AlbumsComp.js';
+import { Tape } from '../Tape/tape';
 import templateHtml from './mainWindow.handlebars';
-import { homeSetup } from '../../pages/home/homeSetup.js';
 
 import './mainWindow.less';
 
 /**
- * Class for main page content
- * @param {HTMLElement} parent -- where to place Home page
- * @param {*} items -- content of page
+ * Create MainWindow content with tapes
  */
 export class MainWindowContent {
+    /**
+     * Parent where to render
+     */
     #parent;
 
+    /**
+     * Config to use in tapes
+     */
+    #configs;
+
+    /**
+     * Config to use in mainWindow
+     */
     #config;
 
     /**
      * Create MainWindowContent component. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place MainWindowContent
-     * @param {object} config -- what config use to compule template
+     * @param configForMenu
+     * @param configsForElements
      */
-    constructor(parent, config) {
+    constructor(parent, configForMenu, configsForElements) {
         this.#parent = parent;
-        this.#config = config;
+        this.#configs = configsForElements;
+        this.#config = configForMenu;
     }
 
     /**
      * @description render MainWindowContent in parent
      */
     render() {
-        this.#parent.innerHTML = this.HTML();
+        this.#parent.innerHTML += this.HTML();
         const insertBlock = this.#parent.querySelector('.main-page-window');
 
-        insertBlock.innerHTML += this.#renderTracks();
-        insertBlock.innerHTML += this.#renderArtists();
-        insertBlock.innerHTML += this.#renderAlbums();
+        this.#configs.forEach((configForInsertElement) => {
+            const tape = new Tape(insertBlock, configForInsertElement);
+            insertBlock.innerHTML += tape.HTML();
+        });
     }
 
     /**
      * If cfg is given then return compiled template with cfg else with inner config
-     * @param {object} cfg -- external configure object
      * @returns Html string of template to place
      */
-    HTML(cfg = '') {
-        const template1 = templateHtml;
-        if (cfg === '') {
-            return template1(this.#config);
-        }
-
-        return template1(cfg);
+    HTML() {
+        return templateHtml(this.#config);
     }
-
-    /**
-     * Render Tracks component
-     * @returns html string
-     */
-    #renderTracks() {
-        const tracks = new TracksComp(this.#parent, this.#config);
-        return tracks.HTML(this.#config);
-    }
-
-    /**
-     * Render Artists component
-     * @returns html string
-     */
-    #renderArtists() {
-        const artists = new ArtistsComp(this.#parent, this.#config);
-        return artists.HTML(this.#config);
-    }
-
-    /**
-     * Render Albums component
-     * @returns html string
-     */
-    #renderAlbums() {
-        const albums = new AlbumsComp(this.#parent, this.#config);
-        return albums.HTML(this.#config);
-    }
-}
-
-/**
- * Create HomePageContent
- * @param {HTMLElement} parent -- where to render
- * @param {Object} items -- what items to render
- */
-export function createHomePageContent(parent, items) {
-    const mainPage = new MainWindowContent(parent, homeSetup(items));
-    mainPage.render();
 }

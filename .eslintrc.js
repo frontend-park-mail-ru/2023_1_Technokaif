@@ -40,5 +40,6 @@ module.exports = {
                 FunctionExpression: false,
             },
         }],
+        'no-console': ['error', { allow: ['error', 'warn'] }],
     },
 };

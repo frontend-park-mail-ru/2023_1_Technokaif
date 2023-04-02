@@ -1,6 +1,7 @@
-import { redirect } from '../../modules/redirects.js';
-import { authNavConfig, unAuthNavConfig } from '../../utils/config/config.js';
-import { checkAuth } from '../../utils/functions/checkAuth.js';
+import Router from '../../router/Router';
+import ApiActions from '../../actions/ApiActions';
+import { componentsNames } from '../../utils/config/componentsNames';
+import templateHtml from './navbar.handlebars';
 
 /**
  * Class for Navbar element: Login, Registration, Logout and user info.
@@ -43,75 +44,68 @@ class Navbar {
      * then redirect to section in dataset of element
      */
     callEventListener() {
-        document.getElementById('cont').addEventListener('click', (e) => {
+        document.querySelector('#cont').addEventListener('click', (e) => {
+            // todo replace events from navbar to view
             e?.preventDefault?.();
             if (e.target instanceof HTMLAnchorElement || e.target instanceof HTMLButtonElement) {
                 const { section } = e.target.dataset;
-                if (section) {
-                    if (checkAuth()) {
-                        redirect(authNavConfig[section]);
-                    } else {
-                        redirect(unAuthNavConfig[section]);
-                    }
+                if (section === 'logout') {
+                    ApiActions.logout();
+                } else if (Object.keys(this.#config).includes(section)) {
+                    Router.go(this.#config[section].href);
                 }
             }
         });
     }
 
     /**
+     * Get all Items from lastCfg and returns in object
+     * @param {config} lastCfg -- config where search items
+     * @returns newCfg -- items
+     */
+    #translateToItems(lastCfg) {
+        const newcfg = { items: [] };
+        for (const obj in lastCfg) {
+            const tmpItem = {};
+
+            for (const property in lastCfg[obj]) {
+                tmpItem[property] = lastCfg[obj][property];
+            }
+
+            newcfg.items.push(tmpItem);
+        }
+
+        return newcfg;
+    }
+
+    /**
      * Render Navbar element in parent
      */
     render() {
-        // todo why not handlebars?
-        this.items.map(({
-            key, href, name, type, logoSrc,
-        }, index) => {
-            const div = document.createElement('div');
-            const contentElement = document.createElement(type);
+        const items = this.#translateToItems(this.#config);
+        items.name = this.#name;
 
-            contentElement.textContent = name;
-            contentElement.href = href;
-            contentElement.dataset.section = key;
-            contentElement.classList.add(`${this.#name}__${key}`);
-            // todo rewrite
-            switch (key) {
-            case 'premium':
-            case 'profile':
-            case 'logout':
-                contentElement.classList.add('navbar__button');
-                break;
-            default:
-                contentElement.classList.add('navbar__link');
-            }
-            div.classList.add(`${this.#name}__${key}__item`);
-            if (index === 0) {
-                // todo does it work?
-                contentElement.classList.add('active');
-            }
-
-            if (key === 'registration') {
-                contentElement.classList.remove(`${this.#name}__${key}`);
-                const verticalLine = document.createElement('div');
-                div.appendChild(verticalLine);
-                verticalLine.classList.add('navbar__border-left');
-            }
-
-            if (logoSrc !== undefined) {
-                contentElement.href = logoSrc;
-            }
-
-            div.appendChild(contentElement);
-
-            return div;
-        }).forEach((e) => this.#parent.appendChild(e));
-
-        if (this.#parent.querySelector('.navbar__login')) {
-            const premium = this.#parent.querySelector('.navbar__premium');
-            premium?.classList.remove('navbar__button');
-            premium?.classList.add('navbar__link');
-        }
+        const template = templateHtml;
+        const templateInnerHtml = template(items);
+        this.#parent.innerHTML += templateInnerHtml;
 
         this.callEventListener();
+    }
+
+    /**
+     * Function to rerender navbar using only to change state from notAuth to auth state
+     */
+    reRender() {
+        const navbar = document.querySelector(`.${componentsNames.NAVBAR}`);
+        this.#parent.removeChild(navbar);
+
+        const items = this.#translateToItems(this.#config);
+        items.name = this.#name;
+
+        const template = templateHtml;
+        const templateInnerHtml = template(items);
+        const contentHtml = this.#parent.innerHTML;
+        this.#parent.innerHTML = (templateInnerHtml + contentHtml);
     }
 }
 

@@ -6,7 +6,7 @@ import { loginAjax } from '../../api/auth/loginAjaxReq.js';
 import { redirect } from '../../modules/redirects.js';
 import { ERRORS_LOG as ERRORS } from '../../utils/config/errors.js';
 import { ID_LOG, CLASS_LOG as CLASS } from '../../utils/config/id.js';
-import { logFormSetup } from './authSetup.js';
+import { logFormSetup } from '../../utils/setup/loginSetup.js';
 import { clearField } from '../../utils/functions/clearFields.js';
 import { Form } from '../../components/form/form.js';
 

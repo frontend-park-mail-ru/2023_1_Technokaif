@@ -19,7 +19,7 @@ const users = {
         username: 'username',
         firstName: 'firstName',
         lastName: 'lastName',
-        date: '2022-04-12',
+        birthDate: '2022-04-12',
         sex: 'M',
 
     },
@@ -29,7 +29,7 @@ const users = {
         username: 'username',
         firstName: 'firstName',
         lastName: 'lastName',
-        date: '2022-04-12',
+        birthDate: '2022-04-12',
         sex: 'M',
     },
     'aleksandr@mail.ru': {
@@ -38,7 +38,7 @@ const users = {
         username: 'username',
         firstName: 'firstName',
         lastName: 'lastName',
-        date: '2022-04-12',
+        birthDate: '2022-04-12',
         sex: 'M',
     },
     '2002marsic@mail.ru': {
@@ -47,7 +47,7 @@ const users = {
         username: 'Username',
         firstName: 'firstName',
         lastName: 'lastName',
-        date: '2022-04-12',
+        birthDate: '2022-04-12',
         sex: 'M',
     },
 };
@@ -92,47 +92,13 @@ app.post('/api/auth/login', (req, res) => {
 });
 
 app.get('/api/auth/logout', (req, res) => {
-    res.status(200).json({ message: 'good' });
+    res.status(200).json({ status: 'OK' });
 });
 
-app.get('/api/feed', (req, res) => {
-    const jwt = req.headers.Authorization;
-    if (jwt === undefined || jwt !== originalJwt) {
-        res.status(200).json({
-            tracks: [
-                {
-                    name: 'Там где нас нет',
-                    id: 1,
-                    cover: '/artists/instasamka.jpeg',
-                    artists: [
-                        {
-                            name: 'Oxxxxy',
-                            id: 5,
-                        },
-                    ],
-                },
-                {
-                    name: 'Там где нас нет',
-                    id: 1,
-                    artists: [
-                        {
-                            name: 'Oxxxxy',
-                            id: 5,
-                        },
-                    ],
-                },
-                {
-                    name: 'Там где нас нет',
-                    id: 1,
-                    artists: [
-                        {
-                            name: 'Oxxxxy',
-                            id: 5,
-                        },
-                    ],
-                },
-            ],
-            albums: [
+app.get('/api/albums/feed', (req, res) => {
+    res.status(200)
+        .json(
+            [
                 {
                     name: 'Горгород',
                     description: 'Известный артист читает известные треки',
@@ -140,13 +106,63 @@ app.get('/api/feed', (req, res) => {
                     cover: '/artists/instasamka.jpeg',
                     artists: [
                         {
+                            cover: '/artists/instasamka.jpeg',
                             name: 'Oxxxxy',
                             id: 5,
                         },
                     ],
                 },
             ],
-            artists: [
+        );
+});
+
+app.get('/api/tracks/feed', (req, res) => {
+    res.status(200)
+        .json(
+            [
+                {
+                    name: 'Там где нас нет',
+                    id: 1,
+                    cover: '/artists/instasamka.jpeg',
+                    artists: [
+                        {
+                            name: 'Oxxxxy',
+                            id: 5,
+                        },
+                    ],
+                },
+                {
+                    name: 'Там где нас нет',
+                    id: 1,
+                    cover: '/artists/instasamka.jpeg',
+                    artists: [
+                        {
+                            cover: '/artists/instasamka.jpeg',
+                            name: 'Oxxxxy',
+                            id: 5,
+                        },
+                    ],
+                },
+                {
+                    name: 'Там где нас нет',
+                    id: 1,
+                    cover: '/artists/instasamka.jpeg',
+                    artists: [
+                        {
+                            cover: '/artists/instasamka.jpeg',
+                            name: 'Oxxxxy',
+                            id: 5,
+                        },
+                    ],
+                },
+            ],
+        );
+});
+
+app.get('/api/artists/feed', (req, res) => {
+    res.status(200)
+        .json(
+            [
                 {
                     name: 'Oxxxxy',
                     id: 5,
@@ -155,58 +171,14 @@ app.get('/api/feed', (req, res) => {
                 {
                     name: 'Oxxxxy',
                     id: 5,
+                    cover: '/artists/instasamka.jpeg',
                 },
             ],
-        });
-    } else {
-        res.status(200).json({
-            tracks: [
-                {
-                    name: 'Там где нас нет',
-                    id: 1,
-                    artists: [
-                        {
-                            name: 'Oxxxxy',
-                            id: 5,
-                        },
-                    ],
-                },
-                {
-                    name: 'Там где нас нет',
-                    id: 1,
-                    artists: [
-                        {
-                            name: 'Oxxxxy',
-                            id: 5,
-                        },
-                    ],
-                },
-            ],
-            albums: [
-                {
-                    name: 'Горгород',
-                    description: 'Известный артист читает известные треки',
-                    id: 1,
-                    artists: [
-                        {
-                            name: 'Oxxxxy',
-                            id: 5,
-                        },
-                    ],
-                },
-            ],
-            artists: [
-                {
-                    name: 'Oxxxxy',
-                    id: 5,
-                },
-                {
-                    name: 'Oxxxxy',
-                    id: 5,
-                },
-            ],
-        });
-    }
+        );
+});
+
+app.get(/^((?!\/(static|api)).)*$/, (req, res) => {
+    res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
 });
 
 const port = process.env.PORT || 3000;
