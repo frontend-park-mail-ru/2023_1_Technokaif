@@ -11,6 +11,7 @@ import LoginView from './views/LoginView';
 import RegisterView from './views/RegisterView';
 import ComponentsRenders from './components/ComponentsRenders';
 import Page404View from './views/Page404View';
+import ArtistPageView from './views/ArtistPageView';
 
 /**
  * Render main page of app
@@ -79,6 +80,7 @@ function renderMainPage() {
     Router.register('/login', () => { LoginView.render(); }, [API, UserInfoStore]);
     Router.register('/register', () => { RegisterView.render(); }, [API, UserInfoStore]);
     Router.register('/404', () => { Page404View.render(); }, [API, UserInfoStore]);
+    Router.register('/artist', () => { ArtistPageView.render(); }, [API, UserInfoStore]);
     Router.start();
 }
 

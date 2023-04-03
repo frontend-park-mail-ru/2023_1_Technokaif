@@ -2,6 +2,10 @@ import Router from '../../router/Router';
 import ApiActions from '../../actions/ApiActions';
 import { componentsNames } from '../../utils/config/componentsNames';
 import templateHtml from './navbar.handlebars';
+import { EventTypes } from '../../utils/config/EventTypes';
+import API from '../../stores/API';
+import { checkAuth } from '../../utils/functions/checkAuth';
+import { authNavConfig, unAuthNavConfig } from '../../utils/config/config';
 
 /**
  * Class for Navbar element: Login, Registration, Logout and user info.
@@ -18,7 +22,7 @@ class Navbar {
     #name;
 
     /**
-     *
+     * Constructor
      * @param {HTMLElement} parent -- where to place
      * @param {Object} config -- config to configure Navbar
      * @param {string} name -- name of Navbar
@@ -43,7 +47,17 @@ class Navbar {
      * Add event listener to component. If HTMLAnchorElement or HTMLButtonElement was 'clicked'
      * then redirect to section in dataset of element
      */
-    callEventListener() {
+    #callEventListener() {
+        API.subscribe(
+            (message) => {
+                if (message !== 'OK') {
+                    console.error('bad respond from server during logout');
+                } else {
+                    this.#reRender();
+                }
+            },
+            EventTypes.LOGOUT_STATUS,
+        );
         document.querySelector('#cont').addEventListener('click', (e) => {
             // todo replace events from navbar to view
             e?.preventDefault?.();
@@ -89,13 +103,16 @@ class Navbar {
         const templateInnerHtml = template(items);
         this.#parent.innerHTML += templateInnerHtml;
 
-        this.callEventListener();
+        this.#callEventListener();
     }
 
     /**
      * Function to rerender navbar using only to change state from notAuth to auth state
      */
-    reRender() {
+    #reRender() {
+        this.#config = (checkAuth()) ? authNavConfig : unAuthNavConfig;
+        this.#name = (checkAuth()) ? 'authNavbar' : 'unAuthNavbar';
+
         const navbar = document.querySelector(`.${componentsNames.NAVBAR}`);
         this.#parent.removeChild(navbar);
 

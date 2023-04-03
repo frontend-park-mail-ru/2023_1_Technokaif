@@ -7,7 +7,7 @@ import { Form } from './form/form';
 import { logFormSetup } from '../utils/setup/loginSetup';
 import { dateSetup, regFormSetup, sexSetup } from '../utils/setup/registrationSetup';
 import { componentsJSNames } from '../utils/config/componentsJSNames';
-import { HeaderWithButton } from './HeadetWithButton/headerWithButton';
+import { HeaderWithButton } from './HeaderWithButton/headerWithButton';
 import { page404Setup } from '../utils/setup/page404Setup';
 import { componentsNames } from '../utils/config/componentsNames';
 

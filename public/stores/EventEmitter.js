@@ -3,6 +3,7 @@
  */
 export default class EventEmitter {
     #events;
+    // todo create in #events key - nameOfComponent, value - array of callbacks
 
     /**
      * Construct an emitter.
@@ -24,6 +25,8 @@ export default class EventEmitter {
         this.#events[event].push(callback);
     }
 
+    // todo method to subscribe by nameOfComponent
+
     /**
      * Remove some listener.
      * @param event
@@ -42,6 +45,8 @@ export default class EventEmitter {
         this.#events = [];
     }
 
+    // todo: make method for removing all subscribes of component by nameOfComponent
+
     /**
      * Emit an event.
      * @param event
@@ -52,4 +57,6 @@ export default class EventEmitter {
             this.#events[event].forEach((callback) => callback(...args));
         }
     }
+
+    // todo: make another emit method using nameOfComponent
 }

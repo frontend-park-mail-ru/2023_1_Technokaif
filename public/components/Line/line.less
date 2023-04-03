@@ -1,0 +1,72 @@
+.track-line {
+  display: grid;
+  grid-gap: 16px;
+  align-items: center;
+  grid-template-columns: [index] 16px [first] 4fr [var1] 2fr [last] minmax(120px,1fr);
+  padding: 0 16px;
+  gap: 10px;
+}
+
+.track-line__index {
+  grid-area:index;
+
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 19px;
+
+
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.track-line__block {
+  grid-area: first;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.track-line__listens {
+  grid-area: var1;
+  display: flex;
+  align-items: center;
+  justify-self: start;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
+
+  text-align: right;
+
+  color: rgba(255, 255, 255, 0.5);
+
+}
+
+.track-line__duration {
+  grid-area: last;
+  align-items: center;
+  justify-self: end;
+
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15.5014px;
+  line-height: 20px;
+  letter-spacing: -0.01em;
+
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.track-line__cover {
+  width: 40px;
+  height: 40px;
+}
+
+.track-line__title {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15.4459px;
+  line-height: 20px;
+  letter-spacing: -0.01em;
+
+  color: #FFFFFF;
+}

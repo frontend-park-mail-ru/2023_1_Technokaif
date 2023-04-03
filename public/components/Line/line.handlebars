@@ -1,0 +1,22 @@
+<div class="{{lineDiv}}">
+    <div class="{{lineIndex}}">1</div>
+    <div class="{{lineBlock}}">
+        <img src="{{#convert}}{{item.cover}}{{/convert}}" class="{{lineCover}}">
+        <div class="{{lineTitle}}">{{items.title}}</div>
+    </div>
+    {{#if items.listens}}
+        <div class="{{lineListens}}">{{items.listens}}</div>
+    {{/if}}
+    <div class="{{lineDuration}}">{{items.duration}}</div>
+</div>
+
+
+<!--<div class="track-line">-->
+<!--    <div class="track-line__index">1</div>-->
+<!--    <div class="track-line__block">-->
+<!--        <img src="./static/img/image%2027.png" class="track-line__cover">-->
+<!--        <div class="track-line__title">Kill Bill</div>-->
+<!--    </div>-->
+<!--    <div class="track-line__listens">1 742 811 797</div>-->
+<!--    <div class="track-line__duration">2:57</div>-->
+<!--</div>-->
