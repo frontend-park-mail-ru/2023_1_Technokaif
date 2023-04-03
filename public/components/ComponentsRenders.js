@@ -30,18 +30,6 @@ class ComponentsRenders {
     }
 
     /**
-     * Rerender Navbar component in parent
-     * @param {HTMLElement} parent -- where to place Navbar
-     */
-    reRenderNavbar(parent) {
-        const config = (checkAuth()) ? authNavConfig : unAuthNavConfig;
-        const name = (checkAuth()) ? 'authNavbar' : 'unAuthNavbar';
-
-        const navbar = new Navbar(parent, config, name);
-        navbar.reRender();
-    }
-
-    /**
      * Destroy Navbar component in parent block
      * @param {HTMLElement} parent -- from what delete component
      */

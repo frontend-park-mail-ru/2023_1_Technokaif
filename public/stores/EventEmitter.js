@@ -2,8 +2,30 @@
  * Class to emit events and add/remove actions.
  */
 export default class EventEmitter {
+    /**
+     * Stores all events to various components in JSON.
+     *  @example JSON
+     *  {
+     *      nameOfComponent: {
+     *          events: [
+     *              callbacks...
+     *          ]...
+     *      },
+     *      nameOfComponent1: {
+     *         events: [
+     *             callbacks ...
+     *         ]...
+     *     },
+     * }
+     *
+     */
     #events;
-    // todo create in #events key - nameOfComponent, value - array of callbacks
+
+    /**
+     * Stores general events using in subscription without providing nameOfComponent.
+     *
+     */
+    #generalEvents;
 
     /**
      * Construct an emitter.
@@ -13,28 +35,38 @@ export default class EventEmitter {
     }
 
     /**
-     * Add new listener on.
+     * Add a new listener on event on component.
      * @param event
      * @param callback
+     * @param nameOfComponent
      */
-    emitterAddListener(event, callback) {
-        if (!this.#events[event]) {
-            this.#events[event] = [];
+    emitterAddListener(event, callback, nameOfComponent) {
+        if (!this.#events[nameOfComponent]) {
+            this.#events[nameOfComponent] = {};
+        }
+        if (!this.#events.nameOfComponent[event]) {
+            this.#events.nameOfComponent[event] = [];
         }
 
-        this.#events[event].push(callback);
+        this.#events.nameOfComponent[event].push(callback);
     }
 
-    // todo method to subscribe by nameOfComponent
-
     /**
-     * Remove some listener.
+     * Add a new listener on event on EVERY component.
      * @param event
      * @param callback
      */
-    emitterRemoveListener(event, callback) {
-        if (this.#events[event]) {
-            this.#events[event] = this.#events[event].filter((cb) => cb !== callback);
+    emitterAddListenerToAllComponents(event, callback) {
+        for (const nameOfComponent in this.#events) {
+            if (!this.#events[nameOfComponent]) {
+                this.#events[nameOfComponent] = {};
+            }
+
+            if (!this.#events.nameOfComponent[event]) {
+                this.#events.nameOfComponent[event] = [];
+            }
+
+            this.#events.nameOfComponent[event].push(callback);
         }
     }
 
@@ -45,7 +77,12 @@ export default class EventEmitter {
         this.#events = [];
     }
 
-    // todo: make method for removing all subscribes of component by nameOfComponent
+    /**
+     * Remove all listeners on component.
+     */
+    emitterRemoveAllListenersOnComponent(nameOfComponent) {
+        this.#events[nameOfComponent] = [];
+    }
 
     /**
      * Emit an event.
@@ -53,10 +90,29 @@ export default class EventEmitter {
      * @param args
      */
     jsEmit(event, ...args) {
-        if (this.#events[event]) {
-            this.#events[event].forEach((callback) => callback(...args));
+        for (const nameOfComponent in this.#events) {
+            if (this.#events[nameOfComponent]) {
+                const events = this.#events[nameOfComponent][event];
+                if (events) {
+                    events.forEach((callback) => callback(...args));
+                }
+            }
         }
     }
 
-    // todo: make another emit method using nameOfComponent
+    /**
+     * Emit an event and pop all listeners actions (components and general callbacks).
+     * @param event
+     * @param args
+     */
+    jsEmitAndPopListeners(event, ...args) {
+        this.jsEmit(event, args);
+        for (const nameOfComponent in this.#events) {
+            if (this.#events[nameOfComponent]) {
+                this.#events[nameOfComponent][event] = [];
+            }
+        }
+
+        this.#generalEvents.filter((ev) => ev !== event);
+    }
 }

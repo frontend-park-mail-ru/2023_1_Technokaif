@@ -4,11 +4,11 @@ import API from '../../stores/API';
 import ContentStore from '../../stores/ContentStore';
 
 /**
- * Function for unsubscribing from all stores in project
+ * Function for unsubscribing from all stores in project on component
  */
-export default function unsubscribeFromAllStores() {
-    ComponentsStore.unsubscribeAll();
-    ContentStore.unsubscribeAll();
-    API.unsubscribeAll();
-    UserInfoStore.unsubscribeAll();
+export default function unsubscribeFromAllStoresOnComponent(nameOfComponent) {
+    ComponentsStore.unsubscribeAllOnComponent(nameOfComponent);
+    ContentStore.unsubscribeAllOnComponent(nameOfComponent);
+    API.unsubscribeAllOnComponent(nameOfComponent);
+    UserInfoStore.unsubscribeAllOnComponent(nameOfComponent);
 }

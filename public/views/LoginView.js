@@ -1,14 +1,13 @@
 import { BaseView } from './BaseView';
 import { pageNames } from '../utils/config/pageNames';
 import Actions from '../actions/Actions';
-import UserInfoStore from '../stores/UserInfoStore';
 import { ERRORS_LOG } from '../utils/config/errors';
 import { EventTypes } from '../utils/config/EventTypes';
 import ApiActions from '../actions/ApiActions';
 import Router from '../router/Router';
-import userInfoStore from '../stores/UserInfoStore';
 import API from '../stores/API';
 import unsubscribeFromAllStores from '../utils/functions/unsubscribeFromAllStores';
+import UserInfoStore from '../stores/UserInfoStore';
 
 const METHOD = 'focusout';
 // todo temporary json
@@ -156,7 +155,6 @@ export class LoginView extends BaseView {
      * Render all view by components.
      */
     render() {
-        unsubscribeFromAllStores();
         super.render();
         Actions.whatRender(super.name);
 

@@ -6,6 +6,7 @@ import { EventTypes } from '../../utils/config/EventTypes';
 import API from '../../stores/API';
 import { checkAuth } from '../../utils/functions/checkAuth';
 import { authNavConfig, unAuthNavConfig } from '../../utils/config/config';
+import { componentsJSNames } from '../../utils/config/componentsJSNames';
 
 /**
  * Class for Navbar element: Login, Registration, Logout and user info.
@@ -58,9 +59,7 @@ class Navbar {
             },
             EventTypes.LOGOUT_STATUS,
         );
-        // todo make queryselector by navbar component
-        document.querySelector('#cont').addEventListener('click', (e) => {
-            // todo replace events from navbar to view
+        document.querySelector(`.${componentsJSNames.MAIN}`).addEventListener('click', (e) => {
             e?.preventDefault?.();
             if (e.target instanceof HTMLAnchorElement || e.target instanceof HTMLButtonElement) {
                 const { section } = e.target.dataset;

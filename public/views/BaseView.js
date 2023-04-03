@@ -2,6 +2,7 @@ import ComponentsStore from '../stores/ComponentsStore';
 import { prePageRender } from '../utils/functions/prePageRender';
 import { EventTypes } from '../utils/config/EventTypes';
 import Actions from '../actions/Actions';
+import { componentsNames } from '../utils/config/componentsNames';
 
 /**
  * Base View class to handle render functions.
@@ -12,14 +13,17 @@ export class BaseView {
      */
     #viewName;
 
-    #unsubscribe;
+    /**
+     * List of components provided in this page
+     */
+    #components;
 
     /**
      * Constructor for base view.
      */
-    constructor(name) {
+    constructor(name, components) {
         this.#viewName = name;
-        this.#unsubscribe = [];
+        this.#components = components;
     }
 
     /**
@@ -36,13 +40,6 @@ export class BaseView {
     #addSubscribes() {
         ComponentsStore.subscribe(
             (list) => {
-                this.unrenderComponentsList(list);
-            },
-            EventTypes.ON_REMOVE_ANOTHER_ITEMS,
-        );
-
-        ComponentsStore.subscribe(
-            (list) => {
                 this.renderComponentsList(list);
             },
             EventTypes.ON_NOT_RENDERED_ITEMS,
@@ -57,9 +54,13 @@ export class BaseView {
         list.forEach((component) => {
             const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);
-            if (component.render.length === 1) {
+            switch (componentName) {
+            case componentsNames.NAVBAR:
+            case componentsNames.SIDEBAR:
                 component.render(parent);
                 Actions.addElementOnPage(componentName);
+                break;
+            default:
             }
         });
     }

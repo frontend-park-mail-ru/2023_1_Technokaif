@@ -159,11 +159,11 @@ class ComponentsStore extends IStore {
         ).map((element) => this.#allElements.find((elem) => elem.name === element)).reverse();
 
         if (needToBeDeletedExist.length !== 0) {
-            this.jsEmit(EventTypes.ON_REMOVE_ANOTHER_ITEMS, needToBeDeletedExist);
+            this.jsEmitAndPopListeners(EventTypes.ON_REMOVE_ANOTHER_ITEMS, needToBeDeletedExist);
         }
 
         if (notExist.length !== 0) {
-            this.jsEmit(EventTypes.ON_NOT_RENDERED_ITEMS, notExist);
+            this.jsEmitAndPopListeners(EventTypes.ON_NOT_RENDERED_ITEMS, notExist);
         }
     }
 
