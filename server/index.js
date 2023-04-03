@@ -52,8 +52,6 @@ const users = {
     },
 };
 
-const originalJwt = 'falksfasasfasfasf';
-
 app.post('/api/auth/signup', (req, res) => {
     const { password } = req.body;
     const { email } = req.body;

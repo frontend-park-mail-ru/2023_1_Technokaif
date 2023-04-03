@@ -2,8 +2,6 @@ import ComponentsStore from '../stores/ComponentsStore';
 import { prePageRender } from '../utils/functions/prePageRender';
 import { EventTypes } from '../utils/config/EventTypes';
 import Actions from '../actions/Actions';
-import { componentsNames } from '../utils/config/componentsNames';
-import ComponentsRenders from '../components/ComponentsRenders';
 
 /**
  * Base View class to handle render functions.

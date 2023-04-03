@@ -1,3 +1,7 @@
+/**
+ * Setup
+ * @returns {{json}}
+ */
 export function setupArtistCover() {
     return {
         coverName: 'artist-cover',
@@ -9,6 +13,10 @@ export function setupArtistCover() {
     };
 }
 
+/**
+ * Setup
+ * @returns {{json}}
+ */
 export function setupArtistContent() {
     return {
         mainClass: 'js__artist-page-window',
@@ -27,6 +35,10 @@ export function setupArtistContent() {
     };
 }
 
+/**
+ * Setup
+ * @returns {{json}}
+ */
 export function setupLineList() {
     return {
         lineListClass: 'line-list',
@@ -35,6 +47,10 @@ export function setupLineList() {
     };
 }
 
+/**
+ * Setup
+ * @returns {{json}}
+ */
 export function setupList() {
     return {
         lineCover: 'track-line__cover',
@@ -44,6 +60,10 @@ export function setupList() {
     };
 }
 
+/**
+ * Setup
+ * @returns {{json}}
+ */
 export function setupLikedSongs() {
     return {
         blockName: 'liked-songs',
@@ -61,6 +81,10 @@ export function setupLikedSongs() {
 // We have to place data inside some configs in ArtistContent
 // or
 // change logic with root = ../. in tape handlebars and place there.
+/**
+ * Setup
+ * @returns {{json}}
+ */
 export function setupTape(/** title and items */) {
     return {
         tapeDiv: 'tape',

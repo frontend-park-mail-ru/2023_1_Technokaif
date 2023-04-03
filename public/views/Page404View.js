@@ -1,9 +1,5 @@
 import { BaseView } from './BaseView';
-import ComponentsStore from '../stores/ComponentsStore';
 import Actions from '../actions/Actions';
-import ApiActions from '../actions/ApiActions';
-import ContentStore from '../stores/ContentStore';
-import { homeSetup } from '../utils/setup/homeSetup';
 import { pageNames } from '../utils/config/pageNames';
 import unsubscribeFromAllStores from '../utils/functions/unsubscribeFromAllStores';
 import Router from '../router/Router';

@@ -2,7 +2,6 @@ import IStore from './IStore';
 import ActionTypes from '../actions/ActionTypes';
 import { EventTypes } from '../utils/config/EventTypes';
 import { componentsNames } from '../utils/config/componentsNames';
-import { pageNames } from '../utils/config/pageNames';
 import { componentsJSNames } from '../utils/config/componentsJSNames';
 
 /**
