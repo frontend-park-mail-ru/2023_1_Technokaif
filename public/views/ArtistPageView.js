@@ -9,6 +9,7 @@ import unsubscribeFromAllStores from '../utils/functions/unsubscribeFromAllStore
  * Class for artist page view.
  */
 class ArtistPageView extends BaseView {
+    // todo componentsList and subscribe on render in foreach for every page
     /**
      * Constructor for feed page view.
      */

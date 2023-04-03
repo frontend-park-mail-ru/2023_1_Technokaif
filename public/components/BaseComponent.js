@@ -36,6 +36,11 @@ export class BaseComponent {
         this.#parent.innerHTML = this.#template(this.#config);
     }
 
+    /** Append element to parent without clearing it */
+    appendElement() {
+        this.#parent.innerHTML = this.#template(this.#config);
+    }
+
     /**
      * HTML template filler
      * @returns {string} - element in string

@@ -58,6 +58,7 @@ class Navbar {
             },
             EventTypes.LOGOUT_STATUS,
         );
+        // todo make queryselector by navbar component
         document.querySelector('#cont').addEventListener('click', (e) => {
             // todo replace events from navbar to view
             e?.preventDefault?.();
@@ -76,7 +77,7 @@ class Navbar {
      * Get all Items from lastCfg and returns in object
      * @param {config} lastCfg -- config where search items
      * @returns newCfg -- items
-     */
+    */
     #translateToItems(lastCfg) {
         const newcfg = { items: [] };
         for (const obj in lastCfg) {
