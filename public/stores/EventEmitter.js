@@ -33,11 +33,14 @@ export default class EventEmitter {
      * @param callback function that will be triggered
      */
     emitterAddListener(nameOfSpace, event, callback) {
-        if (!this.#events[event]) {
-            this.#events[event] = [];
+        if (!this.#events[nameOfSpace]) {
+            this.#events[nameOfSpace] = {};
+        }
+        if (!this.#events[nameOfSpace][event]) {
+            this.#events[nameOfSpace][event] = [];
         }
 
-        this.#events[event].push(callback);
+        this.#events[nameOfSpace][event].push(callback);
     }
 
     A;
@@ -57,9 +60,12 @@ export default class EventEmitter {
      */
     jsEmit(event, ...args) {
         for (const nameOfComponent in this.#events) {
+            console.log(nameOfComponent, args);
+            console.log('------', this.#events);
             if (this.#events[nameOfComponent]) {
                 const events = this.#events[nameOfComponent][event];
                 if (events) {
+                    console.log(events);
                     events.forEach((callback) => callback(...args));
                 }
             }

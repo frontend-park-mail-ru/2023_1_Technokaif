@@ -29,26 +29,29 @@ class FeedView extends BaseView {
      * Function to make all special subscribes for FeedView
      */
     #addSubscribes() {
-        pageNames.FEED,
         ComponentsStore.subscribe(
+            pageNames.FEED,
             (list) => {
                 this.#renderFeedComponents(list);
             },
             EventTypes.ON_NOT_RENDERED_ITEMS,
         );
 
-        ContentStore.subscribe(pageNames.FEED, () => {
-            console.log('in content');
-            const state = ContentStore.state[pageNames.FEED];
-            const configs = [];
-            for (const key in state) {
-                configs.push(homeSetup(key, state[key]));
-            }
+        ContentStore.subscribe(
+            pageNames.FEED,
+            () => {
+                const state = ContentStore.state[pageNames.FEED];
+                const configs = [];
+                for (const key in state) {
+                    configs.push(homeSetup(key, state[key]));
+                }
 
-            const componentName = this.#feedComponent.name;
-            const parent = ComponentsStore.checkWhereToPlace(componentName);
-            this.#feedComponent.render(parent, configs);
-        }, EventTypes.CHANGE_CONTENT);
+                const componentName = this.#feedComponent.name;
+                const parent = ComponentsStore.checkWhereToPlace(componentName);
+                this.#feedComponent.render(parent, configs);
+            },
+            EventTypes.CHANGE_CONTENT,
+        );
     }
 
     /**
@@ -73,7 +76,7 @@ class FeedView extends BaseView {
      * Render all view by components.
      */
     render() {
-        unsubscribeFromAllStores(pageNames.FEED);
+        // unsubscribeFromAllStores(pageNames.FEED);
         super.render();
         this.#addSubscribes();
 

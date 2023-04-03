@@ -158,7 +158,7 @@ export class LoginView extends BaseView {
      * Render all view by components.
      */
     render() {
-        unsubscribeFromAllStores(pageNames.LOGIN);
+        // unsubscribeFromAllStores(pageNames.LOGIN);
         super.render();
         Actions.whatRender(super.name);
 

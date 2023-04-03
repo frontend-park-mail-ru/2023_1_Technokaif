@@ -5,6 +5,7 @@ import Actions from '../actions/Actions';
 import { componentsNames } from '../utils/config/componentsNames';
 import API from '../stores/API';
 import ComponentsRenders from '../components/ComponentsRenders';
+import unsubscribeFromAllStores from '../utils/functions/unsubscribeFromAllStores';
 
 /**
  * Base View class to handle render functions.
@@ -98,9 +99,13 @@ export class BaseView {
      */
     unrenderComponentsList(list) {
         console.log(list);
+        unsubscribeFromAllStores(this.#viewName);
+        console.log(list);
         list.forEach((component) => {
+            console.log('comp', component);
             const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);
+            console.log('parent', parent);
             component.unrender(parent);
             Actions.removeElementFromPage(componentName);
         });
