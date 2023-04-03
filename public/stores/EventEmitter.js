@@ -2,21 +2,37 @@
  * Class to emit events and add/remove actions.
  */
 export default class EventEmitter {
+    /**
+     * Stores all events to various components in JSON.
+     * @example JSON
+     * {
+     *     nameOfComponent: {
+     *         events: [
+     *             callbacks...
+     *         ]...
+     *     },
+     *     nameOfComponent1: {
+     *         events: [
+     *             callbacks ...
+     *         ]...
+     *     },
+     * }
+     *
+     */
     #events;
 
-    /**
-     * Construct an emitter.
-     */
+    /** Construct an emitter. Default value for events is {}. */
     constructor() {
         this.#events = {};
     }
 
     /**
-     * Add new listener on.
-     * @param event
-     * @param callback
+     * Add listener with what listen and what event will trigger callback
+     * @param nameOfSpace what field is listen. Maybe component
+     * @param event what event will trigger callback
+     * @param callback function that will be triggered
      */
-    emitterAddListener(event, callback) {
+    emitterAddListener(nameOfSpace, event, callback) {
         if (!this.#events[event]) {
             this.#events[event] = [];
         }
@@ -24,22 +40,14 @@ export default class EventEmitter {
         this.#events[event].push(callback);
     }
 
-    /**
-     * Remove some listener.
-     * @param event
-     * @param callback
-     */
-    emitterRemoveListener(event, callback) {
-        if (this.#events[event]) {
-            this.#events[event] = this.#events[event].filter((cb) => cb !== callback);
-        }
-    }
+    A;
 
     /**
-     * Remove all listeners.
+     * Remove all listeners for component or field
+     * @param nameOfSpace what to remove
      */
-    emitterRemoveAllListeners() {
-        this.#events = [];
+    emitterRemoveAllListeners(nameOfSpace) {
+        this.#events[nameOfSpace] = [];
     }
 
     /**
@@ -48,8 +56,13 @@ export default class EventEmitter {
      * @param args
      */
     jsEmit(event, ...args) {
-        if (this.#events[event]) {
-            this.#events[event].forEach((callback) => callback(...args));
+        for (const nameOfComponent in this.#events) {
+            if (this.#events[nameOfComponent]) {
+                const events = this.#events[nameOfComponent][event];
+                if (events) {
+                    events.forEach((callback) => callback(...args));
+                }
+            }
         }
     }
 }

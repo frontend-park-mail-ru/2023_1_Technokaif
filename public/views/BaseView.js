@@ -49,6 +49,7 @@ export class BaseView {
      */
     #addSubscribes() {
         ComponentsStore.subscribe(
+            this.#viewName,
             (list) => {
                 this.unrenderComponentsList(list);
             },
@@ -56,6 +57,7 @@ export class BaseView {
         );
 
         ComponentsStore.subscribe(
+            this.#viewName,
             (list) => {
                 this.renderComponentsList(list);
             },
@@ -63,6 +65,7 @@ export class BaseView {
         );
 
         API.subscribe(
+            this.#viewName,
             (message) => {
                 if (message !== 'OK') {
                     console.error('bad respond from server during logout');

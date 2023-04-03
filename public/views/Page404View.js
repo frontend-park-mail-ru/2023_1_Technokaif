@@ -45,7 +45,7 @@ class Page404View extends BaseView {
      * Render all view by components.
      */
     render() {
-        unsubscribeFromAllStores();
+        unsubscribeFromAllStores(pageNames.PAGE404);
         super.render();
         Actions.whatRender(super.name);
         this.#subscribeComponents();

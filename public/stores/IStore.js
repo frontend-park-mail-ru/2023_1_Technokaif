@@ -58,26 +58,19 @@ class IStore extends EventEmitter {
     /** Hooks a React component's callback to the CHANGED event.
      *
      * @param callback
+     * @param nameOfComponent
      * @param actionName
      */
-    subscribe(callback, actionName = 'CHANGE') {
-        this.emitterAddListener(actionName, callback);
-    }
-
-    /**
-     * Removes the listener from the CHANGED event.
-     * @param callback
-     * @param actionName
-     */
-    unsubscribe(callback, actionName = 'CHANGE') {
-        this.emitterRemoveListener(actionName, callback);
+    subscribe(nameOfComponent, callback, actionName = 'CHANGE') {
+        this.emitterAddListener(nameOfComponent, actionName, callback);
     }
 
     /**
      * Removes all listener from all events.
+     * @param {string} nameOfComponent name of component to delete
      */
-    unsubscribeAll() {
-        this.emitterRemoveAllListeners();
+    unsubscribeAll(nameOfComponent) {
+        this.emitterRemoveAllListeners(nameOfComponent);
     }
 
     /**

@@ -72,15 +72,18 @@ class RegisterView extends BaseView {
     #addEventListenerInsideElements() {
         this.#createActionsForFields();
         UserInfoStore.subscribe(
+            pageNames.REGISTER,
             (name, status) => { this.dispatchErrors(name, status); },
             EventTypes.VALIDATION_RESPONSE,
         );
         UserInfoStore.subscribe(
+            pageNames.REGISTER,
             (status) => { this.sendAllData(status); },
             EventTypes.SEND_DATA,
         );
 
         API.subscribe(
+            pageNames.REGISTER,
             (message) => {
                 if (message === 'OK') {
                     Router.go('/');
@@ -91,6 +94,7 @@ class RegisterView extends BaseView {
             EventTypes.LOGIN_STATUS,
         );
         API.subscribe(
+            pageNames.REGISTER,
             (message) => {
                 this.#loginAfterSuccessRegistration(message);
             },
@@ -316,7 +320,7 @@ class RegisterView extends BaseView {
 
     /** Render all view by components. */
     render() {
-        unsubscribeFromAllStores();
+        unsubscribeFromAllStores(pageNames.REGISTER);
         super.render();
         Actions.whatRender(super.name);
 

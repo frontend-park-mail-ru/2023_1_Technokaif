@@ -88,14 +88,17 @@ export class LoginView extends BaseView {
     #addEventListenerInsideElements() {
         this.#createActionsForFields();
         UserInfoStore.subscribe(
+            pageNames.LOGIN,
             (name, status) => { this.dispatchErrors(name, status); },
             EventTypes.VALIDATION_RESPONSE,
         );
         UserInfoStore.subscribe(
+            pageNames.LOGIN,
             (status) => { this.sendAllData(status); },
             EventTypes.SEND_DATA,
         );
         API.subscribe(
+            pageNames.LOGIN,
             (message) => {
                 this.#handleLoginResponse(message);
             },
@@ -155,7 +158,7 @@ export class LoginView extends BaseView {
      * Render all view by components.
      */
     render() {
-        unsubscribeFromAllStores();
+        unsubscribeFromAllStores(pageNames.LOGIN);
         super.render();
         Actions.whatRender(super.name);
 
