@@ -541,7 +541,7 @@ class UserInfoStore extends IStore {
         // todo rewrite this
         const passwords = {
             newPassword: value.newPassword,
-            confPassword: value.confPassword,
+            confPassword: value.newConfPassword,
         };
         this.#getPasswordConfError(passwords);
         this.#getDayError(true);

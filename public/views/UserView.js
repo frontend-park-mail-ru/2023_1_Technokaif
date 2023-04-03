@@ -236,6 +236,7 @@ export class UserView extends BaseView {
      */
     sendAllData(status) {
         if (status === 'OK') {
+            console.log('Send data');
             const { state } = UserInfoStore;
             ApiActions.register({
                 username: state.username,
