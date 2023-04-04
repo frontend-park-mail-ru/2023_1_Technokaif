@@ -1,16 +1,18 @@
 import Ajax from '../../modules/Ajax.js';
 import { apiUrl } from '../../utils/config/apiUrls.js';
+import { generatePageById } from '../../utils/functions/urlGenerators';
 
 /**
  * Function for main page content render.
  */
-export async function feedTracksAjax() {
+export async function artistAjax(id) {
     let items;
+    const url = generatePageById(apiUrl.ARTIST_API, id);
 
     await Ajax.get({
-        url: apiUrl.FEED_TRACKS_API,
+        url,
         reject: (message) => {
-            console.error('Feed tracks api error:', message);
+            console.error('Artist request api error:', message);
         },
     }).then((data) => {
         items = data;

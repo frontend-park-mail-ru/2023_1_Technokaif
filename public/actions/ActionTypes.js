@@ -5,6 +5,9 @@ const ActionTypes = {
     LOGOUT: 'LOGOUT',
     REGISTER: 'REGISTER',
     FEED: 'FEED',
+    ARTIST: 'ARTIST',
+    ARTIST_ALBUMS: 'ARTIST_ALBUMS',
+    ARTIST_TRACKS: 'ARTIST_TRACKS',
 
     /** ComponentsStore checks for what render and handle un/render */
     CHECK_WHAT_RENDER: 'CHECK_WHAT_RENDER',
@@ -23,11 +26,12 @@ const ActionTypes = {
 
     /** Send when api request returned data and add it in state after emit a CHANGE_CONTENT event */
     FEED_GOT_CONTENT: 'FEED_GOT_CONTENT',
+    ARTIST_GOT_ALL_CONTENT: 'ARTIST_GOT_ALL_CONTENT',
     FEED_ALL_CONTENT_RECEIVED: 'FEED_ALL_CONTENT_RECEIVED',
 
-    // now it's not working
     /** Router usage ActionType for Stores adaptation */
     CHANGE_STORE: 'CHANGE_STORE',
+    ID_PROVIDED: 'ID_PROVIDED',
 };
 
 export default ActionTypes;

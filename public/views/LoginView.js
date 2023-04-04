@@ -6,7 +6,6 @@ import { EventTypes } from '../utils/config/EventTypes';
 import ApiActions from '../actions/ApiActions';
 import Router from '../router/Router';
 import API from '../stores/API';
-import unsubscribeFromAllStores from '../utils/functions/unsubscribeFromAllStores';
 import UserInfoStore from '../stores/UserInfoStore';
 
 const METHOD = 'focusout';

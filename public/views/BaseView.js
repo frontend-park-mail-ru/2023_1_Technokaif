@@ -14,16 +14,10 @@ export class BaseView {
     #viewName;
 
     /**
-     * List of components provided in this page
-     */
-    #components;
-
-    /**
      * Constructor for base view.
      */
-    constructor(name, components) {
+    constructor(name) {
         this.#viewName = name;
-        this.#components = components;
     }
 
     /**
@@ -51,30 +45,19 @@ export class BaseView {
      * @param list
      */
     renderComponentsList(list) {
+        console.log(list);
         list.forEach((component) => {
             const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);
             switch (componentName) {
-            case componentsNames.NAVBAR:
             case componentsNames.SIDEBAR:
+            case componentsNames.MAIN:
+            case componentsNames.NAVBAR:
                 component.render(parent);
                 Actions.addElementOnPage(componentName);
                 break;
             default:
             }
-        });
-    }
-
-    /**
-     * Callback to pass throw store to subscribe unrender of components.
-     * @param list
-     */
-    unrenderComponentsList(list) {
-        list.forEach((component) => {
-            const componentName = component.name;
-            const parent = ComponentsStore.checkWhereToPlace(componentName);
-            component.unrender(parent);
-            Actions.removeElementFromPage(componentName);
         });
     }
 

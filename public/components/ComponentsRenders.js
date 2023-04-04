@@ -2,7 +2,7 @@ import { checkAuth } from '../utils/functions/checkAuth';
 import { authNavConfig, sidebarConfig, unAuthNavConfig } from '../utils/config/config';
 import Navbar from './Navbar/Navbar';
 import Menu from './Menu/Menu';
-import { MainWindowContent } from './MainWindow/mainWindow';
+import { FeedContent } from './FeedContent/feedContent';
 import { Form } from './form/form';
 import { logFormSetup } from '../utils/setup/loginSetup';
 import { dateSetup, regFormSetup, sexSetup } from '../utils/setup/registrationSetup';
@@ -77,10 +77,9 @@ class ComponentsRenders {
     /**
      * Create Feed Content component and render it in parent
      * @param {HTMLElement} parent -- where to place Sidebar
-     * @param {*[]} tapesConfigs -- tape configs with artist, album and track items.
      */
-    renderFeedContent(parent, tapesConfigs) {
-        const mainPage = new MainWindowContent(parent, { mainPageWindowDiv: 'main-page-window' }, tapesConfigs);
+    renderFeedContent(parent) {
+        const mainPage = new FeedContent(parent, { mainPageWindowDiv: 'main-page-window' });
         mainPage.render();
     }
 

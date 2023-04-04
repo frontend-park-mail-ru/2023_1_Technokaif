@@ -1,6 +1,7 @@
 import IStore from '../stores/IStore';
 import Actions from '../actions/Actions';
 import { authNavConfig, sidebarConfig, unAuthNavConfig } from '../utils/config/config';
+import { routingUrl } from '../utils/config/routingUrls';
 
 /**
  * Class for routing urls in app.
@@ -12,6 +13,9 @@ class Router extends IStore {
     /** */
     #pageNotFoundRoute;
 
+    /** Routes like /artist/{id}/ */
+    #routesWithRegularTestUrl;
+
     #currentLen;
 
     /** Construct a router */
@@ -19,6 +23,7 @@ class Router extends IStore {
         super('Router');
         this.#routes = [];
         this.#pageNotFoundRoute = '/404';
+        this.#routesWithRegularTestUrl = [];
     }
 
     /**
@@ -34,6 +39,25 @@ class Router extends IStore {
         }
 
         this.#routes.push({
+            path,
+            render,
+            store: stores,
+        });
+    }
+
+    /**
+     * Register path with regular expression
+     * @param {string} path - url address in regEx
+     * @param {*} render - function to call on url
+     * @param stores
+     */
+    registerRouteWithRegEx(path, render, stores) {
+        if (this.#routesWithRegularTestUrl.find((obj) => obj === { path, render, stores })) {
+            console.error('Routes already exist');
+            return;
+        }
+
+        this.#routesWithRegularTestUrl.push({
             path,
             render,
             store: stores,
@@ -62,6 +86,7 @@ class Router extends IStore {
      * @param {string} path - url
      */
     go(path) {
+        console.log('in router');
         let object = this.#routes.find((routeObj) => routeObj.path === path);
         let foundInFutureLinks = false;
         if (!object) {
@@ -77,6 +102,31 @@ class Router extends IStore {
 
             if (foundInFutureLinks) {
                 this.go('/login');
+                return;
+            }
+
+            let routeWithRegExpFound = false;
+            this.#routesWithRegularTestUrl.forEach((regExObj) => {
+                const regex = new RegExp(regExObj);
+                if (regex.test(path)) {
+                    const [, id, page] = path.match(routingUrl.GENERAL_REG_EXP);
+                    const stateStore = [];
+                    for (const state in object.store) {
+                        stateStore.push(object.store[state].state);
+                    }
+
+                    this.#currentLen = window.history.length;
+                    window.history.pushState({
+                        historyLen: this.#currentLen, stateInHistory: stateStore, id, page,
+                    }, '', path);
+
+                    routeWithRegExpFound = true;
+                    object.render();
+                    Actions.sendId(id, page);
+                }
+            });
+
+            if (routeWithRegExpFound) {
                 return;
             }
 
@@ -121,8 +171,17 @@ class Router extends IStore {
 
     /** Render page in current state of history. Refresh store. */
     #render() {
-        const object = this.#routes.find((routeObj) => routeObj.path === window.location.pathname);
+        let object = this.#routes.find((routeObj) => routeObj.path === window.location.pathname);
+        if (object === undefined) {
+            object = this.#routesWithRegularTestUrl.find((regExObj) => {
+                const regex = new RegExp(regExObj);
+                return (regex.test(window.location.pathname));
+            });
+
+            Actions.sendId(window.history.state.id, window.history.state.page);
+        }
         this.#sendStoresChanges(window.history.state.stateInHistory);
+
         object.render();
         this.jsEmit('PAGE_CHANGED');
     }

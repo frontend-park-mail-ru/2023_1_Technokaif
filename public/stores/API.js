@@ -8,6 +8,7 @@ import { logoutAjax } from '../api/auth/logoutAjaxReq';
 import { EventTypes } from '../utils/config/EventTypes';
 import { feedTracksAjax } from '../api/tracks/feedTracksAjaxRequest';
 import { feedArtistsAjax } from '../api/artists/feedArtistsAjaxRequest';
+import { artistAjax } from '../api/artists/artistAjaxRequest';
 
 /**
  * Class using for getting data from backend.
@@ -29,16 +30,19 @@ class API extends IStore {
 
         switch (action.type) {
         case ActionTypes.LOGIN:
-            this.loginRequest(action.username, action.password);
+            this.#loginRequest(action.username, action.password);
             break;
         case ActionTypes.REGISTER:
-            this.registerRequest(action.data);
+            this.#registerRequest(action.data);
             break;
         case ActionTypes.LOGOUT:
-            this.logoutRequest();
+            this.#logoutRequest();
             break;
         case ActionTypes.FEED:
-            this.feedRequest();
+            this.#feedRequest();
+            break;
+        case ActionTypes.ARTIST:
+            this.#artistRequest(action.id);
             break;
         default:
         }
@@ -49,7 +53,7 @@ class API extends IStore {
      * @param login
      * @param password
      */
-    loginRequest(login, password) {
+    #loginRequest(login, password) {
         loginAjax(login, password).then(
             (message) => this.jsEmit(EventTypes.LOGIN_STATUS, message),
         );
@@ -59,7 +63,7 @@ class API extends IStore {
      * Function to post registration data to server.
      * @param data
      */
-    registerRequest(data) {
+    #registerRequest(data) {
         registerAjax(data).then(
             (message) => this.jsEmit(EventTypes.REGISTER_STATUS, message),
         );
@@ -68,7 +72,7 @@ class API extends IStore {
     /**
      * Function to log out and request about to server.
      */
-    logoutRequest() {
+    #logoutRequest() {
         logoutAjax().then(
             (message) => this.jsEmit(EventTypes.LOGOUT_STATUS, message),
         );
@@ -77,11 +81,20 @@ class API extends IStore {
     /**
      * Function to get feed page data from server.
      */
-    feedRequest() {
+    #feedRequest() {
         feedTracksAjax().then((tracks) => Actions.feedAddContent({ Tracks: tracks }));
         feedArtistsAjax().then((artists) => Actions.feedAddContent({ Artists: artists }));
         feedAlbumsAjax().then((albums) => Actions.feedAddContent({ Albums: albums })).then(() => {
-            Actions.feedAllDataReceived();
+            this.jsEmit(EventTypes.FEED_CONTENT_DONE);
+        });
+    }
+
+    /**
+     * Function to get an artist from server
+     */
+    #artistRequest(id) {
+        artistAjax(id).then((artist) => {
+            Actions.artistAddContent(artist);
         });
     }
 }

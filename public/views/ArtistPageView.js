@@ -4,12 +4,11 @@ import ComponentsStore from '../stores/ComponentsStore';
 import { EventTypes } from '../utils/config/EventTypes';
 import { componentsNames } from '../utils/config/componentsNames';
 import Actions from '../actions/Actions';
-import unsubscribeFromAllStores from '../utils/functions/unsubscribeFromAllStores';
+
 /**
  * Class for artist page view.
  */
 class ArtistPageView extends BaseView {
-    // todo componentsList and subscribe on render in foreach for every page
     /**
      * Constructor for feed page view.
      */
@@ -17,7 +16,6 @@ class ArtistPageView extends BaseView {
         super(pageNames.ARTIST_PAGE);
     }
 
-    // todo replace in components after emits done
     /**
      * Function to make all special subscribes for FeedView
      */
@@ -55,7 +53,6 @@ class ArtistPageView extends BaseView {
      * Render all view by components.
      */
     render() {
-        unsubscribeFromAllStores();
         super.render();
         this.#addSubscribes();
 

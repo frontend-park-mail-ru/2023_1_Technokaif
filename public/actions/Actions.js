@@ -58,6 +58,14 @@ const Actions = {
         });
     },
 
+    /** Action to add items got from artist api in ContentStore */
+    artistAddContent(artist) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ARTIST_GOT_ALL_CONTENT,
+            artist,
+        });
+    },
+
     /** Action to say that all items has already been sent */
     feedAllDataReceived() {
         Dispatcher.dispatch({
@@ -70,6 +78,15 @@ const Actions = {
         Dispatcher.dispatch({
             type: ActionTypes.CHANGE_STORE,
             item,
+        });
+    },
+
+    /** Router changes item in Store state */
+    sendId(id, nameOfPage) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ID_PROVIDED,
+            id,
+            nameOfPage,
         });
     },
 };

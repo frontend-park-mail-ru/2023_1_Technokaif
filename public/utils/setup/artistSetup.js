@@ -1,8 +1,8 @@
 /**
- * Setup
+ * Setup artist cover
  * @returns {{json}}
  */
-export function setupArtistCover() {
+export function setupArtistCover(artist) {
     return {
         coverName: 'artist-cover',
         title: 'artist-title',
@@ -10,11 +10,12 @@ export function setupArtistCover() {
         verifyImgSrc: '/static/svg/verify.svg',
         titleName: 'artist-title__name',
         titleListens: 'artist-title__listens',
+        item: artist,
     };
 }
 
 /**
- * Setup
+ * Setup general skeleton of artist page
  * @returns {{json}}
  */
 export function setupArtistContent() {
@@ -36,7 +37,7 @@ export function setupArtistContent() {
 }
 
 /**
- * Setup
+ * Setup line of track
  * @returns {{json}}
  */
 export function setupLineList() {
@@ -48,7 +49,7 @@ export function setupLineList() {
 }
 
 /**
- * Setup
+ * Setup list of tracks
  * @returns {{json}}
  */
 export function setupList() {
@@ -61,10 +62,10 @@ export function setupList() {
 }
 
 /**
- * Setup
+ * Setup liked songs
  * @returns {{json}}
  */
-export function setupLikedSongs() {
+export function setupLikedSongs(artist) {
     return {
         blockName: 'liked-songs',
         title: 'liked-songs__title',
@@ -73,8 +74,7 @@ export function setupLikedSongs() {
         descriptionBlock: 'liked-songs__description',
         description: 'liked-songs__notification',
         authorBlock: 'liked-songs__author',
-        /** Get artist from api or view (in this we should know artist) */
-        artist: null,
+        artist,
     };
 }
 

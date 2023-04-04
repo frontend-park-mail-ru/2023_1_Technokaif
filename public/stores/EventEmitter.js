@@ -21,6 +21,10 @@ export default class EventEmitter {
      */
     #events;
 
+    #isDispatching;
+
+    #waitOrder;
+
     /**
      * Stores general events using in subscription without providing nameOfComponent.
      *
@@ -32,6 +36,10 @@ export default class EventEmitter {
      */
     constructor() {
         this.#events = {};
+        this.#generalEvents = [];
+
+        this.#isDispatching = false;
+        this.#waitOrder = [];
     }
 
     /**
@@ -44,11 +52,12 @@ export default class EventEmitter {
         if (!this.#events[nameOfComponent]) {
             this.#events[nameOfComponent] = {};
         }
-        if (!this.#events.nameOfComponent[event]) {
-            this.#events.nameOfComponent[event] = [];
+
+        if (!this.#events[nameOfComponent][event]) {
+            this.#events[nameOfComponent][event] = [];
         }
 
-        this.#events.nameOfComponent[event].push(callback);
+        this.#events[nameOfComponent][event].push(callback);
     }
 
     /**
@@ -57,17 +66,11 @@ export default class EventEmitter {
      * @param callback
      */
     emitterAddListenerToAllComponents(event, callback) {
-        for (const nameOfComponent in this.#events) {
-            if (!this.#events[nameOfComponent]) {
-                this.#events[nameOfComponent] = {};
-            }
-
-            if (!this.#events.nameOfComponent[event]) {
-                this.#events.nameOfComponent[event] = [];
-            }
-
-            this.#events.nameOfComponent[event].push(callback);
+        if (!this.#generalEvents[event]) {
+            this.#generalEvents[event] = [];
         }
+
+        this.#generalEvents[event].push(callback);
     }
 
     /**
@@ -90,11 +93,18 @@ export default class EventEmitter {
      * @param args
      */
     jsEmit(event, ...args) {
+        if (this.#generalEvents[event]) {
+            this.#generalEvents[event].forEach((callback) => {
+                callback(...args);
+            });
+        }
         for (const nameOfComponent in this.#events) {
             if (this.#events[nameOfComponent]) {
                 const events = this.#events[nameOfComponent][event];
                 if (events) {
-                    events.forEach((callback) => callback(...args));
+                    events.forEach((callback) => {
+                        callback(...args);
+                    });
                 }
             }
         }
@@ -106,13 +116,12 @@ export default class EventEmitter {
      * @param args
      */
     jsEmitAndPopListeners(event, ...args) {
-        this.jsEmit(event, args);
-        for (const nameOfComponent in this.#events) {
-            if (this.#events[nameOfComponent]) {
-                this.#events[nameOfComponent][event] = [];
-            }
-        }
+        const p = new Promise(() => {
+            this.jsEmit(event, ...args);
+        });
 
-        this.#generalEvents.filter((ev) => ev !== event);
+        p.then(() => {
+            this.#generalEvents.filter((ev) => ev !== event);
+        });
     }
 }

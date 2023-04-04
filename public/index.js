@@ -12,6 +12,7 @@ import RegisterView from './views/RegisterView';
 import ComponentsRenders from './components/ComponentsRenders';
 import Page404View from './views/Page404View';
 import ArtistPageView from './views/ArtistPageView';
+import { routingUrl } from './utils/config/routingUrls';
 
 /**
  * Render main page of app
@@ -76,11 +77,23 @@ function renderMainPage() {
         ],
     );
 
-    Router.register('/', () => { FeedView.render(); }, [API, ContentStore]);
-    Router.register('/login', () => { LoginView.render(); }, [API, UserInfoStore]);
-    Router.register('/register', () => { RegisterView.render(); }, [API, UserInfoStore]);
-    Router.register('/404', () => { Page404View.render(); }, [API, UserInfoStore]);
-    Router.register('/artist', () => { ArtistPageView.render(); }, [API, UserInfoStore]);
+    ComponentsStore.register(
+        pageNames.ARTIST_PAGE,
+        [
+            {
+                name: componentsNames.ARTIST_CONTENT,
+                // todo place render
+                render: ComponentsRenders.renderPage404,
+                unrender: ComponentsRenders.unrenderPage404,
+            },
+        ],
+    );
+
+    Router.register(routingUrl.ROOT, () => { FeedView.render(); }, [API, ContentStore]);
+    Router.register(routingUrl.LOGIN, () => { LoginView.render(); }, [API, UserInfoStore]);
+    Router.register(routingUrl.REGISTER, () => { RegisterView.render(); }, [API, UserInfoStore]);
+    Router.register(routingUrl.PAGE404, () => { Page404View.render(); }, [API, UserInfoStore]);
+    Router.registerRouteWithRegEx(`${routingUrl.ARTIST_PAGE_EXP}`, () => { ArtistPageView.render(); }, [API, UserInfoStore]);
     Router.start();
 }
 

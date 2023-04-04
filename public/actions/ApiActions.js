@@ -26,10 +26,32 @@ const ApiActions = {
             type: ActionTypes.LOGOUT,
         });
     },
-
+    /** Feed page */
     feed() {
         Dispatcher.dispatch({
             type: ActionTypes.FEED,
+        });
+    },
+
+    /** Artist Page */
+    artist(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ARTIST,
+            id,
+        });
+    },
+
+    artistAlbums(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ARTIST_ALBUMS,
+            id,
+        });
+    },
+
+    artistTracks(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ARTIST_TRACKS,
+            id,
         });
     },
 };

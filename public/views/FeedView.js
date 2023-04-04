@@ -2,12 +2,9 @@ import { BaseView } from './BaseView';
 import ComponentsStore from '../stores/ComponentsStore';
 import Actions from '../actions/Actions';
 import ApiActions from '../actions/ApiActions';
-import ContentStore from '../stores/ContentStore';
-import { homeSetup } from '../utils/setup/homeSetup';
 import { pageNames } from '../utils/config/pageNames';
 import { EventTypes } from '../utils/config/EventTypes';
 import { componentsNames } from '../utils/config/componentsNames';
-import unsubscribeFromAllStores from '../utils/functions/unsubscribeFromAllStores';
 
 /**
  * Class for feed page view.
@@ -35,18 +32,6 @@ class FeedView extends BaseView {
             },
             EventTypes.ON_NOT_RENDERED_ITEMS,
         );
-
-        ContentStore.subscribe(() => {
-            const state = ContentStore.state[pageNames.FEED];
-            const configs = [];
-            for (const key in state) {
-                configs.push(homeSetup(key, state[key]));
-            }
-
-            const componentName = this.#feedComponent.name;
-            const parent = ComponentsStore.checkWhereToPlace(componentName);
-            this.#feedComponent.render(parent, configs);
-        }, EventTypes.CHANGE_CONTENT);
     }
 
     /**
@@ -56,11 +41,10 @@ class FeedView extends BaseView {
     #renderFeedComponents(list) {
         list.forEach((component) => {
             const componentName = component.name;
+            const parent = ComponentsStore.checkWhereToPlace(componentName);
             switch (componentName) {
             case componentsNames.FEED_CONTENT:
-                this.#feedComponent = component;
-                ApiActions.feed();
-                Actions.addElementOnPage(componentName);
+                component.render(parent);
                 break;
             default:
             }
@@ -71,7 +55,6 @@ class FeedView extends BaseView {
      * Render all view by components.
      */
     render() {
-        unsubscribeFromAllStores();
         super.render();
         this.#addSubscribes();
 

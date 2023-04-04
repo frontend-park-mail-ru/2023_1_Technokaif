@@ -5,6 +5,6 @@
             <p>Verified Artist</p>
         </div>
         <p class="{{titleName}}">{{item.name}}</p>
-        <p class="{{titleListens}}">{{item.listens}} listeners per month</p>
+        <p class="{{titleListens}}">{{#if item.listens}}{{item.listens}}{{else}}666 666 666{{/if}} listeners per month</p>
     </div>
 </cover>

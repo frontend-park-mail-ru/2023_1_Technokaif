@@ -1,4 +1,4 @@
-import { PATH } from '../../utils/config/urls.js';
+import { apiUrl } from '../../utils/config/apiUrls.js';
 import Ajax from '../../modules/Ajax';
 
 const logout = () => {
@@ -11,7 +11,7 @@ const logout = () => {
 export async function logoutAjax() {
     let mes;
     await Ajax.get({
-        url: PATH.logout,
+        url: apiUrl.LOGOUT,
         resolve: () => {
             logout();
         },

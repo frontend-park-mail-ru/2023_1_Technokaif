@@ -1,4 +1,4 @@
-import { PATH } from '../../utils/config/urls.js';
+import { apiUrl } from '../../utils/config/apiUrls.js';
 import Ajax from '../../modules/Ajax';
 
 /**
@@ -9,7 +9,7 @@ import Ajax from '../../modules/Ajax';
 export async function loginAjax(login, password) {
     let mes;
     await Ajax.post({
-        url: PATH.login,
+        url: apiUrl.LOGIN,
         body: { username: login, password },
         resolve: (data) => {
             localStorage.setItem('jwt', data.jwt);
