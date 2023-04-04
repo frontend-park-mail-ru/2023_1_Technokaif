@@ -1,3 +1,4 @@
+import { query } from 'express';
 import Dispatcher from '../dispatcher/Dispatcher.js';
 import ActionTypes from './ActionTypes.js';
 
@@ -88,6 +89,28 @@ const Actions = {
             id,
             nameOfPage,
         });
+    },
+
+    /** Send action to SongStore and search for needed track */
+    searchForTrack(status, whatTrack) {
+        Dispatcher.dispatch({
+            type: ActionTypes.DOWNLOAD_DIRECTIONAL_TRACK,
+            status,
+            whatTrack,
+        });
+    },
+
+    /** Change volume in Store */
+    volumeChange(volume) {
+        Dispatcher.dispatch({
+            type: ActionTypes.CHANGE_VOLUME,
+            volume,
+        });
+    },
+
+    /** Add new line to exit one */
+    loadMoreLine(currentTrack) {
+
     },
 };
 
