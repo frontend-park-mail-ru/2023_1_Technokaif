@@ -1,7 +1,3 @@
-import ComponentsStore from '../stores/ComponentsStore';
-import unsubscribeFromAllStoresOnComponent from '../utils/functions/unsubscribeFromAllStores';
-import { EventTypes } from '../utils/config/EventTypes';
-
 /**
  * Base Component class to handle render functions.
  */
@@ -47,7 +43,7 @@ export class BaseComponent {
 
     /**
      * Getter of element
-     * @returns {*}
+     * @returns {HTMLDocument}
      */
     get element() {
         return this.#element;

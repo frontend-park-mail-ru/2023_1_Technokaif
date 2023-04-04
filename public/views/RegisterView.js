@@ -8,7 +8,6 @@ import Router from '../router/Router';
 import { getCheckedValueRadioButtons } from '../utils/functions/utils';
 import ApiActions from '../actions/ApiActions';
 import API from '../stores/API';
-import unsubscribeFromAllStores from '../utils/functions/unsubscribeFromAllStores';
 import ComponentsStore from '../stores/ComponentsStore';
 
 // todo Validate all create func to check

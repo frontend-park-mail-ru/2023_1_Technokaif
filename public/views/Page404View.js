@@ -1,11 +1,7 @@
 import { BaseView } from './BaseView';
 import Actions from '../actions/Actions';
 import { pageNames } from '../utils/config/pageNames';
-import unsubscribeFromAllStores from '../utils/functions/unsubscribeFromAllStores';
 import Router from '../router/Router';
-import ComponentsStore from '../stores/ComponentsStore';
-import UserInfoStore from '../stores/UserInfoStore';
-import API from '../stores/API';
 
 /**
  * Class for feed page view.
