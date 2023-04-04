@@ -13,7 +13,6 @@ import ApiActions from '../../actions/ApiActions';
 import API from '../../stores/API';
 import ComponentsStore from '../../stores/ComponentsStore';
 import unsubscribeFromAllStoresOnComponent from '../../utils/functions/unsubscribeFromAllStores';
-import { componentsJSNames } from '../../utils/config/componentsJSNames';
 
 /**
  * Create FeedContent content with tapes

@@ -1,5 +1,6 @@
 import Actions from '../../actions/Actions';
 import template from './player.handlebars';
+import './player.less';
 import { RESPONSES } from '../../utils/config/config';
 
 /** Class for Audio player view and its creation */
@@ -33,7 +34,6 @@ export class AudioPlayer {
     #play() {
         this.#elements.audio.play();
         this.#isPlaying = true;
-        // this.#elements.playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
         this.#elements.playpause_btn.src = '/static/svg/Player/pause-solid.svg';
     }
 
@@ -88,7 +88,7 @@ export class AudioPlayer {
         this.#elements.track_name = document.querySelector('.js__track-name');
         this.#elements.track_artist = document.querySelector('.js__track-artist');
 
-        this.#elements.playpause_btn = document.querySelector('.js__playpause-track');
+        this.#elements.playpause_btn = document.querySelector('.js__play-pause-track');
         this.#elements.next_btn = document.querySelector('.js__next-track');
         this.#elements.prev_btn = document.querySelector('.js__prev-track');
 
@@ -220,7 +220,7 @@ export class AudioPlayer {
 
     /** Render player in parent */
     render() {
-        this.#parent.innerHTML = template();
+        this.#parent.innerHTML += template();
 
         this.#addAllElementsToElements();
         this.#addReactionOnUser();

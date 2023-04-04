@@ -1,4 +1,3 @@
-import { query } from 'express';
 import Dispatcher from '../dispatcher/Dispatcher.js';
 import ActionTypes from './ActionTypes.js';
 

@@ -95,7 +95,7 @@ export class LoginForm extends BaseComponent {
             const { login } = UserInfoStore.state;
             ApiActions.login(
                 login,
-                document.querySelector(`.${this.#inputsOnView.password}`).value,
+                document.querySelector('.js__password').value,
             );
         }
     }
@@ -135,20 +135,5 @@ export class LoginForm extends BaseComponent {
         } else {
             placeForError.innerHTML = `<p class="error">${error}</p>`;
         }
-    }
-}
-
-
-STORE
-{
-    nameOfComponent: {
-        reactions,
-    }
-}
-
-STORE
-{
-    component: {
-        event: [functionInEmmiter]
     }
 }
