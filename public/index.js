@@ -83,8 +83,8 @@ function renderMainPage() {
             {
                 name: componentsNames.ARTIST_CONTENT,
                 // todo place render
-                render: ComponentsRenders.renderPage404,
-                unrender: ComponentsRenders.unrenderPage404,
+                render: ComponentsRenders.renderArtistContent,
+                unrender: ComponentsRenders.unrenderArtistContent,
             },
         ],
     );

@@ -11,6 +11,9 @@ import { componentsNames } from '../../utils/config/componentsNames';
 import Actions from '../../actions/Actions';
 import ApiActions from '../../actions/ApiActions';
 import API from '../../stores/API';
+import ComponentsStore from '../../stores/ComponentsStore';
+import unsubscribeFromAllStoresOnComponent from '../../utils/functions/unsubscribeFromAllStores';
+import { componentsJSNames } from '../../utils/config/componentsJSNames';
 
 /**
  * Create FeedContent content with tapes
@@ -42,7 +45,7 @@ export class FeedContent extends BaseComponent {
      */
     #renderTapes() {
         this.#configs.forEach((configForInsertElement) => {
-            const tape = new Tape(this.#parent, configForInsertElement);
+            const tape = new Tape(this.element, configForInsertElement);
             tape.appendElement();
         });
     }
@@ -51,6 +54,17 @@ export class FeedContent extends BaseComponent {
      * Function to subscribe to all events from Stores
      */
     #addSubscribes() {
+        ComponentsStore.subscribe(
+            (list) => {
+                const component = list.filter((comp) => comp.name === this.name);
+                if (component.length !== 0) {
+                    Actions.removeElementFromPage(component.name);
+                    unsubscribeFromAllStoresOnComponent(this.name);
+                    this.unRender();
+                }
+            },
+            EventTypes.ON_REMOVE_ANOTHER_ITEMS,
+        );
         API.subscribe(
             () => {
                 Actions.feedAllDataReceived();

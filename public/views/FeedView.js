@@ -1,7 +1,6 @@
 import { BaseView } from './BaseView';
 import ComponentsStore from '../stores/ComponentsStore';
 import Actions from '../actions/Actions';
-import ApiActions from '../actions/ApiActions';
 import { pageNames } from '../utils/config/pageNames';
 import { EventTypes } from '../utils/config/EventTypes';
 import { componentsNames } from '../utils/config/componentsNames';

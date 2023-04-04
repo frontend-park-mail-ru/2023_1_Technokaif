@@ -3,6 +3,9 @@ import Actions from '../actions/Actions';
 import { pageNames } from '../utils/config/pageNames';
 import unsubscribeFromAllStores from '../utils/functions/unsubscribeFromAllStores';
 import Router from '../router/Router';
+import ComponentsStore from '../stores/ComponentsStore';
+import UserInfoStore from '../stores/UserInfoStore';
+import API from '../stores/API';
 
 /**
  * Class for feed page view.
@@ -41,7 +44,6 @@ class Page404View extends BaseView {
      * Render all view by components.
      */
     render() {
-        unsubscribeFromAllStores();
         super.render();
         Actions.whatRender(super.name);
         this.#subscribeComponents();

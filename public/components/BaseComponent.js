@@ -12,6 +12,11 @@ export class BaseComponent {
     #parent;
 
     /**
+     * This element.
+     */
+    #element;
+
+    /**
      * Name of component
      */
     #name;
@@ -41,6 +46,14 @@ export class BaseComponent {
     }
 
     /**
+     * Getter of element
+     * @returns {*}
+     */
+    get element() {
+        return this.#element;
+    }
+
+    /**
      * Component Name getter
      * @returns {string}
      */
@@ -52,16 +65,7 @@ export class BaseComponent {
      * Subscribe there on all general events
      */
     #subscribeAll() {
-        ComponentsStore.subscribe(
-            (list) => {
-                const component = list.filter((comp) => comp.name === this.name);
-                if (component.length !== 0) {
-                    unsubscribeFromAllStoresOnComponent(this.name);
-                    this.unRender();
-                }
-            },
-            EventTypes.ON_REMOVE_ANOTHER_ITEMS,
-        );
+
     }
 
     /**
@@ -70,19 +74,21 @@ export class BaseComponent {
     render() {
         this.#subscribeAll();
         this.#parent.innerHTML = this.#template(this.#config);
+        this.#element = document.querySelector(`.${this.name}`);
     }
 
     /** Append element to parent without clearing it */
     appendElement() {
         this.#subscribeAll();
-        this.#parent.innerHTML = this.#template(this.#config);
+        this.#parent.innerHTML += this.#template(this.#config);
+        this.#element = document.querySelector(`.${this.name}`);
     }
 
     /**
      * UnRender component
      */
     unRender() {
-        this.#parent.removeChild(this.name);
+        this.#parent.removeChild(this.#element);
     }
 
     /**

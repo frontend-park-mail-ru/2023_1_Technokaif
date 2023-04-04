@@ -7,6 +7,7 @@ import ApiActions from '../actions/ApiActions';
 import Router from '../router/Router';
 import API from '../stores/API';
 import UserInfoStore from '../stores/UserInfoStore';
+import ComponentsStore from '../stores/ComponentsStore';
 
 const METHOD = 'focusout';
 // todo temporary json
@@ -154,6 +155,9 @@ export class LoginView extends BaseView {
      * Render all view by components.
      */
     render() {
+        ComponentsStore.unsubscribeAll();
+        UserInfoStore.unsubscribeAll();
+        API.unsubscribeAll();
         super.render();
         Actions.whatRender(super.name);
 

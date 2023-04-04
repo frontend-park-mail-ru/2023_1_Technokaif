@@ -10,6 +10,8 @@ import { componentsJSNames } from '../utils/config/componentsJSNames';
 import { HeaderWithButton } from './HeaderWithButton/headerWithButton';
 import { page404Setup } from '../utils/setup/page404Setup';
 import { componentsNames } from '../utils/config/componentsNames';
+import { ArtistContent } from './ArtistContent/artistContent';
+import { setupArtistContent } from '../utils/setup/artistSetup';
 
 /**
  * Class for components renders functions.
@@ -89,6 +91,23 @@ class ComponentsRenders {
      */
     unrenderFeedContent(parent) {
         parent.removeChild(document.querySelector(`.${componentsJSNames.FEED_CONTENT}`));
+    }
+
+    /**
+     * Create Feed Content component and render it in parent
+     * @param {HTMLElement} parent -- where to place Sidebar
+     */
+    renderArtistContent(parent) {
+        const artistPage = new ArtistContent(parent, setupArtistContent());
+        artistPage.render();
+    }
+
+    /**
+     * Destroy Feed Content component in parent block
+     * @param {HTMLElement} parent -- from what delete component
+     */
+    unrenderArtistContent(parent) {
+        parent.removeChild(document.querySelector(`.${componentsJSNames.ARTIST_CONTENT}`));
     }
 
     /**

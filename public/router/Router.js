@@ -86,7 +86,6 @@ class Router extends IStore {
      * @param {string} path - url
      */
     go(path) {
-        console.log('in router');
         let object = this.#routes.find((routeObj) => routeObj.path === path);
         let foundInFutureLinks = false;
         if (!object) {
@@ -109,20 +108,23 @@ class Router extends IStore {
             this.#routesWithRegularTestUrl.forEach((regExObj) => {
                 const regex = new RegExp(regExObj);
                 if (regex.test(path)) {
-                    const [, id, page] = path.match(routingUrl.GENERAL_REG_EXP);
-                    const stateStore = [];
-                    for (const state in object.store) {
-                        stateStore.push(object.store[state].state);
+                    const result = path.match(routingUrl.GENERAL_REG_EXP);
+                    if (result !== null) {
+                        const [, id, page] = result;
+                        const stateStore = [];
+                        for (const state in object.store) {
+                            stateStore.push(object.store[state].state);
+                        }
+
+                        this.#currentLen = window.history.length;
+                        window.history.pushState({
+                            historyLen: this.#currentLen, stateInHistory: stateStore, id, page,
+                        }, '', path);
+
+                        routeWithRegExpFound = true;
+                        object.render();
+                        Actions.sendId(id, page);
                     }
-
-                    this.#currentLen = window.history.length;
-                    window.history.pushState({
-                        historyLen: this.#currentLen, stateInHistory: stateStore, id, page,
-                    }, '', path);
-
-                    routeWithRegExpFound = true;
-                    object.render();
-                    Actions.sendId(id, page);
                 }
             });
 

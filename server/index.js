@@ -175,9 +175,13 @@ app.get('/api/artists/feed', (req, res) => {
         );
 });
 
-app.get(/^((?!\/(static|api)).)*$/, (req, res) => {
+app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
 });
+
+// app.get(/^((?!\/(static|api)).)*$/, (req, res) => {
+//     res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
+// });
 
 const port = process.env.PORT || 3000;
 

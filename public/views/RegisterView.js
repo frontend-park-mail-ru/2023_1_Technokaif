@@ -9,6 +9,7 @@ import { getCheckedValueRadioButtons } from '../utils/functions/utils';
 import ApiActions from '../actions/ApiActions';
 import API from '../stores/API';
 import unsubscribeFromAllStores from '../utils/functions/unsubscribeFromAllStores';
+import ComponentsStore from '../stores/ComponentsStore';
 
 // todo Validate all create func to check
 
@@ -315,7 +316,9 @@ class RegisterView extends BaseView {
 
     /** Render all view by components. */
     render() {
-        unsubscribeFromAllStores();
+        ComponentsStore.unsubscribeAll();
+        UserInfoStore.unsubscribeAll();
+        API.unsubscribeAll();
         super.render();
         Actions.whatRender(super.name);
 

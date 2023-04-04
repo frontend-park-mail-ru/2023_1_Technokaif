@@ -38,6 +38,12 @@ export class BaseView {
             },
             EventTypes.ON_NOT_RENDERED_ITEMS,
         );
+        ComponentsStore.subscribe(
+            (list) => {
+                this.unrenderComponentsList(list);
+            },
+            EventTypes.ON_REMOVE_ANOTHER_ITEMS,
+        );
     }
 
     /**
@@ -45,7 +51,6 @@ export class BaseView {
      * @param list
      */
     renderComponentsList(list) {
-        console.log(list);
         list.forEach((component) => {
             const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);
@@ -53,8 +58,34 @@ export class BaseView {
             case componentsNames.SIDEBAR:
             case componentsNames.MAIN:
             case componentsNames.NAVBAR:
+            case componentsNames.LOGIN_FORM:
+            case componentsNames.REGISTER_FORM:
+            case componentsNames.PAGE404:
                 component.render(parent);
                 Actions.addElementOnPage(componentName);
+                break;
+            default:
+            }
+        });
+    }
+
+    /**
+     * Callback to pass throw store to subscribe rendering components.
+     * @param list
+     */
+    unrenderComponentsList(list) {
+        list.forEach((component) => {
+            const componentName = component.name;
+            const parent = ComponentsStore.checkWhereToPlace(componentName);
+            switch (componentName) {
+            case componentsNames.SIDEBAR:
+            case componentsNames.MAIN:
+            case componentsNames.NAVBAR:
+            case componentsNames.LOGIN_FORM:
+            case componentsNames.REGISTER_FORM:
+            case componentsNames.PAGE404:
+                component.unrender(parent);
+                Actions.removeElementFromPage(componentName);
                 break;
             default:
             }
