@@ -1,5 +1,6 @@
 <div class="player js__player-main">
 
+    <div class="player__space-start-end"></div>
     <!-- Define the section for displaying details -->
     <div class="details">
         <div class="details__img-div js__track-art">
@@ -10,6 +11,8 @@
             <div class="track-artist js__track-artist">Track Artist</div>
         </div>
     </div>
+
+    <div class="player__space-between"></div>
 
    <div class="player__main-container">
        <!-- Define the section for displaying track buttons -->
@@ -39,12 +42,19 @@
 
    </div>
 
+    <div class="player__space-between"></div>
+
     <!-- Define the section for displaying the volume slider-->
     <div class="player-slider_container">
-        <img class =" color_this "src="static/svg/Player/music-solid.svg">
+        <div class="player-slider__position">
+            <img class =" color_this "src="static/svg/Player/music-solid.svg">
+        </div>
         <!-- todo Can be bad that not 0 and 100  -->
-        <input type="range" min="1" max="100"
-               value="99" class="player-slider_container__volume-slider js__volume_slider">
-        <i src="/static/svg/Player/music-solid.svg"></i>
+        <div class="player-slider__position">
+            <input type="range" min="1" max="100"
+                   value="99" class="player-slider_container__volume-slider js__volume_slider">
+        </div>
     </div>
+
+    <div class="player__space-start-end"></div>
 </div>
