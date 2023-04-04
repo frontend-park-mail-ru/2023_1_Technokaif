@@ -33,14 +33,15 @@ export class AudioPlayer {
     #play() {
         this.#elements.audio.play();
         this.#isPlaying = true;
-        this.#elements.playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
+        // this.#elements.playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
+        this.#elements.playpause_btn.src = '/static/svg/Player/pause-solid.svg';
     }
 
     /** Stop playing audio */
     #pause() {
         this.#elements.audio.pause();
         this.#isPlaying = false;
-        this.#elements.playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';
+        this.#elements.playpause_btn.src = '/static/svg/Player/play-solid.svg';
     }
 
     /** Toggle between states of playing */
@@ -126,7 +127,7 @@ export class AudioPlayer {
         // todo write APi request
         if (responseFromStore.status !== RESPONSES.OK) {
             // todo сходить за апи и загрузить новую ленту
-            ACtions.
+            // ACtions.
         }
 
         const response = {
@@ -149,6 +150,7 @@ export class AudioPlayer {
         this.#elements.audio.src = response.trackPath;
         this.#elements.audio.load();
 
+        this.#elements.track_art.src = response.track_art;
         this.#elements.track_artist.textContent = response.artist;
         this.#elements.track_name.textContent = response.track_name;
 
