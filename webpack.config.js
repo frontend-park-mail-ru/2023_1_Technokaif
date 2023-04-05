@@ -42,6 +42,7 @@ module.exports = {
     output: {
         filename: '[name].[contenthash].bundle.js',
         path: path.resolve(__dirname, 'dist'),
+        publicPath: '/',
         clean: true,
     },
     module: {
@@ -53,7 +54,7 @@ module.exports = {
             {
                 test: /\.less$/i,
                 use: [
-                // compiles Less to CSS
+                    // compiles Less to CSS
                     'style-loader',
                     'css-loader',
                     'less-loader',

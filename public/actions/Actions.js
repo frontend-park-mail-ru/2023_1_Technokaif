@@ -108,8 +108,8 @@ const Actions = {
     },
 
     /** Add new line to exit one */
-    loadMoreLine(currentTrack) {
-
+    loadMoreLine(requestJSON) {
+        // todo выбирать загрузка трека, альбома
     },
 };
 

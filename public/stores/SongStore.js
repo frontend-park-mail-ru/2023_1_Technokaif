@@ -8,6 +8,9 @@ class SongStore extends IStore {
     /** All ids of songs in current tape */
     #songs;
 
+    /** Position in store */
+    #position;
+
     /** Song volume: 0 - 100 */
     #songVolume;
 
@@ -15,6 +18,7 @@ class SongStore extends IStore {
     constructor() {
         super('SONG_STORE');
         this.#songVolume = 100;
+        this.#position = -1;
         this.#songs = [];
     }
 
@@ -28,7 +32,7 @@ class SongStore extends IStore {
             this.#searchForTrack(action.status);
             break;
         case ActionTypes.UPLOAD_TAPE:
-
+            this.#uploadTape(action.response);
             break;
         case ActionTypes.CHANGE_VOLUME:
             this.#setVolume(action.volume);
@@ -67,6 +71,59 @@ class SongStore extends IStore {
         this.jsEmit(EventTypes.SONG_FOUND, {
             status,
             id: idOfFoundTrack,
+        });
+    }
+
+    /**
+     * JSON with tracks for Store. Upload inside.
+     * @param {JSON} response
+     * @example
+     * [
+     *  {
+     *      "albumID" : 0,
+     *      "albumPositon": 0,
+     *      "artists": [
+     *          {
+     *              "cover": "string,
+     *              "id": 0,
+     *              "name": "string",
+     *          }
+     *      ],
+     *      "cover":"string",
+     *      "id": 0,
+     *      "listens": 0,
+     *      "name": "string",
+     *      "record": "string",
+     *  }
+     * ]
+     * @return {JSON}
+     * @example
+     * {
+     *     "status": string,
+     *     "cover":"string",
+     *      "id": 0,
+     *      "listens": 0,
+     *      "name": "string",
+     *      "record": "string",
+     *      "artists": [
+     *          {
+     *              "cover": "string,
+     *              "id": 0,
+     *              "name": "string",
+     *          }
+     *      ],
+     * }
+     */
+    #uploadTape(response) {
+        this.#position = 0;
+        this.#songs = response;
+
+        this.jsEmit(EventTypes.SONG_FOUND, {
+            status: RESPONSES.OK,
+            artists: this.#songs[0].artists,
+            name: this.#songs[0].name,
+            record: this.#songs[0].record,
+            cover: this.#songs[0].cover,
         });
     }
 }

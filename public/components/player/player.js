@@ -2,6 +2,8 @@ import Actions from '../../actions/Actions';
 import template from './player.handlebars';
 import './player.less';
 import { RESPONSES } from '../../utils/config/config';
+import SongStore from '../../stores/SongStore';
+import { EventTypes } from '../../utils/config/EventTypes';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer {
@@ -28,6 +30,20 @@ export class AudioPlayer {
         this.#lastResponse = {};
         this.#isPlaying = false;
         this.#isRepeat = false;
+
+        // Subscribe player on found songs
+        SongStore.subscribe(
+            this.trackLoading,
+            EventTypes.SONG_FOUND,
+            'player',
+        );
+
+        // Subscribe for change in volume
+        SongStore.subscribe(
+            this.setVolume,
+            EventTypes.VOLUME_CHANGED,
+            'player',
+        );
     }
 
     /** Start playing audio */
@@ -110,6 +126,7 @@ export class AudioPlayer {
         if (!this.#isRepeat) {
             Actions.searchForTrack(whatTrack, '');
         }
+        // todo скорее всего тут будет вызов уже функции, которая ждет данных от SongStore
         this.#setNewTrack(this.#lastResponse);
     }
 
@@ -124,10 +141,14 @@ export class AudioPlayer {
      */
     trackLoading(responseFromStore) {
         const idForNexrTrack = responseFromStore.id;
+        const forRequstJSON = {
+
+        };
+
         // todo write APi request
         if (responseFromStore.status !== RESPONSES.OK) {
             // todo сходить за апи и загрузить новую ленту
-            // ACtions.
+            Actions.loadMoreLine(forRequstJSON);
         }
 
         const response = {
@@ -223,8 +244,6 @@ export class AudioPlayer {
         this.#parent.innerHTML += template();
 
         this.#addAllElementsToElements();
-        this.#addReactionOnUser();
-
         this.#addReactionOnUser();
     }
 }
