@@ -1,9 +1,9 @@
 import Actions from '../../actions/Actions';
 import template from './player.handlebars';
 import './player.less';
-import { RESPONSES } from '../../utils/config/config';
 import SongStore from '../../stores/SongStore';
 import { EventTypes } from '../../utils/config/EventTypes';
+import API from '../../stores/API';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer {
@@ -44,6 +44,16 @@ export class AudioPlayer {
             EventTypes.VOLUME_CHANGED,
             'player',
         );
+
+        SongStore.subscribe(
+            this.#tapeLoad,
+            EventTypes.DOWNLOAD_NEW_TAPE,
+        );
+
+        API.subscribe((binaryFile) => {
+            // todo watch for error here
+            this.#loadSong(binaryFile);
+        }, EventTypes.LOAD_TRACK);
     }
 
     /** Start playing audio */
@@ -126,8 +136,6 @@ export class AudioPlayer {
         if (!this.#isRepeat) {
             Actions.searchForTrack(whatTrack, '');
         }
-        // todo скорее всего тут будет вызов уже функции, которая ждет данных от SongStore
-        this.#setNewTrack(this.#lastResponse);
     }
 
     /**
@@ -141,23 +149,49 @@ export class AudioPlayer {
      */
     trackLoading(responseFromStore) {
         const idForNexrTrack = responseFromStore.id;
-        const forRequstJSON = {
 
-        };
+        Actions.downloadTrack(idForNexrTrack);
+        this.#setNewTrack(responseFromStore);
+    }
 
-        // todo write APi request
-        if (responseFromStore.status !== RESPONSES.OK) {
-            // todo сходить за апи и загрузить новую ленту
-            Actions.loadMoreLine(forRequstJSON);
+    /** load song into audio */
+    #loadSong(response) {
+        this.#elements.audio.src = response;
+        this.#play();
+    }
+
+    /**
+     * Load tape of Artist/Albums/Tracks
+     * @param response
+     */
+    #tapeLoad(response) {
+        switch (response.type) {
+        case 'album':
+            if (response.how) {
+                Actions.playAlbum(response.id);
+            } else {
+                Actions.queueAlbum(response.id);
+            }
+
+            break;
+        case 'artist':
+            if (response.how) {
+                Actions.playArtist(response.id);
+            } else {
+                Actions.queueArtist(response.id);
+            }
+
+            break;
+        case 'track':
+            if (response.how) {
+                Actions.playTrack(response.id);
+            } else {
+                Actions.queueTrack(response.id);
+            }
+            break;
+        default:
+            console.warn('On Player not Album/Artist/Track in tapeLoad');
         }
-
-        const response = {
-            trackPath: '',
-            artist: '',
-            track_name: '',
-        };
-        // after API response
-        this.#setNewTrack(response);
     }
 
     /**
@@ -168,12 +202,12 @@ export class AudioPlayer {
         clearInterval(this.#elements.updateTimer);
         this.#resetAllToStart();
 
-        this.#elements.audio.src = response.trackPath;
-        this.#elements.audio.load();
+        // this.#elements.audio.src = response.trackPath;
+        // this.#elements.audio.load();
 
-        this.#elements.track_art.src = response.track_art;
-        this.#elements.track_artist.textContent = response.artist;
-        this.#elements.track_name.textContent = response.track_name;
+        this.#elements.track_art.src = response.cover;
+        this.#elements.track_artist.textContent = response.artists[0].name;
+        this.#elements.track_name.textContent = response.name;
 
         this.#elements.updateTimer = setInterval(this.#seekUpdate, 1000);
         this.#elements.audio.addEventListener('ended', () => this.#loadTrack(1));
@@ -190,7 +224,6 @@ export class AudioPlayer {
 
     /** Set volume to slider option */
     setVolume(volume) {
-        // todo subscribe to SongStore
         this.#elements.audio.volume = volume;
     }
 
@@ -232,8 +265,10 @@ export class AudioPlayer {
         // todo replace img
         if (this.#isRepeat) {
             // repeat off
+            this.#elements.audio.loop = false;
         } else {
             // repeat on
+            this.#elements.audio.loop = true;
         }
 
         this.#isRepeat = !this.#isRepeat;

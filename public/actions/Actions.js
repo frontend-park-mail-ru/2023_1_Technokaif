@@ -109,7 +109,66 @@ const Actions = {
 
     /** Add new line to exit one */
     loadMoreLine(requestJSON) {
-        // todo выбирать загрузка трека, альбома
+        Dispatcher.dispatch({
+            type: ActionTypes.UPLOAD_TAPE,
+            requestJSON,
+        });
+    },
+
+    /** Play track send in SongStore id to play now */
+    playTrack(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.PLAY_TRACK,
+            id,
+        });
+    },
+
+    /** Play album send in SongStore album id to play now */
+    playAlbum(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.PLAY_ALBUM,
+            id,
+        });
+    },
+
+    /** Play artist send in SongStore artist id to play now his tracks (compilation) */
+    playArtist(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.PLAY_ARTIST,
+            id,
+        });
+    },
+
+    /** Queue track send in SongStore id to put in queue */
+    queueTrack(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.QUEUE_TRACK,
+            id,
+        });
+    },
+
+    /** Queue album send in SongStore album id to put in queue */
+    queueAlbum(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.QUEUE_ALBUM,
+            id,
+        });
+    },
+
+    /** Queue artist send in SongStore artist id to put in queue */
+    queueArtist(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.QUEUE_ARTIST,
+            id,
+        });
+    },
+
+    /** Download one track song */
+    downloadTrack(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.DOWNLOAD_TRACK,
+            id,
+        });
     },
 };
 

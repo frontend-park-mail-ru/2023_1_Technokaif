@@ -35,10 +35,24 @@ const ActionTypes = {
 
     /** Song update */
     DOWNLOAD_DIRECTIONAL_TRACK: 'DOWNLOAD_DIRECTIONAL_TRACK',
-    /** todo идёт в обхот СТоры, так как у неё этого точно нет, сразу с сайта */
     DOWNLOAD_TRACK: 'DOWNLOAD_TRACK',
     CHANGE_VOLUME: 'CHANGE_VOLUME',
     UPLOAD_TAPE: 'UPLOAD_TAPE',
+
+    /** Send when clicked on some interactive elements and want to play track now clearing tape */
+    PLAY_TRACK: 'PLAY_TRACK',
+    PLAY_ALBUM: 'PLAY_ALBUM',
+    PLAY_ARTIST: 'PLAY_ARTIST',
+
+    /** Send when clicked on some interactive elements and want to queue track in the end */
+    QUEUE_TRACK: 'QUEUE_TRACK',
+    QUEUE_ALBUM: 'QUEUE_ALBUM',
+    QUEUE_ARTIST: 'QUEUE_ARTIST',
+
+    /** Send when need to download list of tracks from server */
+    LOAD_TRACK: 'LOAD_TRACK',
+    LOAD_ALBUM: 'LOAD_ALBUM',
+    LOAD_ARTIST: 'LOAD_ARTIST',
 };
 
 export default ActionTypes;
