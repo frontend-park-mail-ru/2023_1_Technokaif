@@ -51,7 +51,11 @@ export class ArtistContent extends BaseComponent {
     #renderLines() {
         const linesPlacement = document.querySelector('.artist-items');
         this.#lineConfigs.forEach((configForInsertElement) => {
-            const line = new LineList(linesPlacement, configForInsertElement, componentsNames.ARTIST_LINE_LIST);
+            const line = new LineList(
+                linesPlacement,
+                configForInsertElement,
+                componentsNames.ARTIST_LINE_LIST,
+            );
             line.appendElement();
         });
     }
@@ -62,7 +66,11 @@ export class ArtistContent extends BaseComponent {
     #renderTapes() {
         const tapesPlacement = document.querySelector('.album-list');
         this.#tapeConfigs.forEach((configForInsertElement) => {
-            const tape = new Tape(tapesPlacement, configForInsertElement, componentsNames.ARTIST_TAPE);
+            const tape = new Tape(
+                tapesPlacement,
+                configForInsertElement,
+                componentsNames.ARTIST_TAPE,
+            );
             tape.appendElement();
         });
     }
@@ -97,15 +105,19 @@ export class ArtistContent extends BaseComponent {
             (instance) => {
                 switch (instance) {
                 case 'artist':
+                    // todo Remove const from Switch case
+                    // eslint-disable-next-line no-case-declarations
                     const { artist } = ContentStore.state[pageNames.ARTIST_PAGE];
                     this.#renderCover(artist);
                     break;
                 case 'tracks':
+                    // eslint-disable-next-line no-case-declarations
                     const { tracks } = ContentStore.state[pageNames.ARTIST_PAGE];
                     this.#lineConfigs.push(setupLineList(tracks));
                     this.#renderLines();
                     break;
                 case 'albums':
+                    // eslint-disable-next-line no-case-declarations
                     const { albums } = ContentStore.state[pageNames.ARTIST_PAGE];
                     this.#tapeConfigs.push(setupTape('Albums', albums));
                     this.#renderTapes();

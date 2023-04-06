@@ -42,6 +42,12 @@ const ActionTypes = {
     /** Router usage ActionType for Stores adaptation */
     CHANGE_STORE: 'CHANGE_STORE',
     ID_PROVIDED: 'ID_PROVIDED',
+
+    /** Song update */
+    DOWNLOAD_DIRECTIONAL_TRACK: 'DOWNLOAD_DIRECTIONAL_TRACK',
+    DOWNLOAD_TRACK: 'DOWNLOAD_TRACK',
+    CHANGE_VOLUME: 'CHANGE_VOLUME',
+    UPLOAD_TAPE: 'UPLOAD_TAPE',
 };
 
 export default ActionTypes;

@@ -11,6 +11,9 @@ import { feedArtistsAjax } from '../api/artists/feedArtistsAjaxRequest';
 import { artistAjax } from '../api/artists/artistAjaxRequest';
 import { artistTracksAjax } from '../api/tracks/artistTracksAjaxRequest';
 import { artistAlbumsAjax } from '../api/albums/artistAlbumsAjaxRequest';
+import { trackAjax } from '../api/player/trackRequest';
+import { albumAjax } from '../api/player/album';
+import { trackOneAjax } from '../api/player/track';
 
 /**
  * Class using for getting data from backend.
@@ -51,6 +54,21 @@ class API extends IStore {
             break;
         case ActionTypes.ARTIST_ALBUMS:
             this.#artistAlbumsRequest(action.id);
+            break;
+        case ActionTypes.PLAY_TRACK:
+        case ActionTypes.QUEUE_TRACK:
+            this.#trackRequestFromServer(action.id);
+            break;
+        case ActionTypes.PLAY_ALBUM:
+        case ActionTypes.QUEUE_ALBUM:
+            this.#albumsRequestFromServer(action.id);
+            break;
+        case ActionTypes.PLAY_ARTIST:
+        case ActionTypes.QUEUE_ARTIST:
+            this.#artistRequestFromServer(action.id);
+            break;
+        case ActionTypes.DOWNLOAD_TRACK:
+            this.#downloadTrack(action.id);
             break;
         default:
         }
@@ -121,6 +139,34 @@ class API extends IStore {
     #artistAlbumsRequest(id) {
         artistAlbumsAjax(id).then((albums) => {
             Actions.artistAddContent(albums, 'albums');
+        });
+    }
+
+    /** Download track song to browser */
+    #downloadTrack(id) {
+        trackOneAjax(id).then((track) => {
+            this.jsEmit(EventTypes.LOAD_TRACK, { track });
+        });
+    }
+
+    /** Function to get Tracks from server */
+    #trackRequestFromServer(id) {
+        trackAjax(id).then((tracks) => {
+            Actions.loadMoreLine(tracks);
+        });
+    }
+
+    /** Function to get Albums from server */
+    #albumsRequestFromServer(id) {
+        albumAjax(id).then((tracks) => {
+            Actions.loadMoreLine(tracks);
+        });
+    }
+
+    /** Function to get Artists from server */
+    #artistRequestFromServer(id) {
+        artistAjax(id).then((tracks) => {
+            Actions.loadMoreLine(tracks);
         });
     }
 }

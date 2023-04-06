@@ -91,6 +91,31 @@ const Actions = {
         });
     },
 
+    /** Send action to SongStore and search for needed track */
+    searchForTrack(status, whatTrack) {
+        Dispatcher.dispatch({
+            type: ActionTypes.DOWNLOAD_DIRECTIONAL_TRACK,
+            status,
+            whatTrack,
+        });
+    },
+
+    /** Change volume in Store */
+    volumeChange(volume) {
+        Dispatcher.dispatch({
+            type: ActionTypes.CHANGE_VOLUME,
+            volume,
+        });
+    },
+
+    /** Add new line to exit one */
+    loadMoreLine(requestJSON) {
+        Dispatcher.dispatch({
+            type: ActionTypes.UPLOAD_TAPE,
+            requestJSON,
+        });
+    },
+
     /** Play track send in SongStore id to play now */
     playTrack(id) {
         Dispatcher.dispatch({
@@ -135,6 +160,14 @@ const Actions = {
     queueArtist(id) {
         Dispatcher.dispatch({
             type: ActionTypes.QUEUE_ARTIST,
+            id,
+        });
+    },
+
+    /** Download one track song */
+    downloadTrack(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.DOWNLOAD_TRACK,
             id,
         });
     },

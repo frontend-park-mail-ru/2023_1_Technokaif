@@ -7,12 +7,16 @@ import { componentsNames } from './utils/config/componentsNames';
 import API from './stores/API';
 import UserInfoStore from './stores/UserInfoStore';
 import ContentStore from './stores/ContentStore';
+
+// todo Check why error is here
+// eslint-disable-next-line import/no-named-as-default
 import LoginView from './views/LoginView';
 import RegisterView from './views/RegisterView';
 import ComponentsRenders from './components/ComponentsRenders';
 import Page404View from './views/Page404View';
 import ArtistPageView from './views/ArtistPageView';
 import { routingUrl } from './utils/config/routingUrls';
+import { AudioPlayer } from './components/player/player';
 
 /**
  * Render main page of app
@@ -109,6 +113,10 @@ function renderMainPage() {
     Router.register(routingUrl.PAGE404, () => { Page404View.render(); }, [API, UserInfoStore]);
     Router.registerRouteWithRegEx(`${routingUrl.ARTIST_PAGE_EXP}`, () => { ArtistPageView.render(); }, [API, UserInfoStore]);
     Router.start();
+
+    // todo need to check for login
+    const audio = new AudioPlayer(document.querySelector('body'));
+    audio.render();
 }
 
 renderMainPage();

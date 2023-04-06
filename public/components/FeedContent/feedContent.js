@@ -42,7 +42,11 @@ export class FeedContent extends BaseComponent {
      */
     #renderTapes() {
         this.#configs.forEach((configForInsertElement) => {
-            const tape = new Tape(this.element, configForInsertElement, configForInsertElement.titleText);
+            const tape = new Tape(
+                this.element,
+                configForInsertElement,
+                configForInsertElement.titleText,
+            );
             tape.appendElement();
         });
     }

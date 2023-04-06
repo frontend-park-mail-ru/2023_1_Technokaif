@@ -79,3 +79,9 @@ export const sidebarConfig = {
         logoSrc: '/static/svg/Frame 28likedSongsLogo.svg',
     },
 };
+
+/** RESPONSES between stores and view */
+export const RESPONSES = {
+    OK: 'OK',
+    BAD: 'BAD',
+};

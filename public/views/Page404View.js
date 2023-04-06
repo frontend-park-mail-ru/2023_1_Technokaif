@@ -1,7 +1,6 @@
 import { BaseView } from './BaseView';
 import Actions from '../actions/Actions';
 import { pageNames } from '../utils/config/pageNames';
-import Router from '../router/Router';
 
 /**
  * Class for feed page view.

@@ -8,7 +8,6 @@ import Router from '../router/Router';
 import API from '../stores/API';
 import UserInfoStore from '../stores/UserInfoStore';
 import { componentsNames } from '../utils/config/componentsNames';
-import userInfoStore from '../stores/UserInfoStore';
 
 const METHOD = 'focusout';
 // todo temporary json
@@ -63,7 +62,7 @@ export class LoginView extends BaseView {
      */
     sendAllData(status) {
         if (status === 'OK') {
-            const { login } = userInfoStore.state;
+            const { login } = UserInfoStore.state;
             ApiActions.login(
                 login,
                 document.querySelector(`.${this.#inputsOnView.password}`).value,

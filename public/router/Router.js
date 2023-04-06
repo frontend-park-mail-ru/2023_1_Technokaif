@@ -2,8 +2,6 @@ import IStore from '../stores/IStore';
 import Actions from '../actions/Actions';
 import { authNavConfig, sidebarConfig, unAuthNavConfig } from '../utils/config/config';
 import { routingUrl } from '../utils/config/routingUrls';
-import { artistAjax } from '../api/artists/artistAjaxRequest';
-import { artistTracksAjax } from '../api/tracks/artistTracksAjaxRequest';
 
 /**
  * Class for routing urls in app.
