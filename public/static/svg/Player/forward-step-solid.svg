@@ -1,1 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M52.5 440.6c-9.5 7.9-22.8 9.7-34.1 4.4S0 428.4 0 416V96C0 83.6 7.2 72.3 18.4 67s24.5-3.6 34.1 4.4l192 160L256 241V96c0-17.7 14.3-32 32-32s32 14.3 32 32V416c0 17.7-14.3 32-32 32s-32-14.3-32-32V271l-11.5 9.6-192 160z"/></svg>
+<svg width="320" height="512" viewBox="0 0 320 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M52.5 440.6C43 448.5 29.7 450.3 18.4 445C7.1 439.7 0 428.4 0 416V96C0 83.6 7.2 72.3 18.4 67C29.6 61.7 42.9 63.4 52.5 71.4L244.5 231.4L256 241V96C256 78.3 270.3 64 288 64C305.7 64 320 78.3 320 96V416C320 433.7 305.7 448 288 448C270.3 448 256 433.7 256 416V271L244.5 280.6L52.5 440.6Z" fill="white"/>
+</svg>

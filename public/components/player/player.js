@@ -7,6 +7,9 @@ import API from '../../stores/API';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer {
+    /** Flag to check if track exist in player */
+    #isExist;
+
     /** Flag to set repeat of current track */
     #isRepeat;
 
@@ -31,22 +34,24 @@ export class AudioPlayer {
         this.#isPlaying = false;
         this.#isRepeat = false;
 
+        this.#isExist = false;
+
         // Subscribe player on found songs
         SongStore.subscribe(
-            this.trackLoading,
+            this.trackLoading.bind(this),
             EventTypes.SONG_FOUND,
             'player',
         );
 
         // Subscribe for change in volume
         SongStore.subscribe(
-            this.setVolume,
+            this.setVolume.bind(this),
             EventTypes.VOLUME_CHANGED,
             'player',
         );
 
         SongStore.subscribe(
-            this.#tapeLoad,
+            this.tapeLoad.bind(this),
             EventTypes.DOWNLOAD_NEW_TAPE,
         );
 
@@ -58,16 +63,20 @@ export class AudioPlayer {
 
     /** Start playing audio */
     #play() {
-        this.#elements.audio.play();
-        this.#isPlaying = true;
-        this.#elements.playpause_btn.src = '/static/svg/Player/pause-solid.svg';
+        if (this.#isExist) {
+            this.#elements.audio.play();
+            this.#isPlaying = true;
+            this.#elements.playpause_btnImg.src = '/static/svg/Player/pause-solid.svg';
+        }
     }
 
     /** Stop playing audio */
     #pause() {
-        this.#elements.audio.pause();
-        this.#isPlaying = false;
-        this.#elements.playpause_btn.src = '/static/svg/Player/play-solid.svg';
+        if (this.#isExist) {
+            this.#elements.audio.pause();
+            this.#isPlaying = false;
+            this.#elements.playpause_btnImg.src = '/static/svg/Player/play-solid.svg';
+        }
     }
 
     /** Toggle between states of playing */
@@ -94,11 +103,11 @@ export class AudioPlayer {
             this.toggle();
         });
 
-        elements.seek_slider.addEventListener('onChange', () => {
+        elements.seek_slider.addEventListener('change', () => {
             this.seekTo();
         });
 
-        elements.volume_slider.addEventListener('onChange', () => {
+        elements.volume_slider.addEventListener('input', () => {
             Actions.volumeChange(this.#elements.volume_slider.value / 100);
         });
 
@@ -115,6 +124,7 @@ export class AudioPlayer {
         this.#elements.track_artist = document.querySelector('.js__track-artist');
 
         this.#elements.playpause_btn = document.querySelector('.js__play-pause-track');
+        this.#elements.playpause_btnImg = document.querySelector('.js__play-pause__img');
         this.#elements.next_btn = document.querySelector('.js__next-track');
         this.#elements.prev_btn = document.querySelector('.js__prev-track');
 
@@ -123,6 +133,7 @@ export class AudioPlayer {
         this.#elements.curr_time = document.querySelector('.js__current-time');
         this.#elements.total_duration = document.querySelector('.js__total-duration');
         this.#elements.repeat = document.querySelector('.js__repeat');
+        this.#elements.repeatImg = document.querySelector('.js__repeat__img');
 
         this.#elements.updateTimer = 0;
         this.#elements.audio = document.createElement('audio');
@@ -157,6 +168,7 @@ export class AudioPlayer {
     /** load song into audio */
     #loadSong(response) {
         this.#elements.audio.src = response;
+        this.#isExist = true;
         this.#play();
     }
 
@@ -164,7 +176,7 @@ export class AudioPlayer {
      * Load tape of Artist/Albums/Tracks
      * @param response
      */
-    #tapeLoad(response) {
+    tapeLoad(response) {
         switch (response.type) {
         case 'album':
             if (response.how) {
@@ -202,9 +214,6 @@ export class AudioPlayer {
         clearInterval(this.#elements.updateTimer);
         this.#resetAllToStart();
 
-        // this.#elements.audio.src = response.trackPath;
-        // this.#elements.audio.load();
-
         this.#elements.track_art.src = response.cover;
         this.#elements.track_artist.textContent = response.artists[0].name;
         this.#elements.track_name.textContent = response.name;
@@ -229,8 +238,13 @@ export class AudioPlayer {
 
     /** Calculate line on song */
     seekTo() {
-        this.#elements.audio.currentTime = this.#elements.duration
+        const whereToPlace = this.#elements.duration
             * (this.#elements.seek_slider.value / 100);
+
+        if (Number.isNaN(whereToPlace)) {
+            return;
+        }
+        this.#elements.audio.currentTime = whereToPlace;
     }
 
     /** calculate all times */
@@ -266,9 +280,11 @@ export class AudioPlayer {
         if (this.#isRepeat) {
             // repeat off
             this.#elements.audio.loop = false;
+            this.#elements.repeatImg.src = 'static/svg/Player/arrows-rotate-solid_not_active.svg';
         } else {
             // repeat on
             this.#elements.audio.loop = true;
+            this.#elements.repeatImg.src = 'static/svg/Player/arrows-rotate-solid_active.svg';
         }
 
         this.#isRepeat = !this.#isRepeat;
