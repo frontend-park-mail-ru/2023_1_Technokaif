@@ -31,6 +31,18 @@ class FeedView extends BaseView {
             },
             EventTypes.ON_NOT_RENDERED_ITEMS,
         );
+
+        ContentStore.subscribe(() => {
+            const state = ContentStore.state[pageNames.FEED];
+            const configs = [];
+            for (const key in state) {
+                configs.push(homeSetup(key, state[key]));
+            }
+
+            const componentName = this.#feedComponent.name;
+            const parent = ComponentsStore.checkWhereToPlace(componentName);
+            this.#feedComponent.render(parent, configs);
+        }, EventTypes.CHANGE_CONTENT);
     }
 
     /**

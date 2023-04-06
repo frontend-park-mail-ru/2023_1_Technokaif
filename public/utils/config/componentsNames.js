@@ -11,4 +11,5 @@ export const componentsNames = {
     ARTIST_LIKED_SONGS: 'liked-songs',
     ARTIST_TAPE: 'tape',
     ARTIST_LINE_LIST: 'line-list',
+    USER: 'js__USER',
 };

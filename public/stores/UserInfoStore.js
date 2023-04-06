@@ -87,6 +87,12 @@ class UserInfoStore extends IStore {
             super.changeFieldInState('lastName', value);
             this.#checkName('lastName');
             break;
+        case 'newPassword':
+            this.#getPasswordError(value, 'newPassword', true);
+            break;
+        case 'newConfPassword':
+            this.#getPasswordConfError(value);
+            break;
         case 'validate_register':
             this.#checkForErrorsInRegistration(value);
             break;
@@ -99,6 +105,9 @@ class UserInfoStore extends IStore {
             break;
         case 'log_password':
             this.#getPasswordError(value);
+            break;
+        case 'userPageValidate':
+            this.#checkForUserPage(value);
             break;
         default:
         }
@@ -133,9 +142,10 @@ class UserInfoStore extends IStore {
      * If password correct will emit 'OK' else 'BAD'
      * If field is empty will return 'OK' without loginType flag
      * @param {string} password value to check for error
+     * @param {string} nameOfSpace what signal emit and what field to check
      * @param {boolean} loginType if true will return 'BAD' when empty field
      */
-    #getPasswordError(password, loginType = false) {
+    #getPasswordError(password, nameOfSpace = 'password', loginType = false) {
         let status;
         if (!checkForEmpty(password)) {
             status = getPasswordError(password);
@@ -144,11 +154,23 @@ class UserInfoStore extends IStore {
         }
 
         if (status !== EMPTY_ERROR || loginType) {
-            this.#emitResponse('password', status);
+            this.#emitResponse(nameOfSpace, status);
         }
         if (status === EMPTY_ERROR && !loginType) {
-            this.#emitResponse('password', OK_RESPONSE);
+            this.#emitResponse(nameOfSpace, OK_RESPONSE);
         }
+    }
+
+    /**
+     *
+     * @param {JSON} passwords two fields
+     * @description
+     * newPassword and confPassword
+     *
+     * If equal then emit 'newConfPassword' with 'OK' else 'BAD'
+     */
+    #getPasswordConfError(passwords) {
+        this.#checkIfEquap('newConfPassword', passwords.newPassword, passwords.confPassword);
     }
 
     /**
@@ -403,6 +425,26 @@ class UserInfoStore extends IStore {
     }
 
     /**
+     * Check if firstValue equals secondValue
+     * Emit nameOfField with 'OK' if equal
+     * else emit 'BAD'
+     * @param nameOfField what name will emit
+     * @param firstValue
+     * @param secondValue
+     */
+    #checkIfEquap(nameOfField, firstValue, secondValue) {
+        let status;
+        if (firstValue === secondValue) {
+            status = OK_RESPONSE;
+        } else {
+            status = BAD_RESPONSE;
+        }
+
+        this.#emitResponse(nameOfField, status);
+        return status;
+    }
+
+    /**
      * If status not exist or exist and its value equal 'OK' then it will emit
      * signal with value VALIDATION_RESPONSE, nameOfField, 'OK'
      * Update error state with nameOfField to false
@@ -469,6 +511,51 @@ class UserInfoStore extends IStore {
         let status = OK_RESPONSE;
         for (const errorField in errors) {
             if (errorField !== 'login' && errors[errorField] === true) {
+                status = BAD_RESPONSE;
+            }
+        }
+
+        this.jsEmit(EventTypes.SEND_DATA, status);
+    }
+
+    /**
+     * check if correct input
+     * @param value
+     * email
+     * day
+     * month
+     * year
+     * gender
+     * password
+     * newPassword
+     * newConfPassword
+     */
+    #checkForUserPage(value) {
+        super.changeFieldInState('email', value.email);
+        super.changeFieldInState('day', value.day);
+        super.changeFieldInState('month', value.month);
+        super.changeFieldInState('year', value.year);
+
+        this.#getPasswordError(value.password, 'password', true);
+        this.#getPasswordError(value.newPassword, 'newPassword', true);
+        // todo rewrite this
+        const passwords = {
+            newPassword: value.newPassword,
+            confPassword: value.newConfPassword,
+        };
+        this.#getPasswordConfError(passwords);
+        this.#getDayError(true);
+        this.#getYearError(true);
+        this.#getMonthError(true);
+        this.#getEmailError(true);
+        this.#getSexError(value.gender);
+        this.#checkValueGender();
+
+        const whatToCheck = ['email', 'day', 'month', 'year', 'gender', 'password', 'newPassword', 'newConfPassword'];
+
+        let status = OK_RESPONSE;
+        for (const errorField in whatToCheck) {
+            if (super.state.errors[errorField]) {
                 status = BAD_RESPONSE;
             }
         }

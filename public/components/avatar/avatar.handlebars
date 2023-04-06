@@ -7,11 +7,18 @@
     <div class="{{divBetweenElements}}"></div>
     <div class="{{textClassDiv}}">
         <p class="{{textClass}}">{{text}}</p>
+        {{#if divSmallText}}
+            <div class="{{divBetweenTexts}}"></div>
+            <div class="{{divSmallText}}">
+                <p class="{{smallTextClass}}">{{smallText}}</p>
+            </div>
+        {{/if}}
     </div>
     <div class="{{divBetweenElements}}"></div>
 
-    {{#if arrowClassDiv}}}
+    {{#if arrowClassDiv}}
         <div class="{{arrowClassDiv}}">
         </div>
+        <div class="{{divBetweenElements}}"></div>
     {{/if}}
 </div>

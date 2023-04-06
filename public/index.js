@@ -18,6 +18,7 @@ import ArtistPageView from './views/ArtistPageView';
 import { routingUrl } from './utils/config/routingUrls';
 import { AudioPlayer } from './components/player/player';
 import { PlayerDummy } from './components/playerDummy/playerDummy';
+import UserView from './views/UserView';
 
 /**
  * Render main page of app
@@ -105,6 +106,11 @@ function renderMainPage() {
                 render: ComponentsRenders.renderArtistContent,
                 unrender: ComponentsRenders.unrenderArtistContent,
             },
+            {
+                name: componentsNames.USER,
+                render: ComponentsRenders.renderUserPage,
+                unrender: ComponentsRenders.unrenderUserPage,
+            },
         ],
     );
 
@@ -113,6 +119,8 @@ function renderMainPage() {
     Router.register(routingUrl.REGISTER, () => { RegisterView.render(); }, [API, UserInfoStore]);
     Router.register(routingUrl.PAGE404, () => { Page404View.render(); }, [API, UserInfoStore]);
     Router.registerRouteWithRegEx(`${routingUrl.ARTIST_PAGE_EXP}`, () => { ArtistPageView.render(); }, [API, UserInfoStore]);
+    Router.registerRouteWithRegEx(`${routingUrl.PROFILE}`, () => { UserView.render(); }, [API, UserInfoStore]);
+
     Router.start();
 
     // todo need to check for login

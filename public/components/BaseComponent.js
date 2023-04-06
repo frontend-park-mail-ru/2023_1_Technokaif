@@ -85,6 +85,7 @@ export class BaseComponent {
     render() {
         this.#subscribeAll();
         this.#parent.innerHTML = this.#template(this.#config);
+        // todo тут были внесены изменения
         this.#element = document.querySelector(`.${this.name}`);
     }
 
@@ -99,6 +100,7 @@ export class BaseComponent {
      * UnRender component
      */
     unRender() {
+        // todo тут были внесены изменения
         this.#parent.removeChild(this.#element);
     }
 

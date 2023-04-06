@@ -4,4 +4,5 @@ export const pageNames = {
     REGISTER: 'REGISTER',
     PAGE404: 'PAGE404',
     ARTIST_PAGE: 'ARTIST',
+    USER: 'USER',
 };

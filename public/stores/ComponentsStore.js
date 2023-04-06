@@ -70,6 +70,7 @@ class ComponentsStore extends IStore {
         case componentsNames.FEED_CONTENT:
         case componentsNames.ARTIST_CONTENT:
             return document.querySelector(`.${componentsJSNames.MAIN}`);
+        case componentsNames.USER:
         case componentsNames.LOGIN_FORM:
         case componentsNames.REGISTER_FORM:
         case componentsNames.PAGE404:

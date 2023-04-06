@@ -24,11 +24,11 @@ export function logFormSetup() {
         inputs: [
             {
                 divBeforeInput: CLASS.divBeforeInput,
-                typeOfInput: 'text',
+                typeOfInput: 'login',
                 nameOfField: 'login',
                 labelClass: 'input-block__label',
-                labelText: 'Login:',
-                placeholder: 'Your username or email',
+                labelText: 'Your email address:',
+                placeholder: 'Your email',
                 classInp: CLASS.classInp,
                 id: ID_LOG.login,
                 errorDiv: CLASS.errorDiv,
