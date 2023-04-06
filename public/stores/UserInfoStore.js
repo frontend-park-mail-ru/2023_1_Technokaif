@@ -169,8 +169,8 @@ class UserInfoStore extends IStore {
      *
      * If equal then emit 'newConfPassword' with 'OK' else 'BAD'
      */
-    #getPasswordConfError(passwords) {
-        this.#checkIfEquap('newConfPassword', passwords.newPassword, passwords.confPassword);
+    #getPasswordConfError(password, confPassword) {
+        this.#checkIfEquap('newConfPassword', password, confPassword);
     }
 
     /**
@@ -532,22 +532,20 @@ class UserInfoStore extends IStore {
      */
     #checkForUserPage(value) {
         super.changeFieldInState('email', value.email);
+        super.changeFieldInState('confEmail', value.email);
         super.changeFieldInState('day', value.day);
         super.changeFieldInState('month', value.month);
         super.changeFieldInState('year', value.year);
 
         this.#getPasswordError(value.password, 'password', true);
         this.#getPasswordError(value.newPassword, 'newPassword', true);
-        // todo rewrite this
-        const passwords = {
-            newPassword: value.newPassword,
-            confPassword: value.newConfPassword,
-        };
-        this.#getPasswordConfError(passwords);
+        this.#getPasswordConfError(value.newPassword, value.newConfPassword);
+
         this.#getDayError(true);
         this.#getYearError(true);
         this.#getMonthError(true);
         this.#getEmailError(true);
+
         this.#getSexError(value.gender);
         this.#checkValueGender();
 
@@ -560,6 +558,7 @@ class UserInfoStore extends IStore {
             }
         }
 
+        super.changeFieldInState('confEmail', '');
         this.jsEmit(EventTypes.SEND_DATA, status);
     }
 }

@@ -1,19 +1,19 @@
 import { checkAuth } from '../utils/functions/checkAuth';
 import { authNavConfig, sidebarConfig, unAuthNavConfig } from '../utils/config/config';
-import Navbar from './Navbar/Navbar';
-import Menu from './Menu/Menu';
-import { FeedContent } from './FeedContent/feedContent';
-import { Form } from './form/form';
+import Navbar from './bigComponents/Navbar/Navbar';
+import Menu from './bigComponents/Menu/Menu';
+import { FeedContent } from './bigComponents/FeedContent/feedContent';
+import { Form } from './bigComponents/form/form';
 import { logFormSetup } from '../utils/setup/loginSetup';
 import { dateSetup, regFormSetup, sexSetup } from '../utils/setup/registrationSetup';
 import { componentsJSNames } from '../utils/config/componentsJSNames';
-import { HeaderWithButton } from './HeaderWithButton/headerWithButton';
+import { HeaderWithButton } from './smallComponents/HeaderWithButton/headerWithButton';
 import { page404Setup } from '../utils/setup/page404Setup';
 import { componentsNames } from '../utils/config/componentsNames';
-import { ArtistContent } from './ArtistContent/artistContent';
+import { ArtistContent } from './smallComponents/ArtistContent/artistContent';
 import { setupArtistContent } from '../utils/setup/artistSetup';
 import { userSetup } from '../utils/setup/userSetup';
-import { User } from './userComponent/user';
+import { User } from './bigComponents/userComponent/user';
 
 /**
  * Class for components renders functions.

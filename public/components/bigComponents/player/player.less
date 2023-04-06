@@ -1,0 +1,100 @@
+@import '../../../static/css/constants.less';
+
+.player {
+  background: @opposed-main-color;
+  display: flex;
+  color: @main-color;
+  flex-direction: row;
+  position: fixed;
+  left: 0px;
+  bottom: 10px;
+}
+
+.details {
+  display: flex;
+  margin-left: 20px;
+
+}
+
+
+.details__group-track-info {
+  flex-direction: column;
+  display: flex;
+}
+
+.player__main-container {
+
+}
+
+.details__img-div {
+  width: 50px;
+  margin-right: 5px;
+}
+
+.details__img {
+  width: 100%;
+  height: 50px;
+  object-fit: cover;
+  border-radius: @small-radius;
+}
+
+.track-name {
+  font-size: @font-input-element;
+  font-weight: @chars-weight;
+  color: @main-color;
+}
+
+.track-artist {
+  font-size: @artist-name-font;
+  font-weight: @chars-weight;
+  color: @shadow-color;
+}
+
+.player-slider_container {
+  display: flex;
+}
+
+.player-slider__seek-slider::-webkit-progress-bar {
+  background-color: @shadow-color;
+}
+
+.player__main-container{
+  flex-direction: column;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+
+}
+
+.player-buttons{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+
+.color_this {
+  height: 20px;
+  width: 20px;
+}
+
+.player-slider__seek-slider {
+  width: 400px;
+}
+
+.player-slider__position {
+  margin-right: 5px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+.player__space-start-end {
+  width: 40px;
+}
+
+.player__space-between {
+  width: 300px;
+}
+

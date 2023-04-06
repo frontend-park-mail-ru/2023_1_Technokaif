@@ -42,4 +42,5 @@ module.exports = {
         }],
         'no-console': ['error', { allow: ['error', 'warn'] }],
     },
+
 };

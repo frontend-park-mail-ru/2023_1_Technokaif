@@ -12,4 +12,5 @@ export const componentsNames = {
     ARTIST_TAPE: 'tape',
     ARTIST_LINE_LIST: 'line-list',
     USER: 'js__USER',
+    PLAYER: 'js__player',
 };

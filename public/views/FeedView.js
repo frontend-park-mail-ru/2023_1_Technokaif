@@ -4,6 +4,7 @@ import Actions from '../actions/Actions';
 import { pageNames } from '../utils/config/pageNames';
 import { EventTypes } from '../utils/config/EventTypes';
 import { componentsNames } from '../utils/config/componentsNames';
+import ContentStore from '../stores/ContentStore';
 
 /**
  * Class for feed page view.

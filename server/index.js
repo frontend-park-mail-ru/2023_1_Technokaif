@@ -1,3 +1,8 @@
+// todo Think about deletion of this file
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/order */
+
 const express = require('express');
 const body = require('body-parser');
 const cookie = require('cookie-parser');

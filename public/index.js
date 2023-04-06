@@ -16,8 +16,11 @@ import ComponentsRenders from './components/ComponentsRenders';
 import Page404View from './views/Page404View';
 import ArtistPageView from './views/ArtistPageView';
 import { routingUrl } from './utils/config/routingUrls';
-import { AudioPlayer } from './components/player/player';
-import { PlayerDummy } from './components/playerDummy/playerDummy';
+// import { AudioPlayer } from './components/player/player';
+import { PlayerDummy } from './components/bigComponents/playerDummy/playerDummy';
+
+// todo Change import
+// eslint-disable-next-line import/no-named-as-default
 import UserView from './views/UserView';
 
 /**
