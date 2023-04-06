@@ -48,11 +48,6 @@ const ActionTypes = {
     QUEUE_TRACK: 'QUEUE_TRACK',
     QUEUE_ALBUM: 'QUEUE_ALBUM',
     QUEUE_ARTIST: 'QUEUE_ARTIST',
-
-    /** Send when need to download list of tracks from server */
-    LOAD_TRACK: 'LOAD_TRACK',
-    LOAD_ALBUM: 'LOAD_ALBUM',
-    LOAD_ARTIST: 'LOAD_ARTIST',
 };
 
 export default ActionTypes;
