@@ -40,24 +40,21 @@ export function setupArtistContent() {
  * Setup line of track
  * @returns {{json}}
  */
-export function setupLineList() {
+export function setupLineList(items) {
     return {
         lineListClass: 'line-list',
         title: 'popular-tracks-title',
         titleText: 'Popular tracks',
-    };
-}
 
-/**
- * Setup list of tracks
- * @returns {{json}}
- */
-export function setupList() {
-    return {
+        lineDiv: 'track-line',
+        lineIndex: 'track-line__index',
+        lineBlock: 'track-line__block',
         lineCover: 'track-line__cover',
         lineTitle: 'track-line__title',
         lineListens: 'track-line__listens',
         lineDuration: 'track-line__duration',
+
+        content: items,
     };
 }
 
@@ -78,35 +75,28 @@ export function setupLikedSongs(artist) {
     };
 }
 
-// We have to place data inside some configs in ArtistContent
-// or
-// change logic with root = ../. in tape handlebars and place there.
 /**
- * Setup
+ * Setup tapes
  * @returns {{json}}
  */
-export function setupTape(/** title and items */) {
+export function setupTape(title, items) {
     return {
         tapeDiv: 'tape',
         titleMainDivClass: 'tape__title',
         titleOfTrackClass: '',
-        titleText: title,
         fullListClass: 'tape__show-text',
         fullListText: 'Show all',
-
         contentDivClass: 'tape__components',
         coverMainClass: 'component',
         imgDiv: 'component__img-div',
         imgClass: 'component__img',
-
         titleTextDiv: 'component__title',
-
         descriptionDiv: 'component__description',
-
         footerMainDiv: '',
         footerElementDiv: 'component__description',
         footerElements: 'artists',
 
+        titleText: title,
         content: items,
     };
 }

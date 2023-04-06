@@ -122,6 +122,8 @@ export default class EventEmitter {
 
         p.then(() => {
             this.#generalEvents.filter((ev) => ev !== event);
+        }).catch(() => {
+            this.#generalEvents.filter((ev) => ev !== event);
         });
     }
 }

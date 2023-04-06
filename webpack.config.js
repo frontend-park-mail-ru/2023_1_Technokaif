@@ -42,6 +42,7 @@ module.exports = {
     output: {
         filename: '[name].[contenthash].bundle.js',
         path: path.resolve(__dirname, 'dist'),
+        publicPath: '/',
         clean: true,
     },
     module: {
@@ -68,6 +69,9 @@ module.exports = {
     resolve: {
         alias: {
             handlebars: 'handlebars/dist/handlebars.min.js',
+        },
+        fallback: {
+            path: require.resolve('path-browserify'),
         },
     },
 };

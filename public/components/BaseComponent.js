@@ -1,3 +1,8 @@
+import ComponentsStore from '../stores/ComponentsStore';
+import Actions from '../actions/Actions';
+import unsubscribeFromAllStoresOnComponent from '../utils/functions/unsubscribeFromAllStores';
+import { EventTypes } from '../utils/config/EventTypes';
+
 /**
  * Base Component class to handle render functions.
  */
@@ -61,7 +66,17 @@ export class BaseComponent {
      * Subscribe there on all general events
      */
     #subscribeAll() {
-
+        ComponentsStore.subscribe(
+            (list) => {
+                const component = list.filter((comp) => comp.name === this.name);
+                if (component.length !== 0) {
+                    Actions.removeElementFromPage(component.name);
+                    unsubscribeFromAllStoresOnComponent(this.name);
+                    this.unRender();
+                }
+            },
+            EventTypes.ON_REMOVE_ANOTHER_ITEMS,
+        );
     }
 
     /**

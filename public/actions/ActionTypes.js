@@ -29,6 +29,16 @@ const ActionTypes = {
     ARTIST_GOT_ALL_CONTENT: 'ARTIST_GOT_ALL_CONTENT',
     FEED_ALL_CONTENT_RECEIVED: 'FEED_ALL_CONTENT_RECEIVED',
 
+    /** Send when clicked on some interactive elements and want to play track now clearing tape */
+    PLAY_TRACK: 'PLAY_TRACK',
+    PLAY_ALBUM: 'PLAY_ALBUM',
+    PLAY_ARTIST: 'PLAY_ARTIST',
+
+    /** Send when clicked on some interactive elements and want to queue track in the end */
+    QUEUE_TRACK: 'QUEUE_TRACK',
+    QUEUE_ALBUM: 'QUEUE_ALBUM',
+    QUEUE_ARTIST: 'QUEUE_ARTIST',
+
     /** Router usage ActionType for Stores adaptation */
     CHANGE_STORE: 'CHANGE_STORE',
     ID_PROVIDED: 'ID_PROVIDED',

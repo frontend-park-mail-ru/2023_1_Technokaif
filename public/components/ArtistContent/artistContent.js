@@ -12,7 +12,7 @@ import ApiActions from '../../actions/ApiActions';
 import { pageNames } from '../../utils/config/pageNames';
 import { ArtistCover } from '../ArtistCover/artistCover';
 import { componentsJSNames } from '../../utils/config/componentsJSNames';
-import { setupArtistCover } from '../../utils/setup/artistSetup';
+import { setupArtistCover, setupLineList, setupTape } from '../../utils/setup/artistSetup';
 
 /**
  * Create Artist content
@@ -39,19 +39,20 @@ export class ArtistContent extends BaseComponent {
      * @param config
      */
     constructor(parent, config) {
-        super(parent, config, templateHtml, componentsNames.ARTIST_CONTENT);
+        super(parent, config, templateHtml, pageNames.ARTIST_PAGE);
         this.#parent = parent;
         this.#tapeConfigs = [];
+        this.#lineConfigs = [];
     }
 
     /**
      * Function to render track lines by input configs.
      */
-    #renderLines(configs) {
-        configs.forEach((configForInsertElement) => {
-            const line = new LineList(this.#parent, configForInsertElement);
-
-            this.#parent.innerHTML += line.HTML();
+    #renderLines() {
+        const linesPlacement = document.querySelector('.artist-items');
+        this.#lineConfigs.forEach((configForInsertElement) => {
+            const line = new LineList(linesPlacement, configForInsertElement, componentsNames.ARTIST_LINE_LIST);
+            line.appendElement();
         });
     }
 
@@ -59,9 +60,10 @@ export class ArtistContent extends BaseComponent {
      * Function to render tapes for albums
      */
     #renderTapes() {
+        const tapesPlacement = document.querySelector('.album-list');
         this.#tapeConfigs.forEach((configForInsertElement) => {
-            const tape = new Tape(this.#parent, configForInsertElement);
-            this.#parent.innerHTML += tape.HTML();
+            const tape = new Tape(tapesPlacement, configForInsertElement, componentsNames.ARTIST_TAPE);
+            tape.appendElement();
         });
     }
 
@@ -82,15 +84,34 @@ export class ArtistContent extends BaseComponent {
         ContentStore.subscribe(
             () => {
                 const { id } = ContentStore.state[this.name];
-                ApiActions.artist(id);
+                if (id !== undefined) {
+                    ApiActions.artist(id);
+                    ApiActions.artistTracks(id);
+                    ApiActions.artistAlbums(id);
+                }
             },
             EventTypes.ID_GOT,
             this.name,
         );
         API.subscribe(
-            () => {
-                const { artist } = ContentStore.state[pageNames.ARTIST_PAGE];
-                this.#renderCover(artist);
+            (instance) => {
+                switch (instance) {
+                case 'artist':
+                    const { artist } = ContentStore.state[pageNames.ARTIST_PAGE];
+                    this.#renderCover(artist);
+                    break;
+                case 'tracks':
+                    const { tracks } = ContentStore.state[pageNames.ARTIST_PAGE];
+                    this.#lineConfigs.push(setupLineList(tracks));
+                    this.#renderLines();
+                    break;
+                case 'albums':
+                    const { albums } = ContentStore.state[pageNames.ARTIST_PAGE];
+                    this.#tapeConfigs.push(setupTape('Albums', albums));
+                    this.#renderTapes();
+                    break;
+                default:
+                }
             },
             EventTypes.ARTIST_CONTENT_DONE,
             this.name,

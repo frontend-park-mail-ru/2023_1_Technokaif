@@ -59,10 +59,11 @@ const Actions = {
     },
 
     /** Action to add items got from artist api in ContentStore */
-    artistAddContent(artist) {
+    artistAddContent(item, instance) {
         Dispatcher.dispatch({
             type: ActionTypes.ARTIST_GOT_ALL_CONTENT,
-            artist,
+            item,
+            instance,
         });
     },
 
@@ -87,6 +88,54 @@ const Actions = {
             type: ActionTypes.ID_PROVIDED,
             id,
             nameOfPage,
+        });
+    },
+
+    /** Play track send in SongStore id to play now */
+    playTrack(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.PLAY_TRACK,
+            id,
+        });
+    },
+
+    /** Play album send in SongStore album id to play now */
+    playAlbum(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.PLAY_ALBUM,
+            id,
+        });
+    },
+
+    /** Play artist send in SongStore artist id to play now his tracks (compilation) */
+    playArtist(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.PLAY_ARTIST,
+            id,
+        });
+    },
+
+    /** Queue track send in SongStore id to put in queue */
+    queueTrack(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.QUEUE_TRACK,
+            id,
+        });
+    },
+
+    /** Queue album send in SongStore album id to put in queue */
+    queueAlbum(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.QUEUE_ALBUM,
+            id,
+        });
+    },
+
+    /** Queue artist send in SongStore artist id to put in queue */
+    queueArtist(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.QUEUE_ARTIST,
+            id,
         });
     },
 };

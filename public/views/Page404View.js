@@ -8,32 +8,10 @@ import Router from '../router/Router';
  */
 class Page404View extends BaseView {
     /**
-     * A variable to save feed component beyond two events - render and api request
-     */
-    #feedComponent;
-
-    /**
      * Constructor for Page404View.
      */
     constructor() {
         super(pageNames.PAGE404);
-    }
-
-    /**
-     * Function to subscribe Routing links to feed by logo and button
-     */
-    #subscribeComponents() {
-        const header = document.querySelector('.header');
-        header.addEventListener('click', (event) => {
-            event.preventDefault();
-            Router.go('/');
-        });
-
-        const button = document.querySelector('.primary');
-        button.addEventListener('click', (event) => {
-            event.preventDefault();
-            Router.go('/');
-        });
     }
 
     /**
@@ -42,7 +20,6 @@ class Page404View extends BaseView {
     render() {
         super.render();
         Actions.whatRender(super.name);
-        this.#subscribeComponents();
     }
 }
 

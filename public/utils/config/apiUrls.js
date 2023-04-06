@@ -7,6 +7,9 @@ export const apiUrl = {
     TRACK_API: '/api/tracks/',
     ALBUM_API: '/api/albums/',
 
+    ARTIST_TRACKS_API: (id) => `/api/artists/${id}/tracks`,
+    ARTIST_ALBUMS_API: (id) => `/api/artists/${id}/albums`,
+
     AUTH: '/api/auth/signup',
     LOGIN: '/api/auth/login',
     LOGOUT: '/api/auth/logout',

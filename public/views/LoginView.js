@@ -7,7 +7,8 @@ import ApiActions from '../actions/ApiActions';
 import Router from '../router/Router';
 import API from '../stores/API';
 import UserInfoStore from '../stores/UserInfoStore';
-import ComponentsStore from '../stores/ComponentsStore';
+import { componentsNames } from '../utils/config/componentsNames';
+import userInfoStore from '../stores/UserInfoStore';
 
 const METHOD = 'focusout';
 // todo temporary json
@@ -90,16 +91,19 @@ export class LoginView extends BaseView {
         UserInfoStore.subscribe(
             (name, status) => { this.dispatchErrors(name, status); },
             EventTypes.VALIDATION_RESPONSE,
+            componentsNames.LOGIN_FORM,
         );
         UserInfoStore.subscribe(
             (status) => { this.sendAllData(status); },
             EventTypes.SEND_DATA,
+            componentsNames.LOGIN_FORM,
         );
         API.subscribe(
             (message) => {
                 this.#handleLoginResponse(message);
             },
             EventTypes.LOGIN_STATUS,
+            componentsNames.LOGIN_FORM,
         );
     }
 
@@ -155,9 +159,6 @@ export class LoginView extends BaseView {
      * Render all view by components.
      */
     render() {
-        ComponentsStore.unsubscribeAll();
-        UserInfoStore.unsubscribeAll();
-        API.unsubscribeAll();
         super.render();
         Actions.whatRender(super.name);
 

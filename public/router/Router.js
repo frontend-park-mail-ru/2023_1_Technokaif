@@ -2,6 +2,8 @@ import IStore from '../stores/IStore';
 import Actions from '../actions/Actions';
 import { authNavConfig, sidebarConfig, unAuthNavConfig } from '../utils/config/config';
 import { routingUrl } from '../utils/config/routingUrls';
+import { artistAjax } from '../api/artists/artistAjaxRequest';
+import { artistTracksAjax } from '../api/tracks/artistTracksAjaxRequest';
 
 /**
  * Class for routing urls in app.
@@ -110,10 +112,10 @@ class Router extends IStore {
                 if (regex.test(path)) {
                     const result = path.match(routingUrl.GENERAL_REG_EXP);
                     if (result !== null) {
-                        const [, id, page] = result;
+                        const [, page, id] = result;
                         const stateStore = [];
-                        for (const state in object.store) {
-                            stateStore.push(object.store[state].state);
+                        for (const state in regExObj.store) {
+                            stateStore.push(regExObj.store[state].state);
                         }
 
                         this.#currentLen = window.history.length;
@@ -122,7 +124,7 @@ class Router extends IStore {
                         }, '', path);
 
                         routeWithRegExpFound = true;
-                        object.render();
+                        regExObj.render();
                         Actions.sendId(id, page);
                     }
                 }

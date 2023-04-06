@@ -8,7 +8,7 @@ import Router from '../router/Router';
 import { getCheckedValueRadioButtons } from '../utils/functions/utils';
 import ApiActions from '../actions/ApiActions';
 import API from '../stores/API';
-import ComponentsStore from '../stores/ComponentsStore';
+import { componentsNames } from '../utils/config/componentsNames';
 
 // todo Validate all create func to check
 
@@ -73,10 +73,12 @@ class RegisterView extends BaseView {
         UserInfoStore.subscribe(
             (name, status) => { this.dispatchErrors(name, status); },
             EventTypes.VALIDATION_RESPONSE,
+            componentsNames.REGISTER_FORM,
         );
         UserInfoStore.subscribe(
             (status) => { this.sendAllData(status); },
             EventTypes.SEND_DATA,
+            componentsNames.REGISTER_FORM,
         );
 
         API.subscribe(
@@ -88,12 +90,14 @@ class RegisterView extends BaseView {
                 }
             },
             EventTypes.LOGIN_STATUS,
+            componentsNames.REGISTER_FORM,
         );
         API.subscribe(
             (message) => {
                 this.#loginAfterSuccessRegistration(message);
             },
             EventTypes.REGISTER_STATUS,
+            componentsNames.REGISTER_FORM,
         );
     }
 
@@ -284,13 +288,20 @@ class RegisterView extends BaseView {
     sendAllData(status) {
         if (status === 'OK') {
             const { state } = UserInfoStore;
+            // todo translate logic to store
+            const date = new Date(`${state.month} 1, 2000`);
+            let monthNumber = date.getMonth() + 1;
+            if (monthNumber < 10) {
+                monthNumber = `0${monthNumber}`;
+            }
+
             ApiActions.register({
                 username: state.username,
                 email: state.email,
                 firstName: state.firstName,
                 lastName: state.lastName,
                 sex: state.gender,
-                birthDate: [state.year, state.month, state.day].join('-'),
+                birthDate: [state.year, monthNumber, state.day].join('-'),
                 password: document.querySelector(`.${this.#inputsOnView.password}`).value,
             });
         }
@@ -315,9 +326,6 @@ class RegisterView extends BaseView {
 
     /** Render all view by components. */
     render() {
-        ComponentsStore.unsubscribeAll();
-        UserInfoStore.unsubscribeAll();
-        API.unsubscribeAll();
         super.render();
         Actions.whatRender(super.name);
 

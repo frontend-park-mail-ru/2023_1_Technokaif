@@ -4,15 +4,13 @@ import templateHtml from './feedContent.handlebars';
 import './feedContent.less';
 import ContentStore from '../../stores/ContentStore';
 import { pageNames } from '../../utils/config/pageNames';
-import { homeSetup } from '../../utils/setup/homeSetup';
 import { EventTypes } from '../../utils/config/EventTypes';
 import { BaseComponent } from '../BaseComponent';
 import { componentsNames } from '../../utils/config/componentsNames';
 import Actions from '../../actions/Actions';
 import ApiActions from '../../actions/ApiActions';
 import API from '../../stores/API';
-import ComponentsStore from '../../stores/ComponentsStore';
-import unsubscribeFromAllStoresOnComponent from '../../utils/functions/unsubscribeFromAllStores';
+import { setupTape } from '../../utils/setup/artistSetup';
 
 /**
  * Create FeedContent content with tapes
@@ -44,7 +42,7 @@ export class FeedContent extends BaseComponent {
      */
     #renderTapes() {
         this.#configs.forEach((configForInsertElement) => {
-            const tape = new Tape(this.element, configForInsertElement);
+            const tape = new Tape(this.element, configForInsertElement, configForInsertElement.titleText);
             tape.appendElement();
         });
     }
@@ -53,17 +51,6 @@ export class FeedContent extends BaseComponent {
      * Function to subscribe to all events from Stores
      */
     #addSubscribes() {
-        ComponentsStore.subscribe(
-            (list) => {
-                const component = list.filter((comp) => comp.name === this.name);
-                if (component.length !== 0) {
-                    Actions.removeElementFromPage(component.name);
-                    unsubscribeFromAllStoresOnComponent(this.name);
-                    this.unRender();
-                }
-            },
-            EventTypes.ON_REMOVE_ANOTHER_ITEMS,
-        );
         API.subscribe(
             () => {
                 Actions.feedAllDataReceived();
@@ -74,7 +61,7 @@ export class FeedContent extends BaseComponent {
         ContentStore.subscribe(() => {
             const state = ContentStore.state[pageNames.FEED];
             for (const key in state) {
-                this.#configs.push(homeSetup(key, state[key]));
+                this.#configs.push(setupTape(key, state[key]));
             }
 
             this.#renderTapes();

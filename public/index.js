@@ -81,8 +81,22 @@ function renderMainPage() {
         pageNames.ARTIST_PAGE,
         [
             {
+                name: componentsNames.SIDEBAR,
+                render: ComponentsRenders.renderSidebar,
+                unrender: ComponentsRenders.unrenderSidebar,
+            },
+            {
+                name: componentsNames.MAIN,
+                render: ComponentsRenders.renderMainElement,
+                unrender: ComponentsRenders.unrenderMainElement,
+            },
+            {
+                name: componentsNames.NAVBAR,
+                render: ComponentsRenders.renderNavbar,
+                unrender: ComponentsRenders.unrenderNavbar,
+            },
+            {
                 name: componentsNames.ARTIST_CONTENT,
-                // todo place render
                 render: ComponentsRenders.renderArtistContent,
                 unrender: ComponentsRenders.unrenderArtistContent,
             },

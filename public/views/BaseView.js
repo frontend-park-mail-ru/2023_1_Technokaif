@@ -61,6 +61,7 @@ export class BaseView {
             case componentsNames.LOGIN_FORM:
             case componentsNames.REGISTER_FORM:
             case componentsNames.PAGE404:
+            case componentsNames.ARTIST_CONTENT:
                 component.render(parent);
                 Actions.addElementOnPage(componentName);
                 break;
@@ -83,7 +84,6 @@ export class BaseView {
             case componentsNames.NAVBAR:
             case componentsNames.LOGIN_FORM:
             case componentsNames.REGISTER_FORM:
-            case componentsNames.PAGE404:
                 component.unrender(parent);
                 Actions.removeElementFromPage(componentName);
                 break;

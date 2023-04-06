@@ -9,6 +9,8 @@ import { EventTypes } from '../utils/config/EventTypes';
 import { feedTracksAjax } from '../api/tracks/feedTracksAjaxRequest';
 import { feedArtistsAjax } from '../api/artists/feedArtistsAjaxRequest';
 import { artistAjax } from '../api/artists/artistAjaxRequest';
+import { artistTracksAjax } from '../api/tracks/artistTracksAjaxRequest';
+import { artistAlbumsAjax } from '../api/albums/artistAlbumsAjaxRequest';
 
 /**
  * Class using for getting data from backend.
@@ -43,6 +45,12 @@ class API extends IStore {
             break;
         case ActionTypes.ARTIST:
             this.#artistRequest(action.id);
+            break;
+        case ActionTypes.ARTIST_TRACKS:
+            this.#artistTracksRequest(action.id);
+            break;
+        case ActionTypes.ARTIST_ALBUMS:
+            this.#artistAlbumsRequest(action.id);
             break;
         default:
         }
@@ -94,7 +102,25 @@ class API extends IStore {
      */
     #artistRequest(id) {
         artistAjax(id).then((artist) => {
-            Actions.artistAddContent(artist);
+            Actions.artistAddContent(artist, 'artist');
+        });
+    }
+
+    /**
+     * Function to get an artist tracks from server
+     */
+    #artistTracksRequest(id) {
+        artistTracksAjax(id).then((tracks) => {
+            Actions.artistAddContent(tracks, 'tracks');
+        });
+    }
+
+    /**
+     * Function to get an artist albums from server
+     */
+    #artistAlbumsRequest(id) {
+        artistAlbumsAjax(id).then((albums) => {
+            Actions.artistAddContent(albums, 'albums');
         });
     }
 }

@@ -1,7 +1,7 @@
 <div class="{{mainClass}}">
     <cover class="{{coverName}}">
     </cover>
-    <content class="{{artistContent}}">
+    <content class="artist-content">
         <div class="{{artistPreContent}}">
                 <button type="button" class="{{playButton}}">
                     <img src="{{playButtonSrc}}" class="{{playButtonImg}}">
@@ -9,9 +9,9 @@
 
                 <button type="button" class="{{subscribeButton}}">Subscribe</button>
                 <button type="button" class="{{anotherButton}}">
-                    <img src="{{anotherButtonSrc}}" class="{{#if anotherButtonImg}}
-                        {{anotherButtonImg}}
-                    {{/if}}">
+                    <img src="{{anotherButtonSrc}}" {{#if anotherButtonImg}}
+                    class="{{anotherButtonImg}}"
+                    {{/if}}>
                 </button>
         </div>
         <div class="{{artistItems}}"></div>

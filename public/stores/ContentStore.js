@@ -2,6 +2,7 @@ import ActionTypes from '../actions/ActionTypes';
 import IStore from './IStore';
 import { EventTypes } from '../utils/config/EventTypes';
 import { pageNames } from '../utils/config/pageNames';
+import { instancesNames } from '../utils/config/instances';
 
 // TODO rename file to content
 /**
@@ -45,7 +46,7 @@ class ContentStore extends IStore {
             this.jsEmit(EventTypes.CHANGE_CONTENT);
             break;
         case ActionTypes.ARTIST_GOT_ALL_CONTENT:
-            this.#addContentOnArtistPage(action.artist);
+            this.#addContentOnArtistPage(action.item, action.instance);
             break;
         default:
         }
@@ -57,7 +58,13 @@ class ContentStore extends IStore {
      * @param nameOfPage
      */
     #addCurrentIdOnPageContent(id, nameOfPage) {
-        this.#addContent(nameOfPage, 'id', id);
+        switch (nameOfPage) {
+        case instancesNames.ARTIST_PAGE:
+            this.#addContent(pageNames.ARTIST_PAGE, 'id', id);
+            break;
+        default:
+        }
+
         this.jsEmit(EventTypes.ID_GOT);
     }
 
@@ -72,12 +79,16 @@ class ContentStore extends IStore {
     }
 
     /**
-     * Add artist on Artist page
-     * @param artist
+     * Add item(s) on Artist page
+     *
+     * Artist object OR array of artist tracks OR array of artist albums
+     * @param item
+     * @param instance
      */
-    #addContentOnArtistPage(artist) {
-        this.#addContent(pageNames.ARTIST_PAGE, 'artist', artist);
-        this.jsEmit(EventTypes.ARTIST_CONTENT_DONE);
+    #addContentOnArtistPage(item, instance) {
+        this.#addContent(pageNames.ARTIST_PAGE, instance, item);
+
+        this.jsEmit(EventTypes.ARTIST_CONTENT_DONE, instance);
     }
 
     /**
