@@ -3,8 +3,6 @@ import { authNavConfig, sidebarConfig, unAuthNavConfig } from '../utils/config/c
 import Navbar from './bigComponents/Navbar/Navbar';
 import Menu from './bigComponents/Menu/Menu';
 import { FeedContent } from './bigComponents/FeedContent/feedContent';
-import { Form } from './bigComponents/form/form';
-import { logFormSetup } from '../utils/setup/loginSetup';
 import { componentsJSNames } from '../utils/config/componentsJSNames';
 import { HeaderWithButton } from './smallComponents/HeaderWithButton/headerWithButton';
 import { page404Setup } from '../utils/setup/page404Setup';
@@ -14,6 +12,7 @@ import { setupArtistContent } from '../utils/setup/artistSetup';
 import { userSetup } from '../utils/setup/userSetup';
 import { User } from './bigComponents/userComponent/user';
 import { RegisterComponent } from './bigComponents/registerComponent/registerComponent';
+import { LoginComponent } from './bigComponents/loginComponent/loginComponent';
 
 /**
  * Class for components renders functions.
@@ -117,11 +116,7 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- where to place Sidebar
      */
     renderFormLogin(parent) {
-        const form = new Form(
-            parent,
-            logFormSetup(),
-        );
-
+        const form = new LoginComponent(parent);
         form.render();
     }
 

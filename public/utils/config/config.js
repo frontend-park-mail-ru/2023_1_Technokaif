@@ -89,6 +89,7 @@ export const RESPONSES = {
 export const METHOD = {
     FIELD: 'focusout',
     BUTTON: 'click',
+    FORM: 'submit',
 };
 
 export const ElementsClassForUser = {

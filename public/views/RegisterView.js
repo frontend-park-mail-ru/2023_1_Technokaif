@@ -1,9 +1,9 @@
 import { BaseView } from './BaseView';
 import { pageNames } from '../utils/config/pageNames';
 import Actions from '../actions/Actions';
-import { EventTypes } from '../utils/config/EventTypes';
 import { componentsNames } from '../utils/config/componentsNames';
 import ComponentsStore from '../stores/ComponentsStore';
+import { EventTypes } from '../utils/config/EventTypes';
 
 // todo Validate all create func to check
 

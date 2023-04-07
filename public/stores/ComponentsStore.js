@@ -163,7 +163,6 @@ class ComponentsStore extends IStore {
         if (needToBeDeletedExist.length !== 0) {
             this.jsEmitAndPopListeners(EventTypes.ON_REMOVE_ANOTHER_ITEMS, needToBeDeletedExist);
         }
-
         if (notExist.length !== 0) {
             this.jsEmitAndPopListeners(EventTypes.ON_NOT_RENDERED_ITEMS, notExist);
         }
