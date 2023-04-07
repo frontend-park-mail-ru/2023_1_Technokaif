@@ -1,13 +1,7 @@
 import { BaseView } from './BaseView';
-import { ERRORS_REG } from '../utils/config/errors';
 import { pageNames } from '../utils/config/pageNames';
-import UserInfoStore from '../stores/UserInfoStore';
 import Actions from '../actions/Actions';
 import { EventTypes } from '../utils/config/EventTypes';
-import Router from '../router/Router';
-import { getCheckedValueRadioButtons } from '../utils/functions/utils';
-import ApiActions from '../actions/ApiActions';
-import API from '../stores/API';
 import { componentsNames } from '../utils/config/componentsNames';
 import ComponentsStore from '../stores/ComponentsStore';
 

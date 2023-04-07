@@ -5,7 +5,6 @@ import Menu from './bigComponents/Menu/Menu';
 import { FeedContent } from './bigComponents/FeedContent/feedContent';
 import { Form } from './bigComponents/form/form';
 import { logFormSetup } from '../utils/setup/loginSetup';
-import { dateSetup, regFormSetup, sexSetup } from '../utils/setup/registrationSetup';
 import { componentsJSNames } from '../utils/config/componentsJSNames';
 import { HeaderWithButton } from './smallComponents/HeaderWithButton/headerWithButton';
 import { page404Setup } from '../utils/setup/page404Setup';
@@ -14,6 +13,7 @@ import { ArtistContent } from './smallComponents/ArtistContent/artistContent';
 import { setupArtistContent } from '../utils/setup/artistSetup';
 import { userSetup } from '../utils/setup/userSetup';
 import { User } from './bigComponents/userComponent/user';
+import { RegisterComponent } from './bigComponents/registerComponent/registerComponent';
 
 /**
  * Class for components renders functions.
@@ -138,13 +138,7 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- where to place Sidebar
      */
     renderFormRegister(parent) {
-        const form = new Form(
-            parent,
-            regFormSetup(),
-            sexSetup(),
-            dateSetup(),
-        );
-
+        const form = new RegisterComponent(parent);
         form.render();
     }
 

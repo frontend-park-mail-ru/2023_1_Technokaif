@@ -65,6 +65,7 @@ export class RegisterComponent extends BaseComponent {
     /** Add listeners to fields. */
     #addEventListeners() {
         const email = document.querySelector(`.${ElementsClassForRegister.email}`);
+
         email.addEventListener(METHOD.FIELD, (event) => {
             event.preventDefault();
             Actions.validationField('email', document.querySelector(`.${ElementsClassForRegister.email}`).value);
@@ -319,11 +320,15 @@ export class RegisterComponent extends BaseComponent {
         }
     }
 
+    /** Render component in parent */
     render() {
         super.render();
         this.#renderContent();
 
-        this.#addEventListeners();
-        this.#subscribe();
+        // wait for HTML to render and then addEventListeners to it
+        document.addEventListener('DOMContentLoaded', () => {
+            this.#subscribe();
+            this.#addEventListeners();
+        });
     }
 }
