@@ -62,14 +62,18 @@ export class FeedContent extends BaseComponent {
             EventTypes.FEED_CONTENT_DONE,
             this.name,
         );
-        ContentStore.subscribe(() => {
-            const state = ContentStore.state[pageNames.FEED];
-            for (const key in state) {
-                this.#configs.push(setupTape(key, state[key]));
-            }
+        ContentStore.subscribe(
+            () => {
+                const state = ContentStore.state[pageNames.FEED];
+                for (const key in state) {
+                    this.#configs.push(setupTape(key, state[key]));
+                }
 
-            this.#renderTapes();
-        }, EventTypes.CHANGE_CONTENT);
+                this.#renderTapes();
+            },
+            EventTypes.CHANGE_CONTENT,
+            this.name,
+        );
     }
 
     /**

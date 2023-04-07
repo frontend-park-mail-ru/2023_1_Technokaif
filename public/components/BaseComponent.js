@@ -34,7 +34,7 @@ export class BaseComponent {
 
     /**
      * Create BaseModel. Empty innerHtml before placement
-     * @param {HTMLElement} parent - where to place MainWindowContent
+     * @param {HTMLDocument} parent - where to place MainWindowContent
      * @param name - name of current component
      * @param {Object} config - what config use to compile template
      * @param {function} template - template to create elements
@@ -76,6 +76,7 @@ export class BaseComponent {
                 }
             },
             EventTypes.ON_REMOVE_ANOTHER_ITEMS,
+            this.#name,
         );
     }
 

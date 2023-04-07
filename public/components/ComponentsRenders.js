@@ -7,7 +7,7 @@ import { componentsJSNames } from '../utils/config/componentsJSNames';
 import { HeaderWithButton } from './smallComponents/HeaderWithButton/headerWithButton';
 import { page404Setup } from '../utils/setup/page404Setup';
 import { componentsNames } from '../utils/config/componentsNames';
-import { ArtistContent } from './smallComponents/ArtistContent/artistContent';
+import { ArtistContent } from './bigComponents/ArtistContent/artistContent';
 import { setupArtistContent } from '../utils/setup/artistSetup';
 import { userSetup } from '../utils/setup/userSetup';
 import { User } from './bigComponents/userComponent/user';

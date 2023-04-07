@@ -1,5 +1,11 @@
 import Router from '../../../router/Router';
 import templateHtml from './menu.handlebars';
+import ComponentsStore from '../../../stores/ComponentsStore';
+import { componentsNames } from '../../../utils/config/componentsNames';
+import Actions from '../../../actions/Actions';
+import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
+import { EventTypes } from '../../../utils/config/EventTypes';
+import { componentsJSNames } from '../../../utils/config/componentsJSNames';
 
 /**
  * Class for Menu: Home, Search, Library, Create Playlist, Liked Songs.
@@ -41,6 +47,18 @@ class Menu {
      * add event listener to component. On 'click' redirect to section on dataset
      */
     callEventListener() {
+        ComponentsStore.subscribe(
+            (list) => {
+                const component = list.filter((comp) => comp.name === componentsNames.SIDEBAR);
+                if (component.length !== 0) {
+                    Actions.removeElementFromPage(component.name);
+                    unsubscribeFromAllStoresOnComponent(componentsNames.SIDEBAR);
+                    this.#unRender();
+                }
+            },
+            EventTypes.ON_REMOVE_ANOTHER_ITEMS,
+            componentsNames.NAVBAR,
+        );
         this.#parent.addEventListener('click', (e) => {
             e.preventDefault();
             if (e.target instanceof HTMLAnchorElement) {
@@ -82,6 +100,13 @@ class Menu {
         }
 
         return newcfg;
+    }
+
+    /**
+     * Function to unrender Sidebar component
+     */
+    #unRender() {
+        this.#parent.removeChild(document.querySelector(`.${componentsJSNames.SIDEBAR}`));
     }
 }
 

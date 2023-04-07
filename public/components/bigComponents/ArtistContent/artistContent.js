@@ -1,16 +1,16 @@
 import templateHtml from './artistContent.handlebars';
 import './artistContent.less';
-import { LineList } from '../LineList/lineList';
+import { LineList } from '../../smallComponents/LineList/lineList';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
-import { Tape } from '../../bigComponents/Tape/tape';
+import { Tape } from '../Tape/tape';
 import { EventTypes } from '../../../utils/config/EventTypes';
 import ContentStore from '../../../stores/ContentStore';
 import API from '../../../stores/API';
 import Actions from '../../../actions/Actions';
 import ApiActions from '../../../actions/ApiActions';
 import { pageNames } from '../../../utils/config/pageNames';
-import { ArtistCover } from '../ArtistCover/artistCover';
+import { ArtistCover } from '../../smallComponents/ArtistCover/artistCover';
 import { componentsJSNames } from '../../../utils/config/componentsJSNames';
 import { setupArtistCover, setupLineList, setupTape } from '../../../utils/setup/artistSetup';
 

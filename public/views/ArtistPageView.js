@@ -38,10 +38,6 @@ class ArtistPageView extends BaseView {
             const parent = ComponentsStore.checkWhereToPlace(componentName);
             switch (componentName) {
             case componentsNames.ARTIST_CONTENT:
-            case componentsNames.ARTIST_COVER:
-            case componentsNames.ARTIST_LINE_LIST:
-            case componentsNames.ARTIST_LIKED_SONGS:
-            case componentsNames.ARTIST_TAPE:
                 component.render(parent);
                 break;
             default:

@@ -7,6 +7,9 @@ import API from '../../../stores/API';
 import { checkAuth } from '../../../utils/functions/checkAuth';
 import { authNavConfig, unAuthNavConfig } from '../../../utils/config/config';
 import { componentsJSNames } from '../../../utils/config/componentsJSNames';
+import ComponentsStore from '../../../stores/ComponentsStore';
+import Actions from '../../../actions/Actions';
+import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
 
 /**
  * Class for Navbar element: Login, Registration, Logout and user info.
@@ -49,6 +52,18 @@ class Navbar {
      * then redirect to section in dataset of element
      */
     #callEventListener() {
+        ComponentsStore.subscribe(
+            (list) => {
+                const component = list.filter((comp) => comp.name === componentsNames.NAVBAR);
+                if (component.length !== 0) {
+                    Actions.removeElementFromPage(component.name);
+                    unsubscribeFromAllStoresOnComponent(componentsNames.NAVBAR);
+                    this.#unRender();
+                }
+            },
+            EventTypes.ON_REMOVE_ANOTHER_ITEMS,
+            componentsNames.NAVBAR,
+        );
         API.subscribe(
             (message) => {
                 if (message !== 'OK') {
@@ -59,17 +74,19 @@ class Navbar {
             },
             EventTypes.LOGOUT_STATUS,
         );
-        document.querySelector(`.${componentsJSNames.MAIN}`).addEventListener('click', (e) => {
-            e?.preventDefault?.();
-            if (e.target instanceof HTMLAnchorElement || e.target instanceof HTMLButtonElement) {
-                const { section } = e.target.dataset;
-                if (section === 'logout') {
-                    ApiActions.logout();
-                } else if (Object.keys(this.#config).includes(section)) {
-                    Router.go(this.#config[section].href);
+        document.querySelector(`.${componentsJSNames.MAIN}`)
+            .addEventListener('click', (e) => {
+                e?.preventDefault?.();
+                if (e.target instanceof HTMLAnchorElement || e.target instanceof HTMLButtonElement) {
+                    const { section } = e.target.dataset;
+                    if (section === 'logout') {
+                        ApiActions.logout();
+                    } else if (Object.keys(this.#config)
+                        .includes(section)) {
+                        Router.go(this.#config[section].href);
+                    }
                 }
-            }
-        });
+            });
     }
 
     /**
@@ -123,6 +140,13 @@ class Navbar {
         const templateInnerHtml = template(items);
         const contentHtml = this.#parent.innerHTML;
         this.#parent.innerHTML = (templateInnerHtml + contentHtml);
+    }
+
+    /**
+     * Function to unrender Navbar component
+     */
+    #unRender() {
+        this.#parent.removeChild(document.querySelector(`.${componentsJSNames.NAVBAR}`));
     }
 }
 

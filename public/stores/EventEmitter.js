@@ -93,11 +93,6 @@ export default class EventEmitter {
      * @param args
      */
     jsEmit(event, ...args) {
-        if (this.#generalEvents[event]) {
-            this.#generalEvents[event].forEach((callback) => {
-                callback(...args);
-            });
-        }
         for (const nameOfComponent in this.#events) {
             if (this.#events[nameOfComponent]) {
                 const events = this.#events[nameOfComponent][event];
@@ -117,7 +112,11 @@ export default class EventEmitter {
      */
     jsEmitAndPopListeners(event, ...args) {
         const p = new Promise(() => {
-            this.jsEmit(event, ...args);
+            if (this.#generalEvents[event]) {
+                this.#generalEvents[event].forEach((callback) => {
+                    callback(...args);
+                });
+            }
         });
 
         p.then(() => {

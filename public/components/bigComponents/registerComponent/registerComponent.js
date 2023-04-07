@@ -152,12 +152,12 @@ export class RegisterComponent extends BaseComponent {
                 this.dispatchErrors(name, status);
             },
             EventTypes.VALIDATION_RESPONSE,
-            componentsNames.REGISTER_FORM,
+            this.name,
         );
         UserInfoStore.subscribe(
             (status) => { this.sendAllData(status); },
             EventTypes.SEND_DATA,
-            componentsNames.REGISTER_FORM,
+            this.name,
         );
         API.subscribe(
             (message) => {
@@ -168,14 +168,14 @@ export class RegisterComponent extends BaseComponent {
                 }
             },
             EventTypes.LOGIN_STATUS,
-            componentsNames.REGISTER_FORM,
+            this.name,
         );
         API.subscribe(
             (message) => {
                 this.#loginAfterSuccessRegistration(message);
             },
             EventTypes.REGISTER_STATUS,
-            componentsNames.REGISTER_FORM,
+            this.name,
         );
     }
 

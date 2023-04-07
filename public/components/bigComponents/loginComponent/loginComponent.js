@@ -87,19 +87,19 @@ export class LoginComponent extends BaseComponent {
         UserInfoStore.subscribe(
             (name, status) => { this.dispatchErrors(name, status); },
             EventTypes.VALIDATION_RESPONSE,
-            componentsNames.LOGIN_FORM,
+            this.name,
         );
         UserInfoStore.subscribe(
             (status) => { this.sendAllData(status); },
             EventTypes.SEND_DATA,
-            componentsNames.LOGIN_FORM,
+            this.name,
         );
         API.subscribe(
             (message) => {
                 this.#handleLoginResponse(message);
             },
             EventTypes.LOGIN_STATUS,
-            componentsNames.LOGIN_FORM,
+            this.name,
         );
     }
 

@@ -4,17 +4,11 @@ import Actions from '../actions/Actions';
 import { pageNames } from '../utils/config/pageNames';
 import { EventTypes } from '../utils/config/EventTypes';
 import { componentsNames } from '../utils/config/componentsNames';
-import ContentStore from '../stores/ContentStore';
 
 /**
  * Class for feed page view.
  */
 class FeedView extends BaseView {
-    /**
-     * A variable to save feed component beyond two events - render and api request
-     */
-    #feedComponent;
-
     /**
      * Constructor for feed page view.
      */
@@ -32,18 +26,6 @@ class FeedView extends BaseView {
             },
             EventTypes.ON_NOT_RENDERED_ITEMS,
         );
-
-        ContentStore.subscribe(() => {
-            const state = ContentStore.state[pageNames.FEED];
-            const configs = [];
-            for (const key in state) {
-                configs.push(homeSetup(key, state[key]));
-            }
-
-            const componentName = this.#feedComponent.name;
-            const parent = ComponentsStore.checkWhereToPlace(componentName);
-            this.#feedComponent.render(parent, configs);
-        }, EventTypes.CHANGE_CONTENT);
     }
 
     /**

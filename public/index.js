@@ -109,6 +109,12 @@ function renderMainPage() {
                 render: ComponentsRenders.renderArtistContent,
                 unrender: ComponentsRenders.unrenderArtistContent,
             },
+        ],
+    );
+
+    ComponentsStore.register(
+        pageNames.USER,
+        [
             {
                 name: componentsNames.USER,
                 render: ComponentsRenders.renderUserPage,
@@ -121,8 +127,8 @@ function renderMainPage() {
     Router.register(routingUrl.LOGIN, () => { LoginView.render(); }, [API, UserInfoStore]);
     Router.register(routingUrl.REGISTER, () => { RegisterView.render(); }, [API, UserInfoStore]);
     Router.register(routingUrl.PAGE404, () => { Page404View.render(); }, [API, UserInfoStore]);
+    Router.register(routingUrl.PROFILE, () => { UserView.render(); }, [API, UserInfoStore]);
     Router.registerRouteWithRegEx(`${routingUrl.ARTIST_PAGE_EXP}`, () => { ArtistPageView.render(); }, [API, UserInfoStore]);
-    Router.registerRouteWithRegEx(`${routingUrl.PROFILE}`, () => { UserView.render(); }, [API, UserInfoStore]);
 
     Router.start();
 
