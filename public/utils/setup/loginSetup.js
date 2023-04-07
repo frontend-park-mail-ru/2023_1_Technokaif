@@ -63,5 +63,6 @@ export function logFormSetup() {
         linkHref: '/',
         linkClass: CLASS.link,
         linkText: 'Registration',
+        'bottom-placement': 'not_nul',
     };
 }
