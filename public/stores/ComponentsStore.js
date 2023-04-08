@@ -75,6 +75,8 @@ class ComponentsStore extends IStore {
         case componentsNames.REGISTER_FORM:
         case componentsNames.PAGE404:
             return document.querySelector(`#${componentsJSNames.ROOT}`);
+        case componentsNames.PLAYER:
+            return document.querySelector('#player__placement');
         default:
             console.error('position to place element by name', elementName, 'not found');
             return document.querySelector(`#${componentsJSNames.ROOT}`);

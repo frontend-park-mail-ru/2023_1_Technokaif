@@ -53,6 +53,7 @@ export class BaseView {
             case componentsNames.MAIN:
             case componentsNames.NAVBAR:
             case componentsNames.PAGE404:
+            case componentsNames.PLAYER:
                 component.render(parent);
                 Actions.addElementOnPage(componentName);
                 break;

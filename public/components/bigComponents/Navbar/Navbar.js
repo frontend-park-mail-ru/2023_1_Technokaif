@@ -87,7 +87,8 @@ class Navbar {
         document.querySelector(`.${componentsJSNames.MAIN}`)
             .addEventListener('click', (e) => {
                 e?.preventDefault?.();
-                if (e.target instanceof HTMLAnchorElement || e.target instanceof HTMLButtonElement) {
+                if (e.target instanceof HTMLAnchorElement
+                    || e.target instanceof HTMLButtonElement) {
                     const { section } = e.target.dataset;
                     if (section === 'logout') {
                         ApiActions.logout();

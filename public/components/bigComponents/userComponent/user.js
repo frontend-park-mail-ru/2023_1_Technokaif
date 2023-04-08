@@ -160,6 +160,7 @@ export class User extends BaseComponent {
     /** Add date for fields. Used when open page and need date in forms */
     #addDataToFileds() {
         const values = UserInfoStore.state;
+        console.log;
         // todo create IMG in userstore
         document.querySelector('.user-profile__img').src = values.imgSrc;
 

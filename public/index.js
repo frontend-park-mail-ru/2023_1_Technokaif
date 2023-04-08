@@ -49,6 +49,10 @@ function renderMainPage() {
                 render: ComponentsRenders.renderFeedContent,
                 unrender: ComponentsRenders.unrenderFeedContent,
             },
+            {
+                name: componentsNames.PLAYER,
+                render: ComponentsRenders.renderPlayer,
+            },
         ],
     );
 
@@ -107,6 +111,10 @@ function renderMainPage() {
                 name: componentsNames.ARTIST_CONTENT,
                 render: ComponentsRenders.renderArtistContent,
                 unrender: ComponentsRenders.unrenderArtistContent,
+            },
+            {
+                name: componentsNames.PLAYER,
+                render: ComponentsRenders.renderPlayer,
             },
         ],
     );

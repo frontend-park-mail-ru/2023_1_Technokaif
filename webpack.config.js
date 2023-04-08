@@ -26,6 +26,7 @@ module.exports = {
                 </head>
                 <body>
                     <div id="root"></div>
+                    <div id="player__placement"></div>
                 </body>
                 </html>
             `,
