@@ -13,6 +13,7 @@ import { userSetup } from '../utils/setup/userSetup';
 import { User } from './bigComponents/userComponent/user';
 import { RegisterComponent } from './bigComponents/registerComponent/registerComponent';
 import { LoginComponent } from './bigComponents/loginComponent/loginComponent';
+import { AudioPlayer } from './bigComponents/player/player';
 
 /**
  * Class for components renders functions.
@@ -177,6 +178,12 @@ class ComponentsRenders {
      */
     unrenderUserPage(parent) {
         parent.removeChild(document.querySelector(`.${componentsJSNames.USER}`));
+    }
+
+    /** Render player in parent */
+    renderPlayer(parent) {
+        const player = new AudioPlayer(parent);
+        player.render();
     }
 }
 

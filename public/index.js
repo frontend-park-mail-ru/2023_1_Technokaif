@@ -21,7 +21,6 @@ import { routingUrl } from './utils/config/routingUrls';
 // todo Change import
 // eslint-disable-next-line import/no-named-as-default
 import UserView from './views/UserView';
-import { PlayerDummy } from './components/bigComponents/playerDummy/playerDummy';
 
 /**
  * Render main page of app
@@ -49,6 +48,10 @@ function renderMainPage() {
                 name: componentsNames.FEED_CONTENT,
                 render: ComponentsRenders.renderFeedContent,
                 unrender: ComponentsRenders.unrenderFeedContent,
+            },
+            {
+                name: componentsNames.PLAYER,
+                render: ComponentsRenders.renderPlayer,
             },
         ],
     );
@@ -108,6 +111,10 @@ function renderMainPage() {
                 name: componentsNames.ARTIST_CONTENT,
                 render: ComponentsRenders.renderArtistContent,
                 unrender: ComponentsRenders.unrenderArtistContent,
+            },
+            {
+                name: componentsNames.PLAYER,
+                render: ComponentsRenders.renderPlayer,
             },
         ],
     );

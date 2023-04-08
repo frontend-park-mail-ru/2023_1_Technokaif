@@ -5,9 +5,10 @@ import SongStore from '../../../stores/SongStore';
 import { EventTypes } from '../../../utils/config/EventTypes';
 import API from '../../../stores/API';
 import { componentsNames } from '../../../utils/config/componentsNames';
+import { BaseComponent } from '../../BaseComponent';
 
 /** Class for Audio player view and its creation */
-export class AudioPlayer {
+export class AudioPlayer extends BaseComponent {
     /** Flag to check if track exist in player */
     #isExist;
 
@@ -28,6 +29,7 @@ export class AudioPlayer {
 
     /** Default all fields to empty except parent */
     constructor(parent) {
+        super(parent, [], template, componentsNames.PLAYER);
         this.#parent = parent;
         this.#elements = {};
 
@@ -36,7 +38,10 @@ export class AudioPlayer {
         this.#isRepeat = false;
 
         this.#isExist = false;
+    }
 
+    /** Subscribe Stores */
+    #subscribe() {
         // Subscribe player on found songs
         SongStore.subscribe(
             this.trackLoading.bind(this),
@@ -59,7 +64,7 @@ export class AudioPlayer {
 
         API.subscribe(
             (binaryFile) => {
-            // todo watch for error here
+                // todo watch for error here
                 this.#loadSong(binaryFile);
             },
             EventTypes.LOAD_TRACK,
@@ -298,8 +303,9 @@ export class AudioPlayer {
 
     /** Render player in parent */
     render() {
-        this.#parent.innerHTML += template();
+        super.render();
 
+        this.#subscribe();
         this.#addAllElementsToElements();
         this.#addReactionOnUser();
     }

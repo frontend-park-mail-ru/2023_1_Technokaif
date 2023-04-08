@@ -86,7 +86,7 @@ export class BaseComponent {
     render() {
         this.#subscribeAll();
         this.#parent.innerHTML = this.#template(this.#config);
-        // todo тут были внесены изменения
+        // todo #name
         this.#element = document.querySelector(`.${this.name}`);
     }
 
@@ -94,6 +94,7 @@ export class BaseComponent {
     appendElement() {
         this.#subscribeAll();
         this.#parent.innerHTML += this.#template(this.#config);
+        // todo #name
         this.#element = document.querySelector(`.${this.name}`);
     }
 
