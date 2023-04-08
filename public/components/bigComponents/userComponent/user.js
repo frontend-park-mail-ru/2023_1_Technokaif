@@ -56,8 +56,8 @@ export class User extends BaseComponent {
             const avatar = new Avatar(avatarPlacement, this.#config);
             avatar.render();
 
-            const formLeft = new Form(formsPlacement, this.#config.leftForm, sexSetup(), dateSetup());
-            formLeft.render();
+            const formL = new Form(formsPlacement, this.#config.leftForm, sexSetup(), dateSetup());
+            formL.render();
 
             const formPassword = new Form(formsPlacement, this.#config.passwordForm);
             formPassword.render();
@@ -160,7 +160,6 @@ export class User extends BaseComponent {
     /** Add date for fields. Used when open page and need date in forms */
     #addDataToFileds() {
         const values = UserInfoStore.state;
-        console.log;
         // todo create IMG in userstore
         document.querySelector('.user-profile__img').src = values.imgSrc;
 

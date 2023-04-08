@@ -53,7 +53,7 @@ class UserInfoStore extends IStore {
             if (key === 'birthDate') {
                 const date = new Date(Date.parse(userData[key]));
                 super.changeFieldInState('day', date.getDate());
-                super.changeFieldInState('month', date.getMonth() + 1);
+                super.changeFieldInState('month', date.toLocaleString('default', { month: 'long' }));
                 super.changeFieldInState('year', date.getFullYear());
             } else {
                 super.changeFieldInState(key, userData[key]);

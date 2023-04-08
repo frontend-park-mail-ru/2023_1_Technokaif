@@ -37,6 +37,7 @@ export class LineList extends BaseComponent {
         this.#parent.addEventListener('click', (event) => {
             const line = event.target.closest('.track-line');
             if (lines) {
+                // eslint-disable-next-line no-unused-vars
                 const id = line.getAttribute('data-id');
                 switch (this.#name) {
                 case componentsNames.ARTIST_LINE_LIST:
