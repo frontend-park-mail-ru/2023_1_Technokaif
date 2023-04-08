@@ -160,7 +160,6 @@ export class User extends BaseComponent {
     /** Add date for fields. Used when open page and need date in forms */
     #addDataToFileds() {
         const values = UserInfoStore.state;
-        console.log;
         // todo create IMG in userstore
         document.querySelector('.user-profile__img').src = values.imgSrc;
 
@@ -170,6 +169,28 @@ export class User extends BaseComponent {
         document.querySelector(`.${ElementsClassForUser.day}`).value = values.day;
         document.querySelector(`.${ElementsClassForUser.year}`).value = values.year;
         document.querySelector(`.${ElementsClassForUser.month}`).value = values.month;
+
+        const femaleGender = document.querySelector('#female');
+        const maleGender = document.querySelector('#male');
+        const otherGender = document.querySelector('#dont');
+
+        femaleGender.checked = false;
+        maleGender.checked = false;
+        otherGender.checked = false;
+
+        switch (values.sex) {
+        case 'F':
+            femaleGender.checked = true;
+            break;
+        case 'M':
+            maleGender.checked = true;
+            break;
+        case 'O':
+            otherGender.checked = true;
+            break;
+        default:
+            console.error('Not registered gender');
+        }
     }
 
     /**
