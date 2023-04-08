@@ -4,13 +4,14 @@ import { componentsNames } from '../../../utils/config/componentsNames';
 import templateHtml from './navbar.handlebars';
 import { EventTypes } from '../../../utils/config/EventTypes';
 import API from '../../../stores/API';
-import { checkAuth } from '../../../utils/functions/checkAuth';
 import { authNavConfig, unAuthNavConfig } from '../../../utils/config/config';
 import { componentsJSNames } from '../../../utils/config/componentsJSNames';
 import ComponentsStore from '../../../stores/ComponentsStore';
 import Actions from '../../../actions/Actions';
 import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
-import ComponentsRenders from '../../ComponentsRenders';
+import { checkAuthAjax } from '../../../api/auth/checkAuthAjaxReq';
+import { checkAuth } from '../../../utils/functions/checkAuth';
+import { routingUrl } from '../../../utils/config/routingUrls';
 
 /**
  * Class for Navbar element: Login, Registration, Logout and user info.
@@ -67,7 +68,7 @@ class Navbar {
                     Actions.removeElementFromPage(componentsNames.MAIN);
                     unsubscribeFromAllStoresOnComponent(componentsNames.MAIN);
                     const parent = ComponentsStore.checkWhereToPlace(componentsNames.MAIN);
-                    ComponentsRenders.unrenderMainElement(parent);
+                    parent.removeChild(document.querySelector(`.${componentsJSNames.MAIN}`));
                 }
             },
             EventTypes.ON_REMOVE_ANOTHER_ITEMS,
@@ -91,6 +92,10 @@ class Navbar {
                     || e.target instanceof HTMLButtonElement) {
                     const { section } = e.target.dataset;
                     if (section === 'logout') {
+                        if (window.location.pathname === routingUrl.PROFILE) {
+                            Router.go('/');
+                        }
+
                         ApiActions.logout();
                     } else if (Object.keys(this.#config)
                         .includes(section)) {

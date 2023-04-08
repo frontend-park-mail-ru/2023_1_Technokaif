@@ -21,6 +21,7 @@ import { routingUrl } from './utils/config/routingUrls';
 // todo Change import
 // eslint-disable-next-line import/no-named-as-default
 import UserView from './views/UserView';
+import { checkAuthAjax } from './api/auth/checkAuthAjaxReq';
 
 /**
  * Render main page of app
@@ -32,22 +33,18 @@ function renderMainPage() {
             {
                 name: componentsNames.SIDEBAR,
                 render: ComponentsRenders.renderSidebar,
-                unrender: ComponentsRenders.unrenderSidebar,
             },
             {
                 name: componentsNames.MAIN,
                 render: ComponentsRenders.renderMainElement,
-                unrender: ComponentsRenders.unrenderMainElement,
             },
             {
                 name: componentsNames.NAVBAR,
                 render: ComponentsRenders.renderNavbar,
-                unrender: ComponentsRenders.unrenderNavbar,
             },
             {
                 name: componentsNames.FEED_CONTENT,
                 render: ComponentsRenders.renderFeedContent,
-                unrender: ComponentsRenders.unrenderFeedContent,
             },
             {
                 name: componentsNames.PLAYER,
@@ -62,7 +59,6 @@ function renderMainPage() {
             {
                 name: componentsNames.LOGIN_FORM,
                 render: ComponentsRenders.renderFormLogin,
-                unrender: ComponentsRenders.unrenderFormLogin,
             },
         ],
     );
@@ -73,7 +69,6 @@ function renderMainPage() {
             {
                 name: componentsNames.REGISTER_FORM,
                 render: ComponentsRenders.renderFormRegister,
-                unrender: ComponentsRenders.unrenderFormRegister,
             },
         ],
     );
@@ -84,7 +79,6 @@ function renderMainPage() {
             {
                 name: componentsNames.PAGE404,
                 render: ComponentsRenders.renderPage404,
-                unrender: ComponentsRenders.unrenderPage404,
             },
         ],
     );
@@ -95,22 +89,18 @@ function renderMainPage() {
             {
                 name: componentsNames.SIDEBAR,
                 render: ComponentsRenders.renderSidebar,
-                unrender: ComponentsRenders.unrenderSidebar,
             },
             {
                 name: componentsNames.MAIN,
                 render: ComponentsRenders.renderMainElement,
-                unrender: ComponentsRenders.unrenderMainElement,
             },
             {
                 name: componentsNames.NAVBAR,
                 render: ComponentsRenders.renderNavbar,
-                unrender: ComponentsRenders.unrenderNavbar,
             },
             {
                 name: componentsNames.ARTIST_CONTENT,
                 render: ComponentsRenders.renderArtistContent,
-                unrender: ComponentsRenders.unrenderArtistContent,
             },
             {
                 name: componentsNames.PLAYER,
@@ -125,25 +115,27 @@ function renderMainPage() {
             {
                 name: componentsNames.SIDEBAR,
                 render: ComponentsRenders.renderSidebar,
-                unrender: ComponentsRenders.unrenderSidebar,
             },
             {
                 name: componentsNames.MAIN,
                 render: ComponentsRenders.renderMainElement,
-                unrender: ComponentsRenders.unrenderMainElement,
             },
             {
                 name: componentsNames.NAVBAR,
                 render: ComponentsRenders.renderNavbar,
-                unrender: ComponentsRenders.unrenderNavbar,
             },
             {
                 name: componentsNames.USER,
                 render: ComponentsRenders.renderUserPage,
-                unrender: ComponentsRenders.unrenderUserPage,
             },
         ],
     );
+
+    checkAuthAjax().then((value) => {
+        if (value === false) {
+            localStorage.removeItem('jwt');
+        }
+    });
 
     Router.register(routingUrl.ROOT, () => { FeedView.render(); }, [API, ContentStore]);
     Router.register(routingUrl.LOGIN, () => { LoginView.render(); }, [API, UserInfoStore]);

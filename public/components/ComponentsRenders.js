@@ -14,13 +14,13 @@ import { User } from './bigComponents/userComponent/user';
 import { RegisterComponent } from './bigComponents/registerComponent/registerComponent';
 import { LoginComponent } from './bigComponents/loginComponent/loginComponent';
 import { AudioPlayer } from './bigComponents/player/player';
+import { checkAuthAjax } from '../api/auth/checkAuthAjaxReq';
+import Router from '../router/Router';
 
 /**
  * Class for components renders functions.
  */
 class ComponentsRenders {
-    // todo: change function of navbar rendering. Make middleware for auth and navbar class inside
-    //  navbar component render.
     /**
      * Create Navbar component and render it in parent
      * @param {HTMLElement} parent -- where to place Navbar
@@ -34,28 +34,12 @@ class ComponentsRenders {
     }
 
     /**
-     * Destroy Navbar component in parent block
-     * @param {HTMLElement} parent -- from what delete component
-     */
-    unrenderNavbar(parent) {
-        parent.removeChild(document.querySelector(`.${componentsJSNames.NAVBAR}`));
-    }
-
-    /**
      * Create Sidebar component and render it in parent
      * @param {HTMLElement} parent -- where to place Sidebar
      */
     renderSidebar(parent) {
         const sidebar = new Menu(parent, sidebarConfig, 'sidebar');
         sidebar.render();
-    }
-
-    /**
-     * Destroy Sidebar component in parent block
-     * @param {HTMLElement} parent -- from what delete component
-     */
-    unrenderSidebar(parent) {
-        parent.removeChild(document.querySelector(`.${componentsJSNames.SIDEBAR}`));
     }
 
     /**
@@ -71,28 +55,12 @@ class ComponentsRenders {
     }
 
     /**
-     * Destroy Sidebar component in parent block
-     * @param {HTMLElement} parent -- from what delete component
-     */
-    unrenderMainElement(parent) {
-        parent.removeChild(document.querySelector(`.${componentsJSNames.MAIN}`));
-    }
-
-    /**
      * Create Feed Content component and render it in parent
      * @param {HTMLElement} parent -- where to place Sidebar
      */
     renderFeedContent(parent) {
         const mainPage = new FeedContent(parent, { mainPageWindowDiv: 'main-page-window' });
         mainPage.render();
-    }
-
-    /**
-     * Destroy Feed Content component in parent block
-     * @param {HTMLElement} parent -- from what delete component
-     */
-    unrenderFeedContent(parent) {
-        parent.removeChild(document.querySelector(`.${componentsJSNames.FEED_CONTENT}`));
     }
 
     /**
@@ -105,28 +73,12 @@ class ComponentsRenders {
     }
 
     /**
-     * Destroy Feed Content component in parent block
-     * @param {HTMLElement} parent -- from what delete component
-     */
-    unrenderArtistContent(parent) {
-        parent.removeChild(document.querySelector(`.${componentsJSNames.ARTIST_CONTENT}`));
-    }
-
-    /**
      * Create Form for login component and render it in parent
      * @param {HTMLElement} parent -- where to place Sidebar
      */
     renderFormLogin(parent) {
         const form = new LoginComponent(parent);
         form.render();
-    }
-
-    /**
-     * Destroy Form for login component in parent block
-     * @param {HTMLElement} parent -- from what delete component
-     */
-    unrenderFormLogin(parent) {
-        parent.removeChild(document.querySelector(`.${componentsJSNames.FORM}`));
     }
 
     /**
@@ -139,14 +91,6 @@ class ComponentsRenders {
     }
 
     /**
-     * Destroy Form for register component in parent block
-     * @param {HTMLElement} parent -- from what delete component
-     */
-    unrenderFormRegister(parent) {
-        parent.removeChild(document.querySelector(`.${componentsJSNames.FORM}`));
-    }
-
-    /**
      * Create Page404
      * @param {HTMLElement} parent -- where to place Sidebar
      */
@@ -156,28 +100,17 @@ class ComponentsRenders {
     }
 
     /**
-     * Destroy Page404 component in parent block
-     * @param {HTMLElement} parent -- from what delete component
-     */
-    unrenderPage404(parent) {
-        parent.removeChild(document.querySelector(`.${componentsJSNames.PAGE404}`));
-    }
-
-    /**
      * Create UserPage
      * @param {HTMLElement} parent -- where to place Sidebar
      */
     renderUserPage(parent) {
+        if (!checkAuth()) {
+            Router.go('/');
+            return;
+        }
+
         const user = new User(parent, userSetup());
         user.render();
-    }
-
-    /**
-     * Destroy UserPage component in parent block
-     * @param {HTMLElement} parent -- from what delete component
-     */
-    unrenderUserPage(parent) {
-        parent.removeChild(document.querySelector(`.${componentsJSNames.USER}`));
     }
 
     /** Render player in parent */

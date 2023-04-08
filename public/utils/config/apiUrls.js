@@ -15,4 +15,5 @@ export const apiUrl = {
     AUTH: '/api/auth/signup',
     LOGIN: '/api/auth/login',
     LOGOUT: '/api/auth/logout',
+    CHECK_AUTH: '/api/auth/check',
 };
