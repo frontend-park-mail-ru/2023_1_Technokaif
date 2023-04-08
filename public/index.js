@@ -21,7 +21,6 @@ import { routingUrl } from './utils/config/routingUrls';
 // todo Change import
 // eslint-disable-next-line import/no-named-as-default
 import UserView from './views/UserView';
-import { PlayerDummy } from './components/bigComponents/playerDummy/playerDummy';
 
 /**
  * Render main page of app
@@ -116,6 +115,21 @@ function renderMainPage() {
         pageNames.USER,
         [
             {
+                name: componentsNames.SIDEBAR,
+                render: ComponentsRenders.renderSidebar,
+                unrender: ComponentsRenders.unrenderSidebar,
+            },
+            {
+                name: componentsNames.MAIN,
+                render: ComponentsRenders.renderMainElement,
+                unrender: ComponentsRenders.unrenderMainElement,
+            },
+            {
+                name: componentsNames.NAVBAR,
+                render: ComponentsRenders.renderNavbar,
+                unrender: ComponentsRenders.unrenderNavbar,
+            },
+            {
                 name: componentsNames.USER,
                 render: ComponentsRenders.renderUserPage,
                 unrender: ComponentsRenders.unrenderUserPage,
@@ -131,13 +145,6 @@ function renderMainPage() {
     Router.registerRouteWithRegEx(`${routingUrl.ARTIST_PAGE_EXP}`, () => { ArtistPageView.render(); }, [API, UserInfoStore]);
 
     Router.start();
-
-    // todo need to check for login
-    // const audio = new AudioPlayer(document.querySelector('body'));
-    // audio.render();
-    //
-    // const dummy = new PlayerDummy(document.querySelector('body'));
-    // dummy.render();
 }
 
 renderMainPage();

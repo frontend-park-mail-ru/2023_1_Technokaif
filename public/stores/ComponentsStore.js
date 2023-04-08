@@ -68,9 +68,9 @@ class ComponentsStore extends IStore {
             return document.querySelector(`#${componentsJSNames.BODY}`);
         case componentsNames.NAVBAR:
         case componentsNames.FEED_CONTENT:
+        case componentsNames.USER:
         case componentsNames.ARTIST_CONTENT:
             return document.querySelector(`.${componentsJSNames.MAIN}`);
-        case componentsNames.USER:
         case componentsNames.LOGIN_FORM:
         case componentsNames.REGISTER_FORM:
         case componentsNames.PAGE404:
@@ -102,7 +102,6 @@ class ComponentsStore extends IStore {
      * @param element
      */
     #removeElementFromPage(element) {
-        // console.log(element);
         this.#whatExistOnPage = this.#whatExistOnPage.filter((elem) => (elem !== element));
         this.addNewItem(this.#whatExistOnPage);
     }

@@ -13,6 +13,7 @@ export async function loginAjax(login, password) {
         body: { username: login, password },
         resolve: (data) => {
             localStorage.setItem('jwt', data.jwt);
+            localStorage.setItem('userId', data.id);
         },
     }).then(() => {
         mes = 'OK';

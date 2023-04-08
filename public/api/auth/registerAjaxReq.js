@@ -10,9 +10,8 @@ export async function registerAjax(userData) {
     await Ajax.post({
         url: apiUrl.AUTH,
         body: userData,
-    }).then((data) => {
+    }).then(() => {
         mes = 'OK';
-        localStorage.setItem('userId', data.id);
     }).catch((message) => {
         mes = message;
     });

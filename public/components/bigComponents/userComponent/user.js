@@ -46,35 +46,33 @@ export class User extends BaseComponent {
      */
     render() {
         const renderPromise = new Promise((resolve) => {
-            super.render();
+            super.appendElement();
             resolve();
+
+            const avatarPlacement = this.#parent.querySelector('.js__placement__avatar');
+            const formsPlacement = this.#parent.querySelector('.js__placement__where__form');
+            const buttonsPlacement = this.#parent.querySelector('.js__placement__buttons');
+
+            const avatar = new Avatar(avatarPlacement, this.#config);
+            avatar.render();
+
+            const formLeft = new Form(formsPlacement, this.#config.leftForm, sexSetup(), dateSetup());
+            formLeft.render();
+
+            const formPassword = new Form(formsPlacement, this.#config.passwordForm);
+            formPassword.render();
+
+            const buttonCancel = new Button(buttonsPlacement, this.#config.buttons[0]);
+            buttonCancel.appendElement();
+
+            const buttonSubmit = new Button(buttonsPlacement, this.#config.buttons[1]);
+            buttonSubmit.appendElement();
         });
 
         renderPromise.then(() => {
             this.#subscribeForStores();
             ApiActions.user(localStorage.getItem('userId'));
-        }).then(() => {
-            this.#addDataToFileds();
-            this.#addEventListenersForFields();
         });
-        const avatarPlacement = this.#parent.querySelector('.js__placement__avatar');
-        const formsPlacement = this.#parent.querySelector('.js__placement__where__form');
-        const buttonsPlacement = this.#parent.querySelector('.js__placement__buttons');
-
-        const avatar = new Avatar(avatarPlacement, this.#config);
-        avatar.render();
-
-        const formLeft = new Form(formsPlacement, this.#config.leftForm, sexSetup(), dateSetup());
-        formLeft.render();
-
-        const formPassword = new Form(formsPlacement, this.#config.passwordForm);
-        formPassword.render();
-
-        const buttonCancel = new Button(buttonsPlacement, this.#config.buttons[0]);
-        buttonCancel.appendElement();
-
-        const buttonSubmit = new Button(buttonsPlacement, this.#config.buttons[1]);
-        buttonSubmit.appendElement();
     }
 
     /** Add creation of Actions on User action on page */
@@ -282,7 +280,8 @@ export class User extends BaseComponent {
     #subscribeForStores() {
         UserInfoStore.subscribe(
             () => {
-                const userDate = UserInfoStore.state;
+                this.#addDataToFileds();
+                this.#addEventListenersForFields();
             },
             EventTypes.USER_DATA_GOT_FOR_PAGE,
             componentsNames.USER,
