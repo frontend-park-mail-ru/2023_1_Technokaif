@@ -82,6 +82,7 @@ class Navbar {
                 }
             },
             EventTypes.LOGOUT_STATUS,
+            componentsNames.NAVBAR,
         );
         document.querySelector(`.${componentsJSNames.MAIN}`)
             .addEventListener('click', (e) => {

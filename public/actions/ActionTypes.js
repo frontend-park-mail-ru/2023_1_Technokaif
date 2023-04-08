@@ -5,6 +5,7 @@ const ActionTypes = {
     LOGOUT: 'LOGOUT',
     REGISTER: 'REGISTER',
     FEED: 'FEED',
+    PROFILE: 'PROFILE',
     ARTIST: 'ARTIST',
     ARTIST_ALBUMS: 'ARTIST_ALBUMS',
     ARTIST_TRACKS: 'ARTIST_TRACKS',
@@ -28,6 +29,9 @@ const ActionTypes = {
     FEED_GOT_CONTENT: 'FEED_GOT_CONTENT',
     ARTIST_GOT_ALL_CONTENT: 'ARTIST_GOT_ALL_CONTENT',
     FEED_ALL_CONTENT_RECEIVED: 'FEED_ALL_CONTENT_RECEIVED',
+
+    /** Add data in user info store */
+    ADD_USER_INFO: 'ADD_USER_INFO',
 
     /** ID request from view */
     ID_VIEW_REQUEST: 'ID_VIEW_REQUEST',

@@ -38,8 +38,29 @@ class UserInfoStore extends IStore {
         case ActionTypes.VALIDATION_FIELD:
             this.#validationDispatch(action.nameOfField, action.content);
             break;
+        case ActionTypes.ADD_USER_INFO:
+            this.#addUserState(action.userData);
+            break;
         default:
         }
+    }
+
+    /**
+     * Add an info for user
+     */
+    #addUserState(userData) {
+        for (const key in userData) {
+            if (key === 'birthDate') {
+                const date = new Date(Date.parse(userData[key]));
+                super.changeFieldInState('day', date.getDate());
+                super.changeFieldInState('month', date.getMonth() + 1);
+                super.changeFieldInState('year', date.getFullYear());
+            } else {
+                super.changeFieldInState(key, userData[key]);
+            }
+        }
+
+        this.jsEmit(EventTypes.USER_DATA_GOT_FOR_PAGE);
     }
 
     /**

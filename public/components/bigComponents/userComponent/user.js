@@ -14,6 +14,7 @@ import { ERRORS_USER } from '../../../utils/config/errors';
 import { EventTypes } from '../../../utils/config/EventTypes';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
+import { componentsJSNames } from '../../../utils/config/componentsJSNames';
 
 /**
  * Class for artists content in main page.
@@ -34,7 +35,7 @@ export class User extends BaseComponent {
      * @param {Object} config -- config for User component
      */
     constructor(parent, config) {
-        super(parent, [], template, componentsNames.USER);
+        super(parent, config, template, componentsJSNames.USER);
 
         this.#parent = parent;
         this.#config = config;
@@ -44,8 +45,18 @@ export class User extends BaseComponent {
      *  @description render User in parent element
      */
     render() {
-        super.render();
+        const renderPromise = new Promise((resolve) => {
+            super.render();
+            resolve();
+        });
 
+        renderPromise.then(() => {
+            this.#subscribeForStores();
+            ApiActions.user(localStorage.getItem('userId'));
+        }).then(() => {
+            this.#addDataToFileds();
+            this.#addEventListenersForFields();
+        });
         const avatarPlacement = this.#parent.querySelector('.js__placement__avatar');
         const formsPlacement = this.#parent.querySelector('.js__placement__where__form');
         const buttonsPlacement = this.#parent.querySelector('.js__placement__buttons');
@@ -64,10 +75,6 @@ export class User extends BaseComponent {
 
         const buttonSubmit = new Button(buttonsPlacement, this.#config.buttons[1]);
         buttonSubmit.appendElement();
-
-        this.#addDataToFileds();
-        this.#subscribeForStores();
-        this.#addEventListenersForFields();
     }
 
     /** Add creation of Actions on User action on page */
@@ -86,7 +93,6 @@ export class User extends BaseComponent {
         email.addEventListener(METHOD.FIELD, (event) => {
             event.preventDefault();
             Actions.validationField('email', email.value);
-            // Actions.validationField('confEmail', email.value);
         });
 
         genders.addEventListener(METHOD.FIELD, () => {
@@ -274,6 +280,13 @@ export class User extends BaseComponent {
 
     /** Subscribe component for Stores */
     #subscribeForStores() {
+        UserInfoStore.subscribe(
+            () => {
+                const userDate = UserInfoStore.state;
+            },
+            EventTypes.USER_DATA_GOT_FOR_PAGE,
+            componentsNames.USER,
+        );
         UserInfoStore.subscribe(
             (name, status) => { this.dispatchErrors(name, status); },
             EventTypes.VALIDATION_RESPONSE,

@@ -35,6 +35,7 @@ export class UserView extends BaseView {
             switch (componentName) {
             case componentsNames.USER:
                 component.render(parent);
+                Actions.addElementOnPage(componentName);
                 break;
             default:
             }
@@ -46,8 +47,8 @@ export class UserView extends BaseView {
      */
     render() {
         super.render();
-        this.#addSubscribes();
 
+        this.#addSubscribes();
         Actions.whatRender(super.name);
     }
 }

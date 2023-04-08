@@ -95,7 +95,6 @@ export class BaseComponent {
         this.#subscribeAll();
         this.#parent.innerHTML += this.#template(this.#config);
         this.#element = document.querySelector(`.${this.name}`);
-        console.log(this.name, this.#element);
     }
 
     /**

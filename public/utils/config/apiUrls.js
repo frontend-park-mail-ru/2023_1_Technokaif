@@ -10,6 +10,8 @@ export const apiUrl = {
     ARTIST_TRACKS_API: (id) => `/api/artists/${id}/tracks`,
     ARTIST_ALBUMS_API: (id) => `/api/artists/${id}/albums`,
 
+    USER_API: (id) => `/api/users/${id}/`,
+
     AUTH: '/api/auth/signup',
     LOGIN: '/api/auth/login',
     LOGOUT: '/api/auth/logout',

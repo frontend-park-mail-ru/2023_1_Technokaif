@@ -6,7 +6,6 @@ import { BaseComponent } from '../../BaseComponent';
 import { Tape } from '../Tape/tape';
 import { EventTypes } from '../../../utils/config/EventTypes';
 import ContentStore from '../../../stores/ContentStore';
-import API from '../../../stores/API';
 import Actions from '../../../actions/Actions';
 import ApiActions from '../../../actions/ApiActions';
 import { pageNames } from '../../../utils/config/pageNames';

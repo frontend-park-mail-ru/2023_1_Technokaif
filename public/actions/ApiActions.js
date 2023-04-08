@@ -54,6 +54,14 @@ const ApiActions = {
             id,
         });
     },
+
+    /** User page */
+    user(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.PROFILE,
+            id,
+        });
+    },
 };
 
 export default ApiActions;

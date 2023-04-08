@@ -2,11 +2,9 @@
     <div class="track-line__index">1</div>
     <div class="track-line__block">
         <img src="{{#convert}}{{item.cover}}{{/convert}}" class="track-line__cover">
-        <div class="track-line__title">{{items.title}}</div>
+        <div class="track-line__title">{{item.name}}</div>
     </div>
-    {{#if items.listens}}
-        <div class="track-line__listens">{{item.listens}}</div>
-    {{/if}}
+    <div class="track-line__listens">{{item.listens}}</div>
     <div class="track-line__duration">{{item.duration}}</div>
 </div>
 

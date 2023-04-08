@@ -3,8 +3,6 @@ import { BaseComponent } from '../../BaseComponent';
 import './lineList.less';
 import '../Line/line.less';
 import { componentsNames } from '../../../utils/config/componentsNames';
-import { instancesNames } from '../../../utils/config/instances';
-import Router from '../../../router/Router';
 
 /**
  * Tape for elements
@@ -42,7 +40,7 @@ export class LineList extends BaseComponent {
                 const id = line.getAttribute('data-id');
                 switch (this.#name) {
                 case componentsNames.ARTIST_LINE_LIST:
-                    Router.go(`/${instancesNames.TRACK_PAGE}/${id}`);
+                    // Router.go(`/${instancesNames.TRACK_PAGE}/${id}`);
                     break;
                 default:
                 }

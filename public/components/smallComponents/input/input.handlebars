@@ -1,5 +1,5 @@
 <div class="{{divBeforeInput}}">
     {{#if labelClass}}<label for="{{id}}" class="{{labelClass}}">{{labelText}}</label> {{/if}}
-    <input type="{{typeOfInput}}" {{#if autocompleteOff}} autocomplete="x7pv66b" {{/if}} name="{{nameOfField}}" placeholder="{{placeholder}}" class="{{classInp}} js__{{nameOfField}}" id="{{id}}">
+    <input type="{{typeOfInput}}" {{#if autocompleteOff}} autocomplete="x7pv66b" {{/if}} name="{{nameOfField}}" placeholder="{{placeholder}}" class="{{classInp}} js__{{nameOfField}}" {{#if id}} id="{{id}}" {{/if}}>
     {{#if errorDiv}} <div class="{{errorDiv}} js__error__{{nameOfField}}" {{#if errorId}} id="{{errorId}}" {{/if}}></div> {{/if}}
 </div>

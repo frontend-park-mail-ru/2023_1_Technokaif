@@ -25,6 +25,9 @@ export const EventTypes = {
     ID_GOT: 'ID_GOT',
     ID_CAN_BE_VIEWED: 'ID_CAN_BE_VIEWED',
 
+    /** Event for starting user page render */
+    USER_DATA_GOT_FOR_PAGE: 'USER_DATA_GOT_FOR_PAGE',
+
     /** Song events */
     VOLUME_CHANGED: 'VOLUME_CHANGED',
     SONG_FOUND: 'SONG_FOUND',

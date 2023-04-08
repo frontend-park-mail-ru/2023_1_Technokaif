@@ -63,7 +63,9 @@ class Menu {
             e.preventDefault();
             if (e.target instanceof HTMLAnchorElement) {
                 const { section } = e.target.dataset;
-                Router.go(this.#config[section].href);
+                if (this.#config[section] !== undefined) {
+                    Router.go(this.#config[section].href);
+                }
             }
         });
     }

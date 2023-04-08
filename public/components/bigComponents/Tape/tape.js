@@ -2,7 +2,6 @@ import './tape.less';
 import Router from '../../../router/Router';
 import templateHTML from './tape.handlebars';
 import { BaseComponent } from '../../BaseComponent';
-import { componentsNames } from '../../../utils/config/componentsNames';
 import { instancesNames } from '../../../utils/config/instances';
 
 /**
@@ -40,7 +39,6 @@ export class Tape extends BaseComponent {
             if (tapes) {
                 const id = tape.getAttribute('data-id');
                 switch (this.#name) {
-                case componentsNames.ARTIST_TAPE:
                 case 'Artists':
                     Router.go(`/${instancesNames.ARTIST_PAGE}/${id}`);
                     break;

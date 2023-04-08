@@ -67,6 +67,14 @@ const Actions = {
         });
     },
 
+    /** Action to add items got from user api in ContentStore */
+    userAddContent(userData) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ARTIST_GOT_ALL_CONTENT,
+            userData,
+        });
+    },
+
     /** Action to say that all items has already been sent */
     feedAllDataReceived() {
         Dispatcher.dispatch({

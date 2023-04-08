@@ -14,6 +14,7 @@ import { artistAlbumsAjax } from '../api/albums/artistAlbumsAjaxRequest';
 import { trackAjax } from '../api/player/trackRequest';
 import { albumAjax } from '../api/player/album';
 import { trackOneAjax } from '../api/player/track';
+import { userAjax } from '../api/user/userRequestAjax';
 
 /**
  * Class using for getting data from backend.
@@ -45,6 +46,9 @@ class API extends IStore {
             break;
         case ActionTypes.FEED:
             this.#feedRequest();
+            break;
+        case ActionTypes.PROFILE:
+            this.#profileRequest(action.id);
             break;
         case ActionTypes.ARTIST:
             this.#artistRequest(action.id);
@@ -112,6 +116,15 @@ class API extends IStore {
         feedArtistsAjax().then((artists) => Actions.feedAddContent({ Artists: artists }));
         feedAlbumsAjax().then((albums) => Actions.feedAddContent({ Albums: albums })).then(() => {
             this.jsEmit(EventTypes.FEED_CONTENT_DONE);
+        });
+    }
+
+    /**
+     * Function to get profile page data from server.
+     */
+    #profileRequest(id) {
+        userAjax(id).then((userData) => {
+            Actions.userAddContent(userData);
         });
     }
 
