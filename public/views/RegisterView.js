@@ -39,6 +39,7 @@ class RegisterView extends BaseView {
             switch (componentName) {
             case componentsNames.REGISTER_FORM:
                 component.render(parent);
+                Actions.addElementOnPage(componentName);
                 break;
             default:
             }

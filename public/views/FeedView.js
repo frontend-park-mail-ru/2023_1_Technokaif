@@ -39,6 +39,7 @@ class FeedView extends BaseView {
             switch (componentName) {
             case componentsNames.FEED_CONTENT:
                 component.render(parent);
+                Actions.addElementOnPage(componentName);
                 break;
             default:
             }

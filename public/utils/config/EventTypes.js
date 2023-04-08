@@ -23,6 +23,7 @@ export const EventTypes = {
 
     /** Event for saying to request in api by content on page */
     ID_GOT: 'ID_GOT',
+    ID_CAN_BE_VIEWED: 'ID_CAN_BE_VIEWED',
 
     /** Song events */
     VOLUME_CHANGED: 'VOLUME_CHANGED',

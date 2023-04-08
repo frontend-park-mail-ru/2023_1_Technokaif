@@ -39,6 +39,7 @@ class ArtistPageView extends BaseView {
             switch (componentName) {
             case componentsNames.ARTIST_CONTENT:
                 component.render(parent);
+                Actions.addElementOnPage(componentName);
                 break;
             default:
             }

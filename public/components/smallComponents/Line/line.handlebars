@@ -1,11 +1,25 @@
-<div data-id="{{item.id}}" class="{{lineDiv}}">
-    <div class="{{lineIndex}}">1</div>
-    <div class="{{lineBlock}}">
-        <img src="{{#convert}}{{item.cover}}{{/convert}}" class="{{lineCover}}">
-        <div class="{{lineTitle}}">{{items.title}}</div>
+<div class="track-line" data-id="{{item.id}}">
+    <div class="track-line__index">1</div>
+    <div class="track-line__block">
+        <img src="{{#convert}}{{item.cover}}{{/convert}}" class="track-line__cover">
+        <div class="track-line__title">{{items.title}}</div>
     </div>
     {{#if items.listens}}
-        <div class="{{lineListens}}">{{item.listens}}</div>
+        <div class="track-line__listens">{{item.listens}}</div>
     {{/if}}
-    <div class="{{lineDuration}}">{{item.duration}}</div>
+    <div class="track-line__duration">{{item.duration}}</div>
 </div>
+
+<!-- todo fix handlebars-->
+
+<!--<div class="{{lineDiv}}" data-id="{{item.id}}">-->
+<!--    <div class="{{lineIndex}}">1</div>-->
+<!--    <div class="{{lineBlock}}">-->
+<!--        <img src="{{#convert}}{{item.cover}}{{/convert}}" class="{{lineCover}}">-->
+<!--        <div class="{{lineTitle}}">{{items.title}}</div>-->
+<!--    </div>-->
+<!--    {{#if items.listens}}-->
+<!--        <div class="{{lineListens}}">{{item.listens}}</div>-->
+<!--    {{/if}}-->
+<!--    <div class="{{lineDuration}}">{{item.duration}}</div>-->
+<!--</div>-->

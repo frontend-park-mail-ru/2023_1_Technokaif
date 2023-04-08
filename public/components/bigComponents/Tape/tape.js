@@ -17,7 +17,7 @@ export class Tape extends BaseComponent {
 
     /**
      * Create Track component. Empty innerHtml before placement
-     * @param {HTMLDocument} parent -- where to place Track
+     * @param {Element} parent -- where to place Track
      * @param {object} config -- what config use to compile template
      * @param name
      */

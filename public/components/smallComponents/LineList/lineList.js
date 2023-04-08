@@ -1,6 +1,7 @@
 import templateHTML from './lineList.handlebars';
 import { BaseComponent } from '../../BaseComponent';
 import './lineList.less';
+import '../Line/line.less';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import { instancesNames } from '../../../utils/config/instances';
 import Router from '../../../router/Router';

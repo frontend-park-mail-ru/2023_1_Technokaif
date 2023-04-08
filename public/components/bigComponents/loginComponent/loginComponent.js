@@ -170,10 +170,13 @@ export class LoginComponent extends BaseComponent {
 
     /** Render all view by components. */
     render() {
-        super.render();
-        this.#renderContent();
+        const renderProcess = new Promise((resolve) => {
+            this.#renderContent();
+            super.appendElement();
+            resolve();
+        });
 
-        document.addEventListener('DOMContentLoaded', () => {
+        renderProcess.then(() => {
             this.#createActionsForFields();
             this.#subscribeStore();
         });

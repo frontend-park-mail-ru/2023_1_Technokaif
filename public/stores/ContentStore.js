@@ -39,6 +39,9 @@ class ContentStore extends IStore {
         case ActionTypes.ID_PROVIDED:
             this.#addCurrentIdOnPageContent(action.id, action.nameOfPage);
             break;
+        case ActionTypes.ID_VIEW_REQUEST:
+            this.#checkID(action.nameOfPage);
+            break;
         case ActionTypes.FEED_GOT_CONTENT:
             this.#addContentOnFeed(action.items);
             break;
@@ -66,6 +69,16 @@ class ContentStore extends IStore {
         }
 
         this.jsEmit(EventTypes.ID_GOT);
+    }
+
+    /**
+     * Function to check if we have id for page
+     * @param nameOfPage
+     */
+    #checkID(nameOfPage) {
+        if (this.state[nameOfPage].id !== undefined) {
+            this.jsEmit(EventTypes.ID_CAN_BE_VIEWED);
+        }
     }
 
     /**

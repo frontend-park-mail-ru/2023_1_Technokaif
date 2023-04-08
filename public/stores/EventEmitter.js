@@ -111,18 +111,18 @@ export default class EventEmitter {
      * @param args
      */
     jsEmitAndPopListeners(event, ...args) {
-        const p = new Promise(() => {
+        const p = new Promise((resolve) => {
             if (this.#generalEvents[event]) {
                 this.#generalEvents[event].forEach((callback) => {
                     callback(...args);
                 });
             }
+
+            resolve();
         });
 
         p.then(() => {
-            this.#generalEvents.filter((ev) => ev !== event);
-        }).catch(() => {
-            this.#generalEvents.filter((ev) => ev !== event);
+            this.#generalEvents = [];
         });
     }
 }

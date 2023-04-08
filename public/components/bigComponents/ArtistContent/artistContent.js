@@ -39,7 +39,7 @@ export class ArtistContent extends BaseComponent {
      * @param config
      */
     constructor(parent, config) {
-        super(parent, config, templateHtml, pageNames.ARTIST_PAGE);
+        super(parent, config, templateHtml, componentsNames.ARTIST_CONTENT);
         this.#parent = parent;
         this.#tapeConfigs = [];
         this.#lineConfigs = [];
@@ -91,17 +91,17 @@ export class ArtistContent extends BaseComponent {
     #addSubscribes() {
         ContentStore.subscribe(
             () => {
-                const { id } = ContentStore.state[this.name];
+                const { id } = ContentStore.state[pageNames.ARTIST_PAGE];
                 if (id !== undefined) {
                     ApiActions.artist(id);
                     ApiActions.artistTracks(id);
                     ApiActions.artistAlbums(id);
                 }
             },
-            EventTypes.ID_GOT,
+            EventTypes.ID_CAN_BE_VIEWED,
             this.name,
         );
-        API.subscribe(
+        ContentStore.subscribe(
             (instance) => {
                 switch (instance) {
                 case 'artist':
@@ -134,9 +134,14 @@ export class ArtistContent extends BaseComponent {
      * @description render MainWindowContent in parent
      */
     render() {
-        super.appendElement();
+        const renderProcess = new Promise((resolve) => {
+            super.appendElement();
+            resolve();
+        });
 
-        this.#addSubscribes();
-        Actions.addElementOnPage(this.name);
+        renderProcess.then(() => {
+            this.#addSubscribes();
+            Actions.checkID(pageNames.ARTIST_PAGE);
+        });
     }
 }

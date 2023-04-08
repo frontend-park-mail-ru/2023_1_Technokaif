@@ -17,11 +17,11 @@ import Page404View from './views/Page404View';
 import ArtistPageView from './views/ArtistPageView';
 import { routingUrl } from './utils/config/routingUrls';
 // import { AudioPlayer } from './components/player/player';
-import { PlayerDummy } from './components/bigComponents/playerDummy/playerDummy';
 
 // todo Change import
 // eslint-disable-next-line import/no-named-as-default
 import UserView from './views/UserView';
+import { PlayerDummy } from './components/bigComponents/playerDummy/playerDummy';
 
 /**
  * Render main page of app
@@ -135,9 +135,9 @@ function renderMainPage() {
     // todo need to check for login
     // const audio = new AudioPlayer(document.querySelector('body'));
     // audio.render();
-
-    const dummy = new PlayerDummy(document.querySelector('body'));
-    dummy.render();
+    //
+    // const dummy = new PlayerDummy(document.querySelector('body'));
+    // dummy.render();
 }
 
 renderMainPage();

@@ -35,6 +35,7 @@ export class LoginView extends BaseView {
             switch (componentName) {
             case componentsNames.LOGIN_FORM:
                 component.render(parent);
+                Actions.addElementOnPage(componentName);
                 break;
             default:
             }

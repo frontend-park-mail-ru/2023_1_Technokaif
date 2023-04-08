@@ -102,6 +102,7 @@ class ComponentsStore extends IStore {
      * @param element
      */
     #removeElementFromPage(element) {
+        // console.log(element);
         this.#whatExistOnPage = this.#whatExistOnPage.filter((elem) => (elem !== element));
         this.addNewItem(this.#whatExistOnPage);
     }
@@ -173,7 +174,7 @@ class ComponentsStore extends IStore {
      * @returns {boolean}
      */
     prePageNeed() {
-        return !(document.querySelector(`${componentsJSNames.MAIN}`));
+        return document.querySelector(`${componentsJSNames.MAIN}`) === null;
     }
 }
 

@@ -91,6 +91,14 @@ const Actions = {
         });
     },
 
+    /** Check if ID for page was placed in Store state */
+    checkID(nameOfPage) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ID_VIEW_REQUEST,
+            nameOfPage,
+        });
+    },
+
     /** Send action to SongStore and search for needed track */
     searchForTrack(status, whatTrack) {
         Dispatcher.dispatch({

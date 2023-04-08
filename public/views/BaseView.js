@@ -38,12 +38,6 @@ export class BaseView {
             },
             EventTypes.ON_NOT_RENDERED_ITEMS,
         );
-        ComponentsStore.subscribe(
-            (list) => {
-                this.unrenderComponentsList(list);
-            },
-            EventTypes.ON_REMOVE_ANOTHER_ITEMS,
-        );
     }
 
     /**

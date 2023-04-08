@@ -322,11 +322,13 @@ export class RegisterComponent extends BaseComponent {
 
     /** Render component in parent */
     render() {
-        super.render();
-        this.#renderContent();
+        const renderProcess = new Promise((resolve) => {
+            this.#renderContent();
+            super.appendElement();
+            resolve();
+        });
 
-        // wait for HTML to render and then addEventListeners to it
-        document.addEventListener('DOMContentLoaded', () => {
+        renderProcess.then(() => {
             this.#subscribe();
             this.#addEventListeners();
         });

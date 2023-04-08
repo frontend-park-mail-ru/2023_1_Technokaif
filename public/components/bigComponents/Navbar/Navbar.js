@@ -10,6 +10,7 @@ import { componentsJSNames } from '../../../utils/config/componentsJSNames';
 import ComponentsStore from '../../../stores/ComponentsStore';
 import Actions from '../../../actions/Actions';
 import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
+import ComponentsRenders from '../../ComponentsRenders';
 
 /**
  * Class for Navbar element: Login, Registration, Logout and user info.
@@ -54,11 +55,19 @@ class Navbar {
     #callEventListener() {
         ComponentsStore.subscribe(
             (list) => {
-                const component = list.filter((comp) => comp.name === componentsNames.NAVBAR);
+                let component = list.filter((comp) => comp.name === componentsNames.NAVBAR);
                 if (component.length !== 0) {
-                    Actions.removeElementFromPage(component.name);
+                    Actions.removeElementFromPage(componentsNames.NAVBAR);
                     unsubscribeFromAllStoresOnComponent(componentsNames.NAVBAR);
                     this.#unRender();
+                }
+
+                component = list.filter((comp) => comp.name === componentsNames.MAIN);
+                if (component.length !== 0) {
+                    Actions.removeElementFromPage(componentsNames.MAIN);
+                    unsubscribeFromAllStoresOnComponent(componentsNames.MAIN);
+                    const parent = ComponentsStore.checkWhereToPlace(componentsNames.MAIN);
+                    ComponentsRenders.unrenderMainElement(parent);
                 }
             },
             EventTypes.ON_REMOVE_ANOTHER_ITEMS,

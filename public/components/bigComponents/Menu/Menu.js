@@ -51,13 +51,13 @@ class Menu {
             (list) => {
                 const component = list.filter((comp) => comp.name === componentsNames.SIDEBAR);
                 if (component.length !== 0) {
-                    Actions.removeElementFromPage(component.name);
+                    Actions.removeElementFromPage(componentsNames.SIDEBAR);
                     unsubscribeFromAllStoresOnComponent(componentsNames.SIDEBAR);
                     this.#unRender();
                 }
             },
             EventTypes.ON_REMOVE_ANOTHER_ITEMS,
-            componentsNames.NAVBAR,
+            componentsNames.SIDEBAR,
         );
         this.#parent.addEventListener('click', (e) => {
             e.preventDefault();

@@ -34,7 +34,7 @@ export class BaseComponent {
 
     /**
      * Create BaseModel. Empty innerHtml before placement
-     * @param {HTMLDocument} parent - where to place MainWindowContent
+     * @param {HTMLElement} parent - where to place MainWindowContent
      * @param name - name of current component
      * @param {Object} config - what config use to compile template
      * @param {function} template - template to create elements
@@ -68,10 +68,10 @@ export class BaseComponent {
     #subscribeAll() {
         ComponentsStore.subscribe(
             (list) => {
-                const component = list.filter((comp) => comp.name === this.name);
+                const component = list.filter((comp) => comp.name === this.#name);
                 if (component.length !== 0) {
-                    Actions.removeElementFromPage(component.name);
-                    unsubscribeFromAllStoresOnComponent(this.name);
+                    Actions.removeElementFromPage(this.#name);
+                    unsubscribeFromAllStoresOnComponent(this.#name);
                     this.unRender();
                 }
             },
@@ -95,13 +95,14 @@ export class BaseComponent {
         this.#subscribeAll();
         this.#parent.innerHTML += this.#template(this.#config);
         this.#element = document.querySelector(`.${this.name}`);
+        console.log(this.name, this.#element);
     }
 
     /**
      * UnRender component
      */
     unRender() {
-        // todo тут были внесены изменения
+        // todo тут были внесены изменения;
         this.#parent.removeChild(this.#element);
     }
 

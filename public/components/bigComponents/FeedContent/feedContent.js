@@ -80,10 +80,14 @@ export class FeedContent extends BaseComponent {
      * @description render MainWindowContent in parent
      */
     render() {
-        super.appendElement();
-        this.#addSubscribes();
+        const renderProcess = new Promise((resolve) => {
+            super.appendElement();
+            resolve();
+        });
 
-        ApiActions.feed();
-        Actions.addElementOnPage(this.name);
+        renderProcess.then(() => {
+            this.#addSubscribes();
+            ApiActions.feed();
+        });
     }
 }

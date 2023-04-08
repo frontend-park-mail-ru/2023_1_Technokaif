@@ -49,6 +49,7 @@ export class HeaderWithButton {
                 }
             },
             EventTypes.ON_REMOVE_ANOTHER_ITEMS,
+            this.#name,
         );
 
         const header = document.querySelector('.header');

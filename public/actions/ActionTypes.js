@@ -28,6 +28,10 @@ const ActionTypes = {
     FEED_GOT_CONTENT: 'FEED_GOT_CONTENT',
     ARTIST_GOT_ALL_CONTENT: 'ARTIST_GOT_ALL_CONTENT',
     FEED_ALL_CONTENT_RECEIVED: 'FEED_ALL_CONTENT_RECEIVED',
+
+    /** ID request from view */
+    ID_VIEW_REQUEST: 'ID_VIEW_REQUEST',
+
     VALIDATE_USER: 'VALIDATE_USER',
 
     /** Send when clicked on some interactive elements and want to play track now clearing tape */
