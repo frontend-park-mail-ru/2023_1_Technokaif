@@ -92,6 +92,7 @@ export function setupTape(title, items) {
         imgClass: 'component__img',
         titleTextDiv: 'component__title',
         descriptionDiv: 'component__description',
+        artistsDiv: 'component__artists',
         footerMainDiv: '',
         footerElementDiv: 'component__description',
         footerElements: 'artists',

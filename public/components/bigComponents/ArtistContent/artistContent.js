@@ -91,6 +91,10 @@ export class ArtistContent extends BaseComponent {
         ContentStore.subscribe(
             () => {
                 const { id } = ContentStore.state[pageNames.ARTIST_PAGE];
+                const playButton = document.querySelector('.play-button');
+                playButton.addEventListener('click', () => {
+                    Actions.playArtist(id);
+                });
                 if (id !== undefined) {
                     ApiActions.artist(id);
                     ApiActions.artistTracks(id);
@@ -118,7 +122,7 @@ export class ArtistContent extends BaseComponent {
                 case 'albums':
                     // eslint-disable-next-line no-case-declarations
                     const { albums } = ContentStore.state[pageNames.ARTIST_PAGE];
-                    this.#tapeConfigs.push(setupTape('Albums', albums));
+                    this.#tapeConfigs.push(setupTape('Albums', albums.slice(0, 5)));
                     this.#renderTapes();
                     break;
                 default:

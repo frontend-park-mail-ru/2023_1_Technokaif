@@ -75,7 +75,7 @@ export function userSetup() {
                     typeOfInput: 'password',
                     nameOfField: 'new__confirm__password',
                     labelClass: 'input-block__label',
-                    labelText: 'Repeat the new password:',
+                    labelText: 'Repeat new password:',
                     placeholder: 'Your new password',
                     classInp: CLASS.classInp,
                     errorDiv: CLASS.errorDiv,
@@ -95,9 +95,5 @@ export function userSetup() {
                 textButton: 'Save changes',
             },
         ],
-
-        text: 'Firstname Lastname',
-        smallText: 'this is username',
-        imgSrc: '/static/img/artists/instasamka.jpeg',
     };
 }

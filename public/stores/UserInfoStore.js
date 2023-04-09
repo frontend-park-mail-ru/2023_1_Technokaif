@@ -191,11 +191,14 @@ class UserInfoStore extends IStore {
      * newPassword and confPassword
      *
      * If equal then emit 'newConfPassword' with 'OK' else 'BAD'
-     * @param password
+     * @param newPassword
      * @param confPassword
      */
-    #getPasswordConfError(password, confPassword) {
-        this.#checkIfEquap('newConfPassword', password, confPassword);
+    #getPasswordConfError({
+        newPassword,
+        confPassword,
+    }) {
+        this.#checkIfEquap('newConfPassword', newPassword, confPassword);
     }
 
     /**
