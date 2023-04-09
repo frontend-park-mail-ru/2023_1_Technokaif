@@ -74,16 +74,17 @@ export class AudioPlayer extends BaseComponent {
             componentsNames.PLAYER,
         );
 
-        // ComponentsStore.subscribe(
-        //     (list) => {
-        //         if (list.contains(componentsNames.PLAYER)) {
-        //             console.log('Delete player audio', list);
-        //             this.#elements.audio = [];
-        //         }
-        //     },
-        //     EventTypes.ON_REMOVE_ANOTHER_ITEMS,
-        //     componentsNames.PLAYER,
-        // );
+        ComponentsStore.subscribe(
+            (list) => {
+                if (list.find(
+                    (element) => element.name === componentsNames.PLAYER,
+                )) {
+                    delete this;
+                }
+            },
+            EventTypes.ON_REMOVE_ANOTHER_ITEMS,
+            componentsNames.PLAYER,
+        );
     }
 
     /** Start playing audio */
@@ -140,10 +141,14 @@ export class AudioPlayer extends BaseComponent {
         elements.repeat.addEventListener('click', () => {
             this.#toggleRepeat();
         });
+        elements.audio.addEventListener('ended', () => {
+            this.#loadTrack(1);
+        });
     }
 
     /** Add all elements of player to elements to use it later */
     #addAllElementsToElements() {
+        const a = this.#elements;
         this.#elements.now_playing = document.querySelector('.js__now-playing');
         this.#elements.track_art = document.querySelector('.js__img');
         this.#elements.track_name = document.querySelector('.js__track-name');
@@ -163,6 +168,7 @@ export class AudioPlayer extends BaseComponent {
 
         this.#elements.updateTimer = 0;
         this.#elements.audio = document.createElement('audio');
+        console.log('This in Daudio,', this.#elements);
     }
 
     /**
@@ -192,6 +198,7 @@ export class AudioPlayer extends BaseComponent {
         const idForNexrTrack = responseFromStore.id;
 
         // Actions.downloadTrack(idForNexrTrack);
+        console.log('Track loading', this.#elements);
         this.#setNewTrack(responseFromStore);
     }
 
@@ -244,9 +251,6 @@ export class AudioPlayer extends BaseComponent {
      * @param {JSON} response
      */
     #setNewTrack(response) {
-        console.log('Set new track', response);
-        console.log('Set new track art', this.#elements.track_art);
-        console.log('Set new track elements', this.#elements);
         clearInterval(this.#elements.updateTimer);
         this.#resetAllToStart();
 
@@ -255,9 +259,8 @@ export class AudioPlayer extends BaseComponent {
         this.#elements.track_name.textContent = response.name;
 
         this.#elements.updateTimer = setInterval(this.#seekUpdate.bind(this), 1000);
-        this.#elements.audio.addEventListener('ended', () => {
-            this.#loadTrack(1);
-        });
+        console.log('Audio', this.#elements.audio);
+        console.log('This in audio,', this.#elements);
 
         this.#lastResponse = response;
 
@@ -348,6 +351,7 @@ export class AudioPlayer extends BaseComponent {
 
         this.#subscribe();
         this.#addAllElementsToElements();
+        const y = this.#elements;
         this.#addReactionOnUser();
     }
 }
