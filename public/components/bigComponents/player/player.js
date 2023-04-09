@@ -263,7 +263,11 @@ export class AudioPlayer extends BaseComponent {
 
         this.#elements.audio.src = `/media${response.recordSrc}`;
         this.#isExist = true;
-        this.#play();
+        if (this.#isPlaying) {
+            this.#play();
+        } else {
+            this.#pause();
+        }
     }
 
     /** Set values of Time, Duration, Line to 0 */

@@ -113,6 +113,9 @@ class SongStore extends IStore {
         this.#position += whatDirection;
         if (!(this.#position < this.#songs.length && this.#position >= 0)) {
             console.log('Get song more than have');
+            if (this.#position >= this.#songs.length) {
+                this.#position = this.#songs.length - 1;
+            }
             let id;
             switch (this.#storeType) {
             case 'album':
