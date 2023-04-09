@@ -283,8 +283,8 @@ export class AudioPlayer extends BaseComponent {
         if (Number.isNaN(whereToPlace)) {
             return;
         }
-        this.#elements.curr_time = whereToPlace;
-        // this.#elements.audio.currentTime = whereToPlace;
+        // this.#elements.curr_time = whereToPlace;
+        this.#elements.audio.currentTime = whereToPlace;
     }
 
     /** calculate all times */
