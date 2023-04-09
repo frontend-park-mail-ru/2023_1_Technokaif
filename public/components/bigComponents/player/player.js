@@ -98,8 +98,6 @@ export class AudioPlayer extends BaseComponent {
     /** Stop playing audio */
     #pause() {
         if (this.#isExist) {
-            console.log(this.#elements.audio);
-            console.log(this.#elements.audio.src);
             this.#elements.audio.pause();
             this.#isPlaying = false;
             this.#elements.playpause_btnImg.src = '/static/svg/Player/play-solid.svg';
@@ -174,7 +172,6 @@ export class AudioPlayer extends BaseComponent {
      * If whatTrack is positive, render next track, else prev
      * */
     #loadTrack(whatTrack) {
-        console.log('IsRepeat ', this.#isRepeat);
         if (!this.#isRepeat) {
             Actions.searchForTrack(whatTrack, '');
         } else {
@@ -192,7 +189,6 @@ export class AudioPlayer extends BaseComponent {
      *  }
      */
     trackLoading(responseFromStore) {
-        console.log('Player', responseFromStore);
         this.#setNewTrack(responseFromStore);
     }
 
@@ -336,7 +332,7 @@ export class AudioPlayer extends BaseComponent {
         this.#addAllElementsToElements();
 
         this.#addReactionOnUser();
-        // this.#toggleRepeat();
-        // this.#toggleRepeat();
+        this.#toggleRepeat();
+        this.#toggleRepeat();
     }
 }

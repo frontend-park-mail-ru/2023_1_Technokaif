@@ -163,10 +163,7 @@ class SongStore extends IStore {
         if (this.#songs.length === 0) {
             this.#position = 0;
         }
-        console.log('Position', this.#position);
         this.#songs = this.#songs.concat(response);
-
-        console.log('Songs', this.#songs);
 
         this.jsEmit(EventTypes.SONG_FOUND, {
             status: RESPONSES.OK,
