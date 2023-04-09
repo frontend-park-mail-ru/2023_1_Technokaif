@@ -8,7 +8,7 @@ import { generatePageById } from '../../utils/functions/urlGenerators';
  */
 export async function albumAjax(id) {
     let items;
-    const url = `${generatePageById(apiUrl.ALBUM_API, id)}/tracks`;
+    const url = `${generatePageById(apiUrl.ALBUM_API, id)}tracks`;
 
     await Ajax.get({
         url,

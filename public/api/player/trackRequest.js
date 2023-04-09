@@ -7,7 +7,7 @@ import { generatePageById } from '../../utils/functions/urlGenerators';
  */
 export async function trackAjax(id) {
     let items;
-    const url = `${generatePageById(apiUrl.TRACK_API, id)}/tracks`;
+    const url = `${generatePageById(apiUrl.TRACK_API, id)}tracks`;
 
     await Ajax.get({
         url,

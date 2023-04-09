@@ -8,7 +8,7 @@ import { generatePageById } from '../../utils/functions/urlGenerators';
  */
 export async function artistAjax(id) {
     let items;
-    const url = `${generatePageById(apiUrl.ARTIST_API, id)}/tracks`;
+    const url = `${generatePageById(apiUrl.ARTIST_API, id)}tracks`;
 
     await Ajax.get({
         url,
