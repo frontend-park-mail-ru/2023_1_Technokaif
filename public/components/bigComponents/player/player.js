@@ -1,15 +1,23 @@
 import Actions from '../../../actions/Actions';
-import template from './player.handlebars';
+import templatePlayer from './player.handlebars';
+import templateDummy from './playerDymmy.handlebars';
 import './player.less';
+import './playerDummy.less';
 import SongStore from '../../../stores/SongStore';
 import { EventTypes } from '../../../utils/config/EventTypes';
 import API from '../../../stores/API';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
 import ComponentsStore from '../../../stores/ComponentsStore';
+import { checkAuth } from '../../../utils/functions/checkAuth';
+import Router from '../../../router/Router';
+import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer extends BaseComponent {
+    /** Is offline or online application */
+    #isAuth;
+
     /** Flag to check if track exist in player */
     #isExist;
 
@@ -30,7 +38,19 @@ export class AudioPlayer extends BaseComponent {
 
     /** Default all fields to empty except parent */
     constructor(parent) {
+        let template;
+        let isAuth;
+        if (checkAuth()) {
+            isAuth = true;
+            template = templatePlayer;
+        } else {
+            isAuth = false;
+            template = templateDummy;
+        }
+
         super(parent, [], template, componentsNames.PLAYER);
+
+        this.#isAuth = isAuth;
         this.#parent = parent;
         this.#elements = {};
 
@@ -43,45 +63,66 @@ export class AudioPlayer extends BaseComponent {
 
     /** Subscribe Stores */
     #subscribe() {
-        // Subscribe player on found songs
-        SongStore.subscribe(
-            this.trackLoading.bind(this),
-            EventTypes.SONG_FOUND,
-            componentsNames.PLAYER,
-        );
+        if (this.#isAuth) {
+            // Subscribe player on found songs
+            {
+                SongStore.subscribe(
+                    this.trackLoading.bind(this),
+                    EventTypes.SONG_FOUND,
+                    componentsNames.PLAYER,
+                );
+            }
 
-        // Subscribe for change in volume
-        SongStore.subscribe(
-            this.setVolume.bind(this),
-            EventTypes.VOLUME_CHANGED,
-            componentsNames.PLAYER,
-        );
+            // Subscribe for change in volume
+            SongStore.subscribe(
+                this.setVolume.bind(this),
+                EventTypes.VOLUME_CHANGED,
+                componentsNames.PLAYER,
+            );
 
-        SongStore.subscribe(
-            this.tapeLoad.bind(this),
-            EventTypes.DOWNLOAD_NEW_TAPE,
-            componentsNames.PLAYER,
-        );
+            SongStore.subscribe(
+                this.tapeLoad.bind(this),
+                EventTypes.DOWNLOAD_NEW_TAPE,
+                componentsNames.PLAYER,
+            );
 
-        API.subscribe(
-            (binaryFile) => {
-                // todo watch for error here
-                this.#loadSong(binaryFile);
-            },
-            EventTypes.LOAD_TRACK,
-            componentsNames.PLAYER,
-        );
+            API.subscribe(
+                (binaryFile) => {
+                    // todo watch for error here
+                    this.#loadSong(binaryFile);
+                },
+                EventTypes.LOAD_TRACK,
+                componentsNames.PLAYER,
+            );
+        }
 
         ComponentsStore.subscribe(
             (list) => {
                 if (list.find(
                     (element) => element.name === componentsNames.PLAYER,
                 )) {
+                    Actions.removeElementFromPage(componentsNames.NAVBAR);
+                    unsubscribeFromAllStoresOnComponent(componentsNames.NAVBAR);
+                    // this.#unRender();
+                    this.unRender();
                     delete this;
                 }
             },
             EventTypes.ON_REMOVE_ANOTHER_ITEMS,
             componentsNames.PLAYER,
+        );
+        API.subscribe(
+            (message) => {
+                if (message !== 'OK') {
+                    console.error('bad respond from server during logout');
+                } else {
+                    unsubscribeFromAllStoresOnComponent(componentsNames.PLAYER);
+                    this.unRender();
+                    this.#reRender();
+                }
+            },
+            EventTypes.LOGOUT_STATUS,
+            componentsNames.NAVBAR,
         );
     }
 
@@ -114,33 +155,39 @@ export class AudioPlayer extends BaseComponent {
 
     /** Add reactions on User actions like 'play' */
     #addReactionOnUser() {
-        const elements = this.#elements;
-        elements.prev_btn.addEventListener('click', () => {
-            this.#loadTrack(-1);
-        });
+        if (this.#isAuth) {
+            const elements = this.#elements;
+            elements.prev_btn.addEventListener('click', () => {
+                this.#loadTrack(-1);
+            });
 
-        elements.next_btn.addEventListener('click', () => {
-            this.#loadTrack(1);
-        });
+            elements.next_btn.addEventListener('click', () => {
+                this.#loadTrack(1);
+            });
 
-        elements.playpause_btn.addEventListener('click', () => {
-            this.toggle();
-        });
+            elements.playpause_btn.addEventListener('click', () => {
+                this.toggle();
+            });
 
-        elements.seek_slider.addEventListener('change', () => {
-            this.seekTo();
-        });
+            elements.seek_slider.addEventListener('change', () => {
+                this.seekTo();
+            });
 
-        elements.volume_slider.addEventListener('input', () => {
-            Actions.volumeChange(this.#elements.volume_slider.value / 100);
-        });
+            elements.volume_slider.addEventListener('input', () => {
+                Actions.volumeChange(this.#elements.volume_slider.value / 100);
+            });
 
-        elements.repeat.addEventListener('click', () => {
-            this.#toggleRepeat();
-        });
-        elements.audio.addEventListener('ended', () => {
-            this.#loadTrack(1);
-        });
+            elements.repeat.addEventListener('click', () => {
+                this.#toggleRepeat();
+            });
+            elements.audio.addEventListener('ended', () => {
+                this.#loadTrack(1);
+            });
+        } else {
+            document.querySelector('.js__button__dummy').addEventListener('click', () => {
+                Router.go('/login');
+            });
+        }
     }
 
     /** Add all elements of player to elements to use it later */
@@ -324,13 +371,34 @@ export class AudioPlayer extends BaseComponent {
 
     /** Render player in parent */
     render() {
+        this.#elements = {};
         super.render();
 
         this.#subscribe();
-        this.#addAllElementsToElements();
+        if (this.#isAuth) {
+            this.#addAllElementsToElements();
+        }
 
         this.#addReactionOnUser();
-        this.#toggleRepeat();
-        this.#toggleRepeat();
+        if (this.#isAuth) {
+            this.#toggleRepeat();
+            this.#toggleRepeat();
+        }
+    }
+
+    /** ReRender on Logout or Login */
+    #reRender() {
+        let template;
+        let isAuth;
+        if (checkAuth()) {
+            isAuth = true;
+            template = templatePlayer;
+        } else {
+            isAuth = false;
+            template = templateDummy;
+        }
+        this.#isAuth = isAuth;
+        super.template = template;
+        this.render();
     }
 }

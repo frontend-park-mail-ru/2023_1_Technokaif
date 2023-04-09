@@ -106,6 +106,11 @@ export class BaseComponent {
         this.#parent.removeChild(this.#element);
     }
 
+    /** Set template to newTemplate */
+    set template(newTemplate) {
+        this.#template = newTemplate;
+    }
+
     /**
      * HTML template filler
      * @returns {string} - element in string
