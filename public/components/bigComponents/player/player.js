@@ -332,5 +332,7 @@ export class AudioPlayer extends BaseComponent {
         this.#addAllElementsToElements();
 
         this.#addReactionOnUser();
+        // this.#toggleRepeat();
+        // this.#toggleRepeat();
     }
 }
