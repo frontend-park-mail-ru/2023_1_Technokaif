@@ -177,7 +177,7 @@ export class AudioPlayer extends BaseComponent {
         console.log('IdForNextTrack ', responseFromStore.id);
         const idForNexrTrack = responseFromStore.id;
 
-        Actions.downloadTrack(idForNexrTrack);
+        // Actions.downloadTrack(idForNexrTrack);
         this.#setNewTrack(responseFromStore);
     }
 
@@ -242,6 +242,10 @@ export class AudioPlayer extends BaseComponent {
         this.#elements.audio.addEventListener('ended', () => this.#loadTrack(1));
 
         this.#lastResponse = response;
+
+        this.#elements.audio.src = response.recordSrc;
+        this.#isExist = true;
+        this.#play();
     }
 
     /** Set values of Time, Duration, Line to 0 */
