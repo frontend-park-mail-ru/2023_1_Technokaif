@@ -564,7 +564,7 @@ class UserInfoStore extends IStore {
         }
 
         super.changeFieldInState('confEmail', '');
-        this.jsEmit(EventTypes.SEND_DATA, status);
+        this.jsEmit(EventTypes.SEND_DATA_WITH_PASSWORD, status);
     }
 
     /**

@@ -11,9 +11,12 @@ export const apiUrl = {
     ARTIST_ALBUMS_API: (id) => `/api/artists/${id}/albums`,
 
     USER_API: (id) => `/api/users/${id}/`,
+    USER_UPDATE_API: (id) => `/api/users/${id}/update`,
+    USER_UPDATE_PASSWORD: '/api/auth/changepass',
 
     AUTH: '/api/auth/signup',
     LOGIN: '/api/auth/login',
     LOGOUT: '/api/auth/logout',
     CHECK_AUTH: '/api/auth/check',
+    CSRF_REQ: '/api/csrf',
 };

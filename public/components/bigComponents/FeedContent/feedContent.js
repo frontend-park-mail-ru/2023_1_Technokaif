@@ -7,9 +7,7 @@ import { pageNames } from '../../../utils/config/pageNames';
 import { EventTypes } from '../../../utils/config/EventTypes';
 import { BaseComponent } from '../../BaseComponent';
 import { componentsNames } from '../../../utils/config/componentsNames';
-import Actions from '../../../actions/Actions';
 import ApiActions from '../../../actions/ApiActions';
-import API from '../../../stores/API';
 import { setupTape } from '../../../utils/setup/artistSetup';
 
 /**
@@ -55,13 +53,6 @@ export class FeedContent extends BaseComponent {
      * Function to subscribe to all events from Stores
      */
     #addSubscribes() {
-        API.subscribe(
-            () => {
-                Actions.feedAllDataReceived();
-            },
-            EventTypes.FEED_CONTENT_DONE,
-            this.name,
-        );
         ContentStore.subscribe(
             () => {
                 const state = ContentStore.state[pageNames.FEED];
@@ -71,7 +62,7 @@ export class FeedContent extends BaseComponent {
 
                 this.#renderTapes();
             },
-            EventTypes.CHANGE_CONTENT,
+            EventTypes.FEED_CONTENT_DONE,
             this.name,
         );
     }

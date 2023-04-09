@@ -15,6 +15,10 @@ export const EventTypes = {
     /** Events emitting after login or registration full validation
      * Subscribed function would probably be api request */
     SEND_DATA: 'SEND_DATA',
+    SEND_DATA_WITH_PASSWORD: 'SEND_DATA_WITH_PASSWORD',
+
+    UPDATE_DATA_RECEIVED: 'UPDATE_DATA_RECEIVED',
+    UPDATE_DATA_WITH_PASS_RECEIVED: 'UPDATE_DATA_WITH_PASS_RECEIVED',
 
     /** Events for getting status from api authorization requests */
     REGISTER_STATUS: 'REGISTER_STATUS',

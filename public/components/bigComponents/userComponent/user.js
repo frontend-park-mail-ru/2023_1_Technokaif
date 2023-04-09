@@ -15,6 +15,8 @@ import { EventTypes } from '../../../utils/config/EventTypes';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
 import { componentsJSNames } from '../../../utils/config/componentsJSNames';
+import API from '../../../stores/API';
+import { csrfAjax } from '../../../api/auth/csrfAjaxReq';
 
 /**
  * Class for artists content in main page.
@@ -214,22 +216,38 @@ export class User extends BaseComponent {
     }
 
     /**
+     * Only default user data
      * If status === 'OK' then send data to backend
      * @param status
      */
     #sendAllDataToAPI(status) {
-        // todo do we need to check if password correct
-        // that we write first
         if (status === RESPONSES.OK) {
-            const { state } = UserInfoStore;
-            ApiActions.register({
-                username: state.username,
-                email: state.email,
-                firstName: state.firstName,
-                lastName: state.lastName,
-                sex: state.gender,
-                birthDate: [state.year, state.month, state.day].join('-'),
-                password: document.querySelector('.js__new__password').value,
+            csrfAjax()
+                .then(() => {
+                    const { state } = UserInfoStore;
+                    ApiActions.userUpdateData(localStorage.getItem('userId'), {
+                        email: state.email,
+                        firstName: state.firstName,
+                        lastName: state.lastName,
+                        sex: state.gender,
+                        birthDate: [state.year, state.month, state.day].join('-'),
+                    });
+                });
+        }
+    }
+
+    /**
+     * Special for passwords
+     * If status === 'OK' then send data to backend
+     * @param status
+     */
+    #sendAllDataCredential(status) {
+        if (status === RESPONSES.OK) {
+            csrfAjax().then(() => {
+                ApiActions.userUpdatePassword({
+                    oldPassword: document.querySelector('.js__password').value,
+                    newPassword: document.querySelector('.js__new__password').value,
+                });
             });
         }
     }
@@ -321,25 +339,28 @@ export class User extends BaseComponent {
             EventTypes.SEND_DATA,
             componentsNames.USER,
         );
-
-        // todo write subscribe for API
-        // API.subscribe(
-        //     (message) => {
-        //         if (message === RESPONSES.OK) {
-        //             Router.go('/');
-        //         } else {
-        //             console.error('Failed after login with succeeded reg data');
-        //         }
-        //     },
-        //     EventTypes.LOGIN_STATUS,
-        //     componentsNames.USER,
-        // );
-        // API.subscribe(
-        //     (message) => {
-        //         // this.#loginAfterSuccessRegistration(message);
-        //     },
-        //     EventTypes.REGISTER_STATUS,
-        //     componentsNames.USER,
-        // );
+        UserInfoStore.subscribe(
+            (status) => { this.#sendAllDataCredential(status); },
+            EventTypes.SEND_DATA_WITH_PASSWORD,
+            componentsNames.USER,
+        );
+        API.subscribe(
+            (message) => {
+                if (message !== 'OK') {
+                    console.error(message);
+                }
+            },
+            EventTypes.UPDATE_DATA_RECEIVED,
+            this.name,
+        );
+        API.subscribe(
+            (message) => {
+                if (message !== 'OK') {
+                    console.error(message);
+                }
+            },
+            EventTypes.UPDATE_DATA_WITH_PASS_RECEIVED,
+            this.name,
+        );
     }
 }

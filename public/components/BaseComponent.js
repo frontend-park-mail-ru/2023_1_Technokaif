@@ -2,6 +2,8 @@ import ComponentsStore from '../stores/ComponentsStore';
 import Actions from '../actions/Actions';
 import unsubscribeFromAllStoresOnComponent from '../utils/functions/unsubscribeFromAllStores';
 import { EventTypes } from '../utils/config/EventTypes';
+import ContentStore from '../stores/ContentStore';
+import { pageNames } from '../utils/config/pageNames';
 
 /**
  * Base Component class to handle render functions.
@@ -72,6 +74,7 @@ export class BaseComponent {
                 if (component.length !== 0) {
                     Actions.removeElementFromPage(this.#name);
                     unsubscribeFromAllStoresOnComponent(this.#name);
+                    ContentStore.state[pageNames.FEED] = {};
                     this.unRender();
                 }
             },

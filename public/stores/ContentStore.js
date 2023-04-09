@@ -45,9 +45,6 @@ class ContentStore extends IStore {
         case ActionTypes.FEED_GOT_CONTENT:
             this.#addContentOnFeed(action.items);
             break;
-        case ActionTypes.FEED_ALL_CONTENT_RECEIVED:
-            this.jsEmit(EventTypes.CHANGE_CONTENT);
-            break;
         case ActionTypes.ARTIST_GOT_ALL_CONTENT:
             this.#addContentOnArtistPage(action.item, action.instance);
             break;
@@ -88,6 +85,11 @@ class ContentStore extends IStore {
     #addContentOnFeed(items) {
         for (const nameOfContent in items) {
             this.#addContent(pageNames.FEED, nameOfContent, items[nameOfContent]);
+        }
+
+        if (Object.keys(this.state[pageNames.FEED]).length === 3) {
+            console.log(this.state);
+            this.jsEmit(EventTypes.FEED_CONTENT_DONE);
         }
     }
 
