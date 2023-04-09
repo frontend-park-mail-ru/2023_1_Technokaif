@@ -133,7 +133,7 @@ export class AudioPlayer extends BaseComponent {
     /** Add all elements of player to elements to use it later */
     #addAllElementsToElements() {
         this.#elements.now_playing = document.querySelector('.js__now-playing');
-        this.#elements.track_art = document.querySelector('.js__track-art');
+        this.#elements.track_art = document.querySelector('.js__img');
         this.#elements.track_name = document.querySelector('.js__track-name');
         this.#elements.track_artist = document.querySelector('.js__track-artist');
 
@@ -276,6 +276,8 @@ export class AudioPlayer extends BaseComponent {
     /** calculate all times */
     #seekUpdate() {
         let seekPosition = 0;
+        console.log(this.#elements.audio);
+        console.log(this.#elements.audio.duration);
 
         if (!Number.isNaN(this.#elements.audio.duration)) {
             const { audio } = this.#elements;
