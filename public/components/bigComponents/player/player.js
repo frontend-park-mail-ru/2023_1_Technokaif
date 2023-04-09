@@ -231,10 +231,12 @@ export class AudioPlayer extends BaseComponent {
      */
     #setNewTrack(response) {
         console.log('Set new track', response);
+        console.log('Set new track art', this.#elements.track_art);
+        console.log('Set new track elements', this.#elements);
         clearInterval(this.#elements.updateTimer);
         this.#resetAllToStart();
 
-        this.#elements.track_art.src = response.cover;
+        this.#elements.track_art.src = `/static${response.cover}`;
         this.#elements.track_artist.textContent = response.artists[0].name;
         this.#elements.track_name.textContent = response.name;
 
@@ -243,7 +245,7 @@ export class AudioPlayer extends BaseComponent {
 
         this.#lastResponse = response;
 
-        this.#elements.audio.src = response.recordSrc;
+        this.#elements.audio.src = `/media${response.recordSrc}`;
         this.#isExist = true;
         this.#play();
     }
