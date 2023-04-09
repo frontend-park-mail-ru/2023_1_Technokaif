@@ -55,13 +55,6 @@ export class FeedContent extends BaseComponent {
      * Function to subscribe to all events from Stores
      */
     #addSubscribes() {
-        API.subscribe(
-            () => {
-                Actions.feedAllDataReceived();
-            },
-            EventTypes.FEED_CONTENT_DONE,
-            this.name,
-        );
         ContentStore.subscribe(
             () => {
                 const state = ContentStore.state[pageNames.FEED];
@@ -71,7 +64,7 @@ export class FeedContent extends BaseComponent {
 
                 this.#renderTapes();
             },
-            EventTypes.CHANGE_CONTENT,
+            EventTypes.FEED_CONTENT_DONE,
             this.name,
         );
     }

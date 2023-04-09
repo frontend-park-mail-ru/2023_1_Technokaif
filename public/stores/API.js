@@ -114,9 +114,7 @@ class API extends IStore {
     #feedRequest() {
         feedTracksAjax().then((tracks) => Actions.feedAddContent({ Tracks: tracks }));
         feedArtistsAjax().then((artists) => Actions.feedAddContent({ Artists: artists }));
-        feedAlbumsAjax().then((albums) => Actions.feedAddContent({ Albums: albums })).then(() => {
-            this.jsEmit(EventTypes.FEED_CONTENT_DONE);
-        });
+        feedAlbumsAjax().then((albums) => Actions.feedAddContent({ Albums: albums }));
     }
 
     /**

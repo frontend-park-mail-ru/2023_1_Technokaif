@@ -39,7 +39,7 @@ export class AudioPlayer extends BaseComponent {
 
         this.#isExist = false;
         console.log('PlayAlbum in player.js');
-        Actions.playAlbum(1);
+        // Actions.playAlbum(1);
     }
 
     /** Subscribe Stores */
