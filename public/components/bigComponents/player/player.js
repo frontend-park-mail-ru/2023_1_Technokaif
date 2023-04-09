@@ -6,6 +6,7 @@ import { EventTypes } from '../../../utils/config/EventTypes';
 import API from '../../../stores/API';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
+import { re } from '@babel/core/lib/vendor/import-meta-resolve';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer extends BaseComponent {
@@ -38,6 +39,8 @@ export class AudioPlayer extends BaseComponent {
         this.#isRepeat = false;
 
         this.#isExist = false;
+        console.log('PlayAlbum in player.js');
+        Actions.playAlbum(1);
     }
 
     /** Subscribe Stores */
@@ -92,6 +95,7 @@ export class AudioPlayer extends BaseComponent {
 
     /** Toggle between states of playing */
     toggle() {
+        console.log('Toggle');
         if (this.#isPlaying) {
             this.#pause();
         } else {
@@ -155,6 +159,7 @@ export class AudioPlayer extends BaseComponent {
      * If whatTrack is positive, render next track, else prev
      * */
     #loadTrack(whatTrack) {
+        console.log('Load new track');
         if (!this.#isRepeat) {
             Actions.searchForTrack(whatTrack, '');
         }
@@ -170,6 +175,7 @@ export class AudioPlayer extends BaseComponent {
      *  }
      */
     trackLoading(responseFromStore) {
+        console.log('IdForNextTrack ', responseFromStore.id);
         const idForNexrTrack = responseFromStore.id;
 
         Actions.downloadTrack(idForNexrTrack);
@@ -188,11 +194,14 @@ export class AudioPlayer extends BaseComponent {
      * @param response
      */
     tapeLoad(response) {
+        console.log('TapeLoad ', response);
         switch (response.type) {
         case 'album':
             if (response.how) {
+                console.log('PlayAlbum');
                 Actions.playAlbum(response.id);
             } else {
+                console.log('QueueAlbum');
                 Actions.queueAlbum(response.id);
             }
 
@@ -222,6 +231,7 @@ export class AudioPlayer extends BaseComponent {
      * @param {JSON} response
      */
     #setNewTrack(response) {
+        console.log('Set new track', response);
         clearInterval(this.#elements.updateTimer);
         this.#resetAllToStart();
 
@@ -291,11 +301,11 @@ export class AudioPlayer extends BaseComponent {
         if (this.#isRepeat) {
             // repeat off
             this.#elements.audio.loop = false;
-            this.#elements.repeatImg.src = 'static/svg/Player/arrows-rotate-solid_not_active.svg';
+            this.#elements.repeatImg.src = '/static/svg/Player/arrows-rotate-solid_not_active.svg';
         } else {
             // repeat on
             this.#elements.audio.loop = true;
-            this.#elements.repeatImg.src = 'static/svg/Player/arrows-rotate-solid_active.svg';
+            this.#elements.repeatImg.src = '/static/svg/Player/arrows-rotate-solid_active.svg';
         }
 
         this.#isRepeat = !this.#isRepeat;

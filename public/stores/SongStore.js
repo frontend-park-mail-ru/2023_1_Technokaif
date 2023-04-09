@@ -54,6 +54,7 @@ class SongStore extends IStore {
             break;
         case ActionTypes.PLAY_ALBUM:
             this.#clearAll();
+            console.log('Set album Type in SongStore');
             this.#storeType = 'album';
             break;
         case ActionTypes.QUEUE_ALBUM:
@@ -104,14 +105,17 @@ class SongStore extends IStore {
             return;
         }
         if (this.#position === 0 && whatDirection === -1) {
+            console.log('Wrong Position');
             return;
         }
 
         this.#position += whatDirection;
         if (!(this.#position < this.#songs.length && this.#position >= 0)) {
+            console.log('Get song more than have');
             let id;
             switch (this.#storeType) {
             case 'album':
+                console.log('Album get in SongStore');
                 id = this.#songs[this.#position].albumID;
                 break;
             case 'artist':
@@ -140,6 +144,7 @@ class SongStore extends IStore {
             artists: this.#songs[this.#position].artists,
             name: this.#songs[this.#position].name,
             cover: this.#songs[this.#position].cover,
+            recordSrc: this.#songs[this.#position].recordSrc,
         });
     }
 
@@ -157,15 +162,18 @@ class SongStore extends IStore {
      * }
      */
     #uploadTape(response) {
+        console.log('UploadTape in SongStore, response', response);
         this.#position = this.#songs.length;
         this.#songs.push(response);
 
+        console.log('UploadTape in SongStore, songs', this.#songs);
         this.jsEmit(EventTypes.SONG_FOUND, {
             status: RESPONSES.OK,
             id: this.#songs[this.#position].id,
             artists: this.#songs[this.#position].artists,
             name: this.#songs[this.#position].name,
             cover: this.#songs[this.#position].cover,
+            recordSrc: this.#songs[this.#position].recordSrc,
         });
     }
 }
