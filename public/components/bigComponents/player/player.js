@@ -74,16 +74,16 @@ export class AudioPlayer extends BaseComponent {
             componentsNames.PLAYER,
         );
 
-        ComponentsStore.subscribe(
-            (list) => {
-                if (list.contains(componentsNames.PLAYER)) {
-                    console.log('Delete player audio', list);
-                    this.#elements.audio = [];
-                }
-            },
-            EventTypes.ON_REMOVE_ANOTHER_ITEMS,
-            componentsNames.PLAYER,
-        );
+        // ComponentsStore.subscribe(
+        //     (list) => {
+        //         if (list.contains(componentsNames.PLAYER)) {
+        //             console.log('Delete player audio', list);
+        //             this.#elements.audio = [];
+        //         }
+        //     },
+        //     EventTypes.ON_REMOVE_ANOTHER_ITEMS,
+        //     componentsNames.PLAYER,
+        // );
     }
 
     /** Start playing audio */
@@ -276,7 +276,7 @@ export class AudioPlayer extends BaseComponent {
 
     /** Calculate line on song */
     seekTo() {
-        const whereToPlace = this.#elements.duration
+        const whereToPlace = this.#elements.audio.duration
             * (this.#elements.seek_slider.value / 100);
         console.log('WhereToPlace', whereToPlace);
 
