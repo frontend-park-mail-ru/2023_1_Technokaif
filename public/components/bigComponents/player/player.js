@@ -236,11 +236,11 @@ export class AudioPlayer extends BaseComponent {
         clearInterval(this.#elements.updateTimer);
         this.#resetAllToStart();
 
-        this.#elements.track_art.src = `/static${response.cover}`;
+        this.#elements.track_art.src = `/static/img${response.cover}`;
         this.#elements.track_artist.textContent = response.artists[0].name;
         this.#elements.track_name.textContent = response.name;
 
-        this.#elements.updateTimer = setInterval(this.#seekUpdate, 1000);
+        this.#elements.updateTimer = setInterval(this.#seekUpdate.bind(this), 1000);
         this.#elements.audio.addEventListener('ended', () => this.#loadTrack(1));
 
         this.#lastResponse = response;
