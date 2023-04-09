@@ -16,7 +16,6 @@ import { albumAjax } from '../api/player/album';
 import { trackOneAjax } from '../api/player/track';
 import { userAjax } from '../api/user/userRequestAjax';
 import { userUpdateAjax } from '../api/user/userUpdateAjaxReq';
-import actions from '../actions/Actions';
 import { userUpdatePasswordAjax } from '../api/user/userUpdatePasswordAjaxReq';
 
 /**
@@ -192,12 +191,18 @@ class API extends IStore {
 
     /** User update data to server */
     #updateUser(id, userData) {
-        userUpdateAjax(id, userData).then((message) => this.jsEmit(EventTypes.UPDATE_DATA_RECEIVED, message));
+        userUpdateAjax(id, userData).then((message) => this.jsEmit(
+            EventTypes.UPDATE_DATA_RECEIVED,
+            message,
+        ));
     }
 
     /** User update data to server */
     #updatePasswordForUser(userData) {
-        userUpdatePasswordAjax(userData).then((message) => this.jsEmit(EventTypes.UPDATE_DATA_WITH_PASS_RECEIVED, message));
+        userUpdatePasswordAjax(userData).then((message) => this.jsEmit(
+            EventTypes.UPDATE_DATA_WITH_PASS_RECEIVED,
+            message,
+        ));
     }
 }
 

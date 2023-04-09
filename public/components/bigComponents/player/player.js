@@ -39,7 +39,6 @@ export class AudioPlayer extends BaseComponent {
         this.#isRepeat = false;
 
         this.#isExist = false;
-        console.log('PlayAlbum in player.js');
         Actions.playAlbum(1);
     }
 
@@ -107,7 +106,6 @@ export class AudioPlayer extends BaseComponent {
 
     /** Toggle between states of playing */
     toggle() {
-        console.log('Toggle');
         if (this.#isPlaying) {
             this.#pause();
         } else {
@@ -148,7 +146,6 @@ export class AudioPlayer extends BaseComponent {
 
     /** Add all elements of player to elements to use it later */
     #addAllElementsToElements() {
-        const a = this.#elements;
         this.#elements.now_playing = document.querySelector('.js__now-playing');
         this.#elements.track_art = document.querySelector('.js__img');
         this.#elements.track_name = document.querySelector('.js__track-name');
@@ -168,7 +165,6 @@ export class AudioPlayer extends BaseComponent {
 
         this.#elements.updateTimer = 0;
         this.#elements.audio = document.createElement('audio');
-        console.log('This in Daudio,', this.#elements);
     }
 
     /**
@@ -176,7 +172,6 @@ export class AudioPlayer extends BaseComponent {
      * If whatTrack is positive, render next track, else prev
      * */
     #loadTrack(whatTrack) {
-        console.log('Load new track');
         if (!this.#isRepeat) {
             Actions.searchForTrack(whatTrack, '');
         } else {
@@ -194,11 +189,6 @@ export class AudioPlayer extends BaseComponent {
      *  }
      */
     trackLoading(responseFromStore) {
-        console.log('IdForNextTrack ', responseFromStore.id);
-        const idForNexrTrack = responseFromStore.id;
-
-        // Actions.downloadTrack(idForNexrTrack);
-        console.log('Track loading', this.#elements);
         this.#setNewTrack(responseFromStore);
     }
 
@@ -214,14 +204,11 @@ export class AudioPlayer extends BaseComponent {
      * @param response
      */
     tapeLoad(response) {
-        console.log('TapeLoad ', response);
         switch (response.type) {
         case 'album':
             if (response.how) {
-                console.log('PlayAlbum');
                 Actions.playAlbum(response.id);
             } else {
-                console.log('QueueAlbum');
                 Actions.queueAlbum(response.id);
             }
 
@@ -259,8 +246,6 @@ export class AudioPlayer extends BaseComponent {
         this.#elements.track_name.textContent = response.name;
 
         this.#elements.updateTimer = setInterval(this.#seekUpdate.bind(this), 1000);
-        console.log('Audio', this.#elements.audio);
-        console.log('This in audio,', this.#elements);
 
         this.#lastResponse = response;
 
@@ -290,7 +275,6 @@ export class AudioPlayer extends BaseComponent {
     seekTo() {
         const whereToPlace = this.#elements.audio.duration
             * (this.#elements.seek_slider.value / 100);
-        console.log('WhereToPlace', whereToPlace);
 
         if (Number.isNaN(whereToPlace)) {
             return;
@@ -351,7 +335,7 @@ export class AudioPlayer extends BaseComponent {
 
         this.#subscribe();
         this.#addAllElementsToElements();
-        const y = this.#elements;
+
         this.#addReactionOnUser();
     }
 }

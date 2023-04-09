@@ -8,7 +8,6 @@ import Ajax from '../../modules/Ajax';
  */
 export async function userUpdateAjax(id, userData) {
     let mess;
-    console.log(id);
     await Ajax.post({
         url: apiUrl.USER_UPDATE_API(id),
         body: userData,
