@@ -173,6 +173,8 @@ export class AudioPlayer extends BaseComponent {
         console.log('Load new track');
         if (!this.#isRepeat) {
             Actions.searchForTrack(whatTrack, '');
+        } else {
+            this.#resetAllToStart();
         }
     }
 
@@ -254,10 +256,6 @@ export class AudioPlayer extends BaseComponent {
 
         this.#elements.updateTimer = setInterval(this.#seekUpdate.bind(this), 1000);
         this.#elements.audio.addEventListener('ended', () => {
-            if (this.#isRepeat) {
-                this.#resetAllToStart();
-                return;
-            }
             this.#loadTrack(1);
         });
 

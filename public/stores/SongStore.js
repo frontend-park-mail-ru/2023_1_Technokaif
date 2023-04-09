@@ -100,6 +100,7 @@ class SongStore extends IStore {
      * @param whatDirection
      */
     #searchForTrack(whatDirection) {
+        console.log('WhatDirection', whatDirection, this.#position);
         if (!this.#storeType) {
             console.warn('SongStore doesn\'t have any songs');
             return;
@@ -116,7 +117,7 @@ class SongStore extends IStore {
             switch (this.#storeType) {
             case 'album':
                 console.log('Album get in SongStore');
-                console.log('Songs.position', this.#songs[this.#position]);
+                console.log('Songs.position', this.#songs[this.#position], this.#position);
                 id = this.#songs[this.#position].albumID;
                 break;
             case 'artist':
@@ -165,9 +166,11 @@ class SongStore extends IStore {
     #uploadTape(response) {
         console.log('UploadTape in SongStore, response', response);
         // this.#position = this.#songs.length;
-        this.#position = 0;
-        // this.#songs.push(response);
-        this.#songs = response;
+        if (this.#songs.length === 0) {
+            this.#position = 0;
+        }
+
+        this.#songs += response;
 
         console.log('UploadTape in SongStore, songs', this.#songs);
         this.jsEmit(EventTypes.SONG_FOUND, {
