@@ -170,7 +170,7 @@ class SongStore extends IStore {
             this.#position = 0;
         }
 
-        this.#songs += response;
+        this.#songs = this.#songs.concat(response);
 
         console.log('UploadTape in SongStore, songs', this.#songs);
         this.jsEmit(EventTypes.SONG_FOUND, {
