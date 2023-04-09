@@ -16,7 +16,6 @@ import { componentsNames } from '../../../utils/config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
 import { componentsJSNames } from '../../../utils/config/componentsJSNames';
 import API from '../../../stores/API';
-import { csrfAjax } from '../../../api/auth/csrfAjaxReq';
 
 /**
  * Class for artists content in main page.

@@ -1,5 +1,4 @@
 import { csrfAjax } from '../api/auth/csrfAjaxReq';
-import ApiActions from '../actions/ApiActions';
 import { apiUrl } from '../utils/config/apiUrls';
 
 const AJAX_METHODS = {

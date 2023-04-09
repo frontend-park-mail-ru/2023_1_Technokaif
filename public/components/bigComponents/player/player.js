@@ -97,8 +97,6 @@ export class AudioPlayer extends BaseComponent {
     /** Stop playing audio */
     #pause() {
         if (this.#isExist) {
-            console.log(this.#elements.audio);
-            console.log(this.#elements.audio.src);
             this.#elements.audio.pause();
             this.#isPlaying = false;
             this.#elements.playpause_btnImg.src = '/static/svg/Player/play-solid.svg';
