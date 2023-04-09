@@ -128,6 +128,10 @@ function renderMainPage() {
                 name: componentsNames.USER,
                 render: ComponentsRenders.renderUserPage,
             },
+            {
+                name: componentsNames.PLAYER,
+                render: ComponentsRenders.renderPlayer,
+            },
         ],
     );
 

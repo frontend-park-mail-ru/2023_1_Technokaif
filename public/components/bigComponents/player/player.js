@@ -253,7 +253,13 @@ export class AudioPlayer extends BaseComponent {
         this.#elements.track_name.textContent = response.name;
 
         this.#elements.updateTimer = setInterval(this.#seekUpdate.bind(this), 1000);
-        this.#elements.audio.addEventListener('ended', () => this.#loadTrack(1));
+        this.#elements.audio.addEventListener('ended', () => {
+            if (this.#isRepeat) {
+                this.#resetAllToStart();
+                return;
+            }
+            this.#loadTrack(1);
+        });
 
         this.#lastResponse = response;
 
@@ -264,6 +270,7 @@ export class AudioPlayer extends BaseComponent {
 
     /** Set values of Time, Duration, Line to 0 */
     #resetAllToStart() {
+        this.#elements.audio.currentTime = 0;
         this.#elements.curr_time.textContent = '00:00';
         this.#elements.total_duration.textContent = '00:00';
         this.#elements.seek_slider.value = 0;
@@ -301,30 +308,12 @@ export class AudioPlayer extends BaseComponent {
             let currentSeconds = Math.floor(audio.currentTime - currentMinutes * 60);
             let durationMinutes = Math.floor(audio.duration / 60);
             let durationSeconds = Math.floor(audio.duration - durationMinutes * 60);
-            console.log(
-                'Before if in player.js:',
-                'Current min, current sec,',
-                currentMinutes,
-                currentSeconds,
-                'DurationMinutes, seconds',
-                durationMinutes,
-                durationSeconds,
-            );
 
             // Add a zero to the single digit time values
             if (currentSeconds < 10) { currentSeconds = `0${currentSeconds}`; }
             if (durationSeconds < 10) { durationSeconds = `0${durationSeconds}`; }
             if (currentMinutes < 10) { currentMinutes = `0${currentMinutes}`; }
             if (durationMinutes < 10) { durationMinutes = `0${durationMinutes}`; }
-            console.log(
-                'After if in player.js:',
-                'Current min, current sec,',
-                currentMinutes,
-                currentSeconds,
-                'DurationMinutes, seconds',
-                durationMinutes,
-                durationSeconds,
-            );
             // todo Here dont show
             // Display the updated duration
             // this.#elements.audio.curr_time = `${currentMinutes}:${currentSeconds}`;
@@ -338,10 +327,12 @@ export class AudioPlayer extends BaseComponent {
         // todo replace img
         if (this.#isRepeat) {
             // repeat off
+            this.#isRepeat = false;
             this.#elements.audio.loop = false;
             this.#elements.repeatImg.src = '/static/svg/Player/arrows-rotate-solid_not_active.svg';
         } else {
             // repeat on
+            this.#isRepeat = true;
             this.#elements.audio.loop = true;
             this.#elements.repeatImg.src = '/static/svg/Player/arrows-rotate-solid_active.svg';
         }
