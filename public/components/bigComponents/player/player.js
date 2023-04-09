@@ -144,7 +144,6 @@ export class AudioPlayer extends BaseComponent {
 
     /** Toggle between states of playing */
     toggle() {
-        console.log('Player', this.#isPlaying);
         if (this.#isPlaying) {
             this.#pause();
         } else {

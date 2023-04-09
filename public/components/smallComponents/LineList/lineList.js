@@ -4,6 +4,8 @@ import './lineList.less';
 import '../Line/line.less';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import Actions from '../../../actions/Actions';
+import ContentStore from '../../../stores/ContentStore';
+import { pageNames } from '../../../utils/config/pageNames';
 
 /**
  * Tape for elements
@@ -37,10 +39,9 @@ export class LineList extends BaseComponent {
         this.#parent.addEventListener('click', (event) => {
             const line = event.target.closest('.track-line');
             if (line) {
-                const id = line.getAttribute('data-id');
                 switch (this.#name) {
                 case componentsNames.ARTIST_LINE_LIST:
-                    Actions.playArtist(id);
+                    Actions.playArtist(ContentStore.state[pageNames.ARTIST_PAGE].id);
                     break;
                 default:
                 }
