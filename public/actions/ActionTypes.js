@@ -59,6 +59,9 @@ const ActionTypes = {
     DOWNLOAD_TRACK: 'DOWNLOAD_TRACK',
     CHANGE_VOLUME: 'CHANGE_VOLUME',
     UPLOAD_TAPE: 'UPLOAD_TAPE',
+    SET_STATE: 'SET_STATE',
+    SET_REPEAT: 'SET_REPEAT',
+
 };
 
 export default ActionTypes;

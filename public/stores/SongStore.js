@@ -9,6 +9,18 @@ export const METHODS_STORE = {
 
 /** Store to work with songs player */
 class SongStore extends IStore {
+    /** Flag - is playing music now */
+    #isPlaying;
+
+    /** Flag - is repeat music now */
+    #isRepeat;
+
+    /** Track with audio that will give music */
+    #audioTrack;
+
+    /** Flag -- if audio doesnt have any value in it */
+    #clearTrack;
+
     /** All ids of songs in current tape */
     #songs;
 
@@ -24,6 +36,12 @@ class SongStore extends IStore {
     /** Default value to delete all state */
     constructor() {
         super('SONG_STORE');
+
+        this.#audioTrack = document.createElement('input');
+        this.#clearTrack = true;
+        this.#isPlaying = false;
+        this.#isRepeat = false;
+
         this.#songVolume = 100;
         this.#position = -1;
         this.#songs = [];
@@ -66,8 +84,29 @@ class SongStore extends IStore {
         case ActionTypes.QUEUE_ARTIST:
             this.#storeType = 'artist';
             break;
+        case ActionTypes.SET_STATE:
+            this.#setPlaying(action.state);
+            break;
+        case ActionTypes.SET_REPEAT:
+            this.#isRepeat = action.state;
+            break;
         default:
             break;
+        }
+    }
+
+    /** Set state between playing sound and not playing */
+    #setPlaying(newState) {
+        this.#isPlaying = newState;
+        if (this.#clearTrack) {
+            this.#isPlaying = false;
+            return;
+        }
+
+        if (this.#isPlaying) {
+            this.#audioTrack.play();
+        } else {
+            this.#audioTrack.stop();
         }
     }
 
@@ -80,6 +119,7 @@ class SongStore extends IStore {
     #setVolume(volume) {
         if (volume >= 0 || volume <= 100) {
             this.#songVolume = volume;
+            this.#audioTrack.volume = volume;
         }
 
         this.jsEmit(EventTypes.VOLUME_CHANGED, this.#songVolume);
@@ -89,6 +129,14 @@ class SongStore extends IStore {
     #clearAll() {
         this.#songs = [];
         this.#position = 0;
+
+        this.#clearTrackSrc();
+    }
+
+    /** Clear track */
+    #clearTrackSrc() {
+        this.#audioTrack.src = '';
+        this.#clearTrack = true;
     }
 
     /**
@@ -100,8 +148,17 @@ class SongStore extends IStore {
      */
     #searchForTrack(whatDirection) {
         if (!this.#storeType) {
+            this.#clearTrackSrc();
             return;
         }
+
+        if (this.#isRepeat) {
+            this.jsEmit(EventTypes.SONG_FOUND, {
+                status: RESPONSES.REPEAT,
+            });
+            return;
+        }
+
         if (this.#position === 0 && whatDirection === -1) {
             return;
         }
@@ -136,13 +193,14 @@ class SongStore extends IStore {
             return;
         }
 
+        this.#audioTrack.src = this.#songs[this.#position].recordSrc;
+        this.#clearTrack = false;
         this.jsEmit(EventTypes.SONG_FOUND, {
             status: RESPONSES.OK,
             id: this.#songs[this.#position].id,
             artists: this.#songs[this.#position].artists,
             name: this.#songs[this.#position].name,
             cover: this.#songs[this.#position].cover,
-            recordSrc: this.#songs[this.#position].recordSrc,
         });
     }
 
@@ -167,13 +225,14 @@ class SongStore extends IStore {
         this.#songs = this.#songs.concat(response);
 
         if (this.#songs.length > 0) {
+            this.#audioTrack.src = this.#songs[this.#position].recordSrc;
+            this.#clearTrack = false;
             this.jsEmit(EventTypes.SONG_FOUND, {
                 status: RESPONSES.OK,
                 id: this.#songs[this.#position].id,
                 artists: this.#songs[this.#position].artists,
                 name: this.#songs[this.#position].name,
                 cover: this.#songs[this.#position].cover,
-                recordSrc: this.#songs[this.#position].recordSrc,
             });
         }
     }

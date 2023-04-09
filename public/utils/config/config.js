@@ -84,6 +84,7 @@ export const sidebarConfig = {
 export const RESPONSES = {
     OK: 'OK',
     BAD: 'BAD',
+    REPEAT: 'REPEAT',
 };
 
 export const METHOD = {
