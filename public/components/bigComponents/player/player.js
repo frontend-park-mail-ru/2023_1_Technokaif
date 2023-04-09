@@ -6,7 +6,6 @@ import { EventTypes } from '../../../utils/config/EventTypes';
 import API from '../../../stores/API';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
-import { re } from '@babel/core/lib/vendor/import-meta-resolve';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer extends BaseComponent {
