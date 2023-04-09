@@ -290,8 +290,6 @@ export class AudioPlayer extends BaseComponent {
     /** calculate all times */
     #seekUpdate() {
         let seekPosition = 0;
-        console.log(this.#elements.audio);
-        console.log(this.#elements.audio.duration);
 
         if (!Number.isNaN(this.#elements.audio.duration)) {
             const { audio } = this.#elements;
