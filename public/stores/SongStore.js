@@ -116,6 +116,7 @@ class SongStore extends IStore {
             switch (this.#storeType) {
             case 'album':
                 console.log('Album get in SongStore');
+                console.log('Songs.position', this.#songs[this.#position]);
                 id = this.#songs[this.#position].albumID;
                 break;
             case 'artist':

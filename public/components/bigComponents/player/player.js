@@ -6,6 +6,7 @@ import { EventTypes } from '../../../utils/config/EventTypes';
 import API from '../../../stores/API';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
+import ComponentsStore from '../../../stores/ComponentsStore';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer extends BaseComponent {
@@ -72,6 +73,17 @@ export class AudioPlayer extends BaseComponent {
             EventTypes.LOAD_TRACK,
             componentsNames.PLAYER,
         );
+
+        // ComponentsStore.subscribe(
+        //     (list) => {
+        //         if (list.contains(componentsNames.PLAYER)) {
+        //             console.log('Delete player audio', list);
+        //             this.#elements.audio = [];
+        //         }
+        //     },
+        //     EventTypes.ON_REMOVE_ANOTHER_ITEMS,
+        //     componentsNames.PLAYER,
+        // );
     }
 
     /** Start playing audio */
@@ -264,20 +276,20 @@ export class AudioPlayer extends BaseComponent {
 
     /** Calculate line on song */
     seekTo() {
-        const whereToPlace = this.#elements.duration
+        const whereToPlace = this.#elements.audio.duration
             * (this.#elements.seek_slider.value / 100);
+        console.log('WhereToPlace', whereToPlace);
 
         if (Number.isNaN(whereToPlace)) {
             return;
         }
-        this.#elements.audio.currentTime = whereToPlace;
+        this.#elements.curr_time = whereToPlace;
+        // this.#elements.audio.currentTime = whereToPlace;
     }
 
     /** calculate all times */
     #seekUpdate() {
         let seekPosition = 0;
-        console.log(this.#elements.audio);
-        console.log(this.#elements.audio.duration);
 
         if (!Number.isNaN(this.#elements.audio.duration)) {
             const { audio } = this.#elements;
@@ -289,15 +301,34 @@ export class AudioPlayer extends BaseComponent {
             let currentSeconds = Math.floor(audio.currentTime - currentMinutes * 60);
             let durationMinutes = Math.floor(audio.duration / 60);
             let durationSeconds = Math.floor(audio.duration - durationMinutes * 60);
+            console.log(
+                'Before if in player.js:',
+                'Current min, current sec,',
+                currentMinutes,
+                currentSeconds,
+                'DurationMinutes, seconds',
+                durationMinutes,
+                durationSeconds,
+            );
 
             // Add a zero to the single digit time values
             if (currentSeconds < 10) { currentSeconds = `0${currentSeconds}`; }
             if (durationSeconds < 10) { durationSeconds = `0${durationSeconds}`; }
             if (currentMinutes < 10) { currentMinutes = `0${currentMinutes}`; }
             if (durationMinutes < 10) { durationMinutes = `0${durationMinutes}`; }
-
+            console.log(
+                'After if in player.js:',
+                'Current min, current sec,',
+                currentMinutes,
+                currentSeconds,
+                'DurationMinutes, seconds',
+                durationMinutes,
+                durationSeconds,
+            );
+            // todo Here dont show
             // Display the updated duration
-            this.#elements.audio.textContent = `${currentMinutes}:${currentSeconds}`;
+            // this.#elements.audio.curr_time = `${currentMinutes}:${currentSeconds}`;
+            this.#elements.curr_time.textContent = `${currentMinutes}:${currentSeconds}`;
             this.#elements.total_duration.textContent = `${durationMinutes}:${durationSeconds}`;
         }
     }
