@@ -130,6 +130,9 @@ class UserInfoStore extends IStore {
         case 'userPageValidate':
             this.#checkForUserPage(value);
             break;
+        case 'userPagePasswordValidate':
+            this.#checkForUserPageWithPassword(value);
+            break;
         default:
         }
         this.jsEmit('CHANGE_FIELD'.concat(nameOfField));
@@ -542,6 +545,31 @@ class UserInfoStore extends IStore {
     /**
      * check if correct input
      * @param value
+     * password
+     * newPassword
+     * newConfPassword
+     */
+    #checkForUserPageWithPassword(value) {
+        this.#getPasswordError(value.password, 'password', true);
+        this.#getPasswordError(value.newPassword, 'newPassword', true);
+        this.#getPasswordConfError(value.newPassword, value.newConfPassword);
+
+        const whatToCheck = ['password', 'newPassword', 'newConfPassword'];
+
+        let status = OK_RESPONSE;
+        for (const errorField in whatToCheck) {
+            if (super.state.errors[errorField]) {
+                status = BAD_RESPONSE;
+            }
+        }
+
+        super.changeFieldInState('confEmail', '');
+        this.jsEmit(EventTypes.SEND_DATA, status);
+    }
+
+    /**
+     * check if correct input
+     * @param value
      * email
      * day
      * month
@@ -558,10 +586,6 @@ class UserInfoStore extends IStore {
         super.changeFieldInState('month', value.month);
         super.changeFieldInState('year', value.year);
 
-        this.#getPasswordError(value.password, 'password', true);
-        this.#getPasswordError(value.newPassword, 'newPassword', true);
-        this.#getPasswordConfError(value.newPassword, value.newConfPassword);
-
         this.#getDayError(true);
         this.#getYearError(true);
         this.#getMonthError(true);
@@ -570,7 +594,7 @@ class UserInfoStore extends IStore {
         this.#getSexError(value.gender);
         this.#checkValueGender();
 
-        const whatToCheck = ['email', 'day', 'month', 'year', 'gender', 'password', 'newPassword', 'newConfPassword'];
+        const whatToCheck = ['email', 'day', 'month', 'year', 'gender'];
 
         let status = OK_RESPONSE;
         for (const errorField in whatToCheck) {

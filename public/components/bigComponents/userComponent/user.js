@@ -150,6 +150,9 @@ export class User extends BaseComponent {
                 month: month.value,
                 year: year.value,
                 gender: elementsValues,
+            });
+
+            Actions.validateAll('userPagePasswordValidate', {
                 password: password.value,
                 newPassword: newPassword.value,
                 newConfPassword: newConfPassword.value,
@@ -158,7 +161,7 @@ export class User extends BaseComponent {
     }
 
     /** Add date for fields. Used when open page and need date in forms */
-    #addDataToFileds() {
+    #addDataToFields() {
         const values = UserInfoStore.state;
         // todo create IMG in userstore
         document.querySelector('.user-profile__img').src = values.imgSrc;
@@ -302,7 +305,7 @@ export class User extends BaseComponent {
     #subscribeForStores() {
         UserInfoStore.subscribe(
             () => {
-                this.#addDataToFileds();
+                this.#addDataToFields();
                 this.#addEventListenersForFields();
             },
             EventTypes.USER_DATA_GOT_FOR_PAGE,

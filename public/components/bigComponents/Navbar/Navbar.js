@@ -9,7 +9,6 @@ import { componentsJSNames } from '../../../utils/config/componentsJSNames';
 import ComponentsStore from '../../../stores/ComponentsStore';
 import Actions from '../../../actions/Actions';
 import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
-import { checkAuthAjax } from '../../../api/auth/checkAuthAjaxReq';
 import { checkAuth } from '../../../utils/functions/checkAuth';
 import { routingUrl } from '../../../utils/config/routingUrls';
 

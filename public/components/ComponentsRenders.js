@@ -14,7 +14,6 @@ import { User } from './bigComponents/userComponent/user';
 import { RegisterComponent } from './bigComponents/registerComponent/registerComponent';
 import { LoginComponent } from './bigComponents/loginComponent/loginComponent';
 import { AudioPlayer } from './bigComponents/player/player';
-import { checkAuthAjax } from '../api/auth/checkAuthAjaxReq';
 import Router from '../router/Router';
 
 /**
