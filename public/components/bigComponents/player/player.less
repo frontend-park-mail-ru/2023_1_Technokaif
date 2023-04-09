@@ -63,7 +63,7 @@
   width: fit-content;
   display: flex;
   justify-content: center;
-
+  width: 500px;
 }
 
 .player-buttons{
@@ -107,4 +107,27 @@
 
   height: 10px;
   width: 100%;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  background: @complementary-color-theme;
+  border-radius: 5px;
+  height: 0.5rem;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  margin-top: -7px; /* Centers thumb on the track */
+  background-color: @player-color-theme;
+  height: 20px;
+  width: 20px;
+  border-radius: 10px;
 }
