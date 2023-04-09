@@ -40,4 +40,5 @@ export const EventTypes = {
     DOWNLOADING_ID: 'DOWNLOADING_ID',
 
     LOAD_TRACK: 'LOAD_TRACK',
+    TRACK_END: 'TRACK_END',
 };

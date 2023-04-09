@@ -37,7 +37,7 @@ class SongStore extends IStore {
     constructor() {
         super('SONG_STORE');
 
-        this.#audioTrack = document.createElement('input');
+        this.#audioTrack = document.createElement('audio');
         this.#clearTrack = true;
         this.#isPlaying = false;
         this.#isRepeat = false;
@@ -46,6 +46,21 @@ class SongStore extends IStore {
         this.#position = -1;
         this.#songs = [];
         this.#storeType = null;
+
+        this.#audioTrack.addEventListener(
+            'ended',
+            () => this.jsEmit(EventTypes.TRACK_END, {}),
+        );
+    }
+
+    /** Return audio element */
+    get audio() {
+        return this.#audioTrack;
+    }
+
+    /** If track exist */
+    get exist() {
+        return !this.#clearTrack;
     }
 
     /**
@@ -90,6 +105,12 @@ class SongStore extends IStore {
         case ActionTypes.SET_REPEAT:
             this.#isRepeat = action.state;
             break;
+        case ActionTypes.TIME_OF_PLAY:
+            this.#audioTrack.currentTime = action.time;
+            break;
+        case ActionTypes.CLEAR_ALL:
+            this.#clearAll();
+            break;
         default:
             break;
         }
@@ -106,7 +127,7 @@ class SongStore extends IStore {
         if (this.#isPlaying) {
             this.#audioTrack.play();
         } else {
-            this.#audioTrack.stop();
+            this.#audioTrack.pause();
         }
     }
 
@@ -148,6 +169,7 @@ class SongStore extends IStore {
      */
     #searchForTrack(whatDirection) {
         if (!this.#storeType) {
+            console.warn('Not store type set');
             this.#clearTrackSrc();
             return;
         }
@@ -193,7 +215,7 @@ class SongStore extends IStore {
             return;
         }
 
-        this.#audioTrack.src = this.#songs[this.#position].recordSrc;
+        this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
         this.#clearTrack = false;
         this.jsEmit(EventTypes.SONG_FOUND, {
             status: RESPONSES.OK,
@@ -225,7 +247,7 @@ class SongStore extends IStore {
         this.#songs = this.#songs.concat(response);
 
         if (this.#songs.length > 0) {
-            this.#audioTrack.src = this.#songs[this.#position].recordSrc;
+            this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
             this.#clearTrack = false;
             this.jsEmit(EventTypes.SONG_FOUND, {
                 status: RESPONSES.OK,

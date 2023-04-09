@@ -187,6 +187,37 @@ const Actions = {
             id,
         });
     },
+
+    /** Set repeat state */
+    createRepeat(state) {
+        Dispatcher.dispatch({
+            type: ActionTypes.SET_REPEAT,
+            state,
+        });
+    },
+
+    /** Set play state */
+    createPlay(state) {
+        Dispatcher.dispatch({
+            type: ActionTypes.SET_STATE,
+            state,
+        });
+    },
+
+    /** Set time to track in Store */
+    setTimeToTrack(time) {
+        Dispatcher.dispatch({
+            type: ActionTypes.TIME_OF_PLAY,
+            time,
+        });
+    },
+
+    /** When player dying notify store */
+    playerDelete() {
+        Dispatcher.dispatch({
+            type: ActionTypes.CLEAR_ALL,
+        });
+    },
 };
 
 export default Actions;

@@ -61,7 +61,8 @@ const ActionTypes = {
     UPLOAD_TAPE: 'UPLOAD_TAPE',
     SET_STATE: 'SET_STATE',
     SET_REPEAT: 'SET_REPEAT',
-
+    TIME_OF_PLAY: 'TIME_OF_PLAY',
+    CLEAR_ALL: 'CLEAR_ALL',
 };
 
 export default ActionTypes;

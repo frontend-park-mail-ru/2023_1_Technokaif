@@ -3,10 +3,10 @@ import template from './player.handlebars';
 import './player.less';
 import SongStore from '../../../stores/SongStore';
 import { EventTypes } from '../../../utils/config/EventTypes';
-import API from '../../../stores/API';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
 import ComponentsStore from '../../../stores/ComponentsStore';
+import { RESPONSES } from '../../../utils/config/config';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer extends BaseComponent {
@@ -52,8 +52,8 @@ export class AudioPlayer extends BaseComponent {
 
         // Subscribe for change in volume
         SongStore.subscribe(
-            this.setVolume.bind(this),
-            EventTypes.VOLUME_CHANGED,
+            () => this.#loadTrack(1),
+            EventTypes.TRACK_END,
             componentsNames.PLAYER,
         );
 
@@ -63,20 +63,12 @@ export class AudioPlayer extends BaseComponent {
             componentsNames.PLAYER,
         );
 
-        API.subscribe(
-            (binaryFile) => {
-                // todo watch for error here
-                this.#loadSong(binaryFile);
-            },
-            EventTypes.LOAD_TRACK,
-            componentsNames.PLAYER,
-        );
-
         ComponentsStore.subscribe(
             (list) => {
                 if (list.find(
                     (element) => element.name === componentsNames.PLAYER,
                 )) {
+                    Actions.playerDelete();
                     delete this;
                 }
             },
@@ -87,18 +79,18 @@ export class AudioPlayer extends BaseComponent {
 
     /** Start playing audio */
     #play() {
-        if (this.#isExist) {
-            this.#elements.audio.play();
+        if (SongStore.exist) {
             this.#isPlaying = true;
+            Actions.createPlay(this.#isPlaying);
             this.#elements.playpause_btnImg.src = '/static/svg/Player/pause-solid.svg';
         }
     }
 
     /** Stop playing audio */
     #pause() {
-        if (this.#isExist) {
-            this.#elements.audio.pause();
+        if (SongStore.exist) {
             this.#isPlaying = false;
+            Actions.createPlay(this.#isPlaying);
             this.#elements.playpause_btnImg.src = '/static/svg/Player/play-solid.svg';
         }
     }
@@ -172,9 +164,10 @@ export class AudioPlayer extends BaseComponent {
      * */
     #loadTrack(whatTrack) {
         if (!this.#isRepeat) {
-            Actions.searchForTrack(whatTrack, '');
+            Actions.searchForTrack(whatTrack, whatTrack);
         } else {
             this.#resetAllToStart();
+            this.#play();
         }
     }
 
@@ -188,14 +181,11 @@ export class AudioPlayer extends BaseComponent {
      *  }
      */
     trackLoading(responseFromStore) {
+        if (responseFromStore.status === RESPONSES.REPEAT) {
+            this.#resetAllToStart();
+            return;
+        }
         this.#setNewTrack(responseFromStore);
-    }
-
-    /** load song into audio */
-    #loadSong(response) {
-        this.#elements.audio.src = response;
-        this.#isExist = true;
-        this.#play();
     }
 
     /**
@@ -251,59 +241,56 @@ export class AudioPlayer extends BaseComponent {
 
         this.#lastResponse = response;
 
-        this.#elements.audio.src = `/media${response.recordSrc}`;
         this.#isExist = true;
         this.#play();
     }
 
     /** Set values of Time, Duration, Line to 0 */
     #resetAllToStart() {
-        this.#elements.audio.currentTime = 0;
         this.#elements.curr_time.textContent = '00:00';
         this.#elements.total_duration.textContent = '00:00';
         this.#elements.seek_slider.value = 0;
+        Actions.setTimeToTrack(0);
     }
 
-    /** Set volume to slider option */
-    setVolume(volume) {
-        this.#elements.audio.volume = volume;
-    }
+    // /** Set volume to slider option */
+    // setVolume(volume) {
+    //
+    // }
 
     /** Calculate line on song */
     seekTo() {
-        const whereToPlace = this.#elements.audio.duration
+        const whereToPlace = SongStore.audio.duration
             * (this.#elements.seek_slider.value / 100);
 
         if (Number.isNaN(whereToPlace)) {
             return;
         }
-        // this.#elements.curr_time = whereToPlace;
-        this.#elements.audio.currentTime = whereToPlace;
+
+        Actions.setTimeToTrack(whereToPlace);
     }
 
     /** calculate all times */
     #seekUpdate() {
         let seekPosition = 0;
 
-        if (!Number.isNaN(this.#elements.audio.duration)) {
-            const { audio } = this.#elements;
-            seekPosition = audio.currentTime * (100 / audio.duration);
+        if (!Number.isNaN(SongStore.audio.duration)) {
+            seekPosition = SongStore.audio.currentTime * (100 / SongStore.audio.duration);
             this.#elements.seek_slider.value = seekPosition;
 
             // Calculate the time left and the total duration
-            let currentMinutes = Math.floor(audio.currentTime / 60);
-            let currentSeconds = Math.floor(audio.currentTime - currentMinutes * 60);
-            let durationMinutes = Math.floor(audio.duration / 60);
-            let durationSeconds = Math.floor(audio.duration - durationMinutes * 60);
+            let currentMinutes = Math.floor(SongStore.audio.currentTime / 60);
+            let currentSeconds = Math.floor(SongStore.audio.currentTime - currentMinutes * 60);
+            let durationMinutes = Math.floor(SongStore.audio.duration / 60);
+            let durationSeconds = Math.floor(SongStore.audio.duration - durationMinutes * 60);
 
             // Add a zero to the single digit time values
             if (currentSeconds < 10) { currentSeconds = `0${currentSeconds}`; }
             if (durationSeconds < 10) { durationSeconds = `0${durationSeconds}`; }
             if (currentMinutes < 10) { currentMinutes = `0${currentMinutes}`; }
             if (durationMinutes < 10) { durationMinutes = `0${durationMinutes}`; }
-            // todo Here dont show
+
             // Display the updated duration
-            // this.#elements.audio.curr_time = `${currentMinutes}:${currentSeconds}`;
             this.#elements.curr_time.textContent = `${currentMinutes}:${currentSeconds}`;
             this.#elements.total_duration.textContent = `${durationMinutes}:${durationSeconds}`;
         }
@@ -312,14 +299,13 @@ export class AudioPlayer extends BaseComponent {
     /** Toggle repeat on/off */
     #toggleRepeat() {
         if (this.#isRepeat) {
-            this.#elements.audio.loop = false;
             this.#elements.repeatImg.src = '/static/svg/Player/arrows-rotate-solid_not_active.svg';
         } else {
-            this.#elements.audio.loop = true;
             this.#elements.repeatImg.src = '/static/svg/Player/arrows-rotate-solid_active.svg';
         }
 
         this.#isRepeat = !this.#isRepeat;
+        Actions.createRepeat(this.#isRepeat);
     }
 
     /** Render player in parent */
