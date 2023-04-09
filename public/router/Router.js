@@ -100,7 +100,6 @@ class Router extends IStore {
             }
 
             if (foundInFutureLinks) {
-                this.go('/login');
                 return;
             }
 
@@ -117,9 +116,11 @@ class Router extends IStore {
                         }
 
                         this.#currentLen = window.history.length;
-                        window.history.pushState({
-                            historyLen: this.#currentLen, stateInHistory: stateStore, id, page,
-                        }, '', path);
+                        if (window.location.pathname !== path) {
+                            window.history.pushState({
+                                historyLen: this.#currentLen, stateInHistory: stateStore, id, page,
+                            }, '', path);
+                        }
 
                         routeWithRegExpFound = true;
                         regExObj.render();
@@ -142,10 +143,8 @@ class Router extends IStore {
 
         // todo was changed for work on popstate
         this.#currentLen = window.history.length;
-        window.history.pushState({ historyLen: this.#currentLen, stateInHistory: stateStore }, '', path);
-
         if (window.location.pathname !== path) {
-            window.history.pushState(stateStore, '', path);
+            window.history.pushState({ historyLen: this.#currentLen, stateInHistory: stateStore }, '', path);
         }
 
         object.render();
@@ -180,11 +179,15 @@ class Router extends IStore {
                 return (regex.test(window.location.pathname));
             });
 
+            object.render();
             Actions.sendId(window.history.state.id, window.history.state.page);
+            this.#sendStoresChanges(window.history.state.stateInHistory);
+            return;
         }
-        this.#sendStoresChanges(window.history.state.stateInHistory);
 
+        this.#sendStoresChanges(window.history.state.stateInHistory);
         object.render();
+
         this.jsEmit('PAGE_CHANGED');
     }
 }

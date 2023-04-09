@@ -357,10 +357,14 @@ export class User extends BaseComponent {
                 if (message !== 'OK') {
                     console.error(message);
                     const element = document.querySelector('.user__error-text');
+                    const useless = document.querySelector('.user__success-text');
+                    useless.hidden = true;
                     element.hidden = false;
                     element.innerText = message;
                 } else {
                     const element = document.querySelector('.user__success-text');
+                    const useless = document.querySelector('.user__error-text');
+                    useless.hidden = true;
                     element.hidden = false;
                     element.innerText = 'Successfully changed data';
                 }

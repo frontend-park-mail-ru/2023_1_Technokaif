@@ -3,6 +3,7 @@ import Router from '../../../router/Router';
 import templateHTML from './tape.handlebars';
 import { BaseComponent } from '../../BaseComponent';
 import { instancesNames } from '../../../utils/config/instances';
+import Actions from '../../../actions/Actions';
 
 /**
  * Tape for elements
@@ -33,18 +34,19 @@ export class Tape extends BaseComponent {
      * Function to add click event on tape
      */
     #addListeners() {
-        const tapes = document.querySelectorAll('.component');
         this.#parent.addEventListener('click', (event) => {
-            const tape = event.target.closest('.component');
-            if (tapes) {
+            const tape = event.target.closest(`.component__${this.#name}`);
+            if (tape) {
                 const id = tape.getAttribute('data-id');
                 switch (this.#name) {
                 case 'Artists':
                     Router.go(`/${instancesNames.ARTIST_PAGE}/${id}`);
                     break;
                 case 'Tracks':
+                    Actions.playTrack(id);
                     break;
                 case 'Albums':
+                    Actions.playAlbum(id);
                     break;
                 default:
                 }
