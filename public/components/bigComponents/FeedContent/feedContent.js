@@ -1,5 +1,6 @@
 import { Tape } from '../Tape/tape';
 import templateHtml from './feedContent.handlebars';
+import offlineLogoHtml from './offlineLogo.handlebars';
 
 import './feedContent.less';
 import ContentStore from '../../../stores/ContentStore';
@@ -39,6 +40,7 @@ export class FeedContent extends BaseComponent {
      * Function to render tapes for artists albums tracks
      */
     #renderTapes() {
+        this.#configs.sort((a, b) => a.titleText.localeCompare(b.titleText));
         this.#configs.forEach((configForInsertElement) => {
             const tape = new Tape(
                 this.element,
@@ -57,7 +59,7 @@ export class FeedContent extends BaseComponent {
             () => {
                 const state = ContentStore.state[pageNames.FEED];
                 for (const key in state) {
-                    this.#configs.push(setupTape(key, state[key]));
+                    this.#configs.push(setupTape(key, state[key].slice(0, 5)));
                 }
 
                 this.#renderTapes();
@@ -65,6 +67,12 @@ export class FeedContent extends BaseComponent {
             EventTypes.FEED_CONTENT_DONE,
             this.name,
         );
+        window.addEventListener('offline', () => {
+            this.#parent.innerHTML += offlineLogoHtml();
+        });
+        window.addEventListener('online', () => {
+            this.#parent.removeChild();
+        });
     }
 
     /**
