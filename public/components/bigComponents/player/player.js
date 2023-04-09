@@ -101,8 +101,8 @@ export class AudioPlayer extends BaseComponent {
                 if (list.find(
                     (element) => element.name === componentsNames.PLAYER,
                 )) {
-                    Actions.removeElementFromPage(componentsNames.NAVBAR);
-                    unsubscribeFromAllStoresOnComponent(componentsNames.NAVBAR);
+                    Actions.removeElementFromPage(componentsNames.PLAYER);
+                    unsubscribeFromAllStoresOnComponent(componentsNames.PLAYER);
                     // this.#unRender();
                     this.unRender();
                     delete this;
@@ -118,6 +118,7 @@ export class AudioPlayer extends BaseComponent {
                 } else {
                     unsubscribeFromAllStoresOnComponent(componentsNames.PLAYER);
                     this.unRender();
+                    delete this;
                     this.#reRender();
                 }
             },
