@@ -174,6 +174,7 @@ export class AudioPlayer extends BaseComponent {
      * If whatTrack is positive, render next track, else prev
      * */
     #loadTrack(whatTrack) {
+        console.log('IsRepeat ', this.#isRepeat);
         if (!this.#isRepeat) {
             Actions.searchForTrack(whatTrack, '');
         } else {
@@ -191,6 +192,7 @@ export class AudioPlayer extends BaseComponent {
      *  }
      */
     trackLoading(responseFromStore) {
+        console.log('Player', responseFromStore);
         this.#setNewTrack(responseFromStore);
     }
 
