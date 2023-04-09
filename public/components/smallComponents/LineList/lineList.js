@@ -40,7 +40,7 @@ export class LineList extends BaseComponent {
                 const id = line.getAttribute('data-id');
                 switch (this.#name) {
                 case componentsNames.ARTIST_LINE_LIST:
-                    Actions.playTrack(id);
+                    Actions.playArtist(id);
                     break;
                 default:
                 }

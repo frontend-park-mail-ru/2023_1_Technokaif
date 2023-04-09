@@ -184,7 +184,7 @@ class API extends IStore {
 
     /** Function to get Artists from server */
     #artistRequestFromServer(id) {
-        artistAjax(id).then((tracks) => {
+        artistTracksAjax(id).then((tracks) => {
             Actions.loadMoreLine(tracks);
         });
     }
