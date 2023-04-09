@@ -6,6 +6,7 @@ import { EventTypes } from '../../../utils/config/EventTypes';
 import API from '../../../stores/API';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
+import ComponentsStore from '../../../stores/ComponentsStore';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer extends BaseComponent {
