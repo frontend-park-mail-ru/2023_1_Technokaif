@@ -16,7 +16,6 @@ import { albumAjax } from '../api/player/album';
 import { trackOneAjax } from '../api/player/track';
 import { userAjax } from '../api/user/userRequestAjax';
 import { userUpdateAjax } from '../api/user/userUpdateAjaxReq';
-import actions from '../actions/Actions';
 import { userUpdatePasswordAjax } from '../api/user/userUpdatePasswordAjaxReq';
 
 /**

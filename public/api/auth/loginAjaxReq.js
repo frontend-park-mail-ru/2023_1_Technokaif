@@ -12,8 +12,8 @@ export async function loginAjax(login, password) {
         url: apiUrl.LOGIN,
         body: { username: login, password },
         resolve: (data) => {
-            localStorage.setItem('jwt', data.jwt);
             localStorage.setItem('userId', data.id);
+            localStorage.setItem('isAuth', 'true');
         },
     }).then(() => {
         mes = 'OK';

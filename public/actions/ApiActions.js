@@ -73,10 +73,9 @@ const ApiActions = {
     },
 
     /** Action to ask for user update of data */
-    userUpdatePassword(id, userData) {
+    userUpdatePassword(userData) {
         Dispatcher.dispatch({
             type: ActionTypes.USER_UPDATE_PASSWORD,
-            id,
             userData,
         });
     },

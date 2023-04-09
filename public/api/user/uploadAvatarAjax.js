@@ -2,17 +2,17 @@ import { apiUrl } from '../../utils/config/apiUrls.js';
 import Ajax from '../../modules/Ajax';
 
 /**
- * Api-oriented user update function.
+ * Api-oriented user update avatar function.
  * @param id
- * @param userData
+ * @param avatar
  */
-export async function userUpdateAjax(id, userData) {
+export async function userUpdateAvatarAjax(id, avatar) {
     let mess;
     await Ajax.post({
-        url: apiUrl.USER_UPDATE_API(id),
-        body: userData,
+        url: apiUrl.USER_UPDATE_AVATAR_API(id),
+        body: avatar,
         reject: (message) => {
-            console.error('User update request api error:', message);
+            console.error('User update avatar request api error:', message);
         },
     }).then(() => {
         mess = 'OK';

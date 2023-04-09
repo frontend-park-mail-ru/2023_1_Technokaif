@@ -6,7 +6,6 @@ import { EventTypes } from '../../../utils/config/EventTypes';
 import API from '../../../stores/API';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
-import ComponentsStore from '../../../stores/ComponentsStore';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer extends BaseComponent {
@@ -39,8 +38,6 @@ export class AudioPlayer extends BaseComponent {
         this.#isRepeat = false;
 
         this.#isExist = false;
-        console.log('PlayAlbum in player.js');
-        Actions.playAlbum(1);
     }
 
     /** Subscribe Stores */
@@ -98,6 +95,8 @@ export class AudioPlayer extends BaseComponent {
     /** Stop playing audio */
     #pause() {
         if (this.#isExist) {
+            console.log(this.#elements.audio);
+            console.log(this.#elements.audio.src);
             this.#elements.audio.pause();
             this.#isPlaying = false;
             this.#elements.playpause_btnImg.src = '/static/svg/Player/play-solid.svg';

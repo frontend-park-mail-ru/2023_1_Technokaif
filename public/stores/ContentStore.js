@@ -88,7 +88,6 @@ class ContentStore extends IStore {
         }
 
         if (Object.keys(this.state[pageNames.FEED]).length === 3) {
-            console.log(this.state);
             this.jsEmit(EventTypes.FEED_CONTENT_DONE);
         }
     }

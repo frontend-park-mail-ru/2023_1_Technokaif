@@ -2,7 +2,7 @@ import { apiUrl } from '../../utils/config/apiUrls.js';
 import Ajax from '../../modules/Ajax';
 
 const logout = () => {
-    localStorage.removeItem('jwt');
+    localStorage.setItem('isAuth', 'false');
 };
 
 /**

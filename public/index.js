@@ -22,6 +22,8 @@ import { routingUrl } from './utils/config/routingUrls';
 // eslint-disable-next-line import/no-named-as-default
 import UserView from './views/UserView';
 import { checkAuthAjax } from './api/auth/checkAuthAjaxReq';
+import { csrfAjax } from './api/auth/csrfAjaxReq';
+import ApiActions from './actions/ApiActions';
 
 /**
  * Render main page of app
@@ -132,9 +134,7 @@ function renderMainPage() {
     );
 
     checkAuthAjax().then((value) => {
-        if (value === false) {
-            localStorage.removeItem('jwt');
-        }
+        localStorage.setItem('isAuth', `${value}`);
     });
 
     Router.register(routingUrl.ROOT, () => { FeedView.render(); }, [API, ContentStore]);

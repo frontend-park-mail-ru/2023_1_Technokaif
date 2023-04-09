@@ -154,11 +154,13 @@ export class User extends BaseComponent {
                 gender: elementsValues,
             });
 
-            Actions.validateAll('userPagePasswordValidate', {
-                password: password.value,
-                newPassword: newPassword.value,
-                newConfPassword: newConfPassword.value,
-            });
+            if (password.value !== '' || newPassword.value !== '' || newConfPassword.value !== '') {
+                Actions.validateAll('userPagePasswordValidate', {
+                    password: password.value,
+                    newPassword: newPassword.value,
+                    newConfPassword: newConfPassword.value,
+                });
+            }
         });
     }
 
@@ -169,7 +171,7 @@ export class User extends BaseComponent {
         document.querySelector('.user-profile__img').src = values.imgSrc;
 
         document.querySelector('.user-profile__username-text').innerText = values.username;
-        document.querySelector('.user-profile__initials-text').innerText = values.firstName + values.lastName;
+        document.querySelector('.user-profile__initials-text').innerText = `${values.firstName} ${values.lastName}`;
         document.querySelector(`.${ElementsClassForUser.email}`).value = values.email;
         document.querySelector(`.${ElementsClassForUser.day}`).value = values.day;
         document.querySelector(`.${ElementsClassForUser.year}`).value = values.year;
@@ -186,12 +188,18 @@ export class User extends BaseComponent {
         switch (values.sex) {
         case 'F':
             femaleGender.checked = true;
+            maleGender.disabled = false;
+            otherGender.disabled = false;
             break;
         case 'M':
             maleGender.checked = true;
+            femaleGender.disabled = false;
+            otherGender.disabled = false;
             break;
         case 'O':
             otherGender.checked = true;
+            maleGender.disabled = false;
+            femaleGender.disabled = false;
             break;
         default:
             console.error('Not registered gender');
@@ -222,17 +230,19 @@ export class User extends BaseComponent {
      */
     #sendAllDataToAPI(status) {
         if (status === RESPONSES.OK) {
-            csrfAjax()
-                .then(() => {
-                    const { state } = UserInfoStore;
-                    ApiActions.userUpdateData(localStorage.getItem('userId'), {
-                        email: state.email,
-                        firstName: state.firstName,
-                        lastName: state.lastName,
-                        sex: state.gender,
-                        birthDate: [state.year, state.month, state.day].join('-'),
-                    });
-                });
+            const { state } = UserInfoStore;
+            const date = new Date(`${state.month} 1, 2000`);
+            let monthNumber = date.getMonth() + 1;
+            if (monthNumber < 10) {
+                monthNumber = `0${monthNumber}`;
+            }
+            ApiActions.userUpdateData(localStorage.getItem('userId'), {
+                email: state.email,
+                firstName: state.firstName,
+                lastName: state.lastName,
+                sex: state.sex,
+                birthDate: [state.year, monthNumber, state.day].join('-'),
+            });
         }
     }
 
@@ -243,11 +253,9 @@ export class User extends BaseComponent {
      */
     #sendAllDataCredential(status) {
         if (status === RESPONSES.OK) {
-            csrfAjax().then(() => {
-                ApiActions.userUpdatePassword({
-                    oldPassword: document.querySelector('.js__password').value,
-                    newPassword: document.querySelector('.js__new__password').value,
-                });
+            ApiActions.userUpdatePassword({
+                oldPassword: document.querySelector('.js__password').value,
+                newPassword: document.querySelector('.js__new__password').value,
             });
         }
     }
@@ -348,6 +356,13 @@ export class User extends BaseComponent {
             (message) => {
                 if (message !== 'OK') {
                     console.error(message);
+                    const element = document.querySelector('.user__error-text');
+                    element.hidden = false;
+                    element.innerText = message;
+                } else {
+                    const element = document.querySelector('.user__success-text');
+                    element.hidden = false;
+                    element.innerText = 'Successfully changed data';
                 }
             },
             EventTypes.UPDATE_DATA_RECEIVED,
@@ -357,6 +372,13 @@ export class User extends BaseComponent {
             (message) => {
                 if (message !== 'OK') {
                     console.error(message);
+                    const element = document.querySelector('.user__error-text');
+                    element.hidden = false;
+                    element.innerText = message;
+                } else {
+                    const element = document.querySelector('.user__success-text');
+                    element.hidden = false;
+                    element.innerText = 'Successfully changed password';
                 }
             },
             EventTypes.UPDATE_DATA_WITH_PASS_RECEIVED,

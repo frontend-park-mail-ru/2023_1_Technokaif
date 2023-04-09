@@ -5,13 +5,16 @@ import Ajax from '../../modules/Ajax';
  * Api-oriented csrf get function.
  */
 export async function csrfAjax() {
+    let csrf;
     await Ajax.get({
         url: apiUrl.CSRF_REQ,
         resolve: (data) => {
-            localStorage.setItem('csrf', data.csrf);
+            csrf = data.csrf;
         },
         reject: (message) => {
             console.error('User csrf api error:', message);
         },
     });
+
+    return csrf;
 }

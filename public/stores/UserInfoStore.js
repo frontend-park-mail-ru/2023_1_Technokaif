@@ -187,11 +187,12 @@ class UserInfoStore extends IStore {
 
     /**
      *
-     * @param {JSON} passwords two fields
      * @description
      * newPassword and confPassword
      *
      * If equal then emit 'newConfPassword' with 'OK' else 'BAD'
+     * @param password
+     * @param confPassword
      */
     #getPasswordConfError(password, confPassword) {
         this.#checkIfEquap('newConfPassword', password, confPassword);

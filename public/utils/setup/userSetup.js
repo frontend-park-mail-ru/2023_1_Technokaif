@@ -10,6 +10,8 @@ export function userSetup() {
         mainUserDiv: 'user',
         classWhereFormIs: 'user__form-placement',
         classForButtons: 'user_button-placement',
+        classForErrors: 'user__error-text',
+        classForSuccess: 'user__success-text',
 
         mainAvatarDiv: 'user-profile',
         divBetweenElements: 'user-profile__horizontal-space',

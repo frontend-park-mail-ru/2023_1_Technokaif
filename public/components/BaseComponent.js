@@ -74,7 +74,7 @@ export class BaseComponent {
                 if (component.length !== 0) {
                     Actions.removeElementFromPage(this.#name);
                     unsubscribeFromAllStoresOnComponent(this.#name);
-                    ContentStore.state[pageNames.FEED] = {};
+                    ContentStore.state = {};
                     this.unRender();
                 }
             },
@@ -89,7 +89,6 @@ export class BaseComponent {
     render() {
         this.#subscribeAll();
         this.#parent.innerHTML = this.#template(this.#config);
-        // todo #name
         this.#element = document.querySelector(`.${this.name}`);
     }
 
@@ -97,7 +96,6 @@ export class BaseComponent {
     appendElement() {
         this.#subscribeAll();
         this.#parent.innerHTML += this.#template(this.#config);
-        // todo #name
         this.#element = document.querySelector(`.${this.name}`);
     }
 
@@ -105,7 +103,7 @@ export class BaseComponent {
      * UnRender component
      */
     unRender() {
-        // todo тут были внесены изменения;
+        if (document.querySelector(`.${this.name}`) === null) return;
         this.#parent.removeChild(this.#element);
     }
 
