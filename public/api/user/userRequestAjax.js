@@ -10,7 +10,7 @@ export async function userAjax(id) {
     await Ajax.get({
         url: apiUrl.USER_API(id),
         reject: (message) => {
-            console.error('Artist request api error:', message);
+            console.error('User request api error:', message);
         },
     }).then((data) => {
         profileData = data;

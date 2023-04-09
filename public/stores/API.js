@@ -15,6 +15,9 @@ import { trackAjax } from '../api/player/trackRequest';
 import { albumAjax } from '../api/player/album';
 import { trackOneAjax } from '../api/player/track';
 import { userAjax } from '../api/user/userRequestAjax';
+import { userUpdateAjax } from '../api/user/userUpdateAjaxReq';
+import actions from '../actions/Actions';
+import { userUpdatePasswordAjax } from '../api/user/userUpdatePasswordAjaxReq';
 
 /**
  * Class using for getting data from backend.
@@ -73,6 +76,12 @@ class API extends IStore {
             break;
         case ActionTypes.DOWNLOAD_TRACK:
             this.#downloadTrack(action.id);
+            break;
+        case ActionTypes.USER_UPDATE_API:
+            this.#updateUser(action.id, action.userData);
+            break;
+        case ActionTypes.USER_UPDATE_PASSWORD:
+            this.#updatePasswordForUser(action.userData);
             break;
         default:
         }
@@ -179,6 +188,16 @@ class API extends IStore {
         artistAjax(id).then((tracks) => {
             Actions.loadMoreLine(tracks);
         });
+    }
+
+    /** User update data to server */
+    #updateUser(id, userData) {
+        userUpdateAjax(id, userData).then((message) => this.jsEmit(EventTypes.UPDATE_DATA_RECEIVED, message));
+    }
+
+    /** User update data to server */
+    #updatePasswordForUser(userData) {
+        userUpdatePasswordAjax(userData).then((message) => this.jsEmit(EventTypes.UPDATE_DATA_WITH_PASS_RECEIVED, message));
     }
 }
 

@@ -62,6 +62,25 @@ const ApiActions = {
             id,
         });
     },
+
+    /** Action to ask for user update of data */
+    userUpdateData(id, userData) {
+        Dispatcher.dispatch({
+            type: ActionTypes.USER_UPDATE_API,
+            id,
+            userData,
+        });
+    },
+
+    /** Action to ask for user update of data */
+    userUpdatePassword(id, userData) {
+        Dispatcher.dispatch({
+            type: ActionTypes.USER_UPDATE_PASSWORD,
+            id,
+            userData,
+        });
+    },
+
 };
 
 export default ApiActions;

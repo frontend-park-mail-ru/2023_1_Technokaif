@@ -37,6 +37,8 @@ const ActionTypes = {
     ID_VIEW_REQUEST: 'ID_VIEW_REQUEST',
 
     VALIDATE_USER: 'VALIDATE_USER',
+    USER_UPDATE_API: 'USER_UPDATE_API',
+    USER_UPDATE_PASSWORD: 'USER_UPDATE_PASSWORD',
 
     /** Send when clicked on some interactive elements and want to play track now clearing tape */
     PLAY_TRACK: 'PLAY_TRACK',

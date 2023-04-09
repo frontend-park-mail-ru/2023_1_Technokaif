@@ -7,9 +7,7 @@ import { pageNames } from '../../../utils/config/pageNames';
 import { EventTypes } from '../../../utils/config/EventTypes';
 import { BaseComponent } from '../../BaseComponent';
 import { componentsNames } from '../../../utils/config/componentsNames';
-import Actions from '../../../actions/Actions';
 import ApiActions from '../../../actions/ApiActions';
-import API from '../../../stores/API';
 import { setupTape } from '../../../utils/setup/artistSetup';
 
 /**
