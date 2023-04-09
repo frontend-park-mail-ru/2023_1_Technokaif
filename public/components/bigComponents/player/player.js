@@ -147,6 +147,7 @@ export class AudioPlayer extends BaseComponent {
 
     /** Toggle between states of playing */
     toggle() {
+        console.log('Player', this.#isPlaying);
         if (this.#isPlaying) {
             this.#pause();
         } else {
@@ -327,6 +328,7 @@ export class AudioPlayer extends BaseComponent {
         }
         // this.#elements.curr_time = whereToPlace;
         this.#elements.audio.currentTime = whereToPlace;
+        this.#seekUpdate();
     }
 
     /** calculate all times */
