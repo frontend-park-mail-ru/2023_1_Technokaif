@@ -167,8 +167,7 @@ export class User extends BaseComponent {
     #addDataToFields() {
         const values = UserInfoStore.state;
         // todo create IMG in userstore
-        document.querySelector('.user-profile__img').src = values.avatarSrc;
-
+        document.querySelector('.user-profile__img').src = `/media${values.avatarSrc}`;
         document.querySelector('.user-profile__username-text').innerText = values.username;
         document.querySelector('.user-profile__initials-text').innerText = `${values.firstName} ${values.lastName}`;
         document.querySelector(`.${ElementsClassForUser.email}`).value = values.email;
