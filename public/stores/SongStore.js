@@ -163,16 +163,19 @@ class SongStore extends IStore {
         if (this.#songs.length === 0) {
             this.#position = 0;
         }
+
         this.#songs = this.#songs.concat(response);
 
-        this.jsEmit(EventTypes.SONG_FOUND, {
-            status: RESPONSES.OK,
-            id: this.#songs[this.#position].id,
-            artists: this.#songs[this.#position].artists,
-            name: this.#songs[this.#position].name,
-            cover: this.#songs[this.#position].cover,
-            recordSrc: this.#songs[this.#position].recordSrc,
-        });
+        if (this.#songs.length > 0) {
+            this.jsEmit(EventTypes.SONG_FOUND, {
+                status: RESPONSES.OK,
+                id: this.#songs[this.#position].id,
+                artists: this.#songs[this.#position].artists,
+                name: this.#songs[this.#position].name,
+                cover: this.#songs[this.#position].cover,
+                recordSrc: this.#songs[this.#position].recordSrc,
+            });
+        }
     }
 }
 

@@ -22,8 +22,6 @@ import { routingUrl } from './utils/config/routingUrls';
 // eslint-disable-next-line import/no-named-as-default
 import UserView from './views/UserView';
 import { checkAuthAjax } from './api/auth/checkAuthAjaxReq';
-import { csrfAjax } from './api/auth/csrfAjaxReq';
-import ApiActions from './actions/ApiActions';
 
 /**
  * Render main page of app

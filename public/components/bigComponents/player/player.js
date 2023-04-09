@@ -39,7 +39,6 @@ export class AudioPlayer extends BaseComponent {
         this.#isRepeat = false;
 
         this.#isExist = false;
-        Actions.playAlbum(1);
     }
 
     /** Subscribe Stores */
@@ -242,7 +241,10 @@ export class AudioPlayer extends BaseComponent {
         this.#resetAllToStart();
 
         this.#elements.track_art.src = `/static/img${response.cover}`;
-        this.#elements.track_artist.textContent = response.artists[0].name;
+        if (response.artists.length > 0) {
+            this.#elements.track_artist.textContent = response.artists[0].name;
+        }
+
         this.#elements.track_name.textContent = response.name;
 
         this.#elements.updateTimer = setInterval(this.#seekUpdate.bind(this), 1000);
@@ -251,11 +253,7 @@ export class AudioPlayer extends BaseComponent {
 
         this.#elements.audio.src = `/media${response.recordSrc}`;
         this.#isExist = true;
-        if (this.#isPlaying) {
-            this.#play();
-        } else {
-            this.#pause();
-        }
+        this.#play();
     }
 
     /** Set values of Time, Duration, Line to 0 */
