@@ -40,7 +40,7 @@ class SongStore extends IStore {
             this.#searchForTrack(action.status);
             break;
         case ActionTypes.UPLOAD_TAPE:
-            this.#uploadTape(action.response);
+            this.#uploadTape(action.requestJSON);
             break;
         case ActionTypes.CHANGE_VOLUME:
             this.#setVolume(action.volume);
@@ -163,8 +163,10 @@ class SongStore extends IStore {
      */
     #uploadTape(response) {
         console.log('UploadTape in SongStore, response', response);
-        this.#position = this.#songs.length;
-        this.#songs.push(response);
+        // this.#position = this.#songs.length;
+        this.#position = 0;
+        // this.#songs.push(response);
+        this.#songs = response;
 
         console.log('UploadTape in SongStore, songs', this.#songs);
         this.jsEmit(EventTypes.SONG_FOUND, {

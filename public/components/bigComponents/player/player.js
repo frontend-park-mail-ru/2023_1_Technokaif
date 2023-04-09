@@ -133,7 +133,7 @@ export class AudioPlayer extends BaseComponent {
     /** Add all elements of player to elements to use it later */
     #addAllElementsToElements() {
         this.#elements.now_playing = document.querySelector('.js__now-playing');
-        this.#elements.track_art = document.querySelector('.js__track-art');
+        this.#elements.track_art = document.querySelector('.js__img');
         this.#elements.track_name = document.querySelector('.js__track-name');
         this.#elements.track_artist = document.querySelector('.js__track-artist');
 
@@ -177,7 +177,7 @@ export class AudioPlayer extends BaseComponent {
         console.log('IdForNextTrack ', responseFromStore.id);
         const idForNexrTrack = responseFromStore.id;
 
-        Actions.downloadTrack(idForNexrTrack);
+        // Actions.downloadTrack(idForNexrTrack);
         this.#setNewTrack(responseFromStore);
     }
 
@@ -231,17 +231,23 @@ export class AudioPlayer extends BaseComponent {
      */
     #setNewTrack(response) {
         console.log('Set new track', response);
+        console.log('Set new track art', this.#elements.track_art);
+        console.log('Set new track elements', this.#elements);
         clearInterval(this.#elements.updateTimer);
         this.#resetAllToStart();
 
-        this.#elements.track_art.src = response.cover;
+        this.#elements.track_art.src = `/static/img${response.cover}`;
         this.#elements.track_artist.textContent = response.artists[0].name;
         this.#elements.track_name.textContent = response.name;
 
-        this.#elements.updateTimer = setInterval(this.#seekUpdate, 1000);
+        this.#elements.updateTimer = setInterval(this.#seekUpdate.bind(this), 1000);
         this.#elements.audio.addEventListener('ended', () => this.#loadTrack(1));
 
         this.#lastResponse = response;
+
+        this.#elements.audio.src = `/media${response.recordSrc}`;
+        this.#isExist = true;
+        this.#play();
     }
 
     /** Set values of Time, Duration, Line to 0 */
@@ -270,6 +276,8 @@ export class AudioPlayer extends BaseComponent {
     /** calculate all times */
     #seekUpdate() {
         let seekPosition = 0;
+        console.log(this.#elements.audio);
+        console.log(this.#elements.audio.duration);
 
         if (!Number.isNaN(this.#elements.audio.duration)) {
             const { audio } = this.#elements;
