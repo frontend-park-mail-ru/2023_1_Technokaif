@@ -10,6 +10,7 @@ import { BaseComponent } from '../../BaseComponent';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import ApiActions from '../../../actions/ApiActions';
 import { setupTape } from '../../../utils/setup/artistSetup';
+import Router from '../../../router/Router';
 
 /**
  * Create FeedContent content with tapes
@@ -55,6 +56,10 @@ export class FeedContent extends BaseComponent {
      * Function to subscribe to all events from Stores
      */
     #addSubscribes() {
+        const logo = document.querySelector('.sidebar__logo');
+        logo.addEventListener('click', () => {
+            Router.go('/');
+        });
         ContentStore.subscribe(
             () => {
                 const state = ContentStore.state[pageNames.FEED];
@@ -67,11 +72,9 @@ export class FeedContent extends BaseComponent {
             EventTypes.FEED_CONTENT_DONE,
             this.name,
         );
-        window.addEventListener('offline', () => {
-            this.#parent.innerHTML += offlineLogoHtml();
-        });
+
         window.addEventListener('online', () => {
-            this.#parent.removeChild();
+            this.#parent.removeChild(document.querySelector('.offline-logo'));
         });
     }
 
@@ -81,7 +84,11 @@ export class FeedContent extends BaseComponent {
     render() {
         const renderProcess = new Promise((resolve) => {
             super.appendElement();
-            resolve();
+            if (navigator.onLine) {
+                resolve();
+            } else {
+                this.#parent.innerHTML += offlineLogoHtml();
+            }
         });
 
         renderProcess.then(() => {

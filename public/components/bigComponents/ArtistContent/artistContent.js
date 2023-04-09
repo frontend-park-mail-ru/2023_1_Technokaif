@@ -91,6 +91,10 @@ export class ArtistContent extends BaseComponent {
         ContentStore.subscribe(
             () => {
                 const { id } = ContentStore.state[pageNames.ARTIST_PAGE];
+                const playButton = document.querySelector('.play-button');
+                playButton.addEventListener('click', () => {
+                    Actions.playArtist(id);
+                });
                 if (id !== undefined) {
                     ApiActions.artist(id);
                     ApiActions.artistTracks(id);
