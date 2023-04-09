@@ -71,16 +71,17 @@ export class AudioPlayer extends BaseComponent {
             componentsNames.PLAYER,
         );
 
-        // ComponentsStore.subscribe(
-        //     (list) => {
-        //         if (list.contains(componentsNames.PLAYER)) {
-        //             console.log('Delete player audio', list);
-        //             this.#elements.audio = [];
-        //         }
-        //     },
-        //     EventTypes.ON_REMOVE_ANOTHER_ITEMS,
-        //     componentsNames.PLAYER,
-        // );
+        ComponentsStore.subscribe(
+            (list) => {
+                if (list.find(
+                    (element) => element.name === componentsNames.PLAYER,
+                )) {
+                    delete this;
+                }
+            },
+            EventTypes.ON_REMOVE_ANOTHER_ITEMS,
+            componentsNames.PLAYER,
+        );
     }
 
     /** Start playing audio */
@@ -105,7 +106,6 @@ export class AudioPlayer extends BaseComponent {
 
     /** Toggle between states of playing */
     toggle() {
-        console.log('Toggle');
         if (this.#isPlaying) {
             this.#pause();
         } else {
@@ -139,6 +139,9 @@ export class AudioPlayer extends BaseComponent {
         elements.repeat.addEventListener('click', () => {
             this.#toggleRepeat();
         });
+        elements.audio.addEventListener('ended', () => {
+            this.#loadTrack(1);
+        });
     }
 
     /** Add all elements of player to elements to use it later */
@@ -169,9 +172,10 @@ export class AudioPlayer extends BaseComponent {
      * If whatTrack is positive, render next track, else prev
      * */
     #loadTrack(whatTrack) {
-        console.log('Load new track');
         if (!this.#isRepeat) {
             Actions.searchForTrack(whatTrack, '');
+        } else {
+            this.#resetAllToStart();
         }
     }
 
@@ -185,10 +189,6 @@ export class AudioPlayer extends BaseComponent {
      *  }
      */
     trackLoading(responseFromStore) {
-        console.log('IdForNextTrack ', responseFromStore.id);
-        const idForNexrTrack = responseFromStore.id;
-
-        // Actions.downloadTrack(idForNexrTrack);
         this.#setNewTrack(responseFromStore);
     }
 
@@ -204,14 +204,11 @@ export class AudioPlayer extends BaseComponent {
      * @param response
      */
     tapeLoad(response) {
-        console.log('TapeLoad ', response);
         switch (response.type) {
         case 'album':
             if (response.how) {
-                console.log('PlayAlbum');
                 Actions.playAlbum(response.id);
             } else {
-                console.log('QueueAlbum');
                 Actions.queueAlbum(response.id);
             }
 
@@ -241,9 +238,6 @@ export class AudioPlayer extends BaseComponent {
      * @param {JSON} response
      */
     #setNewTrack(response) {
-        console.log('Set new track', response);
-        console.log('Set new track art', this.#elements.track_art);
-        console.log('Set new track elements', this.#elements);
         clearInterval(this.#elements.updateTimer);
         this.#resetAllToStart();
 
@@ -252,17 +246,21 @@ export class AudioPlayer extends BaseComponent {
         this.#elements.track_name.textContent = response.name;
 
         this.#elements.updateTimer = setInterval(this.#seekUpdate.bind(this), 1000);
-        this.#elements.audio.addEventListener('ended', () => this.#loadTrack(1));
 
         this.#lastResponse = response;
 
         this.#elements.audio.src = `/media${response.recordSrc}`;
         this.#isExist = true;
-        this.#play();
+        if (this.#isPlaying) {
+            this.#play();
+        } else {
+            this.#pause();
+        }
     }
 
     /** Set values of Time, Duration, Line to 0 */
     #resetAllToStart() {
+        this.#elements.audio.currentTime = 0;
         this.#elements.curr_time.textContent = '00:00';
         this.#elements.total_duration.textContent = '00:00';
         this.#elements.seek_slider.value = 0;
@@ -277,13 +275,12 @@ export class AudioPlayer extends BaseComponent {
     seekTo() {
         const whereToPlace = this.#elements.audio.duration
             * (this.#elements.seek_slider.value / 100);
-        console.log('WhereToPlace', whereToPlace);
 
         if (Number.isNaN(whereToPlace)) {
             return;
         }
-        this.#elements.curr_time = whereToPlace;
-        // this.#elements.audio.currentTime = whereToPlace;
+        // this.#elements.curr_time = whereToPlace;
+        this.#elements.audio.currentTime = whereToPlace;
     }
 
     /** calculate all times */
@@ -300,30 +297,12 @@ export class AudioPlayer extends BaseComponent {
             let currentSeconds = Math.floor(audio.currentTime - currentMinutes * 60);
             let durationMinutes = Math.floor(audio.duration / 60);
             let durationSeconds = Math.floor(audio.duration - durationMinutes * 60);
-            console.log(
-                'Before if in player.js:',
-                'Current min, current sec,',
-                currentMinutes,
-                currentSeconds,
-                'DurationMinutes, seconds',
-                durationMinutes,
-                durationSeconds,
-            );
 
             // Add a zero to the single digit time values
             if (currentSeconds < 10) { currentSeconds = `0${currentSeconds}`; }
             if (durationSeconds < 10) { durationSeconds = `0${durationSeconds}`; }
             if (currentMinutes < 10) { currentMinutes = `0${currentMinutes}`; }
             if (durationMinutes < 10) { durationMinutes = `0${durationMinutes}`; }
-            console.log(
-                'After if in player.js:',
-                'Current min, current sec,',
-                currentMinutes,
-                currentSeconds,
-                'DurationMinutes, seconds',
-                durationMinutes,
-                durationSeconds,
-            );
             // todo Here dont show
             // Display the updated duration
             // this.#elements.audio.curr_time = `${currentMinutes}:${currentSeconds}`;
@@ -334,13 +313,10 @@ export class AudioPlayer extends BaseComponent {
 
     /** Toggle repeat on/off */
     #toggleRepeat() {
-        // todo replace img
         if (this.#isRepeat) {
-            // repeat off
             this.#elements.audio.loop = false;
             this.#elements.repeatImg.src = '/static/svg/Player/arrows-rotate-solid_not_active.svg';
         } else {
-            // repeat on
             this.#elements.audio.loop = true;
             this.#elements.repeatImg.src = '/static/svg/Player/arrows-rotate-solid_active.svg';
         }
@@ -354,6 +330,9 @@ export class AudioPlayer extends BaseComponent {
 
         this.#subscribe();
         this.#addAllElementsToElements();
+
         this.#addReactionOnUser();
+        // this.#toggleRepeat();
+        // this.#toggleRepeat();
     }
 }

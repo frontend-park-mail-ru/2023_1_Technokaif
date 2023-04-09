@@ -54,7 +54,6 @@ class SongStore extends IStore {
             break;
         case ActionTypes.PLAY_ALBUM:
             this.#clearAll();
-            console.log('Set album Type in SongStore');
             this.#storeType = 'album';
             break;
         case ActionTypes.QUEUE_ALBUM:
@@ -101,22 +100,20 @@ class SongStore extends IStore {
      */
     #searchForTrack(whatDirection) {
         if (!this.#storeType) {
-            console.warn('SongStore doesn\'t have any songs');
             return;
         }
         if (this.#position === 0 && whatDirection === -1) {
-            console.log('Wrong Position');
             return;
         }
 
         this.#position += whatDirection;
         if (!(this.#position < this.#songs.length && this.#position >= 0)) {
-            console.log('Get song more than have');
+            if (this.#position >= this.#songs.length) {
+                this.#position = this.#songs.length - 1;
+            }
             let id;
             switch (this.#storeType) {
             case 'album':
-                console.log('Album get in SongStore');
-                console.log('Songs.position', this.#songs[this.#position]);
                 id = this.#songs[this.#position].albumID;
                 break;
             case 'artist':
@@ -163,13 +160,12 @@ class SongStore extends IStore {
      * }
      */
     #uploadTape(response) {
-        console.log('UploadTape in SongStore, response', response);
-        // this.#position = this.#songs.length;
-        this.#position = 0;
-        // this.#songs.push(response);
-        this.#songs = response;
+        if (this.#songs.length === 0) {
+            this.#position = 0;
+        }
 
-        console.log('UploadTape in SongStore, songs', this.#songs);
+        this.#songs = this.#songs.concat(response);
+
         this.jsEmit(EventTypes.SONG_FOUND, {
             status: RESPONSES.OK,
             id: this.#songs[this.#position].id,
