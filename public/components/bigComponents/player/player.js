@@ -123,7 +123,7 @@ export class AudioPlayer extends BaseComponent {
                 }
             },
             EventTypes.LOGOUT_STATUS,
-            componentsNames.NAVBAR,
+            componentsNames.PLAYER,
         );
     }
 
