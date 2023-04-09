@@ -11,6 +11,7 @@ import { componentsNames } from '../../../utils/config/componentsNames';
 import ApiActions from '../../../actions/ApiActions';
 import { setupTape } from '../../../utils/setup/artistSetup';
 import Router from '../../../router/Router';
+import { shuffleArray } from '../../../utils/functions/shuffleArray';
 
 /**
  * Create FeedContent content with tapes
@@ -64,7 +65,7 @@ export class FeedContent extends BaseComponent {
             () => {
                 const state = ContentStore.state[pageNames.FEED];
                 for (const key in state) {
-                    this.#configs.push(setupTape(key, state[key].slice(0, 5)));
+                    this.#configs.push(setupTape(key, shuffleArray(state[key]).slice(0, 5)));
                 }
 
                 this.#renderTapes();

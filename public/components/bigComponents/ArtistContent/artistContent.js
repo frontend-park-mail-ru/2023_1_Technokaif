@@ -12,6 +12,7 @@ import { pageNames } from '../../../utils/config/pageNames';
 import { ArtistCover } from '../../smallComponents/ArtistCover/artistCover';
 import { componentsJSNames } from '../../../utils/config/componentsJSNames';
 import { setupArtistCover, setupLineList, setupTape } from '../../../utils/setup/artistSetup';
+import { shuffleArray } from '../../../utils/functions/shuffleArray';
 
 /**
  * Create Artist content
@@ -116,13 +117,13 @@ export class ArtistContent extends BaseComponent {
                 case 'tracks':
                     // eslint-disable-next-line no-case-declarations
                     const { tracks } = ContentStore.state[pageNames.ARTIST_PAGE];
-                    this.#lineConfigs.push(setupLineList(tracks.slice(0, 5)));
+                    this.#lineConfigs.push(setupLineList(shuffleArray(tracks).slice(0, 5)));
                     this.#renderLines();
                     break;
                 case 'albums':
                     // eslint-disable-next-line no-case-declarations
                     const { albums } = ContentStore.state[pageNames.ARTIST_PAGE];
-                    this.#tapeConfigs.push(setupTape('Albums', albums.slice(0, 5)));
+                    this.#tapeConfigs.push(setupTape('Albums', shuffleArray(albums).slice(0, 5)));
                     this.#renderTapes();
                     break;
                 default:

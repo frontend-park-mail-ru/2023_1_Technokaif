@@ -64,14 +64,11 @@ export class AudioPlayer extends BaseComponent {
     /** Subscribe Stores */
     #subscribe() {
         if (this.#isAuth) {
-            // Subscribe player on found songs
-            {
-                SongStore.subscribe(
-                    this.trackLoading.bind(this),
-                    EventTypes.SONG_FOUND,
-                    componentsNames.PLAYER,
-                );
-            }
+            SongStore.subscribe(
+                this.trackLoading.bind(this),
+                EventTypes.SONG_FOUND,
+                componentsNames.PLAYER,
+            );
 
             // Subscribe for change in volume
             SongStore.subscribe(
@@ -101,8 +98,8 @@ export class AudioPlayer extends BaseComponent {
                 if (list.find(
                     (element) => element.name === componentsNames.PLAYER,
                 )) {
-                    Actions.removeElementFromPage(componentsNames.NAVBAR);
-                    unsubscribeFromAllStoresOnComponent(componentsNames.NAVBAR);
+                    Actions.removeElementFromPage(componentsNames.PLAYER);
+                    unsubscribeFromAllStoresOnComponent(componentsNames.PLAYER);
                     // this.#unRender();
                     this.unRender();
                     delete this;
