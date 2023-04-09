@@ -313,15 +313,10 @@ export class AudioPlayer extends BaseComponent {
 
     /** Toggle repeat on/off */
     #toggleRepeat() {
-        // todo replace img
         if (this.#isRepeat) {
-            // repeat off
-            this.#isRepeat = false;
             this.#elements.audio.loop = false;
             this.#elements.repeatImg.src = '/static/svg/Player/arrows-rotate-solid_not_active.svg';
         } else {
-            // repeat on
-            this.#isRepeat = true;
             this.#elements.audio.loop = true;
             this.#elements.repeatImg.src = '/static/svg/Player/arrows-rotate-solid_active.svg';
         }
