@@ -41,4 +41,5 @@ export const EventTypes = {
 
     LOAD_TRACK: 'LOAD_TRACK',
     TRACK_END: 'TRACK_END',
+    CHANGE_PLAY_STATE: 'CHANGE_PLAY_STATE',
 };

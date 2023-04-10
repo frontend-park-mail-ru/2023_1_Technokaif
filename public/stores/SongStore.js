@@ -9,6 +9,9 @@ export const METHODS_STORE = {
 
 /** Store to work with songs player */
 class SongStore extends IStore {
+    /** Flag - is playing list again */
+    #listFromBeginning;
+
     /** Flag - is playing music now */
     #isPlaying;
 
@@ -130,19 +133,28 @@ class SongStore extends IStore {
         this.#position = offset;
     }
 
-    /** Set state between playing sound and not playing */
+    /**
+     *  Set state between playing sound and not playing
+     *  newState:
+     *  1 -- play
+     *  0 -- stop
+     */
     #setPlaying(newState) {
-        this.#isPlaying = newState;
         if (this.#clearTrack) {
             this.#isPlaying = false;
             return;
         }
 
-        if (this.#isPlaying) {
+        if (newState && !this.#listFromBeginning) {
             this.#audioTrack.play();
+            this.#isPlaying = true;
         } else {
             this.#audioTrack.pause();
+            this.#listFromBeginning = false;
+            this.#isPlaying = false;
         }
+
+        this.jsEmit(EventTypes.CHANGE_PLAY_STATE, this.#isPlaying);
     }
 
     /**
@@ -172,6 +184,7 @@ class SongStore extends IStore {
     #clearTrackSrc() {
         this.#audioTrack.src = '';
         this.#clearTrack = true;
+        this.#setPlaying(false);
     }
 
     /**
@@ -201,9 +214,15 @@ class SongStore extends IStore {
 
         this.#position += whatDirection;
         if (!(this.#position < this.#songs.length && this.#position >= 0)) {
-            if (this.#position >= this.#songs.length) {
-                this.#position = this.#songs.length - 1;
+            if (!this.#songs[this.#position]) {
+                // this.#position = 0;
+                const tracks = this.#songs;
+                this.#clearAll();
+                this.#uploadTape(tracks);
+                this.#listFromBeginning = true;
+                return;
             }
+
             let id;
             switch (this.#storeType) {
             case 'album':
@@ -219,14 +238,6 @@ class SongStore extends IStore {
                 console.warn('Not Artist/Album/Track direction in SonStore');
                 break;
             }
-
-            // need more songs
-            this.jsEmit(EventTypes.DOWNLOAD_NEW_TAPE, {
-                type: this.#storeType,
-                how: METHODS_STORE.REPLACE,
-                id,
-            });
-            return;
         }
 
         if (!this.#songs[this.#position].recordSrc
@@ -236,7 +247,10 @@ class SongStore extends IStore {
         }
 
         if (!this.#songs[this.#position].recordSrc
-            || this.#songs[this.#position].recordSrc === '') {
+            || this.#songs[this.#position].recordSrc === ''
+            || this.#songs[this.#position].recordSrc === undefined
+            || this.#songs[this.#position].recordSrc === undefined
+            || this.#songs[this.#position].recordSrc === null) {
             this.#clearAll();
             return;
         }

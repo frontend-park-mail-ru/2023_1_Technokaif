@@ -78,12 +78,17 @@ class Router extends IStore {
             this.#currentLen = event.state.history;
         });
 
+        if (sessionStorage.getItem('isStart') === null) {
+            sessionStorage.setItem('isStart', true);
+        }
+
         this.go(window.location.pathname);
     }
 
     /**
      * Render page in url
      * @param {string} path - url
+     * @param {bool} isStart - if start right now
      */
     go(path) {
         let object = this.#routes.find((routeObj) => routeObj.path === path);
@@ -141,10 +146,22 @@ class Router extends IStore {
             stateStore.push(object.store[state].state);
         }
 
-        // todo was changed for work on popstate
+        const isStart = sessionStorage.getItem('isStart');
+
         this.#currentLen = window.history.length;
-        if (window.location.pathname !== path) {
-            window.history.pushState({ historyLen: this.#currentLen, stateInHistory: stateStore }, '', path);
+        if (window.location.pathname !== path || (sessionStorage.getItem('isStart') === 'true')) {
+            window.history.pushState(
+                {
+                    historyLen: this.#currentLen,
+                    stateInHistory: stateStore,
+                },
+                '',
+                path,
+            );
+        }
+
+        if (isStart) {
+            sessionStorage.setItem('isStart', false);
         }
 
         object.render();
