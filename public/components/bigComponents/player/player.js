@@ -63,6 +63,12 @@ export class AudioPlayer extends BaseComponent {
             componentsNames.PLAYER,
         );
 
+        SongStore.subscribe(
+            this.changeStatePlayer.bind(this),
+            EventTypes.CHANGE_PLAY_STATE,
+            componentsNames.PLAYER,
+        );
+
         ComponentsStore.subscribe(
             (list) => {
                 if (list.find(
@@ -77,21 +83,28 @@ export class AudioPlayer extends BaseComponent {
         );
     }
 
+    /** Change player state */
+    changeStatePlayer(newState) {
+        if (newState) {
+            this.#isPlaying = true;
+            this.#elements.playpause_btnImg.src = '/static/svg/Player/pause-solid.svg';
+        } else {
+            this.#isPlaying = false;
+            this.#elements.playpause_btnImg.src = '/static/svg/Player/play-solid.svg';
+        }
+    }
+
     /** Start playing audio */
     #play() {
         if (SongStore.exist) {
-            this.#isPlaying = true;
-            Actions.createPlay(this.#isPlaying);
-            this.#elements.playpause_btnImg.src = '/static/svg/Player/pause-solid.svg';
+            Actions.createPlay(true);
         }
     }
 
     /** Stop playing audio */
     #pause() {
         if (SongStore.exist) {
-            this.#isPlaying = false;
-            Actions.createPlay(this.#isPlaying);
-            this.#elements.playpause_btnImg.src = '/static/svg/Player/play-solid.svg';
+            Actions.createPlay(false);
         }
     }
 
@@ -248,11 +261,6 @@ export class AudioPlayer extends BaseComponent {
         this.#elements.seek_slider.value = 0;
         Actions.setTimeToTrack(0);
     }
-
-    // /** Set volume to slider option */
-    // setVolume(volume) {
-    //
-    // }
 
     /** Calculate line on song */
     seekTo() {

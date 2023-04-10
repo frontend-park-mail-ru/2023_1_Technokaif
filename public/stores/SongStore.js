@@ -130,7 +130,12 @@ class SongStore extends IStore {
         this.#position = offset;
     }
 
-    /** Set state between playing sound and not playing */
+    /**
+     *  Set state between playing sound and not playing
+     *  newState:
+     *  1 -- play
+     *  0 -- stop
+     */
     #setPlaying(newState) {
         this.#isPlaying = newState;
         if (this.#clearTrack) {
@@ -143,6 +148,8 @@ class SongStore extends IStore {
         } else {
             this.#audioTrack.pause();
         }
+
+        this.jsEmit(EventTypes.CHANGE_PLAY_STATE, newState);
     }
 
     /**
@@ -172,6 +179,7 @@ class SongStore extends IStore {
     #clearTrackSrc() {
         this.#audioTrack.src = '';
         this.#clearTrack = true;
+        this.#setPlaying(0);
     }
 
     /**
@@ -207,7 +215,11 @@ class SongStore extends IStore {
             let id;
             switch (this.#storeType) {
             case 'album':
-                id = this.#songs[this.#position].albumID;
+                if (this.#songs[this.#position]) {
+                    this.#clearAll();
+                } else {
+                    id = this.#songs[this.#position].albumID;
+                }
                 break;
             case 'artist':
                 id = this.#songs[this.#position].artists.id;
@@ -236,7 +248,10 @@ class SongStore extends IStore {
         }
 
         if (!this.#songs[this.#position].recordSrc
-            || this.#songs[this.#position].recordSrc === '') {
+            || this.#songs[this.#position].recordSrc === ''
+            || this.#songs[this.#position].recordSrc === undefined
+            || this.#songs[this.#position].recordSrc === undefined
+            || this.#songs[this.#position].recordSrc === null) {
             this.#clearAll();
             return;
         }

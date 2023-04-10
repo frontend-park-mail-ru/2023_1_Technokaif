@@ -21,7 +21,7 @@ module.exports = {
                 <head>
                     <meta charset="UTF-8">
                     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                    <title>Fluir</title>
+                    <title>Fluire</title>
                     <link rel="shortcut icon" type="image/jpg" href="./static/svg/whiteLogo.svg">
                 </head>
                 <body>
@@ -49,14 +49,13 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(?:js|mjs|cjs)$/,
+                test: /\.m?js$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: [
-                            ['@babel/preset-env', { targets: 'defaults' }],
-                        ],
+                        presets: ['@babel/preset-react', '@babel/preset-env'],
+                        plugins: ['@babel/plugin-transform-runtime'],
                     },
                 },
             },
