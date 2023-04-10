@@ -1,3 +1,5 @@
+import { imgPath } from './pathConfig';
+
 export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -52,31 +54,31 @@ export const sidebarConfig = {
         name: 'Home',
         href: '/',
         key: 'feed',
-        logoSrc: '/static/svg/VectorhomeLogo.svg',
+        logoSrc: imgPath.homeLogo,
     },
     search: {
         name: 'Search',
         href: '/search',
         key: 'search',
-        logoSrc: '/static/svg/VectorsearchLogo.svg',
+        logoSrc: imgPath.searchLogo,
     },
     library: {
         name: 'Library',
         href: '/library',
         key: 'library',
-        logoSrc: '/static/svg/librarylibraryLogo.svg',
+        logoSrc: imgPath.libraryLogo,
     },
     createPlaylist: {
         name: 'Create Playlist',
         href: '/createPlaylist',
         key: 'createPlaylist',
-        logoSrc: '/static/svg/Frame 29createPlaylisLogo.svg',
+        logoSrc: imgPath.createPlaylistLogo,
     },
     likedSongs: {
         name: 'Liked Songs',
         href: '/likedSongs',
         key: 'likedSongs',
-        logoSrc: '/static/svg/Frame 28likedSongsLogo.svg',
+        logoSrc: imgPath.likedLogo,
     },
 };
 
@@ -91,6 +93,8 @@ export const METHOD = {
     FIELD: 'focusout',
     BUTTON: 'click',
     FORM: 'submit',
+    CHANGE_FIELD_IMMEDIATELY: 'input',
+    CHANGE_FIELD: 'change',
 };
 
 export const ElementsClassForUser = {
@@ -124,4 +128,33 @@ export const ElementsClassForUser = {
 
     cancelButton: 'js__cancel-button',
     saveButton: 'js__save-button',
+};
+
+/** Next track and prev track of player */
+export const playerConfig = {
+    NEXT_TRACK: 1,
+    PREV_TRACK: -1,
+    FIRST_TIMER: 0,
+    INTERVAL: 1000,
+};
+
+/** All js tags for Player */
+export const playerElementsJS = {
+    trackArt: 'js__img',
+    trackName: 'js__track-name',
+    trackArtist: 'js__track-artist',
+
+    playPauseButton: 'js__play-pause-track',
+    playPauseImg: 'js__play-pause__img',
+    nextTrack: 'js__next-track',
+    prevTrack: 'js__prev-track',
+    trackSlider: 'js__seek_slider',
+
+    repeatButton: 'js__repeat',
+    repeatImg: 'js__repeat__img',
+
+    volumeIcon: 'js__music-icon',
+    volumeSlider: 'js__volume_slider',
+    currentTime: 'js__current-time',
+    totalDuration: 'js__total-duration',
 };

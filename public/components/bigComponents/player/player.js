@@ -6,7 +6,10 @@ import { EventTypes } from '../../../utils/config/EventTypes';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
 import ComponentsStore from '../../../stores/ComponentsStore';
-import { RESPONSES } from '../../../utils/config/config';
+import {
+    METHOD, playerConfig, playerElementsJS, RESPONSES,
+} from '../../../utils/config/config';
+import { imgPath } from '../../../utils/config/pathConfig';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer extends BaseComponent {
@@ -87,11 +90,11 @@ export class AudioPlayer extends BaseComponent {
                 let source;
                 const element = document.querySelector('.js__music-icon');
                 if (volume > 0.5) {
-                    source = '/static/svg/player/high-sound.svg';
+                    source = imgPath.highVolume;
                 } else if (volume === 0) {
-                    source = '/static/svg/player/no-sound.svg';
+                    source = imgPath.noVolume;
                 } else {
-                    source = '/static/svg/player/mid-sound.svg';
+                    source = imgPath.midVolume;
                 }
                 element.src = source;
             },
@@ -104,10 +107,10 @@ export class AudioPlayer extends BaseComponent {
     changeStatePlayer(newState) {
         if (newState) {
             this.#isPlaying = true;
-            this.#elements.playpause_btnImg.src = '/static/svg/Player/pause-solid.svg';
+            this.#elements.playpause_btnImg.src = imgPath.pause;
         } else {
             this.#isPlaying = false;
-            this.#elements.playpause_btnImg.src = '/static/svg/Player/play-solid.svg';
+            this.#elements.playpause_btnImg.src = imgPath.play;
         }
     }
 
@@ -137,27 +140,30 @@ export class AudioPlayer extends BaseComponent {
     /** Add reactions on User actions like 'play' */
     #addReactionOnUser() {
         const elements = this.#elements;
-        elements.prev_btn.addEventListener('click', () => {
-            this.#loadTrack(-1);
+        elements.prev_btn.addEventListener(METHOD.BUTTON, () => {
+            this.#loadTrack(playerConfig.PREV_TRACK);
         });
 
-        elements.next_btn.addEventListener('click', () => {
-            this.#loadTrack(1);
+        elements.next_btn.addEventListener(METHOD.BUTTON, () => {
+            this.#loadTrack(playerConfig.NEXT_TRACK);
         });
 
-        elements.playpause_btn.addEventListener('click', () => {
+        elements.playpause_btn.addEventListener(METHOD.BUTTON, () => {
             this.toggle();
         });
 
-        elements.seek_slider.addEventListener('change', () => {
+        elements.seek_slider.addEventListener(METHOD.CHANGE_FIELD, () => {
             this.seekTo();
         });
 
-        elements.volume_slider.addEventListener('input', () => {
-            Actions.volumeChange(this.#elements.volume_slider.value / 100);
-        });
+        elements.volume_slider.addEventListener(
+            METHOD.CHANGE_FIELD_IMMEDIATELY,
+            () => {
+                Actions.volumeChange(this.#elements.volume_slider.value / 100);
+            },
+        );
 
-        this.#elements.volume_icon.addEventListener('click', () => {
+        this.#elements.volume_icon.addEventListener(METHOD.BUTTON, () => {
             if (this.#elements.volume_slider.value > 0) {
                 this.#elements.volume_slider.value = 0;
             } else {
@@ -166,32 +172,31 @@ export class AudioPlayer extends BaseComponent {
             this.#elements.volume_slider.dispatchEvent(new Event('input'));
         });
 
-        elements.repeat.addEventListener('click', () => {
+        elements.repeat.addEventListener(METHOD.BUTTON, () => {
             this.#toggleRepeat();
         });
     }
 
     /** Add all elements of player to elements to use it later */
     #addAllElementsToElements() {
-        this.#elements.now_playing = document.querySelector('.js__now-playing');
-        this.#elements.track_art = document.querySelector('.js__img');
-        this.#elements.track_name = document.querySelector('.js__track-name');
-        this.#elements.track_artist = document.querySelector('.js__track-artist');
+        this.#elements.track_art = document.querySelector(`.${playerElementsJS.trackArt}`);
+        this.#elements.track_name = document.querySelector(`.${playerElementsJS.trackName}`);
+        this.#elements.track_artist = document.querySelector(`.${playerElementsJS.trackArtist}`);
 
-        this.#elements.playpause_btn = document.querySelector('.js__play-pause-track');
-        this.#elements.playpause_btnImg = document.querySelector('.js__play-pause__img');
-        this.#elements.next_btn = document.querySelector('.js__next-track');
-        this.#elements.prev_btn = document.querySelector('.js__prev-track');
+        this.#elements.playpause_btn = document.querySelector(`.${playerElementsJS.playPauseButton}`);
+        this.#elements.playpause_btnImg = document.querySelector(`.${playerElementsJS.playPauseImg}`);
+        this.#elements.next_btn = document.querySelector(`.${playerElementsJS.nextTrack}`);
+        this.#elements.prev_btn = document.querySelector(`.${playerElementsJS.prevTrack}`);
 
-        this.#elements.seek_slider = document.querySelector('.js__seek_slider');
-        this.#elements.volume_icon = document.querySelector('.js__music-icon');
-        this.#elements.volume_slider = document.querySelector('.js__volume_slider');
-        this.#elements.curr_time = document.querySelector('.js__current-time');
-        this.#elements.total_duration = document.querySelector('.js__total-duration');
-        this.#elements.repeat = document.querySelector('.js__repeat');
-        this.#elements.repeatImg = document.querySelector('.js__repeat__img');
+        this.#elements.seek_slider = document.querySelector(`.${playerElementsJS.trackSlider}`);
+        this.#elements.volume_icon = document.querySelector(`.${playerElementsJS.volumeIcon}`);
+        this.#elements.volume_slider = document.querySelector(`.${playerElementsJS.volumeSlider}`);
+        this.#elements.curr_time = document.querySelector(`.${playerElementsJS.currentTime}`);
+        this.#elements.total_duration = document.querySelector(`.${playerElementsJS.totalDuration}`);
+        this.#elements.repeat = document.querySelector(`.${playerElementsJS.repeatButton}`);
+        this.#elements.repeatImg = document.querySelector(`.${playerElementsJS.repeatImg}`);
 
-        this.#elements.updateTimer = 0;
+        this.#elements.updateTimer = playerConfig.FIRST_TIMER;
     }
 
     /**
@@ -266,7 +271,7 @@ export class AudioPlayer extends BaseComponent {
         clearInterval(this.#elements.updateTimer);
         this.#resetAllToStart();
         if (!response.cover || response.cover === '') {
-            this.#elements.track_art.src = '/static/svg/default-track.svg';
+            this.#elements.track_art.src = imgPath.defaultTrack;
         } else {
             this.#elements.track_art.src = `/static/img${response.cover}`;
         }
@@ -277,7 +282,10 @@ export class AudioPlayer extends BaseComponent {
 
         this.#elements.track_name.textContent = response.name;
 
-        this.#elements.updateTimer = setInterval(this.#seekUpdate.bind(this), 1000);
+        this.#elements.updateTimer = setInterval(
+            this.#seekUpdate.bind(this),
+            playerConfig.INTERVAL,
+        );
 
         this.#lastResponse = response;
 
@@ -290,7 +298,7 @@ export class AudioPlayer extends BaseComponent {
         this.#elements.curr_time.textContent = '00:00';
         this.#elements.total_duration.textContent = '00:00';
         this.#elements.seek_slider.value = 0;
-        this.#elements.track_art.src = '/static/svg/default-track.svg';
+        this.#elements.track_art.src = imgPath.defaultTrack;
         Actions.setTimeToTrack(0);
     }
 
@@ -335,9 +343,9 @@ export class AudioPlayer extends BaseComponent {
     /** Toggle repeat on/off */
     #toggleRepeat() {
         if (this.#isRepeat) {
-            this.#elements.repeatImg.src = '/static/svg/Player/arrows-rotate-solid_not_active.svg';
+            this.#elements.repeatImg.src = imgPath.activeRepeat;
         } else {
-            this.#elements.repeatImg.src = '/static/svg/Player/arrows-rotate-solid_active.svg';
+            this.#elements.repeatImg.src = imgPath.notActiveRepeat;
         }
 
         this.#isRepeat = !this.#isRepeat;
