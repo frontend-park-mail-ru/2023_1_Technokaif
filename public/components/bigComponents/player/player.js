@@ -157,6 +157,15 @@ export class AudioPlayer extends BaseComponent {
             Actions.volumeChange(this.#elements.volume_slider.value / 100);
         });
 
+        this.#elements.volume_icon.addEventListener('click', () => {
+            if (this.#elements.volume_slider.value > 0) {
+                this.#elements.volume_slider.value = 0;
+            } else {
+                this.#elements.volume_slider.value = 100;
+            }
+            this.#elements.volume_slider.dispatchEvent(new Event('input'));
+        });
+
         elements.repeat.addEventListener('click', () => {
             this.#toggleRepeat();
         });
@@ -175,6 +184,7 @@ export class AudioPlayer extends BaseComponent {
         this.#elements.prev_btn = document.querySelector('.js__prev-track');
 
         this.#elements.seek_slider = document.querySelector('.js__seek_slider');
+        this.#elements.volume_icon = document.querySelector('.js__music-icon');
         this.#elements.volume_slider = document.querySelector('.js__volume_slider');
         this.#elements.curr_time = document.querySelector('.js__current-time');
         this.#elements.total_duration = document.querySelector('.js__total-duration');
