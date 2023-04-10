@@ -1,3 +1,5 @@
+import { imgPath } from './pathConfig';
+
 export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -52,31 +54,31 @@ export const sidebarConfig = {
         name: 'Home',
         href: '/',
         key: 'feed',
-        logoSrc: '/static/svg/VectorhomeLogo.svg',
+        logoSrc: imgPath.homeLogo,
     },
     search: {
         name: 'Search',
         href: '/search',
         key: 'search',
-        logoSrc: '/static/svg/VectorsearchLogo.svg',
+        logoSrc: imgPath.searchLogo,
     },
     library: {
         name: 'Library',
         href: '/library',
         key: 'library',
-        logoSrc: '/static/svg/librarylibraryLogo.svg',
+        logoSrc: imgPath.libraryLogo,
     },
     createPlaylist: {
         name: 'Create Playlist',
         href: '/createPlaylist',
         key: 'createPlaylist',
-        logoSrc: '/static/svg/Frame 29createPlaylisLogo.svg',
+        logoSrc: imgPath.createPlaylistLogo,
     },
     likedSongs: {
         name: 'Liked Songs',
         href: '/likedSongs',
         key: 'likedSongs',
-        logoSrc: '/static/svg/Frame 28likedSongsLogo.svg',
+        logoSrc: imgPath.likedLogo,
     },
 };
 

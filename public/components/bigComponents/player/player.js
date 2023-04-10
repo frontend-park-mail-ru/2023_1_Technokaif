@@ -7,6 +7,7 @@ import { componentsNames } from '../../../utils/config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
 import ComponentsStore from '../../../stores/ComponentsStore';
 import { RESPONSES } from '../../../utils/config/config';
+import { imgPath } from '../../../utils/config/pathConfig';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer extends BaseComponent {
@@ -87,11 +88,11 @@ export class AudioPlayer extends BaseComponent {
                 let source;
                 const element = document.querySelector('.js__music-icon');
                 if (volume > 0.5) {
-                    source = '/static/svg/player/high-sound.svg';
+                    source = imgPath.highVolume;
                 } else if (volume === 0) {
-                    source = '/static/svg/player/no-sound.svg';
+                    source = imgPath.midVolume;
                 } else {
-                    source = '/static/svg/player/mid-sound.svg';
+                    source = imgPath.midVolume;
                 }
                 element.src = source;
             },
@@ -104,10 +105,10 @@ export class AudioPlayer extends BaseComponent {
     changeStatePlayer(newState) {
         if (newState) {
             this.#isPlaying = true;
-            this.#elements.playpause_btnImg.src = '/static/svg/Player/pause-solid.svg';
+            this.#elements.playpause_btnImg.src = imgPath.pause;
         } else {
             this.#isPlaying = false;
-            this.#elements.playpause_btnImg.src = '/static/svg/Player/play-solid.svg';
+            this.#elements.playpause_btnImg.src = imgPath.play;
         }
     }
 
@@ -266,7 +267,7 @@ export class AudioPlayer extends BaseComponent {
         clearInterval(this.#elements.updateTimer);
         this.#resetAllToStart();
         if (!response.cover || response.cover === '') {
-            this.#elements.track_art.src = '/static/svg/default-track.svg';
+            this.#elements.track_art.src = imgPath.defaultTrack;
         } else {
             this.#elements.track_art.src = `/static/img${response.cover}`;
         }
@@ -290,7 +291,7 @@ export class AudioPlayer extends BaseComponent {
         this.#elements.curr_time.textContent = '00:00';
         this.#elements.total_duration.textContent = '00:00';
         this.#elements.seek_slider.value = 0;
-        this.#elements.track_art.src = '/static/svg/default-track.svg';
+        this.#elements.track_art.src = imgPath.defaultTrack;
         Actions.setTimeToTrack(0);
     }
 
@@ -335,9 +336,9 @@ export class AudioPlayer extends BaseComponent {
     /** Toggle repeat on/off */
     #toggleRepeat() {
         if (this.#isRepeat) {
-            this.#elements.repeatImg.src = '/static/svg/Player/arrows-rotate-solid_not_active.svg';
+            this.#elements.repeatImg.src = imgPath.activeRepeat;
         } else {
-            this.#elements.repeatImg.src = '/static/svg/Player/arrows-rotate-solid_active.svg';
+            this.#elements.repeatImg.src = imgPath.notActiveRepeat;
         }
 
         this.#isRepeat = !this.#isRepeat;

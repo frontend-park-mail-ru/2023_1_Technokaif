@@ -1,4 +1,5 @@
 import { ID_REG, CLASS_REG as CLASS } from '../config/id.js';
+import { imgPath } from '../config/pathConfig';
 
 /**
  * Function to create registration form setup config for template.
@@ -13,7 +14,7 @@ export function regFormSetup() {
         registrationContent: 'registration-content',
         formHeader: 'header',
         title: CLASS.title,
-        logoSrc: '/static/svg/whiteLogo.svg',
+        logoSrc: imgPath.whiteLogo,
 
         titleClass: 'title__name',
         titleName: 'Fluire',

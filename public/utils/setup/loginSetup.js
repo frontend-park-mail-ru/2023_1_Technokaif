@@ -1,4 +1,5 @@
 import { ID_LOG, CLASS_LOG as CLASS } from '../config/id.js';
+import { imgPath } from '../config/pathConfig';
 
 /**
  * Function to create login form setup config for template.
@@ -13,7 +14,7 @@ export function logFormSetup() {
         loginContent: 'login-content',
         formHeader: 'header',
         title: CLASS.title,
-        logoSrc: '/static/svg/whiteLogo.svg',
+        logoSrc: imgPath.whiteLogo,
 
         titleClass: 'title__name',
         titleName: 'Fluire',

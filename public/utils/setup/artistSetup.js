@@ -1,3 +1,5 @@
+import { imgPath } from '../config/pathConfig';
+
 /**
  * Setup artist cover
  * @returns {{json}}
@@ -7,7 +9,7 @@ export function setupArtistCover(artist) {
         coverName: 'artist-cover',
         title: 'artist-title',
         verifyBlock: 'artist-title__verify',
-        verifyImgSrc: '/static/svg/verify.svg',
+        verifyImgSrc: imgPath.verify,
         titleName: 'artist-title__name',
         titleListens: 'artist-title__listens',
         item: artist,
@@ -25,14 +27,14 @@ export function setupArtistContent() {
         artistContent: 'artist-content',
         artistPreContent: 'artist-pre-content',
         playButton: 'play-button',
-        playButtonSrc: '/static/svg/play.svg',
+        playButtonSrc: imgPath.playInArtist,
         playButtonImg: 'artist-pre-content__img',
         stopButton: 'stop-button',
-        stopButtonSrc: '/static/svg/Pause.svg',
+        stopButtonSrc: imgPath.stopInArtist,
         stopButtonImg: 'artist-pre-content__img',
         subscribeButton: 'artist-pre-content__button',
         anotherButton: 'another-button',
-        anotherButtonSrc: '/static/svg/ellipses.svg',
+        anotherButtonSrc: imgPath.ellipseInArtist,
         anotherButtonImg: null,
         artistItems: 'artist-items',
         tapeBlock: 'album-list',
@@ -56,7 +58,7 @@ export function setupLineList(items) {
         lineTitle: 'track-line__title',
         lineListens: 'track-line__listens',
         lineDuration: 'track-line__duration',
-        defaultTrackSrc: '/static/svg/default-track.svg',
+        defaultTrackSrc: imgPath.defaultTrack,
 
         content: items,
     };
@@ -100,7 +102,7 @@ export function setupTape(title, items) {
         footerMainDiv: '',
         footerElementDiv: 'component__description',
         footerElements: 'artists',
-        defaultSrc: '/static/svg/default-album.svg',
+        defaultSrc: imgPath.defaultAlbum,
 
         titleText: title,
         content: items,
