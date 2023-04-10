@@ -174,7 +174,7 @@ export class User extends BaseComponent {
         const values = UserInfoStore.state;
         // todo create IMG in userstore
         if (!values.avatarSrc || values.avatarSrc === '') {
-            document.querySelector('.user-profile__img').src = '/static/svg/default-avatar.svg';
+            document.querySelector('.user-profile__img').src = '/static/svg/default-artist.svg';
         } else {
             document.querySelector('.user-profile__img').src = `/media${values.avatarSrc}`;
         }
