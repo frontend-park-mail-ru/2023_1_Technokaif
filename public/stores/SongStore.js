@@ -215,6 +215,18 @@ class SongStore extends IStore {
             return;
         }
 
+        if (!this.#songs[this.#position].recordSrc
+            || this.#songs[this.#position].recordSrc === '') {
+            this.#clearAll();
+            return;
+        }
+
+        if (!this.#songs[this.#position].recordSrc
+            || this.#songs[this.#position].recordSrc === '') {
+            this.#clearAll();
+            return;
+        }
+
         this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
         this.#clearTrack = false;
         this.jsEmit(EventTypes.SONG_FOUND, {

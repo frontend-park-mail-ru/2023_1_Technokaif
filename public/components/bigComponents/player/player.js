@@ -130,9 +130,6 @@ export class AudioPlayer extends BaseComponent {
         elements.repeat.addEventListener('click', () => {
             this.#toggleRepeat();
         });
-        elements.audio.addEventListener('ended', () => {
-            this.#loadTrack(1);
-        });
     }
 
     /** Add all elements of player to elements to use it later */
@@ -155,7 +152,6 @@ export class AudioPlayer extends BaseComponent {
         this.#elements.repeatImg = document.querySelector('.js__repeat__img');
 
         this.#elements.updateTimer = 0;
-        this.#elements.audio = document.createElement('audio');
     }
 
     /**
