@@ -23,6 +23,6 @@ export const imgPath = {
 
     defaultAlbum: '/static/svg/default-album.svg',
 
-    whiteLogo: '/static/svg/whiteLogo.svg';
+    whiteLogo: '/static/svg/whiteLogo.svg',
 
 };
