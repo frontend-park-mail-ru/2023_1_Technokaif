@@ -12,6 +12,7 @@ export const apiUrl = {
 
     USER_API: (id) => `/api/users/${id}/`,
     USER_UPDATE_API: (id) => `/api/users/${id}/update`,
+    AVATAR_REGEX: /^\/api\/users\/\d+\/avatar$/,
     USER_UPDATE_AVATAR_API: (id) => `/api/users/${id}/avatar`,
     USER_UPDATE_PASSWORD: '/api/auth/changepass',
 

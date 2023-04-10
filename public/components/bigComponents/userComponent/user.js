@@ -30,6 +30,8 @@ export class User extends BaseComponent {
 
     #config;
 
+    fileInput;
+
     /**
      *
      * @param {HTMLElement} parent -- html element where User page will be placed
@@ -40,6 +42,10 @@ export class User extends BaseComponent {
 
         this.#parent = parent;
         this.#config = config;
+        this.fileInput = document.createElement('input');
+        this.fileInput.setAttribute('type', 'file');
+        this.fileInput.setAttribute('id', 'file');
+        this.fileInput.style.display = 'none';
     }
 
     /**
@@ -238,12 +244,16 @@ export class User extends BaseComponent {
             if (monthNumber < 10) {
                 monthNumber = `0${monthNumber}`;
             }
+            let { day } = state;
+            if (day < 10) {
+                day = `0${day}`;
+            }
             ApiActions.userUpdateData(localStorage.getItem('userId'), {
                 email: state.email,
                 firstName: state.firstName,
                 lastName: state.lastName,
                 sex: state.sex,
-                birthDate: [state.year, monthNumber, state.day].join('-'),
+                birthDate: [state.year, monthNumber, day].join('-'),
             });
         }
     }
@@ -379,10 +389,14 @@ export class User extends BaseComponent {
                 if (message !== 'OK') {
                     console.error(message);
                     const element = document.querySelector('.user__error-text');
+                    const useless = document.querySelector('.user__success-text');
+                    useless.hidden = true;
                     element.hidden = false;
                     element.innerText = message;
                 } else {
                     const element = document.querySelector('.user__success-text');
+                    const useless = document.querySelector('.user__error-text');
+                    useless.hidden = true;
                     element.hidden = false;
                     element.innerText = 'Successfully changed password';
                 }
@@ -390,5 +404,47 @@ export class User extends BaseComponent {
             EventTypes.UPDATE_DATA_WITH_PASS_RECEIVED,
             this.name,
         );
+        API.subscribe(
+            (message) => {
+                if (message !== 'OK') {
+                    console.error(message);
+                    const element = document.querySelector('.user__error-text');
+                    const useless = document.querySelector('.user__success-text');
+                    useless.hidden = true;
+                    element.hidden = false;
+                    element.innerText = message;
+                } else {
+                    const element = document.querySelector('.user__success-text');
+                    const useless = document.querySelector('.user__error-text');
+                    useless.hidden = true;
+                    element.hidden = false;
+                    element.innerText = 'Successfully changed avatar';
+                    const avatarImg = this.#parent.querySelector('.user-profile__img');
+                    const blob = new Blob(this.fileInput.files, { type: 'image/jpeg' });
+                    const imageUrl = URL.createObjectURL(blob);
+                    avatarImg.src = imageUrl;
+                }
+            },
+            EventTypes.UPDATE_DATA_WITH_AVATAR_RECEIVED,
+            this.name,
+        );
+
+        const avatar = this.#parent.querySelector('.avatar');
+        const root = document.querySelector(`#${componentsJSNames.ROOT}`);
+
+        avatar.addEventListener('click', () => {
+            root.appendChild(this.fileInput);
+            this.fileInput.click();
+        });
+
+        this.fileInput.addEventListener('change', () => {
+            const file = this.fileInput.files[0];
+
+            const formData = new FormData();
+            formData.append('avatar', file);
+
+            ApiActions.userUpdateAvatar(localStorage.getItem('userId'), formData);
+            root.removeChild(this.fileInput);
+        });
     }
 }

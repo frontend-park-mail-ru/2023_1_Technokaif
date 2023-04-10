@@ -57,6 +57,32 @@ class Ajax {
         resolve = noop,
         reject = noop,
     }) {
+        if (apiUrl.AVATAR_REGEX.test(url)) {
+            return csrfAjax().then((csrf) => fetch(url, {
+                method: AJAX_METHODS.POST,
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    'X-CSRF-Token': csrf,
+                },
+                body,
+            })
+                .then((response) => response.json()
+                    .then((data) => {
+                        if (response.ok) {
+                            resolve(data);
+
+                            return data;
+                        }
+
+                        throw data.message;
+                    }))
+                .catch((error) => {
+                    reject(error);
+
+                    throw error;
+                }));
+        }
         if (url !== apiUrl.AUTH && url !== apiUrl.LOGIN) {
             return csrfAjax().then((csrf) => fetch(url, {
                 method: AJAX_METHODS.POST,
@@ -83,6 +109,7 @@ class Ajax {
                     throw error;
                 }));
         }
+
         return fetch(url, {
             method: AJAX_METHODS.POST,
             mode: 'cors',

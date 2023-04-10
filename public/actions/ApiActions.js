@@ -83,7 +83,7 @@ const ApiActions = {
     /** Action to ask for user update of data */
     userUpdateAvatar(id, avatar) {
         Dispatcher.dispatch({
-            type: ActionTypes.USER_UPDATE_PASSWORD,
+            type: ActionTypes.USER_UPDATE_AVATAR,
             id,
             avatar,
         });

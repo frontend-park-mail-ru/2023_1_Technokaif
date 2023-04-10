@@ -39,6 +39,7 @@ const ActionTypes = {
     VALIDATE_USER: 'VALIDATE_USER',
     USER_UPDATE_API: 'USER_UPDATE_API',
     USER_UPDATE_PASSWORD: 'USER_UPDATE_PASSWORD',
+    USER_UPDATE_AVATAR: 'USER_UPDATE_AVATAR',
 
     /** Send when clicked on some interactive elements and want to play track now clearing tape */
     PLAY_TRACK: 'PLAY_TRACK',

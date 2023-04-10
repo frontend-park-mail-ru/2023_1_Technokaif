@@ -33,16 +33,69 @@
   height: 20px;
 }
 
-.avatar {
-  width: 150px;
-  height: 150px;
-  border-radius: 100px;
-}
-
 .user-profile__img {
   max-width: 100%;
   height: auto;
-  object-fit: contain;
+}
+
+.avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  a:hover {
+    text-decoration: none;
+  }
+  color: transparent;
+  transition: all 0.3s ease;
+  position: relative;
+
+  input {
+    display: none;
+  }
+
+  img {
+    position: absolute;
+    object-fit: cover;
+    width: @circleSize;
+    height: @circleSize;
+    box-shadow: @shadow;
+    border-radius: @radius;
+    .default {
+      width: 20px;
+      height: auto;
+    }
+    z-index: 0;
+  }
+
+  .-label {
+    cursor: pointer;
+    height: @circleSize;
+    width: @circleSize;
+  }
+
+  &:hover {
+    .-label {
+      span {
+        opacity: 1;
+      }
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 10000;
+      color: @fontColor;
+      transition: background-color 0.2s ease-in-out;
+      border-radius: @radius;
+      margin-bottom: 0;
+    }
+  }
+
+  span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+  }
 }
 
 .user-profile__initials-text {

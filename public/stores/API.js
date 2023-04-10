@@ -17,6 +17,7 @@ import { trackOneAjax } from '../api/player/track';
 import { userAjax } from '../api/user/userRequestAjax';
 import { userUpdateAjax } from '../api/user/userUpdateAjaxReq';
 import { userUpdatePasswordAjax } from '../api/user/userUpdatePasswordAjaxReq';
+import { userUpdateAvatarAjax } from '../api/user/uploadAvatarAjax';
 
 /**
  * Class using for getting data from backend.
@@ -81,6 +82,9 @@ class API extends IStore {
             break;
         case ActionTypes.USER_UPDATE_PASSWORD:
             this.#updatePasswordForUser(action.userData);
+            break;
+        case ActionTypes.USER_UPDATE_AVATAR:
+            this.#updateUserAvatar(action.id, action.avatar);
             break;
         default:
         }
@@ -201,6 +205,14 @@ class API extends IStore {
     #updatePasswordForUser(userData) {
         userUpdatePasswordAjax(userData).then((message) => this.jsEmit(
             EventTypes.UPDATE_DATA_WITH_PASS_RECEIVED,
+            message,
+        ));
+    }
+
+    /** User update avatar post request to server */
+    #updateUserAvatar(id, avatar) {
+        userUpdateAvatarAjax(id, avatar).then((message) => this.jsEmit(
+            EventTypes.UPDATE_DATA_WITH_AVATAR_RECEIVED,
             message,
         ));
     }
