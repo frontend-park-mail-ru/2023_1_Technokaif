@@ -50,7 +50,7 @@ export class AudioPlayer extends BaseComponent {
             componentsNames.PLAYER,
         );
 
-        // Subscribe for change in volume
+        // Subscribe for end of track
         SongStore.subscribe(
             () => this.#loadTrack(1),
             EventTypes.TRACK_END,
@@ -79,6 +79,23 @@ export class AudioPlayer extends BaseComponent {
                 }
             },
             EventTypes.ON_REMOVE_ANOTHER_ITEMS,
+            componentsNames.PLAYER,
+        );
+
+        SongStore.subscribe(
+            (volume) => {
+                let source;
+                const element = document.querySelector('.js__music-icon');
+                if (volume > 0.5) {
+                    source = '/static/svg/player/high-sound.svg';
+                } else if (volume === 0) {
+                    source = '/static/svg/player/no-sound.svg';
+                } else {
+                    source = '/static/svg/player/mid-sound.svg';
+                }
+                element.src = source;
+            },
+            EventTypes.VOLUME_CHANGED,
             componentsNames.PLAYER,
         );
     }
