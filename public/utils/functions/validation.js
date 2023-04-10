@@ -34,6 +34,10 @@ export function checkIsEmail(login) {
  *  symbols: ' " : space";
  */
 export function getPasswordError(password) {
+    if (password === '') {
+        return ERRORS.password;
+    }
+
     if (password.includes('\'') || password.includes('"')
         || password.includes(' ') || password.includes(':')) {
         return ERRORS.password;

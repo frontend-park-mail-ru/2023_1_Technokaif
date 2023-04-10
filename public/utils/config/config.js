@@ -2,7 +2,7 @@ export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'];
 
 export const NAMES = {
-    nameOfApp: 'Spotify',
+    nameOfApp: 'Fluire',
 };
 
 export const unAuthNavConfig = {
@@ -78,4 +78,50 @@ export const sidebarConfig = {
         key: 'likedSongs',
         logoSrc: '/static/svg/Frame 28likedSongsLogo.svg',
     },
+};
+
+/** RESPONSES between stores and view */
+export const RESPONSES = {
+    OK: 'OK',
+    BAD: 'BAD',
+    REPEAT: 'REPEAT',
+};
+
+export const METHOD = {
+    FIELD: 'focusout',
+    BUTTON: 'click',
+    FORM: 'submit',
+};
+
+export const ElementsClassForUser = {
+    email: 'js__email',
+    username: 'js__username',
+    FirstLastName: 'js__name',
+
+    day: 'js__day',
+    month: 'js__month',
+    year: 'js__year',
+
+    gender: 'js__gender',
+    gender_element: 'js__gender__element',
+
+    password: 'js__password',
+    newPassword: 'js__new__password',
+    newConfPassword: 'js__new__confirm__password',
+
+    email_error: 'js__error__email',
+    username_error: 'js__error__username',
+
+    day_error: 'js__error__day',
+    month_error: 'js__error__month',
+    year_error: 'js__error__year',
+
+    gender_error: 'js__error__gender',
+
+    password_error: 'js__error__password',
+    newPasswordError: 'js__error__new__password',
+    newConfPasswordError: 'js__error__new__confirm__password',
+
+    cancelButton: 'js__cancel-button',
+    saveButton: 'js__save-button',
 };

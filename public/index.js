@@ -7,10 +7,23 @@ import { componentsNames } from './utils/config/componentsNames';
 import API from './stores/API';
 import UserInfoStore from './stores/UserInfoStore';
 import ContentStore from './stores/ContentStore';
+
+// todo Check why error is here
+// eslint-disable-next-line import/no-named-as-default
 import LoginView from './views/LoginView';
 import RegisterView from './views/RegisterView';
 import ComponentsRenders from './components/ComponentsRenders';
 import Page404View from './views/Page404View';
+import ArtistPageView from './views/ArtistPageView';
+import { routingUrl } from './utils/config/routingUrls';
+
+// todo Change import
+// eslint-disable-next-line import/no-named-as-default
+import UserView from './views/UserView';
+import { checkAuthAjax } from './api/auth/checkAuthAjaxReq';
+import serviceWorker from './utils/sw/serviceWorker';
+import OurServiceWorker from './utils/sw/serviceWorker';
+import serviceWorkerRegistration from './utils/sw/serviceWorkerRegistration';
 
 /**
  * Render main page of app
@@ -22,22 +35,22 @@ function renderMainPage() {
             {
                 name: componentsNames.SIDEBAR,
                 render: ComponentsRenders.renderSidebar,
-                unrender: ComponentsRenders.unrenderSidebar,
             },
             {
                 name: componentsNames.MAIN,
                 render: ComponentsRenders.renderMainElement,
-                unrender: ComponentsRenders.unrenderMainElement,
             },
             {
                 name: componentsNames.NAVBAR,
                 render: ComponentsRenders.renderNavbar,
-                unrender: ComponentsRenders.unrenderNavbar,
             },
             {
                 name: componentsNames.FEED_CONTENT,
                 render: ComponentsRenders.renderFeedContent,
-                unrender: ComponentsRenders.unrenderFeedContent,
+            },
+            {
+                name: componentsNames.PLAYER,
+                render: ComponentsRenders.renderPlayer,
             },
         ],
     );
@@ -48,7 +61,6 @@ function renderMainPage() {
             {
                 name: componentsNames.LOGIN_FORM,
                 render: ComponentsRenders.renderFormLogin,
-                unrender: ComponentsRenders.unrenderFormLogin,
             },
         ],
     );
@@ -59,7 +71,6 @@ function renderMainPage() {
             {
                 name: componentsNames.REGISTER_FORM,
                 render: ComponentsRenders.renderFormRegister,
-                unrender: ComponentsRenders.unrenderFormRegister,
             },
         ],
     );
@@ -70,15 +81,75 @@ function renderMainPage() {
             {
                 name: componentsNames.PAGE404,
                 render: ComponentsRenders.renderPage404,
-                unrender: ComponentsRenders.unrenderPage404,
             },
         ],
     );
 
-    Router.register('/', () => { FeedView.render(); }, [API, ContentStore]);
-    Router.register('/login', () => { LoginView.render(); }, [API, UserInfoStore]);
-    Router.register('/register', () => { RegisterView.render(); }, [API, UserInfoStore]);
-    Router.register('/404', () => { Page404View.render(); }, [API, UserInfoStore]);
+    ComponentsStore.register(
+        pageNames.ARTIST_PAGE,
+        [
+            {
+                name: componentsNames.SIDEBAR,
+                render: ComponentsRenders.renderSidebar,
+            },
+            {
+                name: componentsNames.MAIN,
+                render: ComponentsRenders.renderMainElement,
+            },
+            {
+                name: componentsNames.NAVBAR,
+                render: ComponentsRenders.renderNavbar,
+            },
+            {
+                name: componentsNames.ARTIST_CONTENT,
+                render: ComponentsRenders.renderArtistContent,
+            },
+            {
+                name: componentsNames.PLAYER,
+                render: ComponentsRenders.renderPlayer,
+            },
+        ],
+    );
+
+    ComponentsStore.register(
+        pageNames.USER,
+        [
+            {
+                name: componentsNames.SIDEBAR,
+                render: ComponentsRenders.renderSidebar,
+            },
+            {
+                name: componentsNames.MAIN,
+                render: ComponentsRenders.renderMainElement,
+            },
+            {
+                name: componentsNames.NAVBAR,
+                render: ComponentsRenders.renderNavbar,
+            },
+            {
+                name: componentsNames.USER,
+                render: ComponentsRenders.renderUserPage,
+            },
+            {
+                name: componentsNames.PLAYER,
+                render: ComponentsRenders.renderPlayer,
+            },
+        ],
+    );
+
+    serviceWorkerRegistration();
+
+    checkAuthAjax().then((value) => {
+        localStorage.setItem('isAuth', `${value}`);
+    });
+
+    Router.register(routingUrl.ROOT, () => { FeedView.render(); }, [API, ContentStore]);
+    Router.register(routingUrl.LOGIN, () => { LoginView.render(); }, [API, UserInfoStore]);
+    Router.register(routingUrl.REGISTER, () => { RegisterView.render(); }, [API, UserInfoStore]);
+    Router.register(routingUrl.PAGE404, () => { Page404View.render(); }, [API, UserInfoStore]);
+    Router.register(routingUrl.PROFILE, () => { UserView.render(); }, [API, UserInfoStore]);
+    Router.registerRouteWithRegEx(`${routingUrl.ARTIST_PAGE_EXP}`, () => { ArtistPageView.render(); }, [API, UserInfoStore]);
+
     Router.start();
 }
 

@@ -113,6 +113,7 @@ export function regFormSetup() {
         linkHref: '/',
         linkClass: CLASS.link,
         linkText: 'Login',
+        'bottom-placement': 'not_nul',
     };
 }
 

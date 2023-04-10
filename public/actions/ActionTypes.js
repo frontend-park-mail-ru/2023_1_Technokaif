@@ -5,6 +5,10 @@ const ActionTypes = {
     LOGOUT: 'LOGOUT',
     REGISTER: 'REGISTER',
     FEED: 'FEED',
+    PROFILE: 'PROFILE',
+    ARTIST: 'ARTIST',
+    ARTIST_ALBUMS: 'ARTIST_ALBUMS',
+    ARTIST_TRACKS: 'ARTIST_TRACKS',
 
     /** ComponentsStore checks for what render and handle un/render */
     CHECK_WHAT_RENDER: 'CHECK_WHAT_RENDER',
@@ -23,11 +27,42 @@ const ActionTypes = {
 
     /** Send when api request returned data and add it in state after emit a CHANGE_CONTENT event */
     FEED_GOT_CONTENT: 'FEED_GOT_CONTENT',
+    ARTIST_GOT_ALL_CONTENT: 'ARTIST_GOT_ALL_CONTENT',
     FEED_ALL_CONTENT_RECEIVED: 'FEED_ALL_CONTENT_RECEIVED',
 
-    // now it's not working
+    /** Add data in user info store */
+    ADD_USER_INFO: 'ADD_USER_INFO',
+
+    /** ID request from view */
+    ID_VIEW_REQUEST: 'ID_VIEW_REQUEST',
+
+    VALIDATE_USER: 'VALIDATE_USER',
+    USER_UPDATE_API: 'USER_UPDATE_API',
+    USER_UPDATE_PASSWORD: 'USER_UPDATE_PASSWORD',
+
+    /** Send when clicked on some interactive elements and want to play track now clearing tape */
+    PLAY_TRACK: 'PLAY_TRACK',
+    PLAY_ALBUM: 'PLAY_ALBUM',
+    PLAY_ARTIST: 'PLAY_ARTIST',
+
+    /** Send when clicked on some interactive elements and want to queue track in the end */
+    QUEUE_TRACK: 'QUEUE_TRACK',
+    QUEUE_ALBUM: 'QUEUE_ALBUM',
+    QUEUE_ARTIST: 'QUEUE_ARTIST',
+
     /** Router usage ActionType for Stores adaptation */
     CHANGE_STORE: 'CHANGE_STORE',
+    ID_PROVIDED: 'ID_PROVIDED',
+
+    /** Song update */
+    DOWNLOAD_DIRECTIONAL_TRACK: 'DOWNLOAD_DIRECTIONAL_TRACK',
+    DOWNLOAD_TRACK: 'DOWNLOAD_TRACK',
+    CHANGE_VOLUME: 'CHANGE_VOLUME',
+    UPLOAD_TAPE: 'UPLOAD_TAPE',
+    SET_STATE: 'SET_STATE',
+    SET_REPEAT: 'SET_REPEAT',
+    TIME_OF_PLAY: 'TIME_OF_PLAY',
+    CLEAR_ALL: 'CLEAR_ALL',
 };
 
 export default ActionTypes;

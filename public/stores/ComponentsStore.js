@@ -2,7 +2,6 @@ import IStore from './IStore';
 import ActionTypes from '../actions/ActionTypes';
 import { EventTypes } from '../utils/config/EventTypes';
 import { componentsNames } from '../utils/config/componentsNames';
-import { pageNames } from '../utils/config/pageNames';
 import { componentsJSNames } from '../utils/config/componentsJSNames';
 
 /**
@@ -69,11 +68,15 @@ class ComponentsStore extends IStore {
             return document.querySelector(`#${componentsJSNames.BODY}`);
         case componentsNames.NAVBAR:
         case componentsNames.FEED_CONTENT:
+        case componentsNames.USER:
+        case componentsNames.ARTIST_CONTENT:
             return document.querySelector(`.${componentsJSNames.MAIN}`);
         case componentsNames.LOGIN_FORM:
         case componentsNames.REGISTER_FORM:
         case componentsNames.PAGE404:
             return document.querySelector(`#${componentsJSNames.ROOT}`);
+        case componentsNames.PLAYER:
+            return document.querySelector('#player__placement');
         default:
             console.error('position to place element by name', elementName, 'not found');
             return document.querySelector(`#${componentsJSNames.ROOT}`);
@@ -162,9 +165,8 @@ class ComponentsStore extends IStore {
         if (needToBeDeletedExist.length !== 0) {
             this.jsEmit(EventTypes.ON_REMOVE_ANOTHER_ITEMS, needToBeDeletedExist);
         }
-
         if (notExist.length !== 0) {
-            this.jsEmit(EventTypes.ON_NOT_RENDERED_ITEMS, notExist);
+            this.jsEmitAndPopListeners(EventTypes.ON_NOT_RENDERED_ITEMS, notExist);
         }
     }
 
@@ -173,7 +175,7 @@ class ComponentsStore extends IStore {
      * @returns {boolean}
      */
     prePageNeed() {
-        return !(document.querySelector(`${componentsJSNames.MAIN}`));
+        return document.querySelector(`${componentsJSNames.MAIN}`) === null;
     }
 }
 

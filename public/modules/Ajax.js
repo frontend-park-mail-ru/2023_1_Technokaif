@@ -1,3 +1,6 @@
+import { csrfAjax } from '../api/auth/csrfAjaxReq';
+import { apiUrl } from '../utils/config/apiUrls';
+
 const AJAX_METHODS = {
     GET: 'GET',
     POST: 'POST',
@@ -54,6 +57,32 @@ class Ajax {
         resolve = noop,
         reject = noop,
     }) {
+        if (url !== apiUrl.AUTH && url !== apiUrl.LOGIN) {
+            return csrfAjax().then((csrf) => fetch(url, {
+                method: AJAX_METHODS.POST,
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8',
+                    'X-CSRF-Token': csrf,
+                },
+                body: JSON.stringify(body),
+            })
+                .then((response) => response.json().then((data) => {
+                    if (response.ok) {
+                        resolve(data);
+
+                        return data;
+                    }
+
+                    throw data.message;
+                }))
+                .catch((error) => {
+                    reject(error);
+
+                    throw error;
+                }));
+        }
         return fetch(url, {
             method: AJAX_METHODS.POST,
             mode: 'cors',
@@ -63,15 +92,16 @@ class Ajax {
             },
             body: JSON.stringify(body),
         })
-            .then((response) => response.json().then((data) => {
-                if (response.ok) {
-                    resolve(data);
+            .then((response) => response.json()
+                .then((data) => {
+                    if (response.ok) {
+                        resolve(data);
 
-                    return data;
-                }
+                        return data;
+                    }
 
-                throw data.message;
-            }))
+                    throw data.message;
+                }))
             .catch((error) => {
                 reject(error);
 

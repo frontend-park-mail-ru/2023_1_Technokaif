@@ -1,4 +1,4 @@
-import { PATH } from '../../utils/config/urls.js';
+import { apiUrl } from '../../utils/config/apiUrls.js';
 import Ajax from '../../modules/Ajax';
 
 /**
@@ -8,7 +8,7 @@ import Ajax from '../../modules/Ajax';
 export async function registerAjax(userData) {
     let mes;
     await Ajax.post({
-        url: PATH.auth,
+        url: apiUrl.AUTH,
         body: userData,
     }).then(() => {
         mes = 'OK';

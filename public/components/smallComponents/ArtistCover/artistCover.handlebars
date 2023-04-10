@@ -1,0 +1,10 @@
+<cover style="background-image: url('{{#convert}}{{item.cover}}{{/convert}}')" class="{{coverName}}">
+    <div class="{{title}}">
+        <div class="{{verifyBlock}}">
+            <img src="{{verifyImgSrc}}">
+            <p>Verified Artist</p>
+        </div>
+        <p class="{{titleName}}">{{item.name}}</p>
+        <p class="{{titleListens}}">{{#if item.listens}}{{item.listens}}{{else}}4{{/if}} listeners per month</p>
+    </div>
+</cover>

@@ -1,0 +1,27 @@
+<div class="{{mainClass}}">
+    <cover class="{{coverName}}">
+    </cover>
+    <content class="artist-content">
+        <div class="{{artistPreContent}}">
+                {{#if playButton}}
+                    <button type="button" class="{{playButton}}">
+                        <img src="{{playButtonSrc}}" class="{{playButtonImg}}">
+                    </button>
+                {{/if}}
+                {{#if stopButton}}
+                    <button hidden type="button" class="{{stopButton}}">
+                        <img src="{{stopButtonSrc}}" class="{{stopButtonImg}}">
+                    </button>
+                {{/if}}
+
+<!--                <button type="button" class="{{subscribeButton}}">Subscribe</button>-->
+<!--                <button type="button" class="{{anotherButton}}">-->
+<!--                    <img src="{{anotherButtonSrc}}" {{#if anotherButtonImg}}-->
+<!--                    class="{{anotherButtonImg}}"-->
+<!--                    {{/if}}>-->
+<!--                </button>-->
+        </div>
+        <div class="{{artistItems}}"></div>
+        <div class="{{tapeBlock}}"></div>
+    </content>
+</div>

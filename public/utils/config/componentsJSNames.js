@@ -12,4 +12,10 @@ export const componentsJSNames = {
     FEED_CONTENT: 'js__main-page-window',
     FORM: 'content',
     PAGE404: 'page404-block',
+    ARTIST_CONTENT: 'js__artist-page-window',
+    ARTIST_COVER: 'artist-cover',
+    ARTIST_LIKED_SONGS: 'liked-songs',
+    ARTIST_TAPE: 'tape',
+    ARTIST_LINE_LIST: 'line-list',
+    USER: 'user',
 };

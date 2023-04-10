@@ -1,5 +1,5 @@
 import Ajax from '../../modules/Ajax.js';
-import { PATH } from '../../utils/config/urls.js';
+import { apiUrl } from '../../utils/config/apiUrls.js';
 
 /**
  * Function for main page content render.
@@ -8,7 +8,7 @@ export async function feedTracksAjax() {
     let items;
 
     await Ajax.get({
-        url: PATH.feedTracksApi,
+        url: apiUrl.FEED_TRACKS_API,
         reject: (message) => {
             console.error('Feed tracks api error:', message);
         },

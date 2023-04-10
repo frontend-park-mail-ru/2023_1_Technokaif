@@ -21,11 +21,12 @@ module.exports = {
                 <head>
                     <meta charset="UTF-8">
                     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                    <title>Fluir</title>
+                    <title>Fluire</title>
                     <link rel="shortcut icon" type="image/jpg" href="./static/svg/whiteLogo.svg">
                 </head>
                 <body>
                     <div id="root"></div>
+                    <div id="player__placement"></div>
                 </body>
                 </html>
             `,
@@ -36,16 +37,32 @@ module.exports = {
                     from: './public/static',
                     to: './static',
                 },
+                {
+                    from: 'public/utils/sw/serviceWorker.js',
+                    to: '.',
+                },
             ],
         }),
     ],
     output: {
         filename: '[name].[contenthash].bundle.js',
         path: path.resolve(__dirname, 'dist'),
+        publicPath: '/',
         clean: true,
     },
     module: {
         rules: [
+            // {
+            //     test: /\.m?js$/,
+            //     exclude: /node_modules/,
+            //     use: {
+            //         loader: 'babel-loader',
+            //         options: {
+            //             presets: ['@babel/preset-react', '@babel/preset-env'],
+            //             plugins: ['@babel/plugin-transform-runtime'],
+            //         },
+            //     },
+            // },
             {
                 test: /\.handlebars$/,
                 loader: 'handlebars-loader',
@@ -53,7 +70,7 @@ module.exports = {
             {
                 test: /\.less$/i,
                 use: [
-                // compiles Less to CSS
+                    // compiles Less to CSS
                     'style-loader',
                     'css-loader',
                     'less-loader',
@@ -68,6 +85,9 @@ module.exports = {
     resolve: {
         alias: {
             handlebars: 'handlebars/dist/handlebars.min.js',
+        },
+        fallback: {
+            path: require.resolve('path-browserify'),
         },
     },
 };

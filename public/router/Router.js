@@ -1,6 +1,7 @@
 import IStore from '../stores/IStore';
 import Actions from '../actions/Actions';
 import { authNavConfig, sidebarConfig, unAuthNavConfig } from '../utils/config/config';
+import { routingUrl } from '../utils/config/routingUrls';
 
 /**
  * Class for routing urls in app.
@@ -12,6 +13,9 @@ class Router extends IStore {
     /** */
     #pageNotFoundRoute;
 
+    /** Routes like /artist/{id}/ */
+    #routesWithRegularTestUrl;
+
     #currentLen;
 
     /** Construct a router */
@@ -19,6 +23,7 @@ class Router extends IStore {
         super('Router');
         this.#routes = [];
         this.#pageNotFoundRoute = '/404';
+        this.#routesWithRegularTestUrl = [];
     }
 
     /**
@@ -40,6 +45,25 @@ class Router extends IStore {
         });
     }
 
+    /**
+     * Register path with regular expression
+     * @param {string} path - url address in regEx
+     * @param {*} render - function to call on url
+     * @param stores
+     */
+    registerRouteWithRegEx(path, render, stores) {
+        if (this.#routesWithRegularTestUrl.find((obj) => obj === { path, render, stores })) {
+            console.error('Routes already exist');
+            return;
+        }
+
+        this.#routesWithRegularTestUrl.push({
+            path,
+            render,
+            store: stores,
+        });
+    }
+
     /** Add event listener for popstate. Get URL from window and render this page. */
     start() {
         window.addEventListener('popstate', (event) => {
@@ -54,12 +78,17 @@ class Router extends IStore {
             this.#currentLen = event.state.history;
         });
 
+        if (sessionStorage.getItem('isStart') === null) {
+            sessionStorage.setItem('isStart', true);
+        }
+
         this.go(window.location.pathname);
     }
 
     /**
      * Render page in url
      * @param {string} path - url
+     * @param {bool} isStart - if start right now
      */
     go(path) {
         let object = this.#routes.find((routeObj) => routeObj.path === path);
@@ -76,7 +105,36 @@ class Router extends IStore {
             }
 
             if (foundInFutureLinks) {
-                this.go('/login');
+                return;
+            }
+
+            let routeWithRegExpFound = false;
+            this.#routesWithRegularTestUrl.forEach((regExObj) => {
+                const regex = new RegExp(regExObj);
+                if (regex.test(path)) {
+                    const result = path.match(routingUrl.GENERAL_REG_EXP);
+                    if (result !== null) {
+                        const [, page, id] = result;
+                        const stateStore = [];
+                        for (const state in regExObj.store) {
+                            stateStore.push(regExObj.store[state].state);
+                        }
+
+                        this.#currentLen = window.history.length;
+                        if (window.location.pathname !== path) {
+                            window.history.pushState({
+                                historyLen: this.#currentLen, stateInHistory: stateStore, id, page,
+                            }, '', path);
+                        }
+
+                        routeWithRegExpFound = true;
+                        regExObj.render();
+                        Actions.sendId(id, page);
+                    }
+                }
+            });
+
+            if (routeWithRegExpFound) {
                 return;
             }
 
@@ -88,12 +146,22 @@ class Router extends IStore {
             stateStore.push(object.store[state].state);
         }
 
-        // todo was changed for work on popstate
-        this.#currentLen = window.history.length;
-        window.history.pushState({ historyLen: this.#currentLen, stateInHistory: stateStore }, '', path);
+        const isStart = sessionStorage.getItem('isStart');
 
-        if (window.location.pathname !== path) {
-            window.history.pushState(stateStore, '', path);
+        this.#currentLen = window.history.length;
+        if (window.location.pathname !== path || (sessionStorage.getItem('isStart') === 'true')) {
+            window.history.pushState(
+                {
+                    historyLen: this.#currentLen,
+                    stateInHistory: stateStore,
+                },
+                '',
+                path,
+            );
+        }
+
+        if (isStart) {
+            sessionStorage.setItem('isStart', false);
         }
 
         object.render();
@@ -121,9 +189,22 @@ class Router extends IStore {
 
     /** Render page in current state of history. Refresh store. */
     #render() {
-        const object = this.#routes.find((routeObj) => routeObj.path === window.location.pathname);
+        let object = this.#routes.find((routeObj) => routeObj.path === window.location.pathname);
+        if (object === undefined) {
+            object = this.#routesWithRegularTestUrl.find((regExObj) => {
+                const regex = new RegExp(regExObj);
+                return (regex.test(window.location.pathname));
+            });
+
+            object.render();
+            Actions.sendId(window.history.state.id, window.history.state.page);
+            this.#sendStoresChanges(window.history.state.stateInHistory);
+            return;
+        }
+
         this.#sendStoresChanges(window.history.state.stateInHistory);
         object.render();
+
         this.jsEmit('PAGE_CHANGED');
     }
 }

@@ -1,16 +1,44 @@
+// todo Think about deletion of this file
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/order */
+
 const express = require('express');
 const body = require('body-parser');
 const cookie = require('cookie-parser');
 const morgan = require('morgan');
 const path = require('path');
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const config = require('../webpack.config.js');
+
+const compiler = webpack(config);
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const app = express();
 
 app.use(morgan('dev'));
 app.use(express.static(path.resolve(__dirname, '..', 'dist')));
-app.use(express.static(path.resolve(__dirname, 'images')));
 app.use(body.json());
 app.use(cookie());
+app.use(webpackDevMiddleware(
+    compiler,
+    {
+        publicPath: config.output.publicPath,
+    },
+));
+
+app.use((req, res, next) => {
+    const filename = path.join(compiler.outputPath, 'custom.html');
+    compiler.outputFileSystem.readFile(filename, (err, result) => {
+        if (err) {
+            return next(err);
+        }
+        res.set('content-type', 'text/html');
+        res.send(result);
+        res.end();
+    });
+});
 
 const users = {
     'd.dorofeev@corp.mail.ru': {
@@ -51,8 +79,6 @@ const users = {
         sex: 'M',
     },
 };
-
-const originalJwt = 'falksfasasfasfasf';
 
 app.post('/api/auth/signup', (req, res) => {
     const { password } = req.body;
@@ -177,9 +203,9 @@ app.get('/api/artists/feed', (req, res) => {
         );
 });
 
-app.get(/^((?!\/(static|api)).)*$/, (req, res) => {
-    res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
-});
+// app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
+// });
 
 const port = process.env.PORT || 3000;
 

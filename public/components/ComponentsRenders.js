@@ -1,22 +1,25 @@
 import { checkAuth } from '../utils/functions/checkAuth';
 import { authNavConfig, sidebarConfig, unAuthNavConfig } from '../utils/config/config';
-import Navbar from './Navbar/Navbar';
-import Menu from './Menu/Menu';
-import { MainWindowContent } from './MainWindow/mainWindow';
-import { Form } from './form/form';
-import { logFormSetup } from '../utils/setup/loginSetup';
-import { dateSetup, regFormSetup, sexSetup } from '../utils/setup/registrationSetup';
+import Navbar from './bigComponents/Navbar/Navbar';
+import Menu from './bigComponents/Menu/Menu';
+import { FeedContent } from './bigComponents/FeedContent/feedContent';
 import { componentsJSNames } from '../utils/config/componentsJSNames';
-import { HeaderWithButton } from './HeadetWithButton/headerWithButton';
+import { HeaderWithButton } from './smallComponents/HeaderWithButton/headerWithButton';
 import { page404Setup } from '../utils/setup/page404Setup';
 import { componentsNames } from '../utils/config/componentsNames';
+import { ArtistContent } from './bigComponents/ArtistContent/artistContent';
+import { setupArtistContent } from '../utils/setup/artistSetup';
+import { userSetup } from '../utils/setup/userSetup';
+import { User } from './bigComponents/userComponent/user';
+import { RegisterComponent } from './bigComponents/registerComponent/registerComponent';
+import { LoginComponent } from './bigComponents/loginComponent/loginComponent';
+import { AudioPlayer } from './bigComponents/player/player';
+import Router from '../router/Router';
 
 /**
  * Class for components renders functions.
  */
 class ComponentsRenders {
-    // todo: change function of navbar rendering. Make middleware for auth and navbar class inside
-    //  navbar component render.
     /**
      * Create Navbar component and render it in parent
      * @param {HTMLElement} parent -- where to place Navbar
@@ -30,40 +33,12 @@ class ComponentsRenders {
     }
 
     /**
-     * Rerender Navbar component in parent
-     * @param {HTMLElement} parent -- where to place Navbar
-     */
-    reRenderNavbar(parent) {
-        const config = (checkAuth()) ? authNavConfig : unAuthNavConfig;
-        const name = (checkAuth()) ? 'authNavbar' : 'unAuthNavbar';
-
-        const navbar = new Navbar(parent, config, name);
-        navbar.reRender();
-    }
-
-    /**
-     * Destroy Navbar component in parent block
-     * @param {HTMLElement} parent -- from what delete component
-     */
-    unrenderNavbar(parent) {
-        parent.removeChild(document.querySelector(`.${componentsJSNames.NAVBAR}`));
-    }
-
-    /**
      * Create Sidebar component and render it in parent
      * @param {HTMLElement} parent -- where to place Sidebar
      */
     renderSidebar(parent) {
         const sidebar = new Menu(parent, sidebarConfig, 'sidebar');
         sidebar.render();
-    }
-
-    /**
-     * Destroy Sidebar component in parent block
-     * @param {HTMLElement} parent -- from what delete component
-     */
-    unrenderSidebar(parent) {
-        parent.removeChild(document.querySelector(`.${componentsJSNames.SIDEBAR}`));
     }
 
     /**
@@ -79,29 +54,21 @@ class ComponentsRenders {
     }
 
     /**
-     * Destroy Sidebar component in parent block
-     * @param {HTMLElement} parent -- from what delete component
+     * Create Feed Content component and render it in parent
+     * @param {HTMLElement} parent -- where to place Sidebar
      */
-    unrenderMainElement(parent) {
-        parent.removeChild(document.querySelector(`.${componentsJSNames.MAIN}`));
+    renderFeedContent(parent) {
+        const mainPage = new FeedContent(parent, { mainPageWindowDiv: 'main-page-window' });
+        mainPage.render();
     }
 
     /**
      * Create Feed Content component and render it in parent
      * @param {HTMLElement} parent -- where to place Sidebar
-     * @param {*[]} tapesConfigs -- tape configs with artist, album and track items.
      */
-    renderFeedContent(parent, tapesConfigs) {
-        const mainPage = new MainWindowContent(parent, { mainPageWindowDiv: 'main-page-window' }, tapesConfigs);
-        mainPage.render();
-    }
-
-    /**
-     * Destroy Feed Content component in parent block
-     * @param {HTMLElement} parent -- from what delete component
-     */
-    unrenderFeedContent(parent) {
-        parent.removeChild(document.querySelector(`.${componentsJSNames.FEED_CONTENT}`));
+    renderArtistContent(parent) {
+        const artistPage = new ArtistContent(parent, setupArtistContent());
+        artistPage.render();
     }
 
     /**
@@ -109,20 +76,8 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- where to place Sidebar
      */
     renderFormLogin(parent) {
-        const form = new Form(
-            parent,
-            logFormSetup(),
-        );
-
+        const form = new LoginComponent(parent);
         form.render();
-    }
-
-    /**
-     * Destroy Form for login component in parent block
-     * @param {HTMLElement} parent -- from what delete component
-     */
-    unrenderFormLogin(parent) {
-        parent.removeChild(document.querySelector(`.${componentsJSNames.FORM}`));
     }
 
     /**
@@ -130,22 +85,8 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- where to place Sidebar
      */
     renderFormRegister(parent) {
-        const form = new Form(
-            parent,
-            regFormSetup(),
-            sexSetup(),
-            dateSetup(),
-        );
-
+        const form = new RegisterComponent(parent);
         form.render();
-    }
-
-    /**
-     * Destroy Form for register component in parent block
-     * @param {HTMLElement} parent -- from what delete component
-     */
-    unrenderFormRegister(parent) {
-        parent.removeChild(document.querySelector(`.${componentsJSNames.FORM}`));
     }
 
     /**
@@ -158,11 +99,23 @@ class ComponentsRenders {
     }
 
     /**
-     * Destroy Page404 component in parent block
-     * @param {HTMLElement} parent -- from what delete component
+     * Create UserPage
+     * @param {HTMLElement} parent -- where to place Sidebar
      */
-    unrenderPage404(parent) {
-        parent.removeChild(document.querySelector(`.${componentsJSNames.PAGE404}`));
+    renderUserPage(parent) {
+        if (!checkAuth()) {
+            Router.go('/');
+            return;
+        }
+
+        const user = new User(parent, userSetup());
+        user.render();
+    }
+
+    /** Render player in parent */
+    renderPlayer(parent) {
+        const player = new AudioPlayer(parent);
+        player.render();
     }
 }
 
