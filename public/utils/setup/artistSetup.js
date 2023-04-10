@@ -56,6 +56,7 @@ export function setupLineList(items) {
         lineTitle: 'track-line__title',
         lineListens: 'track-line__listens',
         lineDuration: 'track-line__duration',
+        defaultTrackSrc: '/static/svg/default-track.svg',
 
         content: items,
     };
@@ -99,6 +100,7 @@ export function setupTape(title, items) {
         footerMainDiv: '',
         footerElementDiv: 'component__description',
         footerElements: 'artists',
+        defaultSrc: '/static/svg/default-album.svg',
 
         titleText: title,
         content: items,

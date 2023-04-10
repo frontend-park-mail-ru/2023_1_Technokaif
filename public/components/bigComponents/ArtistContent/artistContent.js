@@ -97,8 +97,8 @@ export class ArtistContent extends BaseComponent {
                 const playButton = document.querySelector('.play-button');
                 const stopButton = document.querySelector('.stop-button');
                 buttons.addEventListener('click', () => {
-                    if (playButton.hidden === false) {
-                        if (SongStore.exist === true) {
+                    if (!playButton.hidden) {
+                        if (SongStore.exist) {
                             Actions.createPlay(true);
                         } else {
                             Actions.playArtist(id);

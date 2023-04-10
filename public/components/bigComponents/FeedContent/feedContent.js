@@ -1,6 +1,5 @@
 import { Tape } from '../Tape/tape';
 import templateHtml from './feedContent.handlebars';
-import offlineLogoHtml from './offlineLogo.handlebars';
 
 import './feedContent.less';
 import ContentStore from '../../../stores/ContentStore';

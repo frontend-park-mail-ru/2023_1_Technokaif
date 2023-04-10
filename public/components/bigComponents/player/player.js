@@ -238,8 +238,12 @@ export class AudioPlayer extends BaseComponent {
     #setNewTrack(response) {
         clearInterval(this.#elements.updateTimer);
         this.#resetAllToStart();
+        if (!response.cover || response.cover === '') {
+            this.#elements.track_art.src = '/static/svg/default-track.svg';
+        } else {
+            this.#elements.track_art.src = `/static/img${response.cover}`;
+        }
 
-        this.#elements.track_art.src = `/static/img${response.cover}`;
         if (response.artists.length > 0) {
             this.#elements.track_artist.textContent = response.artists.reduce((accumulator, element, index) => accumulator.concat(` ${element.name}${(index !== response.artists.length - 1) ? ',' : ''}`), '');
         }
@@ -259,6 +263,7 @@ export class AudioPlayer extends BaseComponent {
         this.#elements.curr_time.textContent = '00:00';
         this.#elements.total_duration.textContent = '00:00';
         this.#elements.seek_slider.value = 0;
+        this.#elements.track_art.src = '/static/svg/default-track.svg';
         Actions.setTimeToTrack(0);
     }
 

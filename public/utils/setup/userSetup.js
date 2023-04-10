@@ -15,7 +15,7 @@ export function userSetup() {
 
         mainAvatarDiv: 'user-profile',
         divBetweenElements: 'user-profile__horizontal-space',
-        imgClassDiv: '',
+        imgClassDiv: 'avatar',
         imgAvatarClass: 'user-profile__img',
         textClassDiv: '',
         textClass: 'user-profile__initials-text',

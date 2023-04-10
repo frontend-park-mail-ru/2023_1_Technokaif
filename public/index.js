@@ -21,8 +21,6 @@ import { routingUrl } from './utils/config/routingUrls';
 // eslint-disable-next-line import/no-named-as-default
 import UserView from './views/UserView';
 import { checkAuthAjax } from './api/auth/checkAuthAjaxReq';
-import serviceWorker from './utils/sw/serviceWorker';
-import OurServiceWorker from './utils/sw/serviceWorker';
 import serviceWorkerRegistration from './utils/sw/serviceWorkerRegistration';
 
 /**
