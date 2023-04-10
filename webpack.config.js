@@ -21,7 +21,7 @@ module.exports = {
                 <head>
                     <meta charset="UTF-8">
                     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                    <title>Fluir</title>
+                    <title>Fluire</title>
                     <link rel="shortcut icon" type="image/jpg" href="./static/svg/whiteLogo.svg">
                 </head>
                 <body>
@@ -36,6 +36,10 @@ module.exports = {
                 {
                     from: './public/static',
                     to: './static',
+                },
+                {
+                    from: 'public/utils/sw/serviceWorker.js',
+                    to: '.',
                 },
             ],
         }),

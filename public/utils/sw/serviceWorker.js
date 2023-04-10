@@ -1,85 +1,55 @@
-import { NAMES } from '../config/config';
+serviceWorkerOption = {
+    skipWaiting: true,
+    clientsClaim: true,
+    assets: [
+        '/dist/',
+    ],
+};
 
-/**
- * Class for service worker
- */
-export default class OurServiceWorker {
-    /**
-     * Variable for array of cache urls
-     */
-    #cacheData;
+const { assets } = serviceWorkerOption;
 
-    /**
-     * Initialize sw with listeners
-     */
-    constructor() {
-        self.addEventListener('install', (event) => {
-            event.waitUntil(
-                caches.open(NAMES.nameOfApp)
-                    .then((cache) => cache.addAll(this.#cacheData)),
-            );
-        });
+self.addEventListener('install', (event) => {
+    event.waitUntil(
+        caches.open('Fluire')
+            .then((cache) => cache.addAll(assets)),
+    );
+});
 
-        self.addEventListener('activate', (event) => {
-            event.waitUntil(
-                caches.keys().then((cacheNames) => Promise.all(
-                    // eslint-disable-next-line max-len
-                    cacheNames.filter((cacheName) => cacheName !== NAMES.nameOfApp).map((cacheName) => caches.delete(cacheName)),
-                )),
-            );
-        });
+self.addEventListener('activate', (event) => {
+    event.waitUntil(
+        caches.keys().then((cacheNames) => Promise.all(
+            // eslint-disable-next-line max-len
+            cacheNames.filter((cacheName) => cacheName !== 'Fluire').map((cacheName) => caches.delete(cacheName)),
+        )),
+    );
+});
 
-        self.addEventListener('fetch', (event) => {
-            event.respondWith(
-                caches.match(event.request)
-                    .then((cachedResponse) => {
-                        if (navigator.onLine) {
-                            return fetch(event.request);
+self.addEventListener('fetch', (event) => {
+    event.respondWith(
+        caches.match(event.request)
+            .then((cachedResponse) => {
+                if (navigator.onLine) {
+                    return fetch(event.request).then((response) => {
+                        if (!response || !response.ok || response.type !== 'basic') {
+                            return response;
                         }
 
-                        if (cachedResponse) {
-                            return cachedResponse;
-                        }
+                        const responseToCache = response.clone();
 
-                        return fetch(event.request);
-                    })
-                    .catch((err) => {
-                        console.error(err.stack || err);
-                    }),
-            );
-        });
-    }
+                        caches.open('Fluire')
+                            .then((cache) => {
+                                cache.put(event.request, responseToCache);
+                            });
 
-    /**
-     * Register new cacheData folder.
-     * @param folder
-     */
-    registerFolder(folder) {
-        // eslint-disable-next-line global-require
-        // const fs = require('fs');
-
-        fs.readdir(folder, (err, files) => {
-            if (err) {
-                console.error(err);
-                return;
-            }
-            this.#cacheData.concat(files);
-        });
-    }
-
-    /**
-     * Register service worker and start work
-     */
-    start() {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/serviceWorker.js', { scope: '/' })
-                .then((registration) => {
-                    // eslint-disable-next-line no-console
-                    console.log('Service Worker registered:', registration);
-                })
-                .catch((error) => {
-                    console.error('Service Worker registration failed:', error);
-                });
-        }
-    }
-}
+                        return response;
+                    });
+                }
+                if (cachedResponse) {
+                    return cachedResponse;
+                }
+            })
+            .catch((err) => {
+                console.error(err.stack || err);
+            }),
+    );
+});

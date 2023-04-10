@@ -6,6 +6,8 @@ import { componentsNames } from '../../../utils/config/componentsNames';
 import Actions from '../../../actions/Actions';
 import ContentStore from '../../../stores/ContentStore';
 import { pageNames } from '../../../utils/config/pageNames';
+import { checkAuth } from '../../../utils/functions/checkAuth';
+import Router from '../../../router/Router';
 
 /**
  * Tape for elements
@@ -39,9 +41,18 @@ export class LineList extends BaseComponent {
         this.#parent.addEventListener('click', (event) => {
             const line = event.target.closest('.track-line');
             if (line) {
+                if (checkAuth() !== true) {
+                    Router.go('/login');
+                    return;
+                }
+
                 const id = +line.querySelector('.track-line__index').innerText;
                 switch (this.#name) {
                 case componentsNames.ARTIST_LINE_LIST:
+                    if (checkAuth() !== true) {
+                        Router.go('/login');
+                        return;
+                    }
                     // eslint-disable-next-line max-len
                     Actions.playArtistWithOffset(ContentStore.state[pageNames.ARTIST_PAGE].id, id - 1);
                     break;

@@ -228,7 +228,7 @@ export class AudioPlayer extends BaseComponent {
 
         this.#elements.track_art.src = `/static/img${response.cover}`;
         if (response.artists.length > 0) {
-            this.#elements.track_artist.textContent = response.artists[0].name;
+            this.#elements.track_artist.textContent = response.artists.reduce((accumulator, element, index) => accumulator.concat(` ${element.name}${(index !== response.artists.length - 1) ? ',' : ''}`), '');
         }
 
         this.#elements.track_name.textContent = response.name;

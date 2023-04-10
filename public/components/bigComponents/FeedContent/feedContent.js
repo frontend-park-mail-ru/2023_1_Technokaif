@@ -74,9 +74,9 @@ export class FeedContent extends BaseComponent {
             this.name,
         );
 
-        window.addEventListener('online', () => {
-            this.#parent.removeChild(document.querySelector('.offline-logo'));
-        });
+        // window.addEventListener('online', () => {
+        //     this.#parent.removeChild(document.querySelector('.offline-logo'));
+        // });
     }
 
     /**
@@ -85,11 +85,11 @@ export class FeedContent extends BaseComponent {
     render() {
         const renderProcess = new Promise((resolve) => {
             super.appendElement();
-            if (navigator.onLine) {
-                resolve();
-            } else {
-                this.#parent.innerHTML += offlineLogoHtml();
-            }
+            // if (navigator.onLine) {
+            resolve();
+            // } else {
+            //     this.#parent.innerHTML += offlineLogoHtml();
+            // }
         });
 
         renderProcess.then(() => {

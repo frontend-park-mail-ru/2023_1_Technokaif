@@ -23,6 +23,7 @@ import UserView from './views/UserView';
 import { checkAuthAjax } from './api/auth/checkAuthAjaxReq';
 import serviceWorker from './utils/sw/serviceWorker';
 import OurServiceWorker from './utils/sw/serviceWorker';
+import serviceWorkerRegistration from './utils/sw/serviceWorkerRegistration';
 
 /**
  * Render main page of app
@@ -136,11 +137,7 @@ function renderMainPage() {
         ],
     );
 
-    const sw = new OurServiceWorker();
-    // sw.registerFolder('/dist');
-    // sw.registerFolder('/dist/static/css');
-    // sw.registerFolder('/dist/static/img');
-    sw.start();
+    serviceWorkerRegistration();
 
     checkAuthAjax().then((value) => {
         localStorage.setItem('isAuth', `${value}`);

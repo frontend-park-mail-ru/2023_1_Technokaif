@@ -4,6 +4,7 @@ import templateHTML from './tape.handlebars';
 import { BaseComponent } from '../../BaseComponent';
 import { instancesNames } from '../../../utils/config/instances';
 import Actions from '../../../actions/Actions';
+import { checkAuth } from '../../../utils/functions/checkAuth';
 
 /**
  * Tape for elements
@@ -43,9 +44,19 @@ export class Tape extends BaseComponent {
                     Router.go(`/${instancesNames.ARTIST_PAGE}/${id}`);
                     break;
                 case 'Tracks':
+                    if (checkAuth() !== true) {
+                        Router.go('/login');
+                        return;
+                    }
+
                     Actions.playTrack(id);
                     break;
                 case 'Albums':
+                    if (checkAuth() !== true) {
+                        Router.go('/login');
+                        return;
+                    }
+
                     Actions.playAlbum(id);
                     break;
                 default:

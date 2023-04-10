@@ -70,7 +70,7 @@ export class ArtistContent extends BaseComponent {
             const tape = new Tape(
                 tapesPlacement,
                 configForInsertElement,
-                componentsNames.ARTIST_TAPE,
+                configForInsertElement.titleText,
             );
             tape.appendElement();
         });
