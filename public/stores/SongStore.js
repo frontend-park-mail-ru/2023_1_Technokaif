@@ -238,14 +238,6 @@ class SongStore extends IStore {
                 console.warn('Not Artist/Album/Track direction in SonStore');
                 break;
             }
-
-            // need more songs
-            this.jsEmit(EventTypes.DOWNLOAD_NEW_TAPE, {
-                type: this.#storeType,
-                how: METHODS_STORE.REPLACE,
-                id,
-            });
-            return;
         }
 
         if (!this.#songs[this.#position].recordSrc
