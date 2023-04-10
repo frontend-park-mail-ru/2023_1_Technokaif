@@ -364,7 +364,7 @@ export class User extends BaseComponent {
                     const useless = document.querySelector('.user__error-text');
                     useless.hidden = true;
                     element.hidden = false;
-                    element.innerText = 'Successfully changed data';
+                    element.innerText = 'Successfully changed user info';
                 }
             },
             EventTypes.UPDATE_DATA_RECEIVED,

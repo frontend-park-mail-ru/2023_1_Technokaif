@@ -13,6 +13,7 @@ import { ArtistCover } from '../../smallComponents/ArtistCover/artistCover';
 import { componentsJSNames } from '../../../utils/config/componentsJSNames';
 import { setupArtistCover, setupLineList, setupTape } from '../../../utils/setup/artistSetup';
 import { shuffleArray } from '../../../utils/functions/shuffleArray';
+import SongStore from '../../../stores/SongStore';
 
 /**
  * Create Artist content
@@ -92,9 +93,24 @@ export class ArtistContent extends BaseComponent {
         ContentStore.subscribe(
             () => {
                 const { id } = ContentStore.state[pageNames.ARTIST_PAGE];
+                const buttons = document.querySelector('.artist-pre-content');
                 const playButton = document.querySelector('.play-button');
-                playButton.addEventListener('click', () => {
-                    Actions.playArtist(id);
+                const stopButton = document.querySelector('.stop-button');
+                buttons.addEventListener('click', () => {
+                    if (playButton.hidden === false) {
+                        if (SongStore.exist === true) {
+                            Actions.createPlay(true);
+                        } else {
+                            Actions.playArtist(id);
+                        }
+
+                        playButton.hidden = true;
+                        stopButton.hidden = false;
+                    } else {
+                        Actions.createPlay(false);
+                        stopButton.hidden = true;
+                        playButton.hidden = false;
+                    }
                 });
                 if (id !== undefined) {
                     ApiActions.artist(id);

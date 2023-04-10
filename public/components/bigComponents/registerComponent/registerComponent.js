@@ -257,7 +257,6 @@ export class RegisterComponent extends BaseComponent {
             );
             break;
         default:
-            console.error('Not nameOfField on register page', nameOfField);
         }
     }
 

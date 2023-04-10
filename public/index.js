@@ -16,12 +16,13 @@ import ComponentsRenders from './components/ComponentsRenders';
 import Page404View from './views/Page404View';
 import ArtistPageView from './views/ArtistPageView';
 import { routingUrl } from './utils/config/routingUrls';
-// import { AudioPlayer } from './components/player/player';
 
 // todo Change import
 // eslint-disable-next-line import/no-named-as-default
 import UserView from './views/UserView';
 import { checkAuthAjax } from './api/auth/checkAuthAjaxReq';
+import serviceWorker from './utils/sw/serviceWorker';
+import OurServiceWorker from './utils/sw/serviceWorker';
 
 /**
  * Render main page of app
@@ -134,6 +135,12 @@ function renderMainPage() {
             },
         ],
     );
+
+    const sw = new OurServiceWorker();
+    // sw.registerFolder('/dist');
+    // sw.registerFolder('/dist/static/css');
+    // sw.registerFolder('/dist/static/img');
+    sw.start();
 
     checkAuthAjax().then((value) => {
         localStorage.setItem('isAuth', `${value}`);

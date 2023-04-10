@@ -136,7 +136,6 @@ export class LoginComponent extends BaseComponent {
             this.#errorsRender(ElementsClassForLogin.password_error, status, ERRORS_LOG.password);
             break;
         default:
-            console.error('Not nameOfField on login page', nameOfField);
         }
     }
 

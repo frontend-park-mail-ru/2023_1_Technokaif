@@ -42,6 +42,7 @@ export class LineList extends BaseComponent {
                 const id = +line.querySelector('.track-line__index').innerText;
                 switch (this.#name) {
                 case componentsNames.ARTIST_LINE_LIST:
+                    // eslint-disable-next-line max-len
                     Actions.playArtistWithOffset(ContentStore.state[pageNames.ARTIST_PAGE].id, id - 1);
                     break;
                 default:

@@ -18,7 +18,7 @@ class SongStore extends IStore {
     /** Track with audio that will give music */
     #audioTrack;
 
-    /** Flag -- if audio doesnt have any value in it */
+    /** Flag -- if audio doesn't have any value in it */
     #clearTrack;
 
     /** All ids of songs in current tape */
@@ -56,6 +56,11 @@ class SongStore extends IStore {
     /** Return audio element */
     get audio() {
         return this.#audioTrack;
+    }
+
+    /** Return playing status */
+    get isPlaying() {
+        return this.#isPlaying;
     }
 
     /** If track exist */
@@ -121,7 +126,7 @@ class SongStore extends IStore {
      * Function to set position
      * @param offset
      */
-    #setPosition(offset) {
+    #setPosition(offset = 0) {
         this.#position = offset;
     }
 
