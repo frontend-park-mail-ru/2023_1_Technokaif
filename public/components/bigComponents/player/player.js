@@ -92,7 +92,7 @@ export class AudioPlayer extends BaseComponent {
                 if (volume > 0.5) {
                     source = imgPath.highVolume;
                 } else if (volume === 0) {
-                    source = imgPath.midVolume;
+                    source = imgPath.noVolume;
                 } else {
                     source = imgPath.midVolume;
                 }
