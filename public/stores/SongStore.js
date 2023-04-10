@@ -94,6 +94,7 @@ class SongStore extends IStore {
             break;
         case ActionTypes.PLAY_ARTIST:
             this.#clearAll();
+            this.#setPosition(action.offset);
             this.#storeType = 'artist';
             break;
         case ActionTypes.QUEUE_ARTIST:
@@ -114,6 +115,14 @@ class SongStore extends IStore {
         default:
             break;
         }
+    }
+
+    /**
+     * Function to set position
+     * @param offset
+     */
+    #setPosition(offset) {
+        this.#position = offset;
     }
 
     /** Set state between playing sound and not playing */
@@ -240,10 +249,6 @@ class SongStore extends IStore {
      * }
      */
     #uploadTape(response) {
-        if (this.#songs.length === 0) {
-            this.#position = 0;
-        }
-
         this.#songs = this.#songs.concat(response);
 
         if (this.#songs.length > 0) {

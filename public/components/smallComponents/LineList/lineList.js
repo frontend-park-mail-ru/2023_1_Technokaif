@@ -39,9 +39,10 @@ export class LineList extends BaseComponent {
         this.#parent.addEventListener('click', (event) => {
             const line = event.target.closest('.track-line');
             if (line) {
+                const id = +line.querySelector('.track-line__index').innerText;
                 switch (this.#name) {
                 case componentsNames.ARTIST_LINE_LIST:
-                    Actions.playArtist(ContentStore.state[pageNames.ARTIST_PAGE].id);
+                    Actions.playArtistWithOffset(ContentStore.state[pageNames.ARTIST_PAGE].id, id - 1);
                     break;
                 default:
                 }

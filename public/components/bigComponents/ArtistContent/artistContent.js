@@ -117,7 +117,7 @@ export class ArtistContent extends BaseComponent {
                 case 'tracks':
                     // eslint-disable-next-line no-case-declarations
                     const { tracks } = ContentStore.state[pageNames.ARTIST_PAGE];
-                    this.#lineConfigs.push(setupLineList(shuffleArray(tracks).slice(0, 5)));
+                    this.#lineConfigs.push(setupLineList(tracks.slice(0, 5)));
                     this.#renderLines();
                     break;
                 case 'albums':
