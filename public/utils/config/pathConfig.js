@@ -1,8 +1,8 @@
 /** All paths to img */
 export const imgPath = {
-    highVolume: '/static/svg/player/high-sound.svg',
-    midVolume: '/static/svg/player/mid-sound.svg',
-    noVolume: '/static/svg/player/no-sound.svg',
+    highVolume: '/static/svg/Player/high-sound.svg',
+    midVolume: '/static/svg/Player/mid-sound.svg',
+    noVolume: '/static/svg/Player/no-sound.svg',
     pause: '/static/svg/Player/pause-solid.svg',
     play: '/static/svg/Player/play-solid.svg',
     defaultTrack: '/static/svg/default-track.svg',
