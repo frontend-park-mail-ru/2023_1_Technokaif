@@ -56,7 +56,7 @@ export default class OurServiceWorker {
      */
     registerFolder(folder) {
         // eslint-disable-next-line global-require
-        const fs = require('fs');
+        // const fs = require('fs');
 
         fs.readdir(folder, (err, files) => {
             if (err) {
