@@ -227,6 +227,13 @@ const Actions = {
             type: ActionTypes.CLEAR_ALL,
         });
     },
+
+    /** Get data after restart */
+    getDataAfterRestart() {
+        Dispatcher.dispatch({
+            type: ActionTypes.FIRST_START_AFTER_RESTART,
+        });
+    },
 };
 
 export default Actions;

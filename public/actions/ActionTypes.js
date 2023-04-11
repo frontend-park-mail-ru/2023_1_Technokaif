@@ -64,6 +64,7 @@ const ActionTypes = {
     SET_REPEAT: 'SET_REPEAT',
     TIME_OF_PLAY: 'TIME_OF_PLAY',
     CLEAR_ALL: 'CLEAR_ALL',
+    FIRST_START_AFTER_RESTART: 'FIRST_START_AFTER_RESTART',
 };
 
 export default ActionTypes;

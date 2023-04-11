@@ -1,7 +1,6 @@
 import IStore from './IStore';
 import ActionTypes from '../actions/ActionTypes';
 import { EventTypes } from '../utils/config/EventTypes';
-import { RESPONSES } from '../utils/config/config';
 
 export const METHODS_STORE = {
     REPLACE: 'REPLACE',
@@ -41,7 +40,17 @@ class SongStore extends IStore {
 
     /** Default value to delete all state */
     constructor() {
-        super('SONG_STORE');
+        super('SONG_STORE', () => {
+            super.state = {
+                volume: this.#songVolume,
+                position: this.#position,
+                songs: this.#songs,
+                storeType: this.#storeType,
+                repeat: this.#isRepeat,
+
+                secondsPlayed: this.#audioTrack.currentTime,
+            };
+        });
 
         this.#audioTrack = document.createElement('audio');
         this.#clearTrack = true;
@@ -60,6 +69,7 @@ class SongStore extends IStore {
             'ended',
             () => this.jsEmit(EventTypes.TRACK_END, {}),
         );
+        super.loadFromSessionStore();
     }
 
     /** Return audio element */
@@ -126,14 +136,54 @@ class SongStore extends IStore {
             this.#isRepeat = action.state;
             break;
         case ActionTypes.TIME_OF_PLAY:
-            this.#audioTrack.currentTime = action.time;
+            this.#setTime(action.time);
             break;
         case ActionTypes.CLEAR_ALL:
             this.#clearAll();
             break;
+        case ActionTypes.FIRST_START_AFTER_RESTART:
+            this.#firstLaunch();
+            break;
         default:
             break;
         }
+    }
+
+    /** Set Repeat state */
+    #setRepeat(newState) {
+        this.#isRepeat = newState;
+        this.jsEmit(EventTypes.REPEAT_CHANGED, newState);
+    }
+
+    /** Set data for track for first launch */
+    #firstLaunch() {
+        const state = super.state;
+        if (state) {
+            if (state.songs?.length > 0) {
+                this.#setVolume(state.volume);
+                this.#storeType = state.storeType;
+                this.#position = state.position;
+                this.#songs = state.songs;
+                this.#clearTrack = false;
+
+                this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
+                this.#setRepeat(state.repeat);
+
+                this.jsEmit(EventTypes.GET_DATA_AFTER_RESTART, {
+                    status: RESPONSES.OK,
+                    id: this.#songs[this.#position].id,
+                    artists: this.#songs[this.#position].artists,
+                    name: this.#songs[this.#position].name,
+                    cover: this.#songs[this.#position].cover,
+                });
+                this.#setTime(state.secondsPlayed);
+            }
+        }
+    }
+
+    /** Set playing time */
+    #setTime(newTime) {
+        this.#audioTrack.currentTime = newTime;
     }
 
     /**

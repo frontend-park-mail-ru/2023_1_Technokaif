@@ -89,6 +89,7 @@ export class AudioPlayer extends BaseComponent {
             (volume) => {
                 let source;
                 const element = document.querySelector('.js__music-icon');
+                this.#elements.volume_slider.value = volume * 100;
 
                 if (volume > 0.6) {
                     source = imgPath.highVolume;
@@ -102,6 +103,25 @@ export class AudioPlayer extends BaseComponent {
                 element.src = source;
             },
             EventTypes.VOLUME_CHANGED,
+            componentsNames.PLAYER,
+        );
+
+        SongStore.subscribe(
+            (repeatState) => {
+                if (this.#isRepeat === repeatState) {
+                    return;
+                }
+                this.#toggleRepeat();
+            },
+            EventTypes.REPEAT_CHANGED,
+            componentsNames.PLAYER,
+        );
+
+        SongStore.subscribe(
+            (dataToSet) => {
+                this.#firstRender(dataToSet);
+            },
+            EventTypes.GET_DATA_AFTER_RESTART,
             componentsNames.PLAYER,
         );
     }
@@ -271,10 +291,13 @@ export class AudioPlayer extends BaseComponent {
     /**
      * Set track after API return response with all information
      * @param {JSON} response
+     * @param {boolean} startAfterRefresh -if set dont clear fields and dont play
      */
-    #setNewTrack(response) {
+    #setNewTrack(response, startAfterRefresh = false) {
         clearInterval(this.#elements.updateTimer);
-        this.#resetAllToStart();
+        if (!startAfterRefresh) {
+            this.#resetAllToStart();
+        }
         if (!response.cover || response.cover === '') {
             this.#elements.track_art.src = imgPath.defaultTrack;
         } else {
@@ -292,8 +315,10 @@ export class AudioPlayer extends BaseComponent {
             playerConfig.INTERVAL,
         );
 
-        this.#isExist = true;
-        this.#play();
+        if (!startAfterRefresh) {
+            this.#isExist = true;
+            this.#play();
+        }
 
         this.#lastResponse = response;
     }
@@ -357,6 +382,11 @@ export class AudioPlayer extends BaseComponent {
         Actions.createRepeat(this.#isRepeat);
     }
 
+    /** First render */
+    #firstRender(responseFromStore) {
+        this.#setNewTrack(responseFromStore, true);
+    }
+
     /** Render player in parent */
     render() {
         super.render();
@@ -367,5 +397,6 @@ export class AudioPlayer extends BaseComponent {
         this.#addReactionOnUser();
         this.#toggleRepeat();
         this.#toggleRepeat();
+        Actions.getDataAfterRestart();
     }
 }

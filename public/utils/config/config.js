@@ -95,6 +95,8 @@ export const METHOD = {
     FORM: 'submit',
     CHANGE_FIELD_IMMEDIATELY: 'input',
     CHANGE_FIELD: 'change',
+    UNLOAD_PAGE: 'beforeunload',
+
 };
 
 export const ElementsClassForUser = {

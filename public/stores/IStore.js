@@ -1,5 +1,6 @@
 import Dispatcher from '../dispatcher/Dispatcher.js';
 import EventEmitter from './EventEmitter';
+import { METHOD } from '../utils/config/config';
 
 /**
  * Interface for project stores.
@@ -13,14 +14,50 @@ class IStore extends EventEmitter {
 
     #nameOfStore;
 
+    /** function to save store before download */
+    #saveFunc;
+
     /**
      * Construct a Store.
      */
-    constructor(name) {
+    constructor(name, saveState = null) {
         super(name);
+
+        this.#saveFunc = saveState;
+
         Dispatcher.register(this.dispatch.bind(this));
-        this.#state = {};
         this.#nameOfStore = name;
+        this.#subscribe();
+
+        this.loadFromSessionStore();
+    }
+
+    /**
+     * load data from session store
+     * @return {null|JSON} - null if cant get value from store or JSON with value
+     */
+    loadFromSessionStore() {
+        const valueFromStore = sessionStorage.getItem(this.#nameOfStore);
+        if (valueFromStore) {
+            this.state = JSON.parse(valueFromStore);
+        } else {
+            this.state = {};
+        }
+    }
+
+    /** Subscribe for save to session state */
+    #subscribe() {
+        window.addEventListener(METHOD.UNLOAD_PAGE, () => {
+            if (this.#saveFunc !== null) {
+                this.#saveFunc();
+            }
+            this.saveToSessionStore();
+        });
+    }
+
+    /** Save data from session store */
+    saveToSessionStore() {
+        sessionStorage.setItem(this.#nameOfStore, JSON.stringify(this.state));
     }
 
     /** Switches over the action's type when an action is dispatched.
