@@ -212,6 +212,7 @@ export class AudioPlayer extends BaseComponent {
             Actions.searchForTrack(whatTrack, whatTrack);
         } else {
             this.#resetAllToStart();
+            this.#setNewTrack(this.#lastResponse);
             this.#play();
         }
     }
@@ -291,10 +292,10 @@ export class AudioPlayer extends BaseComponent {
             playerConfig.INTERVAL,
         );
 
-        this.#lastResponse = response;
-
         this.#isExist = true;
         this.#play();
+
+        this.#lastResponse = response;
     }
 
     /** Set values of Time, Duration, Line to 0 */
