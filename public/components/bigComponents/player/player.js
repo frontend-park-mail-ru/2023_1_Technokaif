@@ -89,12 +89,15 @@ export class AudioPlayer extends BaseComponent {
             (volume) => {
                 let source;
                 const element = document.querySelector('.js__music-icon');
-                if (volume > 0.5) {
+
+                if (volume > 0.6) {
                     source = imgPath.highVolume;
+                } else if (volume > 0.3) {
+                    source = imgPath.midVolume;
                 } else if (volume === 0) {
                     source = imgPath.noVolume;
                 } else {
-                    source = imgPath.midVolume;
+                    source = imgPath.lowSound;
                 }
                 element.src = source;
             },
@@ -167,7 +170,7 @@ export class AudioPlayer extends BaseComponent {
             if (this.#elements.volume_slider.value > 0) {
                 this.#elements.volume_slider.value = 0;
             } else {
-                this.#elements.volume_slider.value = 100;
+                this.#elements.volume_slider.value = SongStore.prevVolume;
             }
             this.#elements.volume_slider.dispatchEvent(new Event('input'));
         });
@@ -197,6 +200,7 @@ export class AudioPlayer extends BaseComponent {
         this.#elements.repeatImg = document.querySelector(`.${playerElementsJS.repeatImg}`);
 
         this.#elements.updateTimer = playerConfig.FIRST_TIMER;
+        this.#elements.volume_slider.value = 50;
     }
 
     /**

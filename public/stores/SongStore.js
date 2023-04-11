@@ -9,6 +9,9 @@ export const METHODS_STORE = {
 
 /** Store to work with songs player */
 class SongStore extends IStore {
+    /** Prev volume to back */
+    #prevVolume;
+
     /** Flag - is playing list again */
     #listFromBeginning;
 
@@ -45,7 +48,10 @@ class SongStore extends IStore {
         this.#isPlaying = false;
         this.#isRepeat = false;
 
-        this.#songVolume = 100;
+        this.#songVolume = 0.5;
+        this.#prevVolume = 0.5;
+        this.#audioTrack.volume = 0.5;
+
         this.#position = -1;
         this.#songs = [];
         this.#storeType = null;
@@ -64,6 +70,11 @@ class SongStore extends IStore {
     /** Return playing status */
     get isPlaying() {
         return this.#isPlaying;
+    }
+
+    /** Get prev volume */
+    get prevVolume() {
+        return this.#prevVolume;
     }
 
     /** If track exist */
@@ -165,6 +176,10 @@ class SongStore extends IStore {
      */
     #setVolume(volume) {
         if (volume >= 0 || volume <= 100) {
+            if (this.#songVolume !== 0) {
+                this.#prevVolume = this.#songVolume * 100;
+            }
+
             this.#songVolume = volume;
             this.#audioTrack.volume = volume;
         }
