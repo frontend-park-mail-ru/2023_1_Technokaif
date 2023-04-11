@@ -214,6 +214,9 @@ class UserInfoStore extends IStore {
             status = EMPTY_ERROR;
         } else {
             status = getDayError(day);
+            if (day > 0 && day < 10 && (day.indexOf('0') === -1)) {
+                this.changeFieldInState('day', `0${day}`);
+            }
         }
 
         if (status !== EMPTY_ERROR || loginType) {
@@ -538,6 +541,7 @@ class UserInfoStore extends IStore {
 
         let status = OK_RESPONSE;
         for (const errorField in errors) {
+            console.log('ErrorField', errorField, errors[errorField]);
             if (errorField !== 'login' && errors[errorField] === true) {
                 status = BAD_RESPONSE;
             }
