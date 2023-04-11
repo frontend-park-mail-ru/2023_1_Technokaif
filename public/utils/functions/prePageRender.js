@@ -11,7 +11,11 @@ export function clearBars() {
  * Render Navbar and Menu components.
  */
 export function prePageRender() {
-    const bodyElement = document.createElement('factbody');
+    let bodyElement = document.querySelector('#factbody');
+    if (!bodyElement) {
+        bodyElement = document.createElement('factbody');
+    }
+
     bodyElement.classList.add('main-page-window__factBody');
     bodyElement.id = `${componentsJSNames.BODY}`;
 
