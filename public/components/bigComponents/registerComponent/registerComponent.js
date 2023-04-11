@@ -267,7 +267,6 @@ export class RegisterComponent extends BaseComponent {
     sendAllData(status) {
         if (status === 'OK') {
             const { state } = UserInfoStore;
-            console.log('st', state);
             // todo translate logic to store
             const date = new Date(`${state.month} 1, 2000`);
             let monthNumber = date.getMonth() + 1;

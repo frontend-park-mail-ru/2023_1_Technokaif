@@ -96,7 +96,7 @@ export function getDayError(day) {
  * else 'year'
  */
 export function getYearError(year) {
-    if (year > 0 && year <= new Date(Date.now()).getFullYear()) {
+    if (year > 1850 && year <= new Date(Date.now()).getFullYear()) {
         return null;
     }
 

@@ -193,12 +193,13 @@ class UserInfoStore extends IStore {
      * If equal then emit 'newConfPassword' with 'OK' else 'BAD'
      * @param newPassword
      * @param confPassword
+     * @param {boolean} isChange - if true then we need to check for empty strings in passwords
      */
     #getPasswordConfError({
         newPassword,
         confPassword,
-    }) {
-        this.#checkIfEquap('newConfPassword', newPassword, confPassword);
+    }, isChange = false) {
+        this.#checkIfEquap('newConfPassword', newPassword, confPassword, isChange);
     }
 
     /**
@@ -462,10 +463,14 @@ class UserInfoStore extends IStore {
      * @param nameOfField what name will emit
      * @param firstValue
      * @param secondValue
+     * @param {boolean} checkForEmptySecond if true check for empty strings in second field
+     * default false
      */
-    #checkIfEquap(nameOfField, firstValue, secondValue) {
+    #checkIfEquap(nameOfField, firstValue, secondValue, checkForEmptySecond = false) {
         let status;
         if (firstValue === secondValue) {
+            status = OK_RESPONSE;
+        } else if (firstValue !== '' && secondValue === '' && !checkForEmptySecond) {
             status = OK_RESPONSE;
         } else {
             status = BAD_RESPONSE;
@@ -541,7 +546,6 @@ class UserInfoStore extends IStore {
 
         let status = OK_RESPONSE;
         for (const errorField in errors) {
-            console.log('ErrorField', errorField, errors[errorField]);
             if (errorField !== 'login' && errors[errorField] === true) {
                 status = BAD_RESPONSE;
             }
@@ -560,7 +564,10 @@ class UserInfoStore extends IStore {
     #checkForUserPageWithPassword(value) {
         this.#getPasswordError(value.password, 'password', true);
         this.#getPasswordError(value.newPassword, 'newPassword', true);
-        this.#getPasswordConfError(value.newPassword, value.newConfPassword);
+        this.#getPasswordConfError({
+            newPassword: value.newPassword,
+            newConfPassword: value.newConfPassword,
+        }, true);
 
         const whatToCheck = ['password', 'newPassword', 'newConfPassword'];
 
