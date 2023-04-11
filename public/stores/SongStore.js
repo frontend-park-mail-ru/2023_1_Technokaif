@@ -1,6 +1,7 @@
 import IStore from './IStore';
 import ActionTypes from '../actions/ActionTypes';
 import { EventTypes } from '../utils/config/EventTypes';
+import { RESPONSES } from '../utils/config/config';
 
 export const METHODS_STORE = {
     REPLACE: 'REPLACE',
