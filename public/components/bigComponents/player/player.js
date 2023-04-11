@@ -212,7 +212,7 @@ export class AudioPlayer extends BaseComponent {
             Actions.searchForTrack(whatTrack, whatTrack);
         } else {
             this.#resetAllToStart();
-            this.#setNewTrack(this.#lastResponse);
+            this.#elements.track_art.src = `/static/img${this.#lastResponse.cover}`;
             this.#play();
         }
     }
@@ -348,9 +348,9 @@ export class AudioPlayer extends BaseComponent {
     /** Toggle repeat on/off */
     #toggleRepeat() {
         if (this.#isRepeat) {
-            this.#elements.repeatImg.src = imgPath.activeRepeat;
-        } else {
             this.#elements.repeatImg.src = imgPath.notActiveRepeat;
+        } else {
+            this.#elements.repeatImg.src = imgPath.activeRepeat;
         }
 
         this.#isRepeat = !this.#isRepeat;
