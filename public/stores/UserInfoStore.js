@@ -109,7 +109,7 @@ class UserInfoStore extends IStore {
             this.#checkName('lastName');
             break;
         case 'newPassword':
-            this.#getPasswordError(value, 'newPassword', true);
+            this.#getPasswordError(value, 'newPassword', false);
             break;
         case 'newConfPassword':
             this.#getPasswordConfError(value);
