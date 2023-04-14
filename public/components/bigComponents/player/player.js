@@ -175,7 +175,7 @@ export class AudioPlayer extends BaseComponent {
             this.toggle();
         });
 
-        elements.seek_slider.addEventListener(METHOD.CHANGE_FIELD, () => {
+        elements.seek_slider.addEventListener(METHOD.CHANGE_FIELD_IMMEDIATELY, () => {
             this.seekTo();
         });
 
