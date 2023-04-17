@@ -101,6 +101,22 @@ const ApiActions = {
         });
     },
 
+    /** Like album */
+    likeAlbum(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.LIKE_ALBUM,
+            id,
+        });
+    },
+
+    /** Unlike album */
+    unLikeAlbum(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.UNLIKE_ALBUM,
+            id,
+        });
+    },
+
 };
 
 export default ApiActions;

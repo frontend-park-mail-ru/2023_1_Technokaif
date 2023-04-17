@@ -41,6 +41,9 @@ export class Album extends BaseComponent {
     /** If first play */
     protected firstPlay;
 
+    /** id of Album */
+    #id;
+
     /**
      * Create Album. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place Album
@@ -78,6 +81,7 @@ export class Album extends BaseComponent {
         ContentStore.subscribe(
             () => {
                 const { id } = ContentStore.state[pageNames.ALBUM];
+                this.#id = id;
                 const buttons = document.querySelector('.js__button__play');
                 const imgLike:HTMLImageElement|null = document.querySelector('.albumLike');
 
@@ -91,8 +95,10 @@ export class Album extends BaseComponent {
                     const state = ContentStore.state.ALBUM;
                     if (state.isLiked) {
                         imgLike.src = imgPath.notLiked;
+                        ApiActions.unLikeAlbum(this.#id);
                     } else {
                         imgLike.src = imgPath.liked;
+                        ApiActions.likeAlbum(this.#id);
                     }
                     state.isLiked = !state.isLiked;
                 });

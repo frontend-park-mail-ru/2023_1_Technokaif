@@ -71,6 +71,9 @@ const ActionTypes = {
     GET_ONE_ALBUM: 'GET_ONE_ALBUM',
 
     ONE_ALBUM_TO_CONTENT: 'ONE_ALBUM_TO_CONTENT',
+
+    LIKE_ALBUM: 'LIKE_ALBUM',
+    UNLIKE_ALBUM: 'UNLIKE_ALBUM',
 };
 
 export default ActionTypes;
