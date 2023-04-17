@@ -18,6 +18,7 @@ import { userAjax } from '../api/user/userRequestAjax';
 import { userUpdateAjax } from '../api/user/userUpdateAjaxReq';
 import { userUpdatePasswordAjax } from '../api/user/userUpdatePasswordAjaxReq';
 import { userUpdateAvatarAjax } from '../api/user/uploadAvatarAjax';
+import { getAlbumById } from '../api/albums/getAlbumById.ts';
 
 /**
  * Class using for getting data from backend.
@@ -85,6 +86,12 @@ class API extends IStore {
             break;
         case ActionTypes.USER_UPDATE_AVATAR:
             this.#updateUserAvatar(action.id, action.avatar);
+            break;
+        case ActionTypes.GET_ALBUM:
+            this.#getAlbum(action.id);
+            break;
+        case ActionTypes.GET_ONE_ALBUM:
+            this.#getOneAlbum(action.id);
             break;
         default:
         }
@@ -215,6 +222,16 @@ class API extends IStore {
             EventTypes.UPDATE_DATA_WITH_AVATAR_RECEIVED,
             message,
         ));
+    }
+
+    /** Get album from API */
+    #getAlbum(id) {
+        albumAjax(id).then((message) => Actions.addAlbumToContent(message));
+    }
+
+    /** Get one album */
+    #getOneAlbum(id) {
+        getAlbumById(id).then((message) => Actions.addOneAlbum(message));
     }
 }
 

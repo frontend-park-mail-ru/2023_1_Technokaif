@@ -15,6 +15,8 @@ import { RegisterComponent } from './bigComponents/registerComponent/registerCom
 import { LoginComponent } from './bigComponents/loginComponent/loginComponent';
 import { AudioPlayer } from './bigComponents/player/player';
 import Router from '../router/Router';
+import { Album } from './bigComponents/Album/album.ts';
+import { setupAlbum } from '../utils/setup/albumSetup';
 
 /**
  * Class for components renders functions.
@@ -116,6 +118,12 @@ class ComponentsRenders {
     renderPlayer(parent) {
         const player = new AudioPlayer(parent);
         player.render();
+    }
+
+    /** Render Album in parent */
+    renderAlbum(parent) {
+        const album = new Album(parent, setupAlbum());
+        album.render();
     }
 }
 

@@ -89,6 +89,18 @@ const ApiActions = {
         });
     },
 
+    /** Get one album by it id */
+    getAlbum(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.GET_ONE_ALBUM,
+            id,
+        });
+        Dispatcher.dispatch({
+            type: ActionTypes.GET_ALBUM,
+            id,
+        });
+    },
+
 };
 
 export default ApiActions;

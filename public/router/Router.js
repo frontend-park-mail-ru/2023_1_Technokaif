@@ -110,7 +110,7 @@ class Router extends IStore {
 
             let routeWithRegExpFound = false;
             this.#routesWithRegularTestUrl.forEach((regExObj) => {
-                const regex = new RegExp(regExObj);
+                const regex = new RegExp(regExObj.path);
                 if (regex.test(path)) {
                     const result = path.match(routingUrl.GENERAL_REG_EXP);
                     if (result !== null) {

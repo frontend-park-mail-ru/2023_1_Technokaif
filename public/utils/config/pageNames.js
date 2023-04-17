@@ -5,4 +5,5 @@ export const pageNames = {
     PAGE404: 'PAGE404',
     ARTIST_PAGE: 'ARTIST',
     USER: 'USER',
+    ALBUM: 'ALBUM',
 };

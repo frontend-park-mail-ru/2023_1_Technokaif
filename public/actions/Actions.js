@@ -1,7 +1,7 @@
 import Dispatcher from '../dispatcher/Dispatcher.js';
 import ActionTypes from './ActionTypes.js';
 
-/**
+2;/**
  * Global Action creator object.
  * @type {{(*): void}}
  */
@@ -232,6 +232,24 @@ const Actions = {
     getDataAfterRestart() {
         Dispatcher.dispatch({
             type: ActionTypes.FIRST_START_AFTER_RESTART,
+        });
+    },
+
+    /**
+     * Add album JSON to content
+     */
+    addAlbumToContent(items) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ALBUM_TO_CONTENT,
+            items,
+        });
+    },
+
+    /** addOneAlbumToContent */
+    addOneAlbum(item) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ONE_ALBUM_TO_CONTENT,
+            item,
         });
     },
 };

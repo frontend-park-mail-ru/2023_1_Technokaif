@@ -48,8 +48,24 @@ class ContentStore extends IStore {
         case ActionTypes.ARTIST_GOT_ALL_CONTENT:
             this.#addContentOnArtistPage(action.item, action.instance);
             break;
+        case ActionTypes.ALBUM_TO_CONTENT:
+            this.#addContentOnAlbumPage(action.items);
+            break;
+        case ActionTypes.ONE_ALBUM_TO_CONTENT:
+            this.#addToState('ALBUM', action.item);
+            this.jsEmit(EventTypes.GOT_ONE_ALBUM);
+            break;
         default:
         }
+    }
+
+    /**
+     * Set name in state to value
+     * @param name
+     * @param value
+     */
+    #addToState(name, value) {
+        this.state[name] = value;
     }
 
     /**
@@ -61,6 +77,9 @@ class ContentStore extends IStore {
         switch (nameOfPage) {
         case instancesNames.ARTIST_PAGE:
             this.#addContent(pageNames.ARTIST_PAGE, 'id', id);
+            break;
+        case instancesNames.ALBUM_PAGE:
+            this.#addContent(pageNames.ALBUM, 'id', id);
             break;
         default:
         }
@@ -117,6 +136,11 @@ class ContentStore extends IStore {
         }
 
         super.state[page][nameOfContent] = content;
+    }
+
+    #addContentOnAlbumPage(items) {
+        this.#addContent(pageNames.ALBUM, 'tracks', items);
+        this.jsEmit(EventTypes.ALBUM_CONTENT_DONE, 'tracks');
     }
 }
 
