@@ -138,6 +138,7 @@ class ContentStore extends IStore {
         super.state[page][nameOfContent] = content;
     }
 
+    /** Add tracks to Album state */
     #addContentOnAlbumPage(items) {
         this.#addContent(pageNames.ALBUM, 'tracks', items);
         this.jsEmit(EventTypes.ALBUM_CONTENT_DONE, 'tracks');

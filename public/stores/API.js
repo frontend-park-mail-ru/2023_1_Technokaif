@@ -20,6 +20,7 @@ import { userUpdatePasswordAjax } from '../api/user/userUpdatePasswordAjaxReq';
 import { userUpdateAvatarAjax } from '../api/user/uploadAvatarAjax';
 import { getAlbumById } from '../api/albums/getAlbumById.ts';
 import { likeAlbum, unLikeAlbum } from '../api/albums/likeDislike.ts';
+import { likeTrack, unlikeTrack } from '../api/tracks/likeDislike.ts';
 
 /**
  * Class using for getting data from backend.
@@ -99,6 +100,12 @@ class API extends IStore {
             break;
         case ActionTypes.LIKE_ALBUM:
             this.#likeAlbum(action.id);
+            break;
+        case ActionTypes.UNLIKE_TRACK:
+            this.#unlikeTrack(action.id);
+            break;
+        case ActionTypes.LIKE_TRACK:
+            this.#likeTrack(action.id);
             break;
         default:
         }
@@ -249,6 +256,16 @@ class API extends IStore {
     /** Unlike */
     #likeAlbum(id) {
         likeAlbum(id);
+    }
+
+    /** Unlike Track with ID */
+    #unlikeTrack(id) {
+        unlikeTrack(id);
+    }
+
+    /** Like Track with ID */
+    #likeTrack(id) {
+        likeTrack(id);
     }
 }
 

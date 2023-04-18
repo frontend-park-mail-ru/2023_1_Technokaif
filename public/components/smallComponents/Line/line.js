@@ -2,9 +2,8 @@ import templateHTML from './lineIn.handlebars';
 import { BaseComponent } from '../../BaseComponent';
 import './line.less';
 import { METHOD } from '../../../utils/config/config';
-import Actions from '../../../actions/Actions';
-import { pageNames } from '../../../utils/config/pageNames';
 import { imgPath } from '../../../utils/config/pathConfig';
+import ApiActions from '../../../actions/ApiActions';
 
 /**
  * Create element with track-oriented line with img, title, duration, optionally (listens).
@@ -12,6 +11,9 @@ import { imgPath } from '../../../utils/config/pathConfig';
 export class Line extends BaseComponent {
     /** config */
     #config;
+
+    /** Id of track */
+    #id;
 
     /**
      * Create Line component.
@@ -21,6 +23,7 @@ export class Line extends BaseComponent {
     constructor(parent, config) {
         super(parent, config, templateHTML);
         this.#config = config;
+        this.#id = config.id;
     }
 
     /** Add reactions on User Actions */
@@ -38,11 +41,12 @@ export class Line extends BaseComponent {
         likeImg.addEventListener(METHOD.BUTTON, () => {
             if (!this.#config.isLiked) {
                 img.src = imgPath.liked;
+                ApiActions.likeTrack(this.#id);
             } else {
                 img.src = imgPath.notLiked;
+                ApiActions.unLikeTrack(this.#id);
             }
             this.#config.isLiked = !this.#config.isLiked;
-            // todo to api
         });
 
         a.addEventListener(METHOD.BUTTON, (event) => {

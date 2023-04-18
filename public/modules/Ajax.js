@@ -6,6 +6,7 @@ const AJAX_METHODS = {
     POST: 'POST',
 };
 
+/** Don't do anything */
 const noop = () => {};
 
 /**

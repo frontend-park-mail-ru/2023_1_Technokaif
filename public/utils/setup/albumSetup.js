@@ -2,20 +2,7 @@
  * Setup album cover
  * @returns {{json}}
  */
-export function setupAlbum(buttons) {
-    const buttonsDefault = [
-        {
-            buttonType: 'submit',
-            divButton: 'playButton js__button__play',
-            textButton: 'PLAY',
-        },
-        {
-            buttonType: 'submit',
-            divButton: 'subscribeButton',
-            textButton: 'Subscribe',
-        },
-    ];
-
+export function setupAlbum() {
     return {
         mainDiv: 'album',
         imgSrc: '',

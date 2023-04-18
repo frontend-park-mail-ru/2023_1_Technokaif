@@ -70,10 +70,16 @@ const ActionTypes = {
     ALBUM_TO_CONTENT: 'ALBUM_TO_CONTENT',
     GET_ONE_ALBUM: 'GET_ONE_ALBUM',
 
+    /** Get album by id */
     ONE_ALBUM_TO_CONTENT: 'ONE_ALBUM_TO_CONTENT',
 
+    /** Actions to set like or dislike on album */
     LIKE_ALBUM: 'LIKE_ALBUM',
     UNLIKE_ALBUM: 'UNLIKE_ALBUM',
+
+    /** Actions to set like or dislike on track */
+    UNLIKE_TRACK: 'UNLIKE_TRACK',
+    LIKE_TRACK: 'LIKE_TRACK',
 };
 
 export default ActionTypes;

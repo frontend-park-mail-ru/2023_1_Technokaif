@@ -92,7 +92,6 @@ export class ArtistContent extends BaseComponent {
     #addSubscribes() {
         ContentStore.subscribe(
             () => {
-                console.log('artist');
                 const { id } = ContentStore.state[pageNames.ARTIST_PAGE];
                 const buttons = document.querySelector('.artist-pre-content');
                 const playButton = document.querySelector('.play-button');

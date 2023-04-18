@@ -1,4 +1,4 @@
-import { BaseView } from './BaseView';
+import { BaseView } from './BaseView.ts';
 import ComponentsStore from '../stores/ComponentsStore';
 import Actions from '../actions/Actions';
 import { pageNames } from '../utils/config/pageNames';

@@ -298,7 +298,8 @@ class SongStore extends IStore {
                 id = this.#songs[this.#position].artists.id;
                 break;
             case 'track':
-                // eslint-disable-next-line no-unused-vars
+                // todo https://github.com/orgs/frontend-park-mail-ru/projects/1/views/1?pane=issue&itemId=25985431
+                // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
                 id = this.#songs[this.#position].id;
                 break;
             default:

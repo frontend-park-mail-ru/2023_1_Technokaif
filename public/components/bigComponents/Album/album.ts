@@ -155,7 +155,17 @@ export class Album extends BaseComponent {
                     imgLike.src = imgPath.liked;
                 }
                 name.textContent = state.name;
-                author.textContent = state.artists.reduce((acc, value) => `${acc}, ${value.name}`, '');
+                let artistsText = state.artists[0].name;
+                if (state.artists.length > 2) {
+                    artistsText = state.artists.reduce((acc, value, index) => {
+                        if (index !== state.artists.length) {
+                            return `${acc} ${value.name},`;
+                        }
+
+                        return `${acc} ${value.name}`;
+                    });
+                }
+                author.textContent = artistsText;
             },
             EventTypes.GOT_ONE_ALBUM,
             super.name,

@@ -1,7 +1,7 @@
 import Dispatcher from '../dispatcher/Dispatcher.js';
 import ActionTypes from './ActionTypes.js';
 
-2;/**
+/**
  * Global Action creator object.
  * @type {{(*): void}}
  */

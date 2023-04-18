@@ -117,6 +117,22 @@ const ApiActions = {
         });
     },
 
+    /** Like track */
+    likeTrack(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.LIKE_TRACK,
+            id,
+        });
+    },
+
+    /** Unlike track */
+    unLikeTrack(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.UNLIKE_TRACK,
+            id,
+        });
+    },
+
 };
 
 export default ApiActions;

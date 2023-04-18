@@ -3,8 +3,6 @@
  * @param {JSON} track
  */
 export function setupLine(track, position) {
-    console.log('track', track);
-    console.log('pos', position);
     return {
         id: track.id,
         positionTrack: position,

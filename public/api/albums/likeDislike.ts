@@ -6,8 +6,7 @@ import { generatePageById } from '../../utils/functions/urlGenerators';
  * Like album
  */
 export async function likeAlbum(id) {
-    const url = `${generatePageById(apiUrl.LIKE_ALBUM, id)}`;
-    console.log('like', id);
+    const url = `${`${generatePageById(apiUrl.LIKE_ALBUM, id)}like`}`;
     await Ajax.post({
         url,
         reject: (message) => {
@@ -20,8 +19,7 @@ export async function likeAlbum(id) {
  * Dislike album
  */
 export async function unLikeAlbum(id) {
-    const url = `${generatePageById(apiUrl.UNLIKE_ALBUM, id)}`;
-    console.log('Dislike', id);
+    const url = `${`${generatePageById(apiUrl.UNLIKE_ALBUM, id)}unlike`}`;
     await Ajax.post({
         url,
         reject: (message) => {
