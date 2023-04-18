@@ -9,7 +9,6 @@ import { BaseComponent } from '../../BaseComponent';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import ApiActions from '../../../actions/ApiActions';
 import { setupTape } from '../../../utils/setup/artistSetup';
-import Router from '../../../router/Router';
 import { shuffleArray } from '../../../utils/functions/shuffleArray';
 
 /**
