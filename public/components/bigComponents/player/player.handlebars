@@ -1,61 +1,73 @@
 <div class="player js__player-main">
 
-    <div class="player__space-start-end"></div>
-    <!-- Define the section for displaying details -->
-    <div class="details">
-        <div class="details__img-div js__track-art">
-            <img class="js__img details__img" src="/static/svg/default-track.svg">
+    <div>
+
+        <!-- Define the section for displaying the seek slider-->
+        <div class="player-slider_container">
+            <div class="player-slider__current-time js__current-time">00:00</div>
+            <input type="range" min="1" max="100" step="0.1"
+                   value="0" class="player-slider__seek-slider js__seek_slider">
+            <div class="player-slider__total-duration js__total-duration">00:00</div>
         </div>
-        <div class="details__group-track-info">
-            <div class="track-name js__track-name">Track Name</div>
-            <div class="track-artist js__track-artist">Track Artist</div>
+
+    </div>
+    <div class="player__horizontal-space"></div>
+    <div class="player__under-slider">
+        <div>
+            <div class="player__main-container">
+                <!-- Define the section for displaying track buttons -->
+                <div class="player-buttons">
+                    <div class="player__spacer-buttons"></div>
+                    <div class="player-buttons__prev-track js__prev-track">
+                        <img class="color_this " src="/static/svg/Player/backward-step-solid.svg">
+                    </div>
+                    <div class="player__spacer-buttons"></div>
+                    <div class="player-buttons__play-pause-track  js__play-pause-track">
+                        <img class="color_this js__play-pause__img" src="/static/svg/Player/play-solid.svg">
+                    </div>
+                    <div class="player__spacer-buttons"></div>
+                    <div class="player-buttons__next-track js__next-track">
+                        <img class="color_this " src="/static/svg/Player/forward-step-solid.svg">
+                    </div>
+                    <div class="player__spacer-buttons"></div>
+                </div>
+
+
+            </div>
         </div>
+        <div>
+            <div class="details">
+                <div class="details__img-div js__track-art">
+                    <img class="js__img details__img" src="/static/svg/default-track.svg">
+                </div>
+                <div class="details__group-track-info">
+                    <div class="track-name js__track-name">Track Name</div>
+                    <div class="track-artist js__track-artist">Track Artist</div>
+                </div>
+            </div>
+        </div>
+        <div class="player__spacer-buttons"></div>
+        <div>
+            <div class="player-buttons__repeat color_this js__repeat">
+                <img class="color_this js__repeat__img" src="/static/svg/Player/arrows-rotate-solid_active.svg">
+            </div>
+        </div>
+        <div class="player__sound-block">
+            <div class="player-slider_container">
+                <div class="player-slider__position">
+                    <img class ="js__music-icon color_this "src="/static/svg/Player/mid-sound.svg">
+                </div>
+                <div class="player__space-between-sound"></div>
+                <div class="player-slider__position">
+                    <input type="range" min="0" max="100"
+                           value="99" class="player-slider_container__volume-slider js__volume_slider">
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <div class="player__space-between"></div>
+    <div class="player__black-spacer"></div>
 
-   <div class="player__main-container">
-       <!-- Define the section for displaying track buttons -->
-       <div class="player-buttons">
-           <div class="player-buttons__prev-track js__prev-track">
-               <img class="color_this " src="/static/svg/Player/backward-step-solid.svg">
-           </div>
-           <div class="player-buttons__play-pause-track  js__play-pause-track">
-               <img class="color_this js__play-pause__img" src="/static/svg/Player/play-solid.svg">
-           </div>
-           <div class="player-buttons__next-track js__next-track">
-               <img class="color_this " src="/static/svg/Player/forward-step-solid.svg">
-           </div>
-           <div class="player-buttons__repeat color_this js__repeat">
-               <img class="color_this js__repeat__img" src="/static/svg/Player/arrows-rotate-solid_active.svg">
-           </div>
-       </div>
-
-
-       <!-- Define the section for displaying the seek slider-->
-       <div class="player-slider_container">
-           <div class="player-slider__current-time js__current-time">00:00</div>
-           <input type="range" min="1" max="100"
-                  value="0" class="player-slider__seek-slider js__seek_slider">
-           <div class="player-slider__total-duration js__total-duration">00:00</div>
-       </div>
-
-   </div>
-
-    <div class="player__space-between"></div>
-
-    <!-- Define the section for displaying the volume slider-->
-    <div class="player-slider_container">
-        <div class="player-slider__position">
-            <img class ="js__music-icon color_this "src="/static/svg/Player/mid-sound.svg">
-        </div>
-        <!-- todo Can be bad that not 0 and 100  -->
-        <div class="player-slider__position">
-            <input type="range" min="0" max="100"
-                   value="99" class="player-slider_container__volume-slider js__volume_slider">
-        </div>
-    </div>
-
-    <div class="player__space-start-end"></div>
 </div>
-<div class="player__black-spacer"></div>
+

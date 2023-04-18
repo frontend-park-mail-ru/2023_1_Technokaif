@@ -137,7 +137,7 @@ export const playerConfig = {
     NEXT_TRACK: 1,
     PREV_TRACK: -1,
     FIRST_TIMER: 0,
-    INTERVAL: 1000,
+    INTERVAL: 1,
 };
 
 /** All js tags for Player */

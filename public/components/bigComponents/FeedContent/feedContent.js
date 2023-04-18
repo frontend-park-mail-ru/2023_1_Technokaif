@@ -10,6 +10,7 @@ import { componentsNames } from '../../../utils/config/componentsNames';
 import ApiActions from '../../../actions/ApiActions';
 import { setupTape } from '../../../utils/setup/artistSetup';
 import { shuffleArray } from '../../../utils/functions/shuffleArray';
+import { componentsJSNames } from '../../../utils/config/componentsJSNames';
 
 /**
  * Create FeedContent content with tapes
@@ -43,7 +44,9 @@ export class FeedContent extends BaseComponent {
         this.#configs.sort((a, b) => a.titleText.localeCompare(b.titleText));
         this.#configs.forEach((configForInsertElement) => {
             const tape = new Tape(
-                this.element,
+                // todo Find error or replace on names https://github.com/orgs/frontend-park-mail-ru/projects/1/views/1?pane=issue&itemId=25425155
+                // this.element,
+                document.querySelector(`.${componentsJSNames.FEED_CONTENT}`),
                 configForInsertElement,
                 configForInsertElement.titleText,
             );
