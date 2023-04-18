@@ -10,7 +10,7 @@ import ApiActions from '../../../actions/ApiActions';
 import { pageNames } from '../../../utils/config/pageNames';
 import { setupLineList } from '../../../utils/setup/artistSetup';
 import SongStore from '../../../stores/SongStore';
-import { setupLine } from '../../../utils/setup/setupLine.ts';
+import { setupLine } from '../../../utils/setup/setupLine.js';
 import { imgPath } from '../../../utils/config/pathConfig';
 
 /** Class for Album */
