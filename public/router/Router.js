@@ -65,9 +65,10 @@ class Router extends IStore {
     /** Add event listener for popstate. Get URL from window and render this page. */
     start() {
         window.addEventListener('popstate', (event) => {
-            console.log('Popstate', event.state);
-            if ((!event.state || !event.state.historyLen || !window.history.state)) {
+            if (!event.state || !event.state.historyLen) {
                 console.warn('Leaving page');
+                sessionStorage.setItem('isStart', null);
+                window.history.go(-1);
                 return;
             }
             event.preventDefault();
@@ -177,7 +178,6 @@ class Router extends IStore {
                 return (regex.test(window.location.pathname));
             });
 
-            console.log(window.history.state.historyLen);
             this.#sendStoresChanges(window.history.state.stateInHistory);
             Actions.sendId(window.history.state.id, window.history.state.page);
 
@@ -186,7 +186,6 @@ class Router extends IStore {
             return;
         }
 
-        console.log(window.history.length);
         this.#sendStoresChanges(window.history.state.stateInHistory);
         object.render();
 
@@ -202,7 +201,6 @@ class Router extends IStore {
      * @param page what page by default empty string
      */
     #pushToHistory(path, length, state, id = '', page = '') {
-        console.log('PushToHistory', path, length);
         const isStart = sessionStorage.getItem('isStart');
 
         if (window.location.pathname !== path || (sessionStorage.getItem('isStart') === 'true')) {

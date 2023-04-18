@@ -45,14 +45,6 @@ class IStore extends EventEmitter {
         }
     }
 
-    get state() {
-        return this.#state;
-    }
-
-    set state(newState) {
-        this.#state = newState;
-    }
-
     /** Subscribe for save to session state */
     #subscribe() {
         window.addEventListener(METHOD.UNLOAD_PAGE, () => {
