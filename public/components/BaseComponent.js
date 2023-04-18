@@ -74,9 +74,10 @@ export class BaseComponent {
             (list) => {
                 const component = list.filter((comp) => comp.name === this.#name);
                 if (component.length !== 0) {
+                    console.log('DELETE THIS COMPONENT', this.#name);
                     Actions.removeElementFromPage(this.#name);
                     unsubscribeFromAllStoresOnComponent(this.#name);
-                    ContentStore.state = {};
+                    ContentStore.state[this.#name] = {};
                     this.unRender();
                 }
             },

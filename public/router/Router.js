@@ -67,19 +67,20 @@ class Router extends IStore {
     /** Add event listener for popstate. Get URL from window and render this page. */
     start() {
         window.addEventListener('popstate', (event) => {
+            console.log('Popstate', event.state);
+            if ((!event.state || !event.state.historyLen) && window.history.length === 2) {
+                console.log('RETURN');
+                return;
+            }
             event.preventDefault();
 
             // todo = can be bad decision
-            if (event.state.historyLen <= this.#currentLen) {
-                this.back();
-            } else {
-                this.forward();
-            }
-            this.#currentLen = event.state.history;
+            this.#render();
+            this.#currentLen = event.state.historyLen;
         });
 
         if (sessionStorage.getItem('isStart') === null) {
-            sessionStorage.setItem('isStart', true);
+            sessionStorage.setItem('isStart', 'true');
         }
 
         this.go(window.location.pathname);
@@ -91,6 +92,7 @@ class Router extends IStore {
      * @param {bool} isStart - if start right now
      */
     go(path) {
+        console.log('GO', path);
         let object = this.#routes.find((routeObj) => routeObj.path === path);
         let foundInFutureLinks = false;
         if (!object) {
@@ -110,24 +112,24 @@ class Router extends IStore {
 
             let routeWithRegExpFound = false;
             this.#routesWithRegularTestUrl.forEach((regExObj) => {
+                console.log('Was regExp');
                 const regex = new RegExp(regExObj.path);
                 if (regex.test(path)) {
                     const result = path.match(routingUrl.GENERAL_REG_EXP);
+                    console.log('Result after match', result);
                     if (result !== null) {
                         const [, page, id] = result;
+                        console.log('ID', id);
                         const stateStore = [];
                         for (const state in regExObj.store) {
                             stateStore.push(regExObj.store[state].state);
                         }
 
                         this.#currentLen = window.history.length;
-                        if (window.location.pathname !== path) {
-                            window.history.pushState({
-                                historyLen: this.#currentLen, stateInHistory: stateStore, id, page,
-                            }, '', path);
-                        }
+                        this.#pushToHistory(path, this.#currentLen, stateStore, id, page);
 
                         routeWithRegExpFound = true;
+                        console.log('BEFORE RENDER in 132', page, regExObj);
                         regExObj.render();
                         Actions.sendId(id, page);
                     }
@@ -146,24 +148,10 @@ class Router extends IStore {
             stateStore.push(object.store[state].state);
         }
 
-        const isStart = sessionStorage.getItem('isStart');
-
         this.#currentLen = window.history.length;
-        if (window.location.pathname !== path || (sessionStorage.getItem('isStart') === 'true')) {
-            window.history.pushState(
-                {
-                    historyLen: this.#currentLen,
-                    stateInHistory: stateStore,
-                },
-                '',
-                path,
-            );
-        }
 
-        if (isStart) {
-            sessionStorage.setItem('isStart', false);
-        }
-
+        this.#pushToHistory(path, this.#currentLen, stateStore);
+        console.log('BEFORE RENDER in 154', path);
         object.render();
 
         // todo useless emit
@@ -192,20 +180,56 @@ class Router extends IStore {
         let object = this.#routes.find((routeObj) => routeObj.path === window.location.pathname);
         if (object === undefined) {
             object = this.#routesWithRegularTestUrl.find((regExObj) => {
-                const regex = new RegExp(regExObj);
+                const regex = new RegExp(regExObj.path);
+
                 return (regex.test(window.location.pathname));
             });
 
-            object.render();
-            Actions.sendId(window.history.state.id, window.history.state.page);
             this.#sendStoresChanges(window.history.state.stateInHistory);
+            Actions.sendId(window.history.state.id, window.history.state.page);
+
+            object.render();
+
             return;
         }
 
         this.#sendStoresChanges(window.history.state.stateInHistory);
+        console.log('BEFORE RENDER in 205', object);
         object.render();
 
         this.jsEmit('PAGE_CHANGED');
+    }
+
+    /**
+     * If path was changed push it to history.
+     * @param path what path is it
+     * @param length what length of history is. For detect direction
+     * @param state what state to save in history
+     * @param id by default empty string
+     * @param page what page by default empty string
+     */
+    #pushToHistory(path, length, state, id = '', page = '') {
+        const isStart = sessionStorage.getItem('isStart');
+
+        console.log('Push to history', path, length, state, id, page);
+        console.log('IsStart', isStart);
+        if (window.location.pathname !== path || (sessionStorage.getItem('isStart') === 'true')) {
+            console.log('WasPushed');
+            window.history.pushState(
+                {
+                    historyLen: length,
+                    stateInHistory: state,
+                    id,
+                    page,
+                },
+                '',
+                path,
+            );
+        }
+
+        if (isStart) {
+            sessionStorage.setItem('isStart', 'false');
+        }
     }
 }
 

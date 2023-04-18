@@ -34,6 +34,7 @@ class ContentStore extends IStore {
      * @param {*} action - action
      */
     dispatch(action) {
+        console.log('action---000---000---action', action, super.state);
         super.dispatch();
         switch (action.type) {
         case ActionTypes.ID_PROVIDED:
@@ -65,7 +66,8 @@ class ContentStore extends IStore {
      * @param value
      */
     #addToState(name, value) {
-        this.state[name] = value;
+        console.log('---------------------addToState');
+        super.state[name] = value;
     }
 
     /**
@@ -74,11 +76,15 @@ class ContentStore extends IStore {
      * @param nameOfPage
      */
     #addCurrentIdOnPageContent(id, nameOfPage) {
+        console.log('ADD CRRENT ID', nameOfPage, id);
         switch (nameOfPage) {
         case instancesNames.ARTIST_PAGE:
+        case pageNames.ARTIST_PAGE:
             this.#addContent(pageNames.ARTIST_PAGE, 'id', id);
             break;
         case instancesNames.ALBUM_PAGE:
+        case pageNames.ALBUM:
+            console.log('ALBUM-------------------------');
             this.#addContent(pageNames.ALBUM, 'id', id);
             break;
         default:
@@ -91,8 +97,24 @@ class ContentStore extends IStore {
      * Function to check if we have id for page
      * @param nameOfPage
      */
-    #checkID(nameOfPage) {
-        if (this.state[nameOfPage].id !== undefined) {
+    #checkID(nameOfPageIn) {
+        console.log('CheckID', super.state, nameOfPageIn);
+        if (!super.state) {
+            console.log('STATE NOT EXIST');
+        }
+        let nameOfPage = nameOfPageIn;
+        if (nameOfPage === 'artist' || nameOfPage === 'Artist') {
+            nameOfPage = 'ARTIST';
+        }
+        if (nameOfPage === 'album' || nameOfPage === 'Album') {
+            nameOfPage = 'ALBUM';
+        }
+
+        console.log('State', super.state);
+        console.log('Artist(BIG, small)', super.state.Artist, super.state.artist);
+        console.log('Album(BIG, small)', super.state.Album, super.state.album);
+        console.log('State page', nameOfPage, super.state[nameOfPage]);
+        if (super.state[nameOfPage].id !== undefined) {
             this.jsEmit(EventTypes.ID_CAN_BE_VIEWED);
         }
     }
@@ -102,11 +124,12 @@ class ContentStore extends IStore {
      * @param items
      */
     #addContentOnFeed(items) {
+        console.log('---------------------addContentOnFeed');
         for (const nameOfContent in items) {
             this.#addContent(pageNames.FEED, nameOfContent, items[nameOfContent]);
         }
 
-        if (Object.keys(this.state[pageNames.FEED]).length === 3) {
+        if (Object.keys(super.state[pageNames.FEED]).length === 3) {
             this.jsEmit(EventTypes.FEED_CONTENT_DONE);
         }
     }
@@ -119,6 +142,7 @@ class ContentStore extends IStore {
      * @param instance
      */
     #addContentOnArtistPage(item, instance) {
+        console.log('---------------------addContentOnArtistPage');
         this.#addContent(pageNames.ARTIST_PAGE, instance, item);
 
         this.jsEmit(EventTypes.ARTIST_CONTENT_DONE, instance);
@@ -132,14 +156,17 @@ class ContentStore extends IStore {
      */
     #addContent(page, nameOfContent, content) {
         if (super.state[page] === undefined) {
+            console.log('--------StatePageset{}');
             super.state[page] = {};
         }
-
+        console.log('ADD CONTENT', page, nameOfContent, content);
         super.state[page][nameOfContent] = content;
+        console.log('SUPER STATE AFTER ADD CONTENT', super.state);
     }
 
     /** Add tracks to Album state */
     #addContentOnAlbumPage(items) {
+        console.log('---------------------addContentOnAlbumPage');
         this.#addContent(pageNames.ALBUM, 'tracks', items);
         this.jsEmit(EventTypes.ALBUM_CONTENT_DONE, 'tracks');
     }

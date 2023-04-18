@@ -39,10 +39,20 @@ class IStore extends EventEmitter {
     loadFromSessionStore() {
         const valueFromStore = sessionStorage.getItem(this.#nameOfStore);
         if (valueFromStore) {
-            this.state = JSON.parse(valueFromStore);
+            this.#state = JSON.parse(valueFromStore);
         } else {
-            this.state = {};
+            this.#state = {};
         }
+        console.log('FROM STORE', this.#state);
+    }
+
+    get state() {
+        return this.#state;
+    }
+
+    set state(newState) {
+        console.log('State set', newState);
+        this.#state = newState;
     }
 
     /** Subscribe for save to session state */
@@ -73,6 +83,7 @@ class IStore extends EventEmitter {
      * @param eventName
      */
     addNewItem(itemObj, eventName = null) {
+        console.log('START ADDNewItem-=-=-=-=-=-=-=-=-=-=-', this.#state);
         for (const [key, value] of Object.entries(itemObj)) {
             this.#state[key] = value;
         }
@@ -80,6 +91,7 @@ class IStore extends EventEmitter {
         if (eventName !== null) {
             this.jsEmit(eventName);
         }
+        console.log('addNewItem-=-=-=-=-=-=-=-=-=-=-', this.#state);
     }
 
     /**
