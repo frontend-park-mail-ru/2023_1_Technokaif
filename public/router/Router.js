@@ -73,7 +73,6 @@ class Router extends IStore {
             }
             event.preventDefault();
 
-            // todo = can be bad decision
             this.#render();
             this.#currentLen = event.state.historyLen;
         });
