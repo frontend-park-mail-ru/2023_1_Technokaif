@@ -47,6 +47,10 @@ class Menu {
      * add event listener to component. On 'click' redirect to section on dataset
      */
     callEventListener() {
+        const logo = document.querySelector('.sidebar__logo');
+        logo.addEventListener('click', () => {
+            Router.go('/');
+        });
         ComponentsStore.subscribe(
             (list) => {
                 const component = list.filter((comp) => comp.name === componentsNames.SIDEBAR);

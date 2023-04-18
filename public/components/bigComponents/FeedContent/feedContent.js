@@ -56,10 +56,6 @@ export class FeedContent extends BaseComponent {
      * Function to subscribe to all events from Stores
      */
     #addSubscribes() {
-        const logo = document.querySelector('.sidebar__logo');
-        logo.addEventListener('click', () => {
-            Router.go('/');
-        });
         ContentStore.subscribe(
             () => {
                 const state = ContentStore.state[pageNames.FEED];
