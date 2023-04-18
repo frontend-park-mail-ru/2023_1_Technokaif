@@ -18,6 +18,11 @@ export const imgPath = {
 
     verify: '/static/svg/verify.svg',
 
+    trackPlay: '/static/svg/trackStart.svg',
+    trackPause: '/static/svg/trackPause.svg',
+    trackLike: '/static/svg/like.svg',
+    trackUnLike: '/static/svg/unlike.svg',
+
     playInArtist: '/static/svg/play.svg',
     stopInArtist: '/static/svg/Pause.svg',
     ellipseInArtist: '/static/svg/ellipses.svg',
@@ -25,5 +30,4 @@ export const imgPath = {
     defaultAlbum: '/static/svg/default-album.svg',
 
     whiteLogo: '/static/svg/whiteLogo.svg',
-
 };

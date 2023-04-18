@@ -18,6 +18,8 @@ import { userAjax } from '../api/user/userRequestAjax';
 import { userUpdateAjax } from '../api/user/userUpdateAjaxReq';
 import { userUpdatePasswordAjax } from '../api/user/userUpdatePasswordAjaxReq';
 import { userUpdateAvatarAjax } from '../api/user/uploadAvatarAjax';
+import { setTrackLikeAjax } from '../api/tracks/trackLikeAjaxRequest';
+import { removeTrackLikeAjax } from '../api/tracks/trackUnLikeAjaxRequest';
 
 /**
  * Class using for getting data from backend.
@@ -58,6 +60,12 @@ class API extends IStore {
             break;
         case ActionTypes.ARTIST_TRACKS:
             this.#artistTracksRequest(action.id);
+            break;
+        case ActionTypes.LIKE_TRACK:
+            this.#likeTrackRequest(action.id);
+            break;
+        case ActionTypes.UNLIKE_TRACK:
+            this.#unlikeTrackRequest(action.id);
             break;
         case ActionTypes.ARTIST_ALBUMS:
             this.#artistAlbumsRequest(action.id);
@@ -153,6 +161,26 @@ class API extends IStore {
     #artistTracksRequest(id) {
         artistTracksAjax(id).then((tracks) => {
             Actions.artistAddContent(tracks, 'tracks');
+        });
+    }
+
+    /**
+     * Function to send like post request to track by id
+     * @param id
+     */
+    #likeTrackRequest(id) {
+        setTrackLikeAjax(id).then((message) => {
+            this.jsEmit(EventTypes.LIKED_TRACK, message);
+        });
+    }
+
+    /**
+     * Function to send unlike post request to track by id
+     * @param id
+     */
+    #unlikeTrackRequest(id) {
+        removeTrackLikeAjax(id).then((message) => {
+            this.jsEmit(EventTypes.LIKED_TRACK, message);
         });
     }
 

@@ -11,9 +11,15 @@ import ApiActions from '../../../actions/ApiActions';
 import { pageNames } from '../../../utils/config/pageNames';
 import { ArtistCover } from '../../smallComponents/ArtistCover/artistCover';
 import { componentsJSNames } from '../../../utils/config/componentsJSNames';
-import { setupArtistCover, setupLineList, setupTape } from '../../../utils/setup/artistSetup';
+import {
+    setupArtistCover,
+    setupLikedSongs,
+    setupLineList,
+    setupTape,
+} from '../../../utils/setup/artistSetup';
 import { shuffleArray } from '../../../utils/functions/shuffleArray';
 import SongStore from '../../../stores/SongStore';
+import { LikedSongs } from '../../smallComponents/LikedSongs/likedSongs';
 
 /**
  * Create Artist content
@@ -87,19 +93,30 @@ export class ArtistContent extends BaseComponent {
     }
 
     /**
+     * Method to render liked songs
+     * @param artist
+     */
+    #renderLikedSongs(artist) {
+        const placement = document.querySelector('.artist-items');
+        const likedSongs = new LikedSongs(placement, setupLikedSongs(artist));
+        likedSongs.appendElement();
+    }
+
+    /**
      * Function to subscribe to all events from Stores
      */
     #addSubscribes() {
         ContentStore.subscribe(
             () => {
                 const { id } = ContentStore.state[pageNames.ARTIST_PAGE];
-                const buttons = document.querySelector('.artist-pre-content');
+                const buttons = document.querySelector('.pre-buttons');
                 const playButton = document.querySelector('.play-button');
                 const stopButton = document.querySelector('.stop-button');
                 buttons.addEventListener('click', () => {
                     if (!playButton.hidden) {
-                        if (SongStore.exist) {
-                            Actions.createPlay(true);
+                        // eslint-disable-next-line max-len
+                        if (SongStore.exist && SongStore.trackInfo.artists.filter((element) => element.name === ContentStore.state[pageNames.ARTIST_PAGE].artist.name).length > 0) {
+                            Actions.changePlayState(true);
                         } else {
                             Actions.playArtist(id);
                         }
@@ -107,7 +124,7 @@ export class ArtistContent extends BaseComponent {
                         playButton.hidden = true;
                         stopButton.hidden = false;
                     } else {
-                        Actions.createPlay(false);
+                        Actions.changePlayState(false);
                         stopButton.hidden = true;
                         playButton.hidden = false;
                     }
@@ -119,6 +136,21 @@ export class ArtistContent extends BaseComponent {
                 }
             },
             EventTypes.ID_CAN_BE_VIEWED,
+            this.name,
+        );
+        SongStore.subscribe(
+            (state) => {
+                const playButton = document.querySelector('.play-button');
+                const stopButton = document.querySelector('.stop-button');
+                if (state) {
+                    playButton.hidden = true;
+                    stopButton.hidden = false;
+                } else {
+                    playButton.hidden = false;
+                    stopButton.hidden = true;
+                }
+            },
+            EventTypes.CHANGE_PLAY_STATE,
             this.name,
         );
         ContentStore.subscribe(
@@ -135,6 +167,9 @@ export class ArtistContent extends BaseComponent {
                     const { tracks } = ContentStore.state[pageNames.ARTIST_PAGE];
                     this.#lineConfigs.push(setupLineList(tracks.slice(0, 5)));
                     this.#renderLines();
+                    // eslint-disable-next-line no-case-declarations
+                    const artist1 = ContentStore.state[pageNames.ARTIST_PAGE].artist;
+                    this.#renderLikedSongs(artist1);
                     break;
                 case 'albums':
                     // eslint-disable-next-line no-case-declarations

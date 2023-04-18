@@ -26,6 +26,7 @@ export function setupArtistContent() {
         coverName: 'artist-cover',
         artistContent: 'artist-content',
         artistPreContent: 'artist-pre-content',
+        buttonsClass: 'pre-buttons',
         playButton: 'play-button',
         playButtonSrc: imgPath.playInArtist,
         playButtonImg: 'artist-pre-content__img',
@@ -33,9 +34,6 @@ export function setupArtistContent() {
         stopButtonSrc: imgPath.stopInArtist,
         stopButtonImg: 'artist-pre-content__img',
         subscribeButton: 'artist-pre-content__button',
-        anotherButton: 'another-button',
-        anotherButtonSrc: imgPath.ellipseInArtist,
-        anotherButtonImg: null,
         artistItems: 'artist-items',
         tapeBlock: 'album-list',
     };
@@ -58,6 +56,24 @@ export function setupLineList(items) {
         lineTitle: 'track-line__title',
         lineListens: 'track-line__listens',
         lineDuration: 'track-line__duration',
+
+        buttonsClass: 'buttons',
+        playButton: 'play-button-track',
+        playButtonSrc: imgPath.trackPlay,
+        playButtonImg: 'likeImg',
+        stopButton: 'stop-button-track',
+        stopButtonSrc: imgPath.trackPause,
+        stopButtonImg: 'likeImg',
+
+        likeButtons: 'like-button-block',
+        like: 'like-button',
+        likeButtonSrc: imgPath.trackLike,
+        likeButtonImg: 'like-button__img',
+
+        unlike: 'unlike-button',
+        unlikeButtonSrc: imgPath.trackUnLike,
+        unlikeButtonImg: 'unlike-button__img',
+
         defaultTrackSrc: imgPath.defaultTrack,
 
         content: items,

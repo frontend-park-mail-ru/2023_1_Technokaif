@@ -6,7 +6,7 @@ import Ajax from '../../modules/Ajax';
  * @param userData
  */
 export async function userUpdatePasswordAjax(userData) {
-    let mess;
+    let msg;
     await Ajax.post({
         url: apiUrl.USER_UPDATE_PASSWORD,
         body: userData,
@@ -14,10 +14,10 @@ export async function userUpdatePasswordAjax(userData) {
             console.error('User update password request api error:', message);
         },
     }).then(() => {
-        mess = 'OK';
+        msg = 'OK';
     }).catch((message) => {
-        mess = message;
+        msg = message;
     });
 
-    return mess;
+    return msg;
 }

@@ -1,21 +1,44 @@
+@import '../../../static/css/constants.less';
+
 .track-line {
-  cursor: pointer;
   display: grid;
-  grid-gap: 16px;
   align-items: center;
-  grid-template-columns: [index] 16px [first] 4fr [var1] 2fr [last] minmax(120px,1fr);
-  padding: 0 16px;
+  grid-template-columns: [index] 20px [first] 4fr [listens] 2fr [like] 1fr [last] minmax(120px,1fr);
+  padding: 0 16px 10px 10px;
   gap: 10px;
 }
 
+.buttons {
+  display: none;
+  grid-area: index;
+  margin-right: 15px;
+}
+
+.track-line:hover {
+  background-color: #736D6D;
+  border-radius: @small-radius;
+}
+
+.track-line:hover .buttons {
+  display: block;
+}
+
+.track-line:hover .track-line__index {
+  display: none;
+}
+
+.track-line:hover .like-button-block {
+  display: block;
+}
+
 .track-line__index {
-  grid-area:index;
+  grid-area: index;
+  text-align: center;
 
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
   line-height: 19px;
-
 
   color: rgba(255, 255, 255, 0.7);
 }
@@ -28,7 +51,7 @@
 }
 
 .track-line__listens {
-  grid-area: var1;
+  grid-area: listens;
   display: flex;
   align-items: center;
   justify-self: start;
@@ -40,7 +63,35 @@
   text-align: right;
 
   color: rgba(255, 255, 255, 0.5);
+}
 
+.like-button-block {
+  display: none;
+  grid-area: like;
+}
+
+.like-button {
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border: none;
+}
+
+.like-button__img {
+  width: 20px;
+  height: 20px;
+}
+
+.unlike-button__img {
+  width: 20px;
+  height: 20px;
+}
+
+.unlike-button {
+  background-color: transparent;
+  border: none;
+  width: 20px;
+  height: 20px;
 }
 
 .track-line__duration {
@@ -52,7 +103,6 @@
   font-weight: 700;
   font-size: 15.5014px;
   line-height: 20px;
-  letter-spacing: -0.01em;
 
   color: rgba(255, 255, 255, 0.5);
 }
@@ -63,11 +113,26 @@
 }
 
 .track-line__title {
+  cursor: pointer;
   font-style: normal;
   font-weight: 700;
   font-size: 15.4459px;
   line-height: 20px;
-  letter-spacing: -0.01em;
 
   color: #FFFFFF;
+}
+
+.play-button-track {
+  background-color: transparent;
+  border: none;
+}
+
+.stop-button-track {
+  background-color: transparent;
+  border: none;
+}
+
+.likeImg {
+  width: 15px;
+  height: 15px;
 }

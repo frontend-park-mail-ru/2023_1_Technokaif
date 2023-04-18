@@ -55,6 +55,20 @@ const ApiActions = {
         });
     },
 
+    likeTrack(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.LIKE_TRACK,
+            id,
+        });
+    },
+
+    unlikeTrack(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.UNLIKE_TRACK,
+            id,
+        });
+    },
+
     /** User page */
     user(id) {
         Dispatcher.dispatch({

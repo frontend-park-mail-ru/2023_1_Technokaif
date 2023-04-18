@@ -22,6 +22,10 @@ const ActionTypes = {
     LOGIN_STATUS: 'LOGIN_STATUS',
     LOGOUT_STATUS: 'LOGOUT_STATUS',
 
+    /** Like actions */
+    LIKE_TRACK: 'LIKE_TRACK',
+    UNLIKE_TRACK: 'UNLIKE_TRACK',
+
     /** Send when click on button in register/login */
     VALIDATION_CHECK_CORRECT_ALL: 'VALIDATION_CHECK_CORRECT_ALL',
 

@@ -7,7 +7,7 @@ import Ajax from '../../modules/Ajax';
  * @param userData
  */
 export async function userUpdateAjax(id, userData) {
-    let mess;
+    let msg;
     await Ajax.post({
         url: apiUrl.USER_UPDATE_API(id),
         body: userData,
@@ -15,10 +15,10 @@ export async function userUpdateAjax(id, userData) {
             console.error('User update request api error:', message);
         },
     }).then(() => {
-        mess = 'OK';
+        msg = 'OK';
     }).catch((message) => {
-        mess = message;
+        msg = message;
     });
 
-    return mess;
+    return msg;
 }

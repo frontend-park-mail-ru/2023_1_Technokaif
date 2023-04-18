@@ -1,9 +1,41 @@
 <div class="{{root.lineDiv}}" data-id="{{item.id}}">
     <div class="{{root.lineIndex}}">{{#position}}{{@index}}{{/position}}</div>
+    <div class="{{root.buttonsClass}}">
+        {{#if root.playButton}}
+            <button type="button" class="{{root.playButton}}">
+                <img src="{{root.playButtonSrc}}" class="{{root.playButtonImg}}">
+            </button>
+        {{/if}}
+        {{#if root.stopButton}}
+            <button hidden type="button" class="{{root.stopButton}}">
+                <img src="{{root.stopButtonSrc}}" class="{{root.stopButtonImg}}">
+            </button>
+        {{/if}}
+    </div>
     <div class="{{root.lineBlock}}">
         <img src="{{#if item.cover}}{{#convert}}{{item.cover}}{{/convert}}{{else}}{{defaultTrackSrc}}{{/if}}" class="track-line__cover">
         <div class="{{root.lineTitle}}">{{item.name}}</div>
     </div>
     <div class="{{root.lineListens}}">{{item.listens}}</div>
+    {{#ifEquals item.isLiked true}}
+        <div class="{{root.likeButtons}}">
+            <button type="button" src="likeButtonSrc" class="{{root.like}}" hidden>
+                <img src="{{root.likeButtonSrc}}" class="{{root.likeButtonImg}}">
+            </button>
+            <button type="button" class="{{root.unlike}}">
+                <img src="{{root.unlikeButtonSrc}}" class="{{root.likeButtonImg}}">
+            </button>
+        </div>
+    {{/ifEquals}}
+    {{#ifEquals item.isLiked false}}
+        <div class="{{root.likeButtons}}">
+            <button type="button" src="likeButtonSrc" class="{{root.like}}">
+                <img src="{{root.likeButtonSrc}}" class="{{root.likeButtonImg}}">
+            </button>
+            <button type="button" class="{{root.unlike}}" hidden>
+                <img src="{{root.unlikeButtonSrc}}" class="{{root.likeButtonImg}}">
+            </button>
+        </div>
+    {{/ifEquals}}
     <div class="{{root.lineDuration}}">{{item.duration}}</div>
 </div>

@@ -30,6 +30,10 @@ export const EventTypes = {
     ID_GOT: 'ID_GOT',
     ID_CAN_BE_VIEWED: 'ID_CAN_BE_VIEWED',
 
+    /** Events after likes requests on API */
+    LIKED_TRACK: 'LIKED_TRACK',
+    UNLIKED_TRACK: 'UNLIKED_TRACK',
+
     /** Event for starting user page render */
     USER_DATA_GOT_FOR_PAGE: 'USER_DATA_GOT_FOR_PAGE',
 

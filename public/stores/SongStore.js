@@ -78,6 +78,11 @@ class SongStore extends IStore {
         return this.#audioTrack;
     }
 
+    /** Return audio info */
+    get trackInfo() {
+        return this.#songs[this.#position];
+    }
+
     /** Return playing status */
     get isPlaying() {
         return this.#isPlaying;

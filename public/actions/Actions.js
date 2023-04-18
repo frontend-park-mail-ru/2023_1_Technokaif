@@ -206,7 +206,7 @@ const Actions = {
     },
 
     /** Set play state */
-    createPlay(state) {
+    changePlayState(state) {
         Dispatcher.dispatch({
             type: ActionTypes.SET_STATE,
             state,

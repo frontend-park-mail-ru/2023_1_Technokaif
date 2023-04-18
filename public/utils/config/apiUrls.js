@@ -16,6 +16,9 @@ export const apiUrl = {
     USER_UPDATE_AVATAR_API: (id) => `/api/users/${id}/avatar`,
     USER_UPDATE_PASSWORD: '/api/auth/changepass',
 
+    TRACK_LIKE: (id) => `/api/tracks/${id}/like`,
+    TRACK_UNLIKE: (id) => `/api/tracks/${id}/unlike`,
+
     AUTH: '/api/auth/signup',
     LOGIN: '/api/auth/login',
     LOGOUT: '/api/auth/logout',
