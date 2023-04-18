@@ -12,7 +12,7 @@ import { artistAjax } from '../api/artists/artistAjaxRequest';
 import { artistTracksAjax } from '../api/tracks/artistTracksAjaxRequest';
 import { artistAlbumsAjax } from '../api/albums/artistAlbumsAjaxRequest';
 import { trackAjax } from '../api/player/trackRequest';
-import { albumAjax } from '../api/player/album';
+import { getAlbumTracksFromServer } from '../api/player/album';
 import { trackOneAjax } from '../api/player/track';
 import { userAjax } from '../api/user/userRequestAjax';
 import { userUpdateAjax } from '../api/user/userUpdateAjaxReq';
@@ -89,11 +89,11 @@ class API extends IStore {
         case ActionTypes.USER_UPDATE_AVATAR:
             this.#updateUserAvatar(action.id, action.avatar);
             break;
+        case ActionTypes.GET_ALBUM_TRACKS:
+            this.#getAlbumTracks(action.id);
+            break;
         case ActionTypes.GET_ALBUM:
             this.#getAlbum(action.id);
-            break;
-        case ActionTypes.GET_ONE_ALBUM:
-            this.#getOneAlbum(action.id);
             break;
         case ActionTypes.UNLIKE_ALBUM:
             this.#unlikeAlbum(action.id);
@@ -202,7 +202,7 @@ class API extends IStore {
 
     /** Function to get Albums from server */
     #albumsRequestFromServer(id) {
-        albumAjax(id).then((tracks) => {
+        getAlbumTracksFromServer(id).then((tracks) => {
             Actions.loadMoreLine(tracks);
         });
     }
@@ -239,33 +239,41 @@ class API extends IStore {
     }
 
     /** Get album from API */
-    #getAlbum(id) {
-        albumAjax(id).then((message) => Actions.addAlbumToContent(message));
+    #getAlbumTracks(id) {
+        getAlbumTracksFromServer(id).then((message) => Actions.addAlbumToContent(message));
     }
 
     /** Get one album */
-    #getOneAlbum(id) {
+    #getAlbum(id) {
         getAlbumById(id).then((message) => Actions.addOneAlbum(message));
     }
 
     /** Unlike */
     #unlikeAlbum(id) {
-        unLikeAlbum(id);
+        unLikeAlbum(id).catch(() => {
+            console.warn('Unlike error from Album');
+        });
     }
 
     /** Unlike */
     #likeAlbum(id) {
-        likeAlbum(id);
+        likeAlbum(id).catch(() => {
+            console.warn('Like error from Album');
+        });
     }
 
     /** Unlike Track with ID */
     #unlikeTrack(id) {
-        unlikeTrack(id);
+        unlikeTrack(id).catch(() => {
+            console.warn('Unlike error from Track');
+        });
     }
 
     /** Like Track with ID */
     #likeTrack(id) {
-        likeTrack(id);
+        likeTrack(id).catch(() => {
+            console.warn('Like error from Track');
+        });
     }
 }
 

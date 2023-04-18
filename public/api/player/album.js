@@ -6,7 +6,7 @@ import { generatePageById } from '../../utils/functions/urlGenerators';
 /**
  * Function for get Album track from server
  */
-export async function albumAjax(id) {
+export async function getAlbumTracksFromServer(id) {
     let items;
     const url = `${generatePageById(apiUrl.ALBUM_API, id)}tracks`;
 

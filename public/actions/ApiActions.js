@@ -92,11 +92,11 @@ const ApiActions = {
     /** Get one album by it id */
     getAlbum(id) {
         Dispatcher.dispatch({
-            type: ActionTypes.GET_ONE_ALBUM,
+            type: ActionTypes.GET_ALBUM,
             id,
         });
         Dispatcher.dispatch({
-            type: ActionTypes.GET_ALBUM,
+            type: ActionTypes.GET_ALBUM_TRACKS,
             id,
         });
     },
