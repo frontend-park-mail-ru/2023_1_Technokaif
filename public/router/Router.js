@@ -34,7 +34,6 @@ class Router extends IStore {
      */
     register(path, render, stores) {
         if (this.#routes.find((obj) => obj === { path, render, stores })) {
-            console.error('Routes already exist');
             return;
         }
 
@@ -53,7 +52,6 @@ class Router extends IStore {
      */
     registerRouteWithRegEx(path, render, stores) {
         if (this.#routesWithRegularTestUrl.find((obj) => obj === { path, render, stores })) {
-            console.error('Routes already exist');
             return;
         }
 
@@ -68,8 +66,8 @@ class Router extends IStore {
     start() {
         window.addEventListener('popstate', (event) => {
             console.log('Popstate', event.state);
-            if ((!event.state || !event.state.historyLen) && window.history.length === 2) {
-                console.log('RETURN');
+            if ((!event.state || !event.state.historyLen || !window.history.state)) {
+                console.warn('Leaving page');
                 return;
             }
             event.preventDefault();
@@ -92,7 +90,6 @@ class Router extends IStore {
      * @param {bool} isStart - if start right now
      */
     go(path) {
-        console.log('GO', path);
         let object = this.#routes.find((routeObj) => routeObj.path === path);
         let foundInFutureLinks = false;
         if (!object) {
@@ -112,14 +109,11 @@ class Router extends IStore {
 
             let routeWithRegExpFound = false;
             this.#routesWithRegularTestUrl.forEach((regExObj) => {
-                console.log('Was regExp');
                 const regex = new RegExp(regExObj.path);
                 if (regex.test(path)) {
                     const result = path.match(routingUrl.GENERAL_REG_EXP);
-                    console.log('Result after match', result);
                     if (result !== null) {
                         const [, page, id] = result;
-                        console.log('ID', id);
                         const stateStore = [];
                         for (const state in regExObj.store) {
                             stateStore.push(regExObj.store[state].state);
@@ -129,7 +123,6 @@ class Router extends IStore {
                         this.#pushToHistory(path, this.#currentLen, stateStore, id, page);
 
                         routeWithRegExpFound = true;
-                        console.log('BEFORE RENDER in 132', page, regExObj);
                         regExObj.render();
                         Actions.sendId(id, page);
                     }
@@ -151,7 +144,6 @@ class Router extends IStore {
         this.#currentLen = window.history.length;
 
         this.#pushToHistory(path, this.#currentLen, stateStore);
-        console.log('BEFORE RENDER in 154', path);
         object.render();
 
         // todo useless emit
@@ -185,6 +177,7 @@ class Router extends IStore {
                 return (regex.test(window.location.pathname));
             });
 
+            console.log(window.history.state.historyLen);
             this.#sendStoresChanges(window.history.state.stateInHistory);
             Actions.sendId(window.history.state.id, window.history.state.page);
 
@@ -193,8 +186,8 @@ class Router extends IStore {
             return;
         }
 
+        console.log(window.history.length);
         this.#sendStoresChanges(window.history.state.stateInHistory);
-        console.log('BEFORE RENDER in 205', object);
         object.render();
 
         this.jsEmit('PAGE_CHANGED');
@@ -209,12 +202,10 @@ class Router extends IStore {
      * @param page what page by default empty string
      */
     #pushToHistory(path, length, state, id = '', page = '') {
+        console.log('PushToHistory', path, length);
         const isStart = sessionStorage.getItem('isStart');
 
-        console.log('Push to history', path, length, state, id, page);
-        console.log('IsStart', isStart);
         if (window.location.pathname !== path || (sessionStorage.getItem('isStart') === 'true')) {
-            console.log('WasPushed');
             window.history.pushState(
                 {
                     historyLen: length,

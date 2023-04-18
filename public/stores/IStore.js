@@ -43,7 +43,6 @@ class IStore extends EventEmitter {
         } else {
             this.#state = {};
         }
-        console.log('FROM STORE', this.#state);
     }
 
     get state() {
@@ -51,7 +50,6 @@ class IStore extends EventEmitter {
     }
 
     set state(newState) {
-        console.log('State set', newState);
         this.#state = newState;
     }
 
@@ -83,7 +81,6 @@ class IStore extends EventEmitter {
      * @param eventName
      */
     addNewItem(itemObj, eventName = null) {
-        console.log('START ADDNewItem-=-=-=-=-=-=-=-=-=-=-', this.#state);
         for (const [key, value] of Object.entries(itemObj)) {
             this.#state[key] = value;
         }
@@ -91,7 +88,6 @@ class IStore extends EventEmitter {
         if (eventName !== null) {
             this.jsEmit(eventName);
         }
-        console.log('addNewItem-=-=-=-=-=-=-=-=-=-=-', this.#state);
     }
 
     /**
