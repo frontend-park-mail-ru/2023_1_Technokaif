@@ -69,6 +69,21 @@ const ActionTypes = {
     TIME_OF_PLAY: 'TIME_OF_PLAY',
     CLEAR_ALL: 'CLEAR_ALL',
     FIRST_START_AFTER_RESTART: 'FIRST_START_AFTER_RESTART',
+
+    GET_ALBUM_TRACKS: 'GET_ALBUM_TRACKS',
+    ALBUM_TO_CONTENT: 'ALBUM_TO_CONTENT',
+    GET_ALBUM: 'GET_ALBUM',
+
+    /** Get album by id */
+    ONE_ALBUM_TO_CONTENT: 'ONE_ALBUM_TO_CONTENT',
+
+    /** Actions to set like or dislike on album */
+    LIKE_ALBUM: 'LIKE_ALBUM',
+    UNLIKE_ALBUM: 'UNLIKE_ALBUM',
+
+    /** Actions to set like or dislike on track */
+    UNLIKE_TRACK: 'UNLIKE_TRACK',
+    LIKE_TRACK: 'LIKE_TRACK',
 };
 
 export default ActionTypes;

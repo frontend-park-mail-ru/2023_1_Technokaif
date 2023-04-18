@@ -1,5 +1,9 @@
+// todo https://github.com/orgs/frontend-park-mail-ru/projects/1/views/1?pane=issue&itemId=25985431
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const CopyPlugin = require('copy-webpack-plugin');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -52,19 +56,17 @@ module.exports = {
     },
     module: {
         rules: [
-            // {
-            //     test: /\.m?js$/,
-            //     exclude: /node_modules/,
-            //     use: {
-            //         loader: 'babel-loader',
-            //         options: {
-            //             presets: ['@babel/preset-react', '@babel/preset-env'],
-            //             plugins: ['@babel/plugin-transform-runtime'],
-            //         },
-            //     },
-            // },
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
             {
                 test: /\.handlebars$/,
+                loader: 'handlebars-loader',
+            },
+            {
+                test: /\.hbs$/,
                 loader: 'handlebars-loader',
             },
             {

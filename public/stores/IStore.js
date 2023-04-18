@@ -39,9 +39,9 @@ class IStore extends EventEmitter {
     loadFromSessionStore() {
         const valueFromStore = sessionStorage.getItem(this.#nameOfStore);
         if (valueFromStore) {
-            this.state = JSON.parse(valueFromStore);
+            this.#state = JSON.parse(valueFromStore);
         } else {
-            this.state = {};
+            this.#state = {};
         }
     }
 

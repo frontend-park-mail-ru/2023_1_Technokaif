@@ -30,4 +30,11 @@ export const imgPath = {
     defaultAlbum: '/static/svg/default-album.svg',
 
     whiteLogo: '/static/svg/whiteLogo.svg',
+
+    liked: '/static/svg/liked.svg',
+    notLiked: '/static/svg/notLiked.svg',
+
+    playAlbum: '/static/svg/play.svg',
+    pauseAlbum: '/static/svg/Pause.svg',
+
 };

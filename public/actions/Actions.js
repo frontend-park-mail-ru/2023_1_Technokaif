@@ -234,6 +234,24 @@ const Actions = {
             type: ActionTypes.FIRST_START_AFTER_RESTART,
         });
     },
+
+    /**
+     * Add album JSON to content
+     */
+    addAlbumToContent(items) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ALBUM_TO_CONTENT,
+            items,
+        });
+    },
+
+    /** addOneAlbumToContent */
+    addOneAlbum(item) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ONE_ALBUM_TO_CONTENT,
+            item,
+        });
+    },
 };
 
 export default Actions;

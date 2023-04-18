@@ -2,13 +2,12 @@ import Ajax from '../../modules/Ajax.js';
 import { apiUrl } from '../../utils/config/apiUrls.js';
 import { generatePageById } from '../../utils/functions/urlGenerators';
 
-// todo can be rewritten to one function
 /**
- * Function for get Album track from server
+ * get album by its ID
  */
-export async function getAlbumTracksFromServer(id) {
+export async function getAlbumById(id) {
     let items;
-    const url = `${generatePageById(apiUrl.ALBUM_API, id)}tracks`;
+    const url = `${generatePageById(apiUrl.ALBUM_API, id)}`;
 
     await Ajax.get({
         url,

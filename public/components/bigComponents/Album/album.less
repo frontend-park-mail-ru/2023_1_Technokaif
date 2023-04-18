@@ -1,0 +1,161 @@
+@import '../../../static/css/constants.less';
+
+@title-size-track: 65vw;
+@index-size-track: 3vw;
+@like-size-track: 3vw;
+@listens-size-track: 6vw;
+
+.album {
+  margin-top: 75px;
+}
+
+.album__img {
+  width: 200px;
+  height: 200px;
+  margin-right: 15px;
+}
+
+.album__descriptions{
+  display: flex;
+  flex-direction: row;
+}
+
+.headerNameClass {
+  font-size: @font-sidebar;
+  font-weight: @chars-weight;
+  color: @shadow-color;
+}
+
+.descriptions {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+}
+
+.author__place{
+  font-size: @font-input-element;
+  color: @shadow-color;
+  font-weight: @chars-weight;
+}
+
+.author {
+  color: @shadow-color;
+  margin-right: @font-sidebar;
+}
+
+.headerNameOfElementClass {
+  font-weight: @chars-weight;
+  font-size: @font-logo;
+  color: @main-color;
+  margin-bottom: 15px;
+}
+
+.ArtistClass {
+  color: @main-color;
+  margin-bottom: 10px;
+}
+
+.by__div {
+  display: flex;
+  flex-direction: row;
+}
+
+.playButton{
+  margin-top: 20px;
+  width: 50px;
+  height: 50px;
+}
+
+.albumLike {
+  margin-top: 20px;
+  width: 50px;
+  height: 50px;
+}
+
+.subscribeButton {
+  box-shadow: none;
+  margin-top: 20px;
+  border-radius: @big-radius;
+  border-width: 2px;
+  border-color: @main-color;
+  background-color: transparent;
+  color:rgba(lime, 0.7);
+  width: 150px;
+  height: 40px;
+
+  font-size: @font-sidebar;
+}
+
+.bottomDiv {
+  margin-top: 25px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: row;
+
+  color: @shadow-color;
+}
+
+.numberDiv {
+  min-width: @index-size-track;
+}
+
+.TitleDiv {
+  min-width: @title-size-track;
+}
+
+.ListensDiv {
+  min-width: @listens-size-track;
+  display: flex;
+  justify-content: center;
+}
+
+.track {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 15px;
+}
+
+.track__img-block {
+  display: flex;
+  flex-direction: row;
+  min-width: @title-size-track;
+}
+
+.track__index {
+  display: flex;
+  align-items: center;
+  min-width: @index-size-track;
+}
+
+.track__liked-img {
+  min-width: @index-size-track;
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+  //justify-content: center;
+}
+
+.imgLike {
+  max-width: 20px;
+  max-height: 20px;
+}
+
+.likedDiv {
+  min-width: @index-size-track;
+  margin-right: 5px;
+}
+
+.track__title {
+  display: flex;
+  align-items: center;
+}
+
+.track__listens {
+  min-width: @listens-size-track;
+  width: @listens-size-track;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

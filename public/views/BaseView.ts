@@ -1,8 +1,14 @@
-import ComponentsStore from '../stores/ComponentsStore';
-import { prePageRender } from '../utils/functions/prePageRender';
-import { EventTypes } from '../utils/config/EventTypes';
+import ComponentsStore from '../stores/ComponentsStore.js';
+import { prePageRender } from '../utils/functions/prePageRender.js';
+import { EventTypes } from '../utils/config/EventTypes.js';
 import Actions from '../actions/Actions';
-import { componentsNames } from '../utils/config/componentsNames';
+import { componentsNames } from '../utils/config/componentsNames.js';
+
+/** Object that contain name and render function */
+export interface NameAndRender {
+    name: string,
+    render: (arg0: HTMLElement) => void,
+}
 
 /**
  * Base View class to handle render functions.
@@ -11,12 +17,12 @@ export class BaseView {
     /**
      * Name of view.
      */
-    #viewName;
+    #viewName: string;
 
     /**
      * Constructor for base view.
      */
-    constructor(name) {
+    constructor(name: string) {
         this.#viewName = name;
     }
 
@@ -24,17 +30,17 @@ export class BaseView {
      * Function to get view name.
      * @returns {string}
      */
-    get name() {
+    public get name(): string {
         return this.#viewName;
     }
 
     /**
      * Function to make all basic subscribes
      */
-    #addSubscribes() {
+    #addSubscribes(): void {
         ComponentsStore.subscribe(
-            (list) => {
-                this.renderComponentsList(list);
+            (list: Array<NameAndRender>):void => {
+                this.#renderComponentsList(list);
             },
             EventTypes.ON_NOT_RENDERED_ITEMS,
         );
@@ -44,7 +50,7 @@ export class BaseView {
      * Callback to pass throw store to subscribe rendering components.
      * @param list
      */
-    renderComponentsList(list) {
+    #renderComponentsList(list: Array<NameAndRender>):void {
         list.forEach((component) => {
             const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);

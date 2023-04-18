@@ -1,24 +1,26 @@
 import { BaseView } from './BaseView.ts';
 import { pageNames } from '../utils/config/pageNames';
-import Actions from '../actions/Actions';
-import { componentsNames } from '../utils/config/componentsNames';
 import ComponentsStore from '../stores/ComponentsStore';
 import { EventTypes } from '../utils/config/EventTypes';
+import { componentsNames } from '../utils/config/componentsNames';
+import Actions from '../actions/Actions.js';
 
-/** Class for feed page view. */
-export class LoginView extends BaseView {
-    /** Set default value of name * */
+/** Class that render Album page */
+class AlbumPageView extends BaseView {
+    /**
+     * Constructor for feed page view.
+     */
     constructor() {
-        super(pageNames.LOGIN);
+        super(pageNames.ALBUM);
     }
 
     /**
-     * Function to make all special subscribes for FeedView
+     * Function to make all special subscribes for Album
      */
     #addSubscribes() {
         ComponentsStore.subscribe(
             (list) => {
-                this.#renderUserComponents(list);
+                this.#renderComponents(list);
             },
             EventTypes.ON_NOT_RENDERED_ITEMS,
         );
@@ -28,12 +30,12 @@ export class LoginView extends BaseView {
      * Callback to pass throw store to subscribe rendering components.
      * @param list
      */
-    #renderUserComponents(list) {
+    #renderComponents(list) {
         list.forEach((component) => {
             const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);
             switch (componentName) {
-            case componentsNames.LOGIN_FORM:
+            case componentsNames.ALBUM:
                 component.render(parent);
                 Actions.addElementOnPage(componentName);
                 break;
@@ -45,7 +47,7 @@ export class LoginView extends BaseView {
     /**
      * Render all view by components.
      */
-    render() {
+    public override render(): void {
         super.render();
         this.#addSubscribes();
 
@@ -53,4 +55,4 @@ export class LoginView extends BaseView {
     }
 }
 
-export default new LoginView();
+export default new AlbumPageView();

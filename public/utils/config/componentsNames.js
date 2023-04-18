@@ -13,4 +13,6 @@ export const componentsNames = {
     ARTIST_LINE_LIST: 'line-list',
     USER: 'user',
     PLAYER: 'js__player-main',
+    ALBUM: 'js__album',
+    ALBUM_LINE_LIST: 'ALBUM_LINE_LIST',
 };

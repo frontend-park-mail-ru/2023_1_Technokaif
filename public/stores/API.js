@@ -12,7 +12,7 @@ import { artistAjax } from '../api/artists/artistAjaxRequest';
 import { artistTracksAjax } from '../api/tracks/artistTracksAjaxRequest';
 import { artistAlbumsAjax } from '../api/albums/artistAlbumsAjaxRequest';
 import { trackAjax } from '../api/player/trackRequest';
-import { albumAjax } from '../api/player/album';
+import { getAlbumTracksFromServer } from '../api/player/album';
 import { trackOneAjax } from '../api/player/track';
 import { userAjax } from '../api/user/userRequestAjax';
 import { userUpdateAjax } from '../api/user/userUpdateAjaxReq';
@@ -20,6 +20,10 @@ import { userUpdatePasswordAjax } from '../api/user/userUpdatePasswordAjaxReq';
 import { userUpdateAvatarAjax } from '../api/user/uploadAvatarAjax';
 import { setTrackLikeAjax } from '../api/tracks/trackLikeAjaxRequest';
 import { removeTrackLikeAjax } from '../api/tracks/trackUnLikeAjaxRequest';
+import { getAlbumById } from '../api/albums/getAlbumById.ts';
+import { likeAlbum, unLikeAlbum } from '../api/albums/likeDislike.ts';
+// todo After merge with two likes
+// import { likeTrack, unlikeTrack } from '../api/tracks/likeDislike.ts';
 
 /**
  * Class using for getting data from backend.
@@ -94,6 +98,25 @@ class API extends IStore {
         case ActionTypes.USER_UPDATE_AVATAR:
             this.#updateUserAvatar(action.id, action.avatar);
             break;
+        case ActionTypes.GET_ALBUM_TRACKS:
+            this.#getAlbumTracks(action.id);
+            break;
+        case ActionTypes.GET_ALBUM:
+            this.#getAlbum(action.id);
+            break;
+        case ActionTypes.UNLIKE_ALBUM:
+            this.#unlikeAlbum(action.id);
+            break;
+        case ActionTypes.LIKE_ALBUM:
+            this.#likeAlbum(action.id);
+            break;
+        // todo After merge with two likes
+        // case ActionTypes.UNLIKE_TRACK:
+        //     this.#unlikeTrack(action.id);
+        //     break;
+        // case ActionTypes.LIKE_TRACK:
+        //     this.#likeTrack(action.id);
+        //     break;
         default:
         }
     }
@@ -209,7 +232,7 @@ class API extends IStore {
 
     /** Function to get Albums from server */
     #albumsRequestFromServer(id) {
-        albumAjax(id).then((tracks) => {
+        getAlbumTracksFromServer(id).then((tracks) => {
             Actions.loadMoreLine(tracks);
         });
     }
@@ -244,6 +267,45 @@ class API extends IStore {
             message,
         ));
     }
+
+    /** Get album from API */
+    #getAlbumTracks(id) {
+        getAlbumTracksFromServer(id).then((message) => Actions.addAlbumToContent(message));
+    }
+
+    /** Get one album */
+    #getAlbum(id) {
+        getAlbumById(id).then((message) => Actions.addOneAlbum(message));
+    }
+
+    /** Unlike */
+    #unlikeAlbum(id) {
+        unLikeAlbum(id).catch(() => {
+            console.warn('Unlike error from Album');
+        });
+    }
+
+    /** Unlike */
+    #likeAlbum(id) {
+        likeAlbum(id).catch(() => {
+            console.warn('Like error from Album');
+        });
+    }
+
+    // todo After merge with two likes
+    // /** Unlike Track with ID */
+    // #unlikeTrack(id) {
+    //     unlikeTrack(id).catch(() => {
+    //         console.warn('Unlike error from Track');
+    //     });
+    // }
+
+    // /** Like Track with ID */
+    // #likeTrack(id) {
+    //     likeTrack(id).catch(() => {
+    //         console.warn('Like error from Track');
+    //     });
+    // }
 }
 
 export default new API();

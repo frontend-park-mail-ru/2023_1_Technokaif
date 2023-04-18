@@ -42,6 +42,9 @@ export class BaseComponent {
      */
     constructor(parent, config, template, name = 'elementary component') {
         this.#parent = parent;
+        if (!this.#parent) {
+            console.warn('Parent doesn\'t exist in ', name);
+        }
         this.#name = name;
         this.#config = config;
         this.#template = template;
@@ -73,7 +76,7 @@ export class BaseComponent {
                 if (component.length !== 0) {
                     Actions.removeElementFromPage(this.#name);
                     unsubscribeFromAllStoresOnComponent(this.#name);
-                    ContentStore.state = {};
+                    ContentStore.state[this.#name] = {};
                     this.unRender();
                 }
             },

@@ -7,6 +7,12 @@ export const apiUrl = {
     TRACK_API: '/api/tracks/',
     ALBUM_API: '/api/albums/',
 
+    LIKE_ALBUM: '/api/albums/',
+    UNLIKE_ALBUM: '/api/albums/',
+
+    LIKE_TRACK: '/api/tracks/',
+    UNLIKE_TRACK: '/api/tracks/',
+
     ARTIST_TRACKS_API: (id) => `/api/artists/${id}/tracks`,
     ARTIST_ALBUMS_API: (id) => `/api/artists/${id}/albums`,
 

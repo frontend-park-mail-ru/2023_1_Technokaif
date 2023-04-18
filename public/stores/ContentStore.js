@@ -48,8 +48,24 @@ class ContentStore extends IStore {
         case ActionTypes.ARTIST_GOT_ALL_CONTENT:
             this.#addContentOnArtistPage(action.item, action.instance);
             break;
+        case ActionTypes.ALBUM_TO_CONTENT:
+            this.#addContentOnAlbumPage(action.items);
+            break;
+        case ActionTypes.ONE_ALBUM_TO_CONTENT:
+            this.#addToState('ALBUM', action.item);
+            this.jsEmit(EventTypes.GOT_ONE_ALBUM);
+            break;
         default:
         }
+    }
+
+    /**
+     * Set name in state to value
+     * @param name
+     * @param value
+     */
+    #addToState(name, value) {
+        super.state[name] = value;
     }
 
     /**
@@ -62,6 +78,9 @@ class ContentStore extends IStore {
         case instancesNames.ARTIST_PAGE:
             this.#addContent(pageNames.ARTIST_PAGE, 'id', id);
             break;
+        case instancesNames.ALBUM_PAGE:
+            this.#addContent(pageNames.ALBUM, 'id', id);
+            break;
         default:
         }
 
@@ -73,7 +92,11 @@ class ContentStore extends IStore {
      * @param nameOfPage
      */
     #checkID(nameOfPage) {
-        if (this.state[nameOfPage].id !== undefined) {
+        if (!super.state) {
+            console.warn('STATE NOT EXIST in checkID', nameOfPage);
+        }
+
+        if (super.state[nameOfPage].id !== undefined) {
             this.jsEmit(EventTypes.ID_CAN_BE_VIEWED);
         }
     }
@@ -87,7 +110,7 @@ class ContentStore extends IStore {
             this.#addContent(pageNames.FEED, nameOfContent, items[nameOfContent]);
         }
 
-        if (Object.keys(this.state[pageNames.FEED]).length === 3) {
+        if (Object.keys(super.state[pageNames.FEED]).length === 3) {
             this.jsEmit(EventTypes.FEED_CONTENT_DONE);
         }
     }
@@ -115,8 +138,13 @@ class ContentStore extends IStore {
         if (super.state[page] === undefined) {
             super.state[page] = {};
         }
-
         super.state[page][nameOfContent] = content;
+    }
+
+    /** Add tracks to Album state */
+    #addContentOnAlbumPage(items) {
+        this.#addContent(pageNames.ALBUM, 'tracks', items);
+        this.jsEmit(EventTypes.ALBUM_CONTENT_DONE, 'tracks');
     }
 }
 
