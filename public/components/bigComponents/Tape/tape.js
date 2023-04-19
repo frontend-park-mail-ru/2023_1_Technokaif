@@ -37,6 +37,10 @@ export class Tape extends BaseComponent {
     #addListeners() {
         this.#parent.addEventListener('click', (event) => {
             const tape = event.target.closest(`.component__${this.#name}`);
+            // todo think about checker for existence
+            if (!document.querySelector(`.component__${this.#name}`)) {
+                return;
+            }
             if (tape) {
                 const id = tape.getAttribute('data-id');
                 switch (this.#name) {

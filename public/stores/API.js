@@ -20,7 +20,7 @@ import { userUpdatePasswordAjax } from '../api/user/userUpdatePasswordAjaxReq';
 import { userUpdateAvatarAjax } from '../api/user/uploadAvatarAjax';
 import { setTrackLikeAjax } from '../api/tracks/trackLikeAjaxRequest';
 import { removeTrackLikeAjax } from '../api/tracks/trackUnLikeAjaxRequest';
-import { getAlbumById } from '../api/albums/getAlbumById.ts';
+import { getAlbumById } from '../api/albums/getAlbumById.js';
 import { likeAlbum, unLikeAlbum } from '../api/albums/likeDislike.ts';
 // todo After merge with two likes
 // import { likeTrack, unlikeTrack } from '../api/tracks/likeDislike.ts';

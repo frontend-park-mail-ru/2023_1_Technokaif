@@ -16,7 +16,7 @@ class Router extends IStore {
     /** Routes like /artist/{id}/ */
     #routesWithRegularTestUrl;
 
-    #currentLen;
+    #previousParams;
 
     /** Construct a router */
     constructor() {
@@ -24,6 +24,13 @@ class Router extends IStore {
         this.#routes = [];
         this.#pageNotFoundRoute = '/404';
         this.#routesWithRegularTestUrl = [];
+
+        const previousParamsFromStore = sessionStorage.getItem('previousParams');
+        if (previousParamsFromStore) {
+            this.#previousParams = JSON.parse(previousParamsFromStore);
+        } else {
+            this.#previousParams = null;
+        }
     }
 
     /**
@@ -33,7 +40,13 @@ class Router extends IStore {
      * @param stores
      */
     register(path, render, stores) {
-        if (this.#routes.find((obj) => obj === { path, render, stores })) {
+        if (!this) {
+            console.error('Error in register in router', path);
+            return;
+        }
+
+        if (this.#routes.find((obj) => obj.path === path && obj.render === render
+            && obj.stores === stores)) {
             return;
         }
 
@@ -51,7 +64,13 @@ class Router extends IStore {
      * @param stores
      */
     registerRouteWithRegEx(path, render, stores) {
-        if (this.#routesWithRegularTestUrl.find((obj) => obj === { path, render, stores })) {
+        if (!this) {
+            console.error('Error in register in router', path);
+            return;
+        }
+
+        if (this.#routes.find((obj) => obj.path === path && obj.render === render
+            && obj.stores === stores)) {
             return;
         }
 
@@ -62,102 +81,164 @@ class Router extends IStore {
         });
     }
 
-    /** Add event listener for popstate. Get URL from window and render this page. */
+    /**
+     * First start Router
+     */
     start() {
+        if (sessionStorage.getItem('isStart') !== 'true') {
+            sessionStorage.setItem('isStart', 'true');
+        }
+        const isStart = sessionStorage.getItem('isStart') === 'true';
+
+        window.addEventListener('beforeunload', () => {
+            sessionStorage.setItem('previousParams', JSON.stringify(this.#previousParams));
+            sessionStorage.setItem('isRefresh', 'true');
+        });
+
         window.addEventListener('popstate', (event) => {
             if (!event.state || !event.state.historyLen) {
                 console.warn('Leaving page');
-                sessionStorage.setItem('isStart', null);
-                window.history.go(-1);
                 return;
             }
             event.preventDefault();
 
-            this.#render();
-            this.#currentLen = event.state.historyLen;
+            this.go(window.location.pathname, true);
         });
 
-        if (sessionStorage.getItem('isStart') === null) {
-            sessionStorage.setItem('isStart', 'true');
+        const isRefresh = sessionStorage.getItem('isRefresh') === 'true';
+        if (!isRefresh && isStart) {
+            const valueFromFirstPage = this
+                .#getParamsForHistoryAndObjectToRender(window.location.pathname);
+            this.#previousParams = valueFromFirstPage.params;
         }
 
         this.go(window.location.pathname);
     }
 
     /**
-     * Render page in url
-     * @param {string} path - url
-     * @param {bool} isStart - if start right now
+     * Get parameters to push into state in history
+     * @param path
+     * @return {{objectRender: null, params: {}}}
      */
-    go(path) {
-        let object = this.#routes.find((routeObj) => routeObj.path === path);
-        let foundInFutureLinks = false;
-        if (!object) {
-            for (const key in unAuthNavConfig) {
-                if (unAuthNavConfig[key].href === path) foundInFutureLinks = true;
-            }
-            for (const key in authNavConfig) {
-                if (authNavConfig[key].href === path) foundInFutureLinks = true;
-            }
-            for (const key in sidebarConfig) {
-                if (sidebarConfig[key].href === path) foundInFutureLinks = true;
-            }
-
-            if (foundInFutureLinks) {
+    #getParamsForHistoryAndObjectToRender(path) {
+        const regObj = this.#isRegExp(path);
+        let objectRender = null;
+        let params = { };
+        // what is here?
+        if (regObj) {
+            if (this.#checkForAuth(path)) {
                 return;
             }
-
-            let routeWithRegExpFound = false;
-            this.#routesWithRegularTestUrl.forEach((regExObj) => {
-                const regex = new RegExp(regExObj.path);
-                if (regex.test(path)) {
-                    const result = path.match(routingUrl.GENERAL_REG_EXP);
-                    if (result !== null) {
-                        const [, page, id] = result;
-                        const stateStore = [];
-                        for (const state in regExObj.store) {
-                            stateStore.push(regExObj.store[state].state);
-                        }
-
-                        this.#currentLen = window.history.length;
-                        this.#pushToHistory(path, this.#currentLen, stateStore, id, page);
-
-                        routeWithRegExpFound = true;
-                        regExObj.render();
-                        Actions.sendId(id, page);
-                    }
-                }
-            });
-
-            if (routeWithRegExpFound) {
-                return;
+            params = this.#goToRegExpPath(path, regObj);
+            if (params.id) {
+                Actions.sendId(params.id, params.page);
+                objectRender = regObj;
             }
-
-            object = this.#routes.find((routeObj) => routeObj.path === this.#pageNotFoundRoute);
+        } else {
+            objectRender = this.#routes.find((routeObj) => routeObj.path === path);
+            if (objectRender) {
+                params = this.#goToRegularPath(objectRender);
+            }
         }
 
+        return { objectRender, params };
+    }
+
+    /** Go to page with path */
+    go(path, popstateEvent = false) {
+        const isRefresh = sessionStorage.getItem('isRefresh') === 'true';
+        const isStart = sessionStorage.getItem('isStart') === 'true';
+
+        let { objectRender, params } = this.#getParamsForHistoryAndObjectToRender(path);
+
+        let needPush = true;
+        if (!objectRender) {
+            objectRender = this.#routes.find((routeObj) => routeObj.path === this.#pageNotFoundRoute);
+            path = this.#pageNotFoundRoute;
+            needPush = false;
+        }
+
+        if (needPush && !popstateEvent && !isRefresh && !isStart) {
+            this.#pushToHistory(
+                window.location.pathname,
+                window.history.length,
+                this.#previousParams.stateStore,
+                this.#previousParams.id,
+                this.#previousParams.page,
+            );
+        }
+        sessionStorage.setItem('isStart', 'false');
+        sessionStorage.setItem('isRefresh', 'false');
+
+        if (popstateEvent) {
+            this.#sendStoresChanges(window.history.state.stateInHistory);
+        }
+
+        this.#previousParams = params;
+        objectRender.render();
+        // todo rewrite
+        window.history.replaceState({
+            historyLen: window.history.length,
+            stateInHistory: this.#previousParams.stateStore,
+            id: this.#previousParams.id,
+            page: this.#previousParams.page,
+        }, '', path);
+    }
+
+    /**
+     * Return null if regular path like /profile, / etc<br>
+     * Return object with path and render
+     * @param path what path to check
+     * @return {JSON|null}
+     */
+    #isRegExp(path) {
+        const object = this.#routes.find((routeObj) => routeObj.path === path);
+        if (object === undefined) {
+            const objectReg = this.#routesWithRegularTestUrl.find((regExObj) => {
+                const regex = new RegExp(regExObj.path);
+
+                return (regex.test(path));
+            });
+
+            if (objectReg) {
+                return objectReg;
+            }
+            console.warn('Error in isRegExp, path taken:', path);
+        }
+        return null;
+    }
+
+    /**
+     * Return empty JSON if problem in URL exist else return params}
+     * @param path
+     * @param {JSON} regObj has store field.
+     * @return {{}|{stateStore: *[], id: *, page: *}}
+     */
+    #goToRegExpPath(path, regObj) {
+        // todo think about rename to params of regexppath
+        const result = path.match(routingUrl.GENERAL_REG_EXP);
+        if (result !== null) {
+            const [, page, id] = result;
+            const stateStore = [];
+            for (const state in regObj.store) {
+                stateStore.push(regObj.store[state].state);
+            }
+            return { id, page, stateStore };
+        }
+        return {};
+    }
+
+    /**
+     * Return params for object with store field
+     * @param object
+     * @return {{stateStore: *[], id: null, page: null}}
+     */
+    #goToRegularPath(object) {
         const stateStore = [];
         for (const state in object.store) {
             stateStore.push(object.store[state].state);
         }
-
-        this.#currentLen = window.history.length;
-
-        this.#pushToHistory(path, this.#currentLen, stateStore);
-        object.render();
-
-        // todo useless emit
-        this.jsEmit('PAGE_CHANGED');
-    }
-
-    /** Render page that was before in history */
-    back() {
-        this.#render();
-    }
-
-    /** Render page that was after in history  */
-    forward() {
-        this.#render();
+        return { stateStore, id: null, page: null };
     }
 
     /** Send actions with store states after forward/backward transfer */
@@ -165,30 +246,6 @@ class Router extends IStore {
         for (const state in states) {
             Actions.sendStoreState(state);
         }
-    }
-
-    /** Render page in current state of history. Refresh store. */
-    #render() {
-        let object = this.#routes.find((routeObj) => routeObj.path === window.location.pathname);
-        if (object === undefined) {
-            object = this.#routesWithRegularTestUrl.find((regExObj) => {
-                const regex = new RegExp(regExObj.path);
-
-                return (regex.test(window.location.pathname));
-            });
-
-            this.#sendStoresChanges(window.history.state.stateInHistory);
-            Actions.sendId(window.history.state.id, window.history.state.page);
-
-            object.render();
-
-            return;
-        }
-
-        this.#sendStoresChanges(window.history.state.stateInHistory);
-        object.render();
-
-        this.jsEmit('PAGE_CHANGED');
     }
 
     /**
@@ -200,24 +257,36 @@ class Router extends IStore {
      * @param page what page by default empty string
      */
     #pushToHistory(path, length, state, id = '', page = '') {
-        const isStart = sessionStorage.getItem('isStart');
+        window.history.pushState(
+            {
+                historyLen: length,
+                stateInHistory: state,
+                id,
+                page,
+            },
+            '',
+            path,
+        );
+    }
 
-        if (window.location.pathname !== path || (sessionStorage.getItem('isStart') === 'true')) {
-            window.history.pushState(
-                {
-                    historyLen: length,
-                    stateInHistory: state,
-                    id,
-                    page,
-                },
-                '',
-                path,
-            );
+    /**
+     * Check for need to render object or not
+     * @param path
+     * @return {boolean} true if not need to render
+     */
+    #checkForAuth(path) {
+        let foundInFutureLinks = false;
+        for (const key in unAuthNavConfig) {
+            if (unAuthNavConfig[key].href === path) foundInFutureLinks = true;
+        }
+        for (const key in authNavConfig) {
+            if (authNavConfig[key].href === path) foundInFutureLinks = true;
+        }
+        for (const key in sidebarConfig) {
+            if (sidebarConfig[key].href === path) foundInFutureLinks = true;
         }
 
-        if (isStart) {
-            sessionStorage.setItem('isStart', 'false');
-        }
+        return foundInFutureLinks;
     }
 }
 

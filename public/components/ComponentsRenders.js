@@ -15,7 +15,7 @@ import { RegisterComponent } from './bigComponents/registerComponent/registerCom
 import { LoginComponent } from './bigComponents/loginComponent/loginComponent';
 import { AudioPlayer } from './bigComponents/player/player';
 import Router from '../router/Router';
-import { Album } from './bigComponents/Album/album.ts';
+import { Album } from './bigComponents/Album/album.js';
 import { setupAlbum } from '../utils/setup/albumSetup';
 
 /**
