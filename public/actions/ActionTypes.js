@@ -81,9 +81,10 @@ const ActionTypes = {
     LIKE_ALBUM: 'LIKE_ALBUM',
     UNLIKE_ALBUM: 'UNLIKE_ALBUM',
 
-    /** Actions to set like or dislike on track */
-    UNLIKE_TRACK: 'UNLIKE_TRACK',
-    LIKE_TRACK: 'LIKE_TRACK',
+    // todo merge
+    // /** Actions to set like or dislike on track */
+    // UNLIKE_TRACK: 'UNLIKE_TRACK',
+    // LIKE_TRACK: 'LIKE_TRACK',
 };
 
 export default ActionTypes;

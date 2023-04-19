@@ -1,35 +1,34 @@
-"use strict";
-var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
-    if (kind === "m") throw new TypeError("Private method is not writable");
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
-    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+const __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === 'm') throw new TypeError('Private method is not writable');
+    if (kind === 'a' && !f) throw new TypeError('Private accessor was defined without a setter');
+    if (typeof state === 'function' ? receiver !== state || !f : !state.has(receiver)) throw new TypeError('Cannot write private member to an object whose class did not declare it');
+    return (kind === 'a' ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+const __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === 'a' && !f) throw new TypeError('Private accessor was defined without a getter');
+    if (typeof state === 'function' ? receiver !== state || !f : !state.has(receiver)) throw new TypeError('Cannot read private member from an object whose class did not declare it');
+    return kind === 'm' ? f : kind === 'a' ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+const __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { default: mod };
 };
-var _Album_id;
-Object.defineProperty(exports, "__esModule", { value: true });
+let _Album_id;
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.Album = void 0;
-const album_handlebars_1 = __importDefault(require("./album.handlebars"));
-require("./album.less");
-const line_1 = require("../../smallComponents/Line/line");
-const componentsNames_1 = require("../../../utils/config/componentsNames");
-const BaseComponent_1 = require("../../BaseComponent");
-const EventTypes_1 = require("../../../utils/config/EventTypes");
-const ContentStore_1 = __importDefault(require("../../../stores/ContentStore"));
-const Actions_1 = __importDefault(require("../../../actions/Actions"));
-const ApiActions_1 = __importDefault(require("../../../actions/ApiActions"));
-const pageNames_1 = require("../../../utils/config/pageNames");
-const artistSetup_1 = require("../../../utils/setup/artistSetup");
-const SongStore_1 = __importDefault(require("../../../stores/SongStore"));
-const setupLine_ts_1 = require("../../../utils/setup/setupLine.ts");
-const pathConfig_1 = require("../../../utils/config/pathConfig");
+const album_handlebars_1 = __importDefault(require('./album.handlebars'));
+require('./album.less');
+const line_1 = require('../../smallComponents/Line/line');
+const componentsNames_1 = require('../../../utils/config/componentsNames');
+const BaseComponent_1 = require('../../BaseComponent');
+const EventTypes_1 = require('../../../utils/config/EventTypes');
+const ContentStore_1 = __importDefault(require('../../../stores/ContentStore'));
+const Actions_1 = __importDefault(require('../../../actions/Actions'));
+const ApiActions_1 = __importDefault(require('../../../actions/ApiActions'));
+const pageNames_1 = require('../../../utils/config/pageNames');
+const artistSetup_1 = require('../../../utils/setup/artistSetup');
+const SongStore_1 = __importDefault(require('../../../stores/SongStore'));
+const setupLine_ts_1 = require('../../../utils/setup/setupLine.ts');
+const pathConfig_1 = require('../../../utils/config/pathConfig');
 /** Class for Album */
 class Album extends BaseComponent_1.BaseComponent {
     /**
@@ -47,6 +46,7 @@ class Album extends BaseComponent_1.BaseComponent {
         this.isAlbumLoaded = false;
         this.firstPlay = false;
     }
+
     /**
      * Function to render track lines by input configs.
      */
@@ -59,13 +59,14 @@ class Album extends BaseComponent_1.BaseComponent {
             line.appendElement();
         });
     }
+
     /**
      * Function to subscribe to all events from Stores
      */
     addSubscribes() {
         ContentStore_1.default.subscribe(() => {
             const { id } = ContentStore_1.default.state[pageNames_1.pageNames.ALBUM];
-            __classPrivateFieldSet(this, _Album_id, id, "f");
+            __classPrivateFieldSet(this, _Album_id, id, 'f');
             const buttons = document.querySelector('.js__button__play');
             const imgLike = document.querySelector('.albumLike');
             if (!buttons || !imgLike) {
@@ -77,11 +78,10 @@ class Album extends BaseComponent_1.BaseComponent {
                 const state = ContentStore_1.default.state.ALBUM;
                 if (state.isLiked) {
                     imgLike.src = pathConfig_1.imgPath.notLiked;
-                    ApiActions_1.default.unLikeAlbum(__classPrivateFieldGet(this, _Album_id, "f"));
-                }
-                else {
+                    ApiActions_1.default.unLikeAlbum(__classPrivateFieldGet(this, _Album_id, 'f'));
+                } else {
                     imgLike.src = pathConfig_1.imgPath.liked;
-                    ApiActions_1.default.likeAlbum(__classPrivateFieldGet(this, _Album_id, "f"));
+                    ApiActions_1.default.likeAlbum(__classPrivateFieldGet(this, _Album_id, 'f'));
                 }
                 state.isLiked = !state.isLiked;
             });
@@ -93,8 +93,7 @@ class Album extends BaseComponent_1.BaseComponent {
                 }
                 if (!SongStore_1.default.isPlaying) {
                     Actions_1.default.createPlay(true);
-                }
-                else {
+                } else {
                     Actions_1.default.createPlay(false);
                 }
             });
@@ -137,19 +136,20 @@ class Album extends BaseComponent_1.BaseComponent {
         }, EventTypes_1.EventTypes.GOT_ONE_ALBUM, super.name);
         SongStore_1.default.subscribe(this.changeStatePlayer.bind(this), EventTypes_1.EventTypes.CHANGE_PLAY_STATE, componentsNames_1.componentsNames.ALBUM);
     }
+
     /** Change state of Play button */
     changeStatePlayer(newState) {
         if (this.firstPlay) {
             if (newState) {
                 this.firstPlay = true;
                 this.playButton.src = pathConfig_1.imgPath.pauseAlbum;
-            }
-            else {
+            } else {
                 this.isPlaying = false;
                 this.playButton.src = pathConfig_1.imgPath.playAlbum;
             }
         }
     }
+
     /**
      * @description render MainWindowContent in parent
      */
