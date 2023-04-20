@@ -60,7 +60,10 @@ export class BaseView {
             case componentsNames.NAVBAR:
             case componentsNames.PAGE404:
             case componentsNames.PLAYER:
+                // todo
+                // @ts-ignore
                 component.render(parent);
+                // @ts-ignore
                 Actions.addElementOnPage(componentName);
                 break;
             default:

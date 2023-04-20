@@ -9,6 +9,8 @@ export async function getAlbumById(id) {
     let items;
     const url = `${generatePageById(apiUrl.ALBUM_API, id)}`;
 
+    // todo
+    // @ts-ignore
     await Ajax.get({
         url,
         reject: (message) => {

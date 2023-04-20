@@ -168,7 +168,8 @@ function renderMainPage() {
         localStorage.setItem('isAuth', `${value}`);
     });
 
-    Router.register(routingUrl.ROOT, () => { FeedView.render(); }, [API, ContentStore]);
+    // Router.register(routingUrl.ROOT, () => { FeedView.render(); }, [API, ContentStore]);
+    Router.register(routingUrl.ROOT, () => { FeedView.render(); }, [API]);
     Router.register(routingUrl.LOGIN, () => { LoginView.render(); }, [API, UserInfoStore]);
     Router.register(routingUrl.REGISTER, () => { RegisterView.render(); }, [API, UserInfoStore]);
     Router.register(routingUrl.PAGE404, () => { Page404View.render(); }, [API, UserInfoStore]);
