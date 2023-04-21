@@ -12,6 +12,7 @@ export function setupLine(track, position) {
         lineIndex: 'track__index',
         lineBlock: 'track__img-block',
         cover: track.cover,
+        isLiked: track.isLiked,
         lineTitle: 'track__title',
         name: track.name,
         lineListens: 'track__listens',

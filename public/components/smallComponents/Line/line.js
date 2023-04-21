@@ -44,7 +44,7 @@ export class Line extends BaseComponent {
                 ApiActions.likeTrack(this.#id);
             } else {
                 img.src = imgPath.notLiked;
-                ApiActions.unLikeTrack(this.#id);
+                ApiActions.unlikeTrack(this.#id);
             }
             this.#config.isLiked = !this.#config.isLiked;
         });

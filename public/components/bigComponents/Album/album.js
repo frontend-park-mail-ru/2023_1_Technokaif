@@ -144,6 +144,7 @@ export class Album extends BaseComponent {
                 const name = document.querySelector('.headerNameOfElementClass');
                 const author = document.querySelector('.ArtistClass');
                 const imgLike = document.querySelector('.albumLike');
+                const description = document.querySelector('.js__description-album');
 
                 if (!img || !name || !author || !imgLike) {
                     console.warn('Error at album. Doesnt have header');
@@ -166,6 +167,7 @@ export class Album extends BaseComponent {
                     });
                 }
                 author.textContent = artistsText;
+                description.textContent = state.description;
             },
             EventTypes.GOT_ONE_ALBUM,
             super.name,

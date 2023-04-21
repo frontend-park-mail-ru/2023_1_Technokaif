@@ -24,7 +24,7 @@ export function setupAlbum() {
         ArtistClass: 'ArtistClass js__author',
         ArtistName: 'name artist',
         DescriptionsDiv: '',
-        DescriptionsClass: '',
+        DescriptionsClass: 'js__description-album',
         Descriptions: '2019 11 songs 32 min',
         ButtonsDiv: '',
         bottomDiv: 'bottomDiv',
