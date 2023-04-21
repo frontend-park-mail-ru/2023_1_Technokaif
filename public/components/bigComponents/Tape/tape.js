@@ -61,7 +61,7 @@ export class Tape extends BaseComponent {
                         return;
                     }
 
-                    Actions.playAlbum(id);
+                    Router.go(`/${instancesNames.ALBUM_PAGE}/${id}`);
                     break;
                 default:
                 }
