@@ -56,11 +56,6 @@ export class Tape extends BaseComponent {
                     Actions.playTrack(id);
                     break;
                 case 'Albums':
-                    if (checkAuth() !== true) {
-                        Router.go('/login');
-                        return;
-                    }
-
                     Router.go(`/${instancesNames.ALBUM_PAGE}/${id}`);
                     break;
                 default:

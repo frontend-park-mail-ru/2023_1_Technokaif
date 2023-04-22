@@ -13,7 +13,7 @@ export interface NameAndRender {
 /**
  * Base View class to handle render functions.
  */
-export class BaseView {
+export abstract class BaseView {
     /**
      * Name of view.
      */
@@ -22,7 +22,7 @@ export class BaseView {
     /**
      * Constructor for base view.
      */
-    constructor(name: string) {
+    protected constructor(name: string) {
         this.#viewName = name;
     }
 

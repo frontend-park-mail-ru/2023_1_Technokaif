@@ -6,4 +6,5 @@ export const pageNames = {
     ARTIST_PAGE: 'ARTIST',
     USER: 'USER',
     ALBUM: 'ALBUM',
+    LIBRARY: 'LIBRARY',
 };

@@ -3,13 +3,17 @@
 .navbar {
     background-color: rgba(@opposed-main-color, 0.8);
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
     position: fixed;
     width: calc(100% - 288px);
     height: 74px;
+}
+
+.navbar_library_element {
+    margin-right: auto;
 }
 
 .navbar__link, .navbar__profile, .navbar__premium, .navbar__logout {

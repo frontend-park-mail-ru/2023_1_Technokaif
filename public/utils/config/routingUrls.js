@@ -4,6 +4,7 @@ export const routingUrl = {
     REGISTER: '/register',
     PAGE404: '/404',
     PROFILE: '/profile',
+    LIBRARY: '/library',
     GENERAL_REG_EXP: /^\/(\w+)\/(\d+)$/,
     ARTIST_PAGE_EXP: '^/artist/(\\d+)$',
     ALBUM_PAGE_EXP: '^/album/(\\d+)$',

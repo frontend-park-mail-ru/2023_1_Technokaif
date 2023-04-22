@@ -120,6 +120,12 @@ class ComponentsRenders {
         player.render();
     }
 
+    /** Render player in parent */
+    renderLibrary(parent) {
+        const player = new AudioPlayer(parent);
+        player.render();
+    }
+
     /** Render Album in parent */
     renderAlbum(parent) {
         const album = new Album(parent, setupAlbum());
