@@ -28,7 +28,7 @@ export function setupAlbum() {
         DescriptionsDiv: '',
         DescriptionsClass: 'js__description-album',
         Descriptions: '2019 11 songs 32 min',
-        ButtonsDiv: '',
+        ButtonsDiv: 'album__buttons',
         bottomDiv: 'bottomDiv',
 
         numberDiv: 'numberDiv',
