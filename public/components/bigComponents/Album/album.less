@@ -1,12 +1,8 @@
 @import '../../../static/css/constants.less';
 
-@title-size-track: 65vw;
-@index-size-track: 3vw;
-@like-size-track: 3vw;
-@listens-size-track: 6vw;
-
 .album {
-  margin-top: 75px;
+  margin-top: 55px;
+  padding: 20px;
 }
 
 .album__img {
@@ -53,6 +49,7 @@
 .ArtistClass {
   color: @main-color;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 
 .by__div {
@@ -61,15 +58,16 @@
 }
 
 .playButton{
-  margin-top: 20px;
+  margin: 20px 0;
   width: 50px;
   height: 50px;
 }
 
 .albumLike {
-  margin-top: 20px;
-  width: 50px;
-  height: 50px;
+  margin: 20px;
+  padding-bottom: 5px;
+  width: 40px;
+  height: 40px;
 }
 
 .subscribeButton {
@@ -95,7 +93,14 @@
   color: @shadow-color;
 }
 
+.track-hr {
+  max-width: 90vw;
+  border-width: 1px;
+  margin-bottom: 20px;
+}
+
 .numberDiv {
+  text-align: center;
   min-width: @index-size-track;
 }
 
@@ -134,7 +139,6 @@
   margin-right: 5px;
   display: flex;
   align-items: center;
-  //justify-content: center;
 }
 
 .imgLike {

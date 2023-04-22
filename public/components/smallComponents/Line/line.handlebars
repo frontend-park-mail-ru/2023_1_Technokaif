@@ -13,13 +13,17 @@
         {{/if}}
     </div>
     <div class="{{root.lineBlock}}">
-        <img src="{{#if item.cover}}{{#convert}}{{item.cover}}{{/convert}}{{else}}{{defaultTrackSrc}}{{/if}}" class="track-line__cover">
+        {{#ifEquals root.isArtistPage true}}
+        <img src="{{#if item.cover}}{{#convert}}{{item.cover}}{{/convert}}{{else}}{{defaultTrackSrc}}{{/if}}" class="{{root.lineCover}}">
+        {{/ifEquals}}
         <div class="{{root.lineTitle}}">{{item.name}}</div>
     </div>
+    {{#ifEquals root.isArtistPage true}}
     <div class="{{root.lineListens}}">{{item.listens}}</div>
-    {{#ifEquals item.isLiked true}}
+    {{/ifEquals}}
+        {{#ifEquals item.isLiked true}}
         <div class="{{root.likeButtons}}">
-            <button type="button" src="likeButtonSrc" class="{{root.like}}" hidden>
+            <button type="button" class="{{root.like}}" hidden>
                 <img src="{{root.likeButtonSrc}}" class="{{root.likeButtonImg}}">
             </button>
             <button type="button" class="{{root.unlike}}">
@@ -29,7 +33,7 @@
     {{/ifEquals}}
     {{#ifEquals item.isLiked false}}
         <div class="{{root.likeButtons}}">
-            <button type="button" src="likeButtonSrc" class="{{root.like}}">
+            <button type="button" class="{{root.like}}">
                 <img src="{{root.likeButtonSrc}}" class="{{root.likeButtonImg}}">
             </button>
             <button type="button" class="{{root.unlike}}" hidden>
@@ -37,5 +41,4 @@
             </button>
         </div>
     {{/ifEquals}}
-    <div class="{{root.lineDuration}}">{{item.duration}}</div>
 </div>

@@ -77,6 +77,7 @@ export function setupLineList(items) {
         defaultTrackSrc: imgPath.defaultTrack,
 
         content: items,
+        isArtistPage: true,
     };
 }
 

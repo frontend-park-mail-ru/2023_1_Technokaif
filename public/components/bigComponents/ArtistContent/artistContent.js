@@ -20,6 +20,7 @@ import {
 import { shuffleArray } from '../../../utils/functions/shuffleArray';
 import SongStore from '../../../stores/SongStore';
 import { LikedSongs } from '../../smallComponents/LikedSongs/likedSongs';
+import { checkAuth } from '../../../utils/functions/checkAuth';
 
 /**
  * Create Artist content
@@ -39,6 +40,12 @@ export class ArtistContent extends BaseComponent {
      * Config to use in handlebars setup of track lines
      */
     #lineConfigs;
+
+    /**
+     * Flag to know if the button already started the music or not
+     * Boolean
+     */
+    #activatedButton;
 
     /**
      * Create ArtistCover. Empty innerHtml before placement
@@ -108,10 +115,11 @@ export class ArtistContent extends BaseComponent {
     #addSubscribes() {
         ContentStore.subscribe(
             () => {
-                const { id } = ContentStore.state[pageNames.ARTIST_PAGE];
                 const buttons = document.querySelector('.pre-buttons');
                 const playButton = document.querySelector('.play-button');
                 const stopButton = document.querySelector('.stop-button');
+                const { id } = ContentStore.state[pageNames.ARTIST_PAGE];
+
                 buttons.addEventListener('click', () => {
                     if (!playButton.hidden) {
                         // eslint-disable-next-line max-len
@@ -128,6 +136,8 @@ export class ArtistContent extends BaseComponent {
                         stopButton.hidden = true;
                         playButton.hidden = false;
                     }
+
+                    this.#activatedButton = true;
                 });
                 if (id !== undefined) {
                     ApiActions.artist(id);
@@ -143,6 +153,11 @@ export class ArtistContent extends BaseComponent {
                 const playButton = document.querySelector('.play-button');
                 const stopButton = document.querySelector('.stop-button');
                 if (state) {
+                    if (!this.#activatedButton) {
+                        this.#activatedButton = false;
+                        return;
+                    }
+
                     playButton.hidden = true;
                     stopButton.hidden = false;
                 } else {
@@ -167,9 +182,12 @@ export class ArtistContent extends BaseComponent {
                     const { tracks } = ContentStore.state[pageNames.ARTIST_PAGE];
                     this.#lineConfigs.push(setupLineList(tracks.slice(0, 5)));
                     this.#renderLines();
-                    // eslint-disable-next-line no-case-declarations
-                    const artist1 = ContentStore.state[pageNames.ARTIST_PAGE].artist;
-                    this.#renderLikedSongs(artist1);
+
+                    if (checkAuth()) {
+                        const artist1 = ContentStore.state[pageNames.ARTIST_PAGE].artist;
+                        this.#renderLikedSongs(artist1);
+                    }
+
                     break;
                 case 'albums':
                     // eslint-disable-next-line no-case-declarations
