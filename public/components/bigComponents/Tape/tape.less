@@ -30,6 +30,11 @@
     border-radius: @small-radius;
 }
 
+.component:hover {
+    background-color: #736D6D;
+    border-radius: @small-radius;
+}
+
 .component__img {
     height: 175px;
     width: 175px;
@@ -64,4 +69,22 @@
     font-style: normal;
     letter-spacing: -0.025em;
     color: rgba(@main-color, .6);
+}
+
+.component__img-div {
+    position: relative;
+}
+
+.buttonPlayOnComponent {
+    position: absolute;
+    width: 22%;
+    height: 22%;
+    right: 5%;
+    bottom: 5%;
+}
+
+.buttonComponent {
+    width: 100%;
+    height: 100%;
+    position: static;
 }

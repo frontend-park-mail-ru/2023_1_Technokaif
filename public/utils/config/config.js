@@ -96,6 +96,8 @@ export const METHOD = {
     CHANGE_FIELD_IMMEDIATELY: 'input',
     CHANGE_FIELD: 'change',
     UNLOAD_PAGE: 'beforeunload',
+    ON_ELEMENT: 'mouseover',
+    OUT_OF_ELEMENT: 'mouseout',
 
 };
 

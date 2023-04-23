@@ -31,10 +31,13 @@ export function setupAlbum() {
         ButtonsDiv: 'album__buttons',
         bottomDiv: 'bottomDiv',
 
+        buttonDiv: 'buttonPlayOnComponent',
+        buttonSrc: imgPath.playInArtist,
+        buttonClass: 'buttonComponent',
+
         numberDiv: 'numberDiv',
         TitleDiv: 'TitleDiv',
         ListensDiv: 'ListensDiv',
-
         placementTracks: 'js__placement-tracks',
         liked: 'likedDiv',
         buttonPlay: 'playButton js__button__play',
@@ -64,7 +67,7 @@ export function setupLineList(items) {
 
         buttonsClass: 'buttons',
         playButton: 'play-button-track',
-        playButtonSrc: imgPath.trackPlay,
+        playButtonSrc: imgPath.playInArtist,
         playButtonImg: 'likeImg',
         stopButton: 'stop-button-track',
         stopButtonSrc: imgPath.trackPause,

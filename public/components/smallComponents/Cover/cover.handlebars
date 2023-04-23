@@ -6,6 +6,10 @@
         {{else}}
             {{defaultSrc}}
         {{/if}}
+
+        <div class="{{root.buttonDiv}}">
+            <img src="{{root.buttonSrc}}" class="{{root.buttonClass}} js__button__{{root.titleText}}-{{item.id}}">
+        </div>
     </div>
 
     <div class="{{root.titleTextDiv}}">
@@ -33,4 +37,5 @@
             {{/each}}
         </div>
     {{/if}}
+
 </div>

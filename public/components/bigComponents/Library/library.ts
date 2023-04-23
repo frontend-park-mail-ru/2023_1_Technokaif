@@ -94,7 +94,7 @@ export class Library extends BaseComponent {
         }
         this.#tapeConfigs.forEach((configForInsertElement) => {
             const tape = new Tape(
-                tapesPlacement,
+                tapesPlacement as HTMLElement,
                 configForInsertElement,
                 configForInsertElement.titleText,
             );

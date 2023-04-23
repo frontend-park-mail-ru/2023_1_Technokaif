@@ -133,7 +133,6 @@ class ComponentsStore extends IStore {
      */
     register(nameOfPage, requiredComponents) {
         this.#whatNeedForPage.push({ page: nameOfPage, components: requiredComponents });
-        this.addNewItem(this.#whatNeedForPage);
         requiredComponents.forEach((component) => {
             if (!this.#allElements.includes(component)) {
                 this.#allElements.push(component);

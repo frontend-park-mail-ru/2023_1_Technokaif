@@ -83,6 +83,19 @@ class SongStore extends IStore {
         return this.#songs[this.#position];
     }
 
+    /** Return what album is playing or null if doesn't exist */
+    get albumInfo() {
+        if (!this.#songs[this.#position]) {
+            return null;
+        }
+        return this.#songs[this.#position].albumID;
+    }
+
+    /** Return what artists is playing or null if doesn't exist */
+    get artistsInfo() {
+        return this.#songs[this.#position].artists;
+    }
+
     /** Return playing status */
     get isPlaying() {
         return this.#isPlaying;

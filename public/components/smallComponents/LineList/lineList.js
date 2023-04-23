@@ -75,7 +75,6 @@ export class LineList extends BaseComponent {
                                 break;
                             default:
                             }
-                            // eslint-disable-next-line max-len
                         }
                     } else {
                         Actions.changePlayState(false);
@@ -102,7 +101,6 @@ export class LineList extends BaseComponent {
                 const stopButtons = document.querySelectorAll('.stop-button-track');
                 const lines = document.querySelectorAll('.track-line');
                 const trackId = SongStore.trackInfo.id;
-
                 for (const key in lines) {
                     if (key === 'entries') break;
                     if (+lines[key].dataset.id === trackId && state === true) {
