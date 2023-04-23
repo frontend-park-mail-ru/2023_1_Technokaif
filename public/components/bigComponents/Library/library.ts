@@ -1,4 +1,4 @@
-import templateHtml from './artistContent.handlebars';
+import templateHtml from './library.handlebars';
 import { LineList } from '../../smallComponents/LineList/lineList';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
@@ -14,7 +14,6 @@ import {
 } from '../../../utils/setup/artistSetup';
 import { shuffleArray } from '../../../utils/functions/shuffleArray';
 import SongStore from '../../../stores/SongStore';
-import { checkAuth } from '../../../utils/functions/checkAuth';
 
 /**
  * Create Artist content
@@ -23,19 +22,32 @@ export class Library extends BaseComponent {
     /**
      * Parent where to render
      */
-    #parent;
+    // @ts-ignore
+    #parent : Element;
 
     /**
      * Config to use in handlebars setup of tapes
      */
-    #tapeConfigs;
+    #tapeConfigs : Array<any>;
 
     /**
      * Config to use in handlebars setup of track lines
      */
-    #lineConfigs;
+    #lineConfigs : Array<any>;
 
-    private navbarInfoPlacement;
+    /**
+     * Element where to insert navbar widgets
+     * @private
+     */
+    // @ts-ignore
+    private navbarInfoPlacement: Element;
+
+    /**
+     * Flag to know if button clicked
+     * @private
+     */
+    // @ts-ignore
+    private activatedButton: boolean;
 
     /**
      * Create ArtistCover. Empty innerHtml before placement
@@ -47,6 +59,8 @@ export class Library extends BaseComponent {
         this.#parent = parent;
         this.#tapeConfigs = [];
         this.#lineConfigs = [];
+        this.activatedButton = false;
+        // @ts-ignore
         this.navbarInfoPlacement = document.querySelector('.navbar_library_element');
     }
 
@@ -55,6 +69,10 @@ export class Library extends BaseComponent {
      */
     private renderLines() {
         const linesPlacement = document.querySelector('.artist-items');
+        if (!linesPlacement) {
+            console.error('Error in rendering of lines');
+            return;
+        }
         this.#lineConfigs.forEach((configForInsertElement) => {
             const line = new LineList(
                 linesPlacement,
@@ -101,56 +119,74 @@ export class Library extends BaseComponent {
                 }
 
                 buttons.addEventListener('click', () => {
+                    // @ts-ignore
                     if (!playButton.hidden) {
                         // eslint-disable-next-line max-len
                         if (SongStore.exist && SongStore.trackInfo.artists.filter((element) => element.name === ContentStore.state[pageNames.ARTIST_PAGE].artist.name).length > 0) {
+                            // @ts-ignore
                             Actions.changePlayState(true);
                         } else {
+                            // @ts-ignore
                             Actions.playArtist(id);
                         }
 
+                        // @ts-ignore
                         playButton.hidden = true;
+                        // @ts-ignore
                         stopButton.hidden = false;
                     } else {
+                        // @ts-ignore
                         Actions.changePlayState(false);
+                        // @ts-ignore
                         stopButton.hidden = true;
+                        // @ts-ignore
                         playButton.hidden = false;
                     }
 
-                    this.#activatedButton = true;
+                    this.activatedButton = true;
                 });
                 if (id !== undefined) {
+                    // @ts-ignore
                     ApiActions.artist(id);
+                    // @ts-ignore
                     ApiActions.artistTracks(id);
+                    // @ts-ignore
                     ApiActions.artistAlbums(id);
                 }
             },
             EventTypes.ID_CAN_BE_VIEWED,
+            // @ts-ignore
             this.name,
         );
+
         SongStore.subscribe(
             (state) => {
                 const playButton = document.querySelector('.play-button');
                 const stopButton = document.querySelector('.stop-button');
+                if (!playButton || !stopButton) {
+                    console.error('error in buttons search');
+                    return;
+                }
                 if (state) {
+                    // @ts-ignore
                     playButton.hidden = true;
+                    // @ts-ignore
                     stopButton.hidden = false;
                 } else {
+                    // @ts-ignore
                     playButton.hidden = false;
+                    // @ts-ignore
                     stopButton.hidden = true;
                 }
             },
             EventTypes.CHANGE_PLAY_STATE,
+            // @ts-ignore
             this.name,
         );
         ContentStore.subscribe(
             (instance) => {
                 switch (instance) {
                 case 'artist':
-                    // todo Remove const from Switch case
-                    // eslint-disable-next-line no-case-declarations
-                    const { artist } = ContentStore.state[pageNames.ARTIST_PAGE];
-                    this.#renderCover(artist);
                     break;
                 case 'tracks':
                     // eslint-disable-next-line no-case-declarations
@@ -158,22 +194,18 @@ export class Library extends BaseComponent {
                     this.#lineConfigs.push(setupLineList(tracks.slice(0, 5)));
                     this.renderLines();
 
-                    if (checkAuth()) {
-                        const artist1 = ContentStore.state[pageNames.ARTIST_PAGE].artist;
-                        this.#renderLikedSongs(artist1);
-                    }
-
                     break;
                 case 'albums':
                     // eslint-disable-next-line no-case-declarations
                     const { albums } = ContentStore.state[pageNames.ARTIST_PAGE];
                     this.#tapeConfigs.push(setupTape('Albums', shuffleArray(albums).slice(0, 5)));
-                    this.#renderTapes();
+                    this.renderTapes();
                     break;
                 default:
                 }
             },
             EventTypes.ARTIST_CONTENT_DONE,
+            // @ts-ignore
             this.name,
         );
     }
@@ -181,14 +213,15 @@ export class Library extends BaseComponent {
     /**
      * @description render MainWindowContent in parent
      */
-    render() {
+    renderLibrary() {
         const renderProcess = new Promise((resolve) => {
             super.appendElement();
-            resolve();
+            resolve(true);
         });
 
         renderProcess.then(() => {
             this.#addSubscribes();
+            // @ts-ignore
             Actions.checkID(pageNames.ARTIST_PAGE);
         });
     }

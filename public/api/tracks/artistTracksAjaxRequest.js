@@ -1,4 +1,4 @@
-import Ajax from '../../modules/Ajax.js';
+import Ajax from '../../modules/Ajax.ts';
 import { apiUrl } from '../../utils/config/apiUrls.js';
 
 /**

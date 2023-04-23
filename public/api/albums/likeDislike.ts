@@ -1,4 +1,5 @@
-import Ajax from '../../modules/Ajax.js';
+// @ts-ignore
+import Ajax from '../../modules/Ajax.ts';
 import { apiUrl } from '../../utils/config/apiUrls.js';
 import { generatePageById } from '../../utils/functions/urlGenerators';
 

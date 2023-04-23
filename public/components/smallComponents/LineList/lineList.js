@@ -24,7 +24,7 @@ export class LineList extends BaseComponent {
 
     /**
      * Create LineList component. Empty innerHtml before placement
-     * @param {HTMLElement} parent -- where to place Track
+     * @param {Element} parent -- where to place Track
      * @param {object} config -- what config use to compile template
      * @param name
      */

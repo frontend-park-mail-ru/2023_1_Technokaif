@@ -21,8 +21,9 @@ import { routingUrl } from './utils/config/routingUrls';
 import UserView from './views/UserView';
 import { checkAuthAjax } from './api/auth/checkAuthAjaxReq';
 import serviceWorkerRegistration from './utils/sw/serviceWorkerRegistration';
-import AlbumPageView from './views/AlbumPage.ts';
-import LibraryView from './views/LibraryView.ts';
+import AlbumPageView from './views/AlbumPage';
+// @ts-ignore
+import LibraryPageView from './views/LibraryView.ts';
 
 /**
  * Render main page of app
@@ -162,7 +163,7 @@ function renderMainPage() {
         ],
     );
     ComponentsStore.register(
-        pageNames.USER,
+        pageNames.LIBRARY,
         [
             {
                 name: componentsNames.SIDEBAR,
@@ -182,7 +183,7 @@ function renderMainPage() {
             },
             {
                 name: componentsNames.LIBRARY,
-                render: ComponentsRenders.renderPlayer,
+                render: ComponentsRenders.renderLibrary,
             },
             {
                 name: componentsNames.PLAYER,
@@ -203,7 +204,7 @@ function renderMainPage() {
     Router.register(routingUrl.REGISTER, () => { RegisterView.render(); }, [API, UserInfoStore]);
     Router.register(routingUrl.PAGE404, () => { Page404View.render(); }, [API, UserInfoStore]);
     Router.register(routingUrl.PROFILE, () => { UserView.render(); }, [API, UserInfoStore]);
-    Router.register(routingUrl.LIBRARY, () => { LibraryView.render(); }, [API]);
+    Router.register(routingUrl.LIBRARY, () => { LibraryPageView.render(); }, [API]);
     Router.registerRouteWithRegEx(`${routingUrl.ARTIST_PAGE_EXP}`, () => { ArtistPageView.render(); }, [API]);
     Router.registerRouteWithRegEx(`${routingUrl.ALBUM_PAGE_EXP}`, () => { AlbumPageView.render(); }, [API]);
 

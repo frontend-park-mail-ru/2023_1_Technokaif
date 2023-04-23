@@ -71,6 +71,7 @@ class ComponentsStore extends IStore {
         case componentsNames.USER:
         case componentsNames.ARTIST_CONTENT:
         case componentsNames.ALBUM:
+        case componentsNames.LIBRARY:
             return document.querySelector(`.${componentsJSNames.MAIN}`);
         case componentsNames.LOGIN_FORM:
         case componentsNames.REGISTER_FORM:
@@ -78,6 +79,8 @@ class ComponentsStore extends IStore {
             return document.querySelector(`#${componentsJSNames.ROOT}`);
         case componentsNames.PLAYER:
             return document.querySelector('#player__placement');
+        case componentsNames.LIBRARY_LIST:
+            document.querySelector('.navbar_library_element');
         default:
             console.error('position to place element by name', elementName, 'not found');
             return document.querySelector(`#${componentsJSNames.ROOT}`);

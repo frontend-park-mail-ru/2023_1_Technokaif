@@ -17,6 +17,8 @@ import { AudioPlayer } from './bigComponents/player/player';
 import Router from '../router/Router';
 import { Album } from './bigComponents/Album/album.js';
 import { setupAlbum } from '../utils/setup/albumSetup';
+import { Library } from './bigComponents/Library/library.ts';
+import { LibraryList } from './smallComponents/libraryList/libraryList.ts';
 
 /**
  * Class for components renders functions.
@@ -120,10 +122,24 @@ class ComponentsRenders {
         player.render();
     }
 
-    /** Render player in parent */
+    /** Render in navbar */
+    renderLibraryList(parent) {
+        if (!checkAuth()) {
+            Router.go('/login');
+        }
+
+        const libraryList = new LibraryList(parent);
+        libraryList.render();
+    }
+
+    /** Render library in parent */
     renderLibrary(parent) {
-        const player = new AudioPlayer(parent);
-        player.render();
+        if (!checkAuth()) {
+            Router.go('/login');
+        }
+
+        const library = new Library(parent);
+        library.renderLibrary();
     }
 
     /** Render Album in parent */

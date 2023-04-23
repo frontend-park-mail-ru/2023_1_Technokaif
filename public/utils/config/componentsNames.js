@@ -15,5 +15,6 @@ export const componentsNames = {
     USER: 'user',
     PLAYER: 'js__player-main',
     ALBUM: 'js__album',
+    LIBRARY_LIST: 'library-list',
     LIBRARY: 'js__library',
 };
