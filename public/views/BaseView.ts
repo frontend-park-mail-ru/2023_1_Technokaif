@@ -7,7 +7,7 @@ import { componentsNames } from '../utils/config/componentsNames.js';
 /** Object that contain name and render function */
 export interface NameAndRender {
     name: string,
-    render: (arg0: HTMLElement) => void,
+    render: (arg0: Element) => void,
 }
 
 /**
@@ -60,10 +60,8 @@ export abstract class BaseView {
             case componentsNames.NAVBAR:
             case componentsNames.PAGE404:
             case componentsNames.PLAYER:
-                // todo
-                // @ts-ignore
+            case componentsNames.LIBRARY_LIST:
                 component.render(parent);
-                // @ts-ignore
                 Actions.addElementOnPage(componentName);
                 break;
             default:

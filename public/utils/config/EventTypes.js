@@ -34,6 +34,8 @@ export const EventTypes = {
     /** Events after likes requests on API */
     LIKED_TRACK: 'LIKED_TRACK',
     UNLIKED_TRACK: 'UNLIKED_TRACK',
+    LIKED_ARTIST: 'LIKED_ARTIST',
+    UNLIKED_ARTIST: 'UNLIKED_ARTIST',
 
     /** Event for starting user page render */
     USER_DATA_GOT_FOR_PAGE: 'USER_DATA_GOT_FOR_PAGE',

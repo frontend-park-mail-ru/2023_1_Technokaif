@@ -9,7 +9,7 @@ import { METHOD } from '../../../utils/config/config';
 import Router from '../../../router/Router';
 import UserInfoStore from '../../../stores/UserInfoStore';
 import { EventTypes } from '../../../utils/config/EventTypes';
-import API from '../../../stores/API';
+import API from '../../../stores/API.ts';
 import { ERRORS_LOG } from '../../../utils/config/errors';
 import ApiActions from '../../../actions/ApiActions';
 

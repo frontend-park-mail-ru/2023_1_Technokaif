@@ -17,4 +17,8 @@ export const componentsNames = {
     ALBUM: 'js__album',
     LIBRARY_LIST: 'library-list',
     LIBRARY: 'js__library',
+    LIBRARY_TRACKS: 'js__library-tracks',
+    LIBRARY_ARTISTS: 'js__library-artists',
+    LIBRARY_ALBUMS: 'js__library-albums',
+    LIBRARY_PLAYLISTS: 'js__library-playlists',
 };

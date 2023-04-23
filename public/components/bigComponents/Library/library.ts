@@ -50,12 +50,12 @@ export class Library extends BaseComponent {
     private activatedButton: boolean;
 
     /**
-     * Create ArtistCover. Empty innerHtml before placement
-     * @param {HTMLElement} parent -- where to place ArtistCover
-     * @param config
+     * Create Library. Empty innerHtml before placement
+     * @param {HTMLElement} parent -- where to place Library
+     * @param {string} componentName
      */
-    constructor(parent, config) {
-        super(parent, config, templateHtml, componentsNames.LIBRARY);
+    constructor(parent, componentName) {
+        super(parent, {}, templateHtml, componentName);
         this.#parent = parent;
         this.#tapeConfigs = [];
         this.#lineConfigs = [];
@@ -123,10 +123,8 @@ export class Library extends BaseComponent {
                     if (!playButton.hidden) {
                         // eslint-disable-next-line max-len
                         if (SongStore.exist && SongStore.trackInfo.artists.filter((element) => element.name === ContentStore.state[pageNames.ARTIST_PAGE].artist.name).length > 0) {
-                            // @ts-ignore
                             Actions.changePlayState(true);
                         } else {
-                            // @ts-ignore
                             Actions.playArtist(id);
                         }
 
@@ -135,7 +133,6 @@ export class Library extends BaseComponent {
                         // @ts-ignore
                         stopButton.hidden = false;
                     } else {
-                        // @ts-ignore
                         Actions.changePlayState(false);
                         // @ts-ignore
                         stopButton.hidden = true;
@@ -146,11 +143,8 @@ export class Library extends BaseComponent {
                     this.activatedButton = true;
                 });
                 if (id !== undefined) {
-                    // @ts-ignore
                     ApiActions.artist(id);
-                    // @ts-ignore
                     ApiActions.artistTracks(id);
-                    // @ts-ignore
                     ApiActions.artistAlbums(id);
                 }
             },
@@ -221,7 +215,6 @@ export class Library extends BaseComponent {
 
         renderProcess.then(() => {
             this.#addSubscribes();
-            // @ts-ignore
             Actions.checkID(pageNames.ARTIST_PAGE);
         });
     }

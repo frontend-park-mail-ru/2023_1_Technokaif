@@ -21,6 +21,7 @@ import { shuffleArray } from '../../../utils/functions/shuffleArray';
 import SongStore from '../../../stores/SongStore';
 import { LikedSongs } from '../../smallComponents/LikedSongs/likedSongs';
 import { checkAuth } from '../../../utils/functions/checkAuth';
+import { imgPath } from '../../../utils/config/pathConfig';
 
 /**
  * Create Artist content
@@ -113,6 +114,19 @@ export class ArtistContent extends BaseComponent {
      * Function to subscribe to all events from Stores
      */
     #addSubscribes() {
+        const imgLike = document.querySelector('.like__img');
+        imgLike.addEventListener('click', () => {
+            const { artist } = ContentStore.state[pageNames.ARTIST_PAGE];
+            if (artist.isLiked) {
+                imgLike.src = imgPath.notLiked;
+                ApiActions.unLikeArtist(artist.id);
+            } else {
+                imgLike.src = imgPath.liked;
+                ApiActions.likeArtist(artist.id);
+            }
+            artist.isLiked = !artist.isLiked;
+        });
+
         ContentStore.subscribe(
             () => {
                 const buttons = document.querySelector('.pre-buttons');
@@ -176,6 +190,11 @@ export class ArtistContent extends BaseComponent {
                     // eslint-disable-next-line no-case-declarations
                     const { artist } = ContentStore.state[pageNames.ARTIST_PAGE];
                     this.#renderCover(artist);
+                    if (artist.isLiked) {
+                        imgLike.src = imgPath.liked;
+                    } else {
+                        imgLike.src = imgPath.notLiked;
+                    }
                     break;
                 case 'tracks':
                     // eslint-disable-next-line no-case-declarations

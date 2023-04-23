@@ -21,7 +21,10 @@ import { userUpdateAvatarAjax } from '../api/user/uploadAvatarAjax';
 import { setTrackLikeAjax } from '../api/tracks/trackLikeAjaxRequest';
 import { removeTrackLikeAjax } from '../api/tracks/trackUnLikeAjaxRequest';
 import { getAlbumById } from '../api/albums/getAlbumById.js';
+// @ts-ignore
 import { likeAlbum, unLikeAlbum } from '../api/albums/likeDislike.ts';
+// @ts-ignore
+import { likeArtist, unLikeArtist } from '../api/artists/likeDislike.ts';
 // todo After merge with two likes
 // import { likeTrack, unlikeTrack } from '../api/tracks/likeDislike.ts';
 
@@ -40,9 +43,7 @@ class API extends IStore {
      * Switches over the action's type when an action is dispatched.
      * @param action
      */
-    dispatch(action) {
-        super.dispatch();
-
+    override dispatch(action) {
         switch (action.type) {
         case ActionTypes.LOGIN:
             this.#loginRequest(action.username, action.password);
@@ -110,13 +111,12 @@ class API extends IStore {
         case ActionTypes.LIKE_ALBUM:
             this.#likeAlbum(action.id);
             break;
-        // todo After merge with two likes
-        // case ActionTypes.UNLIKE_TRACK:
-        //     this.#unlikeTrack(action.id);
-        //     break;
-        // case ActionTypes.LIKE_TRACK:
-        //     this.#likeTrack(action.id);
-        //     break;
+        case ActionTypes.UNLIKE_ARTIST:
+            this.unlikeArtistRequest(action.id);
+            break;
+        case ActionTypes.LIKE_ARTIST:
+            this.likeArtistRequest(action.id);
+            break;
         default:
         }
     }
@@ -163,7 +163,7 @@ class API extends IStore {
     /**
      * Function to get profile page data from server.
      */
-    #profileRequest(id) {
+    #profileRequest(id: string) {
         userAjax(id).then((userData) => {
             Actions.userAddContent(userData);
         });
@@ -172,7 +172,7 @@ class API extends IStore {
     /**
      * Function to get an artist from server
      */
-    #artistRequest(id) {
+    #artistRequest(id: string) {
         artistAjax(id).then((artist) => {
             Actions.artistAddContent(artist, 'artist');
         });
@@ -181,7 +181,7 @@ class API extends IStore {
     /**
      * Function to get an artist tracks from server
      */
-    #artistTracksRequest(id) {
+    #artistTracksRequest(id: string) {
         artistTracksAjax(id).then((tracks) => {
             Actions.artistAddContent(tracks, 'tracks');
         });
@@ -191,7 +191,7 @@ class API extends IStore {
      * Function to send like post request to track by id
      * @param id
      */
-    #likeTrackRequest(id) {
+    #likeTrackRequest(id: string) {
         setTrackLikeAjax(id).then((message) => {
             this.jsEmit(EventTypes.LIKED_TRACK, message);
         });
@@ -201,51 +201,51 @@ class API extends IStore {
      * Function to send unlike post request to track by id
      * @param id
      */
-    #unlikeTrackRequest(id) {
+    #unlikeTrackRequest(id: string) {
         removeTrackLikeAjax(id).then((message) => {
-            this.jsEmit(EventTypes.LIKED_TRACK, message);
+            this.jsEmit(EventTypes.UNLIKED_TRACK, message);
         });
     }
 
     /**
      * Function to get an artist albums from server
      */
-    #artistAlbumsRequest(id) {
+    #artistAlbumsRequest(id: string) {
         artistAlbumsAjax(id).then((albums) => {
             Actions.artistAddContent(albums, 'albums');
         });
     }
 
     /** Download track song to browser */
-    #downloadTrack(id) {
+    #downloadTrack(id: string) {
         trackOneAjax(id).then((track) => {
             this.jsEmit(EventTypes.LOAD_TRACK, { track });
         });
     }
 
     /** Function to get Tracks from server */
-    #trackRequestFromServer(id) {
+    #trackRequestFromServer(id: string) {
         trackAjax(id).then((tracks) => {
             Actions.loadMoreLine(tracks);
         });
     }
 
     /** Function to get Albums from server */
-    #albumsRequestFromServer(id) {
+    #albumsRequestFromServer(id: string) {
         getAlbumTracksFromServer(id).then((tracks) => {
             Actions.loadMoreLine(tracks);
         });
     }
 
     /** Function to get Artists from server */
-    #artistRequestFromServer(id) {
+    #artistRequestFromServer(id: string) {
         artistTracksAjax(id).then((tracks) => {
             Actions.loadMoreLine(tracks);
         });
     }
 
     /** User update data to server */
-    #updateUser(id, userData) {
+    #updateUser(id: string, userData) {
         userUpdateAjax(id, userData).then((message) => this.jsEmit(
             EventTypes.UPDATE_DATA_RECEIVED,
             message,
@@ -261,7 +261,7 @@ class API extends IStore {
     }
 
     /** User update avatar post request to server */
-    #updateUserAvatar(id, avatar) {
+    #updateUserAvatar(id: string, avatar: FormData) {
         userUpdateAvatarAjax(id, avatar).then((message) => this.jsEmit(
             EventTypes.UPDATE_DATA_WITH_AVATAR_RECEIVED,
             message,
@@ -269,43 +269,48 @@ class API extends IStore {
     }
 
     /** Get album from API */
-    #getAlbumTracks(id) {
+    #getAlbumTracks(id: string) {
         getAlbumTracksFromServer(id).then((message) => Actions.addAlbumToContent(message));
     }
 
     /** Get one album */
-    #getAlbum(id) {
+    #getAlbum(id: string) {
         getAlbumById(id).then((message) => Actions.addOneAlbum(message));
     }
 
     /** Unlike */
-    #unlikeAlbum(id) {
-        unLikeAlbum(id).catch(() => {
-            console.warn('Unlike error from Album');
-        });
-    }
-
-    /** Unlike */
-    #likeAlbum(id) {
+    #likeAlbum(id: string) {
         likeAlbum(id).catch(() => {
             console.warn('Like error from Album');
         });
     }
 
-    // todo After merge with two likes
-    // /** Unlike Track with ID */
-    // #unlikeTrack(id) {
-    //     unlikeTrack(id).catch(() => {
-    //         console.warn('Unlike error from Track');
-    //     });
-    // }
+    /** Unlike */
+    #unlikeAlbum(id: string) {
+        unLikeAlbum(id).catch(() => {
+            console.warn('Unlike error from Album');
+        });
+    }
 
-    // /** Like Track with ID */
-    // #likeTrack(id) {
-    //     likeTrack(id).catch(() => {
-    //         console.warn('Like error from Track');
-    //     });
-    // }
+    /**
+     * Function to send like post request to track by id
+     * @param id
+     */
+    private likeArtistRequest(id: string) {
+        likeArtist(id).then((message) => {
+            this.jsEmit(EventTypes.LIKED_TRACK, message);
+        });
+    }
+
+    /**
+     * Function to send unlike post request to track by id
+     * @param id
+     */
+    private unlikeArtistRequest(id: string) {
+        unLikeArtist(id).then((message) => {
+            this.jsEmit(EventTypes.UNLIKED_ARTIST, message);
+        });
+    }
 }
 
 export default new API();

@@ -1,4 +1,4 @@
-import { BaseView } from './BaseView.js';
+import { BaseView } from './BaseView';
 import { pageNames } from '../utils/config/pageNames';
 import ComponentsStore from '../stores/ComponentsStore';
 import { EventTypes } from '../utils/config/EventTypes';
@@ -11,7 +11,7 @@ class LibraryPageView extends BaseView {
      * Constructor for feed page view.
      */
     constructor() {
-        super(pageNames.LIBRARY);
+        super(pageNames.LIBRARY_TRACKS);
     }
 
     /**
@@ -35,10 +35,8 @@ class LibraryPageView extends BaseView {
             const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);
             switch (componentName) {
-            case componentsNames.LIBRARY:
+            case componentsNames.LIBRARY_TRACKS:
                 component.render(parent);
-                // todo
-                // @ts-ignore
                 Actions.addElementOnPage(componentName);
                 break;
             default:
@@ -53,8 +51,6 @@ class LibraryPageView extends BaseView {
         super.render();
         this.#addSubscribes();
 
-        // todo
-        // @ts-ignore
         Actions.whatRender(super.name);
     }
 }

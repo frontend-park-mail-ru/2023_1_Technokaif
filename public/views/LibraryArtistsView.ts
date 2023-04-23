@@ -6,12 +6,12 @@ import { componentsNames } from '../utils/config/componentsNames';
 import Actions from '../actions/Actions.js';
 
 /** Class that render Album page */
-class AlbumPageView extends BaseView {
+class LibraryPageView extends BaseView {
     /**
      * Constructor for feed page view.
      */
     constructor() {
-        super(pageNames.ALBUM);
+        super(pageNames.LIBRARY_ARTISTS);
     }
 
     /**
@@ -35,10 +35,8 @@ class AlbumPageView extends BaseView {
             const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);
             switch (componentName) {
-            case componentsNames.ALBUM:
+            case componentsNames.LIBRARY_ARTISTS:
                 component.render(parent);
-                // todo
-                // @ts-ignore
                 Actions.addElementOnPage(componentName);
                 break;
             default:
@@ -53,10 +51,8 @@ class AlbumPageView extends BaseView {
         super.render();
         this.#addSubscribes();
 
-        // todo
-        // @ts-ignore
         Actions.whatRender(super.name);
     }
 }
 
-export default new AlbumPageView();
+export default new LibraryPageView();

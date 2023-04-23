@@ -3,7 +3,6 @@ import ActionTypes from './ActionTypes.js';
 
 /**
  * Global Action creator object.
- * @type {{(*): void}}
  */
 const Actions = {
     /** Action to emit two functions for ComponentsStore: what render on page and what

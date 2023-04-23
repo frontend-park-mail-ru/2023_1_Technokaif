@@ -22,8 +22,9 @@ import UserView from './views/UserView';
 import { checkAuthAjax } from './api/auth/checkAuthAjaxReq';
 import serviceWorkerRegistration from './utils/sw/serviceWorkerRegistration';
 import AlbumPageView from './views/AlbumPage';
-// @ts-ignore
-import LibraryPageView from './views/LibraryView.ts';
+import LibraryTracksView from './views/LibraryTracksView';
+import LibraryAlbumsView from './views/LibraryAlbumsView';
+import LibraryArtistsView from './views/LibraryArtistsView';
 
 /**
  * Render main page of app
@@ -162,8 +163,9 @@ function renderMainPage() {
             },
         ],
     );
+
     ComponentsStore.register(
-        pageNames.LIBRARY,
+        pageNames.LIBRARY_TRACKS,
         [
             {
                 name: componentsNames.SIDEBAR,
@@ -182,8 +184,80 @@ function renderMainPage() {
                 render: ComponentsRenders.renderUserPage,
             },
             {
-                name: componentsNames.LIBRARY,
-                render: ComponentsRenders.renderLibrary,
+                name: componentsNames.LIBRARY_LIST,
+                render: ComponentsRenders.renderLibraryList,
+            },
+            {
+                name: componentsNames.LIBRARY_TRACKS,
+                render: ComponentsRenders.renderTracksLibrary,
+            },
+            {
+                name: componentsNames.PLAYER,
+                render: ComponentsRenders.renderPlayer,
+            },
+        ],
+    );
+
+    ComponentsStore.register(
+        pageNames.LIBRARY_ARTISTS,
+        [
+            {
+                name: componentsNames.SIDEBAR,
+                render: ComponentsRenders.renderSidebar,
+            },
+            {
+                name: componentsNames.MAIN,
+                render: ComponentsRenders.renderMainElement,
+            },
+            {
+                name: componentsNames.NAVBAR,
+                render: ComponentsRenders.renderNavbar,
+            },
+            {
+                name: componentsNames.USER,
+                render: ComponentsRenders.renderUserPage,
+            },
+            {
+                name: componentsNames.LIBRARY_LIST,
+                render: ComponentsRenders.renderLibraryList,
+            },
+            {
+                name: componentsNames.LIBRARY_ARTISTS,
+                render: ComponentsRenders.renderArtistsLibrary,
+            },
+            {
+                name: componentsNames.PLAYER,
+                render: ComponentsRenders.renderPlayer,
+            },
+        ],
+    );
+
+    ComponentsStore.register(
+        pageNames.LIBRARY_ALBUMS,
+        [
+            {
+                name: componentsNames.SIDEBAR,
+                render: ComponentsRenders.renderSidebar,
+            },
+            {
+                name: componentsNames.MAIN,
+                render: ComponentsRenders.renderMainElement,
+            },
+            {
+                name: componentsNames.NAVBAR,
+                render: ComponentsRenders.renderNavbar,
+            },
+            {
+                name: componentsNames.USER,
+                render: ComponentsRenders.renderUserPage,
+            },
+            {
+                name: componentsNames.LIBRARY_LIST,
+                render: ComponentsRenders.renderLibraryList,
+            },
+            {
+                name: componentsNames.LIBRARY_ALBUMS,
+                render: ComponentsRenders.renderAlbumsLibrary,
             },
             {
                 name: componentsNames.PLAYER,
@@ -198,13 +272,14 @@ function renderMainPage() {
         localStorage.setItem('isAuth', `${value}`);
     });
 
-    // Router.register(routingUrl.ROOT, () => { FeedView.render(); }, [API, ContentStore]);
     Router.register(routingUrl.ROOT, () => { FeedView.render(); }, [API]);
     Router.register(routingUrl.LOGIN, () => { LoginView.render(); }, [API, UserInfoStore]);
     Router.register(routingUrl.REGISTER, () => { RegisterView.render(); }, [API, UserInfoStore]);
     Router.register(routingUrl.PAGE404, () => { Page404View.render(); }, [API, UserInfoStore]);
     Router.register(routingUrl.PROFILE, () => { UserView.render(); }, [API, UserInfoStore]);
-    Router.register(routingUrl.LIBRARY, () => { LibraryPageView.render(); }, [API]);
+    Router.register(routingUrl.LIBRARY_TRACKS, () => { LibraryTracksView.render(); }, [API]);
+    Router.register(routingUrl.LIBRARY_ALBUMS, () => { LibraryAlbumsView.render(); }, [API]);
+    Router.register(routingUrl.LIBRARY_ARTISTS, () => { LibraryArtistsView.render(); }, [API]);
     Router.registerRouteWithRegEx(`${routingUrl.ARTIST_PAGE_EXP}`, () => { ArtistPageView.render(); }, [API]);
     Router.registerRouteWithRegEx(`${routingUrl.ALBUM_PAGE_EXP}`, () => { AlbumPageView.render(); }, [API]);
 

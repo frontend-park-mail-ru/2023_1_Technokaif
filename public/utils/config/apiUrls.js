@@ -29,6 +29,9 @@ export const apiUrl = {
     TRACK_LIKE: (id) => `/api/tracks/${id}/like`,
     TRACK_UNLIKE: (id) => `/api/tracks/${id}/unlike`,
 
+    ARTIST_LIKE: (id) => `/api/artists/${id}/like`,
+    ARTIST_UNLIKE: (id) => `/api/artists/${id}/unlike`,
+
     AUTH: '/api/auth/signup',
     LOGIN: '/api/auth/login',
     LOGOUT: '/api/auth/logout',

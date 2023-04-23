@@ -63,7 +63,7 @@ class IStore extends EventEmitter {
     /** Switches over the action's type when an action is dispatched.
      *
      */
-    dispatch() {
+    dispatch(action) {
 
     }
 

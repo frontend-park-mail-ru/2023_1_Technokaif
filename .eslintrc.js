@@ -33,6 +33,7 @@ module.exports = {
         'import/no-cycle': 'off',
         'import/prefer-default-export': 'off',
         'import/extensions': 'off',
+        'import/no-unresolved': 'off',
         'class-methods-use-this': 'off',
         'guard-for-in': 'off',
         'no-restricted-syntax': 'off',
