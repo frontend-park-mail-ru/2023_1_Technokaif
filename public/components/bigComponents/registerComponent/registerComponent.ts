@@ -219,6 +219,19 @@ export class RegisterComponent extends BaseComponent {
             // @ts-ignore
             Actions.validationField(nameOfReaction, (element as HTMLInputElement).value);
         };
+
+        const passwordsChecks = (nameOfReaction, element) => {
+            const password = document.querySelector(`.${ElementsClassForRegister.password}`);
+            if (!password) {
+                console.warn('Password doesn\'t found in confReaction');
+                return;
+            }
+            reactionOnInputElement(NAME_OF_VALIDATION.password, password);
+            // todo Remove later
+            // @ts-ignore
+            Actions.validatePasswordAndConf(nameOfReaction, (password as HTMLInputElement).value, (element as HTMLInputElement).value);
+        };
+
         this.#addEventOnField(
             NAME_OF_VALIDATION.email,
             ElementsClassForRegister.email,
@@ -230,23 +243,25 @@ export class RegisterComponent extends BaseComponent {
             NAME_OF_VALIDATION.password,
             ElementsClassForRegister.password,
             METHOD.FIELD,
-            reactionOnInputElement,
+            // todo remove
+            // @ts-ignore
+            (nameOfReaction, element) => {
+                const confPassword = document.querySelector(`.${ElementsClassForRegister.confPassword}`);
+                if (!confPassword) {
+                    console.warn('Element doesn\'t exist on page, search by class: ', ElementsClassForRegister.confPassword);
+                    return;
+                }
+
+                passwordsChecks(NAME_OF_VALIDATION.confPassword, confPassword);
+            },
+
         );
 
         this.#addEventOnField(
             NAME_OF_VALIDATION.confPassword,
             ElementsClassForRegister.confPassword,
             METHOD.FIELD,
-            (nameOfReaction, element) => {
-                const password = document.querySelector(`.${ElementsClassForRegister.password}`);
-                if (!password) {
-                    console.warn('Password doesn\'t found in confReaction');
-                    return;
-                }
-                // todo Remove later
-                // @ts-ignore
-                Actions.validatePasswordAndConf(nameOfReaction, (password as HTMLInputElement).value, (element as HTMLInputElement).value);
-            },
+            passwordsChecks,
         );
 
         this.#addEventOnField(
