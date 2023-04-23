@@ -64,10 +64,12 @@ module.exports = {
             {
                 test: /\.handlebars$/,
                 loader: 'handlebars-loader',
+                exclude: /node_modules/,
             },
             {
                 test: /\.hbs$/,
                 loader: 'handlebars-loader',
+                exclude: /node_modules/,
             },
             {
                 test: /\.less$/i,
@@ -77,10 +79,12 @@ module.exports = {
                     'css-loader',
                     'less-loader',
                 ],
+                exclude: /node_modules/,
             },
             {
                 test: /\.css$/i,
                 use: ['style-loader', 'css-loader'],
+                exclude: /node_modules/,
             },
         ],
     },

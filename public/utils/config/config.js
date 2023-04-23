@@ -160,3 +160,32 @@ export const playerElementsJS = {
     currentTime: 'js__current-time',
     totalDuration: 'js__total-duration',
 };
+
+export const ElementsClassForRegister = {
+    login: 'js__login',
+    email: 'js__email',
+    confEmail: 'js__email-confirm',
+    confPassword: 'js__password-confirm',
+    password: 'js__password',
+    username: 'js__username',
+    firstName: 'js__firstname',
+    lastName: 'js__lastname',
+    day: 'js__day',
+    month: 'js__month',
+    year: 'js__year',
+    gender: 'js__gender',
+    gender_element: 'js__gender__element',
+
+    login_error: 'js__error__login',
+    email_error: 'js__error__email',
+    confEmail_error: 'js__error__email-confirm',
+    confPassword_error: 'js__error__password-confirm',
+    password_error: 'js__error__password',
+    username_error: 'js__error__username',
+    firstName_error: 'js__error__firstName',
+    lastName_error: 'js__error__lastName',
+    day_error: 'js__error__day',
+    month_error: 'js__error__month',
+    year_error: 'js__error__year',
+    gender_error: 'js__error__gender',
+};

@@ -7,6 +7,7 @@ import {
 import ActionTypes from '../actions/ActionTypes';
 import { EventTypes } from '../utils/config/EventTypes';
 import { checkForEmpty, getSexInString } from '../utils/functions/utils';
+import { NAME_OF_VALIDATION } from '../utils/config/validateConf';
 
 const EMPTY_ERROR = 'EMPTY';
 const OK_RESPONSE = 'OK';
@@ -94,8 +95,16 @@ class UserInfoStore extends IStore {
             this.#getEmailError();
             break;
         case 'confEmail':
+            // todo Remove confirm email
             super.changeFieldInState('confEmail', value);
             this.#getConfEmailError();
+            break;
+        case NAME_OF_VALIDATION.confPassword:
+            super.changeFieldInState(NAME_OF_VALIDATION.confPassword, value);
+            this.#getConfError({
+                Password: value.password,
+                confPassword: value.confPassword,
+            });
             break;
         case 'sex':
             this.#getSexError(value);
@@ -115,7 +124,7 @@ class UserInfoStore extends IStore {
             this.#getPasswordConfError(value);
             break;
         case 'validate_register':
-            this.#checkForErrorsInRegistration(value);
+            this.#checkForErrorsInRegistration(value.password, value.confPassword);
             break;
         case 'validate_login':
             this.#checkForErrorsInLogin(value);
@@ -186,7 +195,6 @@ class UserInfoStore extends IStore {
     }
 
     /**
-     *
      * @description
      * newPassword and confPassword
      *
@@ -200,6 +208,22 @@ class UserInfoStore extends IStore {
         confPassword,
     }, isChange = false) {
         this.#checkIfEquap('newConfPassword', newPassword, confPassword, isChange);
+    }
+
+    /**
+     * @description
+     * Password and confPassword
+     *
+     * If equal then emit 'confPassword' with 'OK' else 'BAD'
+     * @param newPassword
+     * @param confPassword
+     * @param {boolean} isChange - if true then we need to check for empty strings in passwords
+     */
+    #getConfError({
+        Password,
+        confPassword,
+    }, isChange = false) {
+        this.#checkIfEquap(NAME_OF_VALIDATION.confPassword, Password, confPassword, isChange);
     }
 
     /**
@@ -286,12 +310,11 @@ class UserInfoStore extends IStore {
      */
     #getEmailError(loginType = false) {
         const { email } = super.state;
-        const { confEmail } = super.state;
         let status;
         if (checkForEmpty(email) && !loginType) {
             status = EMPTY_ERROR;
         } else {
-            status = getEmailError(email, confEmail) || [];
+            status = getEmailError(email, email) || [];
             if (Array.isArray(status) && status.length === 0) {
                 status = OK_RESPONSE;
             }
@@ -303,15 +326,8 @@ class UserInfoStore extends IStore {
             } else {
                 this.#emitResponse('email', BAD_RESPONSE);
             }
-
-            if (status.indexOf('emailConf') < 0 || (!loginType && checkForEmpty(confEmail))) {
-                this.#emitResponse('confEmail', OK_RESPONSE);
-            } else {
-                this.#emitResponse('confEmail', BAD_RESPONSE);
-            }
         } else {
             this.#emitResponse('email', OK_RESPONSE);
-            this.#emitResponse('confEmail', OK_RESPONSE);
         }
     }
 
@@ -530,14 +546,17 @@ class UserInfoStore extends IStore {
      * If errors exist then it will emit 'BAD'
      * @param {string} password - password value to check
      */
-    #checkForErrorsInRegistration(password) {
+    #checkForErrorsInRegistration(password, confPassword) {
+        this.#getEmailError(true);
         this.#getErrorsUsername(true);
+
         this.#getPasswordError(password, true);
+        this.#getConfError({ Password: password, confPassword }, true);
+
         this.#getDayError(true);
         this.#getYearError(true);
         this.#getMonthError(true);
-        this.#getEmailError(true);
-        this.#getConfEmailError(true);
+
         this.#checkName('firstName', true);
         this.#checkName('lastName', true);
         this.#checkValueGender();

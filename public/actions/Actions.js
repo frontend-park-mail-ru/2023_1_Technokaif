@@ -40,6 +40,18 @@ const Actions = {
         });
     },
 
+    /** Validate password and confirm password */
+    validatePasswordAndConf(nameOfField, password, confPassword) {
+        Dispatcher.dispatch({
+            type: ActionTypes.VALIDATION_FIELD,
+            nameOfField,
+            content: {
+                password,
+                confPassword,
+            },
+        });
+    },
+
     /** Action to validate all login or registration form fields */
     validateAll(nameOfValidation, content) {
         const nameOfField = nameOfValidation;

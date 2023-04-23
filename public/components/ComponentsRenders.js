@@ -11,7 +11,7 @@ import { ArtistContent } from './bigComponents/ArtistContent/artistContent';
 import { setupArtistContent } from '../utils/setup/artistSetup';
 import { userSetup } from '../utils/setup/userSetup';
 import { User } from './bigComponents/userComponent/user';
-import { RegisterComponent } from './bigComponents/registerComponent/registerComponent';
+import { RegisterComponent } from './bigComponents/registerComponent/registerComponent.ts';
 import { LoginComponent } from './bigComponents/loginComponent/loginComponent';
 import { AudioPlayer } from './bigComponents/player/player';
 import Router from '../router/Router';
