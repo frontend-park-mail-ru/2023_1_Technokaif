@@ -10,9 +10,9 @@ export const componentsNames = {
     ARTIST_COVER: 'artist-cover',
     ARTIST_LIKED_SONGS: 'liked-songs',
     ARTIST_TAPE: 'tape',
-    ARTIST_LINE_LIST: 'line-list',
+    ARTIST_LINE_LIST: 'artist-line-list',
+    ALBUM_LINE_LIST: 'album-line-list',
     USER: 'user',
     PLAYER: 'js__player-main',
     ALBUM: 'js__album',
-    ALBUM_LINE_LIST: 'ALBUM_LINE_LIST',
 };

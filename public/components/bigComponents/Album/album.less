@@ -1,23 +1,23 @@
 @import '../../../static/css/constants.less';
 
-@title-size-track: 65vw;
-@index-size-track: 3vw;
-@like-size-track: 3vw;
-@listens-size-track: 6vw;
-
 .album {
-  margin-top: 75px;
+  margin-top: 55px;
+  padding: 20px;
 }
 
 .album__img {
+  position: absolute;
+  left: -20px;
   width: 200px;
   height: 200px;
   margin-right: 15px;
 }
 
 .album__descriptions{
+  position: relative;
   display: flex;
   flex-direction: row;
+  height: 200px;
 }
 
 .headerNameClass {
@@ -27,6 +27,8 @@
 }
 
 .descriptions {
+  margin-left: 200px;
+  align-self: center;
   display: flex;
   flex-direction: column;
   margin-top: 5px;
@@ -53,6 +55,7 @@
 .ArtistClass {
   color: @main-color;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 
 .by__div {
@@ -60,16 +63,22 @@
   flex-direction: row;
 }
 
+.album__buttons {
+  margin: 20px 0;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 20px
+}
+
 .playButton{
-  margin-top: 20px;
   width: 50px;
   height: 50px;
 }
 
 .albumLike {
-  margin-top: 20px;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
 }
 
 .subscribeButton {
@@ -95,7 +104,14 @@
   color: @shadow-color;
 }
 
+.track-hr {
+  max-width: 90vw;
+  border-width: 1px;
+  margin-bottom: 20px;
+}
+
 .numberDiv {
+  text-align: center;
   min-width: @index-size-track;
 }
 
@@ -134,7 +150,6 @@
   margin-right: 5px;
   display: flex;
   align-items: center;
-  //justify-content: center;
 }
 
 .imgLike {

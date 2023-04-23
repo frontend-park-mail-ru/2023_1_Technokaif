@@ -1,6 +1,5 @@
 import tmp from './album.handlebars';
 import './album.less';
-import { Line } from '../../smallComponents/Line/line';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
 import { EventTypes } from '../../../utils/config/EventTypes';
@@ -8,10 +7,12 @@ import ContentStore from '../../../stores/ContentStore';
 import Actions from '../../../actions/Actions';
 import ApiActions from '../../../actions/ApiActions';
 import { pageNames } from '../../../utils/config/pageNames';
-import { setupLineList } from '../../../utils/setup/artistSetup';
+import { setupLineList } from '../../../utils/setup/albumSetup';
 import SongStore from '../../../stores/SongStore';
-import { setupLine } from '../../../utils/setup/setupLine.js';
 import { imgPath } from '../../../utils/config/pathConfig';
+import Router from '../../../router/Router';
+// eslint-disable-next-line import/namespace
+import { LineList } from '../../smallComponents/LineList/lineList';
 
 /** Class for Album */
 export class Album extends BaseComponent {
@@ -61,15 +62,15 @@ export class Album extends BaseComponent {
     /**
      * Function to render track lines by input configs.
      */
-    #renderLines(tracks) {
+    #renderLines() {
         const linesPlacement = document.querySelector('.js__placement-tracks');
-        let pos = 0;
-        tracks.forEach((track) => {
-            pos += 1;
-            const line = new Line(
+        this.#lineConfigs.forEach((configForInsertElement) => {
+            const line = new LineList(
                 linesPlacement,
-                setupLine(track, pos),
+                configForInsertElement,
+                componentsNames.ALBUM_LINE_LIST,
             );
+
             line.appendElement();
         });
     }
@@ -139,6 +140,11 @@ export class Album extends BaseComponent {
 
         ContentStore.subscribe(
             () => {
+                const artistItem = document.querySelector('.js__author');
+                artistItem.addEventListener('click', () => {
+                    Router.go(`/artist/${ContentStore.state.ALBUM.id}`);
+                });
+
                 const state = ContentStore.state.ALBUM;
                 const img = document.querySelector('.album__img');
                 const name = document.querySelector('.headerNameOfElementClass');
@@ -154,6 +160,8 @@ export class Album extends BaseComponent {
 
                 if (state.isLiked) {
                     imgLike.src = imgPath.liked;
+                } else {
+                    imgLike.src = imgPath.notLiked;
                 }
                 name.textContent = state.name;
                 let artistsText = state.artists[0].name;

@@ -177,6 +177,15 @@ const Actions = {
         });
     },
 
+    /** Play album send in SongStore album id to play now from track (compilation) */
+    playAlbumWithOffset(id, offset) {
+        Dispatcher.dispatch({
+            type: ActionTypes.PLAY_ALBUM,
+            id,
+            offset,
+        });
+    },
+
     /** Queue track send in SongStore id to put in queue */
     queueTrack(id) {
         Dispatcher.dispatch({
