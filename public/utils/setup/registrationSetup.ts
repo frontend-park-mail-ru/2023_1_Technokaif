@@ -119,7 +119,6 @@ export function regFormSetup() {
 }
 
 /**
- *
  * @return -- all settings to sex template in register
  */
 export function sexSetup() {
@@ -158,7 +157,7 @@ export function sexSetup() {
                 textLabel: 'Other answer',
             },
         ],
-        errorSex: 'error-gender',
+        errorSex: 'error-gender input-block__error-placement',
     };
 }
 

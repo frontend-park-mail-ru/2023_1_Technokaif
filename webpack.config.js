@@ -95,5 +95,7 @@ module.exports = {
         fallback: {
             path: require.resolve('path-browserify'),
         },
+        extensions: ['.tsx', '.ts', '.js'],
+
     },
 };

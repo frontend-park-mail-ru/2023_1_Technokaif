@@ -7,6 +7,8 @@ import { componentsNames } from './utils/config/componentsNames';
 import API from './stores/API';
 import UserInfoStore from './stores/UserInfoStore';
 import ContentStore from './stores/ContentStore';
+// todo Remove after transfer for TS
+import { dateSetup } from './utils/setup/registrationSetup.ts';
 
 // todo Check why error is here
 // eslint-disable-next-line import/no-named-as-default
