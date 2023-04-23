@@ -12,7 +12,7 @@ const __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, '__esModule', { value: true });
 exports.getAlbumById = void 0;
-const Ajax_js_1 = __importDefault(require('../../modules/Ajax.js'));
+const Ajax_js_1 = __importDefault(require('../../modules/Ajax.ts'));
 const apiUrls_js_1 = require('../../utils/config/apiUrls.js');
 const urlGenerators_1 = require('../../utils/functions/urlGenerators');
 /**

@@ -25,6 +25,10 @@ const ActionTypes = {
     /** Like actions */
     LIKE_TRACK: 'LIKE_TRACK',
     UNLIKE_TRACK: 'UNLIKE_TRACK',
+    LIKE_ARTIST: 'LIKE_ARTIST',
+    UNLIKE_ARTIST: 'UNLIKE_ARTIST',
+    LIKE_ALBUM: 'LIKE_ALBUM',
+    UNLIKE_ALBUM: 'UNLIKE_ALBUM',
 
     /** Send when click on button in register/login */
     VALIDATION_CHECK_CORRECT_ALL: 'VALIDATION_CHECK_CORRECT_ALL',
@@ -76,15 +80,6 @@ const ActionTypes = {
 
     /** Get album by id */
     ONE_ALBUM_TO_CONTENT: 'ONE_ALBUM_TO_CONTENT',
-
-    /** Actions to set like or dislike on album */
-    LIKE_ALBUM: 'LIKE_ALBUM',
-    UNLIKE_ALBUM: 'UNLIKE_ALBUM',
-
-    // todo merge
-    // /** Actions to set like or dislike on track */
-    // UNLIKE_TRACK: 'UNLIKE_TRACK',
-    // LIKE_TRACK: 'LIKE_TRACK',
 };
 
 export default ActionTypes;

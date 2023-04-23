@@ -3,7 +3,6 @@ import ActionTypes from './ActionTypes.js';
 
 /**
  * Global Api actions creator
- * @type {{login(): void}}
  */
 const ApiActions = {
     login(username, password) {
@@ -131,23 +130,21 @@ const ApiActions = {
         });
     },
 
-    // todo merge
-    // /** Like track */
-    // likeTrack(id) {
-    //     Dispatcher.dispatch({
-    //         type: ActionTypes.LIKE_TRACK,
-    //         id,
-    //     });
-    // },
-    //
-    // /** Unlike track */
-    // unLikeTrack(id) {
-    //     Dispatcher.dispatch({
-    //         type: ActionTypes.UNLIKE_TRACK,
-    //         id,
-    //     });
-    // },
+    /** Like album */
+    likeArtist(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.LIKE_ARTIST,
+            id,
+        });
+    },
 
+    /** Unlike album */
+    unLikeArtist(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.UNLIKE_ARTIST,
+            id,
+        });
+    },
 };
 
 export default ApiActions;

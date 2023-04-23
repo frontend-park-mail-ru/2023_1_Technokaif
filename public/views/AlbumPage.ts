@@ -1,4 +1,4 @@
-import { BaseView } from './BaseView.js';
+import { BaseView } from './BaseView';
 import { pageNames } from '../utils/config/pageNames';
 import ComponentsStore from '../stores/ComponentsStore';
 import { EventTypes } from '../utils/config/EventTypes';

@@ -15,7 +15,7 @@ import { EventTypes } from '../../../utils/config/EventTypes';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
 import { componentsJSNames } from '../../../utils/config/componentsJSNames';
-import API from '../../../stores/API';
+import API from '../../../stores/API.ts';
 
 /**
  * Class for artists content in main page.

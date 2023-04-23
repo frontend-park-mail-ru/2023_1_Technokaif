@@ -48,7 +48,7 @@ export class Album extends BaseComponent {
     /**
      * Create Album. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place Album
-     * @param {JSON} config
+     * @param {{json}} config
      */
     constructor(parent, config) {
         super(parent, config, tmp, componentsNames.ALBUM);

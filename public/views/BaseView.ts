@@ -7,13 +7,13 @@ import { componentsNames } from '../utils/config/componentsNames.js';
 /** Object that contain name and render function */
 export interface NameAndRender {
     name: string,
-    render: (arg0: HTMLElement) => void,
+    render: (arg0: Element) => void,
 }
 
 /**
  * Base View class to handle render functions.
  */
-export class BaseView {
+export abstract class BaseView {
     /**
      * Name of view.
      */
@@ -22,7 +22,7 @@ export class BaseView {
     /**
      * Constructor for base view.
      */
-    constructor(name: string) {
+    protected constructor(name: string) {
         this.#viewName = name;
     }
 
@@ -60,10 +60,8 @@ export class BaseView {
             case componentsNames.NAVBAR:
             case componentsNames.PAGE404:
             case componentsNames.PLAYER:
-                // todo
-                // @ts-ignore
+            case componentsNames.LIBRARY_LIST:
                 component.render(parent);
-                // @ts-ignore
                 Actions.addElementOnPage(componentName);
                 break;
             default:

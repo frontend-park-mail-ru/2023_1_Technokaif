@@ -17,7 +17,7 @@ module.exports = {
     devServer: {
         historyApiFallback: true,
     },
-    entry: path.resolve(__dirname, 'public', 'index.js'),
+    entry: path.resolve(__dirname, 'public', 'index.ts'),
     plugins: [
         new HtmlWebpackPlugin({
             templateContent: `

@@ -64,7 +64,7 @@ export const sidebarConfig = {
     },
     library: {
         name: 'Library',
-        href: '/library',
+        href: '/library/tracks',
         key: 'library',
         logoSrc: imgPath.libraryLogo,
     },

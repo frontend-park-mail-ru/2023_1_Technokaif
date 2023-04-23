@@ -21,9 +21,16 @@ export const apiUrl = {
     AVATAR_REGEX: /^\/api\/users\/\d+\/avatar$/,
     USER_UPDATE_AVATAR_API: (id) => `/api/users/${id}/avatar`,
     USER_UPDATE_PASSWORD: '/api/auth/changepass',
+    USER_PLAYLISTS: (id) => `/api/users/${id}/playlists`,
+    USER_FAVOURITE_TRACKS: (id) => `/api/users/${id}/favorite/tracks`,
+    USER_FAVOURITE_ARTISTS: (id) => `/api/users/${id}/favorite/artists`,
+    USER_FAVOURITE_ALBUMS: (id) => `/api/users/${id}/favorite/albums`,
 
     TRACK_LIKE: (id) => `/api/tracks/${id}/like`,
     TRACK_UNLIKE: (id) => `/api/tracks/${id}/unlike`,
+
+    ARTIST_LIKE: (id) => `/api/artists/${id}/like`,
+    ARTIST_UNLIKE: (id) => `/api/artists/${id}/unlike`,
 
     AUTH: '/api/auth/signup',
     LOGIN: '/api/auth/login',

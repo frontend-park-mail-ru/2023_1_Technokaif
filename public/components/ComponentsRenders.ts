@@ -11,12 +11,14 @@ import { ArtistContent } from './bigComponents/ArtistContent/artistContent';
 import { setupArtistContent } from '../utils/setup/artistSetup';
 import { userSetup } from '../utils/setup/userSetup';
 import { User } from './bigComponents/userComponent/user';
-import { RegisterComponent } from './bigComponents/registerComponent/registerComponent.ts';
+import { RegisterComponent } from './bigComponents/registerComponent/registerComponent';
 import { LoginComponent } from './bigComponents/loginComponent/loginComponent';
 import { AudioPlayer } from './bigComponents/player/player';
 import Router from '../router/Router';
 import { Album } from './bigComponents/Album/album.js';
 import { setupAlbum } from '../utils/setup/albumSetup';
+import { Library } from './bigComponents/Library/library';
+import { LibraryList } from './smallComponents/libraryList/libraryList';
 
 /**
  * Class for components renders functions.
@@ -118,6 +120,46 @@ class ComponentsRenders {
     renderPlayer(parent) {
         const player = new AudioPlayer(parent);
         player.render();
+    }
+
+    /** Render in navbar */
+    renderLibraryList(parent) {
+        if (!checkAuth()) {
+            Router.go('/login');
+        }
+
+        const libraryList = new LibraryList(parent);
+        libraryList.render();
+    }
+
+    /** Render library in parent */
+    renderTracksLibrary(parent) {
+        if (!checkAuth()) {
+            Router.go('/login');
+        }
+
+        const library = new Library(parent, componentsNames.LIBRARY_TRACKS);
+        library.renderLibrary();
+    }
+
+    /** Render library in parent */
+    renderArtistsLibrary(parent) {
+        if (!checkAuth()) {
+            Router.go('/login');
+        }
+
+        const library = new Library(parent, componentsNames.LIBRARY_ARTISTS);
+        library.renderLibrary();
+    }
+
+    /** Render library in parent */
+    renderAlbumsLibrary(parent) {
+        if (!checkAuth()) {
+            Router.go('/login');
+        }
+
+        const library = new Library(parent, componentsNames.LIBRARY_ALBUMS);
+        library.renderLibrary();
     }
 
     /** Render Album in parent */
