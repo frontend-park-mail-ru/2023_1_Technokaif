@@ -83,6 +83,8 @@ export function setupLineList(items) {
         unlikeButtonImg: 'unlike-button__img',
 
         defaultTrackSrc: imgPath.defaultTrack,
+        titleArtistDiv: 'artist__with__title',
+        artistClass: 'artists__text',
 
         content: items,
         isArtistPage: false,

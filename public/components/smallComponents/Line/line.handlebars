@@ -1,5 +1,7 @@
 <div class="{{root.lineDiv}}" data-id="{{item.id}}">
+<!--    Index -->
     <div class="{{root.lineIndex}}">{{#position}}{{@index}}{{/position}}</div>
+<!--    Buttons -->
     <div class="{{root.buttonsClass}}">
         {{#if root.playButton}}
             <button type="button" class="{{root.playButton}}">
@@ -12,17 +14,33 @@
             </button>
         {{/if}}
     </div>
+<!--    IMG of line-->
     <div class="{{root.lineBlock}}">
         {{#ifEquals root.isArtistPage true}}
         <img src="{{#if item.cover}}{{#convert}}{{item.cover}}{{/convert}}{{else}}{{defaultTrackSrc}}{{/if}}" class="{{root.lineCover}}">
         {{/ifEquals}}
-        <div class="{{root.lineTitle}}">{{item.name}}</div>
+<!--        Title-->
+        <div class="{{root.titleArtistDiv}}">
+            <div class="{{root.lineTitle}}">{{item.name}}</div>
+<!--            Show artist-->
+            {{#ifEquals root.isArtistShow true}}
+                <div class="{{root.artistClass}}">
+                    <p>
+                        {{#each item.artists}}
+                            {{this.name}} {{#unless  @last}}, {{/unless}}
+                        {{/each}}
+                    </p>
+                </div>
+            {{/ifEquals}}
+        </div>
     </div>
+<!--    Listens-->
     {{#ifEquals root.isArtistPage true}}
-    <div class="{{root.lineListens}}">{{item.listens}}</div>
+    <div class="{{root.lineListensClass}}">{{item.listens}}</div>
     {{/ifEquals}}
+<!--    Liked button-->
         {{#ifEquals item.isLiked true}}
-        <div class="{{root.likeButtons}}">
+            <div class="{{root.likeButtons}}">
             <button type="button" class="{{root.like}}" hidden>
                 <img src="{{root.likeButtonSrc}}" class="{{root.likeButtonImg}}">
             </button>
@@ -31,6 +49,7 @@
             </button>
         </div>
     {{/ifEquals}}
+<!--    Dislike button-->
     {{#ifEquals item.isLiked false}}
         <div class="{{root.likeButtons}}">
             <button type="button" class="{{root.like}}">
