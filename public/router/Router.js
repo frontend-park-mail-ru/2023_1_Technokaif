@@ -39,14 +39,14 @@ class Router extends IStore {
      * @param {*} render - function to call on url
      * @param stores
      */
-    register(path, render, stores) {
+    register(path, render, stores, title) {
         if (!this) {
             console.error('Error in register in router', path);
             return;
         }
 
         if (this.#routes.find((obj) => obj.path === path && obj.render === render
-            && obj.stores === stores)) {
+            && obj.stores === stores && obj.title === title)) {
             return;
         }
 
@@ -54,6 +54,7 @@ class Router extends IStore {
             path,
             render,
             store: stores,
+            title,
         });
     }
 
@@ -63,14 +64,14 @@ class Router extends IStore {
      * @param {*} render - function to call on url
      * @param stores
      */
-    registerRouteWithRegEx(path, render, stores) {
+    registerRouteWithRegEx(path, render, stores, title) {
         if (!this) {
             console.error('Error in register in router', path);
             return;
         }
 
         if (this.#routes.find((obj) => obj.path === path && obj.render === render
-            && obj.stores === stores)) {
+            && obj.stores === stores && obj.title === title)) {
             return;
         }
 
@@ -78,6 +79,7 @@ class Router extends IStore {
             path,
             render,
             store: stores,
+            title,
         });
     }
 
@@ -183,6 +185,8 @@ class Router extends IStore {
             id: this.#previousParams.id,
             page: this.#previousParams.page,
         }, '', path);
+
+        document.title = objectRender.title;
     }
 
     /**
