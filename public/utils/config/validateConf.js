@@ -13,6 +13,21 @@ export const ERRORS_VALIDATE = {
     year: 'year',
 };
 
+/** Error of password */
+export const PASSWORD_ERROR = {
+    empty_field: 'Empty password',
+    forbidden_symbols: 'Don\'t use \\ \' \" space :',
+    length: 'Password must be more than 8 and less than 30',
+    letters: 'Must be big letters, small letters, digits',
+};
+
+/** Errors of username */
+export const USERNAME_ERROR = {
+    empty_field: 'Empty username',
+    letters: 'Only contain letters, digits or \'_\'',
+    length: 'Username must be more than 4 and less than 20',
+};
+
 /** Name of validation */
 export const NAME_OF_VALIDATION = {
     email: 'email',

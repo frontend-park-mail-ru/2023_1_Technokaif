@@ -104,7 +104,7 @@ class UserInfoStore extends IStore {
             this.#getConfError({
                 Password: value.password,
                 confPassword: value.confPassword,
-            });
+            }, false);
             break;
         case 'sex':
             this.#getSexError(value);
@@ -121,7 +121,7 @@ class UserInfoStore extends IStore {
             this.#getPasswordError(value, 'newPassword', false);
             break;
         case 'newConfPassword':
-            this.#getPasswordConfError(value);
+            this.#getPasswordConfError(value, false);
             break;
         case 'validate_register':
             this.#checkForErrorsInRegistration(value.password, value.confPassword);
@@ -156,7 +156,7 @@ class UserInfoStore extends IStore {
         const { username } = super.state;
 
         let status;
-        if (checkForEmpty(username)) {
+        if (checkForEmpty(username) && !loginType) {
             status = EMPTY_ERROR;
         } else {
             status = getUsernameError(username);
@@ -180,7 +180,7 @@ class UserInfoStore extends IStore {
      */
     #getPasswordError(password, nameOfSpace = 'password', loginType = false) {
         let status;
-        if (!checkForEmpty(password)) {
+        if (!checkForEmpty(password) || loginType) {
             status = getPasswordError(password);
         } else {
             status = EMPTY_ERROR;
@@ -435,9 +435,11 @@ class UserInfoStore extends IStore {
         case 'F':
         case 'M':
             super.state.errors.gender = false;
+            this.#emitResponse('gender', OK_RESPONSE);
             break;
         default:
             super.state.errors.gender = true;
+            this.#emitResponse('gender', BAD_RESPONSE);
         }
     }
 
@@ -486,7 +488,7 @@ class UserInfoStore extends IStore {
         let status;
         if (firstValue === secondValue) {
             status = OK_RESPONSE;
-        } else if (firstValue !== '' && secondValue === '' && !checkForEmptySecond) {
+        } else if ((firstValue !== '' && secondValue === '' || secondValue === '') && !checkForEmptySecond) {
             status = OK_RESPONSE;
         } else {
             status = BAD_RESPONSE;
@@ -514,7 +516,7 @@ class UserInfoStore extends IStore {
             this.jsEmit(EventTypes.VALIDATION_RESPONSE, nameOfField, OK_RESPONSE);
             state.errors[nameOfField] = false;
         } else {
-            this.jsEmit(EventTypes.VALIDATION_RESPONSE, nameOfField, BAD_RESPONSE);
+            this.jsEmit(EventTypes.VALIDATION_RESPONSE, nameOfField, status);
             state.errors[nameOfField] = true;
         }
     }
@@ -527,7 +529,7 @@ class UserInfoStore extends IStore {
      */
     #checkForErrorsInLogin(password) {
         this.#getLoginError(true);
-        this.#getPasswordError(password, true);
+        this.#getPasswordError(password, 'password', true);
 
         const errors = super.getValueInState('errors');
         let status = OK_RESPONSE;
@@ -550,7 +552,7 @@ class UserInfoStore extends IStore {
         this.#getEmailError(true);
         this.#getErrorsUsername(true);
 
-        this.#getPasswordError(password, true);
+        this.#getPasswordError(password, 'password', true);
         this.#getConfError({ Password: password, confPassword }, true);
 
         this.#getDayError(true);

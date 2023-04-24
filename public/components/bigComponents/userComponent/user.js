@@ -290,14 +290,14 @@ export class User extends BaseComponent {
             this.#errorsRender(
                 ElementsClassForUser.password_error,
                 status,
-                ERRORS_USER.password,
+                status,
             );
             break;
         case 'newPassword':
             this.#errorsRender(
                 ElementsClassForUser.newPasswordError,
                 status,
-                ERRORS_USER.password,
+                status,
             );
             break;
         case 'newConfPassword':

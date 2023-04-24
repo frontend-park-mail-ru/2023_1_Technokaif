@@ -123,7 +123,7 @@ export class RegisterComponent extends BaseComponent {
             this.#errorsRender(
                 ElementsClassForRegister.password_error,
                 status,
-                ERRORS_REG.password,
+                status,
             );
             break;
         case NAME_OF_VALIDATION.confPassword:
@@ -137,7 +137,7 @@ export class RegisterComponent extends BaseComponent {
             this.#errorsRender(
                 ElementsClassForRegister.username_error,
                 status,
-                ERRORS_REG.username,
+                status,
             );
             break;
         case 'firstName':
@@ -235,14 +235,14 @@ export class RegisterComponent extends BaseComponent {
         this.#addEventOnField(
             NAME_OF_VALIDATION.email,
             ElementsClassForRegister.email,
-            METHOD.FIELD,
+            METHOD.CHANGE_FIELD_IMMEDIATELY,
             reactionOnInputElement,
         );
 
         this.#addEventOnField(
             NAME_OF_VALIDATION.password,
             ElementsClassForRegister.password,
-            METHOD.FIELD,
+            METHOD.CHANGE_FIELD_IMMEDIATELY,
             // todo remove
             // @ts-ignore
             (nameOfReaction, element) => {
@@ -260,56 +260,56 @@ export class RegisterComponent extends BaseComponent {
         this.#addEventOnField(
             NAME_OF_VALIDATION.confPassword,
             ElementsClassForRegister.confPassword,
-            METHOD.FIELD,
+            METHOD.CHANGE_FIELD_IMMEDIATELY,
             passwordsChecks,
         );
 
         this.#addEventOnField(
             NAME_OF_VALIDATION.username,
             ElementsClassForRegister.username,
-            METHOD.FIELD,
+            METHOD.CHANGE_FIELD_IMMEDIATELY,
             reactionOnInputElement,
         );
 
         this.#addEventOnField(
             NAME_OF_VALIDATION.firstname,
             ElementsClassForRegister.firstName,
-            METHOD.FIELD,
+            METHOD.CHANGE_FIELD_IMMEDIATELY,
             reactionOnInputElement,
         );
 
         this.#addEventOnField(
             NAME_OF_VALIDATION.lastname,
             ElementsClassForRegister.lastName,
-            METHOD.FIELD,
+            METHOD.CHANGE_FIELD_IMMEDIATELY,
             reactionOnInputElement,
         );
 
         this.#addEventOnField(
             NAME_OF_VALIDATION.day,
             ElementsClassForRegister.day,
-            METHOD.FIELD,
+            METHOD.CHANGE_FIELD_IMMEDIATELY,
             reactionOnInputElement,
         );
 
         this.#addEventOnField(
             NAME_OF_VALIDATION.month,
             ElementsClassForRegister.month,
-            METHOD.FIELD,
+            METHOD.CHANGE_FIELD_IMMEDIATELY,
             reactionOnInputElement,
         );
 
         this.#addEventOnField(
             NAME_OF_VALIDATION.year,
             ElementsClassForRegister.year,
-            METHOD.FIELD,
+            METHOD.CHANGE_FIELD_IMMEDIATELY,
             reactionOnInputElement,
         );
 
         this.#addEventOnField(
             NAME_OF_VALIDATION.sex,
             ElementsClassForRegister.gender,
-            METHOD.FIELD,
+            METHOD.CHANGE_FIELD_IMMEDIATELY,
             (nameOfReaction, _) => {
                 const radioButtons = document.querySelectorAll(`.${ElementsClassForRegister.gender_element}`);
                 const elementsValues = getCheckedValueRadioButtons(radioButtons);
@@ -346,7 +346,7 @@ export class RegisterComponent extends BaseComponent {
 
         this.#addEventOnField(
             'header',
-            'header',
+            'title',
             METHOD.BUTTON,
             // todo Remove later
             // @ts-ignore

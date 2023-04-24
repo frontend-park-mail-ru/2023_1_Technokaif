@@ -1,5 +1,9 @@
 import { MONTHS } from '../config/config.js';
-import { ERRORS_VALIDATE as ERRORS } from '../config/validateConf.js';
+import {
+    ERRORS_VALIDATE as ERRORS,
+    PASSWORD_ERROR,
+    USERNAME_ERROR,
+} from '../config/validateConf.js';
 
 const ALPHABET_BIG = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const ALPHABET_SMALL = 'abcdefghijklmnopqrstuvwxyz';
@@ -35,16 +39,16 @@ export function checkIsEmail(login) {
  */
 export function getPasswordError(password) {
     if (password === '') {
-        return ERRORS.password;
+        return PASSWORD_ERROR.empty_field;
     }
 
     if (password.includes('\'') || password.includes('"')
         || password.includes(' ') || password.includes(':')) {
-        return ERRORS.password;
+        return PASSWORD_ERROR.forbidden_symbols;
     }
 
     if (password.length < 8 || password.length > 30) {
-        return ERRORS.password;
+        return PASSWORD_ERROR.length;
     }
 
     let isBigExist = false;
@@ -69,7 +73,7 @@ export function getPasswordError(password) {
         return null;
     }
 
-    return ERRORS.password;
+    return PASSWORD_ERROR.letters;
 }
 
 /**
@@ -249,16 +253,16 @@ export function getSexError(...boxes) {
  */
 export function getUsernameError(username) {
     if (!username || username === '') {
-        return ERRORS.username;
+        return USERNAME_ERROR.empty_field;
     }
     if (username.length < 4 || username.length > 20) {
-        return ERRORS.username;
+        return USERNAME_ERROR.length;
     }
 
     for (let i = 0; i < username.length; i++) {
         if (!(ALPHABET_BIG.includes(username[i]) || ALPHABET_SMALL.includes(username[i])
             || DIGITS.includes(username[i]) || '_'.includes(username[i]))) {
-            return ERRORS.username;
+            return USERNAME_ERROR.letters;
         }
     }
 
