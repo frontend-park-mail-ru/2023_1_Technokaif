@@ -25,8 +25,8 @@ import { getAlbumById } from '../api/albums/getAlbumById.js';
 import { likeAlbum, unLikeAlbum } from '../api/albums/likeDislike.ts';
 // @ts-ignore
 import { likeArtist, unLikeArtist } from '../api/artists/likeDislike.ts';
-// todo After merge with two likes
-// import { likeTrack, unlikeTrack } from '../api/tracks/likeDislike.ts';
+
+import { TrackInTape } from '../utils/setup/artistSetup';
 
 /**
  * Class using for getting data from backend.
@@ -270,12 +270,31 @@ class API extends IStore {
 
     /** Get album from API */
     #getAlbumTracks(id: string) {
-        getAlbumTracksFromServer(id).then((message) => Actions.addAlbumToContent(message));
+        getAlbumTracksFromServer(id).then((message) => {
+            const promises: Promise<string>[] = [] as Promise<string>[];
+            if (message) {
+                (message as Array<TrackInTape>).forEach((element) => {
+                    const albumId = element.albumID;
+                    if (albumId) {
+                        promises.push(this.#getAlbumName(albumId).then((albumMessage) => {
+                            element.albumName = albumMessage;
+                            return albumMessage;
+                        }));
+                    }
+                });
+                Promise.allSettled(promises).then(() => Actions.addAlbumToContent(message));
+            }
+        });
     }
 
     /** Get one album */
     #getAlbum(id: string) {
         getAlbumById(id).then((message) => Actions.addOneAlbum(message));
+    }
+
+    /** Get name of album by id */
+    #getAlbumName(albumId) {
+        return getAlbumById(albumId).then((message) => message.name);
     }
 
     /** Unlike */

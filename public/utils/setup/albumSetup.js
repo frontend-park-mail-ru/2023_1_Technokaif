@@ -85,6 +85,8 @@ export function setupLineList(items) {
         defaultTrackSrc: imgPath.defaultTrack,
         titleArtistDiv: 'artist__with__title',
         artistClass: 'artists__text',
+        albumClass: 'albumClass',
+        albumDiv: 'albumDiv',
 
         content: items,
         isArtistPage: false,

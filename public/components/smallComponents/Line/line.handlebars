@@ -34,13 +34,24 @@
             {{/ifEquals}}
         </div>
     </div>
-<!--    Listens-->
+
+    <!--    Album show-->
+    {{#ifEquals root.isArtistShow true}}
+        <div class="{{root.albumDiv}}">
+            <p class="{{root.albumClass}}">
+                {{item.albumName}}
+            </p>
+        </div>
+    {{/ifEquals}}
+
+    <!--    Listens-->
     {{#ifEquals root.isArtistPage true}}
     <div class="{{root.lineListensClass}}">{{item.listens}}</div>
     {{/ifEquals}}
-<!--    Liked button-->
-        {{#ifEquals item.isLiked true}}
-            <div class="{{root.likeButtons}}">
+
+    <!--    Liked button-->
+    {{#ifEquals item.isLiked true}}
+        <div class="{{root.likeButtons}}">
             <button type="button" class="{{root.like}}" hidden>
                 <img src="{{root.likeButtonSrc}}" class="{{root.likeButtonImg}}">
             </button>

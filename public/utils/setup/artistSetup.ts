@@ -114,6 +114,8 @@ export interface TrackInTape extends BaseComponentInTape{
     artists: [ArtistApi],
     listens:number,
     recordSrc: string,
+    albumID: number,
+    albumName: string,
 }
 
 /** JSON for artist in tape */
