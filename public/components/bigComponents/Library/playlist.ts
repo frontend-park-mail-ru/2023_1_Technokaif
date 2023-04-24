@@ -1,8 +1,7 @@
-import templateHtml from './library.handlebars';
+import templateHtml from './categoryTracks.handlebars';
 import { LineList } from '../../smallComponents/LineList/lineList';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
-import { Tape } from '../Tape/tape';
 import { EventTypes } from '../../../utils/config/EventTypes';
 import ContentStore from '../../../stores/ContentStore';
 import Actions from '../../../actions/Actions';
@@ -10,15 +9,13 @@ import ApiActions from '../../../actions/ApiActions';
 import { pageNames } from '../../../utils/config/pageNames';
 import {
     setupLineList,
-    setupTape,
 } from '../../../utils/setup/artistSetup';
-import { shuffleArray } from '../../../utils/functions/shuffleArray';
 import SongStore from '../../../stores/SongStore';
 
 /**
  * Create Artist content
  */
-export class Library extends BaseComponent {
+export class Playlist extends BaseComponent {
     /**
      * Parent where to render
      */
@@ -26,17 +23,13 @@ export class Library extends BaseComponent {
     #parent : Element;
 
     /**
-     * Config to use in handlebars setup of tapes
-     */
-    #tapeConfigs : Array<any>;
-
-    /**
      * Config to use in handlebars setup of track lines
      */
-    #lineConfigs : Array<any>;
+    #lineConfigs : Array<object>;
 
     /**
      * Element where to insert navbar widgets
+     * Using only on
      * @private
      */
     // @ts-ignore
@@ -57,7 +50,6 @@ export class Library extends BaseComponent {
     constructor(parent, componentName) {
         super(parent, {}, templateHtml, componentName);
         this.#parent = parent;
-        this.#tapeConfigs = [];
         this.#lineConfigs = [];
         this.activatedButton = false;
         // @ts-ignore
@@ -77,28 +69,9 @@ export class Library extends BaseComponent {
             const line = new LineList(
                 linesPlacement,
                 configForInsertElement,
-                componentsNames.ARTIST_LINE_LIST,
+                componentsNames.TRACK_LIBRARY_LINE_LIST,
             );
             line.appendElement();
-        });
-    }
-
-    /**
-     * Function to render tapes for albums
-     */
-    private renderTapes() {
-        const tapesPlacement = document.querySelector('.album-list');
-        if (!tapesPlacement) {
-            console.error('Error in rendering of tapes');
-            return;
-        }
-        this.#tapeConfigs.forEach((configForInsertElement) => {
-            const tape = new Tape(
-                tapesPlacement,
-                configForInsertElement,
-                configForInsertElement.titleText,
-            );
-            tape.appendElement();
         });
     }
 
@@ -189,12 +162,6 @@ export class Library extends BaseComponent {
                     this.renderLines();
 
                     break;
-                case 'albums':
-                    // eslint-disable-next-line no-case-declarations
-                    const { albums } = ContentStore.state[pageNames.ARTIST_PAGE];
-                    this.#tapeConfigs.push(setupTape('Albums', shuffleArray(albums).slice(0, 5)));
-                    this.renderTapes();
-                    break;
                 default:
                 }
             },
@@ -215,7 +182,7 @@ export class Library extends BaseComponent {
 
         renderProcess.then(() => {
             this.#addSubscribes();
-            Actions.checkID(pageNames.ARTIST_PAGE);
+            A.checkID(pageNames.ARTIST_PAGE);
         });
     }
 }

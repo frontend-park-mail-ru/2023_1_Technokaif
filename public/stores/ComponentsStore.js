@@ -80,8 +80,7 @@ class ComponentsStore extends IStore {
         case componentsNames.PLAYER:
             return document.querySelector('#player__placement');
         case componentsNames.LIBRARY_LIST:
-            document.querySelector('.navbar_library_element');
-            break;
+            return document.querySelector('.navbar_library_element');
         default:
             console.error('position to place element by name', elementName, 'not found');
             return document.querySelector(`#${componentsJSNames.ROOT}`);

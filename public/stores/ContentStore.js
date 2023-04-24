@@ -42,6 +42,9 @@ class ContentStore extends IStore {
         case ActionTypes.ID_VIEW_REQUEST:
             this.#checkID(action.nameOfPage);
             break;
+        case ActionTypes.FAVORITE_TRACKS_GOT:
+            this.#addContent(pageNames.ARTIST_PAGE, 'id', id);
+            break;
         case ActionTypes.FEED_GOT_CONTENT:
             this.#addContentOnFeed(action.items);
             break;

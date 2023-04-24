@@ -21,12 +21,8 @@ import { userUpdateAvatarAjax } from '../api/user/uploadAvatarAjax';
 import { setTrackLikeAjax } from '../api/tracks/trackLikeAjaxRequest';
 import { removeTrackLikeAjax } from '../api/tracks/trackUnLikeAjaxRequest';
 import { getAlbumById } from '../api/albums/getAlbumById.js';
-// @ts-ignore
-import { likeAlbum, unLikeAlbum } from '../api/albums/likeDislike.ts';
-// @ts-ignore
-import { likeArtist, unLikeArtist } from '../api/artists/likeDislike.ts';
-// todo After merge with two likes
-// import { likeTrack, unlikeTrack } from '../api/tracks/likeDislike.ts';
+import { likeAlbum, unLikeAlbum } from '../api/albums/likeDislike';
+import { likeArtist, unLikeArtist } from '../api/artists/likeDislike';
 
 /**
  * Class using for getting data from backend.

@@ -12,6 +12,7 @@ export const componentsNames = {
     ARTIST_TAPE: 'tape',
     ARTIST_LINE_LIST: 'artist-line-list',
     ALBUM_LINE_LIST: 'album-line-list',
+    TRACK_LIBRARY_LINE_LIST: 'track-library-line-list',
     USER: 'user',
     PLAYER: 'js__player-main',
     ALBUM: 'js__album',

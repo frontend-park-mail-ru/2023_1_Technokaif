@@ -78,8 +78,12 @@ const ActionTypes = {
     ALBUM_TO_CONTENT: 'ALBUM_TO_CONTENT',
     GET_ALBUM: 'GET_ALBUM',
 
+    GET_USER_FAVORITE_TRACKS: 'GET_USER_FAVORITE_TRACKS',
+
     /** Get album by id */
     ONE_ALBUM_TO_CONTENT: 'ONE_ALBUM_TO_CONTENT',
+    FAVORITE_TRACKS_GOT: 'FAVORITE_TRACKS_GOT',
+
 };
 
 export default ActionTypes;

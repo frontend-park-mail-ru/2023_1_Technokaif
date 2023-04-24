@@ -73,6 +73,10 @@ export class LineList extends BaseComponent {
                                 // eslint-disable-next-line max-len
                                 Actions.playAlbumWithOffset(ContentStore.state[pageNames.ALBUM].id, id - 1);
                                 break;
+                            case componentsNames.TRACK_LIBRARY_LINE_LIST:
+                                // eslint-disable-next-line max-len
+                                Actions.playAlbumWithOffset(ContentStore.state[pageNames.ALBUM].id, id - 1);
+                                break;
                             default:
                             }
                             // eslint-disable-next-line max-len

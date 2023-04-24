@@ -17,7 +17,7 @@ import { AudioPlayer } from './bigComponents/player/player';
 import Router from '../router/Router';
 import { Album } from './bigComponents/Album/album.js';
 import { setupAlbum } from '../utils/setup/albumSetup';
-import { Library } from './bigComponents/Library/library';
+import { Library } from './bigComponents/Library/playlist';
 import { LibraryList } from './smallComponents/libraryList/libraryList';
 
 /**
