@@ -561,9 +561,10 @@ class UserInfoStore extends IStore {
 
         this.#checkName('firstName', true);
         this.#checkName('lastName', true);
-        this.#checkValueGender();
+        // this.#checkValueGender();
 
         const { errors } = super.state;
+        errors.gender = false;
 
         let status = OK_RESPONSE;
         for (const errorField in errors) {
@@ -587,7 +588,7 @@ class UserInfoStore extends IStore {
         this.#getPasswordError(value.newPassword, 'newPassword', true);
         this.#getPasswordConfError({
             newPassword: value.newPassword,
-            newConfPassword: value.newConfPassword,
+            confPassword: value.newConfPassword,
         }, true);
 
         const whatToCheck = ['password', 'newPassword', 'newConfPassword'];
