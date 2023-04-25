@@ -27,6 +27,7 @@ import { userFavoriteTracksAjax } from '../api/user/getUserFavoriteTracksAjaxReq
 import { userFavoriteArtistsAjax } from '../api/user/getUserFavoriteArtistsAjaxReq';
 import { instancesNames } from '../utils/config/instances';
 import { TrackInTape } from '../utils/setup/artistSetup';
+import { userFavoriteAlbumsAjax } from '../api/user/getUserFavoriteAlbumsAjaxReq';
 
 /**
  * Class using for getting data from backend.
@@ -356,7 +357,7 @@ class API extends IStore {
      * @param userId
      */
     private userFavoriteAlbumsRequest(userId: string) {
-        userFavoriteTracksAjax(userId).then((albums) => {
+        userFavoriteAlbumsAjax(userId).then((albums) => {
             Actions.addFavoriteContent(albums, instancesNames.FAVORITE_ALBUMS_PAGE);
             // this.jsEmit(EventTypes.GOT_FAVORITE_TRACKS, tracks);
         });

@@ -60,6 +60,10 @@ export class Tape extends BaseComponent {
                 switch (this.#name) {
                 case 'Artists':
                     if (isPlayPressed) {
+                        if (!checkAuth()) {
+                            Router.go('/login');
+                            return;
+                        }
                         if (event.target.classList.contains('play')) {
                             Actions.changePlayState(false);
                             event.target.classList.remove('play');
@@ -76,12 +80,12 @@ export class Tape extends BaseComponent {
                     }
                     break;
                 case 'Tracks':
-                    if (!checkAuth()) {
-                        Router.go('/login');
-                        return;
-                    }
-
                     if (isPlayPressed) {
+                        if (!checkAuth()) {
+                            Router.go('/login');
+                            return;
+                        }
+
                         if (event.target.classList.contains('play')) {
                             Actions.changePlayState(false);
                             event.target.classList.remove('play');
@@ -97,6 +101,11 @@ export class Tape extends BaseComponent {
                     break;
                 case 'Albums':
                     if (isPlayPressed) {
+                        if (!checkAuth()) {
+                            Router.go('/login');
+                            return;
+                        }
+
                         if (event.target.classList.contains('play')) {
                             Actions.changePlayState(false);
                             event.target.classList.remove('play');
