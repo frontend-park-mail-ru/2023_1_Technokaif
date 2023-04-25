@@ -38,6 +38,7 @@ export class Tape extends BaseComponent {
     /** Add events to Elements of tape */
     #addEventListeners() {
         const tapeTrigger = this.#parent.querySelector(`.tape__${this.#name}`);
+        console.log(tapeTrigger);
         if (!tapeTrigger) {
             console.error('Tape doesn\'t exist:', this.#name);
             return;
