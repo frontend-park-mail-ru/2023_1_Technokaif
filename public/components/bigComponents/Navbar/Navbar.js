@@ -71,6 +71,8 @@ class Navbar {
                     console.error('bad respond from server during logout');
                 } else {
                     this.#reRender();
+                    const element = document.querySelector(`.${componentsNames.PLAYER}`);
+                    element.hidden = true;
                 }
             },
             EventTypes.LOGOUT_STATUS,

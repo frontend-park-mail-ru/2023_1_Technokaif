@@ -122,6 +122,11 @@ class ComponentsRenders {
     renderPlayer(parent) {
         const player = new AudioPlayer(parent);
         player.render();
+        if (!checkAuth()) {
+            const element = document.querySelector(`.${componentsNames.PLAYER}`);
+            // @ts-ignore
+            element.hidden = true;
+        }
     }
 
     /** Render in navbar */

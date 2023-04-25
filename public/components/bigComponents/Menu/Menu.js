@@ -69,6 +69,9 @@ class Menu {
             if (e.target instanceof HTMLAnchorElement) {
                 const { section } = e.target.dataset;
                 if (this.#config[section] !== undefined) {
+                    if (section === 'search') {
+                        return;
+                    }
                     if ((section === 'library' || section === 'createPlaylist' || section === 'likedSongs') && !checkAuth()) {
                         Router.go('/login');
                     } else {
