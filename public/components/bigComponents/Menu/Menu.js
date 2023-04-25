@@ -6,6 +6,7 @@ import Actions from '../../../actions/Actions';
 import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
 import { EventTypes } from '../../../utils/config/EventTypes';
 import { componentsJSNames } from '../../../utils/config/componentsJSNames';
+import { checkAuth } from '../../../utils/functions/checkAuth';
 
 /**
  * Class for Menu: Home, Search, Playlist, Create Playlist, Liked Songs.
@@ -68,7 +69,11 @@ class Menu {
             if (e.target instanceof HTMLAnchorElement) {
                 const { section } = e.target.dataset;
                 if (this.#config[section] !== undefined) {
-                    Router.go(this.#config[section].href);
+                    if ((section === 'library' || section === 'createPlaylist' || section === 'likedSongs') && !checkAuth()) {
+                        Router.go('/login');
+                    } else {
+                        Router.go(this.#config[section].href);
+                    }
                 }
             }
         });
