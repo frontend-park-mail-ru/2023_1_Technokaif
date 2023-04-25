@@ -19,7 +19,7 @@ export function logFormSetup() {
         titleClass: 'title__name',
         titleName: 'Fluire',
         descriptionClass: 'title__page-description',
-        descriptionName: 'Log in to continue',
+        descriptionName: 'Log in to listen without limitations',
         divBeforeForm: 'log',
         formDiv: 'form',
         inputs: [
