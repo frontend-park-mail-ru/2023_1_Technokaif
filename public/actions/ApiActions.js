@@ -25,6 +25,7 @@ const ApiActions = {
             type: ActionTypes.LOGOUT,
         });
     },
+
     /** Feed page */
     feed() {
         Dispatcher.dispatch({
@@ -143,6 +144,30 @@ const ApiActions = {
         Dispatcher.dispatch({
             type: ActionTypes.UNLIKE_ARTIST,
             id,
+        });
+    },
+
+    /** Favorite tracks page api */
+    favoriteTracks(userId) {
+        Dispatcher.dispatch({
+            type: ActionTypes.GET_USER_FAVORITE_TRACKS,
+            userId,
+        });
+    },
+
+    /** Favorite artists page api */
+    favoriteArtists(userId) {
+        Dispatcher.dispatch({
+            type: ActionTypes.GET_USER_FAVORITE_ARTISTS,
+            userId,
+        });
+    },
+
+    /** Favorite albums page api */
+    favoriteAlbums(userId) {
+        Dispatcher.dispatch({
+            type: ActionTypes.GET_USER_FAVORITE_ALBUMS,
+            userId,
         });
     },
 };

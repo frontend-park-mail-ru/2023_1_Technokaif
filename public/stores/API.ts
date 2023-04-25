@@ -21,11 +21,11 @@ import { userUpdateAvatarAjax } from '../api/user/uploadAvatarAjax';
 import { setTrackLikeAjax } from '../api/tracks/trackLikeAjaxRequest';
 import { removeTrackLikeAjax } from '../api/tracks/trackUnLikeAjaxRequest';
 import { getAlbumById } from '../api/albums/getAlbumById.js';
-// @ts-ignore
-import { likeAlbum, unLikeAlbum } from '../api/albums/likeDislike.ts';
-// @ts-ignore
-import { likeArtist, unLikeArtist } from '../api/artists/likeDislike.ts';
-
+import { likeAlbum, unLikeAlbum } from '../api/albums/likeDislike';
+import { likeArtist, unLikeArtist } from '../api/artists/likeDislike';
+import { userFavoriteTracksAjax } from '../api/user/getUserFavoriteTracksAjaxReq';
+import { userFavoriteArtistsAjax } from '../api/user/getUserFavoriteArtistsAjaxReq';
+import { instancesNames } from '../utils/config/instances';
 import { TrackInTape } from '../utils/setup/artistSetup';
 
 /**
@@ -117,6 +117,15 @@ class API extends IStore {
         case ActionTypes.LIKE_ARTIST:
             this.likeArtistRequest(action.id);
             break;
+        case ActionTypes.GET_USER_FAVORITE_TRACKS:
+            this.userFavoriteTracksRequest(action.userId);
+            break;
+        case ActionTypes.GET_USER_FAVORITE_ALBUMS:
+            this.userFavoriteAlbumsRequest(action.userId);
+            break;
+        case ActionTypes.GET_USER_FAVORITE_ARTISTS:
+            this.userFavoriteArtistsRequest(action.userId);
+            break;
         default:
         }
     }
@@ -174,7 +183,7 @@ class API extends IStore {
      */
     #artistRequest(id: string) {
         artistAjax(id).then((artist) => {
-            Actions.artistAddContent(artist, 'artist');
+            Actions.artistAddContent(artist, instancesNames.ARTIST_PAGE);
         });
     }
 
@@ -212,7 +221,7 @@ class API extends IStore {
      */
     #artistAlbumsRequest(id: string) {
         artistAlbumsAjax(id).then((albums) => {
-            Actions.artistAddContent(albums, 'albums');
+            Actions.artistAddContent(albums, instancesNames.FAVORITE_ALBUMS_PAGE);
         });
     }
 
@@ -328,6 +337,38 @@ class API extends IStore {
     private unlikeArtistRequest(id: string) {
         unLikeArtist(id).then((message) => {
             this.jsEmit(EventTypes.UNLIKED_ARTIST, message);
+        });
+    }
+
+    /**
+     * Function to get favorite tracks by user id
+     * @param userId
+     */
+    private userFavoriteTracksRequest(userId: string) {
+        userFavoriteTracksAjax(userId).then((tracks) => {
+            Actions.addFavoriteContent(tracks, instancesNames.FAVORITE_TRACKS_PAGE);
+            // this.jsEmit(EventTypes.GOT_FAVORITE_TRACKS, tracks);
+        });
+    }
+
+    /**
+     * Function to get favorite albums by user id
+     * @param userId
+     */
+    private userFavoriteAlbumsRequest(userId: string) {
+        userFavoriteTracksAjax(userId).then((albums) => {
+            Actions.addFavoriteContent(albums, instancesNames.FAVORITE_ALBUMS_PAGE);
+            // this.jsEmit(EventTypes.GOT_FAVORITE_TRACKS, tracks);
+        });
+    }
+
+    /**
+     * Function to get favorite artists by user id
+     * @param userId
+     */
+    private userFavoriteArtistsRequest(userId: string) {
+        userFavoriteArtistsAjax(userId).then((artists) => {
+            Actions.addFavoriteContent(artists, instancesNames.FAVORITE_ARTISTS_PAGE);
         });
     }
 }

@@ -37,7 +37,7 @@ export class Album extends BaseComponent {
     /**
      * Play button
      */
-    #playButton;
+    playButton;
 
     /** If first play */
     #firstPlay;
@@ -110,7 +110,7 @@ export class Album extends BaseComponent {
                     this.firstPlay = true;
                     if (!this.#isAlbumLoaded) {
                         this.#isAlbumLoaded = true;
-                        Actions.playArtist(id);
+                        Actions.playAlbum(id);
                     }
 
                     if (!SongStore.isPlaying) {

@@ -8,7 +8,7 @@ import { EventTypes } from '../../../utils/config/EventTypes';
 import { componentsJSNames } from '../../../utils/config/componentsJSNames';
 
 /**
- * Class for Menu: Home, Search, Library, Create Playlist, Liked Songs.
+ * Class for Menu: Home, Search, Playlist, Create Playlist, Liked Songs.
  * @constructor
  * @param {HTMLElement} parent - Element where to render.
  * @param {json} config - Config with json fields.

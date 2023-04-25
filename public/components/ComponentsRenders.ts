@@ -17,8 +17,10 @@ import { AudioPlayer } from './bigComponents/player/player';
 import Router from '../router/Router';
 import { Album } from './bigComponents/Album/album.js';
 import { setupAlbum } from '../utils/setup/albumSetup';
-import { Library } from './bigComponents/Library/library';
 import { LibraryList } from './smallComponents/libraryList/libraryList';
+import { FavoriteTracks } from './bigComponents/Playlist/Library/favoriteTracks';
+import { FavoriteArtists } from './bigComponents/Library/favoriteArtists';
+import { FavoriteAlbums } from './bigComponents/Library/favoriteAlbums';
 
 /**
  * Class for components renders functions.
@@ -138,8 +140,8 @@ class ComponentsRenders {
             Router.go('/login');
         }
 
-        const library = new Library(parent, componentsNames.LIBRARY_TRACKS);
-        library.renderLibrary();
+        const library = new FavoriteTracks(parent, componentsNames.LIBRARY_TRACKS);
+        library.renderFavoriteTracks();
     }
 
     /** Render library in parent */
@@ -148,8 +150,8 @@ class ComponentsRenders {
             Router.go('/login');
         }
 
-        const library = new Library(parent, componentsNames.LIBRARY_ARTISTS);
-        library.renderLibrary();
+        const library = new FavoriteArtists(parent, componentsNames.LIBRARY_ARTISTS);
+        library.renderFavoriteArtists();
     }
 
     /** Render library in parent */
@@ -158,8 +160,8 @@ class ComponentsRenders {
             Router.go('/login');
         }
 
-        const library = new Library(parent, componentsNames.LIBRARY_ALBUMS);
-        library.renderLibrary();
+        const library = new FavoriteAlbums(parent, componentsNames.LIBRARY_ALBUMS);
+        library.renderFavoriteAlbums();
     }
 
     /** Render Album in parent */

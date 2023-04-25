@@ -73,6 +73,16 @@ export class LineList extends BaseComponent {
                                 // eslint-disable-next-line max-len
                                 Actions.playAlbumWithOffset(ContentStore.state[pageNames.ALBUM].id, id - 1);
                                 break;
+                            case componentsNames.TRACK_LIBRARY_LINE_LIST:
+                                // eslint-disable-next-line no-case-declarations
+                                const { tracks } = ContentStore.state[pageNames.LIBRARY_TRACKS];
+                                // eslint-disable-next-line no-case-declarations
+                                const trackIds = tracks.map((track) => track.id);
+                                trackIds.forEach((trackid) => {
+                                    Actions.queueTrackWithOffset(trackid, id);
+                                });
+
+                                break;
                             default:
                             }
                         }

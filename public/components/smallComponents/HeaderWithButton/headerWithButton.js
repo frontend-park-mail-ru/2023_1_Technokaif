@@ -79,7 +79,12 @@ export class HeaderWithButton {
      * Function using to unrender component
      */
     unRender() {
-        this.#parent.removeChild(document.querySelector(`.${componentsJSNames.PAGE404}`));
+        const element = document.querySelector(`.${componentsJSNames.PAGE404}`);
+        if (!element) {
+            console.error('Error while unRendering of page404');
+            return;
+        }
+        this.#parent.removeChild(element);
     }
 
     /**

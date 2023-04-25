@@ -55,19 +55,11 @@ class Navbar {
     #callEventListener() {
         ComponentsStore.subscribe(
             (list) => {
-                let component = list.filter((comp) => comp.name === componentsNames.NAVBAR);
+                const component = list.filter((comp) => comp.name === componentsNames.NAVBAR);
                 if (component.length !== 0) {
                     Actions.removeElementFromPage(componentsNames.NAVBAR);
                     unsubscribeFromAllStoresOnComponent(componentsNames.NAVBAR);
                     this.#unRender();
-                }
-
-                component = list.filter((comp) => comp.name === componentsNames.MAIN);
-                if (component.length !== 0) {
-                    Actions.removeElementFromPage(componentsNames.MAIN);
-                    unsubscribeFromAllStoresOnComponent(componentsNames.MAIN);
-                    const parent = ComponentsStore.checkWhereToPlace(componentsNames.MAIN);
-                    parent.removeChild(document.querySelector(`.${componentsJSNames.MAIN}`));
                 }
             },
             EventTypes.ON_REMOVE_ANOTHER_ITEMS,

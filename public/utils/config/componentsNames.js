@@ -18,7 +18,10 @@ export const componentsNames = {
     LIBRARY_LIST: 'library-list',
     LIBRARY: 'js__library',
     LIBRARY_TRACKS: 'js__library-tracks',
+    TRACK_LIBRARY_LINE_LIST: 'track-library-line-list',
     LIBRARY_ARTISTS: 'js__library-artists',
+    FAVORITE_ARTISTS_TAPE: 'Favorite Artists',
+    FAVORITE_ALBUMS_TAPE: 'Favorite Albums',
     LIBRARY_ALBUMS: 'js__library-albums',
     LIBRARY_PLAYLISTS: 'js__library-playlists',
 };
