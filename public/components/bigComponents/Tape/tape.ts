@@ -38,7 +38,6 @@ export class Tape extends BaseComponent {
     /** Add events to Elements of tape */
     #addEventListeners() {
         const tapeTrigger = this.#parent.querySelector(`.tape__${this.#name}`);
-        console.log(tapeTrigger);
         if (!tapeTrigger) {
             console.error('Tape doesn\'t exist:', this.#name);
             return;
@@ -61,6 +60,10 @@ export class Tape extends BaseComponent {
                 switch (this.#name) {
                 case 'Artists':
                     if (isPlayPressed) {
+                        if (!checkAuth()) {
+                            Router.go('/login');
+                            return;
+                        }
                         if (event.target.classList.contains('play')) {
                             Actions.changePlayState(false);
                             event.target.classList.remove('play');
@@ -77,12 +80,12 @@ export class Tape extends BaseComponent {
                     }
                     break;
                 case 'Tracks':
-                    if (!checkAuth()) {
-                        Router.go('/login');
-                        return;
-                    }
-
                     if (isPlayPressed) {
+                        if (!checkAuth()) {
+                            Router.go('/login');
+                            return;
+                        }
+
                         if (event.target.classList.contains('play')) {
                             Actions.changePlayState(false);
                             event.target.classList.remove('play');
@@ -98,6 +101,11 @@ export class Tape extends BaseComponent {
                     break;
                 case 'Albums':
                     if (isPlayPressed) {
+                        if (!checkAuth()) {
+                            Router.go('/login');
+                            return;
+                        }
+
                         if (event.target.classList.contains('play')) {
                             Actions.changePlayState(false);
                             event.target.classList.remove('play');
