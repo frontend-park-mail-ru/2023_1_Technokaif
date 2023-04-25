@@ -63,7 +63,7 @@ export const sidebarConfig = {
         logoSrc: imgPath.searchLogo,
     },
     library: {
-        name: 'Playlist',
+        name: 'Library',
         href: '/library/tracks',
         key: 'library',
         logoSrc: imgPath.libraryLogo,

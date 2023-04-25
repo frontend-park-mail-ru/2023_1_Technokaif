@@ -31,6 +31,7 @@ export class LibraryList extends BaseComponent {
     private listenersOnButtons() {
         // @ts-ignore
         const parent = document.querySelector(`.${this.name}`).parentNode;
+        console.log('Parent', parent, this.name);
         if (!parent) {
             return;
         }

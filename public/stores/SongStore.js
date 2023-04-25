@@ -371,6 +371,10 @@ class SongStore extends IStore {
         this.#songs = this.#songs.concat(response);
 
         if (this.#songs.length > 0) {
+            if (this.#songs.length <= this.#position) {
+                console.warn('Length exceeded, existed:', this.#songs.length, ' position:', this.#position);
+                this.#position = this.#songs.length - 1;
+            }
             this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
             this.#clearTrack = false;
             this.jsEmit(EventTypes.SONG_FOUND, {
