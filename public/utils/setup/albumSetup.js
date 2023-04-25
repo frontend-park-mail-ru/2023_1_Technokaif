@@ -67,7 +67,7 @@ export function setupLineList(items) {
 
         buttonsClass: 'buttons',
         playButton: 'play-button-track',
-        playButtonSrc: imgPath.playInArtist,
+        playButtonSrc: imgPath.trackPlay,
         playButtonImg: 'likeImg',
         stopButton: 'stop-button-track',
         stopButtonSrc: imgPath.trackPause,

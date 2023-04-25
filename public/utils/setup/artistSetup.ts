@@ -63,7 +63,7 @@ export interface ContentArtist {
     lineBlock: string,
     lineCover: string,
     lineTitle: string,
-    lineListens: string,
+    lineListensClass: string,
     lineDuration: string,
 
     buttonsClass: string,
@@ -211,12 +211,12 @@ export function setupLineList(items: [AlbumApi]):ContentArtist {
         lineBlock: 'track-line__block',
         lineCover: 'track-line__cover',
         lineTitle: 'track-line__title',
-        lineListens: 'track-line__listens',
+        lineListensClass: 'track-line__listens',
         lineDuration: 'track-line__duration',
 
         buttonsClass: 'buttons',
         playButton: 'play-button-track',
-        playButtonSrc: imgPath.playInArtist,
+        playButtonSrc: imgPath.trackPlay,
         playButtonImg: 'likeImg',
         stopButton: 'stop-button-track',
         stopButtonSrc: imgPath.trackPause,
