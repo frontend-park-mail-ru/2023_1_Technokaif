@@ -3,11 +3,10 @@ import { BaseComponent } from '../../BaseComponent';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import template from './registerComponent.handlebars';
 import { Form } from '../form/form';
-import { dateSetup, regFormSetup, sexSetup } from '../../../utils/setup/registrationSetup';
+import { dateSetup, regFormSetup } from '../../../utils/setup/registrationSetup';
 import { ElementsClassForRegister, METHOD, RESPONSES } from '../../../utils/config/config';
 import Actions from '../../../actions/Actions';
 import ApiActions from '../../../actions/ApiActions';
-import { getCheckedValueRadioButtons } from '../../../utils/functions/utils';
 import UserInfoStore from '../../../stores/UserInfoStore';
 import { EventTypes } from '../../../utils/config/EventTypes';
 import API from '../../../stores/API';
@@ -40,7 +39,7 @@ export class RegisterComponent extends BaseComponent {
         const form = new Form(
             this.#place,
             regFormSetup(),
-            sexSetup(),
+            '',
             dateSetup(),
         );
         form.render();
@@ -175,13 +174,13 @@ export class RegisterComponent extends BaseComponent {
                 ERRORS_REG.year,
             );
             break;
-        case 'gender':
-            this.#errorsRender(
-                ElementsClassForRegister.gender_error,
-                status,
-                ERRORS_REG.sex,
-            );
-            break;
+        // case 'gender':
+        //     this.#errorsRender(
+        //         ElementsClassForRegister.gender_error,
+        //         status,
+        //         ERRORS_REG.sex,
+        //     );
+        //     break;
         default:
         }
     }
@@ -306,19 +305,19 @@ export class RegisterComponent extends BaseComponent {
             reactionOnInputElement,
         );
 
-        this.#addEventOnField(
-            NAME_OF_VALIDATION.sex,
-            ElementsClassForRegister.gender,
-            METHOD.CHANGE_FIELD_IMMEDIATELY,
-            (nameOfReaction, _) => {
-                const radioButtons = document.querySelectorAll(`.${ElementsClassForRegister.gender_element}`);
-                const elementsValues = getCheckedValueRadioButtons(radioButtons);
-
-                // todo Remove later
-                // @ts-ignore
-                Actions.validationField(nameOfReaction, { gender: elementsValues });
-            },
-        );
+        // this.#addEventOnField(
+        //     NAME_OF_VALIDATION.sex,
+        //     ElementsClassForRegister.gender,
+        //     METHOD.CHANGE_FIELD_IMMEDIATELY,
+        //     (nameOfReaction, _) => {
+        //         const radioButtons = document.querySelectorAll(`.${ElementsClassForRegister.gender_element}`);
+        //         const elementsValues = getCheckedValueRadioButtons(radioButtons);
+        //
+        //         // todo Remove later
+        //         // @ts-ignore
+        //         Actions.validationField(nameOfReaction, { gender: elementsValues });
+        //     },
+        // );
 
         this.#addEventOnField(
             NAME_OF_VALIDATION.validate_register,
@@ -326,6 +325,7 @@ export class RegisterComponent extends BaseComponent {
             METHOD.FORM,
             // todo Check and do rewrite
             (nameOfReaction, _) => {
+                Actions.validationField(NAME_OF_VALIDATION.sex, { gender: 'F' });
                 const password = document.querySelector(`.${ElementsClassForRegister.password}`);
                 const confPassword = document.querySelector(`.${ElementsClassForRegister.confPassword}`);
                 if (password && confPassword) {
@@ -450,7 +450,7 @@ export class RegisterComponent extends BaseComponent {
                 email: state.email,
                 firstName: state.firstName,
                 lastName: state.lastName,
-                sex: state.gender,
+                sex: 'F',
                 birthDate: [state.year, stringToReturn, state.day].join('-'),
                 password: (passwordField as HTMLInputElement).value,
             });
