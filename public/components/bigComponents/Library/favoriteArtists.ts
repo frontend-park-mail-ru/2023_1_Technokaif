@@ -39,7 +39,7 @@ export class FavoriteArtists extends BaseComponent {
         if (!element) {
             return;
         }
-        const artistsTapes = new Tape(element, setupTape('Favorite artists', artists), componentsNames.FAVORITE_ARTISTS_TAPE);
+        const artistsTapes = new Tape(element as HTMLElement, setupTape('Favorite artists', artists), componentsNames.FAVORITE_ARTISTS_TAPE);
         artistsTapes.appendElement();
     }
 
