@@ -7,7 +7,6 @@ import { pageNames } from '../../../utils/config/pageNames';
 import { setupTape } from '../../../utils/setup/artistSetup';
 import { EventTypes } from '../../../utils/config/EventTypes';
 import { Tape } from '../Tape/tape';
-import { componentsNames } from '../../../utils/config/componentsNames';
 
 /**
  * Class for favorite artists page
@@ -39,7 +38,7 @@ export class FavoriteArtists extends BaseComponent {
         if (!element) {
             return;
         }
-        const artistsTapes = new Tape(element as HTMLElement, setupTape('Favorite artists', artists), componentsNames.FAVORITE_ARTISTS_TAPE);
+        const artistsTapes = new Tape(element as HTMLElement, setupTape('Artists', artists), 'Artists');
         artistsTapes.appendElement();
     }
 

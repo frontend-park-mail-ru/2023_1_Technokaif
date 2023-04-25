@@ -125,6 +125,7 @@ class Navbar {
         items.name = this.#name;
 
         const template = templateHtml;
+        delete items.items[0];
         const templateInnerHtml = template(items);
         this.#parent.innerHTML += templateInnerHtml;
 

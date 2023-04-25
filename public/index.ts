@@ -180,10 +180,6 @@ function renderMainPage() {
                 render: ComponentsRenders.renderNavbar,
             },
             {
-                name: componentsNames.USER,
-                render: ComponentsRenders.renderUserPage,
-            },
-            {
                 name: componentsNames.LIBRARY_LIST,
                 render: ComponentsRenders.renderLibraryList,
             },
@@ -214,10 +210,6 @@ function renderMainPage() {
                 render: ComponentsRenders.renderNavbar,
             },
             {
-                name: componentsNames.USER,
-                render: ComponentsRenders.renderUserPage,
-            },
-            {
                 name: componentsNames.LIBRARY_LIST,
                 render: ComponentsRenders.renderLibraryList,
             },
@@ -246,10 +238,6 @@ function renderMainPage() {
             {
                 name: componentsNames.NAVBAR,
                 render: ComponentsRenders.renderNavbar,
-            },
-            {
-                name: componentsNames.USER,
-                render: ComponentsRenders.renderUserPage,
             },
             {
                 name: componentsNames.LIBRARY_LIST,
