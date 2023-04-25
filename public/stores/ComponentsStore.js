@@ -63,7 +63,7 @@ class ComponentsStore extends IStore {
         switch (elementName) {
         case componentsNames.SIDEBAR:
         case componentsNames.MAIN:
-            return document.querySelector(`#${componentsJSNames.BODY}`);
+            return document.getElementById(`${componentsJSNames.BODY}`);
         case componentsNames.NAVBAR:
         case componentsNames.FEED_CONTENT:
         case componentsNames.USER:
@@ -72,18 +72,18 @@ class ComponentsStore extends IStore {
         case componentsNames.LIBRARY_TRACKS:
         case componentsNames.LIBRARY_ARTISTS:
         case componentsNames.LIBRARY_ALBUMS:
-            return document.querySelector(`.${componentsJSNames.MAIN}`);
+            return document.getElementsByClassName(`${componentsJSNames.MAIN}`)[0];
         case componentsNames.LOGIN_FORM:
         case componentsNames.REGISTER_FORM:
         case componentsNames.PAGE404:
-            return document.querySelector(`#${componentsJSNames.ROOT}`);
+            return document.getElementById(`${componentsJSNames.ROOT}`);
         case componentsNames.PLAYER:
-            return document.querySelector('#player__placement');
+            return document.getElementById('player__placement');
         case componentsNames.LIBRARY_LIST:
-            return document.querySelector('.navbar_library_element');
+            return document.getElementsByClassName('navbar_library_element')[0];
         default:
             console.error('position to place element by name', elementName, 'not found');
-            return document.querySelector(`#${componentsJSNames.ROOT}`);
+            return document.getElementById(`${componentsJSNames.ROOT}`);
         }
     }
 

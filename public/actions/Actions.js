@@ -86,13 +86,6 @@ const Actions = {
         });
     },
 
-    /** Action to say that all items has already been sent */
-    feedAllDataReceived() {
-        Dispatcher.dispatch({
-            type: ActionTypes.FEED_ALL_CONTENT_RECEIVED,
-        });
-    },
-
     /** Router changes item in Store state */
     sendStoreState(item) {
         Dispatcher.dispatch({
@@ -185,6 +178,15 @@ const Actions = {
         });
     },
 
+    /** Queue track send in SongStore track id to play now from track (compilation) */
+    queueTrackWithOffset(id, offset) {
+        Dispatcher.dispatch({
+            type: ActionTypes.QUEUE_TRACK,
+            id,
+            offset,
+        });
+    },
+
     /** Queue track send in SongStore id to put in queue */
     queueTrack(id) {
         Dispatcher.dispatch({
@@ -270,6 +272,15 @@ const Actions = {
         Dispatcher.dispatch({
             type: ActionTypes.ONE_ALBUM_TO_CONTENT,
             item,
+        });
+    },
+
+    /** Function to send data in ContentStore from API */
+    addFavoriteContent(items, instance) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ADD_FAVORITE_CONTENT,
+            items,
+            instance,
         });
     },
 };

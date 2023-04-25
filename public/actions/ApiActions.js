@@ -154,6 +154,22 @@ const ApiActions = {
             userId,
         });
     },
+
+    /** Favorite artists page api */
+    favoriteArtists(userId) {
+        Dispatcher.dispatch({
+            type: ActionTypes.GET_USER_FAVORITE_ARTISTS,
+            userId,
+        });
+    },
+
+    /** Favorite albums page api */
+    favoriteAlbums(userId) {
+        Dispatcher.dispatch({
+            type: ActionTypes.GET_USER_FAVORITE_ALBUMS,
+            userId,
+        });
+    },
 };
 
 export default ApiActions;

@@ -39,5 +39,6 @@ export function setupLibraryArtists(artists) {
         albumLike: 'albumLike',
 
         hrClass: 'track-hr',
+        artists,
     };
 }

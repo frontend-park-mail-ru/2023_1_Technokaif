@@ -39,5 +39,6 @@ export function setupLibraryAlbums(albums) {
         albumLike: 'albumLike',
 
         hrClass: 'track-hr',
+        albums,
     };
 }

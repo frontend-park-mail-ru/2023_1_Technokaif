@@ -1,11 +1,13 @@
+import { componentsNames } from '../config/componentsNames';
+
 /**
  * Setup library tracks
  * @returns {{json}}
  */
 export function setupLibraryTracks() {
     return {
-        tracksClass: 'library-tracks',
-        imgSrc: '',
+        tracksClass: `library-tracks ${componentsNames.LIBRARY_TRACKS}`,
+        imgSrc: '/static/svg/favoriteSongs.svg',
         imgClass: 'album__img',
 
         headerDiv: 'album__descriptions',

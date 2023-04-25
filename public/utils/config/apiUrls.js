@@ -25,6 +25,7 @@ export const apiUrl = {
     USER_FAVOURITE_TRACKS: (id) => `/api/users/${id}/favorite/tracks`,
     USER_FAVOURITE_ARTISTS: (id) => `/api/users/${id}/favorite/artists`,
     USER_FAVOURITE_ALBUMS: (id) => `/api/users/${id}/favorite/albums`,
+    USER_FAVOURITE_PLAYLISTS: (id) => `/api/users/${id}/favorite/playlists`,
 
     TRACK_LIKE: (id) => `/api/tracks/${id}/like`,
     TRACK_UNLIKE: (id) => `/api/tracks/${id}/unlike`,

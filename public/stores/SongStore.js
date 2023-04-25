@@ -128,6 +128,7 @@ class SongStore extends IStore {
             this.#storeType = 'artist';
             break;
         case ActionTypes.QUEUE_TRACK:
+            this.#setPosition(action.offset);
             this.#storeType = 'track';
             break;
         case ActionTypes.QUEUE_ALBUM:
