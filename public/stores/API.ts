@@ -348,6 +348,7 @@ class API extends IStore {
     private userFavoriteTracksRequest(userId: string) {
         userFavoriteTracksAjax(userId).then((tracks) => {
             Actions.addFavoriteContent(tracks, instancesNames.FAVORITE_TRACKS_PAGE);
+            Actions.addFavoriteContent(tracks, instancesNames.LIKED_SONGS);
             // this.jsEmit(EventTypes.GOT_FAVORITE_TRACKS, tracks);
         });
     }
@@ -359,7 +360,6 @@ class API extends IStore {
     private userFavoriteAlbumsRequest(userId: string) {
         userFavoriteAlbumsAjax(userId).then((albums) => {
             Actions.addFavoriteContent(albums, instancesNames.FAVORITE_ALBUMS_PAGE);
-            // this.jsEmit(EventTypes.GOT_FAVORITE_TRACKS, tracks);
         });
     }
 

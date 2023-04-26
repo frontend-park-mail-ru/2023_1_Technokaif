@@ -99,6 +99,7 @@ export interface LikedSongs {
     description: string,
     authorBlock: string,
     artist: ArtistApi,
+    count: number,
 }
 
 /** Base JSON for tape component */
@@ -242,7 +243,7 @@ export function setupLineList(items: [AlbumApi]):ContentArtist {
  * Setup liked songs
  * @returns {{json}}
  */
-export function setupLikedSongs(artist:ArtistApi):LikedSongs {
+export function setupLikedSongs(artist:ArtistApi, count: number):LikedSongs {
     return {
         blockName: 'liked-songs',
         title: 'liked-songs__title',
@@ -252,6 +253,7 @@ export function setupLikedSongs(artist:ArtistApi):LikedSongs {
         description: 'liked-songs__notification',
         authorBlock: 'liked-songs__author',
         artist,
+        count,
     };
 }
 

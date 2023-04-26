@@ -36,7 +36,6 @@ export abstract class Playlist extends BaseComponent {
      * Flag to know if button clicked
      * @private
      */
-    // @ts-ignore
     private activatedButton: boolean;
 
     /**
@@ -84,7 +83,6 @@ export abstract class Playlist extends BaseComponent {
         SongStore.subscribe(
             this.changeStatePlayer.bind(this),
             EventTypes.CHANGE_PLAY_STATE,
-            // @ts-ignore
             this.name,
         );
     }
@@ -99,11 +97,10 @@ export abstract class Playlist extends BaseComponent {
         ContentStore.subscribe(
             (instance) => {
                 const { tracks } = ContentStore.state[pageName];
-                const buttons = document.querySelector('.js__button__play');
-                const imgLike = document.querySelector('.albumLike');
+                const buttons = document.querySelector('.js__button__play') as HTMLDivElement;
+                const imgLike = document.querySelector('.albumLike') as HTMLImageElement;
                 if (!buttons || !imgLike) {
-                    console.warn('Button doesn\'t\'exist on Album');
-                    return;
+                    console.warn('Button doesn\'t\'exist on Album', buttons, imgLike);
                 }
 
                 this.playButton = buttons;
@@ -111,26 +108,22 @@ export abstract class Playlist extends BaseComponent {
                     imgLike.addEventListener('click', () => {
                         const state = ContentStore.state[pageName];
                         if (state.isLiked) {
-                            // @ts-ignore
                             imgLike.src = imgPath.notLiked;
                             // todo like playlist
                             // ApiActions.unLikeAlbum(state.id);
                         } else {
-                            // @ts-ignore
                             imgLike.src = imgPath.liked;
                             // todo like playlist
                             // ApiActions.likeAlbum(state.id);
                         }
                         state.isLiked = !state.isLiked;
                     });
-                } else {
-                    // @ts-ignore
-                    imgLike.hidden = true;
                 }
 
                 buttons.addEventListener('click', () => {
                     this.activatedButton = true;
                     const trackIds = tracks.map((track) => track.id);
+                    // eslint-disable-next-line max-len
                     if (!this.#isAlbumLoaded || !(SongStore.exist && tracks.filter((track) => SongStore.trackInfo.name === track.name).length > 0)) {
                         this.#isAlbumLoaded = true;
                         trackIds.forEach((trackId) => {
@@ -157,7 +150,6 @@ export abstract class Playlist extends BaseComponent {
                 }
             },
             eventType,
-            // @ts-ignore
             this.name,
         );
     }
@@ -186,7 +178,6 @@ export abstract class Playlist extends BaseComponent {
         store.subscribe(
             callback,
             eventType,
-            // @ts-ignore
             this.name,
         );
     }
