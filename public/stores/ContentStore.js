@@ -153,6 +153,10 @@ class ContentStore extends IStore {
         case instancesNames.USER_PLAYLISTS_PAGE:
             this.#addContent(pageNames.LIBRARY_PLAYLISTS, instance, items);
             break;
+        case instancesNames.LIKED_SONGS:
+            this.#addContent(pageNames.ARTIST_PAGE, instance, items);
+            this.jsEmit(EventTypes.GOT_FAVORITE_TRACKS, instance);
+            break;
         default:
         }
     }

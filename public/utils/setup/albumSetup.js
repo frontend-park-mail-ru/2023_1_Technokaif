@@ -88,8 +88,12 @@ export function setupLineList(items) {
         albumClass: 'albumClass',
         albumDiv: 'albumDiv',
 
+        trackLineOptions: 'track-line-optionals',
+        optionsBlock: 'options-block',
+
         content: items,
         isArtistPage: false,
+        isPlaylistPage: false,
     };
 }
 

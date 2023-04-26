@@ -26,19 +26,10 @@
     </div>
     <div class="{{ButtonsDiv}}">
         <img class="{{buttonPlay}}"src="/static/svg/play.svg">
-        <img class="{{albumLike}}" src="/static/svg/notLiked.svg">
+        {{#ifEquals isLikedSongs false}}
+            <img class="{{albumLike}}" src="/static/svg/notLiked.svg">
+        {{/ifEquals}}
     </div>
-    <div class="{{bottomDiv}}">
-        <div class="{{numberDiv}}">
-            <p>#</p>
-        </div>
-        <div class="{{TitleDiv}}">
-            <p>TITLE</p>
-        </div>
-        <div class="{{liked}}">
-        </div>
-    </div>
-    <hr class="{{hrClass}}">
 
     <div class="{{placementTracks}}"></div>
 </div>

@@ -40,5 +40,11 @@ export function setupLibraryTracks() {
         albumLike: 'albumLike',
 
         hrClass: 'track-hr',
+        isArtistPage: false,
+        isPlaylistPage: true,
+        isLikedSongs: true,
+
+        trackLineOptions: 'track-line-optionals',
+        optionsBlock: 'options-block',
     };
 }

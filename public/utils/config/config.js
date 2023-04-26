@@ -8,12 +8,6 @@ export const NAMES = {
 };
 
 export const unAuthNavConfig = {
-    premium: {
-        name: 'Premium',
-        href: '/premium',
-        key: 'premium',
-        type: 'a',
-    },
     registration: {
         name: 'Sign up',
         href: '/register',
@@ -29,12 +23,6 @@ export const unAuthNavConfig = {
 };
 
 export const authNavConfig = {
-    premium: {
-        name: 'Upgrade',
-        href: '/premium',
-        key: 'premium',
-        type: 'button',
-    },
     profile: {
         name: 'Profile',
         href: '/profile',
@@ -66,19 +54,13 @@ export const sidebarConfig = {
         name: 'Library',
         href: '/library/tracks',
         key: 'library',
-        logoSrc: imgPath.libraryLogo,
+        logoSrc: imgPath.likedLogo,
     },
     createPlaylist: {
         name: 'Create Playlist',
         href: '/createPlaylist',
         key: 'createPlaylist',
         logoSrc: imgPath.createPlaylistLogo,
-    },
-    likedSongs: {
-        name: 'Liked Songs',
-        href: '/likedSongs',
-        key: 'likedSongs',
-        logoSrc: imgPath.likedLogo,
     },
 };
 
