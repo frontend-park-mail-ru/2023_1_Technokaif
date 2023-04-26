@@ -6,9 +6,10 @@ import { BaseComponent } from '../../BaseComponent';
 import { EventTypes } from '../../../utils/config/EventTypes';
 import ContentStore from '../../../stores/ContentStore';
 import Actions from '../../../actions/Actions';
+// todo dont forget about it on playlist
 import {
     setupLineList,
-} from '../../../utils/setup/artistSetup';
+} from '../../../utils/setup/libraryTracksSetup';
 import SongStore from '../../../stores/SongStore';
 import IStore from '../../../stores/IStore';
 import { imgPath } from '../../../utils/config/pathConfig';

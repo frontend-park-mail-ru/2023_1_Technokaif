@@ -38,6 +38,7 @@ export function setupAlbum() {
         numberDiv: 'numberDiv',
         TitleDiv: 'TitleDiv',
         ListensDiv: 'ListensDiv',
+
         placementTracks: 'js__placement-tracks',
         liked: 'likedDiv',
         buttonPlay: 'playButton js__button__play',

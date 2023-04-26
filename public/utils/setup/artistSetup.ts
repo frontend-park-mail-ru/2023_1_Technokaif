@@ -86,7 +86,16 @@ export interface ContentArtist {
     defaultTrackSrc: string,
 
     content: [AlbumApi],
-    isArtistPage: true,
+    isArtistPage: boolean,
+    isPlaylistPage: boolean,
+    isLikedSongs?: boolean,
+
+    trackLineOptions?: string
+    optionsBlock?: string
+    titleArtistDiv?: string
+    artistClass?: string
+    albumClass?: string
+    albumDiv?: string
 }
 
 /** JSON for liked songs */
@@ -236,6 +245,7 @@ export function setupLineList(items: [AlbumApi]):ContentArtist {
 
         content: items,
         isArtistPage: true,
+        isPlaylistPage: false,
     };
 }
 
