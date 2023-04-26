@@ -87,5 +87,7 @@ export class FavoriteArtists extends BaseComponent {
             this.actionsOnRender();
             ApiActions.favoriteArtists(localStorage.getItem('userId'));
         });
+
+        document.title = 'Favourite Artists';
     }
 }

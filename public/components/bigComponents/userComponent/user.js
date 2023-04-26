@@ -80,6 +80,7 @@ export class User extends BaseComponent {
             this.#subscribeForStores();
             ApiActions.user(localStorage.getItem('userId'));
         });
+        document.title = 'Profile';
     }
 
     /** Add creation of Actions on User action on page */

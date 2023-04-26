@@ -100,6 +100,8 @@ export class ArtistContent extends BaseComponent {
         const parent = document.querySelector(`.${componentsJSNames.ARTIST_COVER}`);
         const artistCover = new ArtistCover(parent, setupArtistCover(artist));
         artistCover.appendElement();
+
+        document.title = artist.name;
     }
 
     /**

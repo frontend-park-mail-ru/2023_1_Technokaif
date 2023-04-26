@@ -87,5 +87,7 @@ export class FavoriteAlbums extends BaseComponent {
             this.actionsOnRender();
             ApiActions.favoriteAlbums(localStorage.getItem('userId'));
         });
+
+        document.title = 'Favourite Albums';
     }
 }
