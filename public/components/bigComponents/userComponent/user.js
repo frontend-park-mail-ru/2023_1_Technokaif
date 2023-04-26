@@ -2,7 +2,7 @@ import template from './user.handlebars';
 import { Button } from '../../smallComponents/Button/button';
 import { Avatar } from '../../smallComponents/avatar/avatar';
 import { Form } from '../form/form';
-import { dateSetup, sexSetup } from '../../../utils/setup/registrationSetup';
+import { dateSetup } from '../../../utils/setup/registrationSetup';
 import './user.less';
 import Actions from '../../../actions/Actions';
 import { getCheckedValueRadioButtons } from '../../../utils/functions/utils';
@@ -22,7 +22,6 @@ import API from '../../../stores/API.ts';
  * @constructor
  * @param {HTMLElement} parent - Element where to render.
  * @param {json} config - Config with json general fields.
- * @param {json} sexConf - Config with json fields for gender.
  * @param {json} dateConf - Config with json fields for date fields.
  */
 export class User extends BaseComponent {
@@ -86,7 +85,6 @@ export class User extends BaseComponent {
     /** Add creation of Actions on User action on page */
     #addEventListenersForFields() {
         const email = document.querySelector(`.${ElementsClassForUser.email}`);
-        const genders = document.querySelector(`.${ElementsClassForUser.gender}`);
         const password = document.querySelector(`.${ElementsClassForUser.password}`);
         const newPassword = document.querySelector(`.${ElementsClassForUser.newPassword}`);
         const newConfPassword = document.querySelector(`.${ElementsClassForUser.newConfPassword}`);
@@ -100,13 +98,6 @@ export class User extends BaseComponent {
             event.preventDefault();
             Actions.validationField('email', email.value);
         });
-
-        // genders.addEventListener(METHOD.FIELD, () => {
-        //     const radioButtons = document.querySelectorAll(`.${ElementsClassForUser.gender_element}`);
-        //     const elementsValues = getCheckedValueRadioButtons(radioButtons);
-        //
-        //     Actions.validationField('sex', { gender: elementsValues });
-        // });
 
         password.addEventListener(METHOD.FIELD, (event) => {
             event.preventDefault();
@@ -148,16 +139,12 @@ export class User extends BaseComponent {
 
         saveButton.addEventListener(METHOD.BUTTON, (event) => {
             event.preventDefault();
-            // todo write reply
-            // const radioButtons = document.querySelectorAll(`.${ElementsClassForUser.gender_element}`);
-            // const elementsValues = getCheckedValueRadioButtons(radioButtons);
 
             Actions.validateAll('userPageValidate', {
                 email: email.value,
                 day: day.value,
                 month: month.value,
                 year: year.value,
-                gender: 'Female',
             });
 
             if (password.value !== '' || newPassword.value !== '' || newConfPassword.value !== '') {
@@ -185,34 +172,6 @@ export class User extends BaseComponent {
         document.querySelector(`.${ElementsClassForUser.day}`).value = values.day;
         document.querySelector(`.${ElementsClassForUser.year}`).value = values.year;
         document.querySelector(`.${ElementsClassForUser.month}`).value = values.month;
-
-        // const femaleGender = document.querySelector('#female');
-        // const maleGender = document.querySelector('#male');
-        // const otherGender = document.querySelector('#dont');
-
-        // femaleGender.checked = false;
-        // maleGender.checked = false;
-        // otherGender.checked = false;
-        //
-        // switch (values.sex) {
-        // case 'F':
-        //     femaleGender.checked = true;
-        //     maleGender.disabled = false;
-        //     otherGender.disabled = false;
-        //     break;
-        // case 'M':
-        //     maleGender.checked = true;
-        //     femaleGender.disabled = false;
-        //     otherGender.disabled = false;
-        //     break;
-        // case 'O':
-        //     otherGender.checked = true;
-        //     maleGender.disabled = false;
-        //     femaleGender.disabled = false;
-        //     break;
-        // default:
-        //     console.error('Not registered gender');
-        // }
     }
 
     /**
@@ -224,9 +183,6 @@ export class User extends BaseComponent {
      */
     #errorsRender(whatSearch, status, error) {
         const placeForError = document.querySelector(`.${whatSearch}`);
-        if (whatSearch === 'js__error__gender') {
-            return;
-        }
 
         if (status === 'OK') {
             placeForError.innerHTML = '';
@@ -256,7 +212,6 @@ export class User extends BaseComponent {
                 email: state.email,
                 firstName: state.firstName,
                 lastName: state.lastName,
-                sex: state.sex,
                 birthDate: [state.year, monthNumber, day].join('-'),
             });
         }
@@ -330,13 +285,6 @@ export class User extends BaseComponent {
                 ElementsClassForUser.year_error,
                 status,
                 ERRORS_USER.year,
-            );
-            break;
-        case 'gender':
-            this.#errorsRender(
-                ElementsClassForUser.gender_error,
-                status,
-                ERRORS_USER.sex,
             );
             break;
         default:

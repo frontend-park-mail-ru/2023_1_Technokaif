@@ -5,7 +5,6 @@ export const ERRORS_VALIDATE = {
     password: 'password',
     email: 'email',
     emailConf: 'emailConf',
-    sex: 'sex',
     username: 'username',
     name: 'Name',
     day: 'day',
@@ -39,6 +38,5 @@ export const NAME_OF_VALIDATION = {
     day: 'day',
     month: 'month',
     year: 'year',
-    sex: 'sex',
     validate_register: 'validate_register',
 };

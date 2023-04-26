@@ -39,7 +39,6 @@ export class RegisterComponent extends BaseComponent {
         const form = new Form(
             this.#place,
             regFormSetup(),
-            '',
             dateSetup(),
         );
         form.render();
@@ -174,13 +173,6 @@ export class RegisterComponent extends BaseComponent {
                 ERRORS_REG.year,
             );
             break;
-        // case 'gender':
-        //     this.#errorsRender(
-        //         ElementsClassForRegister.gender_error,
-        //         status,
-        //         ERRORS_REG.sex,
-        //     );
-        //     break;
         default:
         }
     }
@@ -304,20 +296,6 @@ export class RegisterComponent extends BaseComponent {
             METHOD.CHANGE_FIELD_IMMEDIATELY,
             reactionOnInputElement,
         );
-
-        // this.#addEventOnField(
-        //     NAME_OF_VALIDATION.sex,
-        //     ElementsClassForRegister.gender,
-        //     METHOD.CHANGE_FIELD_IMMEDIATELY,
-        //     (nameOfReaction, _) => {
-        //         const radioButtons = document.querySelectorAll(`.${ElementsClassForRegister.gender_element}`);
-        //         const elementsValues = getCheckedValueRadioButtons(radioButtons);
-        //
-        //         // todo Remove later
-        //         // @ts-ignore
-        //         Actions.validationField(nameOfReaction, { gender: elementsValues });
-        //     },
-        // );
 
         this.#addEventOnField(
             NAME_OF_VALIDATION.validate_register,
