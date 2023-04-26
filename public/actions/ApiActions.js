@@ -3,7 +3,6 @@ import ActionTypes from './ActionTypes.js';
 
 /**
  * Global Api actions creator
- * @type {{login(): void}}
  */
 const ApiActions = {
     login(username, password) {
@@ -55,6 +54,20 @@ const ApiActions = {
         });
     },
 
+    likeTrack(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.LIKE_TRACK,
+            id,
+        });
+    },
+
+    unlikeTrack(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.UNLIKE_TRACK,
+            id,
+        });
+    },
+
     /** User page */
     user(id) {
         Dispatcher.dispatch({
@@ -83,12 +96,79 @@ const ApiActions = {
     /** Action to ask for user update of data */
     userUpdateAvatar(id, avatar) {
         Dispatcher.dispatch({
-            type: ActionTypes.USER_UPDATE_PASSWORD,
+            type: ActionTypes.USER_UPDATE_AVATAR,
             id,
             avatar,
         });
     },
 
+    /** Get one album by it id */
+    getAlbum(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.GET_ALBUM,
+            id,
+        });
+        Dispatcher.dispatch({
+            type: ActionTypes.GET_ALBUM_TRACKS,
+            id,
+        });
+    },
+
+    /** Like album */
+    likeAlbum(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.LIKE_ALBUM,
+            id,
+        });
+    },
+
+    /** Unlike album */
+    unLikeAlbum(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.UNLIKE_ALBUM,
+            id,
+        });
+    },
+
+    /** Like album */
+    likeArtist(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.LIKE_ARTIST,
+            id,
+        });
+    },
+
+    /** Unlike album */
+    unLikeArtist(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.UNLIKE_ARTIST,
+            id,
+        });
+    },
+
+    /** Favorite tracks page api */
+    favoriteTracks(userId) {
+        Dispatcher.dispatch({
+            type: ActionTypes.GET_USER_FAVORITE_TRACKS,
+            userId,
+        });
+    },
+
+    /** Favorite artists page api */
+    favoriteArtists(userId) {
+        Dispatcher.dispatch({
+            type: ActionTypes.GET_USER_FAVORITE_ARTISTS,
+            userId,
+        });
+    },
+
+    /** Favorite albums page api */
+    favoriteAlbums(userId) {
+        Dispatcher.dispatch({
+            type: ActionTypes.GET_USER_FAVORITE_ALBUMS,
+            userId,
+        });
+    },
 };
 
 export default ApiActions;

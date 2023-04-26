@@ -1,6 +1,15 @@
 <div data-id="{{item.id}}" class="{{root.coverMainClass}} {{root.coverMainClass}}__{{root.titleText}}">
     <div class="{{root.imgDiv}}">
-        <img class="{{root.imgClass}}" src="{{#convert}}{{item.cover}}{{/convert}}">
+        <img class="{{root.imgClass}}" src="
+        {{#if item.cover}}
+            {{#convert}}{{item.cover}}{{/convert}}">
+        {{else}}
+            {{defaultSrc}}
+        {{/if}}
+
+        <div class="{{root.buttonDiv}}">
+            <img src="{{root.buttonSrc}}" class="{{root.buttonClass}} js__button__{{root.titleText}}-{{item.id}}">
+        </div>
     </div>
 
     <div class="{{root.titleTextDiv}}">
@@ -28,4 +37,5 @@
             {{/each}}
         </div>
     {{/if}}
+
 </div>

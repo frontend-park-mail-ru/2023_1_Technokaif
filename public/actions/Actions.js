@@ -3,7 +3,6 @@ import ActionTypes from './ActionTypes.js';
 
 /**
  * Global Action creator object.
- * @type {{(*): void}}
  */
 const Actions = {
     /** Action to emit two functions for ComponentsStore: what render on page and what
@@ -37,6 +36,18 @@ const Actions = {
             type: ActionTypes.VALIDATION_FIELD,
             nameOfField,
             content,
+        });
+    },
+
+    /** Validate password and confirm password */
+    validatePasswordAndConf(nameOfField, password, confPassword) {
+        Dispatcher.dispatch({
+            type: ActionTypes.VALIDATION_FIELD,
+            nameOfField,
+            content: {
+                password,
+                confPassword,
+            },
         });
     },
 
@@ -75,10 +86,20 @@ const Actions = {
         });
     },
 
-    /** Action to say that all items has already been sent */
-    feedAllDataReceived() {
+    /** Action to add items got from artist api in ContentStore */
+    artistAddContent(item, instance) {
         Dispatcher.dispatch({
-            type: ActionTypes.FEED_ALL_CONTENT_RECEIVED,
+            type: ActionTypes.ARTIST_GOT_ALL_CONTENT,
+            item,
+            instance,
+        });
+    },
+
+    /** Action to add items got from user api in ContentStore */
+    userAddContent(userData) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ADD_USER_INFO,
+            userData,
         });
     },
 
@@ -165,6 +186,24 @@ const Actions = {
         });
     },
 
+    /** Play album send in SongStore album id to play now from track (compilation) */
+    playAlbumWithOffset(id, offset) {
+        Dispatcher.dispatch({
+            type: ActionTypes.PLAY_ALBUM,
+            id,
+            offset,
+        });
+    },
+
+    /** Queue track send in SongStore track id to play now from track (compilation) */
+    queueTrackWithOffset(id, offset) {
+        Dispatcher.dispatch({
+            type: ActionTypes.QUEUE_TRACK,
+            id,
+            offset,
+        });
+    },
+
     /** Queue track send in SongStore id to put in queue */
     queueTrack(id) {
         Dispatcher.dispatch({
@@ -206,7 +245,7 @@ const Actions = {
     },
 
     /** Set play state */
-    createPlay(state) {
+    changePlayState(state) {
         Dispatcher.dispatch({
             type: ActionTypes.SET_STATE,
             state,
@@ -225,6 +264,40 @@ const Actions = {
     playerDelete() {
         Dispatcher.dispatch({
             type: ActionTypes.CLEAR_ALL,
+        });
+    },
+
+    /** Get data after restart */
+    getDataAfterRestart() {
+        Dispatcher.dispatch({
+            type: ActionTypes.FIRST_START_AFTER_RESTART,
+        });
+    },
+
+    /**
+     * Add album JSON to content
+     */
+    addAlbumToContent(items) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ALBUM_TO_CONTENT,
+            items,
+        });
+    },
+
+    /** addOneAlbumToContent */
+    addOneAlbum(item) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ONE_ALBUM_TO_CONTENT,
+            item,
+        });
+    },
+
+    /** Function to send data in ContentStore from API */
+    addFavoriteContent(items, instance) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ADD_FAVORITE_CONTENT,
+            items,
+            instance,
         });
     },
 };

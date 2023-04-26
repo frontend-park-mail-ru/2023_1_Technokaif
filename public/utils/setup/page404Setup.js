@@ -1,4 +1,5 @@
 import { componentsNames } from '../config/componentsNames';
+import { imgPath } from '../config/pathConfig';
 
 /**
  * Setup for not found c
@@ -15,7 +16,7 @@ export function page404Setup() {
         /** Header components */
         formHeader: 'header',
         title: 'title',
-        logoSrc: '/static/svg/whiteLogo.svg',
+        logoSrc: imgPath.whiteLogo,
         titleClass: 'title__name',
         titleName: 'Fluire',
 

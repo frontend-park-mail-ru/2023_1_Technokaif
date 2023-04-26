@@ -1,9 +1,77 @@
 <div class="{{root.lineDiv}}" data-id="{{item.id}}">
+<!--    Index -->
     <div class="{{root.lineIndex}}">{{#position}}{{@index}}{{/position}}</div>
-    <div class="{{root.lineBlock}}">
-        <img src="{{#convert}}{{item.cover}}{{/convert}}" class="track-line__cover">
-        <div class="{{root.lineTitle}}">{{item.name}}</div>
+<!--    Buttons -->
+    <div class="{{root.buttonsClass}}">
+        {{#if root.playButton}}
+            <button type="button" class="{{root.playButton}}">
+                <img src="{{root.playButtonSrc}}" class="{{root.playButtonImg}}">
+            </button>
+        {{/if}}
+        {{#if root.stopButton}}
+            <button hidden type="button" class="{{root.stopButton}}">
+                <img src="{{root.stopButtonSrc}}" class="{{root.stopButtonImg}}">
+            </button>
+        {{/if}}
     </div>
-    <div class="{{root.lineListens}}">{{item.listens}}</div>
-    <div class="{{root.lineDuration}}">{{item.duration}}</div>
+<!--    IMG of line-->
+    <div class="{{root.lineBlock}}">
+        {{#ifEquals root.isArtistPage true}}
+        <img src="{{#if item.cover}}{{#convert}}{{item.cover}}{{/convert}}{{else}}{{defaultTrackSrc}}{{/if}}" class="{{root.lineCover}}">
+        {{/ifEquals}}
+<!--        Title-->
+        <div class="{{root.titleArtistDiv}}">
+            <div class="{{root.lineTitle}}">{{item.name}}</div>
+<!--            Show artist-->
+            {{#ifEquals root.isArtistShow true}}
+                <div class="{{root.artistClass}}">
+                    <p>
+                        {{#each item.artists}}
+                            {{this.name}} {{#unless  @last}}, {{/unless}}
+                        {{/each}}
+                    </p>
+                </div>
+            {{/ifEquals}}
+        </div>
+    </div>
+
+    <!--Album show-->
+    {{#ifEquals root.isArtistShow true}}
+        {{#ifEquals root.isPlaylistPage true}}
+            <div class="{{root.albumDiv}}">
+                <p class="{{root.albumClass}}">
+                    {{item.albumName}}
+                </p>
+            </div>
+        {{/ifEquals}}
+    {{/ifEquals}}
+
+    <!--Listens-->
+    {{#ifEquals root.isArtistPage true}}
+        <div class="{{root.lineListensClass}}">{{item.listens}}</div>
+    {{/ifEquals}}
+
+    <!--Liked button-->
+    {{#ifEquals item.isLiked true}}
+        <div class="{{root.likeButtons}}">
+            <button type="button" class="{{root.like}}" hidden>
+                <img src="{{root.likeButtonSrc}}" class="{{root.likeButtonImg}}">
+            </button>
+            <button type="button" class="{{root.unlike}}">
+                <img src="{{root.unlikeButtonSrc}}" class="{{root.likeButtonImg}}">
+            </button>
+        </div>
+    {{/ifEquals}}
+
+<!--    Dislike button-->
+    {{#ifEquals item.isLiked false}}
+        <div class="{{root.likeButtons}}">
+            <button type="button" class="{{root.like}}">
+                <img src="{{root.likeButtonSrc}}" class="{{root.likeButtonImg}}">
+            </button>
+            <button type="button" class="{{root.unlike}}" hidden>
+                <img src="{{root.unlikeButtonSrc}}" class="{{root.likeButtonImg}}">
+            </button>
+        </div>
+    {{/ifEquals}}
 </div>

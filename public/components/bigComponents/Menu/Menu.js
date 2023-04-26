@@ -6,9 +6,10 @@ import Actions from '../../../actions/Actions';
 import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
 import { EventTypes } from '../../../utils/config/EventTypes';
 import { componentsJSNames } from '../../../utils/config/componentsJSNames';
+import { checkAuth } from '../../../utils/functions/checkAuth';
 
 /**
- * Class for Menu: Home, Search, Library, Create Playlist, Liked Songs.
+ * Class for Menu: Home, Search, Playlist, Create Playlist, Liked Songs.
  * @constructor
  * @param {HTMLElement} parent - Element where to render.
  * @param {json} config - Config with json fields.
@@ -47,6 +48,10 @@ class Menu {
      * add event listener to component. On 'click' redirect to section on dataset
      */
     callEventListener() {
+        const logo = document.querySelector('.sidebar__logo');
+        logo.addEventListener('click', () => {
+            Router.go('/');
+        });
         ComponentsStore.subscribe(
             (list) => {
                 const component = list.filter((comp) => comp.name === componentsNames.SIDEBAR);
@@ -64,7 +69,14 @@ class Menu {
             if (e.target instanceof HTMLAnchorElement) {
                 const { section } = e.target.dataset;
                 if (this.#config[section] !== undefined) {
-                    Router.go(this.#config[section].href);
+                    if (section === 'search') {
+                        return;
+                    }
+                    if ((section === 'library' || section === 'createPlaylist' || section === 'likedSongs') && !checkAuth()) {
+                        Router.go('/login');
+                    } else {
+                        Router.go(this.#config[section].href);
+                    }
                 }
             }
         });

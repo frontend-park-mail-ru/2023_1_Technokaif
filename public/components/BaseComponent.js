@@ -3,6 +3,9 @@ import Actions from '../actions/Actions';
 import unsubscribeFromAllStoresOnComponent from '../utils/functions/unsubscribeFromAllStores';
 import { EventTypes } from '../utils/config/EventTypes';
 import ContentStore from '../stores/ContentStore';
+import { pageNames } from '../utils/config/pageNames';
+import { componentsNames } from '../utils/config/componentsNames';
+import { componentsJSNames } from '../utils/config/componentsJSNames';
 
 /**
  * Base Component class to handle render functions.
@@ -42,17 +45,12 @@ export class BaseComponent {
      */
     constructor(parent, config, template, name = 'elementary component') {
         this.#parent = parent;
+        if (!this.#parent) {
+            console.warn('Parent doesn\'t exist in ', name);
+        }
         this.#name = name;
         this.#config = config;
         this.#template = template;
-    }
-
-    /**
-     * Getter of element
-     * @returns {HTMLDocument}
-     */
-    get element() {
-        return this.#element;
     }
 
     /**
@@ -69,12 +67,24 @@ export class BaseComponent {
     #subscribeAll() {
         ComponentsStore.subscribe(
             (list) => {
-                const component = list.filter((comp) => comp.name === this.#name);
+                let component = list.filter((comp) => comp.name === this.#name);
                 if (component.length !== 0) {
                     Actions.removeElementFromPage(this.#name);
                     unsubscribeFromAllStoresOnComponent(this.#name);
-                    ContentStore.state = {};
+                    ContentStore.state[this.#name] = {};
+                    // todo костыль
+                    ContentStore.state[pageNames.FEED] = {};
                     this.unRender();
+
+                    if (this.#name === componentsNames.FEED_CONTENT) {
+                        component = list.filter((comp) => comp.name === componentsNames.MAIN);
+                        if (component.length !== 0) {
+                            Actions.removeElementFromPage(componentsNames.MAIN);
+                            unsubscribeFromAllStoresOnComponent(componentsNames.MAIN);
+                            const parent = ComponentsStore.checkWhereToPlace(componentsNames.MAIN);
+                            parent.removeChild(document.querySelector(`.${componentsJSNames.MAIN}`));
+                        }
+                    }
                 }
             },
             EventTypes.ON_REMOVE_ANOTHER_ITEMS,
@@ -95,15 +105,18 @@ export class BaseComponent {
     appendElement() {
         this.#subscribeAll();
         this.#parent.innerHTML += this.#template(this.#config);
-        this.#element = document.querySelector(`.${this.name}`);
     }
 
     /**
      * UnRender component
      */
     unRender() {
-        if (document.querySelector(`.${this.name}`) === null) return;
-        this.#parent.removeChild(this.#element);
+        const element = document.getElementsByClassName(`${this.name}`)[0];
+        if (!element) {
+            console.error('bad remove in', this.name);
+        } else {
+            element.parentNode.removeChild(element);
+        }
     }
 
     /** Set template to newTemplate */

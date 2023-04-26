@@ -9,6 +9,9 @@ export const METHODS_STORE = {
 
 /** Store to work with songs player */
 class SongStore extends IStore {
+    /** Prev volume to back */
+    #prevVolume;
+
     /** Flag - is playing list again */
     #listFromBeginning;
 
@@ -38,14 +41,27 @@ class SongStore extends IStore {
 
     /** Default value to delete all state */
     constructor() {
-        super('SONG_STORE');
+        super('SONG_STORE', () => {
+            super.state = {
+                volume: this.#songVolume,
+                position: this.#position,
+                songs: this.#songs,
+                storeType: this.#storeType,
+                repeat: this.#isRepeat,
+
+                secondsPlayed: this.#audioTrack.currentTime,
+            };
+        });
 
         this.#audioTrack = document.createElement('audio');
         this.#clearTrack = true;
         this.#isPlaying = false;
         this.#isRepeat = false;
 
-        this.#songVolume = 100;
+        this.#songVolume = 0.5;
+        this.#prevVolume = 0.5;
+        this.#audioTrack.volume = 0.5;
+
         this.#position = -1;
         this.#songs = [];
         this.#storeType = null;
@@ -54,6 +70,7 @@ class SongStore extends IStore {
             'ended',
             () => this.jsEmit(EventTypes.TRACK_END, {}),
         );
+        super.loadFromSessionStore();
     }
 
     /** Return audio element */
@@ -61,9 +78,32 @@ class SongStore extends IStore {
         return this.#audioTrack;
     }
 
+    /** Return audio info */
+    get trackInfo() {
+        return this.#songs[this.#position];
+    }
+
+    /** Return what album is playing or null if doesn't exist */
+    get albumInfo() {
+        if (!this.#songs[this.#position]) {
+            return null;
+        }
+        return this.#songs[this.#position].albumID;
+    }
+
+    /** Return what artists is playing or null if doesn't exist */
+    get artistsInfo() {
+        return this.#songs[this.#position].artists;
+    }
+
     /** Return playing status */
     get isPlaying() {
         return this.#isPlaying;
+    }
+
+    /** Get prev volume */
+    get prevVolume() {
+        return this.#prevVolume;
     }
 
     /** If track exist */
@@ -90,20 +130,22 @@ class SongStore extends IStore {
             this.#clearAll();
             this.#storeType = 'track';
             break;
-        case ActionTypes.QUEUE_TRACK:
-            this.#storeType = 'track';
-            break;
         case ActionTypes.PLAY_ALBUM:
             this.#clearAll();
-            this.#storeType = 'album';
-            break;
-        case ActionTypes.QUEUE_ALBUM:
+            this.#setPosition(action.offset);
             this.#storeType = 'album';
             break;
         case ActionTypes.PLAY_ARTIST:
             this.#clearAll();
             this.#setPosition(action.offset);
             this.#storeType = 'artist';
+            break;
+        case ActionTypes.QUEUE_TRACK:
+            this.#setPosition(action.offset);
+            this.#storeType = 'track';
+            break;
+        case ActionTypes.QUEUE_ALBUM:
+            this.#storeType = 'album';
             break;
         case ActionTypes.QUEUE_ARTIST:
             this.#storeType = 'artist';
@@ -115,14 +157,54 @@ class SongStore extends IStore {
             this.#isRepeat = action.state;
             break;
         case ActionTypes.TIME_OF_PLAY:
-            this.#audioTrack.currentTime = action.time;
+            this.#setTime(action.time);
             break;
         case ActionTypes.CLEAR_ALL:
             this.#clearAll();
             break;
+        case ActionTypes.FIRST_START_AFTER_RESTART:
+            this.#firstLaunch();
+            break;
         default:
             break;
         }
+    }
+
+    /** Set Repeat state */
+    #setRepeat(newState) {
+        this.#isRepeat = newState;
+        this.jsEmit(EventTypes.REPEAT_CHANGED, newState);
+    }
+
+    /** Set data for track for first launch */
+    #firstLaunch() {
+        const state = super.state;
+        if (state) {
+            if (state.songs?.length > 0) {
+                this.#setVolume(state.volume);
+                this.#storeType = state.storeType;
+                this.#position = state.position;
+                this.#songs = state.songs;
+                this.#clearTrack = false;
+
+                this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
+                this.#setRepeat(state.repeat);
+
+                this.jsEmit(EventTypes.GET_DATA_AFTER_RESTART, {
+                    status: RESPONSES.OK,
+                    id: this.#songs[this.#position].id,
+                    artists: this.#songs[this.#position].artists,
+                    name: this.#songs[this.#position].name,
+                    cover: this.#songs[this.#position].cover,
+                });
+                this.#setTime(state.secondsPlayed);
+            }
+        }
+    }
+
+    /** Set playing time */
+    #setTime(newTime) {
+        this.#audioTrack.currentTime = newTime;
     }
 
     /**
@@ -165,6 +247,10 @@ class SongStore extends IStore {
      */
     #setVolume(volume) {
         if (volume >= 0 || volume <= 100) {
+            if (this.#songVolume !== 0) {
+                this.#prevVolume = this.#songVolume * 100;
+            }
+
             this.#songVolume = volume;
             this.#audioTrack.volume = volume;
         }
@@ -232,6 +318,8 @@ class SongStore extends IStore {
                 id = this.#songs[this.#position].artists.id;
                 break;
             case 'track':
+                // todo https://github.com/orgs/frontend-park-mail-ru/projects/1/views/1?pane=issue&itemId=25985431
+                // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
                 id = this.#songs[this.#position].id;
                 break;
             default:
@@ -283,6 +371,10 @@ class SongStore extends IStore {
         this.#songs = this.#songs.concat(response);
 
         if (this.#songs.length > 0) {
+            if (this.#songs.length <= this.#position) {
+                console.warn('Length exceeded, existed:', this.#songs.length, ' position:', this.#position);
+                this.#position = this.#songs.length - 1;
+            }
             this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
             this.#clearTrack = false;
             this.jsEmit(EventTypes.SONG_FOUND, {

@@ -40,8 +40,6 @@ class ComponentsStore extends IStore {
      * @param action
      */
     dispatch(action) {
-        super.dispatch();
-
         switch (action.type) {
         case ActionTypes.CHECK_WHAT_RENDER:
             this.#checkElementsForPage(action.name);
@@ -65,21 +63,27 @@ class ComponentsStore extends IStore {
         switch (elementName) {
         case componentsNames.SIDEBAR:
         case componentsNames.MAIN:
-            return document.querySelector(`#${componentsJSNames.BODY}`);
+            return document.getElementById(`${componentsJSNames.BODY}`);
         case componentsNames.NAVBAR:
         case componentsNames.FEED_CONTENT:
         case componentsNames.USER:
         case componentsNames.ARTIST_CONTENT:
-            return document.querySelector(`.${componentsJSNames.MAIN}`);
+        case componentsNames.ALBUM:
+        case componentsNames.LIBRARY_TRACKS:
+        case componentsNames.LIBRARY_ARTISTS:
+        case componentsNames.LIBRARY_ALBUMS:
+            return document.getElementsByClassName(`${componentsJSNames.MAIN}`)[0];
         case componentsNames.LOGIN_FORM:
         case componentsNames.REGISTER_FORM:
         case componentsNames.PAGE404:
-            return document.querySelector(`#${componentsJSNames.ROOT}`);
+            return document.getElementById(`${componentsJSNames.ROOT}`);
         case componentsNames.PLAYER:
-            return document.querySelector('#player__placement');
+            return document.getElementById('player__placement');
+        case componentsNames.LIBRARY_LIST:
+            return document.getElementsByClassName('navbar_library_element')[0];
         default:
             console.error('position to place element by name', elementName, 'not found');
-            return document.querySelector(`#${componentsJSNames.ROOT}`);
+            return document.getElementById(`${componentsJSNames.ROOT}`);
         }
     }
 
@@ -128,7 +132,6 @@ class ComponentsStore extends IStore {
      */
     register(nameOfPage, requiredComponents) {
         this.#whatNeedForPage.push({ page: nameOfPage, components: requiredComponents });
-        this.addNewItem(this.#whatNeedForPage);
         requiredComponents.forEach((component) => {
             if (!this.#allElements.includes(component)) {
                 this.#allElements.push(component);

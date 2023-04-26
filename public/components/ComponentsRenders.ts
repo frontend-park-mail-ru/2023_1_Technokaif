@@ -15,6 +15,12 @@ import { RegisterComponent } from './bigComponents/registerComponent/registerCom
 import { LoginComponent } from './bigComponents/loginComponent/loginComponent';
 import { AudioPlayer } from './bigComponents/player/player';
 import Router from '../router/Router';
+import { Album } from './bigComponents/Album/album.js';
+import { setupAlbum } from '../utils/setup/albumSetup';
+import { LibraryList } from './smallComponents/libraryList/libraryList';
+import { FavoriteTracks } from './bigComponents/Playlist/Library/favoriteTracks';
+import { FavoriteArtists } from './bigComponents/Library/favoriteArtists';
+import { FavoriteAlbums } from './bigComponents/Library/favoriteAlbums';
 
 /**
  * Class for components renders functions.
@@ -116,6 +122,57 @@ class ComponentsRenders {
     renderPlayer(parent) {
         const player = new AudioPlayer(parent);
         player.render();
+        if (!checkAuth()) {
+            const element = document.querySelector(`.${componentsNames.PLAYER}`);
+            // @ts-ignore
+            element.hidden = true;
+        }
+    }
+
+    /** Render in navbar */
+    renderLibraryList(parent) {
+        if (!checkAuth()) {
+            Router.go('/login');
+        }
+
+        const libraryList = new LibraryList(parent);
+        libraryList.render();
+    }
+
+    /** Render library in parent */
+    renderTracksLibrary(parent) {
+        if (!checkAuth()) {
+            Router.go('/login');
+        }
+
+        const library = new FavoriteTracks(parent, componentsNames.LIBRARY_TRACKS);
+        library.renderFavoriteTracks();
+    }
+
+    /** Render library in parent */
+    renderArtistsLibrary(parent) {
+        if (!checkAuth()) {
+            Router.go('/login');
+        }
+
+        const library = new FavoriteArtists(parent, componentsNames.LIBRARY_ARTISTS);
+        library.renderFavoriteArtists();
+    }
+
+    /** Render library in parent */
+    renderAlbumsLibrary(parent) {
+        if (!checkAuth()) {
+            Router.go('/login');
+        }
+
+        const library = new FavoriteAlbums(parent, componentsNames.LIBRARY_ALBUMS);
+        library.renderFavoriteAlbums();
+    }
+
+    /** Render Album in parent */
+    renderAlbum(parent) {
+        const album = new Album(parent, setupAlbum());
+        album.render();
     }
 }
 

@@ -15,7 +15,7 @@ import { EventTypes } from '../../../utils/config/EventTypes';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
 import { componentsJSNames } from '../../../utils/config/componentsJSNames';
-import API from '../../../stores/API';
+import API from '../../../stores/API.ts';
 
 /**
  * Class for artists content in main page.
@@ -30,6 +30,8 @@ export class User extends BaseComponent {
 
     #config;
 
+    fileInput;
+
     /**
      *
      * @param {HTMLElement} parent -- html element where User page will be placed
@@ -40,6 +42,10 @@ export class User extends BaseComponent {
 
         this.#parent = parent;
         this.#config = config;
+        this.fileInput = document.createElement('input');
+        this.fileInput.setAttribute('type', 'file');
+        this.fileInput.setAttribute('id', 'file');
+        this.fileInput.style.display = 'none';
     }
 
     /**
@@ -57,7 +63,7 @@ export class User extends BaseComponent {
             const avatar = new Avatar(avatarPlacement, this.#config);
             avatar.render();
 
-            const formL = new Form(formsPlacement, this.#config.leftForm, sexSetup(), dateSetup());
+            const formL = new Form(formsPlacement, this.#config.leftForm, '', dateSetup());
             formL.render();
 
             const formPassword = new Form(formsPlacement, this.#config.passwordForm);
@@ -74,6 +80,7 @@ export class User extends BaseComponent {
             this.#subscribeForStores();
             ApiActions.user(localStorage.getItem('userId'));
         });
+        document.title = 'Profile';
     }
 
     /** Add creation of Actions on User action on page */
@@ -94,12 +101,12 @@ export class User extends BaseComponent {
             Actions.validationField('email', email.value);
         });
 
-        genders.addEventListener(METHOD.FIELD, () => {
-            const radioButtons = document.querySelectorAll(`.${ElementsClassForUser.gender_element}`);
-            const elementsValues = getCheckedValueRadioButtons(radioButtons);
-
-            Actions.validationField('sex', { gender: elementsValues });
-        });
+        // genders.addEventListener(METHOD.FIELD, () => {
+        //     const radioButtons = document.querySelectorAll(`.${ElementsClassForUser.gender_element}`);
+        //     const elementsValues = getCheckedValueRadioButtons(radioButtons);
+        //
+        //     Actions.validationField('sex', { gender: elementsValues });
+        // });
 
         password.addEventListener(METHOD.FIELD, (event) => {
             event.preventDefault();
@@ -142,15 +149,15 @@ export class User extends BaseComponent {
         saveButton.addEventListener(METHOD.BUTTON, (event) => {
             event.preventDefault();
             // todo write reply
-            const radioButtons = document.querySelectorAll(`.${ElementsClassForUser.gender_element}`);
-            const elementsValues = getCheckedValueRadioButtons(radioButtons);
+            // const radioButtons = document.querySelectorAll(`.${ElementsClassForUser.gender_element}`);
+            // const elementsValues = getCheckedValueRadioButtons(radioButtons);
 
             Actions.validateAll('userPageValidate', {
                 email: email.value,
                 day: day.value,
                 month: month.value,
                 year: year.value,
-                gender: elementsValues,
+                gender: 'Female',
             });
 
             if (password.value !== '' || newPassword.value !== '' || newConfPassword.value !== '') {
@@ -167,7 +174,11 @@ export class User extends BaseComponent {
     #addDataToFields() {
         const values = UserInfoStore.state;
         // todo create IMG in userstore
-        document.querySelector('.user-profile__img').src = `/media${values.avatarSrc}`;
+        if (!values.avatarSrc || values.avatarSrc === '') {
+            document.querySelector('.user-profile__img').src = '/static/svg/default-artist.svg';
+        } else {
+            document.querySelector('.user-profile__img').src = `/media${values.avatarSrc}`;
+        }
         document.querySelector('.user-profile__username-text').innerText = values.username;
         document.querySelector('.user-profile__initials-text').innerText = `${values.firstName} ${values.lastName}`;
         document.querySelector(`.${ElementsClassForUser.email}`).value = values.email;
@@ -175,33 +186,33 @@ export class User extends BaseComponent {
         document.querySelector(`.${ElementsClassForUser.year}`).value = values.year;
         document.querySelector(`.${ElementsClassForUser.month}`).value = values.month;
 
-        const femaleGender = document.querySelector('#female');
-        const maleGender = document.querySelector('#male');
-        const otherGender = document.querySelector('#dont');
+        // const femaleGender = document.querySelector('#female');
+        // const maleGender = document.querySelector('#male');
+        // const otherGender = document.querySelector('#dont');
 
-        femaleGender.checked = false;
-        maleGender.checked = false;
-        otherGender.checked = false;
-
-        switch (values.sex) {
-        case 'F':
-            femaleGender.checked = true;
-            maleGender.disabled = false;
-            otherGender.disabled = false;
-            break;
-        case 'M':
-            maleGender.checked = true;
-            femaleGender.disabled = false;
-            otherGender.disabled = false;
-            break;
-        case 'O':
-            otherGender.checked = true;
-            maleGender.disabled = false;
-            femaleGender.disabled = false;
-            break;
-        default:
-            console.error('Not registered gender');
-        }
+        // femaleGender.checked = false;
+        // maleGender.checked = false;
+        // otherGender.checked = false;
+        //
+        // switch (values.sex) {
+        // case 'F':
+        //     femaleGender.checked = true;
+        //     maleGender.disabled = false;
+        //     otherGender.disabled = false;
+        //     break;
+        // case 'M':
+        //     maleGender.checked = true;
+        //     femaleGender.disabled = false;
+        //     otherGender.disabled = false;
+        //     break;
+        // case 'O':
+        //     otherGender.checked = true;
+        //     maleGender.disabled = false;
+        //     femaleGender.disabled = false;
+        //     break;
+        // default:
+        //     console.error('Not registered gender');
+        // }
     }
 
     /**
@@ -213,6 +224,9 @@ export class User extends BaseComponent {
      */
     #errorsRender(whatSearch, status, error) {
         const placeForError = document.querySelector(`.${whatSearch}`);
+        if (whatSearch === 'js__error__gender') {
+            return;
+        }
 
         if (status === 'OK') {
             placeForError.innerHTML = '';
@@ -234,12 +248,16 @@ export class User extends BaseComponent {
             if (monthNumber < 10) {
                 monthNumber = `0${monthNumber}`;
             }
+            let { day } = state;
+            if (day < 10) {
+                day = `0${day}`;
+            }
             ApiActions.userUpdateData(localStorage.getItem('userId'), {
                 email: state.email,
                 firstName: state.firstName,
                 lastName: state.lastName,
                 sex: state.sex,
-                birthDate: [state.year, monthNumber, state.day].join('-'),
+                birthDate: [state.year, monthNumber, day].join('-'),
             });
         }
     }
@@ -276,14 +294,14 @@ export class User extends BaseComponent {
             this.#errorsRender(
                 ElementsClassForUser.password_error,
                 status,
-                ERRORS_USER.password,
+                status,
             );
             break;
         case 'newPassword':
             this.#errorsRender(
                 ElementsClassForUser.newPasswordError,
                 status,
-                ERRORS_USER.password,
+                status,
             );
             break;
         case 'newConfPassword':
@@ -375,10 +393,14 @@ export class User extends BaseComponent {
                 if (message !== 'OK') {
                     console.error(message);
                     const element = document.querySelector('.user__error-text');
+                    const useless = document.querySelector('.user__success-text');
+                    useless.hidden = true;
                     element.hidden = false;
                     element.innerText = message;
                 } else {
                     const element = document.querySelector('.user__success-text');
+                    const useless = document.querySelector('.user__error-text');
+                    useless.hidden = true;
                     element.hidden = false;
                     element.innerText = 'Successfully changed password';
                 }
@@ -386,5 +408,47 @@ export class User extends BaseComponent {
             EventTypes.UPDATE_DATA_WITH_PASS_RECEIVED,
             this.name,
         );
+        API.subscribe(
+            (message) => {
+                if (message !== 'OK') {
+                    console.error(message);
+                    const element = document.querySelector('.user__error-text');
+                    const useless = document.querySelector('.user__success-text');
+                    useless.hidden = true;
+                    element.hidden = false;
+                    element.innerText = message;
+                } else {
+                    const element = document.querySelector('.user__success-text');
+                    const useless = document.querySelector('.user__error-text');
+                    useless.hidden = true;
+                    element.hidden = false;
+                    element.innerText = 'Successfully changed avatar';
+                    const avatarImg = this.#parent.querySelector('.user-profile__img');
+                    const blob = new Blob(this.fileInput.files, { type: 'image/jpeg' });
+                    const imageUrl = URL.createObjectURL(blob);
+                    avatarImg.src = imageUrl;
+                }
+            },
+            EventTypes.UPDATE_DATA_WITH_AVATAR_RECEIVED,
+            this.name,
+        );
+
+        const avatar = this.#parent.querySelector('.avatar');
+        const root = document.querySelector(`#${componentsJSNames.ROOT}`);
+
+        avatar.addEventListener('click', () => {
+            root.appendChild(this.fileInput);
+            this.fileInput.click();
+        });
+
+        this.fileInput.addEventListener('change', () => {
+            const file = this.fileInput.files[0];
+
+            const formData = new FormData();
+            formData.append('avatar', file);
+
+            ApiActions.userUpdateAvatar(localStorage.getItem('userId'), formData);
+            root.removeChild(this.fileInput);
+        });
     }
 }

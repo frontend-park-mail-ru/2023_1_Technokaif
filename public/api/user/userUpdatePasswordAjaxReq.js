@@ -1,12 +1,12 @@
 import { apiUrl } from '../../utils/config/apiUrls.js';
-import Ajax from '../../modules/Ajax';
+import Ajax from '../../modules/Ajax.ts';
 
 /**
  * Api-oriented user password update function.
  * @param userData
  */
 export async function userUpdatePasswordAjax(userData) {
-    let mess;
+    let msg;
     await Ajax.post({
         url: apiUrl.USER_UPDATE_PASSWORD,
         body: userData,
@@ -14,10 +14,10 @@ export async function userUpdatePasswordAjax(userData) {
             console.error('User update password request api error:', message);
         },
     }).then(() => {
-        mess = 'OK';
+        msg = 'OK';
     }).catch((message) => {
-        mess = message;
+        msg = message;
     });
 
-    return mess;
+    return msg;
 }

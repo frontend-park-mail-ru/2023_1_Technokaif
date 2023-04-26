@@ -1,5 +1,5 @@
 import { apiUrl } from '../../utils/config/apiUrls.js';
-import Ajax from '../../modules/Ajax';
+import Ajax from '../../modules/Ajax.ts';
 
 /**
  * Api-oriented user update avatar function.
@@ -7,7 +7,7 @@ import Ajax from '../../modules/Ajax';
  * @param avatar
  */
 export async function userUpdateAvatarAjax(id, avatar) {
-    let mess;
+    let status;
     await Ajax.post({
         url: apiUrl.USER_UPDATE_AVATAR_API(id),
         body: avatar,
@@ -15,10 +15,10 @@ export async function userUpdateAvatarAjax(id, avatar) {
             console.error('User update avatar request api error:', message);
         },
     }).then(() => {
-        mess = 'OK';
+        status = 'OK';
     }).catch((message) => {
-        mess = message;
+        status = message;
     });
 
-    return mess;
+    return status;
 }

@@ -1,4 +1,5 @@
 import { ID_REG, CLASS_REG as CLASS } from '../config/id.js';
+import { imgPath } from '../config/pathConfig';
 
 /**
  * Function to create registration form setup config for template.
@@ -13,7 +14,7 @@ export function regFormSetup() {
         registrationContent: 'registration-content',
         formHeader: 'header',
         title: CLASS.title,
-        logoSrc: '/static/svg/whiteLogo.svg',
+        logoSrc: imgPath.whiteLogo,
 
         titleClass: 'title__name',
         titleName: 'Fluire',
@@ -38,18 +39,6 @@ export function regFormSetup() {
             },
             {
                 divBeforeInput: 'input-block',
-                typeOfInput: 'email',
-                nameOfField: 'email-confirm',
-                labelClass: 'input-block__label',
-                labelText: 'Confirm Email:',
-                placeholder: 'Your email address again',
-                classInp: 'input-block__input-element',
-                id: ID_REG.emailConf,
-                errorDiv: 'input-block__error-placement',
-                errorId: ID_REG.emailConfErr,
-            },
-            {
-                divBeforeInput: 'input-block',
                 typeOfInput: 'password',
                 nameOfField: 'password',
                 labelClass: 'input-block__label',
@@ -59,6 +48,18 @@ export function regFormSetup() {
                 id: ID_REG.password,
                 errorDiv: 'input-block__error-placement',
                 errorId: ID_REG.passwordErr,
+            },
+            {
+                divBeforeInput: 'input-block',
+                typeOfInput: 'password',
+                nameOfField: 'password-confirm',
+                labelClass: 'input-block__label',
+                labelText: 'Confirm password:',
+                placeholder: 'Your password again',
+                classInp: 'input-block__input-element',
+                id: ID_REG.confPassword,
+                errorDiv: 'input-block__error-placement',
+                errorId: ID_REG.confPasswordErr,
             },
             {
                 divBeforeInput: 'input-block',
@@ -118,7 +119,6 @@ export function regFormSetup() {
 }
 
 /**
- *
  * @return -- all settings to sex template in register
  */
 export function sexSetup() {
@@ -157,7 +157,7 @@ export function sexSetup() {
                 textLabel: 'Other answer',
             },
         ],
-        errorSex: 'error-gender',
+        errorSex: 'error-gender input-block__error-placement',
     };
 }
 

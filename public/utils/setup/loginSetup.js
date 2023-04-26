@@ -1,4 +1,5 @@
 import { ID_LOG, CLASS_LOG as CLASS } from '../config/id.js';
+import { imgPath } from '../config/pathConfig';
 
 /**
  * Function to create login form setup config for template.
@@ -13,12 +14,12 @@ export function logFormSetup() {
         loginContent: 'login-content',
         formHeader: 'header',
         title: CLASS.title,
-        logoSrc: '/static/svg/whiteLogo.svg',
+        logoSrc: imgPath.whiteLogo,
 
         titleClass: 'title__name',
         titleName: 'Fluire',
         descriptionClass: 'title__page-description',
-        descriptionName: 'Log in to continue',
+        descriptionName: 'Log in to listen without limitations',
         divBeforeForm: 'log',
         formDiv: 'form',
         inputs: [
@@ -27,8 +28,8 @@ export function logFormSetup() {
                 typeOfInput: 'login',
                 nameOfField: 'login',
                 labelClass: 'input-block__label',
-                labelText: 'Your email address:',
-                placeholder: 'Your email',
+                labelText: 'Your username or email:',
+                placeholder: 'Your username or email',
                 classInp: CLASS.classInp,
                 id: ID_LOG.login,
                 errorDiv: CLASS.errorDiv,

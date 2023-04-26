@@ -1,6 +1,5 @@
 import { Tape } from '../Tape/tape';
 import templateHtml from './feedContent.handlebars';
-import offlineLogoHtml from './offlineLogo.handlebars';
 
 import './feedContent.less';
 import ContentStore from '../../../stores/ContentStore';
@@ -10,8 +9,8 @@ import { BaseComponent } from '../../BaseComponent';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import ApiActions from '../../../actions/ApiActions';
 import { setupTape } from '../../../utils/setup/artistSetup';
-import Router from '../../../router/Router';
 import { shuffleArray } from '../../../utils/functions/shuffleArray';
+import { componentsJSNames } from '../../../utils/config/componentsJSNames';
 
 /**
  * Create FeedContent content with tapes
@@ -45,7 +44,9 @@ export class FeedContent extends BaseComponent {
         this.#configs.sort((a, b) => a.titleText.localeCompare(b.titleText));
         this.#configs.forEach((configForInsertElement) => {
             const tape = new Tape(
-                this.element,
+                // todo Find error or replace on names https://github.com/orgs/frontend-park-mail-ru/projects/1/views/1?pane=issue&itemId=25425155
+                // this.element,
+                document.querySelector(`.${componentsJSNames.FEED_CONTENT}`),
                 configForInsertElement,
                 configForInsertElement.titleText,
             );
@@ -57,10 +58,6 @@ export class FeedContent extends BaseComponent {
      * Function to subscribe to all events from Stores
      */
     #addSubscribes() {
-        const logo = document.querySelector('.sidebar__logo');
-        logo.addEventListener('click', () => {
-            Router.go('/');
-        });
         ContentStore.subscribe(
             () => {
                 const state = ContentStore.state[pageNames.FEED];
@@ -96,5 +93,6 @@ export class FeedContent extends BaseComponent {
             this.#addSubscribes();
             ApiActions.feed();
         });
+        document.title = 'Fluire';
     }
 }

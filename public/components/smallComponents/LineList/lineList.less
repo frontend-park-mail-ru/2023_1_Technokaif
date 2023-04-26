@@ -1,4 +1,20 @@
+@import "../../../static/css/constants";
+
 .line-list {
-  width: max-content;
+  flex-grow: 1;
+  flex-basis: 80%;
 }
 
+.options-block {
+  display: grid;
+  align-items: center;
+  grid-template-columns: [index] 20px [first] 6fr [album] 2fr [listens] 2fr [like] 1fr;
+  padding: 0 16px 10px 10px;
+  gap: 10px;
+}
+
+.track-line-optionals {
+  border-bottom: 1px solid hsla(0,0%,100%,.1);
+  color: @special-gray-color;
+  height: 36px;
+}

@@ -9,7 +9,7 @@ import { METHOD } from '../../../utils/config/config';
 import Router from '../../../router/Router';
 import UserInfoStore from '../../../stores/UserInfoStore';
 import { EventTypes } from '../../../utils/config/EventTypes';
-import API from '../../../stores/API';
+import API from '../../../stores/API.ts';
 import { ERRORS_LOG } from '../../../utils/config/errors';
 import ApiActions from '../../../actions/ApiActions';
 
@@ -61,7 +61,7 @@ export class LoginComponent extends BaseComponent {
             Actions.validationField('log_password', password.value);
         });
 
-        const header = document.querySelector('.header');
+        const header = document.querySelector('.title');
         header.addEventListener(METHOD.BUTTON, (event) => {
             event.preventDefault();
             Router.go('/');
@@ -127,13 +127,13 @@ export class LoginComponent extends BaseComponent {
     dispatchErrors(nameOfField, status) {
         switch (nameOfField) {
         case 'username':
-            this.#errorsRender(ElementsClassForLogin.login_error, status, ERRORS_LOG.username);
+            this.#errorsRender(ElementsClassForLogin.login_error, status, status);
             break;
         case 'email':
             this.#errorsRender(ElementsClassForLogin.login_error, status, ERRORS_LOG.email);
             break;
         case 'password':
-            this.#errorsRender(ElementsClassForLogin.password_error, status, ERRORS_LOG.password);
+            this.#errorsRender(ElementsClassForLogin.password_error, status, status);
             break;
         default:
         }
@@ -179,5 +179,7 @@ export class LoginComponent extends BaseComponent {
             this.#createActionsForFields();
             this.#subscribeStore();
         });
+
+        document.title = 'Login';
     }
 }

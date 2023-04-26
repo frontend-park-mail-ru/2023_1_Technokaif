@@ -3,6 +3,7 @@
     </cover>
     <content class="artist-content">
         <div class="{{artistPreContent}}">
+            <div class="{{buttonsClass}}">
                 {{#if playButton}}
                     <button type="button" class="{{playButton}}">
                         <img src="{{playButtonSrc}}" class="{{playButtonImg}}">
@@ -13,13 +14,10 @@
                         <img src="{{stopButtonSrc}}" class="{{stopButtonImg}}">
                     </button>
                 {{/if}}
-
-<!--                <button type="button" class="{{subscribeButton}}">Subscribe</button>-->
-<!--                <button type="button" class="{{anotherButton}}">-->
-<!--                    <img src="{{anotherButtonSrc}}" {{#if anotherButtonImg}}-->
-<!--                    class="{{anotherButtonImg}}"-->
-<!--                    {{/if}}>-->
-<!--                </button>-->
+            </div>
+            <button type="button" class="{{likeButton}}">
+                <img src="{{likeButtonSrc}}" class="{{likeButtonImg}}">
+            </button>
         </div>
         <div class="{{artistItems}}"></div>
         <div class="{{tapeBlock}}"></div>

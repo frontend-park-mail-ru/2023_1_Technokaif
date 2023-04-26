@@ -6,7 +6,11 @@ const AJAX_METHODS = {
     POST: 'POST',
 };
 
-const noop = () => {};
+/**
+ * Default function doing nothing
+ */
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop = (data: unknown = true) => data;
 
 /**
  * Requests class for all server-api request work.
@@ -57,32 +61,72 @@ class Ajax {
         resolve = noop,
         reject = noop,
     }) {
-        if (url !== apiUrl.AUTH && url !== apiUrl.LOGIN) {
-            return csrfAjax().then((csrf) => fetch(url, {
-                method: AJAX_METHODS.POST,
-                mode: 'cors',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json; charset=utf-8',
-                    'X-CSRF-Token': csrf,
-                },
-                body: JSON.stringify(body),
-            })
-                .then((response) => response.json().then((data) => {
-                    if (response.ok) {
-                        resolve(data);
+        if (apiUrl.AVATAR_REGEX.test(url)) {
+            return csrfAjax().then((csrf) => {
+                if (!csrf) {
+                    console.error('error in undefined csrf');
+                    return;
+                }
+                fetch(url, {
+                    method: AJAX_METHODS.POST,
+                    mode: 'cors',
+                    credentials: 'include',
+                    headers: {
+                        'X-CSRF-Token': csrf,
+                    },
+                    body,
+                })
+                    .then((response) => response.json()
+                        .then((data) => {
+                            if (response.ok) {
+                                resolve(data);
 
-                        return data;
-                    }
+                                return data;
+                            }
 
-                    throw data.message;
-                }))
-                .catch((error) => {
-                    reject(error);
+                            throw data.message;
+                        }))
+                    .catch((error) => {
+                        reject(error);
 
-                    throw error;
-                }));
+                        throw error;
+                    });
+            });
         }
+        if (url !== apiUrl.AUTH && url !== apiUrl.LOGIN) {
+            return csrfAjax().then((csrf) => {
+                if (!csrf) {
+                    console.error('error in undefined csrf');
+                    return;
+                }
+
+                return fetch(url, {
+                    method: AJAX_METHODS.POST,
+                    mode: 'cors',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8',
+                        'X-CSRF-Token': csrf,
+                    },
+                    body: JSON.stringify(body),
+                })
+                    .then((response) => response.json().then((data) => {
+                        if (response.ok) {
+                            resolve(data);
+
+                            return data;
+                        }
+
+                        throw data.message;
+                    }))
+                    .catch((error) => {
+                        reject(error);
+
+                        throw error;
+                    });
+            });
+        }
+
         return fetch(url, {
             method: AJAX_METHODS.POST,
             mode: 'cors',

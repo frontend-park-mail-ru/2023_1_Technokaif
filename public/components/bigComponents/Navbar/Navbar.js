@@ -3,7 +3,7 @@ import ApiActions from '../../../actions/ApiActions';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import templateHtml from './navbar.handlebars';
 import { EventTypes } from '../../../utils/config/EventTypes';
-import API from '../../../stores/API';
+import API from '../../../stores/API.ts';
 import { authNavConfig, unAuthNavConfig } from '../../../utils/config/config';
 import { componentsJSNames } from '../../../utils/config/componentsJSNames';
 import ComponentsStore from '../../../stores/ComponentsStore';
@@ -55,19 +55,11 @@ class Navbar {
     #callEventListener() {
         ComponentsStore.subscribe(
             (list) => {
-                let component = list.filter((comp) => comp.name === componentsNames.NAVBAR);
+                const component = list.filter((comp) => comp.name === componentsNames.NAVBAR);
                 if (component.length !== 0) {
                     Actions.removeElementFromPage(componentsNames.NAVBAR);
                     unsubscribeFromAllStoresOnComponent(componentsNames.NAVBAR);
                     this.#unRender();
-                }
-
-                component = list.filter((comp) => comp.name === componentsNames.MAIN);
-                if (component.length !== 0) {
-                    Actions.removeElementFromPage(componentsNames.MAIN);
-                    unsubscribeFromAllStoresOnComponent(componentsNames.MAIN);
-                    const parent = ComponentsStore.checkWhereToPlace(componentsNames.MAIN);
-                    parent.removeChild(document.querySelector(`.${componentsJSNames.MAIN}`));
                 }
             },
             EventTypes.ON_REMOVE_ANOTHER_ITEMS,
@@ -79,6 +71,8 @@ class Navbar {
                     console.error('bad respond from server during logout');
                 } else {
                     this.#reRender();
+                    const element = document.querySelector(`.${componentsNames.PLAYER}`);
+                    element.hidden = true;
                 }
             },
             EventTypes.LOGOUT_STATUS,

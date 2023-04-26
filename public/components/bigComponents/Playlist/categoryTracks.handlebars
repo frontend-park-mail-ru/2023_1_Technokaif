@@ -1,0 +1,35 @@
+<div class="{{tracksClass}}">
+    <div class="{{headerDiv}}">
+        <div class="{{headerImgClass}}">
+            <img class="{{imgClass}}" src="{{imgSrc}}">
+        </div>
+        <div class="{{headerDescriptions}}">
+            <div class="{{headerNameDiv}}">
+                <p class="{{headerNameClass}}">
+                    {{headerName}}
+                </p>
+            </div>
+
+            <div class="{{headerNameOfElementDiv}}">
+                <p class="{{headerNameOfElementClass}}">
+                    {{headerNameOfElement}}
+                </p>
+            </div>
+
+            <div class="{{headerDescription}}">
+                <div class="{{DescriptionsDiv}}">
+                    <p class="{{DescriptionsClass}}"></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="{{ButtonsDiv}}">
+        <img class="{{buttonPlay}}"src="/static/svg/play.svg">
+        {{#ifEquals isLikedSongs false}}
+            <img class="{{albumLike}}" src="/static/svg/notLiked.svg">
+        {{/ifEquals}}
+    </div>
+
+    <div class="{{placementTracks}}"></div>
+</div>

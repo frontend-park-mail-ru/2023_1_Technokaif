@@ -1,5 +1,9 @@
+// todo https://github.com/orgs/frontend-park-mail-ru/projects/1/views/1?pane=issue&itemId=25985431
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const CopyPlugin = require('copy-webpack-plugin');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -13,7 +17,7 @@ module.exports = {
     devServer: {
         historyApiFallback: true,
     },
-    entry: path.resolve(__dirname, 'public', 'index.js'),
+    entry: path.resolve(__dirname, 'public', 'index.ts'),
     plugins: [
         new HtmlWebpackPlugin({
             templateContent: `
@@ -52,20 +56,15 @@ module.exports = {
     },
     module: {
         rules: [
-            // {
-            //     test: /\.m?js$/,
-            //     exclude: /node_modules/,
-            //     use: {
-            //         loader: 'babel-loader',
-            //         options: {
-            //             presets: ['@babel/preset-react', '@babel/preset-env'],
-            //             plugins: ['@babel/plugin-transform-runtime'],
-            //         },
-            //     },
-            // },
             {
                 test: /\.handlebars$/,
                 loader: 'handlebars-loader',
+                exclude: /node_modules/,
+            },
+            {
+                test: /\.hbs$/,
+                loader: 'handlebars-loader',
+                exclude: /node_modules/,
             },
             {
                 test: /\.less$/i,
@@ -75,19 +74,18 @@ module.exports = {
                     'css-loader',
                     'less-loader',
                 ],
+                exclude: /node_modules/,
             },
             {
                 test: /\.css$/i,
                 use: ['style-loader', 'css-loader'],
+                exclude: /node_modules/,
             },
         ],
     },
     resolve: {
         alias: {
             handlebars: 'handlebars/dist/handlebars.min.js',
-        },
-        fallback: {
-            path: require.resolve('path-browserify'),
         },
     },
 };

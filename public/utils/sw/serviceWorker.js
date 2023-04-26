@@ -8,6 +8,7 @@ serviceWorkerOption = {
 
 const { assets } = serviceWorkerOption;
 
+// eslint-disable-next-line no-restricted-globals
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open('Fluire')
@@ -15,6 +16,7 @@ self.addEventListener('install', (event) => {
     );
 });
 
+// eslint-disable-next-line no-restricted-globals
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((cacheNames) => Promise.all(
@@ -24,13 +26,14 @@ self.addEventListener('activate', (event) => {
     );
 });
 
+// eslint-disable-next-line no-restricted-globals
 self.addEventListener('fetch', (event) => {
     event.respondWith(
         caches.match(event.request)
             .then((cachedResponse) => {
                 if (navigator.onLine) {
                     return fetch(event.request).then((response) => {
-                        if (!response || !response.ok || response.type !== 'basic') {
+                        if (!response?.ok || !response.method !== 'GET') {
                             return response;
                         }
 

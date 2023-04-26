@@ -8,6 +8,7 @@ export const EventTypes = {
     CHANGE_CONTENT: 'CHANGE_CONTENT',
     FEED_CONTENT_DONE: 'FEED_CONTENT_DONE',
     ARTIST_CONTENT_DONE: 'ARTIST_CONTENT_DONE',
+    ALBUM_CONTENT_DONE: 'ALBUM_CONTENT_DONE',
 
     /** Login and Register forms events */
     VALIDATION_RESPONSE: 'VALIDATION_RESPONSE',
@@ -19,6 +20,7 @@ export const EventTypes = {
 
     UPDATE_DATA_RECEIVED: 'UPDATE_DATA_RECEIVED',
     UPDATE_DATA_WITH_PASS_RECEIVED: 'UPDATE_DATA_WITH_PASS_RECEIVED',
+    UPDATE_DATA_WITH_AVATAR_RECEIVED: 'UPDATE_DATA_WITH_AVATAR_RECEIVED',
 
     /** Events for getting status from api authorization requests */
     REGISTER_STATUS: 'REGISTER_STATUS',
@@ -28,6 +30,12 @@ export const EventTypes = {
     /** Event for saying to request in api by content on page */
     ID_GOT: 'ID_GOT',
     ID_CAN_BE_VIEWED: 'ID_CAN_BE_VIEWED',
+
+    /** Events after likes requests on API */
+    LIKED_TRACK: 'LIKED_TRACK',
+    UNLIKED_TRACK: 'UNLIKED_TRACK',
+    LIKED_ARTIST: 'LIKED_ARTIST',
+    UNLIKED_ARTIST: 'UNLIKED_ARTIST',
 
     /** Event for starting user page render */
     USER_DATA_GOT_FOR_PAGE: 'USER_DATA_GOT_FOR_PAGE',
@@ -42,4 +50,13 @@ export const EventTypes = {
     LOAD_TRACK: 'LOAD_TRACK',
     TRACK_END: 'TRACK_END',
     CHANGE_PLAY_STATE: 'CHANGE_PLAY_STATE',
+    GET_DATA_AFTER_RESTART: 'GET_DATA_AFTER_RESTART',
+    REPEAT_CHANGED: 'REPEAT_CHANGED',
+
+    GOT_ALBUM: 'GOT_ALBUM',
+    GOT_ONE_ALBUM: 'GOT_ONE_ALBUM',
+
+    GOT_FAVORITE_TRACKS: 'GOT_FAVORITE_TRACKS',
+    GOT_FAVORITE_ARTISTS: 'GOT_FAVORITE_ARTISTS',
+    GOT_FAVORITE_ALBUMS: 'GOT_FAVORITE_ALBUMS',
 };

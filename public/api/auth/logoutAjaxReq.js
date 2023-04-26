@@ -1,5 +1,5 @@
 import { apiUrl } from '../../utils/config/apiUrls.js';
-import Ajax from '../../modules/Ajax';
+import Ajax from '../../modules/Ajax.ts';
 
 const logout = () => {
     localStorage.setItem('isAuth', 'false');

@@ -1,4 +1,4 @@
-import Ajax from '../../modules/Ajax.js';
+import Ajax from '../../modules/Ajax.ts';
 import { apiUrl } from '../../utils/config/apiUrls.js';
 import { generatePageById } from '../../utils/functions/urlGenerators';
 
@@ -6,7 +6,7 @@ import { generatePageById } from '../../utils/functions/urlGenerators';
 /**
  * Function for get Album track from server
  */
-export async function albumAjax(id) {
+export async function getAlbumTracksFromServer(id) {
     let items;
     const url = `${generatePageById(apiUrl.ALBUM_API, id)}tracks`;
 
