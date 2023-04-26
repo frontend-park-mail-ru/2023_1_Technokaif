@@ -178,7 +178,8 @@ export class Album extends BaseComponent {
                 }
                 author.textContent = artistsText;
                 description.textContent = state.description;
-                // super.
+
+                document.title = state.name;
             },
             EventTypes.GOT_ONE_ALBUM,
             super.name,

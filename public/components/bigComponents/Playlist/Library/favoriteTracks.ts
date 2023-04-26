@@ -46,5 +46,6 @@ export class FavoriteTracks extends Playlist {
             this.actionsOnRender();
             super.subscribeBaseLogic(EventTypes.GOT_FAVORITE_TRACKS, pageNames.LIBRARY_TRACKS);
         });
+        document.title = 'Favourite Tracks';
     }
 }

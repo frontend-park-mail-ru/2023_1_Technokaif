@@ -93,5 +93,6 @@ export class FeedContent extends BaseComponent {
             this.#addSubscribes();
             ApiActions.feed();
         });
+        document.title = 'Fluire';
     }
 }

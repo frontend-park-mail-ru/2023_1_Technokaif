@@ -179,5 +179,7 @@ export class LoginComponent extends BaseComponent {
             this.#createActionsForFields();
             this.#subscribeStore();
         });
+
+        document.title = 'Login';
     }
 }

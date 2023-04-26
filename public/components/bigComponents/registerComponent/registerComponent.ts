@@ -469,5 +469,6 @@ export class RegisterComponent extends BaseComponent {
             this.#subscribe();
             this.#addEventListeners();
         });
+        document.title = 'Register';
     }
 }

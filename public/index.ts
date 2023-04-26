@@ -260,16 +260,16 @@ function renderMainPage() {
         localStorage.setItem('isAuth', `${value}`);
     });
 
-    Router.register(routingUrl.ROOT, () => { FeedView.render(); }, [API], 'Fluire');
-    Router.register(routingUrl.LOGIN, () => { LoginView.render(); }, [API, UserInfoStore], 'Login');
-    Router.register(routingUrl.REGISTER, () => { RegisterView.render(); }, [API, UserInfoStore], 'Register');
-    Router.register(routingUrl.PAGE404, () => { Page404View.render(); }, [API, UserInfoStore], '404');
-    Router.register(routingUrl.PROFILE, () => { UserView.render(); }, [API, UserInfoStore], 'Profile');
-    Router.register(routingUrl.LIBRARY_TRACKS, () => { LibraryTracksView.render(); }, [API], 'Track Library');
-    Router.register(routingUrl.LIBRARY_ALBUMS, () => { LibraryAlbumsView.render(); }, [API], 'Album Library');
-    Router.register(routingUrl.LIBRARY_ARTISTS, () => { LibraryArtistsView.render(); }, [API], 'Artist Library');
-    Router.registerRouteWithRegEx(`${routingUrl.ARTIST_PAGE_EXP}`, () => { ArtistPageView.render(); }, [API], 'Artist');
-    Router.registerRouteWithRegEx(`${routingUrl.ALBUM_PAGE_EXP}`, () => { AlbumPageView.render(); }, [API], 'Album');
+    Router.register(routingUrl.ROOT, () => { FeedView.render(); }, [API]);
+    Router.register(routingUrl.LOGIN, () => { LoginView.render(); }, [API, UserInfoStore]);
+    Router.register(routingUrl.REGISTER, () => { RegisterView.render(); }, [API, UserInfoStore]);
+    Router.register(routingUrl.PAGE404, () => { Page404View.render(); }, [API, UserInfoStore]);
+    Router.register(routingUrl.PROFILE, () => { UserView.render(); }, [API, UserInfoStore]);
+    Router.register(routingUrl.LIBRARY_TRACKS, () => { LibraryTracksView.render(); }, [API]);
+    Router.register(routingUrl.LIBRARY_ALBUMS, () => { LibraryAlbumsView.render(); }, [API]);
+    Router.register(routingUrl.LIBRARY_ARTISTS, () => { LibraryArtistsView.render(); }, [API]);
+    Router.registerRouteWithRegEx(`${routingUrl.ARTIST_PAGE_EXP}`, () => { ArtistPageView.render(); }, [API]);
+    Router.registerRouteWithRegEx(`${routingUrl.ALBUM_PAGE_EXP}`, () => { AlbumPageView.render(); }, [API]);
 
     Router.start();
 }
