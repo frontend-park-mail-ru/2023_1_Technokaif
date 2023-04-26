@@ -57,6 +57,11 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
+            {
                 test: /\.handlebars$/,
                 loader: 'handlebars-loader',
                 exclude: /node_modules/,
@@ -87,5 +92,10 @@ module.exports = {
         alias: {
             handlebars: 'handlebars/dist/handlebars.min.js',
         },
+        fallback: {
+            path: require.resolve('path-browserify'),
+        },
+        extensions: ['.tsx', '.ts', '.js'],
+
     },
 };

@@ -119,49 +119,6 @@ export function regFormSetup() {
 }
 
 /**
- * @return -- all settings to sex template in register
- */
-export function sexSetup() {
-    return {
-        mainSexDiv: 'sex',
-        labelSex: 'sex__description-label',
-        labelClass: 'reg-label',
-        labelText: 'Your gender:',
-        divSexChoose: 'sex__choose',
-        sexes: [
-            {
-                insideDivSex: 'sex__variable',
-                typeInput: 'radio',
-                nameInput: 'sex',
-                classSexInput: 'reg-sex-radio',
-                id: ID_REG.male,
-                classLabel: 'sex__label',
-                textLabel: 'Male',
-            },
-            {
-                insideDivSex: 'sex__variable',
-                typeInput: 'radio',
-                nameInput: 'sex',
-                classSexInput: 'reg-sex-radio',
-                id: ID_REG.female,
-                classLabel: 'sex__label',
-                textLabel: 'Female',
-            },
-            {
-                insideDivSex: 'sex__variable',
-                typeInput: 'radio',
-                nameInput: 'sex',
-                classSexInput: 'reg-sex-radio',
-                id: ID_REG.dont,
-                classLabel: 'sex__label',
-                textLabel: 'Other answer',
-            },
-        ],
-        errorSex: 'error-gender input-block__error-placement',
-    };
-}
-
-/**
  *
  * @return -- all settings to date template in register
  */

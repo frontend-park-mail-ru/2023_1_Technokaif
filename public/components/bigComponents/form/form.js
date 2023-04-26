@@ -2,7 +2,6 @@ import { FormFooter } from '../../smallComponents/formFooter/formFooter.js';
 import { Header } from '../../smallComponents/Header/header.js';
 import { Input } from '../../smallComponents/input/input.js';
 import templateHtml from './form.handlebars';
-import { Sex } from '../../smallComponents/sex/sex.js';
 import { Date } from '../../smallComponents/date/date.js';
 import { Button } from '../../smallComponents/Button/button';
 
@@ -11,15 +10,12 @@ import { Button } from '../../smallComponents/Button/button';
  * @constructor
  * @param {HTMLElement} parent - Element where to render.
  * @param {json} config - Config with json general fields.
- * @param {json} sexConf - Config with json fields for gender.
  * @param {json} dateConf - Config with json fields for date fields.
  */
 export class Form {
     #parent;
 
     #config;
-
-    #confSex;
 
     #insertedElement;
 
@@ -29,14 +25,12 @@ export class Form {
      *
      * @param {HTMLElement} parent -- html element where Form will be placed
      * @param {Object} config -- config for Form component
-     * @param {Object} sexConf -- config for Sex component
      * @param {Object} dateConf -- config for date component
      */
-    constructor(parent, config, sexConf = '', dateConf = '') {
+    constructor(parent, config, dateConf = '') {
         this.#parent = parent;
         this.#config = config;
         this.#confDate = dateConf;
-        this.#confSex = sexConf;
         this.#insertedElement = null;
     }
 
@@ -50,10 +44,6 @@ export class Form {
         this.#insertedElement.querySelector('.inputs-placement').innerHTML = this.#renderInputs();
         if (this.#confDate !== '') {
             this.#insertedElement.querySelector('.form__placement-additionall').innerHTML += this.#renderDate();
-        }
-
-        if (this.#confSex !== '') {
-            this.#insertedElement.querySelector('.form__placement-additionall').innerHTML += this.#renderSex();
         }
 
         if (this.#config['bottom-placement']) {
@@ -98,15 +88,6 @@ export class Form {
             return head.HTML();
         }
         return '';
-    }
-
-    /**
-     * Return Sex component html
-     * @returns html string
-    */
-    #renderSex() {
-        const sex = new Sex(this.#parent, this.#confSex);
-        return sex.HTML(this.#confSex);
     }
 
     /**

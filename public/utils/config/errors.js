@@ -12,7 +12,6 @@ export const ERRORS_REG = {
     day: 'Incorrect day',
     month: 'Incorrect month',
     year: 'Incorrect year',
-    sex: 'Choose your gender.',
 };
 
 // todo how to merge in one
@@ -30,25 +29,6 @@ export const ERRORS_USER = {
     day: 'Incorrect day',
     month: 'Incorrect month',
     year: 'Incorrect year',
-    sex: 'Choose your gender.',
-};
-
-// todo how to merge in one
-/**
- * All errors messages for User page.
- */
-export const ERRORS_USER = {
-    newPassword: 'Passwords doesn\'t match',
-    email: 'Incorrect email address',
-    confirmEmail: 'Incorrect confirmation',
-    password: 'Incorrect password. Big letters, small letters and digits required. Length 8-30. Quotes, points and space forbidden',
-    username: 'Incorrect username. Contains letters, digits and "_". Length 4-20',
-    firstName: 'Your firstname',
-    lastName: 'Your lastname',
-    day: 'Incorrect day',
-    month: 'Incorrect month',
-    year: 'Incorrect year',
-    sex: 'Choose your gender.',
 };
 
 /**
