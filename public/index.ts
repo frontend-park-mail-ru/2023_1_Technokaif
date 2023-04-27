@@ -25,6 +25,9 @@ import AlbumPageView from './views/AlbumPage';
 import LibraryTracksView from './views/LibraryTracksView';
 import LibraryAlbumsView from './views/LibraryAlbumsView';
 import LibraryArtistsView from './views/LibraryArtistsView';
+import { checkAuth } from './utils/functions/checkAuth';
+import { getPermittedByAuthUser, getPermittedByUnAuthUser } from './router/permittedPath';
+import { popAuthUser, popNoAuthUser } from './router/popPath';
 
 /**
  * Render main page of app
@@ -259,6 +262,11 @@ function renderMainPage() {
     checkAuthAjax().then((value) => {
         localStorage.setItem('isAuth', `${value}`);
     });
+
+    // @ts-ignore
+    Router.registerPermission(checkAuth, getPermittedByAuthUser, popAuthUser);
+
+    Router.registerPermission(() => !checkAuth(), getPermittedByUnAuthUser, popNoAuthUser);
 
     Router.register(routingUrl.ROOT, () => { FeedView.render(); }, [API]);
     Router.register(routingUrl.LOGIN, () => { LoginView.render(); }, [API, UserInfoStore]);
