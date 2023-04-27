@@ -37,7 +37,6 @@ export class FavoriteTracks extends Playlist {
      */
     override render() {
         const element : HTMLDivElement = document.querySelector(`.${this.name}`);
-        console.log(element.getEventListeners());
         const renderProcess = new Promise((resolve) => {
             super.renderPlaylist();
             resolve(true);
