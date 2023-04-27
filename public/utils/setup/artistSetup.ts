@@ -96,6 +96,8 @@ export interface ContentArtist {
     artistClass?: string
     albumClass?: string
     albumDiv?: string
+    isArtistShow?: boolean
+    isAlbumShow?: boolean
 }
 
 /** JSON for liked songs */

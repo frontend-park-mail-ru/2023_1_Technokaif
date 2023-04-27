@@ -150,6 +150,7 @@ class Navbar {
         const templateInnerHtml = template(items);
         const contentHtml = this.#parent.innerHTML;
         this.#parent.innerHTML = (templateInnerHtml + contentHtml);
+        this.#callEventListener();
     }
 
     /**

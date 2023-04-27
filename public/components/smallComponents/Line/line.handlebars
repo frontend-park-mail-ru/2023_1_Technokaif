@@ -1,4 +1,4 @@
-<div class="{{root.lineDiv}}" data-id="{{item.id}}">
+<div class="{{root.lineDiv}}" data-id="{{item.id}}" data-albumId="{{item.albumID}}">
 <!--    Index -->
     <div class="{{root.lineIndex}}">{{#position}}{{@index}}{{/position}}</div>
 <!--    Buttons -->
@@ -17,7 +17,11 @@
 <!--    IMG of line-->
     <div class="{{root.lineBlock}}">
         {{#ifEquals root.isArtistPage true}}
-        <img src="{{#if item.cover}}{{#convert}}{{item.cover}}{{/convert}}{{else}}{{defaultTrackSrc}}{{/if}}" class="{{root.lineCover}}">
+            <img src="{{#if item.cover}}{{#convert}}{{item.cover}}{{/convert}}{{else}}{{defaultTrackSrc}}{{/if}}" class="{{root.lineCover}}">
+        {{/ifEquals}}
+
+        {{#ifEquals root.isPlaylistPage true}}
+            <img src="{{#if item.cover}}{{#convert}}{{item.cover}}{{/convert}}{{else}}{{defaultTrackSrc}}{{/if}}" class="{{root.lineCover}}">
         {{/ifEquals}}
 <!--        Title-->
         <div class="{{root.titleArtistDiv}}">
@@ -37,7 +41,7 @@
 
     <!--Album show-->
     {{#ifEquals root.isArtistShow true}}
-        {{#ifEquals root.isPlaylistPage true}}
+       {{#ifEquals root.isPlaylistPage true}}
             <div class="{{root.albumDiv}}">
                 <p class="{{root.albumClass}}">
                     {{item.albumName}}

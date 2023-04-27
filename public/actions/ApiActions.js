@@ -170,6 +170,14 @@ const ApiActions = {
             userId,
         });
     },
+
+    /** Favorite albums page api */
+    userPlaylists(userId) {
+        Dispatcher.dispatch({
+            type: ActionTypes.GET_USER_PLAYLISTS,
+            userId,
+        });
+    },
 };
 
 export default ApiActions;

@@ -40,9 +40,6 @@ export function setupLibraryTracks() {
         liked: 'likedDiv',
         buttonPlay: 'playButton js__button__play',
         albumLike: 'albumLike',
-
-        trackLineOptions: 'track-line-optionals',
-        optionsBlock: 'options-block',
     };
 }
 
@@ -94,5 +91,7 @@ export function setupLineList(items: [AlbumApi]):ContentArtist {
 
         trackLineOptions: 'track-line-optionals',
         optionsBlock: 'options-block',
+        isArtistShow: true,
+        isAlbumShow: false,
     };
 }

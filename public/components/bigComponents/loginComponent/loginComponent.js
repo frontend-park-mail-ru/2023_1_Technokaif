@@ -159,7 +159,8 @@ export class LoginComponent extends BaseComponent {
      */
     #handleLoginResponse(message) {
         if (message === 'OK') {
-            Router.go('/');
+            // eslint-disable-next-line no-restricted-globals
+            history.go(-1);
         } else {
             const element = document.querySelector('.title__error-text');
             element.hidden = false;

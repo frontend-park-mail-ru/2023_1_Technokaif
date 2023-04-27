@@ -264,6 +264,7 @@ export class ArtistContent extends BaseComponent {
 
     /**
      * @description render MainWindowContent in parent
+     * @description render MainWindowContent in parent
      */
     render() {
         const renderProcess = new Promise((resolve) => {
