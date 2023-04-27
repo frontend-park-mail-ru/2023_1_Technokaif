@@ -66,7 +66,6 @@ export class Album extends BaseComponent {
         const linesPlacement = document.querySelector('.js__placement-tracks');
         this.#lineConfigs.forEach((configForInsertElement) => {
             configForInsertElement.isArtistShow = true;
-            console.log('configForInsertElement', configForInsertElement);
             const line = new LineList(
                 linesPlacement,
                 configForInsertElement,

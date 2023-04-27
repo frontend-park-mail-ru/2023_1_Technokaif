@@ -165,3 +165,32 @@ export const ElementsClassForRegister = {
     month_error: 'js__error__month',
     year_error: 'js__error__year',
 };
+
+export const DIRECTIONS = {
+    forward: 'forward',
+    backward: 'backward',
+};
+
+export const ACTION_ON_PATH = {
+    goForward: 'goForward',
+    goBackward: 'goBackward',
+    login: 'login',
+    canBeAccessed: 'Accessed',
+};
+
+/**
+ * Black list of paths for authenticate user
+ * @type {string[]} paths
+ */
+export const BLACKLIST_AUTH = [
+    '/login',
+    '/register',
+];
+
+/**
+ * Black list of paths for authenticate user
+ * @type {string[]} paths
+ */
+export const BLACKLIST_UNAUTH = [
+    '^\/library\/',
+];
