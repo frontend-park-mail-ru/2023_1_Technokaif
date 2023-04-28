@@ -22,16 +22,31 @@ class Router extends IStore {
     /** Previous length of page */
     #length;
 
+    /** Length of page */
+    #lenState;
+
     /** Permissions for Users */
     #permissions: PermissionUser[];
 
+    /** Set previous direction */
+    #prevDirection;
+
+    /** Set previous state */
+    #prevState;
+
     /** Construct a router */
     constructor() {
-        super('Router');
+        // @ts-ignore
+        super('Router', ():void => {
+            super.state.direction = this.#prevDirection;
+            super.state.length = this.#length;
+            super.state.lenState = window.history.state.historyLen;
+        });
         this.#routes = [];
         this.#pageNotFoundRoute = '/404';
         this.#routesWithRegularTestUrl = [];
         this.#permissions = [];
+        this.#prevDirection = '';
 
         const previousParamsFromStore = sessionStorage.getItem('previousParams');
         if (previousParamsFromStore) {
@@ -39,6 +54,9 @@ class Router extends IStore {
         } else {
             this.#previousParams = null;
         }
+        this.#prevDirection = super.state.direction;
+        this.#length = super.state.length;
+        this.#lenState = super.state.lenState;
     }
 
     /** Send actions with store states after forward/backward transfer */
@@ -59,6 +77,7 @@ class Router extends IStore {
     #pushToHistory(path, length, state, id = '', page = '') {
         window.history.pushState(
             {
+                path,
                 historyLen: length,
                 stateInHistory: state,
                 id,
@@ -263,8 +282,6 @@ class Router extends IStore {
             );
             this.#length = window.history.length;
         }
-        sessionStorage.setItem('isStart', 'false');
-        sessionStorage.setItem('isRefresh', 'false');
 
         if (popstateEvent) {
             this.#sendStoresChanges(window.history.state.stateInHistory);
@@ -274,13 +291,26 @@ class Router extends IStore {
         if (renderPage) {
             objectRender.render();
         }
+
+        let lengthToWrite = window.history.length;
+        if (isRefresh) {
+            lengthToWrite = this.#lenState;
+        }
+        if (popstateEvent) {
+            lengthToWrite = window.history.state.historyLen;
+        }
+
         // todo rewrite
         window.history.replaceState({
-            historyLen: window.history.length,
+            path,
+            historyLen: lengthToWrite,
             stateInHistory: this.#previousParams.stateStore,
             id: this.#previousParams.id,
             page: this.#previousParams.page,
         }, '', path);
+
+        sessionStorage.setItem('isStart', 'false');
+        sessionStorage.setItem('isRefresh', 'false');
     }
 
     /** First start Router */
@@ -292,6 +322,7 @@ class Router extends IStore {
         window.addEventListener('beforeunload', () => {
             sessionStorage.setItem('previousParams', JSON.stringify(this.#previousParams));
             sessionStorage.setItem('isRefresh', 'true');
+            this.#lenState = window.history.state.historyLen;
         });
 
         window.addEventListener('popstate', (event) => {
@@ -306,22 +337,33 @@ class Router extends IStore {
             }
             event.preventDefault();
 
-            const pathToGo = window.location.pathname;
+            const pathToGo = window.history.state.path;
             let direction:string;
+
+            if (!this.#prevDirection) {
+                this.#prevDirection = DIRECTIONS.forward;
+            }
+
+            if (window.history.state === this.#prevState) {
+                console.warn('Too fast');
+                return;
+            }
 
             if (state.historyLen > this.#length) {
                 direction = DIRECTIONS.forward;
+            } else if (state.historyLen === this.#length) {
+                if (this.#prevDirection === DIRECTIONS.forward) {
+                    direction = DIRECTIONS.backward;
+                } else {
+                    direction = DIRECTIONS.forward;
+                }
             } else {
                 direction = DIRECTIONS.backward;
             }
-            console.group();
-            console.log('History', window.history.state);
-            console.log('State', state);
-            console.log('Direction', direction);
-            console.log('len', this.#length);
-            console.log('Path', pathToGo);
 
+            this.#prevDirection = direction;
             this.#length = state.historyLen;
+            this.#prevState = window.history.state;
 
             let actionOnPath:string;
             this.#permissions.forEach((permission) => {
@@ -331,8 +373,6 @@ class Router extends IStore {
                 actionOnPath = permission.getActionToTakeOnPop(pathToGo, direction);
             });
 
-            console.log('Action', actionOnPath);
-            console.groupEnd();
             // @ts-ignore
             switch (actionOnPath) {
             case ACTION_ON_PATH.goForward:
