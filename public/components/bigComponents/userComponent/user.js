@@ -62,7 +62,7 @@ export class User extends BaseComponent {
             const avatar = new Avatar(avatarPlacement, this.#config);
             avatar.render();
 
-            const formL = new Form(formsPlacement, this.#config.leftForm, '', dateSetup());
+            const formL = new Form(formsPlacement, this.#config.leftForm, dateSetup());
             formL.render();
 
             const formPassword = new Form(formsPlacement, this.#config.passwordForm);
