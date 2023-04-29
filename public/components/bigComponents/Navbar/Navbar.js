@@ -127,7 +127,6 @@ class Navbar {
         items.name = this.#name;
 
         const template = templateHtml;
-        delete items.items[0];
         const templateInnerHtml = template(items);
         this.#parent.innerHTML += templateInnerHtml;
 
@@ -151,6 +150,7 @@ class Navbar {
         const templateInnerHtml = template(items);
         const contentHtml = this.#parent.innerHTML;
         this.#parent.innerHTML = (templateInnerHtml + contentHtml);
+        this.#callEventListener();
     }
 
     /**

@@ -1,4 +1,4 @@
-<div class="{{root.lineDiv}}" data-id="{{item.id}}">
+<div class="{{root.lineDiv}}" data-id="{{item.id}}" data-albumId="{{item.albumID}}">
 <!--    Index -->
     <div class="{{root.lineIndex}}">{{#position}}{{@index}}{{/position}}</div>
 <!--    Buttons -->
@@ -17,7 +17,11 @@
 <!--    IMG of line-->
     <div class="{{root.lineBlock}}">
         {{#ifEquals root.isArtistPage true}}
-        <img src="{{#if item.cover}}{{#convert}}{{item.cover}}{{/convert}}{{else}}{{defaultTrackSrc}}{{/if}}" class="{{root.lineCover}}">
+            <img src="{{#if item.cover}}{{#convert}}{{item.cover}}{{/convert}}{{else}}{{defaultTrackSrc}}{{/if}}" class="{{root.lineCover}}">
+        {{/ifEquals}}
+
+        {{#ifEquals root.isPlaylistPage true}}
+            <img src="{{#if item.cover}}{{#convert}}{{item.cover}}{{/convert}}{{else}}{{defaultTrackSrc}}{{/if}}" class="{{root.lineCover}}">
         {{/ifEquals}}
 <!--        Title-->
         <div class="{{root.titleArtistDiv}}">
@@ -35,21 +39,23 @@
         </div>
     </div>
 
-    <!--    Album show-->
+    <!--Album show-->
     {{#ifEquals root.isArtistShow true}}
-        <div class="{{root.albumDiv}}">
-            <p class="{{root.albumClass}}">
-                {{item.albumName}}
-            </p>
-        </div>
+       {{#ifEquals root.isPlaylistPage true}}
+            <div class="{{root.albumDiv}}">
+                <p class="{{root.albumClass}}">
+                    {{item.albumName}}
+                </p>
+            </div>
+        {{/ifEquals}}
     {{/ifEquals}}
 
-    <!--    Listens-->
+    <!--Listens-->
     {{#ifEquals root.isArtistPage true}}
-    <div class="{{root.lineListensClass}}">{{item.listens}}</div>
+        <div class="{{root.lineListensClass}}">{{item.listens}}</div>
     {{/ifEquals}}
 
-    <!--    Liked button-->
+    <!--Liked button-->
     {{#ifEquals item.isLiked true}}
         <div class="{{root.likeButtons}}">
             <button type="button" class="{{root.like}}" hidden>
@@ -60,6 +66,7 @@
             </button>
         </div>
     {{/ifEquals}}
+
 <!--    Dislike button-->
     {{#ifEquals item.isLiked false}}
         <div class="{{root.likeButtons}}">

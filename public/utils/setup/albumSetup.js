@@ -88,32 +88,13 @@ export function setupLineList(items) {
         albumClass: 'albumClass',
         albumDiv: 'albumDiv',
 
+        trackLineOptions: 'track-line-optionals',
+        optionsBlock: 'options-block',
+
         content: items,
         isArtistPage: false,
-    };
-}
-
-/**
- *
- * @param track
- * @param position
- * @returns {json}
- */
-export function setupLine(track, position) {
-    return {
-        id: track.id,
-        positionTrack: position,
-        lineDiv: 'track',
-        imgLike: 'imgLike',
-        lineIndex: 'track__index',
-        lineBlock: 'track__img-block',
-        cover: track.cover,
-        isLiked: track.isLiked,
-        lineTitle: 'track__title',
-        name: track.name,
-        lineListens: 'track__listens',
-        listens: track.listens,
-        lineDuration: '',
-        duration: '',
+        isPlaylistPage: false,
+        isArtistShow: true,
+        isAlbumShow: false,
     };
 }

@@ -95,10 +95,10 @@ class IStore extends EventEmitter {
     /**
      * Hooks a component's callback to the event and save to events.
      * @param callback
-     * @param eventName
-     * @param componentName
+     * @param {string} eventName
+     * @param {string} componentName
      */
-    subscribe(callback, eventName, componentName = null) {
+    subscribe(callback, eventName, componentName = '') {
         if (!componentName) {
             this.emitterAddListenerToAllComponents(eventName, callback);
         } else {

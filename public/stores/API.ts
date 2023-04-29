@@ -28,6 +28,7 @@ import { userFavoriteArtistsAjax } from '../api/user/getUserFavoriteArtistsAjaxR
 import { instancesNames } from '../utils/config/instances';
 import { TrackInTape } from '../utils/setup/artistSetup';
 import { userFavoriteAlbumsAjax } from '../api/user/getUserFavoriteAlbumsAjaxReq';
+import { userPlaylistsAjax } from '../api/user/getUserPlaylistsAjaxReq';
 
 /**
  * Class using for getting data from backend.
@@ -127,6 +128,9 @@ class API extends IStore {
         case ActionTypes.GET_USER_FAVORITE_ARTISTS:
             this.userFavoriteArtistsRequest(action.userId);
             break;
+        case ActionTypes.GET_USER_PLAYLISTS:
+            this.userPlaylistsRequest(action.userId);
+            break;
         default:
         }
     }
@@ -203,7 +207,7 @@ class API extends IStore {
      */
     #likeTrackRequest(id: string) {
         setTrackLikeAjax(id).then((message) => {
-            this.jsEmit(EventTypes.LIKED_TRACK, message);
+            this.jsEmit(EventTypes.LIKED_TRACK, message, id);
         });
     }
 
@@ -213,7 +217,7 @@ class API extends IStore {
      */
     #unlikeTrackRequest(id: string) {
         removeTrackLikeAjax(id).then((message) => {
-            this.jsEmit(EventTypes.UNLIKED_TRACK, message);
+            this.jsEmit(EventTypes.UNLIKED_TRACK, message, id);
         });
     }
 
@@ -280,20 +284,8 @@ class API extends IStore {
 
     /** Get album from API */
     #getAlbumTracks(id: string) {
-        getAlbumTracksFromServer(id).then((message) => {
-            const promises: Promise<string>[] = [] as Promise<string>[];
-            if (message) {
-                (message as Array<TrackInTape>).forEach((element) => {
-                    const albumId = element.albumID;
-                    if (albumId) {
-                        promises.push(this.#getAlbumName(albumId).then((albumMessage) => {
-                            element.albumName = albumMessage;
-                            return albumMessage;
-                        }));
-                    }
-                });
-                Promise.allSettled(promises).then(() => Actions.addAlbumToContent(message));
-            }
+        getAlbumTracksFromServer(id).then((tracks) => {
+            Actions.addAlbumToContent(tracks);
         });
     }
 
@@ -347,7 +339,22 @@ class API extends IStore {
      */
     private userFavoriteTracksRequest(userId: string) {
         userFavoriteTracksAjax(userId).then((tracks) => {
-            Actions.addFavoriteContent(tracks, instancesNames.FAVORITE_TRACKS_PAGE);
+            const promises: Promise<string>[] = [] as Promise<string>[];
+            if (tracks) {
+                (tracks as Array<TrackInTape>).forEach((element) => {
+                    const albumId = element.albumID;
+                    if (albumId) {
+                        promises.push(this.#getAlbumName(albumId).then((albumMessage) => {
+                            element.albumName = albumMessage;
+                            return albumMessage;
+                        }));
+                    }
+                });
+                Promise.allSettled(promises).then(() => {
+                    Actions.addFavoriteContent(tracks, instancesNames.FAVORITE_TRACKS_PAGE);
+                    Actions.addFavoriteContent(tracks, instancesNames.LIKED_SONGS);
+                });
+            }
             // this.jsEmit(EventTypes.GOT_FAVORITE_TRACKS, tracks);
         });
     }
@@ -359,7 +366,6 @@ class API extends IStore {
     private userFavoriteAlbumsRequest(userId: string) {
         userFavoriteAlbumsAjax(userId).then((albums) => {
             Actions.addFavoriteContent(albums, instancesNames.FAVORITE_ALBUMS_PAGE);
-            // this.jsEmit(EventTypes.GOT_FAVORITE_TRACKS, tracks);
         });
     }
 
@@ -370,6 +376,16 @@ class API extends IStore {
     private userFavoriteArtistsRequest(userId: string) {
         userFavoriteArtistsAjax(userId).then((artists) => {
             Actions.addFavoriteContent(artists, instancesNames.FAVORITE_ARTISTS_PAGE);
+        });
+    }
+
+    /**
+     * Function to get user playlists by user id
+     * @param userId
+     */
+    private userPlaylistsRequest(userId: string) {
+        userPlaylistsAjax(userId).then((playlists) => {
+            Actions.addFavoriteContent(playlists, instancesNames.USER_PLAYLISTS_PAGE);
         });
     }
 }

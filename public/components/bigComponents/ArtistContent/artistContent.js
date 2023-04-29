@@ -22,6 +22,8 @@ import SongStore from '../../../stores/SongStore';
 import { LikedSongs } from '../../smallComponents/LikedSongs/likedSongs';
 import { checkAuth } from '../../../utils/functions/checkAuth';
 import { imgPath } from '../../../utils/config/pathConfig';
+import { instancesNames } from '../../../utils/config/instances';
+import API from '../../../stores/API';
 
 /**
  * Create Artist content
@@ -105,10 +107,16 @@ export class ArtistContent extends BaseComponent {
     /**
      * Method to render liked songs
      * @param artist
+     * @param tracks
      */
-    #renderLikedSongs(artist) {
+    #renderLikedSongs(artist, tracks) {
         const placement = document.querySelector('.artist-items');
-        const likedSongs = new LikedSongs(placement, setupLikedSongs(artist));
+        const likeBlock = document.querySelector('.liked-songs');
+        if (likeBlock) {
+            placement.removeChild(likeBlock);
+        }
+        const counter = tracks.filter((track) => (track.artists.filter((trackArtist) => trackArtist.name === artist.name).length > 0)).length;
+        const likedSongs = new LikedSongs(placement, setupLikedSongs(artist, counter));
         likedSongs.appendElement();
     }
 
@@ -205,8 +213,7 @@ export class ArtistContent extends BaseComponent {
                     this.#renderLines();
 
                     if (checkAuth()) {
-                        const artist1 = ContentStore.state[pageNames.ARTIST_PAGE].artist;
-                        this.#renderLikedSongs(artist1);
+                        ApiActions.favoriteTracks(localStorage.getItem('userId'));
                     }
 
                     break;
@@ -222,9 +229,41 @@ export class ArtistContent extends BaseComponent {
             EventTypes.ARTIST_CONTENT_DONE,
             this.name,
         );
+
+        API.subscribe(
+            () => {
+                ApiActions.favoriteTracks(localStorage.getItem('userId'));
+            },
+            EventTypes.LIKED_TRACK,
+            this.name,
+        );
+
+        API.subscribe(
+            () => {
+                ApiActions.favoriteTracks(localStorage.getItem('userId'));
+            },
+            EventTypes.UNLIKED_TRACK,
+            this.name,
+        );
+
+        ContentStore.subscribe(
+            (instance) => {
+                const { artist } = ContentStore.state[pageNames.ARTIST_PAGE];
+                const tracks = ContentStore.state[pageNames.ARTIST_PAGE][instancesNames.LIKED_SONGS];
+                switch (instance) {
+                case instancesNames.LIKED_SONGS:
+                    this.#renderLikedSongs(artist, tracks);
+                    break;
+                default:
+                }
+            },
+            EventTypes.GOT_FAVORITE_TRACKS,
+            this.name,
+        );
     }
 
     /**
+     * @description render MainWindowContent in parent
      * @description render MainWindowContent in parent
      */
     render() {
