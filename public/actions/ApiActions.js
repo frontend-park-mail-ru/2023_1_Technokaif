@@ -25,7 +25,6 @@ const ApiActions = {
             type: ActionTypes.LOGOUT,
         });
     },
-
     /** Feed page */
     feed() {
         Dispatcher.dispatch({

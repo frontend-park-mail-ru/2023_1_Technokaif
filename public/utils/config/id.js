@@ -4,7 +4,6 @@
 export const ID_REG = {
     formTemplate: 'form-template',
     dateTemplate: 'date-template',
-    sexTemplate: 'sex-template',
     email: 'email',
     emailConf: 'emailConf',
     password: 'password',

@@ -92,9 +92,6 @@ export const ElementsClassForUser = {
     month: 'js__month',
     year: 'js__year',
 
-    gender: 'js__gender',
-    gender_element: 'js__gender__element',
-
     password: 'js__password',
     newPassword: 'js__new__password',
     newConfPassword: 'js__new__confirm__password',
@@ -105,8 +102,6 @@ export const ElementsClassForUser = {
     day_error: 'js__error__day',
     month_error: 'js__error__month',
     year_error: 'js__error__year',
-
-    gender_error: 'js__error__gender',
 
     password_error: 'js__error__password',
     newPasswordError: 'js__error__new__password',
@@ -157,8 +152,6 @@ export const ElementsClassForRegister = {
     day: 'js__day',
     month: 'js__month',
     year: 'js__year',
-    gender: 'js__gender',
-    gender_element: 'js__gender__element',
 
     login_error: 'js__error__login',
     email_error: 'js__error__email',
@@ -171,5 +164,33 @@ export const ElementsClassForRegister = {
     day_error: 'js__error__day',
     month_error: 'js__error__month',
     year_error: 'js__error__year',
-    gender_error: 'js__error__gender',
 };
+
+export const DIRECTIONS = {
+    forward: 'forward',
+    backward: 'backward',
+};
+
+export const ACTION_ON_PATH = {
+    goForward: 'goForward',
+    goBackward: 'goBackward',
+    login: 'login',
+    canBeAccessed: 'Accessed',
+};
+
+/**
+ * Black list of paths for authenticate user
+ * @type {string[]} paths
+ */
+export const BLACKLIST_AUTH = [
+    '/login',
+    '/register',
+];
+
+/**
+ * Black list of paths for authenticate user
+ * @type {string[]} paths
+ */
+export const BLACKLIST_UNAUTH = [
+    '^\/library\/',
+];

@@ -98,6 +98,7 @@ export class BaseComponent {
     render() {
         this.#subscribeAll();
         this.#parent.innerHTML = this.#template(this.#config);
+        this.#element = document.querySelector(`.${this.name}`);
     }
 
     /** Append element to parent without clearing it */

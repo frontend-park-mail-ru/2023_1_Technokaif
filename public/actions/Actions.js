@@ -86,6 +86,23 @@ const Actions = {
         });
     },
 
+    /** Action to add items got from artist api in ContentStore */
+    artistAddContent(item, instance) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ARTIST_GOT_ALL_CONTENT,
+            item,
+            instance,
+        });
+    },
+
+    /** Action to add items got from user api in ContentStore */
+    userAddContent(userData) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ADD_USER_INFO,
+            userData,
+        });
+    },
+
     /** Router changes item in Store state */
     sendStoreState(item) {
         Dispatcher.dispatch({

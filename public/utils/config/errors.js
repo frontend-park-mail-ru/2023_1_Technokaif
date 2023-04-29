@@ -12,7 +12,6 @@ export const ERRORS_REG = {
     day: 'Incorrect day',
     month: 'Incorrect month',
     year: 'Incorrect year',
-    sex: 'Choose your gender.',
 };
 
 // todo how to merge in one
@@ -30,7 +29,6 @@ export const ERRORS_USER = {
     day: 'Incorrect day',
     month: 'Incorrect month',
     year: 'Incorrect year',
-    sex: 'Choose your gender.',
 };
 
 /**

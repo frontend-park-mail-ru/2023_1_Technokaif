@@ -2,11 +2,11 @@ import IStore from './IStore';
 
 import {
     getUsernameError, getPasswordError, getDayError, getYearError, getMonthError, getEmailError,
-    getSexError, getNameError, checkIsEmail, translateMonthStrToInt,
+    getNameError, checkIsEmail, translateMonthStrToInt,
 } from '../utils/functions/validation.js';
 import ActionTypes from '../actions/ActionTypes';
 import { EventTypes } from '../utils/config/EventTypes';
-import { checkForEmpty, getSexInString } from '../utils/functions/utils';
+import { checkForEmpty } from '../utils/functions/utils';
 import { NAME_OF_VALIDATION } from '../utils/config/validateConf';
 
 const EMPTY_ERROR = 'EMPTY';
@@ -105,9 +105,6 @@ class UserInfoStore extends IStore {
                 Password: value.password,
                 confPassword: value.confPassword,
             }, false);
-            break;
-        case 'sex':
-            this.#getSexError(value);
             break;
         case 'firstname':
             super.changeFieldInState('firstName', value);
@@ -361,42 +358,6 @@ class UserInfoStore extends IStore {
     }
 
     /**
-     * If gender correct will emit 'OK' else 'BAD'
-     * If gender field is empty will return 'OK' without loginType flag
-     *
-     * @param {string} sex value from user
-     * @param {boolean} loginType if true will return 'BAD' when empty field
-     */
-    #getSexError(sex, loginType = false) {
-        if (!sex) {
-            this.#emitResponse('gender', BAD_RESPONSE);
-            return;
-        }
-
-        const { gender } = sex;
-        let status;
-        if (checkForEmpty(gender) && !loginType) {
-            status = EMPTY_ERROR;
-        } else if (gender.length < 2) {
-            status = getSexError(...gender);
-        } else {
-            status = BAD_RESPONSE;
-        }
-
-        if (!status) {
-            super.changeFieldInState('gender', getSexInString(gender[0]));
-            status = OK_RESPONSE;
-        }
-
-        if (status !== EMPTY_ERROR) {
-            this.#emitResponse('gender', status);
-        }
-        if (status === EMPTY_ERROR) {
-            this.#emitResponse('gender', OK_RESPONSE);
-        }
-    }
-
-    /**
      * Get value from state with name of nameOfField
      * If name correct then emit 'OK' signal else 'BAD'
      *
@@ -422,24 +383,6 @@ class UserInfoStore extends IStore {
         }
         if (status === EMPTY_ERROR) {
             this.#emitResponse(nameOfField, OK_RESPONSE);
-        }
-    }
-
-    /**
-     * If gender in Store is 'M'/'F'/'O' then change state errors gender to false
-     * else change to true
-     * */
-    #checkValueGender() {
-        switch (super.state.gender) {
-        case 'O':
-        case 'F':
-        case 'M':
-            super.state.errors.gender = false;
-            this.#emitResponse('gender', OK_RESPONSE);
-            break;
-        default:
-            super.state.errors.gender = true;
-            this.#emitResponse('gender', BAD_RESPONSE);
         }
     }
 
@@ -561,10 +504,8 @@ class UserInfoStore extends IStore {
 
         this.#checkName('firstName', true);
         this.#checkName('lastName', true);
-        // this.#checkValueGender();
 
         const { errors } = super.state;
-        errors.gender = false;
 
         let status = OK_RESPONSE;
         for (const errorField in errors) {
@@ -611,7 +552,6 @@ class UserInfoStore extends IStore {
      * day
      * month
      * year
-     * gender
      * password
      * newPassword
      * newConfPassword
@@ -628,10 +568,7 @@ class UserInfoStore extends IStore {
         this.#getMonthError(true);
         this.#getEmailError(true);
 
-        this.#getSexError(value.gender);
-        this.#checkValueGender();
-
-        const whatToCheck = ['email', 'day', 'month', 'year', 'gender'];
+        const whatToCheck = ['email', 'day', 'month', 'year'];
 
         let status = OK_RESPONSE;
         for (const errorField in whatToCheck) {

@@ -214,37 +214,6 @@ export function getEmailError(email, confirmEmail = '') {
 
 /**
  *
- * @param  {...any} boxes -- strings of sex
- * @return null if correct else return 'sex'
- *
- * Correct:
- *  Only one value;
- *  Value: male, female, dont.
- */
-export function getSexError(...boxes) {
-    if (!boxes || boxes.length === 0) {
-        return ERRORS.sex;
-    }
-    let isInputCorrect = false;
-    switch (boxes[0]) {
-    case 'male':
-    case 'female':
-    case 'dont':
-        isInputCorrect = true;
-        break;
-    default:
-        isInputCorrect = false;
-    }
-
-    if (!isInputCorrect) {
-        return ERRORS.sex;
-    }
-
-    return null;
-}
-
-/**
- *
  * @param {string} username -- username to validate
  * @return null if correct else 'username'
  *

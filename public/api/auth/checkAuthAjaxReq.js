@@ -1,5 +1,5 @@
 import { apiUrl } from '../../utils/config/apiUrls.js';
-import Ajax from '../../modules/Ajax.ts';
+import Ajax from '../../modules/Ajax';
 
 /**
  * Api-oriented check state function.
