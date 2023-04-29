@@ -43,7 +43,10 @@ export class HeaderWithButton {
             (list) => {
                 const component = list.filter((comp) => comp.name === this.#name);
                 if (component.length !== 0) {
-                    Actions.removeElementFromPage(component.name);
+                    component.forEach((element) => {
+                        Actions.removeElementFromPage(element.name);
+                    });
+
                     unsubscribeFromAllStoresOnComponent(this.#name);
                     this.unRender();
                 }
