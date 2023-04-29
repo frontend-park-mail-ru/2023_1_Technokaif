@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="{{lineListClass}}">
     {{#ifEquals isArtistPage true}}
         <p class="{{title}}">{{titleText}}</p>
@@ -23,3 +24,35 @@
         {{> ../../smallComponents/Line/line.handlebars item = this root = ../. }}
     {{/each}}
 </div>
+=======
+<div class="{{lineListClass}}">
+<!--    todo rewrite later-->
+    {{#ifEquals isArtistPage true}}
+        <p class="{{title}}">{{titleText}}</p>
+    {{/ifEquals}}
+
+    {{#ifEquals isShowTitle true}}
+        <p class="{{title}}">{{titleText}}</p>
+    {{/ifEquals}}
+
+    {{#ifEquals isArtistPage false}}
+    <div class="{{trackLineOptions}} {{optionsBlock}}">
+        <div class="{{lineIndex}}">
+            <p>#</p>
+        </div>
+        <div class="{{lineBlock}}">
+            <p>TITLE</p>
+        </div>
+        {{#ifEquals isPlaylistPage true}}
+            <div class="{{albumDiv}}">
+                <p>ALBUM</p>
+            </div>
+        {{/ifEquals}}
+    </div>
+    {{/ifEquals}}
+
+    {{#each content}}
+        {{> ../../smallComponents/Line/line.handlebars item = this root = ../. }}
+    {{/each}}
+</div>
+>>>>>>> 5935be8 (Add Search page without API)
