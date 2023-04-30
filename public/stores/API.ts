@@ -413,7 +413,7 @@ class API extends IStore {
 
     /** Search for track with value */
     private searchForArtistsWithName(value) {
-        search(apiUrl.TRACK_SEARCH_API, value).then((artists) => {
+        search(apiUrl.ARTIST_SEARCH_API, value).then((artists) => {
             ActionsSearch.gotArtists(artists);
         });
     }

@@ -12,7 +12,7 @@ import SongStore from '../../../stores/SongStore';
 import { imgPath } from '../../../utils/config/pathConfig';
 import Router from '../../../router/Router';
 // eslint-disable-next-line import/namespace
-import { LineList } from '../../smallComponents/LineList/lineList';
+import { LineList } from '../LineList/lineList';
 
 /** Class for Album */
 export class Album extends BaseComponent {

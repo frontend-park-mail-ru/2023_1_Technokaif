@@ -1,7 +1,7 @@
 import templateHTML from './lineList.handlebars';
 import { BaseComponent } from '../../BaseComponent';
 import './lineList.less';
-import '../Line/line.less';
+import '../../smallComponents/Line/line.less';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import Actions from '../../../actions/Actions';
 import ContentStore from '../../../stores/ContentStore';
@@ -108,6 +108,7 @@ export class LineList extends BaseComponent {
                     console.error('Cannot find index block');
                     return;
                 }
+
                 const id = +indexBlock?.innerText;
                 if (!id) {
                     console.error('Cannot get inner text or convert');
@@ -148,6 +149,9 @@ export class LineList extends BaseComponent {
                                     }
                                 });
 
+                                break;
+                            case componentsNames.SEARCH_LINE:
+                                Actions.playTrack(trackId);
                                 break;
                             default:
                             }

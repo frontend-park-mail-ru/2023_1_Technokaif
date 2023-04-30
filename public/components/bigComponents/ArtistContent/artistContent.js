@@ -1,6 +1,6 @@
 import templateHtml from './artistContent.handlebars';
 import './artistContent.less';
-import { LineList } from '../../smallComponents/LineList/lineList';
+import { LineList } from '../LineList/lineList';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
 import { Tape } from '../Tape/tape';

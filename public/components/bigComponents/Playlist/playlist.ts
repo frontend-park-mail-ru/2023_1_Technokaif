@@ -1,6 +1,6 @@
 import templateHtml from './categoryTracks.handlebars';
 import './library.less';
-import { LineList } from '../../smallComponents/LineList/lineList';
+import { LineList } from '../LineList/lineList';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
 import { EventTypes } from '../../../utils/config/EventTypes';
@@ -9,7 +9,7 @@ import Actions from '../../../actions/Actions';
 // todo dont forget about it on playlist
 import {
     setupLineList,
-} from '../../../utils/setup/artistSetup';
+} from '../../../utils/setup/libraryTracksSetup';
 import SongStore from '../../../stores/SongStore';
 import IStore from '../../../stores/IStore';
 import { imgPath } from '../../../utils/config/pathConfig';

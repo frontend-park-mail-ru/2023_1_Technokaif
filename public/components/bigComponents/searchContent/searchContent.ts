@@ -9,6 +9,9 @@ import {
 import { Tape } from '../Tape/tape';
 import { SearchLine } from '../../smallComponents/searchLine/search';
 import { searchSetup } from '../../../utils/setup/searchSetup';
+import { LineList } from '../LineList/lineList';
+import { setupLineList } from '../../../utils/setup/libraryTracksSetup';
+import { componentsNames } from '../../../utils/config/componentsNames';
 
 /**
  * Create Artist content
@@ -32,15 +35,16 @@ export class SearchContent extends BaseComponent {
     }
 
     /** Function to render track lines by input configs. */
-    // @ts-ignore
     private renderLines(tracks) {
         const linesPlacement = document.querySelector('.js__placement-tracks');
         if (!linesPlacement) {
             console.error('Error in rendering of lines');
             return;
         }
-        console.log('Return not delete by ide');
-        // todo lineList place here
+
+        // eslint-disable-next-line max-len
+        const lines = new LineList(linesPlacement, setupLineList(tracks), componentsNames.SEARCH_LINE);
+        lines.render();
     }
 
     /** Render Albums in search */
@@ -63,9 +67,9 @@ export class SearchContent extends BaseComponent {
             console.error('Error in rendering of artists');
             return;
         }
-        const configForTape = setupTape('Albums', artists);
+        const configForTape = setupTape('Artists', artists);
 
-        const tape = new Tape(albumPlacement as HTMLElement, configForTape, 'Albums');
+        const tape = new Tape(albumPlacement as HTMLElement, configForTape, 'Artists');
         tape.render();
     }
 
@@ -87,27 +91,33 @@ export class SearchContent extends BaseComponent {
         const state = ContentStore.state.searchPage;
         ContentStore.subscribe(
             () => {
+                if (!state?.tracks) {
+                    return;
+                }
                 this.renderLines(state.tracks);
             },
-            // todo add to types
             EventTypes.SEARCH_TRACKS_ADDED,
             this.name,
         );
 
         ContentStore.subscribe(
             () => {
+                if (!state?.albums) {
+                    return;
+                }
                 this.renderAlbums(state.albums);
             },
-            // todo add to types
             EventTypes.SEARCH_ALBUMS_ADDED,
             this.name,
         );
 
         ContentStore.subscribe(
             () => {
+                if (!state?.artists) {
+                    return;
+                }
                 this.renderArtist(state.artists);
             },
-            // todo add to types
             EventTypes.SEARCH_ARTISTS_ADDED,
             this.name,
         );
