@@ -4,6 +4,7 @@ import { EventTypes } from '../utils/config/EventTypes.js';
 import Actions from '../actions/Actions';
 import { componentsNames } from '../utils/config/componentsNames.js';
 import { componentsJSNames } from '../utils/config/componentsJSNames';
+import { pageNames } from '../utils/config/pageNames';
 
 /** Object that contain name and render function */
 export interface NameAndRender {
@@ -52,6 +53,10 @@ export abstract class BaseView {
      * @param list
      */
     #renderComponentsList(list: Array<NameAndRender>):void {
+        if (this.#viewName === pageNames.LOGIN || this.#viewName === pageNames.REGISTER) {
+            return;
+        }
+
         list.forEach((component) => {
             const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);
