@@ -401,21 +401,21 @@ class API extends IStore {
     private searchForTracksWithName(value) {
         search(apiUrl.TRACK_SEARCH_API, value).then((tracks) => {
             ActionsSearch.gotTracks(tracks);
-        });
+        }).catch(() => {});
     }
 
     /** Search for track with value */
     private searchForAlbumsWithName(value) {
         search(apiUrl.ALBUM_SEARCH_API, value).then((albums) => {
             ActionsSearch.gotAlbums(albums);
-        });
+        }).catch(() => {});
     }
 
     /** Search for track with value */
     private searchForArtistsWithName(value) {
         search(apiUrl.ARTIST_SEARCH_API, value).then((artists) => {
             ActionsSearch.gotArtists(artists);
-        });
+        }).catch(() => {});
     }
 }
 

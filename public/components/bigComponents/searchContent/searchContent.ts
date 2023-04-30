@@ -44,7 +44,7 @@ export class SearchContent extends BaseComponent {
 
         // eslint-disable-next-line max-len
         const lines = new LineList(linesPlacement, setupLineList(tracks), componentsNames.SEARCH_LINE);
-        lines.render();
+        lines.appendElement();
     }
 
     /** Render Albums in search */
@@ -57,7 +57,7 @@ export class SearchContent extends BaseComponent {
         const configForTape = setupTape('Albums', albums);
 
         const tape = new Tape(albumPlacement as HTMLElement, configForTape, 'Albums');
-        tape.render();
+        tape.appendElement();
     }
 
     /** Render Artist in search */
@@ -70,7 +70,7 @@ export class SearchContent extends BaseComponent {
         const configForTape = setupTape('Artists', artists);
 
         const tape = new Tape(albumPlacement as HTMLElement, configForTape, 'Artists');
-        tape.render();
+        tape.appendElement();
     }
 
     /** Add search line */
@@ -96,8 +96,8 @@ export class SearchContent extends BaseComponent {
                     tracksPlacement.innerHTML = '';
                 }
                 // @ts-ignore
-                if (state.tracks && state.tracks.length !== 0) {
-                    this.renderLines(state.tracks);
+                if (state.tracks && state.tracks.length > 0) {
+                    this.renderLines(state.tracks.tracks);
                 }
             },
             EventTypes.SEARCH_TRACKS_ADDED,
@@ -113,8 +113,8 @@ export class SearchContent extends BaseComponent {
                     albumsPlacement.innerHTML = '';
                 }
                 // @ts-ignore
-                if (state.albums && state.albums !== []) {
-                    this.renderAlbums(state.albums);
+                if (state.albums && state.albums.length > 0) {
+                    this.renderAlbums(state.albums.albums);
                 }
             },
             EventTypes.SEARCH_ALBUMS_ADDED,
@@ -130,8 +130,8 @@ export class SearchContent extends BaseComponent {
                 }
 
                 // @ts-ignore
-                if (state.artists && state.artists !== []) {
-                    this.renderArtist(state.artists);
+                if (state.artists && state.artists.length > 0) {
+                    this.renderArtist(state.artists.artists);
                 }
             },
             EventTypes.SEARCH_ARTISTS_ADDED,

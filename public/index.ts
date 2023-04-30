@@ -278,6 +278,10 @@ function renderMainPage() {
                 name: componentsNames.SEARCH_CONTENT,
                 render: componentsRenders.renderSearchContent,
             },
+            {
+                name: componentsNames.PLAYER,
+                render: ComponentsRenders.renderPlayer,
+            },
         ],
     );
 

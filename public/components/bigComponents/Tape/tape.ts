@@ -220,12 +220,14 @@ export class Tape extends BaseComponent {
 
     /** Append element to parent */
     public override appendElement() {
+        console.log('Append');
         const pr:Promise<void> = new Promise((resolve) => {
             super.appendElement();
             resolve();
         });
 
         pr.then(() => {
+            console.log('addEventListener');
             this.#addEventListeners();
             this.#subscribe();
         });
