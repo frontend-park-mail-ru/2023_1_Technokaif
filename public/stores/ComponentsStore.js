@@ -76,6 +76,8 @@ class ComponentsStore extends IStore {
         case componentsNames.LIBRARY_TRACKS:
         case componentsNames.LIBRARY_ARTISTS:
         case componentsNames.LIBRARY_ALBUMS:
+        case componentsNames.LIBRARY_PLAYLISTS:
+        case componentsNames.PLAYLIST:
         case componentsNames.SEARCH_CONTENT:
             return document.getElementsByClassName(`${componentsJSNames.MAIN}`)[0];
         case componentsNames.LOGIN_FORM:

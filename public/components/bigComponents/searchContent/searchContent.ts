@@ -54,7 +54,7 @@ export class SearchContent extends BaseComponent {
             console.error('Error in rendering of albums');
             return;
         }
-        const configForTape = setupTape('Albums', albums);
+        const configForTape = setupTape('Albums', 'Albums', albums);
 
         const tape = new Tape(albumPlacement as HTMLElement, configForTape, 'Albums');
         tape.appendElement();
@@ -67,7 +67,7 @@ export class SearchContent extends BaseComponent {
             console.error('Error in rendering of artists');
             return;
         }
-        const configForTape = setupTape('Artists', artists);
+        const configForTape = setupTape('Artists', 'Artists', artists);
 
         const tape = new Tape(albumPlacement as HTMLElement, configForTape, 'Artists');
         tape.appendElement();

@@ -292,8 +292,17 @@ const Actions = {
         });
     },
 
-    /** Function to send data in ContentStore from API */
+    /** Function to send favorite data in ContentStore from API */
     addFavoriteContent(items, instance) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ADD_FAVORITE_CONTENT,
+            items,
+            instance,
+        });
+    },
+
+    /** Function to send data about playlists in ContentStore from API */
+    addPlaylistContent(items, instance) {
         Dispatcher.dispatch({
             type: ActionTypes.ADD_FAVORITE_CONTENT,
             items,

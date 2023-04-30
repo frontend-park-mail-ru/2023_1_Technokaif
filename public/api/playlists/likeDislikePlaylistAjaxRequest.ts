@@ -2,15 +2,15 @@ import Ajax from '../../modules/Ajax';
 import { apiUrl } from '../../utils/config/apiUrls.js';
 
 /**
- * Like album
+ * Like/dislike playlist
  */
-export async function likeArtist(id) {
+export async function likePlaylist(id) {
     let status;
     await Ajax.post({
-        url: apiUrl.ARTIST_LIKE(id),
+        url: apiUrl.PLAYLIST_LIKE(id),
         body: null,
         reject: (message) => {
-            console.error('Artist like request api error:', message);
+            console.error('Playlist like request api error:', message);
         },
     }).then(() => {
         status = 'OK';
@@ -24,13 +24,13 @@ export async function likeArtist(id) {
 /**
  * Dislike album
  */
-export async function unLikeArtist(id) {
+export async function dislikePlaylist(id) {
     let status;
     await Ajax.post({
-        url: apiUrl.ARTIST_UNLIKE(id),
+        url: apiUrl.PLAYLIST_UNLIKE(id),
         body: null,
         reject: (message) => {
-            console.error('Artist unlike request api error:', message);
+            console.error('Playlist dislike request api error:', message);
         },
     }).then(() => {
         status = 'OK';

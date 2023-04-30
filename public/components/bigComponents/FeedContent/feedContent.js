@@ -62,7 +62,7 @@ export class FeedContent extends BaseComponent {
             () => {
                 const state = ContentStore.state[pageNames.FEED];
                 for (const key in state) {
-                    this.#configs.push(setupTape(key, shuffleArray(state[key]).slice(0, 5)));
+                    this.#configs.push(setupTape(key, key, shuffleArray(state[key]).slice(0, 5)));
                 }
 
                 this.#renderTapes();

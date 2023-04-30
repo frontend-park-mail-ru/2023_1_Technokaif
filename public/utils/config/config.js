@@ -58,7 +58,7 @@ export const sidebarConfig = {
     },
     createPlaylist: {
         name: 'Create Playlist',
-        href: '/createPlaylist',
+        href: '/createPlaylistAjaxRequest',
         key: 'createPlaylist',
         logoSrc: imgPath.createPlaylistLogo,
     },

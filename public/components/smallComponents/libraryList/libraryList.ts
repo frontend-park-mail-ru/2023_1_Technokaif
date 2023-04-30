@@ -40,6 +40,7 @@ export class LibraryList extends BaseComponent {
                 Router.go(routingUrl.LIBRARY_ALBUMS);
                 break;
             case 'Playlists':
+                Router.go(routingUrl.LIBRARY_PLAYLISTS);
                 break;
             default:
             }

@@ -7,7 +7,7 @@ import { pageNames } from '../../../../utils/config/pageNames';
 /**
  * Class of favorite tracks playlist
  */
-export class FavoriteTracks extends Playlist {
+export class UserPlaylist extends Playlist {
     /**
      * Create Favorite tracks. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place favorite tracks

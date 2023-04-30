@@ -170,10 +170,18 @@ const ApiActions = {
         });
     },
 
-    /** Favorite albums page api */
+    /** User playlists page api */
     userPlaylists(userId) {
         Dispatcher.dispatch({
             type: ActionTypes.GET_USER_PLAYLISTS,
+            userId,
+        });
+    },
+
+    /** Favorite playlists page api */
+    userFavoritePlaylists(userId) {
+        Dispatcher.dispatch({
+            type: ActionTypes.GET_USER_FAVORITE_PLAYLISTS,
             userId,
         });
     },
