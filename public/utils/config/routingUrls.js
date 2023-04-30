@@ -5,6 +5,7 @@ export const routingUrl = {
     PAGE404: '/404',
     PROFILE: '/profile',
     LIBRARY: '/library',
+    SEARCH: '/search',
     LIBRARY_TRACKS: '/library/tracks',
     LIBRARY_ALBUMS: '/library/albums',
     LIBRARY_ARTISTS: '/library/artists',

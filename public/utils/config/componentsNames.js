@@ -23,4 +23,5 @@ export const componentsNames = {
     LIBRARY_ALBUMS: 'js__library-albums',
     LIBRARY_PLAYLISTS: 'js__library-playlists',
     SEARCH_LINE: 'SEARCH_LINE',
+    SEARCH_CONTENT: 'search-content',
 };

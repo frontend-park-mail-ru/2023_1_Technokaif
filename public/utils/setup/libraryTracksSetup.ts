@@ -93,5 +93,6 @@ export function setupLineList(items: [AlbumApi]):ContentArtist {
         optionsBlock: 'options-block',
         isArtistShow: true,
         isAlbumShow: false,
+        isShowTitle: false,
     };
 }

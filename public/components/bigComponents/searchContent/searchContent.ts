@@ -1,30 +1,19 @@
-import templateHtml from './categoryTracks.handlebars';
-import './library.less';
-import { LineList } from '../../smallComponents/LineList/lineList';
-import { componentsNames } from '../../../utils/config/componentsNames';
+import templateHtml from './searchContent.handlebars';
+import './searchContent.less';
 import { BaseComponent } from '../../BaseComponent';
 import { EventTypes } from '../../../utils/config/EventTypes';
 import ContentStore from '../../../stores/ContentStore';
-import Actions from '../../../actions/Actions';
 import {
-    setupLineList, setupTape,
+    setupTape,
 } from '../../../utils/setup/artistSetup';
-import SongStore from '../../../stores/SongStore';
-import IStore from '../../../stores/IStore';
-import { imgPath } from '../../../utils/config/pathConfig';
-import { pageNames } from '../../../utils/config/pageNames';
-import {Tape} from "../Tape/tape";
-import ActionTypes from "../../../actions/ActionTypes";
-import {SearchLine} from "../../smallComponents/searchLine/search";
-import {searchSetup} from "../../../utils/setup/searchSetup";
+import { Tape } from '../Tape/tape';
+import { SearchLine } from '../../smallComponents/searchLine/search';
+import { searchSetup } from '../../../utils/setup/searchSetup';
 
 /**
  * Create Artist content
  */
-export class Playlist extends BaseComponent {
-    /** Flag if album was loaded */
-    #isAlbumLoaded;
-
+export class SearchContent extends BaseComponent {
     /**
      * Parent where to render
      */
@@ -37,13 +26,13 @@ export class Playlist extends BaseComponent {
      * @param {string} componentName
      * @param {json} config
      */
-    protected constructor(parent, componentName, config) {
+    constructor(parent, componentName, config) {
         super(parent, config, templateHtml, componentName);
         this.#parent = parent;
-        this.#isAlbumLoaded = false;
     }
 
     /** Function to render track lines by input configs. */
+    // @ts-ignore
     private renderLines(tracks) {
         const linesPlacement = document.querySelector('.js__placement-tracks');
         if (!linesPlacement) {
@@ -70,7 +59,7 @@ export class Playlist extends BaseComponent {
     /** Render Artist in search */
     private renderArtist(artists) {
         const albumPlacement = document.querySelector('.js__placement-artists');
-        if (!albumPlacement {
+        if (!albumPlacement) {
             console.error('Error in rendering of artists');
             return;
         }
@@ -82,12 +71,12 @@ export class Playlist extends BaseComponent {
 
     /** Add search line */
     #renderSearchLine() {
-        const albumPlacement = document.querySelector('.js__placement-search');
-        if (!albumPlacement {
+        const searchPlacement = document.querySelector('.js__placement-search');
+        if (!searchPlacement) {
             console.error('Error in rendering of search line');
             return;
         }
-        const searchLine = new SearchLine(this.#parent, searchSetup());
+        const searchLine = new SearchLine(searchPlacement, searchSetup().searchLine);
         searchLine.render();
     }
 
@@ -95,15 +84,15 @@ export class Playlist extends BaseComponent {
      * Function to subscribe to all events from Stores
      */
     #addSubscribes() {
-         const state = ContentStore.state.searchPage;
-         ContentStore.subscribe(
-             () => {
-                 this.renderLines(state.tracks);
-             },
-             // todo add to types
-             EventTypes.SEARCH_TRACKS_ADDED,
-             this.name,
-         )
+        const state = ContentStore.state.searchPage;
+        ContentStore.subscribe(
+            () => {
+                this.renderLines(state.tracks);
+            },
+            // todo add to types
+            EventTypes.SEARCH_TRACKS_ADDED,
+            this.name,
+        );
 
         ContentStore.subscribe(
             () => {
@@ -112,7 +101,7 @@ export class Playlist extends BaseComponent {
             // todo add to types
             EventTypes.SEARCH_ALBUMS_ADDED,
             this.name,
-        )
+        );
 
         ContentStore.subscribe(
             () => {
@@ -121,7 +110,7 @@ export class Playlist extends BaseComponent {
             // todo add to types
             EventTypes.SEARCH_ARTISTS_ADDED,
             this.name,
-        )
+        );
     }
 
     /**
@@ -137,5 +126,10 @@ export class Playlist extends BaseComponent {
             this.#renderSearchLine();
             this.#addSubscribes();
         });
+    }
+
+    /** Unrender component */
+    override unRender() {
+        super.unRender();
     }
 }

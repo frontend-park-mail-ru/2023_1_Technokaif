@@ -21,6 +21,9 @@ import { LibraryList } from './smallComponents/libraryList/libraryList';
 import { FavoriteTracks } from './bigComponents/Playlist/Library/favoriteTracks';
 import { FavoriteArtists } from './bigComponents/Library/favoriteArtists';
 import { FavoriteAlbums } from './bigComponents/Library/favoriteAlbums';
+import { SearchLine } from './smallComponents/searchLine/search';
+import { searchSetup } from '../utils/setup/searchSetup';
+import { SearchContent } from './bigComponents/searchContent/searchContent';
 
 /**
  * Class for components renders functions.
@@ -173,6 +176,18 @@ class ComponentsRenders {
     renderAlbum(parent) {
         const album = new Album(parent, setupAlbum());
         album.render();
+    }
+
+    /** Render search line */
+    renderSearchLine(parent) {
+        const searchLine = new SearchLine(parent, searchSetup().searchLine);
+        searchLine.render();
+    }
+
+    /** Render search content */
+    renderSearchContent(parent) {
+        const searchContent = new SearchContent(parent, componentsNames.SEARCH_CONTENT, { mainDiv: 'search-content' });
+        searchContent.render();
     }
 }
 

@@ -72,7 +72,7 @@ class ComponentsStore extends IStore {
         case componentsNames.LIBRARY_TRACKS:
         case componentsNames.LIBRARY_ARTISTS:
         case componentsNames.LIBRARY_ALBUMS:
-        case componentsNames.SEARCH_LINE:
+        case componentsNames.SEARCH_CONTENT:
             return document.getElementsByClassName(`${componentsJSNames.MAIN}`)[0];
         case componentsNames.LOGIN_FORM:
         case componentsNames.REGISTER_FORM:
@@ -146,7 +146,6 @@ class ComponentsStore extends IStore {
      */
     #checkElementsForPage(pageName) {
         const { components } = this.#whatNeedForPage.find((element) => element.page === pageName);
-
         const notExist = [];
         components.forEach((component) => {
             const alreadyExistsOnPage = this.#whatExistOnPage.find(
@@ -157,7 +156,6 @@ class ComponentsStore extends IStore {
                 notExist.push(component);
             }
         });
-
         let needToBeDeletedExist = this.#whatExistOnPage.filter(
             (elementOnPage) => !components.find((component) => component.name === elementOnPage),
         );
@@ -165,7 +163,6 @@ class ComponentsStore extends IStore {
         needToBeDeletedExist = needToBeDeletedExist.filter(
             (item, index) => needToBeDeletedExist.indexOf(item) === index,
         ).map((element) => this.#allElements.find((elem) => elem.name === element)).reverse();
-
         if (needToBeDeletedExist.length !== 0) {
             this.jsEmit(EventTypes.ON_REMOVE_ANOTHER_ITEMS, needToBeDeletedExist);
         }

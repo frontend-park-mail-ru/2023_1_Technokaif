@@ -8,7 +8,7 @@ import ContentStore from '../../../stores/ContentStore';
 import Actions from '../../../actions/Actions';
 // todo dont forget about it on playlist
 import {
-    setupLineList, TrackInTape,
+    setupLineList,
 } from '../../../utils/setup/artistSetup';
 import SongStore from '../../../stores/SongStore';
 import IStore from '../../../stores/IStore';
@@ -19,11 +19,30 @@ import { pageNames } from '../../../utils/config/pageNames';
  * Create Artist content
  */
 export abstract class Playlist extends BaseComponent {
+    /** Flag if album was loaded */
+    #isAlbumLoaded;
+
     /**
      * Parent where to render
      */
     // @ts-ignore
     #parent : Element;
+
+    /**
+     * Config to use in handlebars setup of track lines
+     */
+    #lineConfigs : Array<object>;
+
+    /**
+     * Flag to know if button clicked
+     * @private
+     */
+    private activatedButton: boolean;
+
+    /**
+     * Play button
+     */
+    private playButton;
 
     /**
      * Create Playlist. Empty innerHtml before placement
@@ -34,17 +53,28 @@ export abstract class Playlist extends BaseComponent {
     protected constructor(parent, componentName, config) {
         super(parent, config, templateHtml, componentName);
         this.#parent = parent;
+        this.#lineConfigs = [];
+        this.activatedButton = false;
+        this.#isAlbumLoaded = false;
     }
 
-    /** Render tracks in page */
-    #renderTracks(tracks:Array<TrackInTape>) {
-        const trackPlacement = document.querySelector('.js__track-placement');
-        if (!trackPlacement) {
-            console.error('Track placement doesn\'t exist');
+    /**
+     * Function to render track lines by input configs.
+     */
+    private renderLines() {
+        const linesPlacement = document.querySelector('.js__placement-tracks');
+        if (!linesPlacement) {
+            console.error('Error in rendering of lines');
             return;
         }
-
-        const trackList = new
+        this.#lineConfigs.forEach((configForInsertElement) => {
+            const line = new LineList(
+                linesPlacement,
+                configForInsertElement,
+                componentsNames.TRACK_LIBRARY_LINE_LIST,
+            );
+            line.appendElement();
+        });
     }
 
     /**

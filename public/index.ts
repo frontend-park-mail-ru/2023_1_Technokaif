@@ -28,6 +28,8 @@ import LibraryArtistsView from './views/LibraryArtistsView';
 import { checkAuth } from './utils/functions/checkAuth';
 import { getPermittedByAuthUser, getPermittedByUnAuthUser } from './router/permittedPath';
 import { popAuthUser, popNoAuthUser } from './router/popPath';
+import componentsRenders from './components/ComponentsRenders';
+import SearchView from './views/SearchView';
 
 /**
  * Render main page of app
@@ -257,6 +259,28 @@ function renderMainPage() {
         ],
     );
 
+    ComponentsStore.register(
+        pageNames.SEARCH,
+        [
+            {
+                name: componentsNames.SIDEBAR,
+                render: ComponentsRenders.renderSidebar,
+            },
+            {
+                name: componentsNames.MAIN,
+                render: ComponentsRenders.renderMainElement,
+            },
+            {
+                name: componentsNames.NAVBAR,
+                render: ComponentsRenders.renderNavbar,
+            },
+            {
+                name: componentsNames.SEARCH_CONTENT,
+                render: componentsRenders.renderSearchContent,
+            },
+        ],
+    );
+
     serviceWorkerRegistration();
 
     checkAuthAjax().then((value) => {
@@ -276,6 +300,7 @@ function renderMainPage() {
     Router.register(routingUrl.LIBRARY_TRACKS, () => { LibraryTracksView.render(); }, [API]);
     Router.register(routingUrl.LIBRARY_ALBUMS, () => { LibraryAlbumsView.render(); }, [API]);
     Router.register(routingUrl.LIBRARY_ARTISTS, () => { LibraryArtistsView.render(); }, [API]);
+    Router.register(routingUrl.SEARCH, () => { SearchView.render(); }, [API]);
     Router.registerRouteWithRegEx(`${routingUrl.ARTIST_PAGE_EXP}`, () => { ArtistPageView.render(); }, [API]);
     Router.registerRouteWithRegEx(`${routingUrl.ALBUM_PAGE_EXP}`, () => { AlbumPageView.render(); }, [API]);
 

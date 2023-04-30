@@ -177,6 +177,14 @@ const ApiActions = {
             userId,
         });
     },
+
+    /** search server */
+    search(searchString) {
+        Dispatcher.dispatch({
+            type: ActionTypes.SEARCH_WITH_NAME,
+            searchString,
+        });
+    },
 };
 
 export default ApiActions;

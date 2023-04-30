@@ -80,7 +80,7 @@ export const METHOD = {
     UNLOAD_PAGE: 'beforeunload',
     ON_ELEMENT: 'mouseover',
     OUT_OF_ELEMENT: 'mouseout',
-
+    KEY_PRESSED: 'keydown',
 };
 
 export const ElementsClassForUser = {

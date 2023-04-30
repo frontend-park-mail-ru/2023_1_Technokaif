@@ -29,6 +29,9 @@ import { instancesNames } from '../utils/config/instances';
 import { TrackInTape } from '../utils/setup/artistSetup';
 import { userFavoriteAlbumsAjax } from '../api/user/getUserFavoriteAlbumsAjaxReq';
 import { userPlaylistsAjax } from '../api/user/getUserPlaylistsAjaxReq';
+import { search } from '../api/search/search';
+import { apiUrl } from '../utils/config/apiUrls';
+import ActionsSearch from '../actions/Actions/ActionsSearch';
 
 /**
  * Class using for getting data from backend.
@@ -130,6 +133,11 @@ class API extends IStore {
             break;
         case ActionTypes.GET_USER_PLAYLISTS:
             this.userPlaylistsRequest(action.userId);
+            break;
+        case ActionTypes.SEARCH_WITH_NAME:
+            this.searchForAlbumsWithName(action.searchString);
+            this.searchForArtistsWithName(action.searchString);
+            this.searchForTracksWithName(action.searchString);
             break;
         default:
         }
@@ -386,6 +394,27 @@ class API extends IStore {
     private userPlaylistsRequest(userId: string) {
         userPlaylistsAjax(userId).then((playlists) => {
             Actions.addFavoriteContent(playlists, instancesNames.USER_PLAYLISTS_PAGE);
+        });
+    }
+
+    /** Search for track with value */
+    private searchForTracksWithName(value) {
+        search(apiUrl.TRACK_SEARCH_API, value).then((tracks) => {
+            ActionsSearch.gotTracks(tracks);
+        });
+    }
+
+    /** Search for track with value */
+    private searchForAlbumsWithName(value) {
+        search(apiUrl.ALBUM_SEARCH_API, value).then((albums) => {
+            ActionsSearch.gotAlbums(albums);
+        });
+    }
+
+    /** Search for track with value */
+    private searchForArtistsWithName(value) {
+        search(apiUrl.TRACK_SEARCH_API, value).then((artists) => {
+            ActionsSearch.gotArtists(artists);
         });
     }
 }

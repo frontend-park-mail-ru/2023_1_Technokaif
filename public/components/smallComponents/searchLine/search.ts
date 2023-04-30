@@ -4,6 +4,7 @@ import { BaseComponent } from '../../BaseComponent';
 import { Input } from '../input/input';
 import { METHOD } from '../../../utils/config/config';
 import { componentsNames } from '../../../utils/config/componentsNames';
+import ApiActions from '../../../actions/ApiActions';
 
 /**
  * Class of input field for forms.
@@ -32,7 +33,6 @@ export class SearchLine extends BaseComponent {
             console.warn('Error at search line. Input placement doesn\'t exist');
             return;
         }
-
         const input = new Input(whereToPlaceInput as HTMLElement, this.#config.input);
         input.render();
 
@@ -40,14 +40,14 @@ export class SearchLine extends BaseComponent {
             event.preventDefault();
             const { value } = field;
             // todo Create action for search
-            Actions.search(value);
+            ApiActions.search(value);
         };
         input.addReaction(METHOD.CHANGE_FIELD_IMMEDIATELY, func);
     }
 
     /** Render component in parent */
     override render() {
-        super.render();
+        super.appendElement();
         this.#addInput();
     }
 }
