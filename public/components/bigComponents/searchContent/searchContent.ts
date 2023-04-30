@@ -88,13 +88,17 @@ export class SearchContent extends BaseComponent {
      * Function to subscribe to all events from Stores
      */
     #addSubscribes() {
-        const state = ContentStore.state.searchPage;
         ContentStore.subscribe(
             () => {
-                if (!state?.tracks) {
-                    return;
+                const state = ContentStore.state.search;
+                const tracksPlacement = document.querySelector('.js__placement-tracks');
+                if (tracksPlacement) {
+                    tracksPlacement.innerHTML = '';
                 }
-                this.renderLines(state.tracks);
+                // @ts-ignore
+                if (state.tracks && state.tracks.length !== 0) {
+                    this.renderLines(state.tracks);
+                }
             },
             EventTypes.SEARCH_TRACKS_ADDED,
             this.name,
@@ -102,10 +106,16 @@ export class SearchContent extends BaseComponent {
 
         ContentStore.subscribe(
             () => {
-                if (!state?.albums) {
-                    return;
+                const state = ContentStore.state.search;
+                const albumsPlacement = document.querySelector('.js__placement-albums');
+                if (albumsPlacement) {
+                    console.log(albumsPlacement);
+                    albumsPlacement.innerHTML = '';
                 }
-                this.renderAlbums(state.albums);
+                // @ts-ignore
+                if (state.albums && state.albums !== []) {
+                    this.renderAlbums(state.albums);
+                }
             },
             EventTypes.SEARCH_ALBUMS_ADDED,
             this.name,
@@ -113,10 +123,16 @@ export class SearchContent extends BaseComponent {
 
         ContentStore.subscribe(
             () => {
-                if (!state?.artists) {
-                    return;
+                const state = ContentStore.state.search;
+                const artistsPlacement = document.querySelector('.js__placement-artists');
+                if (artistsPlacement) {
+                    artistsPlacement.innerHTML = '';
                 }
-                this.renderArtist(state.artists);
+
+                // @ts-ignore
+                if (state.artists && state.artists !== []) {
+                    this.renderArtist(state.artists);
+                }
             },
             EventTypes.SEARCH_ARTISTS_ADDED,
             this.name,

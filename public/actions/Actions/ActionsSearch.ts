@@ -8,7 +8,7 @@ const ActionsSearch = {
         Dispatcher.dispatch({
             // @ts-ignore
             type: ActionTypes.GOT_ALBUMS_SEARCH,
-            albums,
+            items: albums,
         });
     },
 
@@ -17,7 +17,7 @@ const ActionsSearch = {
         Dispatcher.dispatch({
             // @ts-ignore
             type: ActionTypes.GOT_TRACKS_SEARCH,
-            tracks,
+            items: tracks,
         });
     },
 
@@ -26,7 +26,7 @@ const ActionsSearch = {
         Dispatcher.dispatch({
             // @ts-ignore
             type: ActionTypes.GOT_ARTISTS_SEARCH,
-            artists,
+            items: artists,
         });
     },
 };
