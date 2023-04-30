@@ -148,8 +148,12 @@ class Navbar {
 
         const template = templateHtml;
         const templateInnerHtml = template(items);
-        const contentHtml = this.#parent.innerHTML;
-        this.#parent.innerHTML = (templateInnerHtml + contentHtml);
+        const tempElement = document.createElement('div');
+
+        tempElement.innerHTML = templateInnerHtml;
+
+        const newElement = tempElement.firstChild;
+        this.#parent.insertBefore(newElement, this.#parent.firstChild);
         this.#callEventListener();
     }
 
@@ -157,7 +161,13 @@ class Navbar {
      * Function to unrender Navbar component
      */
     #unRender() {
-        this.#parent.removeChild(document.querySelector(`.${componentsJSNames.NAVBAR}`));
+        const element = document.querySelector(`.${componentsJSNames.NAVBAR}`);
+        if (!element) {
+            console.error('Cannot unrender navbar');
+            return;
+        }
+
+        element.remove();
     }
 }
 

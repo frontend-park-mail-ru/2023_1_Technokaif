@@ -17,11 +17,6 @@ export class BaseComponent {
     #parent;
 
     /**
-     * This element.
-     */
-    #element;
-
-    /**
      * Name of component
      */
     #name;
@@ -98,13 +93,24 @@ export class BaseComponent {
     render() {
         this.#subscribeAll();
         this.#parent.innerHTML = this.#template(this.#config);
-        this.#element = document.querySelector(`.${this.name}`);
     }
 
     /** Append element to parent without clearing it */
     appendElement() {
         this.#subscribeAll();
-        this.#parent.innerHTML += this.#template(this.#config);
+        if (!this.#config) {
+            return;
+        }
+        const tempElement = document.createElement('div');
+
+        tempElement.innerHTML = this.#template(this.#config);
+
+        const newElement = tempElement.firstChild;
+        if (!newElement) {
+            console.error('Element to append doesn\'t exist');
+            return;
+        }
+        this.#parent.appendChild(newElement);
     }
 
     /**

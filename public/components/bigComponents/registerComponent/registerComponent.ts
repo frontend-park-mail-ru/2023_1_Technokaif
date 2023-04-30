@@ -439,7 +439,7 @@ export class RegisterComponent extends BaseComponent {
     public override render() {
         const renderProcess:Promise<void> = new Promise((resolve) => {
             this.#renderContent();
-            super.appendElement();
+            this.appendElement();
             resolve();
         });
 

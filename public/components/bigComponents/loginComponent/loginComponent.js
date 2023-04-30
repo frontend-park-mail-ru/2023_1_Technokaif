@@ -172,7 +172,7 @@ export class LoginComponent extends BaseComponent {
     render() {
         const renderProcess = new Promise((resolve) => {
             this.#renderContent();
-            super.appendElement();
+            this.appendElement();
             resolve();
         });
 
