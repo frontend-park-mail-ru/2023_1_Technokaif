@@ -24,6 +24,7 @@ import { FavoriteAlbums } from './bigComponents/Library/favoriteAlbums';
 import { SearchLine } from './smallComponents/searchLine/search';
 import { searchSetup } from '../utils/setup/searchSetup';
 import { SearchContent } from './bigComponents/searchContent/searchContent';
+import { PlayerWithDummy } from './bigComponents/playerWithDummy/playerWithDummy';
 
 /**
  * Class for components renders functions.
@@ -123,13 +124,8 @@ class ComponentsRenders {
 
     /** Render player in parent */
     renderPlayer(parent) {
-        const player = new AudioPlayer(parent);
+        const player = new PlayerWithDummy(parent);
         player.render();
-        if (!checkAuth()) {
-            const element = document.querySelector(`.${componentsNames.PLAYER}`);
-            // @ts-ignore
-            element.hidden = true;
-        }
     }
 
     /** Render in navbar */

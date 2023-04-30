@@ -100,8 +100,12 @@ class ComponentsStore extends IStore {
      * @param element
      */
     #addElementOnPage(element) {
+        console.group('Element add', element);
+        console.log('Before', this.#whatExistOnPage);
         this.#whatExistOnPage.push(element);
         this.addNewItem(this.#whatExistOnPage);
+        console.log('After', this.#whatExistOnPage);
+        console.groupEnd();
     }
 
     /**
@@ -109,8 +113,12 @@ class ComponentsStore extends IStore {
      * @param element
      */
     #removeElementFromPage(element) {
+        console.group('Element remove', element);
+        console.log('Before', this.#whatExistOnPage);
         this.#whatExistOnPage = this.#whatExistOnPage.filter((elem) => (elem !== element));
         this.addNewItem(this.#whatExistOnPage);
+        console.log('After', this.#whatExistOnPage);
+        console.groupEnd();
     }
 
     /**

@@ -2,6 +2,8 @@ import { BaseComponent } from '../../BaseComponent';
 import './playerDummy.less';
 import template from './playerDymmy.handlebars';
 import Router from '../../../router/Router';
+import { componentsNames } from '../../../utils/config/componentsNames';
+import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
 
 /**
  * Class for dummy instead of player
@@ -11,7 +13,7 @@ export class PlayerDummy extends BaseComponent {
 
     /** Default values with parent */
     constructor(parent) {
-        super(parent, 'playerDummy', template);
+        super(parent, '', template, componentsNames.PLAYER);
         this.#parent = parent;
     }
 
@@ -20,8 +22,13 @@ export class PlayerDummy extends BaseComponent {
      * Append element to parent
      */
     render() {
-        this.#parent.innerHTML += template();
+        super.render();
         this.#addEvents();
+    }
+
+    unRender() {
+        super.unRender();
+        unsubscribeFromAllStoresOnComponent(componentsNames.PLAYER);
     }
 
     /** Add events to buttons inside */
