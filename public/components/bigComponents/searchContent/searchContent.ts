@@ -96,7 +96,7 @@ export class SearchContent extends BaseComponent {
                     tracksPlacement.innerHTML = '';
                 }
                 // @ts-ignore
-                if (state.tracks && state.tracks.length > 0) {
+                if (state.tracks?.tracks?.length > 0) {
                     this.renderLines(state.tracks.tracks);
                 }
             },
@@ -109,11 +109,10 @@ export class SearchContent extends BaseComponent {
                 const state = ContentStore.state.search;
                 const albumsPlacement = document.querySelector('.js__placement-albums');
                 if (albumsPlacement) {
-                    console.log(albumsPlacement);
                     albumsPlacement.innerHTML = '';
                 }
                 // @ts-ignore
-                if (state.albums && state.albums.length > 0) {
+                if (state.albums?.albums?.length > 0) {
                     this.renderAlbums(state.albums.albums);
                 }
             },
@@ -130,7 +129,7 @@ export class SearchContent extends BaseComponent {
                 }
 
                 // @ts-ignore
-                if (state.artists && state.artists.length > 0) {
+                if (state.artists?.artists?.length > 0) {
                     this.renderArtist(state.artists.artists);
                 }
             },
