@@ -12,8 +12,7 @@ export async function search(url, name) {
                 query: name,
                 amount: 5,
             },
-            reject: (message) => {
-                console.error('Artist request api error:', message);
+            reject: () => {
             },
         },
     ).then((data) => {

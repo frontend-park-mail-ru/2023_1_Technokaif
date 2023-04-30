@@ -13,7 +13,6 @@ import { userSetup } from '../utils/setup/userSetup';
 import { User } from './bigComponents/userComponent/user';
 import { RegisterComponent } from './bigComponents/registerComponent/registerComponent';
 import { LoginComponent } from './bigComponents/loginComponent/loginComponent';
-import { AudioPlayer } from './bigComponents/player/player';
 import Router from '../router/Router';
 import { Album } from './bigComponents/Album/album.js';
 import { setupAlbum } from '../utils/setup/albumSetup';
@@ -24,6 +23,7 @@ import { FavoriteAlbums } from './bigComponents/Library/favoriteAlbums';
 import { SearchContent } from './bigComponents/searchContent/searchContent';
 import { LibraryPlaylists } from './bigComponents/Library/libraryPlaylists';
 import { UserPlaylist } from './bigComponents/Playlist/Library/userPlaylist';
+import { PlayerWithDummy } from './bigComponents/playerWithDummy/playerWithDummy';
 
 /**
  * Class for components renders functions.
@@ -123,13 +123,8 @@ class ComponentsRenders {
 
     /** Render player in parent */
     renderPlayer(parent) {
-        const player = new AudioPlayer(parent);
+        const player = new PlayerWithDummy(parent);
         player.render();
-        if (!checkAuth()) {
-            const element = document.querySelector(`.${componentsNames.PLAYER}`);
-            // @ts-ignore
-            element.hidden = true;
-        }
     }
 
     /** Render in navbar */

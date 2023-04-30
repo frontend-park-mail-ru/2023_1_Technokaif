@@ -44,7 +44,7 @@ export class SearchContent extends BaseComponent {
 
         // eslint-disable-next-line max-len
         const lines = new LineList(linesPlacement, setupLineList(tracks), componentsNames.SEARCH_LINE);
-        lines.render();
+        lines.appendElement();
     }
 
     /** Render Albums in search */
@@ -57,7 +57,7 @@ export class SearchContent extends BaseComponent {
         const configForTape = setupTape('Albums', 'Albums', albums);
 
         const tape = new Tape(albumPlacement as HTMLElement, configForTape, 'Albums');
-        tape.render();
+        tape.appendElement();
     }
 
     /** Render Artist in search */
@@ -70,7 +70,7 @@ export class SearchContent extends BaseComponent {
         const configForTape = setupTape('Artists', 'Artists', artists);
 
         const tape = new Tape(albumPlacement as HTMLElement, configForTape, 'Artists');
-        tape.render();
+        tape.appendElement();
     }
 
     /** Add search line */
@@ -88,13 +88,17 @@ export class SearchContent extends BaseComponent {
      * Function to subscribe to all events from Stores
      */
     #addSubscribes() {
-        const state = ContentStore.state.searchPage;
         ContentStore.subscribe(
             () => {
-                if (!state?.tracks) {
-                    return;
+                const state = ContentStore.state.search;
+                const tracksPlacement = document.querySelector('.js__placement-tracks');
+                if (tracksPlacement) {
+                    tracksPlacement.innerHTML = '';
                 }
-                this.renderLines(state.tracks);
+                // @ts-ignore
+                if (state.tracks && state.tracks.length > 0) {
+                    this.renderLines(state.tracks.tracks);
+                }
             },
             EventTypes.SEARCH_TRACKS_ADDED,
             this.name,
@@ -102,10 +106,16 @@ export class SearchContent extends BaseComponent {
 
         ContentStore.subscribe(
             () => {
-                if (!state?.albums) {
-                    return;
+                const state = ContentStore.state.search;
+                const albumsPlacement = document.querySelector('.js__placement-albums');
+                if (albumsPlacement) {
+                    console.log(albumsPlacement);
+                    albumsPlacement.innerHTML = '';
                 }
-                this.renderAlbums(state.albums);
+                // @ts-ignore
+                if (state.albums && state.albums.length > 0) {
+                    this.renderAlbums(state.albums.albums);
+                }
             },
             EventTypes.SEARCH_ALBUMS_ADDED,
             this.name,
@@ -113,10 +123,16 @@ export class SearchContent extends BaseComponent {
 
         ContentStore.subscribe(
             () => {
-                if (!state?.artists) {
-                    return;
+                const state = ContentStore.state.search;
+                const artistsPlacement = document.querySelector('.js__placement-artists');
+                if (artistsPlacement) {
+                    artistsPlacement.innerHTML = '';
                 }
-                this.renderArtist(state.artists);
+
+                // @ts-ignore
+                if (state.artists && state.artists.length > 0) {
+                    this.renderArtist(state.artists.artists);
+                }
             },
             EventTypes.SEARCH_ARTISTS_ADDED,
             this.name,

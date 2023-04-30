@@ -335,6 +335,10 @@ function renderMainPage() {
                 name: componentsNames.PLAYER,
                 render: ComponentsRenders.renderPlayer,
             },
+            {
+                name: componentsNames.PLAYER,
+                render: ComponentsRenders.renderPlayer,
+            },
         ],
     );
 
