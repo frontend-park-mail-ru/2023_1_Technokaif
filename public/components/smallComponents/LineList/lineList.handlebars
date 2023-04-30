@@ -1,6 +1,13 @@
 <div class="{{lineListClass}}">
+<!--    todo rewrite later-->
     {{#ifEquals isArtistPage true}}
         <p class="{{title}}">{{titleText}}</p>
+    {{/ifEquals}}
+
+    {{#ifEquals isShowTitle true}}
+        {{#ifEquals isArtistPage false}}
+            <p class="{{title}}">{{titleText}}</p>
+        {{/ifEquals}}
     {{/ifEquals}}
 
     {{#ifEquals isArtistPage false}}

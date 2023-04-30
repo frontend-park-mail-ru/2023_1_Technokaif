@@ -92,6 +92,11 @@ const ActionTypes = {
     /** Get album by id */
     ONE_ALBUM_TO_CONTENT: 'ONE_ALBUM_TO_CONTENT',
 
+    /** Search */
+    SEARCH_WITH_NAME: 'SEARCH_WITH_NAME',
+    GOT_TRACKS_SEARCH: 'GOT_TRACKS_SEARCH',
+    GOT_ALBUMS_SEARCH: 'GOT_ALBUMS_SEARCH',
+    GOT_ARTISTS_SEARCH: 'GOT_ARTISTS_SEARCH',
 };
 
 export default ActionTypes;

@@ -31,6 +31,9 @@ export class AudioPlayer extends BaseComponent {
     /** All elements that will be used on DOM */
     #elements;
 
+    /** Function to space */
+    #functionSpace;
+
     /** Default all fields to empty except parent */
     constructor(parent) {
         super(parent, [], template, componentsNames.PLAYER);
@@ -198,6 +201,14 @@ export class AudioPlayer extends BaseComponent {
         elements.repeat.addEventListener(METHOD.BUTTON, () => {
             this.#toggleRepeat();
         });
+
+        this.#functionSpace = (event) => {
+            if (event.keyCode === 32) {
+                this.toggle();
+            }
+        };
+
+        document.addEventListener(METHOD.KEY_PRESSED, this.#functionSpace);
     }
 
     /** Add all elements of player to elements to use it later */
@@ -398,5 +409,11 @@ export class AudioPlayer extends BaseComponent {
         this.#toggleRepeat();
         this.#toggleRepeat();
         Actions.getDataAfterRestart();
+    }
+
+    /** Unrender element */
+    unRender() {
+        super.unRender();
+        document.removeEventListener(METHOD.KEY_PRESSED, this.#functionSpace);
     }
 }

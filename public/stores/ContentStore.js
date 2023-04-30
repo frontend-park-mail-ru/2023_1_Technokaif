@@ -58,6 +58,15 @@ class ContentStore extends IStore {
             this.#addToState('ALBUM', action.item);
             this.jsEmit(EventTypes.GOT_ONE_ALBUM);
             break;
+        case ActionTypes.GOT_ALBUMS_SEARCH:
+            this.#addAlbumsToSearchPage(action.items);
+            break;
+        case ActionTypes.GOT_TRACKS_SEARCH:
+            this.#addTracksToSearchPage(action.items);
+            break;
+        case ActionTypes.GOT_ARTISTS_SEARCH:
+            this.#addArtistsToSearchPage(action.items);
+            break;
         default:
         }
     }
@@ -179,6 +188,24 @@ class ContentStore extends IStore {
     #addContentOnAlbumPage(items) {
         this.#addContent(pageNames.ALBUM, 'tracks', items);
         this.jsEmit(EventTypes.ALBUM_CONTENT_DONE, 'tracks');
+    }
+
+    /** Add tracks to search */
+    #addTracksToSearchPage(items) {
+        this.#addContent(pageNames.SEARCH, 'tracks', items);
+        this.jsEmit(EventTypes.SEARCH_TRACKS_ADDED, 'tracks');
+    }
+
+    /** Add albums to search */
+    #addAlbumsToSearchPage(items) {
+        this.#addContent(pageNames.SEARCH, 'albums', items);
+        this.jsEmit(EventTypes.SEARCH_ALBUMS_ADDED, 'albums');
+    }
+
+    /** Add artists to search */
+    #addArtistsToSearchPage(items) {
+        this.#addContent(pageNames.SEARCH, 'artists', items);
+        this.jsEmit(EventTypes.SEARCH_ARTISTS_ADDED, 'artists');
     }
 }
 

@@ -9,7 +9,7 @@ import Actions from '../../../actions/Actions';
 // todo dont forget about it on playlist
 import {
     setupLineList,
-} from '../../../utils/setup/libraryTracksSetup';
+} from '../../../utils/setup/artistSetup';
 import SongStore from '../../../stores/SongStore';
 import IStore from '../../../stores/IStore';
 import { imgPath } from '../../../utils/config/pathConfig';

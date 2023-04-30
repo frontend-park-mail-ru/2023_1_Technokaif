@@ -98,6 +98,7 @@ export interface ContentArtist {
     albumDiv?: string
     isArtistShow?: boolean
     isAlbumShow?: boolean
+    isShowTitle: boolean,
 }
 
 /** JSON for liked songs */
@@ -248,6 +249,7 @@ export function setupLineList(items: [AlbumApi]):ContentArtist {
         content: items,
         isArtistPage: true,
         isPlaylistPage: false,
+        isShowTitle: true,
     };
 }
 
