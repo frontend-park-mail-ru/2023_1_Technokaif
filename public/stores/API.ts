@@ -23,15 +23,16 @@ import { removeTrackLikeAjax } from '../api/tracks/trackUnLikeAjaxRequest';
 import { getAlbumById } from '../api/albums/getAlbumById.js';
 import { likeAlbum, unLikeAlbum } from '../api/albums/likeDislike';
 import { likeArtist, unLikeArtist } from '../api/artists/likeDislike';
-import { userFavoriteTracksAjax } from '../api/user/getUserFavoriteTracksAjaxReq';
-import { userFavoriteArtistsAjax } from '../api/user/getUserFavoriteArtistsAjaxReq';
+import { userFavoriteTracksAjax } from '../api/favorite/getUserFavoriteTracksAjaxReq';
+import { userFavoriteArtistsAjax } from '../api/favorite/getUserFavoriteArtistsAjaxReq';
 import { instancesNames } from '../utils/config/instances';
 import { TrackInTape } from '../utils/setup/artistSetup';
-import { userFavoriteAlbumsAjax } from '../api/user/getUserFavoriteAlbumsAjaxReq';
+import { userFavoriteAlbumsAjax } from '../api/favorite/getUserFavoriteAlbumsAjaxReq';
 import { userPlaylistsAjax } from '../api/user/getUserPlaylistsAjaxReq';
 import { search } from '../api/search/search';
 import { apiUrl } from '../utils/config/apiUrls';
 import ActionsSearch from '../actions/Actions/ActionsSearch';
+import { userFavoritePlaylistsAjax } from '../api/favorite/getUserFavoritePlaylistsAjaxReq';
 
 /**
  * Class using for getting data from backend.
@@ -130,6 +131,9 @@ class API extends IStore {
             break;
         case ActionTypes.GET_USER_FAVORITE_ARTISTS:
             this.userFavoriteArtistsRequest(action.userId);
+            break;
+        case ActionTypes.GET_USER_FAVORITE_PLAYLISTS:
+            this.userFavoritePlaylistsRequest(action.userId);
             break;
         case ActionTypes.GET_USER_PLAYLISTS:
             this.userPlaylistsRequest(action.userId);
@@ -384,6 +388,16 @@ class API extends IStore {
     private userFavoriteArtistsRequest(userId: string) {
         userFavoriteArtistsAjax(userId).then((artists) => {
             Actions.addFavoriteContent(artists, instancesNames.FAVORITE_ARTISTS_PAGE);
+        });
+    }
+
+    /**
+     * Function to get favorite artists by user id
+     * @param userId
+     */
+    private userFavoritePlaylistsRequest(userId: string) {
+        userFavoritePlaylistsAjax(userId).then((playlists) => {
+            Actions.addFavoriteContent(playlists, instancesNames.FAVORITE_PLAYLISTS_PAGE);
         });
     }
 

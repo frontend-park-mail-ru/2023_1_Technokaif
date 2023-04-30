@@ -163,6 +163,7 @@ export interface TapeSetup {
     buttonClass: string,
 
     titleText: string,
+    title: string,
     content: [BaseComponentInTape],
 }
 
@@ -275,7 +276,7 @@ export function setupLikedSongs(artist:ArtistApi, count: number):LikedSongs {
  * Setup tapes
  * @returns {{json}}
  */
-export function setupTape(title:string, items: [BaseComponentInTape]): TapeSetup {
+export function setupTape(name: string, title: string, items: [BaseComponentInTape]): TapeSetup {
     return {
         tapeDiv: 'tape',
         titleMainDivClass: 'tape__title',
@@ -297,7 +298,8 @@ export function setupTape(title:string, items: [BaseComponentInTape]): TapeSetup
         buttonSrc: imgPath.playInArtist,
         buttonClass: 'buttonComponent',
 
-        titleText: title,
+        title,
+        titleText: name,
         content: items,
     };
 }

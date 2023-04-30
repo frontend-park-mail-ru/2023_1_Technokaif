@@ -4,6 +4,7 @@ import { apiUrl } from '../utils/config/apiUrls';
 const AJAX_METHODS = {
     GET: 'GET',
     POST: 'POST',
+    DELETE: 'DELETE',
 };
 
 /**
@@ -29,7 +30,37 @@ class Ajax {
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
-                Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+            },
+        })
+            .then((response) => response.json().then((data) => {
+                if (response.ok) {
+                    resolve(data);
+
+                    return data;
+                }
+
+                throw data.message;
+            }))
+            .catch((error) => {
+                reject(error);
+
+                throw error;
+            });
+    }
+
+    /**
+     * DELETE data from server
+     * @param {string, function} url -- url where Get method is used
+     * @param {function} resolve -- function to render page and make actions in ok case
+     * @param {function} reject -- function to handle an error
+     */
+    delete({ url, resolve = noop, reject = noop }) {
+        return fetch(url, {
+            method: AJAX_METHODS.DELETE,
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
             },
         })
             .then((response) => response.json().then((data) => {
@@ -57,11 +88,11 @@ class Ajax {
      */
     post({
         url,
-        body = null,
+        body,
         resolve = noop,
         reject = noop,
     }) {
-        if (apiUrl.AVATAR_REGEX.test(url)) {
+        if (apiUrl.AVATAR_REGEX.test(url) || apiUrl.COVER_REGEX.test(url)) {
             return csrfAjax().then((csrf) => {
                 if (!csrf) {
                     console.error('error in undefined csrf');

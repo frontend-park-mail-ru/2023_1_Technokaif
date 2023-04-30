@@ -1,5 +1,4 @@
-// @ts-ignore
-import Ajax from '../../modules/Ajax.ts';
+import Ajax from '../../modules/Ajax';
 import { apiUrl } from '../../utils/config/apiUrls.js';
 import { generatePageById } from '../../utils/functions/urlGenerators';
 
@@ -10,8 +9,6 @@ export async function getAlbumById(id) {
     let items;
     const url = `${generatePageById(apiUrl.ALBUM_API, id)}`;
 
-    // todo
-    // @ts-ignore
     await Ajax.get({
         url,
         reject: (message) => {

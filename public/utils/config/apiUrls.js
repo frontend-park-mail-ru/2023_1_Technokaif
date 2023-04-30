@@ -31,6 +31,17 @@ export const apiUrl = {
     USER_FAVOURITE_ALBUMS: (id) => `/api/users/${id}/favorite/albums`,
     USER_FAVOURITE_PLAYLISTS: (id) => `/api/users/${id}/favorite/playlists`,
 
+    CREATE_PLAYLIST: '/api/playlists/',
+    UPDATE_PLAYLIST: (id) => `/api/playlists/${id}/update`,
+    UPLOAD_PLAYLIST_COVER: (id) => `/api/playlists/${id}/cover`,
+    COVER_REGEX: /^\/api\/playlists\/\d+\/cover$/,
+    PLAYLIST_LIKE: (id) => `/api/playlists/${id}/like`,
+    PLAYLIST_UNLIKE: (id) => `/api/playlists/${id}/unlike`,
+    PLAYLIST_ADD_TRACK: (playlistId, trackId) => `/api/playlists/${playlistId}/tracks/${trackId}`,
+    PLAYLIST_DELETE_TRACK: (playlistId, trackId) => `/api/playlists/${playlistId}/tracks/${trackId}`,
+    PLAYLIST: (id) => `/api/playlists/${id}/`,
+    PLAYLIST_TRACKS: (id) => `/api/playlists/${id}/tracks`,
+
     TRACK_LIKE: (id) => `/api/tracks/${id}/like`,
     TRACK_UNLIKE: (id) => `/api/tracks/${id}/unlike`,
 

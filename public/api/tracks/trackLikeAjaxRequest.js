@@ -9,6 +9,7 @@ export async function setTrackLikeAjax(id) {
     let status;
     await Ajax.post({
         url: apiUrl.TRACK_LIKE(id),
+        body: null,
         reject: (message) => {
             console.error('Track like request api error:', message);
         },

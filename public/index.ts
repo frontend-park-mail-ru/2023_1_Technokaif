@@ -28,8 +28,9 @@ import LibraryArtistsView from './views/LibraryArtistsView';
 import { checkAuth } from './utils/functions/checkAuth';
 import { getPermittedByAuthUser, getPermittedByUnAuthUser } from './router/permittedPath';
 import { popAuthUser, popNoAuthUser } from './router/popPath';
-import componentsRenders from './components/ComponentsRenders';
 import SearchView from './views/SearchView';
+import LibraryPlaylistsView from './views/libraryPlaylistsView';
+import PlaylistView from './views/PlaylistView';
 
 /**
  * Render main page of app
@@ -260,6 +261,36 @@ function renderMainPage() {
     );
 
     ComponentsStore.register(
+        pageNames.LIBRARY_PLAYLISTS,
+        [
+            {
+                name: componentsNames.SIDEBAR,
+                render: ComponentsRenders.renderSidebar,
+            },
+            {
+                name: componentsNames.MAIN,
+                render: ComponentsRenders.renderMainElement,
+            },
+            {
+                name: componentsNames.NAVBAR,
+                render: ComponentsRenders.renderNavbar,
+            },
+            {
+                name: componentsNames.LIBRARY_LIST,
+                render: ComponentsRenders.renderLibraryList,
+            },
+            {
+                name: componentsNames.LIBRARY_PLAYLISTS,
+                render: ComponentsRenders.renderPlaylistsLibrary,
+            },
+            {
+                name: componentsNames.PLAYER,
+                render: ComponentsRenders.renderPlayer,
+            },
+        ],
+    );
+
+    ComponentsStore.register(
         pageNames.SEARCH,
         [
             {
@@ -276,7 +307,33 @@ function renderMainPage() {
             },
             {
                 name: componentsNames.SEARCH_CONTENT,
-                render: componentsRenders.renderSearchContent,
+                render: ComponentsRenders.renderSearchContent,
+            },
+        ],
+    );
+
+    ComponentsStore.register(
+        pageNames.PLAYLIST,
+        [
+            {
+                name: componentsNames.SIDEBAR,
+                render: ComponentsRenders.renderSidebar,
+            },
+            {
+                name: componentsNames.MAIN,
+                render: ComponentsRenders.renderMainElement,
+            },
+            {
+                name: componentsNames.NAVBAR,
+                render: ComponentsRenders.renderNavbar,
+            },
+            {
+                name: componentsNames.PLAYLIST,
+                render: ComponentsRenders.renderPlaylist,
+            },
+            {
+                name: componentsNames.PLAYER,
+                render: ComponentsRenders.renderPlayer,
             },
         ],
     );
@@ -289,7 +346,6 @@ function renderMainPage() {
 
     // @ts-ignore
     Router.registerPermission(checkAuth, getPermittedByAuthUser, popAuthUser);
-
     Router.registerPermission(() => !checkAuth(), getPermittedByUnAuthUser, popNoAuthUser);
 
     Router.register(routingUrl.ROOT, () => { FeedView.render(); }, [API]);
@@ -300,10 +356,11 @@ function renderMainPage() {
     Router.register(routingUrl.LIBRARY_TRACKS, () => { LibraryTracksView.render(); }, [API]);
     Router.register(routingUrl.LIBRARY_ALBUMS, () => { LibraryAlbumsView.render(); }, [API]);
     Router.register(routingUrl.LIBRARY_ARTISTS, () => { LibraryArtistsView.render(); }, [API]);
+    Router.register(routingUrl.LIBRARY_PLAYLISTS, () => { LibraryPlaylistsView.render(); }, [API]);
     Router.register(routingUrl.SEARCH, () => { SearchView.render(); }, [API]);
     Router.registerRouteWithRegEx(`${routingUrl.ARTIST_PAGE_EXP}`, () => { ArtistPageView.render(); }, [API]);
     Router.registerRouteWithRegEx(`${routingUrl.ALBUM_PAGE_EXP}`, () => { AlbumPageView.render(); }, [API]);
-
+    Router.registerRouteWithRegEx(`${routingUrl.PLAYLIST_PAGE_EXP}`, () => { PlaylistView.render(); }, [API]);
     Router.start();
 }
 
