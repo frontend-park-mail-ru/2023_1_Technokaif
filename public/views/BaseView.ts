@@ -3,6 +3,7 @@ import { prePageRender } from '../utils/functions/prePageRender.js';
 import { EventTypes } from '../utils/config/EventTypes.js';
 import Actions from '../actions/Actions';
 import { componentsNames } from '../utils/config/componentsNames.js';
+import { componentsJSNames } from '../utils/config/componentsJSNames';
 
 /** Object that contain name and render function */
 export interface NameAndRender {
@@ -73,8 +74,21 @@ export abstract class BaseView {
      * Some logic before render.
      */
     #preRender() {
-        if (ComponentsStore.prePageNeed()) {
-            prePageRender();
+        const isNeed = ComponentsStore.prePageNeed(this.#viewName);
+        // @ts-ignore
+        if (isNeed) {
+            if (document.querySelector(`${componentsJSNames.MAIN}`) === null) {
+                prePageRender();
+            }
+        }
+        // @ts-ignore
+        if (!isNeed) {
+            const bodyElement = document.querySelector('factbody');
+            const root = document.querySelector('#root');
+            if (!root || !bodyElement) {
+                return;
+            }
+            root.removeChild(bodyElement);
         }
     }
 
