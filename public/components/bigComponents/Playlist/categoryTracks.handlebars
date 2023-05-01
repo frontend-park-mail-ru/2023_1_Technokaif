@@ -1,8 +1,18 @@
 <div class="{{tracksClass}}">
     <div class="{{headerDiv}}">
-        <div class="{{headerImgClass}}">
-            <img class="{{imgClass}}" src="{{imgSrc}}">
-        </div>
+<!--        <div class="{{headerImgClass}}">-->
+<!--            <img class="{{imgClass}}" src="{{imgSrc}}">-->
+<!--        </div>-->
+        {{#ifEquals isLikedSongs false}}
+            <div class="cover">
+                <label class="-label" for="file">
+                <span>
+                <img class="default" src="/static/svg/avatarHover.svg">
+                </span>
+                </label>
+                <img class="user-profile__img" src="{{imgSrc}}" id="output">
+            </div>
+        {{/ifEquals}}
         <div class="{{headerDescriptions}}">
             <div class="{{headerNameDiv}}">
                 <p class="{{headerNameClass}}">
@@ -18,7 +28,13 @@
 
             <div class="{{headerDescription}}">
                 <div class="{{DescriptionsDiv}}">
-                    <p class="{{DescriptionsClass}}"></p>
+                    <p class="{{DescriptionsClass}}">{{descriptionText}}</p>
+                </div>
+            </div>
+
+            <div class="{{headerDescription}}">
+                <div class="{{DescriptionsDiv}}">
+                    <p class="{{DescriptionsClass}}">{{descriptionText}}</p>
                 </div>
             </div>
 
@@ -26,8 +42,11 @@
     </div>
     <div class="{{ButtonsDiv}}">
         <img class="{{buttonPlay}}"src="/static/svg/play.svg">
-        {{#ifEquals isLikedSongs false}}
+        {{#ifEquals isLiked false}}
             <img class="{{albumLike}}" src="/static/svg/notLiked.svg">
+        {{/ifEquals}}
+        {{#ifEquals isLiked true}}
+            <img class="{{albumLike}}" src="/static/svg/liked.svg">
         {{/ifEquals}}
     </div>
 

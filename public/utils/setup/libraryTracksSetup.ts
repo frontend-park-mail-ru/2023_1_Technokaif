@@ -28,6 +28,7 @@ export function setupLibraryTracks() {
         ArtistClass: 'ArtistClass js__author',
         ArtistName: 'name artist',
         DescriptionsDiv: '',
+        descriptionText: '',
         DescriptionsClass: 'js__description-album',
         ButtonsDiv: 'album__buttons',
         bottomDiv: 'bottomDiv',
@@ -40,6 +41,10 @@ export function setupLibraryTracks() {
         liked: 'likedDiv',
         buttonPlay: 'playButton js__button__play',
         albumLike: 'albumLike',
+
+        isArtistPage: false,
+        isPlaylistPage: true,
+        isLikedSongs: true,
     };
 }
 
@@ -94,5 +99,7 @@ export function setupLineList(items: [AlbumApi]):ContentArtist {
         isArtistShow: true,
         isAlbumShow: false,
         isShowTitle: false,
+
+        durationClass: 'track-line__duration',
     };
 }

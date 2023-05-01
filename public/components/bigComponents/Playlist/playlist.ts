@@ -89,6 +89,15 @@ export abstract class Playlist extends BaseComponent {
     }
 
     /**
+     * Method to set config in BaseComponent
+     * @param config
+     * @protected
+     */
+    protected setConfig(config) {
+        super.config = config;
+    }
+
+    /**
      * Function to subscribe base logic
      * @param eventType
      * @param pageName

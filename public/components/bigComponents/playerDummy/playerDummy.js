@@ -26,6 +26,9 @@ export class PlayerDummy extends BaseComponent {
         this.#addEvents();
     }
 
+    /**
+     * Method to unrender dummy player
+     */
     unRender() {
         super.unRender();
         unsubscribeFromAllStoresOnComponent(componentsNames.PLAYER);

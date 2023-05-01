@@ -1,51 +1,78 @@
 import { Playlist } from '../playlist';
 import ApiActions from '../../../../actions/ApiActions';
-import { setupLibraryTracks } from '../../../../utils/setup/libraryTracksSetup';
 import { EventTypes } from '../../../../utils/config/EventTypes';
 import { pageNames } from '../../../../utils/config/pageNames';
+import Actions from '../../../../actions/Actions';
+import ContentStore from '../../../../stores/ContentStore';
+import { setupPlaylist } from '../../../../utils/setup/playlistSetup';
+
+export const playlistTypes = {
+    USER_PLAYLIST: 'USER_PLAYLIST',
+    PLAYLIST: 'PLAYLIST',
+};
 
 /**
  * Class of favorite tracks playlist
  */
 export class UserPlaylist extends Playlist {
     /**
-     * Create Favorite tracks. Empty innerHtml before placement
-     * @param {HTMLElement} parent -- where to place favorite tracks
-     * @param {string} componentName
+     * Type of playlist
+     * @private
      */
-    constructor(parent, componentName) {
-        super(parent, componentName, setupLibraryTracks());
+    // @ts-ignore
+    private type: string;
+
+    /**
+     * Create playlist. Empty innerHtml before placement
+     * @param {HTMLElement} parent -- where to place favorite tracks
+     * @param componentName
+     * @param type
+     */
+    constructor(parent, componentName: string, type: string) {
+        super(parent, componentName, {});
+
+        this.type = type;
     }
 
     /**
      * Function to make some internal actions
      * @private
      */
-    private actionsOnRender() {
-        const navbarElements = document.querySelectorAll('.library-list__item');
-        navbarElements.forEach((element) => {
-            if (element.classList.contains('library-list__tracks')) {
-                element.classList.add('library-active');
-            } else {
-                element.classList.remove('library-active');
-            }
-        });
+    private subscribes() {
+        ContentStore.subscribe(
+            () => {
+                const { id } = ContentStore.state[pageNames.PLAYLIST];
+
+                if (id !== undefined) {
+                    ApiActions.playlist(id);
+                }
+            },
+            EventTypes.ID_CAN_BE_VIEWED,
+            this.name,
+        );
+
+        ContentStore.subscribe(
+            () => {
+                const state = ContentStore.state[pageNames.PLAYLIST];
+                super.setConfig(setupPlaylist(state.playlist));
+                super.render();
+
+                if (state.playlist !== undefined) {
+                    ApiActions.playlistTracks(state.id);
+                }
+            },
+            EventTypes.GOT_PLAYLIST,
+            this.name,
+        );
     }
 
     /**
      * Function to render favorite tracks
      */
     override render() {
-        const renderProcess = new Promise((resolve) => {
-            super.renderPlaylist();
-            resolve(true);
-        });
-
-        renderProcess.then(() => {
-            ApiActions.favoriteTracks(localStorage.getItem('userId'));
-            this.actionsOnRender();
-            super.subscribeBaseLogic(EventTypes.GOT_FAVORITE_TRACKS, pageNames.LIBRARY_TRACKS);
-        });
-        document.title = 'Favourite Tracks';
+        Actions.checkID(pageNames.PLAYLIST);
+        this.subscribes();
+        super.subscribeBaseLogic(EventTypes.GOT_PLAYLIST_TRACKS, pageNames.PLAYLIST);
+        document.title = 'Playlist';
     }
 }

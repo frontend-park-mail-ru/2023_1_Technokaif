@@ -186,6 +186,38 @@ const ApiActions = {
         });
     },
 
+    /** User playlists page api */
+    playlist(playlistId) {
+        Dispatcher.dispatch({
+            type: ActionTypes.GET_PLAYLIST,
+            playlistId,
+        });
+    },
+
+    /** User playlists page api */
+    playlistTracks(playlistId) {
+        Dispatcher.dispatch({
+            type: ActionTypes.GET_PLAYLIST_TRACKS,
+            playlistId,
+        });
+    },
+
+    /** Playlists like page api */
+    likePlaylist(playlistId) {
+        Dispatcher.dispatch({
+            type: ActionTypes.LIKE_PLAYLIST,
+            playlistId,
+        });
+    },
+
+    /** Playlists like page api */
+    unlikePlaylist(playlistId) {
+        Dispatcher.dispatch({
+            type: ActionTypes.UNLIKE_PLAYLIST,
+            playlistId,
+        });
+    },
+
     /** search server */
     search(searchString) {
         Dispatcher.dispatch({

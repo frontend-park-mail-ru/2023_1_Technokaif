@@ -178,7 +178,7 @@ class ComponentsStore extends IStore {
      * @returns {boolean}
      */
     prePageNeed() {
-        return document.querySelector(`${componentsJSNames.MAIN}`) === null;
+        return document.querySelector(`${componentsJSNames.BODY}`) === null;
     }
 }
 

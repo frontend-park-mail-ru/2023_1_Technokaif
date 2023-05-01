@@ -99,6 +99,7 @@ export interface ContentArtist {
     isArtistShow?: boolean
     isAlbumShow?: boolean
     isShowTitle: boolean,
+    durationClass: string,
 }
 
 /** JSON for liked songs */
@@ -251,6 +252,8 @@ export function setupLineList(items: [AlbumApi]):ContentArtist {
         isArtistPage: true,
         isPlaylistPage: false,
         isShowTitle: true,
+
+        durationClass: 'track-line__duration',
     };
 }
 

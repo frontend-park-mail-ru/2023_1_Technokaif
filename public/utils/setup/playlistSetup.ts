@@ -1,13 +1,34 @@
+import { componentsNames } from '../config/componentsNames';
 import { imgPath } from '../config/pathConfig';
+import { AlbumApi, ContentArtist } from './artistSetup';
+
+interface User {
+    avatarSrc: string,
+    birthDate: string,
+    email: string,
+    firstName: string,
+    id: number,
+    lastName: string,
+    username: string
+}
+
+interface Playlist {
+    cover: string,
+    description: string,
+    id: number,
+    isLiked: boolean,
+    name: string,
+    users: User,
+}
 
 /**
- * Setup album cover
+ * Setup library tracks
  * @returns {{json}}
  */
-export function setupAlbum() {
+export function setupPlaylist(playlist: Playlist) {
     return {
-        mainDiv: 'album',
-        imgSrc: '',
+        tracksClass: `library-tracks ${componentsNames.PLAYLIST}`,
+        imgSrc: playlist.cover,
         imgClass: 'album__img',
 
         headerDiv: 'album__descriptions',
@@ -16,37 +37,31 @@ export function setupAlbum() {
 
         headerNameDiv: '',
         headerNameClass: 'headerNameClass',
-        headerName: 'Album',
+        headerName: 'Playlist',
         headerNameOfElementDiv: '',
         headerNameOfElementClass: 'headerNameOfElementClass',
-        headerNameOfElement: 'Album name',
+        headerNameOfElement: playlist.name,
         byClass: 'author',
         headerDescription: 'author__place',
-        ArtistDiv: 'by__div',
-        ArtistClass: 'ArtistClass js__author',
-        ArtistName: 'name artist',
         DescriptionsDiv: '',
+        descriptionText: playlist.description,
         DescriptionsClass: 'js__description-album',
-        Descriptions: '2019 11 songs 32 min',
         ButtonsDiv: 'album__buttons',
         bottomDiv: 'bottomDiv',
-
-        buttonDiv: 'buttonPlayOnComponent',
-        buttonSrc: imgPath.playInArtist,
-        buttonClass: 'buttonComponent',
 
         numberDiv: 'numberDiv',
         TitleDiv: 'TitleDiv',
         ListensDiv: 'ListensDiv',
 
+        isLiked: playlist.isLiked,
         placementTracks: 'js__placement-tracks',
         liked: 'likedDiv',
         buttonPlay: 'playButton js__button__play',
         albumLike: 'albumLike',
-        isArtistPage: false,
-        isPlaylistPage: false,
 
-        hrClass: 'track-hr',
+        isArtistPage: false,
+        isPlaylistPage: true,
+        isLikedSongs: false,
     };
 }
 
@@ -54,7 +69,7 @@ export function setupAlbum() {
  * Setup line of track
  * @returns {{json}}
  */
-export function setupLineList(items) {
+export function setupLineList(items: [AlbumApi]):ContentArtist {
     return {
         lineListClass: 'line-list',
         title: 'popular-tracks-title',
@@ -65,7 +80,7 @@ export function setupLineList(items) {
         lineBlock: 'track-line__block',
         lineCover: 'track-line__cover',
         lineTitle: 'track-line__title',
-        lineListens: 'track-line__listens',
+        lineListensClass: 'track-line__listens',
         lineDuration: 'track-line__duration',
 
         buttonsClass: 'buttons',
@@ -91,14 +106,16 @@ export function setupLineList(items) {
         albumClass: 'albumClass',
         albumDiv: 'albumDiv',
 
-        trackLineOptions: 'track-line-optionals',
-        optionsBlock: 'options-block',
-
         content: items,
         isArtistPage: false,
-        isPlaylistPage: false,
+        isPlaylistPage: true,
+        isLikedSongs: true,
+
+        trackLineOptions: 'track-line-optionals',
+        optionsBlock: 'options-block',
         isArtistShow: true,
         isAlbumShow: false,
+        isShowTitle: false,
 
         durationClass: 'track-line__duration',
     };

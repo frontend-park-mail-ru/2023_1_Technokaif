@@ -20,7 +20,7 @@ import { routingUrl } from '../../../utils/config/routingUrls';
 export class LineList extends BaseComponent {
     private parent;
 
-    private config;
+    private _config;
 
     /**
      * Create LineList component. Empty innerHtml before placement
@@ -31,7 +31,7 @@ export class LineList extends BaseComponent {
     constructor(parent, config, name) {
         super(parent, config, templateHTML, name);
         this.parent = parent;
-        this.config = config;
+        this._config = config;
         this.#addListeners();
     }
 
@@ -40,11 +40,11 @@ export class LineList extends BaseComponent {
      * @private
      */
     private indexLines() {
-        const trackLines: NodeListOf<HTMLDivElement> = document.querySelectorAll(`.${this.config.lineDiv}`);
+        const trackLines: NodeListOf<HTMLDivElement> = document.querySelectorAll(`.${this._config.lineDiv}`);
         Array.from(trackLines).reduce((previousValue, currentValue, index, array) => {
-            const currentIndex: HTMLDivElement = currentValue.querySelector(`.${this.config.lineIndex}`) as HTMLDivElement;
+            const currentIndex: HTMLDivElement = currentValue.querySelector(`.${this._config.lineIndex}`) as HTMLDivElement;
             const currentId = +currentIndex?.innerText;
-            const prevIndex: HTMLDivElement = previousValue.querySelector(`.${this.config.lineIndex}`) as HTMLDivElement;
+            const prevIndex: HTMLDivElement = previousValue.querySelector(`.${this._config.lineIndex}`) as HTMLDivElement;
             const prevId = +prevIndex?.innerText;
             if (prevId > index) {
                 prevIndex.innerText = String(prevId - 1);
@@ -55,7 +55,7 @@ export class LineList extends BaseComponent {
             return currentValue;
         });
 
-        const indexBlock: NodeListOf<HTMLDivElement> = document.querySelectorAll(`.${this.config.lineIndex}`);
+        const indexBlock: NodeListOf<HTMLDivElement> = document.querySelectorAll(`.${this._config.lineIndex}`);
         // @ts-ignore
         if (Array.from(indexBlock).length === 2) {
             // @ts-ignore
@@ -69,7 +69,7 @@ export class LineList extends BaseComponent {
      * @private
      */
     private unrenderTrack(id: string) {
-        const trackLines = document.querySelectorAll(`.${this.config.lineDiv}`) as NodeListOf<HTMLDivElement>;
+        const trackLines = document.querySelectorAll(`.${this._config.lineDiv}`) as NodeListOf<HTMLDivElement>;
         // @ts-ignore
         const line = Array.from(trackLines).find((trackLine) => trackLine.dataset.id === id);
         if (!line) {
@@ -87,11 +87,11 @@ export class LineList extends BaseComponent {
      */
     #addListeners() {
         this.parent.addEventListener('click', (event) => {
-            const line = event.target.closest(`.${this.config.lineDiv}`) as HTMLDivElement;
-            const like = event.target.closest(`.${this.config.likeButtonImg}`) as HTMLImageElement;
-            const album: HTMLDivElement = event.target.closest(`.${this.config.lineTitle}`);
-            const buttons = event.target.closest(`.${this.config.playButtonImg}`) as HTMLImageElement;
-            const playButtons = document.querySelectorAll(`.${this.config.playButton}`) as NodeListOf<HTMLButtonElement>;
+            const line = event.target.closest(`.${this._config.lineDiv}`) as HTMLDivElement;
+            const like = event.target.closest(`.${this._config.likeButtonImg}`) as HTMLImageElement;
+            const album: HTMLDivElement = event.target.closest(`.${this._config.lineTitle}`);
+            const buttons = event.target.closest(`.${this._config.playButtonImg}`) as HTMLImageElement;
+            const playButtons = document.querySelectorAll(`.${this._config.playButton}`) as NodeListOf<HTMLButtonElement>;
             if (line) {
                 // todo not clear solution dont forget about
                 if (event.target !== buttons && event.target !== like && event.target !== album) {
@@ -103,7 +103,7 @@ export class LineList extends BaseComponent {
                     return;
                 }
 
-                const indexBlock: HTMLDivElement = line.querySelector(`.${this.config.lineIndex}`) as HTMLDivElement;
+                const indexBlock: HTMLDivElement = line.querySelector(`.${this._config.lineIndex}`) as HTMLDivElement;
                 if (!indexBlock) {
                     console.error('Cannot find index block');
                     return;
@@ -190,9 +190,9 @@ export class LineList extends BaseComponent {
 
         SongStore.subscribe(
             (state) => {
-                const playButtons = document.querySelectorAll(`.${this.config.playButton}`) as NodeListOf<HTMLButtonElement>;
-                const stopButtons = document.querySelectorAll(`.${this.config.stopButton}`) as NodeListOf<HTMLButtonElement>;
-                const lines = document.querySelectorAll(`.${this.config.lineDiv}`) as NodeListOf<HTMLDivElement>;
+                const playButtons = document.querySelectorAll(`.${this._config.playButton}`) as NodeListOf<HTMLButtonElement>;
+                const stopButtons = document.querySelectorAll(`.${this._config.stopButton}`) as NodeListOf<HTMLButtonElement>;
+                const lines = document.querySelectorAll(`.${this._config.lineDiv}`) as NodeListOf<HTMLDivElement>;
                 const trackId = SongStore.trackInfo.id;
                 for (const key in lines) {
                     if (key === 'entries') break;
