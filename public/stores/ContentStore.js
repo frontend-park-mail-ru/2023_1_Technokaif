@@ -45,6 +45,9 @@ class ContentStore extends IStore {
         case ActionTypes.ADD_FAVORITE_CONTENT:
             this.#addContentOnFavoritePages(action.items, action.instance);
             break;
+        case ActionTypes.ADD_PLAYLIST_CONTENT:
+            this.#addContentOnPlaylistPage(action.items, action.instance);
+            break;
         case ActionTypes.FEED_GOT_CONTENT:
             this.#addContentOnFeed(action.items);
             break;
@@ -92,6 +95,9 @@ class ContentStore extends IStore {
             break;
         case instancesNames.ALBUM_PAGE:
             this.#addContent(pageNames.ALBUM, 'id', id);
+            break;
+        case instancesNames.PLAYLIST_PAGE:
+            this.#addContent(pageNames.PLAYLIST, 'id', id);
             break;
         default:
         }
@@ -170,6 +176,25 @@ class ContentStore extends IStore {
         case instancesNames.LIKED_SONGS:
             this.#addContent(pageNames.ARTIST_PAGE, instance, items);
             this.jsEmit(EventTypes.GOT_FAVORITE_TRACKS, instance);
+            break;
+        default:
+        }
+    }
+
+    /**
+     * Add item(s) on playlist page
+     * @param items
+     * @param instance
+     */
+    #addContentOnPlaylistPage(items, instance) {
+        switch (instance) {
+        case instancesNames.PLAYLIST_PAGE:
+            this.#addContent(pageNames.PLAYLIST, instance, items);
+            this.jsEmit(EventTypes.GOT_PLAYLIST, instance);
+            break;
+        case instancesNames.PLAYLIST_TRACKS_PAGE:
+            this.#addContent(pageNames.PLAYLIST, instance, items);
+            this.jsEmit(EventTypes.GOT_PLAYLIST_TRACKS, instance);
             break;
         default:
         }

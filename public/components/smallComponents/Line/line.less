@@ -3,7 +3,7 @@
 .track-line {
   display: grid;
   align-items: center;
-  grid-template-columns: [index] 20px [first] 6fr [album] 2fr [listens] 2fr [like] 1fr;
+  grid-template-columns: [index] 20px [first] 6fr [album] 2fr [listens] 2fr [like] 1fr [duration] 1fr ;
   padding: 0 16px 10px 10px;
   gap: 10px;
 }
@@ -99,13 +99,13 @@
 }
 
 .track-line__duration {
-  grid-area: last;
+  grid-area: duration;
   align-items: center;
   justify-self: end;
 
   font-style: normal;
   font-weight: 700;
-  font-size: 15.5014px;
+  font-size: 15px;
   line-height: 20px;
 
   color: rgba(255, 255, 255, 0.5);

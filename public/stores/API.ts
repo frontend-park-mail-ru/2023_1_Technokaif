@@ -33,6 +33,9 @@ import { search } from '../api/search/search';
 import { apiUrl } from '../utils/config/apiUrls';
 import ActionsSearch from '../actions/Actions/ActionsSearch';
 import { userFavoritePlaylistsAjax } from '../api/favorite/getUserFavoritePlaylistsAjaxReq';
+import { getPlaylist } from '../api/playlists/getPlaylistAjaxRequest';
+import { getPlaylistTracks } from '../api/playlists/getTracksAjaxRequest';
+import { dislikePlaylist, likePlaylist } from '../api/playlists/likeDislikePlaylistAjaxRequest';
 
 /**
  * Class using for getting data from backend.
@@ -139,6 +142,18 @@ class API extends IStore {
             break;
         case ActionTypes.GET_USER_PLAYLISTS:
             this.userPlaylistsRequest(action.userId);
+            break;
+        case ActionTypes.GET_PLAYLIST:
+            this.playlistRequest(action.playlistId);
+            break;
+        case ActionTypes.GET_PLAYLIST_TRACKS:
+            this.playlistTracksRequest(action.playlistId);
+            break;
+        case ActionTypes.LIKE_PLAYLIST:
+            this.likePlaylist(action.playlistId);
+            break;
+        case ActionTypes.UNLIKE_PLAYLIST:
+            this.unlikePlaylist(action.playlistId);
             break;
         case ActionTypes.SEARCH_WITH_NAME:
             this.searchForAlbumsWithName(action.searchString);
@@ -410,6 +425,46 @@ class API extends IStore {
     private userPlaylistsRequest(userId: string) {
         userPlaylistsAjax(userId).then((playlists) => {
             Actions.addFavoriteContent(playlists, instancesNames.USER_PLAYLISTS_PAGE);
+        });
+    }
+
+    /**
+     * Function to get playlist by playlist id
+     * @param playlistId
+     */
+    private playlistRequest(playlistId: string) {
+        getPlaylist(playlistId).then((playlist) => {
+            Actions.addPlaylistContent(playlist, instancesNames.PLAYLIST_PAGE);
+        });
+    }
+
+    /**
+     * Function to get playlist tracks by playlist id
+     * @param playlistId
+     */
+    private playlistTracksRequest(playlistId: string) {
+        getPlaylistTracks(playlistId).then((tracks) => {
+            Actions.addPlaylistContent(tracks, instancesNames.PLAYLIST_TRACKS_PAGE);
+        });
+    }
+
+    /**
+     * Function to like playlist by playlist id
+     * @param playlistId
+     */
+    private likePlaylist(playlistId: string) {
+        likePlaylist(playlistId).then((message) => {
+            this.jsEmit(EventTypes.LIKED_PLAYLIST, message);
+        });
+    }
+
+    /**
+     * Function to unlike playlist by playlist id
+     * @param playlistId
+     */
+    private unlikePlaylist(playlistId: string) {
+        dislikePlaylist(playlistId).then((message) => {
+            this.jsEmit(EventTypes.UNLIKED_PLAYLIST, message);
         });
     }
 

@@ -57,6 +57,14 @@ export class BaseComponent {
     }
 
     /**
+     * Setter of config
+     * @param config
+     */
+    set config(config) {
+        this.#config = config;
+    }
+
+    /**
      * Subscribe there on all general events
      */
     #subscribeAll() {
