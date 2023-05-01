@@ -1,0 +1,32 @@
+@import '../../../static/css/constants.less';
+
+.dropdown-active > .dropdown-options {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.dropdown-title{
+  width: 100%;
+  height: fit-content;
+}
+
+.dropdown-options {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background-color: @main-color;
+  padding: min(0.1vh, 0.1vw);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-30%);
+  transition: all 150ms;
+}
+
+.dropdown-menu {
+  position: relative;
+  color: @opposed-main-color;
+  width: 10vw;
+  height: fit-content;
+  overflow: unset;
+}
