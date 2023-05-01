@@ -495,6 +495,7 @@ class API extends IStore {
         let tracks = [];
         const promises = [];
         ids.forEach((ind) => {
+            // @ts-ignore
             promises.push(trackOneAjax(ind));
         });
         Promise.all(promises).then((values) => {

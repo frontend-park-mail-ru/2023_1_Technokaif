@@ -31,6 +31,9 @@ export class DropDown extends BaseComponent {
     /** If need to go in specific direction */
     private readonly whereMustGo;
 
+    /** Parent where render */
+    private parent;
+
     /** Parent for render and config for base setup. Set whereToGo to render in this direction */
     constructor(parent, config, whereToGo = '') {
         super(parent, config, templateHtml, config.dropdownName);
@@ -38,6 +41,7 @@ export class DropDown extends BaseComponent {
         this.isRendered = false;
         this.listeners = [];
         this.whereMustGo = whereToGo;
+        this.parent = parent;
     }
 
     /**
@@ -90,6 +94,13 @@ export class DropDown extends BaseComponent {
         if (!this.isRendered) this.render();
         const titlePlacement = this.title;
         this.addElement(titlePlacement, element, event, reaction);
+        this.whereToRender();
+    }
+
+    /** Clear title element */
+    clearTitleElement() {
+        if (!this.title) return;
+        this.title.innerHTML = '';
     }
 
     /**
@@ -218,7 +229,6 @@ export class DropDown extends BaseComponent {
         if (whereRender === '') {
             whereRender = this.searchForFreeSpace();
         }
-
         const element = this.options;
         if (!element || !(element instanceof HTMLElement)) {
             return;
@@ -229,23 +239,27 @@ export class DropDown extends BaseComponent {
             return;
         }
 
+        element.style.maxWidth = `${title.offsetWidth}`;
         switch (whereRender) {
         case DIRECTIONS_DROPDOWN.DOWN:
-            element.style.bottom = '50%';
+            element.style.top = `${title.offsetHeight * 1.3}`;
             element.style.left = '0';
-            element.style.transform = 'translateY(-30%)';
+            element.style.transform = 'translateY(-1vh)';
             break;
         case DIRECTIONS_DROPDOWN.UP:
+            // todo Change on bottom
             element.style.top = `-${element.offsetHeight.toString()}`;
             element.style.left = '0';
             element.style.transform = `translateY(-${title.offsetHeight})`;
             break;
         case DIRECTIONS_DROPDOWN.LEFT:
+            // todo Change on right
             element.style.top = '0';
             element.style.left = '50%';
             element.style.transform = 'translateX(100%)';
             break;
         case DIRECTIONS_DROPDOWN.RIGHT:
+            // todo Change on left
             element.style.top = '0';
             element.style.right = '100%';
             element.style.transform = 'translateX(100%)';
@@ -272,6 +286,13 @@ export class DropDown extends BaseComponent {
     /** Delete children. Delete listeners of dropDown */
     override unRender() {
         super.unRender();
+
+        const { menu } = this;
+        if (!menu || !this.parent || !(this.parent instanceof HTMLElement)) {
+            return;
+        }
+
+        this.parent.removeChild(menu);
 
         this.listeners.forEach((action) => {
             window.removeEventListener(action.event, action.reaction);

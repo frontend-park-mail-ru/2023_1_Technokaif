@@ -11,6 +11,10 @@ import Actions from '../../../actions/Actions';
 import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
 import { checkAuth } from '../../../utils/functions/checkAuth';
 import { routingUrl } from '../../../utils/config/routingUrls';
+import UserInfoStore from '../../../stores/UserInfoStore';
+import { DIRECTIONS_DROPDOWN, DropDown } from '../../smallComponents/dropDown/dropDown';
+import { dropDownAvatarSetup, navbarAvatarSetup } from '../../../utils/setup/avatarInNavbar';
+import { AvatarNavbar } from '../../smallComponents/navbarAvatar/avatarNavbar';
 
 /**
  * Class for Navbar element: Login, Registration, Logout and user info.
@@ -26,6 +30,8 @@ class Navbar {
 
     #name;
 
+    #dropDown;
+
     /**
      * Constructor
      * @param {HTMLElement} parent -- where to place
@@ -36,6 +42,7 @@ class Navbar {
         this.#parent = parent;
         this.#config = config;
         this.#name = name;
+        this.#dropDown = null;
     }
 
     /**
@@ -79,6 +86,27 @@ class Navbar {
             componentsNames.NAVBAR,
         );
 
+        UserInfoStore.subscribe(
+            () => {
+                if (checkAuth()) {
+                    this.#dropDown.clearTitleElement();
+                    const div = document.createElement('div');
+                    const configForAvatar = navbarAvatarSetup;
+
+                    const values = UserInfoStore.state;
+                    configForAvatar.imgSrc = values.avatarSrc;
+
+                    configForAvatar.text = values.username;
+                    const avatar = new AvatarNavbar(div, configForAvatar);
+
+                    avatar.render();
+                    this.#dropDown.addTitleElement(div);
+                }
+            },
+            EventTypes.USER_DATA_GOT_FOR_PAGE,
+            componentsNames.NAVBAR,
+        );
+
         document.querySelector(`.${componentsJSNames.MAIN}`)
             .addEventListener('click', (e) => {
                 e?.preventDefault?.();
@@ -119,12 +147,67 @@ class Navbar {
         return newcfg;
     }
 
+    /** Render drop */
+    #renderDrop() {
+        if (this.#dropDown) {
+            this.#dropDown.unRender();
+        }
+        if (!checkAuth()) {
+            return;
+        }
+        const placement = document.querySelector('.js__avatar-placement');
+        if (!placement) {
+            console.warn('Placement for avatar doesn\'t exist');
+            return;
+        }
+
+        this.#dropDown = new DropDown(
+            placement,
+            dropDownAvatarSetup,
+            DIRECTIONS_DROPDOWN.DOWN,
+        );
+        this.#dropDown.render();
+
+        const divForBt1 = document.createElement('div');
+        divForBt1.classList.add('navbar__profile__item');
+
+        const bt1 = document.createElement('button');
+        bt1.textContent = 'Profile';
+        bt1.setAttribute('data-section', 'profile');
+        bt1.href = '/profile';
+        bt1.classList.add('navbar__profile');
+        bt1.classList.add('navbar__button');
+        bt1.style.width = 'fit-content';
+        bt1.style.height = '7vh';
+        // divForBt1.appendChild(bt1);
+
+        const divForBt2 = document.createElement('div');
+        divForBt2.classList.add('navbar__logout__item');
+
+        const bt2 = document.createElement('button');
+        bt2.textContent = 'Logout';
+        bt2.href = '/logout';
+        bt2.setAttribute('data-section', 'logout');
+        bt2.classList.add('navbar__logout');
+        bt2.classList.add('navbar__button');
+        bt2.style.width = 'fit-content';
+        bt2.style.height = '7vh';
+
+        // divForBt2.appendChild(bt2);
+
+        this.#dropDown.addOptionsElement(bt1);
+        this.#dropDown.addOptionsElement(bt2);
+    }
+
     /**
      * Render Navbar element in parent
      */
     render() {
         const items = this.#translateToItems(this.#config);
         items.name = this.#name;
+        if (checkAuth()) {
+            ApiActions.user(localStorage.getItem('userId'));
+        }
 
         const template = templateHtml;
         const templateInnerHtml = template(items);
@@ -134,6 +217,7 @@ class Navbar {
         }
         this.#parent.innerHTML += templateInnerHtml;
 
+        this.#renderDrop();
         this.#callEventListener();
     }
 
@@ -143,6 +227,9 @@ class Navbar {
     #reRender() {
         this.#config = (checkAuth()) ? authNavConfig : unAuthNavConfig;
         this.#name = (checkAuth()) ? 'authNavbar' : 'unAuthNavbar';
+        if (checkAuth()) {
+            ApiActions.user(localStorage.getItem('userId'));
+        }
 
         const navbar = document.querySelector(`.${componentsNames.NAVBAR}`);
         this.#parent.removeChild(navbar);
@@ -158,6 +245,7 @@ class Navbar {
 
         const newElement = tempElement.firstChild;
         this.#parent.insertBefore(newElement, this.#parent.firstChild);
+        this.#renderDrop();
         this.#callEventListener();
     }
 
@@ -166,6 +254,9 @@ class Navbar {
      */
     #unRender() {
         const element = document.querySelector(`.${componentsJSNames.NAVBAR}`);
+        if (this.#dropDown) {
+            this.#dropDown.unRender();
+        }
         if (!element) {
             console.error('Cannot unrender navbar');
             return;
