@@ -218,6 +218,32 @@ const ApiActions = {
         });
     },
 
+    /** User playlists page api */
+    createPlaylist(playlistData) {
+        Dispatcher.dispatch({
+            type: ActionTypes.CREATE_PLAYLIST,
+            playlistData,
+        });
+    },
+
+    /** User playlists page api */
+    updatePlaylist(id, playlistData) {
+        Dispatcher.dispatch({
+            type: ActionTypes.UPDATE_PLAYLIST,
+            id,
+            playlistData,
+        });
+    },
+
+    /** User playlists page api */
+    uploadPlaylistCover(id, cover) {
+        Dispatcher.dispatch({
+            type: ActionTypes.UPLOAD_PLAYLIST_COVER,
+            id,
+            cover,
+        });
+    },
+
     /** search server */
     search(searchString) {
         Dispatcher.dispatch({

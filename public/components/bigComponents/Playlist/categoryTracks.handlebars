@@ -1,7 +1,7 @@
 <div class="{{tracksClass}}">
     <div class="{{headerDiv}}">
         <div class="{{headerImgClass}}">
-            <img class="{{imgClass}}" src="{{imgSrc}}">
+                <img class="{{imgClass}}" src="{{#if imgSrc}}{{imgSrc}}{{else}}/static/svg/playlistDefault.svg{{/if}}">
         </div>
         {{#ifEquals isLikedSongs false}}
             <div class="cover">
@@ -10,7 +10,7 @@
                 <img class="default" src="/static/svg/avatarHover.svg">
                 </span>
                 </label>
-                <img class="user-profile__img" src="{{imgSrc}}" id="output">
+                <img class="user-profile__img" src="{{#if imgSrc}}{{imgSrc}}{{else}}/static/svg/playlistDefault.svg{{/if}}" id="output">
             </div>
         {{/ifEquals}}
         <div class="{{headerDescriptions}}">

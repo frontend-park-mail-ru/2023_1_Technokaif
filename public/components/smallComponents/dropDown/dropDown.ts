@@ -3,7 +3,7 @@ import { BaseComponent } from '../../BaseComponent';
 import { METHOD } from '../../../utils/config/config';
 import './dropDown.less';
 
-export interface DropDownSetup{
+export interface DropDownSetup {
     mainDropDownDiv:string,
     dropdownName: string,
     dropdownTitleDiv: string,

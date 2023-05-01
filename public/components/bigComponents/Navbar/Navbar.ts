@@ -3,7 +3,7 @@ import ApiActions from '../../../actions/ApiActions';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import templateHtml from './navbar.handlebars';
 import { EventTypes } from '../../../utils/config/EventTypes';
-import API from '../../../stores/API.ts';
+import API from '../../../stores/API';
 import { authNavConfig, unAuthNavConfig } from '../../../utils/config/config';
 import { componentsJSNames } from '../../../utils/config/componentsJSNames';
 import ComponentsStore from '../../../stores/ComponentsStore';
@@ -44,7 +44,7 @@ class Navbar {
     get items() {
         return Object.entries(this.#config).map(([key, value]) => ({
             key,
-            ...value,
+            value,
         }));
     }
 
@@ -59,7 +59,7 @@ class Navbar {
                 if (component.length !== 0) {
                     Actions.removeElementFromPage(componentsNames.NAVBAR);
                     unsubscribeFromAllStoresOnComponent(componentsNames.NAVBAR);
-                    this.#unRender();
+                    this.unRender();
                 }
             },
             EventTypes.ON_REMOVE_ANOTHER_ITEMS,
@@ -71,7 +71,7 @@ class Navbar {
                     console.error('bad respond from server during logout');
                 } else {
                     this.#reRender();
-                    const element = document.querySelector(`.${componentsNames.PLAYER}`);
+                    const element: HTMLDivElement = document.querySelector(`.${componentsNames.PLAYER}`) as HTMLDivElement;
                     element.hidden = true;
                 }
             },
@@ -79,12 +79,18 @@ class Navbar {
             componentsNames.NAVBAR,
         );
 
-        document.querySelector(`.${componentsJSNames.MAIN}`)
+        const mainElement: HTMLDivElement = document.querySelector(`.${componentsJSNames.MAIN}`) as HTMLDivElement;
+
+        mainElement
             .addEventListener('click', (e) => {
                 e?.preventDefault?.();
                 if (e.target instanceof HTMLAnchorElement
                     || e.target instanceof HTMLButtonElement) {
                     const { section } = e.target.dataset;
+                    if (!section) {
+                        console.error('Error in navbar redirect section');
+                        return;
+                    }
                     if (section === 'logout') {
                         if (window.location.pathname === routingUrl.PROFILE) {
                             Router.go('/');
@@ -113,6 +119,7 @@ class Navbar {
                 tmpItem[property] = lastCfg[obj][property];
             }
 
+            // @ts-ignore
             newcfg.items.push(tmpItem);
         }
 
@@ -124,6 +131,7 @@ class Navbar {
      */
     render() {
         const items = this.#translateToItems(this.#config);
+        // @ts-ignore
         items.name = this.#name;
 
         const template = templateHtml;
@@ -148,6 +156,7 @@ class Navbar {
         this.#parent.removeChild(navbar);
 
         const items = this.#translateToItems(this.#config);
+        // @ts-ignore
         items.name = this.#name;
 
         const template = templateHtml;
@@ -164,7 +173,7 @@ class Navbar {
     /**
      * Function to unrender Navbar component
      */
-    #unRender() {
+    private unRender() {
         const element = document.querySelector(`.${componentsJSNames.NAVBAR}`);
         if (!element) {
             console.error('Cannot unrender navbar');

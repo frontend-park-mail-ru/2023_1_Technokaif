@@ -2,7 +2,7 @@ import { componentsNames } from '../config/componentsNames';
 import { imgPath } from '../config/pathConfig';
 import { AlbumApi, ContentArtist } from './artistSetup';
 
-interface User {
+export interface User {
     avatarSrc: string,
     birthDate: string,
     email: string,
@@ -12,7 +12,7 @@ interface User {
     username: string
 }
 
-interface Playlist {
+export interface Playlist {
     cover: string,
     description: string,
     id: number,
