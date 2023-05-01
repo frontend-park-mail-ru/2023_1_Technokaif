@@ -378,12 +378,12 @@ class Router extends IStore {
             case ACTION_ON_PATH.goForward:
                 // todo check if history can go forward
                 window.history.forward();
-                window.dispatchEvent(new Event('popstate'));
+                setTimeout(window.dispatchEvent(new Event('popstate')), 100);
                 return;
                 break;
             case ACTION_ON_PATH.goBackward:
                 window.history.back();
-                window.dispatchEvent(new Event('popstate'));
+                setTimeout(window.dispatchEvent(new Event('popstate')), 100);
                 return;
                 break;
             case ACTION_ON_PATH.login:

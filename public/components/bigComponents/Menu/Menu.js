@@ -117,7 +117,11 @@ class Menu {
      * Function to unrender Sidebar component
      */
     #unRender() {
-        this.#parent.removeChild(document.querySelector(`.${componentsJSNames.SIDEBAR}`));
+        const element = document.querySelector(`.${componentsJSNames.SIDEBAR}`);
+        if (!element) {
+            return;
+        }
+        this.#parent.removeChild(element);
     }
 }
 

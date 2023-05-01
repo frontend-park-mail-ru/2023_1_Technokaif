@@ -60,6 +60,7 @@ function renderMainPage() {
                 render: ComponentsRenders.renderPlayer,
             },
         ],
+        true,
     );
 
     ComponentsStore.register(
@@ -70,6 +71,7 @@ function renderMainPage() {
                 render: ComponentsRenders.renderFormLogin,
             },
         ],
+        false,
     );
 
     ComponentsStore.register(
@@ -80,6 +82,7 @@ function renderMainPage() {
                 render: ComponentsRenders.renderFormRegister,
             },
         ],
+        false,
     );
 
     ComponentsStore.register(
@@ -90,6 +93,7 @@ function renderMainPage() {
                 render: ComponentsRenders.renderPage404,
             },
         ],
+        false,
     );
 
     ComponentsStore.register(
@@ -116,6 +120,7 @@ function renderMainPage() {
                 render: ComponentsRenders.renderPlayer,
             },
         ],
+        true,
     );
 
     ComponentsStore.register(
@@ -142,6 +147,7 @@ function renderMainPage() {
                 render: ComponentsRenders.renderPlayer,
             },
         ],
+        true,
     );
 
     ComponentsStore.register(
@@ -168,6 +174,7 @@ function renderMainPage() {
                 render: ComponentsRenders.renderPlayer,
             },
         ],
+        true,
     );
 
     ComponentsStore.register(
@@ -198,6 +205,7 @@ function renderMainPage() {
                 render: ComponentsRenders.renderPlayer,
             },
         ],
+        true,
     );
 
     ComponentsStore.register(
@@ -228,6 +236,7 @@ function renderMainPage() {
                 render: ComponentsRenders.renderPlayer,
             },
         ],
+        true,
     );
 
     ComponentsStore.register(
@@ -258,6 +267,7 @@ function renderMainPage() {
                 render: ComponentsRenders.renderPlayer,
             },
         ],
+        true,
     );
 
     ComponentsStore.register(
@@ -340,6 +350,7 @@ function renderMainPage() {
                 render: ComponentsRenders.renderPlayer,
             },
         ],
+        true,
     );
 
     serviceWorkerRegistration();

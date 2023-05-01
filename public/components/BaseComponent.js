@@ -85,7 +85,11 @@ export class BaseComponent {
                             Actions.removeElementFromPage(componentsNames.MAIN);
                             unsubscribeFromAllStoresOnComponent(componentsNames.MAIN);
                             const parent = ComponentsStore.checkWhereToPlace(componentsNames.MAIN);
-                            parent.removeChild(document.querySelector(`.${componentsJSNames.MAIN}`));
+                            const child = document.querySelector(`.${componentsJSNames.MAIN}`);
+                            if (!child || !parent) {
+                                return;
+                            }
+                            parent.removeChild(child);
                         }
                     }
                 }

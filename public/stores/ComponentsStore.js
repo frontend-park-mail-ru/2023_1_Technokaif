@@ -25,11 +25,15 @@ class ComponentsStore extends IStore {
      */
     #allElements;
 
+    /** Is prepage render needed */
+    #isPrepageNeed;
+
     /**
      * Constructor for ComponentsStore.
      */
     constructor() {
         super('ComponentsStore');
+        this.#isPrepageNeed = [];
         this.#whatExistOnPage = [];
         this.#whatNeedForPage = [];
         this.#allElements = [];
@@ -133,12 +137,16 @@ class ComponentsStore extends IStore {
      *     },
      * ]
      */
-    register(nameOfPage, requiredComponents) {
+    register(nameOfPage, requiredComponents, isPrePageNeed) {
         this.#whatNeedForPage.push({ page: nameOfPage, components: requiredComponents });
         requiredComponents.forEach((component) => {
             if (!this.#allElements.includes(component)) {
                 this.#allElements.push(component);
             }
+        });
+        this.#isPrepageNeed.push({
+            name: nameOfPage,
+            isPrePageNeed,
         });
     }
 
@@ -177,8 +185,12 @@ class ComponentsStore extends IStore {
      * Function to check if we need to create a document elements
      * @returns {boolean}
      */
-    prePageNeed() {
-        return document.querySelector(`${componentsJSNames.BODY}`) === null;
+    prePageNeed(viewName) {
+        let isNeeded = false;
+        if (this.#isPrepageNeed.find((page) => page.name === viewName && page.isPrePageNeed)) {
+            isNeeded = true;
+        }
+        return isNeeded;
     }
 }
 
