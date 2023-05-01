@@ -173,10 +173,11 @@ export class Tape extends BaseComponent {
                     idArray = arrTr;
                     break;
                 case 'Albums':
-                    const albumId = SongStore.albumInfo;
+                    let albumId = SongStore.albumInfo;
                     if (!albumId) {
-                        console.warn('Artist doesn\'t exist');
-                        return;
+                        console.warn('Albums doesn\'t exist');
+                        albumId = '-1';
+                        // return;
                     }
                     const arrAlb = [];
                     arrAlb.push((albumId as never));

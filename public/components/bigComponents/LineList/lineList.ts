@@ -147,15 +147,6 @@ export class LineList extends BaseComponent {
                                 }
 
                                 Actions.addQueueTracks(trackIds, offset);
-
-                                // trackIds.forEach((trackid, index) => {
-                                //     if (index < trackIds.length - 1) {
-                                //         Actions.queueTrack(trackid);
-                                //     } else {
-                                //         Actions.queueTrackWithOffset(trackid, id - 1);
-                                //     }
-                                // });
-
                                 break;
                             case componentsNames.SEARCH_LINE:
                                 Actions.playTrack(trackId);

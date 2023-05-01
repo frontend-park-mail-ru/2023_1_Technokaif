@@ -2,6 +2,7 @@ import IStore from './IStore';
 import ActionTypes from '../actions/ActionTypes';
 import { EventTypes } from '../utils/config/EventTypes';
 import { RESPONSES } from '../utils/config/config';
+import position from '../components/smallComponents/Line/position';
 
 export const METHODS_STORE = {
     REPLACE: 'REPLACE',
@@ -371,17 +372,14 @@ class SongStore extends IStore {
      * }
      */
     #uploadTape(response) {
-        if (this.#songs.length === 0) {
-            this.#songs = response;
-        } else {
-            this.#songs = this.#songs.concat(response);
-        }
+        this.#songs = this.#songs.concat(response);
 
         if (this.#songs.length > 0) {
             if (this.#songs.length <= this.#position) {
                 console.warn('Length exceeded, existed:', this.#songs.length, ' position:', this.#position);
                 this.#position = this.#songs.length - 1;
             }
+
             this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
             this.#clearTrack = false;
             this.jsEmit(EventTypes.SONG_FOUND, {

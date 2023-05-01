@@ -298,6 +298,7 @@ function renderMainPage() {
                 render: ComponentsRenders.renderPlayer,
             },
         ],
+        true,
     );
 
     ComponentsStore.register(
@@ -319,7 +320,12 @@ function renderMainPage() {
                 name: componentsNames.SEARCH_CONTENT,
                 render: ComponentsRenders.renderSearchContent,
             },
+            {
+                name: componentsNames.PLAYER,
+                render: ComponentsRenders.renderPlayer,
+            },
         ],
+        true,
     );
 
     ComponentsStore.register(

@@ -26,4 +26,5 @@ export const componentsNames = {
     LIBRARY_PLAYLISTS: 'js__library-playlists',
     SEARCH_LINE: 'SEARCH_LINE',
     SEARCH_CONTENT: 'search-content',
+    SEARCH_LIST: 'SEARCH_LIST',
 };
