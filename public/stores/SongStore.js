@@ -165,6 +165,9 @@ class SongStore extends IStore {
         case ActionTypes.FIRST_START_AFTER_RESTART:
             this.#firstLaunch();
             break;
+        case ActionTypes.SET_OFFSET:
+            this.#position = action.offset;
+            break;
         default:
             break;
         }
@@ -368,7 +371,11 @@ class SongStore extends IStore {
      * }
      */
     #uploadTape(response) {
-        this.#songs = this.#songs.concat(response);
+        if (this.#songs.length === 0) {
+            this.#songs = response;
+        } else {
+            this.#songs = this.#songs.concat(response);
+        }
 
         if (this.#songs.length > 0) {
             if (this.#songs.length <= this.#position) {

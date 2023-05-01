@@ -309,6 +309,23 @@ const Actions = {
             instance,
         });
     },
+
+    /** Queue Tracks */
+    addQueueTracks(trackId, offset) {
+        Dispatcher.dispatch({
+            type: ActionTypes.QUEUE_TRACK,
+            idOfTracks: trackId,
+            offset,
+        });
+    },
+
+    /** set offset */
+    setOffset(offset) {
+        Dispatcher.dispatch({
+            type: ActionTypes.SET_OFFSET,
+            offset,
+        });
+    },
 };
 
 export default Actions;

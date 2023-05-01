@@ -82,8 +82,10 @@ class API extends IStore {
             this.#artistAlbumsRequest(action.id);
             break;
         case ActionTypes.PLAY_TRACK:
-        case ActionTypes.QUEUE_TRACK:
             this.#trackRequestFromServer(action.id);
+            break;
+        case ActionTypes.QUEUE_TRACK:
+            this.queueTrack(action.idOfTracks, action.offset);
             break;
         case ActionTypes.PLAY_ALBUM:
         case ActionTypes.QUEUE_ALBUM:
@@ -430,6 +432,22 @@ class API extends IStore {
         search(apiUrl.ARTIST_SEARCH_API, value).then((artists) => {
             ActionsSearch.gotArtists(artists);
         }).catch(() => {});
+    }
+
+    /** load all tracks in ids queue */
+    private queueTrack(ids, offset) {
+        Actions.playerDelete();
+        let tracks = [];
+        const promises = [];
+        ids.forEach((ind) => {
+            promises.push(trackOneAjax(ind));
+        });
+        Promise.all(promises).then((values) => {
+            tracks = values;
+            Actions.setOffset(offset);
+            Actions.loadMoreLine(tracks);
+            Actions.changePlayState(true);
+        });
     }
 }
 

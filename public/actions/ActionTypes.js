@@ -100,6 +100,8 @@ const ActionTypes = {
     GOT_TRACKS_SEARCH: 'GOT_TRACKS_SEARCH',
     GOT_ALBUMS_SEARCH: 'GOT_ALBUMS_SEARCH',
     GOT_ARTISTS_SEARCH: 'GOT_ARTISTS_SEARCH',
+
+    SET_OFFSET: 'SET_OFFSET',
 };
 
 export default ActionTypes;

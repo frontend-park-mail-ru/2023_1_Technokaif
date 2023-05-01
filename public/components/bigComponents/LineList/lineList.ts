@@ -141,13 +141,20 @@ export class LineList extends BaseComponent {
                                 const { tracks } = ContentStore.state[pageNames.LIBRARY_TRACKS];
                                 // eslint-disable-next-line no-case-declarations
                                 const trackIds = tracks.map((track) => track.id);
-                                trackIds.forEach((trackid, index) => {
-                                    if (index < trackIds.length - 1) {
-                                        Actions.queueTrack(trackid);
-                                    } else {
-                                        Actions.queueTrackWithOffset(trackid, id - 1);
-                                    }
-                                });
+                                let offset = id - 1;
+                                if (offset < 0) {
+                                    offset = 0;
+                                }
+
+                                Actions.addQueueTracks(trackIds, offset);
+
+                                // trackIds.forEach((trackid, index) => {
+                                //     if (index < trackIds.length - 1) {
+                                //         Actions.queueTrack(trackid);
+                                //     } else {
+                                //         Actions.queueTrackWithOffset(trackid, id - 1);
+                                //     }
+                                // });
 
                                 break;
                             case componentsNames.SEARCH_LINE:
