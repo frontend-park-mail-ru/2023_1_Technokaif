@@ -79,7 +79,7 @@ export class BaseComponent {
                     ContentStore.state[pageNames.FEED] = {};
                     this.unRender();
 
-                    if (this.#name === componentsNames.FEED_CONTENT) {
+                    if (this.#name === componentsNames.FEED_CONTENT || this.#name === componentsNames.SEARCH_CONTENT) {
                         component = list.filter((comp) => comp.name === componentsNames.MAIN);
                         if (component.length !== 0) {
                             Actions.removeElementFromPage(componentsNames.MAIN);
