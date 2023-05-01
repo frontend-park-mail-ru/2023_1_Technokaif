@@ -128,6 +128,10 @@ class Navbar {
 
         const template = templateHtml;
         const templateInnerHtml = template(items);
+        if (!this.#parent) {
+            console.error('No parent on page');
+            return;
+        }
         this.#parent.innerHTML += templateInnerHtml;
 
         this.#callEventListener();

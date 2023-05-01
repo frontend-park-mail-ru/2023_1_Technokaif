@@ -298,6 +298,7 @@ function renderMainPage() {
                 render: ComponentsRenders.renderPlayer,
             },
         ],
+        true,
     );
 
     ComponentsStore.register(
@@ -320,6 +321,7 @@ function renderMainPage() {
                 render: ComponentsRenders.renderSearchContent,
             },
         ],
+        true,
     );
 
     ComponentsStore.register(
