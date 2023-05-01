@@ -158,8 +158,8 @@ export class LineList extends BaseComponent {
                         Actions.changePlayState(false);
                     }
                 } else if (event.target === like) {
-                    const likeBlock: NodeListOf<HTMLButtonElement> = document.querySelectorAll(`.${this.config.like}`) as NodeListOf<HTMLButtonElement>;
-                    const unlike: NodeListOf<HTMLButtonElement> = document.querySelectorAll(`.${this.config.unlike}`) as NodeListOf<HTMLButtonElement>;
+                    const likeBlock: NodeListOf<HTMLButtonElement> = document.querySelectorAll(`.${this._config.like}`) as NodeListOf<HTMLButtonElement>;
+                    const unlike: NodeListOf<HTMLButtonElement> = document.querySelectorAll(`.${this._config.unlike}`) as NodeListOf<HTMLButtonElement>;
                     // eslint-disable-next-line max-len
                     if (!likeBlock || !unlike || likeBlock[id - 1] === undefined || unlike[id - 1] === undefined) {
                         console.error('Cannot find like block', id);

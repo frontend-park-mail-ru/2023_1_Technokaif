@@ -42,8 +42,6 @@ export class SearchContent extends BaseComponent {
             return;
         }
 
-        // eslint-disable-next-line max-len
-
         const divForPlace = document.createElement('div');
         linesPlacement.appendChild(divForPlace);
         const lines = new LineList(divForPlace, setupLineList(tracks), componentsNames.SEARCH_LINE);
