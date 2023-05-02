@@ -94,7 +94,11 @@ class Navbar {
                     const configForAvatar = navbarAvatarSetup;
 
                     const values = UserInfoStore.state;
-                    configForAvatar.imgSrc = values.avatarSrc;
+                    if (!values.avatarSrc) {
+                        configForAvatar.imgSrc = '/static/svg/default-artist.svg';
+                    } else {
+                        configForAvatar.imgSrc = `/media${values.avatarSrc}`;
+                    }
 
                     configForAvatar.text = values.username;
                     const avatar = new AvatarNavbar(div, configForAvatar);

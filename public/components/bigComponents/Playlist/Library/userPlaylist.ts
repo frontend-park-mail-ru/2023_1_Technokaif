@@ -55,7 +55,7 @@ export class UserPlaylist extends Playlist {
             () => {
                 const state = ContentStore.state[pageNames.PLAYLIST];
                 super.setConfig(setupPlaylist(state.playlist));
-                super.render();
+                super.appendElement();
 
                 if (state.playlist !== undefined) {
                     ApiActions.playlistTracks(state.id);
