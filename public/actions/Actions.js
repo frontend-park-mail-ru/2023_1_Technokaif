@@ -182,10 +182,10 @@ const Actions = {
     playPlaylistWithOffset(id, offset = 0) {
         Dispatcher.dispatch({
             type: ActionTypes.PLAY_PLAYLIST,
-            playlistId:id,
+            playlistId: id,
             offset,
         });
-    }
+    },
 
     /** Queue track send in SongStore track id to play now from track (compilation) */
     queueTrackWithOffset(id, offset) {
