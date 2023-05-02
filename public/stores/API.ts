@@ -36,6 +36,12 @@ import { userFavoritePlaylistsAjax } from '../api/favorite/getUserFavoritePlayli
 import { getPlaylist } from '../api/playlists/getPlaylistAjaxRequest';
 import { getPlaylistTracks } from '../api/playlists/getTracksAjaxRequest';
 import { dislikePlaylist, likePlaylist } from '../api/playlists/likeDislikePlaylistAjaxRequest';
+import {
+    createPlaylistAjaxRequest,
+    PlaylistContent,
+} from '../api/playlists/createPlaylistAjaxRequest';
+import { updatePlaylistAjaxRequest } from '../api/playlists/updatePlaylistAjaxRequest';
+import { uploadPlaylistCover } from '../api/playlists/uploadPlaylistCoverAjaxRequest';
 
 /**
  * Class using for getting data from backend.
@@ -154,6 +160,15 @@ class API extends IStore {
             break;
         case ActionTypes.UNLIKE_PLAYLIST:
             this.unlikePlaylist(action.playlistId);
+            break;
+        case ActionTypes.CREATE_PLAYLIST:
+            this.createPlaylist(action.playlistData);
+            break;
+        case ActionTypes.UPDATE_PLAYLIST:
+            this.updatePlaylist(action.id, action.playlistData);
+            break;
+        case ActionTypes.UPLOAD_PLAYLIST_COVER:
+            this.uploadPlaylistCover(action.id, action.cover);
             break;
         case ActionTypes.SEARCH_WITH_NAME:
             this.searchForAlbumsWithName(action.searchString);
@@ -435,6 +450,38 @@ class API extends IStore {
     private playlistRequest(playlistId: string) {
         getPlaylist(playlistId).then((playlist) => {
             Actions.addPlaylistContent(playlist, instancesNames.PLAYLIST_PAGE);
+        });
+    }
+
+    /**
+     * Function to create playlist
+     * @param playlistData
+     */
+    private createPlaylist(playlistData: PlaylistContent) {
+        createPlaylistAjaxRequest(playlistData).then((playlistId) => {
+            this.jsEmit(EventTypes.CREATED_PLAYLIST, playlistId);
+        });
+    }
+
+    /**
+     * Function to update playlist
+     * @param playlistId
+     * @param playlistData
+     */
+    private updatePlaylist(playlistId: string, playlistData: PlaylistContent) {
+        updatePlaylistAjaxRequest(playlistId, playlistData).then((message) => {
+            this.jsEmit(EventTypes.CREATED_PLAYLIST, message);
+        });
+    }
+
+    /**
+     * Function to update playlist
+     * @param playlistId
+     * @param cover
+     */
+    private uploadPlaylistCover(playlistId: string, cover: FormData) {
+        uploadPlaylistCover(playlistId, cover).then((message) => {
+            this.jsEmit(EventTypes.UPLOADED_PLAYLIST_COVER, message);
         });
     }
 

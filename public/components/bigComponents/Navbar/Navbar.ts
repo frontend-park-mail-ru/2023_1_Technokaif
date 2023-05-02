@@ -3,7 +3,7 @@ import ApiActions from '../../../actions/ApiActions';
 import { componentsNames } from '../../../utils/config/componentsNames';
 import templateHtml from './navbar.handlebars';
 import { EventTypes } from '../../../utils/config/EventTypes';
-import API from '../../../stores/API.ts';
+import API from '../../../stores/API';
 import { authNavConfig, unAuthNavConfig } from '../../../utils/config/config';
 import { componentsJSNames } from '../../../utils/config/componentsJSNames';
 import ComponentsStore from '../../../stores/ComponentsStore';
@@ -51,7 +51,7 @@ class Navbar {
     get items() {
         return Object.entries(this.#config).map(([key, value]) => ({
             key,
-            ...value,
+            value,
         }));
     }
 
@@ -66,7 +66,7 @@ class Navbar {
                 if (component.length !== 0) {
                     Actions.removeElementFromPage(componentsNames.NAVBAR);
                     unsubscribeFromAllStoresOnComponent(componentsNames.NAVBAR);
-                    this.#unRender();
+                    this.unRender();
                 }
             },
             EventTypes.ON_REMOVE_ANOTHER_ITEMS,
@@ -78,7 +78,7 @@ class Navbar {
                     console.error('bad respond from server during logout');
                 } else {
                     this.#reRender();
-                    const element = document.querySelector(`.${componentsNames.PLAYER}`);
+                    const element: HTMLDivElement = document.querySelector(`.${componentsNames.PLAYER}`) as HTMLDivElement;
                     element.hidden = true;
                 }
             },
@@ -107,24 +107,29 @@ class Navbar {
             componentsNames.NAVBAR,
         );
 
-        document.querySelector(`.${componentsJSNames.MAIN}`)
-            .addEventListener('click', (e) => {
-                e?.preventDefault?.();
-                if (e.target instanceof HTMLAnchorElement
-                    || e.target instanceof HTMLButtonElement) {
-                    const { section } = e.target.dataset;
-                    if (section === 'logout') {
-                        if (window.location.pathname === routingUrl.PROFILE) {
-                            Router.go('/');
-                        }
+        const mainElement: HTMLDivElement = document.querySelector(`.${componentsJSNames.MAIN}`) as HTMLDivElement;
 
-                        ApiActions.logout();
-                    } else if (Object.keys(this.#config)
-                        .includes(section)) {
-                        Router.go(this.#config[section].href);
-                    }
+        mainElement.addEventListener('click', (e) => {
+            e?.preventDefault?.();
+            if (e.target instanceof HTMLAnchorElement
+                    || e.target instanceof HTMLButtonElement) {
+                const { section } = e.target.dataset;
+                if (!section) {
+                    console.error('Error in navbar redirect section');
+                    return;
                 }
-            });
+                if (section === 'logout') {
+                    if (window.location.pathname === routingUrl.PROFILE) {
+                        Router.go('/');
+                    }
+
+                    ApiActions.logout();
+                } else if (Object.keys(this.#config)
+                    .includes(section)) {
+                    Router.go(this.#config[section].href);
+                }
+            }
+        });
     }
 
     /**
@@ -141,6 +146,7 @@ class Navbar {
                 tmpItem[property] = lastCfg[obj][property];
             }
 
+            // @ts-ignore
             newcfg.items.push(tmpItem);
         }
 
@@ -171,13 +177,11 @@ class Navbar {
         const bt1 = document.createElement('button');
         bt1.textContent = 'Profile';
         bt1.setAttribute('data-section', 'profile');
-        bt1.href = '/profile';
         bt1.classList.add('navbar__profile');
         bt1.classList.add('navbar__button');
 
         const bt2 = document.createElement('button');
         bt2.textContent = 'Logout';
-        bt2.href = '/logout';
         bt2.setAttribute('data-section', 'logout');
         bt2.classList.add('navbar__logout');
         bt2.classList.add('navbar__button');
@@ -191,6 +195,7 @@ class Navbar {
      */
     render() {
         const items = this.#translateToItems(this.#config);
+        // @ts-ignore
         items.name = this.#name;
         if (checkAuth()) {
             ApiActions.user(localStorage.getItem('userId'));
@@ -222,6 +227,7 @@ class Navbar {
         this.#parent.removeChild(navbar);
 
         const items = this.#translateToItems(this.#config);
+        // @ts-ignore
         items.name = this.#name;
 
         const template = templateHtml;
@@ -239,7 +245,7 @@ class Navbar {
     /**
      * Function to unrender Navbar component
      */
-    #unRender() {
+    private unRender() {
         const element = document.querySelector(`.${componentsJSNames.NAVBAR}`);
         if (this.#dropDown) {
             this.#dropDown.unRender();

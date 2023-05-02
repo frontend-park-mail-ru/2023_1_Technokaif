@@ -7,6 +7,9 @@ import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubs
 import { EventTypes } from '../../../utils/config/EventTypes';
 import { componentsJSNames } from '../../../utils/config/componentsJSNames';
 import { checkAuth } from '../../../utils/functions/checkAuth';
+import ApiActions from '../../../actions/ApiActions';
+import API from '../../../stores/API';
+import { routingUrl } from '../../../utils/config/routingUrls';
 
 /**
  * Class for Menu: Home, Search, Playlist, Create Playlist, Liked Songs.
@@ -40,7 +43,7 @@ class Menu {
     get items() {
         return Object.entries(this.#config).map(([key, value]) => ({
             key,
-            ...value,
+            value,
         }));
     }
 
@@ -49,6 +52,10 @@ class Menu {
      */
     callEventListener() {
         const logo = document.querySelector('.sidebar__logo');
+        if (!logo) {
+            console.error('Menu element error');
+            return;
+        }
         logo.addEventListener('click', () => {
             Router.go('/');
         });
@@ -64,11 +71,34 @@ class Menu {
             EventTypes.ON_REMOVE_ANOTHER_ITEMS,
             componentsNames.SIDEBAR,
         );
+        API.subscribe(
+            (playlistId) => {
+                Router.go(routingUrl.PLAYLIST_PAGE(playlistId));
+            },
+            EventTypes.CREATED_PLAYLIST,
+            componentsNames.SIDEBAR,
+        );
         this.#parent.addEventListener('click', (e) => {
             e.preventDefault();
             if (e.target instanceof HTMLAnchorElement) {
                 const { section } = e.target.dataset;
                 if (this.#config[section] !== undefined) {
+                    if (section === 'createPlaylist' && checkAuth()) {
+                        const id = localStorage.getItem('userId');
+                        if (!id) {
+                            console.error('Error in user id');
+                            return;
+                        }
+                        ApiActions.createPlaylist({
+                            description: '',
+                            name: 'New playlist',
+                            users: [
+                                +id,
+                            ],
+                        });
+
+                        return;
+                    }
                     if ((section === 'library' || section === 'createPlaylist' || section === 'likedSongs') && !checkAuth()) {
                         Router.go('/login');
                     } else {
@@ -84,6 +114,7 @@ class Menu {
      */
     render() {
         const items = this.#translateToItems(this.#config);
+        // @ts-ignore
         items.name = this.#name;
 
         const template = templateHtml;
@@ -107,6 +138,7 @@ class Menu {
                 tmpItem[property] = lastCfg[obj][property];
             }
 
+            // @ts-ignore
             newcfg.items.push(tmpItem);
         }
 
