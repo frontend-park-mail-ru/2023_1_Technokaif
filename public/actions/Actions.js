@@ -178,6 +178,15 @@ const Actions = {
         });
     },
 
+    /** Play playlist send in SongStore id to play now from track */
+    playPlaylistWithOffset(id, offset = 0) {
+        Dispatcher.dispatch({
+            type: ActionTypes.PLAY_PLAYLIST,
+            playlistId:id,
+            offset,
+        });
+    }
+
     /** Queue track send in SongStore track id to play now from track (compilation) */
     queueTrackWithOffset(id, offset) {
         Dispatcher.dispatch({

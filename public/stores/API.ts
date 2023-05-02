@@ -155,6 +155,9 @@ class API extends IStore {
         case ActionTypes.GET_PLAYLIST_TRACKS:
             this.playlistTracksRequest(action.playlistId);
             break;
+        case ActionTypes.PLAY_PLAYLIST:
+            this.playlistPlay(actions.playlistId);
+            break;
         case ActionTypes.LIKE_PLAYLIST:
             this.likePlaylist(action.playlistId);
             break;
@@ -550,6 +553,13 @@ class API extends IStore {
             Actions.setOffset(offset);
             Actions.loadMoreLine(tracks);
             Actions.changePlayState(true);
+        });
+    }
+
+    /** Add playlist tracks to SongStore */
+    private playlistPlay(playlistId) {
+        getPlaylistTracks(playlistId).then((tracks) => {
+            Actions.loadMoreLine(tracks);
         });
     }
 }

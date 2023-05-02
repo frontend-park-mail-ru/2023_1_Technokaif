@@ -40,6 +40,9 @@ class SongStore extends IStore {
     /** Type of tape Store is using now */
     #storeType;
 
+    /** Playlist id of playing. ID === -1 if not playlist */
+    #playlist;
+
     /** Default value to delete all state */
     constructor() {
         super('SONG_STORE', () => {
@@ -51,6 +54,7 @@ class SongStore extends IStore {
                 repeat: this.#isRepeat,
 
                 secondsPlayed: this.#audioTrack.currentTime,
+                playlist: this.#playlist,
             };
         });
 
@@ -62,6 +66,7 @@ class SongStore extends IStore {
         this.#songVolume = 0.5;
         this.#prevVolume = 0.5;
         this.#audioTrack.volume = 0.5;
+        this.#playlist = -1;
 
         this.#position = -1;
         this.#songs = [];
@@ -112,6 +117,11 @@ class SongStore extends IStore {
         return !this.#clearTrack;
     }
 
+    /** get playlist */
+    get playlist() {
+        return this.#playlist;
+    }
+
     /**
      * Dispatch all actions to methods inside
      * @param {JSON} action
@@ -135,6 +145,11 @@ class SongStore extends IStore {
             this.#clearAll();
             this.#setPosition(action.offset);
             this.#storeType = 'album';
+            break;
+        case ActionTypes.PLAY_PLAYLIST:
+            this.#clearAll();
+            this.#setPosition(action.offset);
+            this.#storeType = 'playlist';
             break;
         case ActionTypes.PLAY_ARTIST:
             this.#clearAll();
@@ -190,6 +205,7 @@ class SongStore extends IStore {
                 this.#position = state.position;
                 this.#songs = state.songs;
                 this.#clearTrack = false;
+                this.#playlist = super.playlist;
 
                 this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
                 this.#setRepeat(state.repeat);
@@ -264,6 +280,7 @@ class SongStore extends IStore {
 
     /** Clear position of track and track list */
     #clearAll() {
+        this.#playlist = -1;
         this.#songs = [];
         this.#position = 0;
 

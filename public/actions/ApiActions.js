@@ -195,10 +195,11 @@ const ApiActions = {
     },
 
     /** User playlists page api */
-    playlistTracks(playlistId) {
+    playlistTracks(playlistId, offset = 0) {
         Dispatcher.dispatch({
             type: ActionTypes.GET_PLAYLIST_TRACKS,
             playlistId,
+            offset,
         });
     },
 

@@ -110,6 +110,8 @@ const ActionTypes = {
     GOT_ARTISTS_SEARCH: 'GOT_ARTISTS_SEARCH',
 
     SET_OFFSET: 'SET_OFFSET',
+
+    PLAY_PLAYLIST: 'PLAY_PLAYLIST',
 };
 
 export default ActionTypes;
