@@ -37,7 +37,7 @@ export class LibraryPlaylists extends BaseComponent {
         if (!element) {
             return;
         }
-
+        console.log(name, setupTape('Playlists', name, playlists));
         const artistsTapes = new Tape(element, setupTape('Playlists', name, playlists), 'Playlists');
         artistsTapes.appendElement();
     }
