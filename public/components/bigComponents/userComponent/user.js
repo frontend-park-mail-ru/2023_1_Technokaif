@@ -213,6 +213,7 @@ export class User extends BaseComponent {
                 firstName: state.firstName,
                 lastName: state.lastName,
                 birthDate: [state.year, monthNumber, day].join('-'),
+                sex: 'M',
             });
         }
     }

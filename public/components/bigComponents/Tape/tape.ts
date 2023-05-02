@@ -38,7 +38,7 @@ export class Tape extends BaseComponent {
     /** Add events to Elements of tape */
     #addEventListeners() {
         const tapeTrigger = this.#parent.querySelector(`.tape__${this.#name}`);
-        if (!tapeTrigger || tapeTrigger === undefined) {
+        if (!tapeTrigger) {
             console.error('Tape doesn\'t exist:', this.#name);
             return;
         }
@@ -121,6 +121,28 @@ export class Tape extends BaseComponent {
                         Router.go(`/${instancesNames.ALBUM_PAGE}/${id}`);
                     }
                     break;
+                case 'Playlists':
+                    if (isPlayPressed) {
+                        if (!checkAuth()) {
+                            Router.go('/login');
+                            return;
+                        }
+
+                        if (event.target.classList.contains('play')) {
+                            Actions.changePlayState(false);
+                            event.target.classList.remove('play');
+                        } else {
+                            if (SongStore.albumInfo === Number(id)) {
+                                Actions.changePlayState(true);
+                            } else {
+                                Actions.playAlbum(id);
+                            }
+                            event.target.classList.add('play');
+                        }
+                    } else {
+                        Router.go(`/${instancesNames.PLAYLIST_PAGE}/${id}`);
+                    }
+                    break;
                 default:
                 }
             }
@@ -173,6 +195,7 @@ export class Tape extends BaseComponent {
                     idArray = arrTr;
                     break;
                 case 'Albums':
+                case 'Playlists':
                     let albumId = SongStore.albumInfo;
                     if (!albumId) {
                         console.warn('Albums doesn\'t exist');
@@ -181,6 +204,7 @@ export class Tape extends BaseComponent {
                     }
                     const arrAlb = [];
                     arrAlb.push((albumId as never));
+                    idArray = arrAlb;
                     idArray = arrAlb;
                     break;
                 default:

@@ -13,6 +13,7 @@ import ApiActions from '../../../actions/ApiActions';
 import { EventTypes } from '../../../utils/config/EventTypes';
 import API from '../../../stores/API';
 import { routingUrl } from '../../../utils/config/routingUrls';
+import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
 
 /**
  * Tape for elements
@@ -32,7 +33,17 @@ export class LineList extends BaseComponent {
         super(parent, config, templateHTML, name);
         this.parent = parent;
         this._config = config;
+        this.unsubscribeLines();
         this.#addListeners();
+    }
+
+    /**
+     * Method to unsubscibe from all previous lines
+     */
+    private unsubscribeLines() {
+        unsubscribeFromAllStoresOnComponent(componentsNames.ALBUM_LINE_LIST);
+        unsubscribeFromAllStoresOnComponent(componentsNames.ARTIST_LINE_LIST);
+        unsubscribeFromAllStoresOnComponent(componentsNames.TRACK_LIBRARY_LINE_LIST);
     }
 
     /**

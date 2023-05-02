@@ -22,7 +22,7 @@ import { FavoriteArtists } from './bigComponents/Library/favoriteArtists';
 import { FavoriteAlbums } from './bigComponents/Library/favoriteAlbums';
 import { SearchContent } from './bigComponents/searchContent/searchContent';
 import { LibraryPlaylists } from './bigComponents/Library/libraryPlaylists';
-import { playlistTypes, UserPlaylist } from './bigComponents/Playlist/Library/userPlaylist';
+import { UserPlaylist } from './bigComponents/Playlist/Library/userPlaylist';
 import { PlayerWithDummy } from './bigComponents/playerWithDummy/playerWithDummy';
 
 /**
@@ -180,7 +180,7 @@ class ComponentsRenders {
     /** Render Playlist in parent */
     renderPlaylist(parent) {
         // todo change setup
-        const playlist = new UserPlaylist(parent, componentsNames.PLAYLIST, playlistTypes.USER_PLAYLIST);
+        const playlist = new UserPlaylist(parent, componentsNames.PLAYLIST);
         playlist.render();
     }
 

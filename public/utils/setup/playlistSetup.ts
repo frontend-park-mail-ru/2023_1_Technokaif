@@ -22,7 +22,51 @@ export interface Playlist {
 }
 
 /**
- * Setup library tracks
+ * Setup user playlist
+ * @returns {{json}}
+ */
+export function setupUserPlaylist(playlist: Playlist) {
+    return {
+        tracksClass: `library-tracks ${componentsNames.PLAYLIST}`,
+        imgSrc: playlist.cover,
+        imgClass: 'album__img',
+
+        headerDiv: 'album__descriptions',
+        headerImgClass: '',
+        headerDescriptions: 'playlist-desc',
+        headerNameDiv: '',
+        headerNameClass: 'headerNameClass',
+        headerName: 'Playlist',
+        headerNameOfElementDiv: '',
+        headerNameOfElementClass: 'headerNameOfElementClass',
+        headerNameOfElement: playlist.name,
+        byClass: 'author',
+        headerDescription: 'author__place',
+        DescriptionsDiv: '',
+        descriptionText: playlist.description,
+        DescriptionsClass: 'js__description-album',
+        ButtonsDiv: 'album__buttons',
+        bottomDiv: 'bottomDiv',
+
+        numberDiv: 'numberDiv',
+        TitleDiv: 'TitleDiv',
+        ListensDiv: 'ListensDiv',
+
+        isLiked: playlist.isLiked,
+        placementTracks: 'js__placement-tracks',
+        liked: 'likedDiv',
+        buttonPlay: 'playButton js__button__play',
+        albumLike: 'albumLike',
+
+        isArtistPage: false,
+        isPlaylistPage: true,
+        isUserPlaylistPage: true,
+        isLikedSongs: false,
+    };
+}
+
+/**
+ * Setup user playlist
  * @returns {{json}}
  */
 export function setupPlaylist(playlist: Playlist) {
@@ -33,7 +77,7 @@ export function setupPlaylist(playlist: Playlist) {
 
         headerDiv: 'album__descriptions',
         headerImgClass: '',
-        headerDescriptions: 'descriptions',
+        headerDescriptions: 'playlist-desc',
 
         headerNameDiv: '',
         headerNameClass: 'headerNameClass',
@@ -61,6 +105,7 @@ export function setupPlaylist(playlist: Playlist) {
 
         isArtistPage: false,
         isPlaylistPage: true,
+        isUserPlaylistPage: false,
         isLikedSongs: false,
     };
 }
@@ -69,7 +114,7 @@ export function setupPlaylist(playlist: Playlist) {
  * Setup line of track
  * @returns {{json}}
  */
-export function setupLineList(items: [AlbumApi]):ContentArtist {
+export function setupPlaylistLineList(items: [AlbumApi]):ContentArtist {
     return {
         lineListClass: 'line-list',
         title: 'popular-tracks-title',

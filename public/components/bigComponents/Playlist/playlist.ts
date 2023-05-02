@@ -14,6 +14,8 @@ import SongStore from '../../../stores/SongStore';
 import IStore from '../../../stores/IStore';
 import { imgPath } from '../../../utils/config/pathConfig';
 import { pageNames } from '../../../utils/config/pageNames';
+import ApiActions from '../../../actions/ApiActions';
+import { setupPlaylistLineList } from '../../../utils/setup/playlistSetup';
 
 /**
  * Create Artist content
@@ -34,6 +36,12 @@ export abstract class Playlist extends BaseComponent {
     #lineConfigs : Array<object>;
 
     /**
+     * Config to use in handlebars setup of track lines
+     */
+    // @ts-ignore
+    private isPlaylist: boolean;
+
+    /**
      * Flag to know if button clicked
      * @private
      */
@@ -43,6 +51,12 @@ export abstract class Playlist extends BaseComponent {
      * Play button
      */
     private playButton;
+
+    /**
+     * Type of playlist
+     */
+    // @ts-ignore
+    private type: string;
 
     /**
      * Create Playlist. Empty innerHtml before placement
@@ -59,6 +73,15 @@ export abstract class Playlist extends BaseComponent {
     }
 
     /**
+     * Setter of type
+     * @param type
+     * @protected
+     */
+    protected setType(type: string) {
+        this.type = type;
+    }
+
+    /**
      * Function to render track lines by input configs.
      */
     private renderLines() {
@@ -67,11 +90,14 @@ export abstract class Playlist extends BaseComponent {
             console.error('Error in rendering of lines');
             return;
         }
+
+        // eslint-disable-next-line max-len
+        const lineName: string = (this.isPlaylist) ? componentsNames.PLAYLIST : componentsNames.TRACK_LIBRARY_LINE_LIST;
         this.#lineConfigs.forEach((configForInsertElement) => {
             const line = new LineList(
                 linesPlacement,
                 configForInsertElement,
-                componentsNames.TRACK_LIBRARY_LINE_LIST,
+                lineName,
             );
             line.appendElement();
         });
@@ -119,12 +145,10 @@ export abstract class Playlist extends BaseComponent {
                         const state = ContentStore.state[pageName];
                         if (state.isLiked) {
                             imgLike.src = imgPath.notLiked;
-                            // todo like playlist
-                            // ApiActions.unLikeAlbum(state.id);
+                            ApiActions.unlikePlaylist(state.id);
                         } else {
                             imgLike.src = imgPath.liked;
-                            // todo like playlist
-                            // ApiActions.likeAlbum(state.id);
+                            ApiActions.likePlaylist(state.id);
                         }
                         state.isLiked = !state.isLiked;
                     });
@@ -136,9 +160,7 @@ export abstract class Playlist extends BaseComponent {
                     // eslint-disable-next-line max-len
                     if (!this.#isAlbumLoaded || !(SongStore.exist && tracks.filter((track) => SongStore.trackInfo.name === track.name).length > 0)) {
                         this.#isAlbumLoaded = true;
-                        trackIds.forEach((trackId) => {
-                            Actions.queueTrack(trackId);
-                        });
+                        Actions.addQueueTracks(trackIds);
                     }
 
                     if (!SongStore.isPlaying) {
@@ -151,10 +173,13 @@ export abstract class Playlist extends BaseComponent {
                 switch (instance) {
                 case 'tracks':
                     this.#lineConfigs.push(setupLineList(tracks));
+                    this.isPlaylist = false;
                     this.renderLines();
                     break;
                 case 'playlist':
-
+                    this.#lineConfigs.push(setupPlaylistLineList(tracks));
+                    this.isPlaylist = true;
+                    this.renderLines();
                     break;
                 default:
                 }
@@ -195,7 +220,7 @@ export abstract class Playlist extends BaseComponent {
     /**
      * @description render MainWindowContent in parent
      */
-    renderPlaylist() {
+    protected renderPlaylist() {
         const renderProcess = new Promise((resolve) => {
             super.appendElement();
             resolve(true);
