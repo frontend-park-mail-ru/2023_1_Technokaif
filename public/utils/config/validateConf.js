@@ -16,7 +16,7 @@ export const ERRORS_VALIDATE = {
 export const PASSWORD_ERROR = {
     empty_field: 'Empty password',
     forbidden_symbols: 'Don\'t use \\ \' \" space :',
-    length: 'Password must be between 8 and 30 symbols, lower case, upper case, and numbers required\n',
+    length: 'Password must be between 8 and 30 symbols.\n',
     letters: 'Must be big letters, small letters, digits',
 };
 

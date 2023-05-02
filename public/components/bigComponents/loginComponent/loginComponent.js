@@ -48,7 +48,7 @@ export class LoginComponent extends BaseComponent {
         const login = document.querySelector(
             `.${ElementsClassForLogin.login}`,
         );
-        login.addEventListener(METHOD.FIELD, (event) => {
+        login.addEventListener(METHOD.CHANGE_FIELD_IMMEDIATELY, (event) => {
             event.preventDefault();
             Actions.validationField('log_username', login.value);
         });
@@ -56,7 +56,7 @@ export class LoginComponent extends BaseComponent {
         const password = document.querySelector(
             `.${ElementsClassForLogin.password}`,
         );
-        password.addEventListener(METHOD.FIELD, (event) => {
+        password.addEventListener(METHOD.CHANGE_FIELD_IMMEDIATELY, (event) => {
             event.preventDefault();
             Actions.validationField('log_password', password.value);
         });
