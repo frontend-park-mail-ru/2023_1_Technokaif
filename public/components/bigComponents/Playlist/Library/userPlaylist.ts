@@ -4,12 +4,11 @@ import { EventTypes } from '../../../../utils/config/EventTypes';
 import { pageNames } from '../../../../utils/config/pageNames';
 import Actions from '../../../../actions/Actions';
 import ContentStore from '../../../../stores/ContentStore';
-import { setupPlaylist, setupUserPlaylist } from '../../../../utils/setup/playlistSetup';
-
-export const playlistTypes = {
-    USER_PLAYLIST: 'USER_PLAYLIST',
-    PLAYLIST: 'PLAYLIST',
-};
+import {
+    playlistTypes,
+    setupPlaylist,
+    setupUserPlaylist,
+} from '../../../../utils/setup/playlistSetup';
 
 /**
  * Class of favorite tracks playlist

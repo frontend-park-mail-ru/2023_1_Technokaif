@@ -22,6 +22,14 @@ export interface Playlist {
 }
 
 /**
+ * Object of playlist types
+ */
+export const playlistTypes = {
+    USER_PLAYLIST: 'USER_PLAYLIST',
+    PLAYLIST: 'PLAYLIST',
+};
+
+/**
  * Setup user playlist
  * @returns {{json}}
  */

@@ -13,9 +13,8 @@ import {
 import SongStore from '../../../stores/SongStore';
 import IStore from '../../../stores/IStore';
 import { imgPath } from '../../../utils/config/pathConfig';
-import { pageNames } from '../../../utils/config/pageNames';
 import ApiActions from '../../../actions/ApiActions';
-import { setupPlaylistLineList } from '../../../utils/setup/playlistSetup';
+import { playlistTypes, setupPlaylistLineList } from '../../../utils/setup/playlistSetup';
 
 /**
  * Create Artist content
@@ -55,8 +54,7 @@ export abstract class Playlist extends BaseComponent {
     /**
      * Type of playlist
      */
-    // @ts-ignore
-    private type: string;
+    protected type: string;
 
     /**
      * Create Playlist. Empty innerHtml before placement
@@ -70,6 +68,7 @@ export abstract class Playlist extends BaseComponent {
         this.#lineConfigs = [];
         this.activatedButton = false;
         this.#isAlbumLoaded = false;
+        this.type = playlistTypes.PLAYLIST;
     }
 
     /**
@@ -140,7 +139,7 @@ export abstract class Playlist extends BaseComponent {
                 }
 
                 this.playButton = buttons;
-                if (pageName !== pageNames.LIBRARY_TRACKS) {
+                if (imgLike) {
                     imgLike.addEventListener('click', () => {
                         const state = ContentStore.state[pageName];
                         if (state.isLiked) {

@@ -29,7 +29,7 @@ export class LibraryPlaylists extends BaseComponent {
      */
     private renderTape(playlists: [BaseComponentInTape], name: string) {
         let element: HTMLDivElement;
-        if (name === 'User playlists') {
+        if (name === 'Your playlists') {
             element = document.querySelector('.js__user-playlists-placement') as HTMLDivElement;
         } else {
             element = document.querySelector('.js__favorite-playlists-placement') as HTMLDivElement;
@@ -37,7 +37,6 @@ export class LibraryPlaylists extends BaseComponent {
         if (!element) {
             return;
         }
-        console.log(name, setupTape('Playlists', name, playlists));
         const artistsTapes = new Tape(element, setupTape('Playlists', name, playlists), 'Playlists');
         artistsTapes.appendElement();
     }
@@ -50,7 +49,7 @@ export class LibraryPlaylists extends BaseComponent {
         ContentStore.subscribe(
             (instance) => {
                 const playlists = ContentStore.state[pageNames.LIBRARY_PLAYLISTS][instance];
-                this.renderTape(playlists, 'User playlists');
+                this.renderTape(playlists, 'Your playlists');
                 ApiActions.userFavoritePlaylists(localStorage.getItem('userId'));
             },
             EventTypes.GOT_USER_PLAYLISTS,
