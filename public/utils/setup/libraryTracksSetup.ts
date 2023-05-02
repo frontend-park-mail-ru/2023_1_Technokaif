@@ -44,6 +44,7 @@ export function setupLibraryTracks() {
 
         isArtistPage: false,
         isPlaylistPage: true,
+        isUserPlaylistPage: false,
         isLikedSongs: true,
     };
 }

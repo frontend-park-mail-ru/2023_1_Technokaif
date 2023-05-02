@@ -4,7 +4,7 @@ import { EventTypes } from '../../../../utils/config/EventTypes';
 import { pageNames } from '../../../../utils/config/pageNames';
 import Actions from '../../../../actions/Actions';
 import ContentStore from '../../../../stores/ContentStore';
-import { setupPlaylist } from '../../../../utils/setup/playlistSetup';
+import { setupPlaylist, setupUserPlaylist } from '../../../../utils/setup/playlistSetup';
 
 export const playlistTypes = {
     USER_PLAYLIST: 'USER_PLAYLIST',
@@ -16,22 +16,12 @@ export const playlistTypes = {
  */
 export class UserPlaylist extends Playlist {
     /**
-     * Type of playlist
-     * @private
-     */
-    // @ts-ignore
-    private type: string;
-
-    /**
      * Create playlist. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place favorite tracks
      * @param componentName
-     * @param type
      */
-    constructor(parent, componentName: string, type: string) {
+    constructor(parent, componentName: string) {
         super(parent, componentName, {});
-
-        this.type = type;
     }
 
     /**
@@ -53,13 +43,24 @@ export class UserPlaylist extends Playlist {
 
         ContentStore.subscribe(
             () => {
-                const state = ContentStore.state[pageNames.PLAYLIST];
-                super.setConfig(setupPlaylist(state.playlist));
-                super.appendElement();
-
-                if (state.playlist !== undefined) {
-                    ApiActions.playlistTracks(state.id);
+                const userId: string|null = localStorage.getItem('userId');
+                if (!userId) {
+                    console.error('Cannot get user id');
+                    return;
                 }
+
+                const numUserId: number = +userId;
+                const state = ContentStore.state[pageNames.PLAYLIST];
+                if (state.playlist.users.filter((user) => user.id === numUserId).length !== 0) {
+                    this.setType(playlistTypes.USER_PLAYLIST);
+                    super.setConfig(setupUserPlaylist(state.playlist));
+                } else {
+                    this.setType(playlistTypes.PLAYLIST);
+                    super.setConfig(setupPlaylist(state.playlist));
+                }
+
+                this.renderPlaylist();
+                ApiActions.playlistTracks(state.id);
             },
             EventTypes.GOT_PLAYLIST,
             this.name,

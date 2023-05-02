@@ -1,9 +1,11 @@
 <div class="{{tracksClass}}">
     <div class="{{headerDiv}}">
-        <div class="{{headerImgClass}}">
+        {{#ifEquals isUserPlaylistPage false}}
+            <div class="{{headerImgClass}}">
                 <img class="{{imgClass}}" src="{{#if imgSrc}}{{imgSrc}}{{else}}/static/svg/playlistDefault.svg{{/if}}">
-        </div>
-        {{#ifEquals isLikedSongs false}}
+            </div>
+        {{/ifEquals}}
+        {{#ifEquals isUserPlaylistPage true}}
             <div class="cover">
                 <label class="-label" for="file">
                 <span>
