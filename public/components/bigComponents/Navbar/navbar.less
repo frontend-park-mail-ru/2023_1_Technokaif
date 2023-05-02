@@ -10,6 +10,7 @@
     position: fixed;
     width: calc(100% - 288px);
     height: 12.5vh;
+    max-height: 74px;
     z-index: 999;
 }
 
@@ -18,7 +19,7 @@
 }
 
 .navbar__link {
-    font-size: 4vh;
+    font-size: 2.5vh;
     color: @shadow-color;
 }
 
@@ -39,7 +40,7 @@
 .navbar__link:hover, .navbar__button:hover {
     cursor: pointer;
     transform: scale(1.1);
-    animation-duration: 0.5s;
+    animation-duration: 0.7s;
     animation: transform;
 }
 
@@ -81,7 +82,7 @@
     margin-right: auto;
     margin-left: auto;
     font-weight: @chars-less-weight;
-    font-size: 4.5vh;
+    font-size: min(2.3vh, 2.3vw);
     line-height: 15px;
     background-color: transparent;
     padding: 2vh;
