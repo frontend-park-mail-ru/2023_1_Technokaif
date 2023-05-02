@@ -156,7 +156,7 @@ class API extends IStore {
             this.playlistTracksRequest(action.playlistId);
             break;
         case ActionTypes.PLAY_PLAYLIST:
-            this.playlistPlay(actions.playlistId);
+            this.playlistPlay(action.playlistId);
             break;
         case ActionTypes.LIKE_PLAYLIST:
             this.likePlaylist(action.playlistId);

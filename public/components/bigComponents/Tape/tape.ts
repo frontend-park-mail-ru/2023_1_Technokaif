@@ -135,7 +135,7 @@ export class Tape extends BaseComponent {
                             if (SongStore.albumInfo === Number(id)) {
                                 Actions.changePlayState(true);
                             } else {
-                                Actions.playAlbum(id);
+                                Actions.playPlaylistWithOffset(id, 0);
                             }
                             event.target.classList.add('play');
                         }
@@ -195,7 +195,6 @@ export class Tape extends BaseComponent {
                     idArray = arrTr;
                     break;
                 case 'Albums':
-                case 'Playlists':
                     let albumId = SongStore.albumInfo;
                     if (!albumId) {
                         console.warn('Albums doesn\'t exist');
@@ -205,7 +204,17 @@ export class Tape extends BaseComponent {
                     const arrAlb = [];
                     arrAlb.push((albumId as never));
                     idArray = arrAlb;
-                    idArray = arrAlb;
+                    break;
+                case 'Playlists':
+                    let playlistId = SongStore.playlist;
+                    if (!playlistId) {
+                        console.warn('Playlist doesn\'t exist');
+                        playlistId = -1;
+                        // return;
+                    }
+                    const arrPlaylist = [];
+                    arrPlaylist.push((playlistId as never));
+                    idArray = arrPlaylist;
                     break;
                 default:
                     return;
