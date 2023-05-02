@@ -168,21 +168,12 @@ class Navbar {
         );
         this.#dropDown.render();
 
-        const divForBt1 = document.createElement('div');
-        divForBt1.classList.add('navbar__profile__item');
-
         const bt1 = document.createElement('button');
         bt1.textContent = 'Profile';
         bt1.setAttribute('data-section', 'profile');
         bt1.href = '/profile';
         bt1.classList.add('navbar__profile');
         bt1.classList.add('navbar__button');
-        bt1.style.width = 'fit-content';
-        bt1.style.height = '7vh';
-        // divForBt1.appendChild(bt1);
-
-        const divForBt2 = document.createElement('div');
-        divForBt2.classList.add('navbar__logout__item');
 
         const bt2 = document.createElement('button');
         bt2.textContent = 'Logout';
@@ -190,10 +181,6 @@ class Navbar {
         bt2.setAttribute('data-section', 'logout');
         bt2.classList.add('navbar__logout');
         bt2.classList.add('navbar__button');
-        bt2.style.width = 'fit-content';
-        bt2.style.height = '7vh';
-
-        // divForBt2.appendChild(bt2);
 
         this.#dropDown.addOptionsElement(bt1);
         this.#dropDown.addOptionsElement(bt2);

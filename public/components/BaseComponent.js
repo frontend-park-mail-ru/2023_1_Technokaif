@@ -79,7 +79,11 @@ export class BaseComponent {
                     ContentStore.state[pageNames.FEED] = {};
                     this.unRender();
 
-                    if (this.#name === componentsNames.FEED_CONTENT || this.#name === componentsNames.SEARCH_CONTENT) {
+                    // todo change to config
+                    const nameComp = this.#name;
+                    if (nameComp === componentsNames.FEED_CONTENT
+                        || nameComp === componentsNames.SEARCH_CONTENT
+                        || nameComp === componentsNames.ALBUM || componentsNames.ARTIST_CONTENT) {
                         component = list.filter((comp) => comp.name === componentsNames.MAIN);
                         if (component.length !== 0) {
                             Actions.removeElementFromPage(componentsNames.MAIN);
@@ -119,7 +123,7 @@ export class BaseComponent {
 
         const newElement = tempElement.firstChild;
         if (!newElement) {
-            console.error('Element to append doesn\'t exist');
+            console.error('Element to append doesn\'t exist', this.#name);
             return;
         }
         this.#parent.appendChild(newElement);

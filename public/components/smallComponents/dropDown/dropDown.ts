@@ -248,21 +248,21 @@ export class DropDown extends BaseComponent {
             break;
         case DIRECTIONS_DROPDOWN.UP:
             // todo Change on bottom
-            element.style.top = `-${element.offsetHeight.toString()}`;
+            element.style.bottom = `-${element.offsetHeight * 1.3}`;
             element.style.left = '0';
-            element.style.transform = `translateY(-${title.offsetHeight})`;
+            element.style.transform = 'translateY(-1vh)';
             break;
         case DIRECTIONS_DROPDOWN.LEFT:
             // todo Change on right
             element.style.top = '0';
-            element.style.left = '50%';
-            element.style.transform = 'translateX(100%)';
+            element.style.left = `-${element.offsetWidth}`;
+            element.style.transform = 'translateX(0.5vw)';
             break;
         case DIRECTIONS_DROPDOWN.RIGHT:
             // todo Change on left
             element.style.top = '0';
-            element.style.right = '100%';
-            element.style.transform = 'translateX(100%)';
+            element.style.left = `${title.offsetWidth}`;
+            // element.style.transform = 'translateX(0.5vw)';
             break;
         default:
             console.warn('Error at dropDown whereToRender', whereRender);
@@ -284,18 +284,16 @@ export class DropDown extends BaseComponent {
     }
 
     /** Delete children. Delete listeners of dropDown */
-    override unRender() {
-        super.unRender();
-
+    public override unRender() {
         const { menu } = this;
+        this.listeners.forEach((action) => {
+            window.removeEventListener(action.event, action.reaction);
+        });
         if (!menu || !this.parent || !(this.parent instanceof HTMLElement)) {
             return;
         }
 
         this.parent.removeChild(menu);
-
-        this.listeners.forEach((action) => {
-            window.removeEventListener(action.event, action.reaction);
-        });
+        super.unRender();
     }
 }
