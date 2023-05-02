@@ -220,7 +220,7 @@ export class ArtistContent extends BaseComponent {
                 case 'albums':
                     // eslint-disable-next-line no-case-declarations
                     const { albums } = ContentStore.state[pageNames.ARTIST_PAGE];
-                    this.#tapeConfigs.push(setupTape('Albums', shuffleArray(albums).slice(0, 5)));
+                    this.#tapeConfigs.push(setupTape('Albums', 'Albums', shuffleArray(albums).slice(0, 5)));
                     this.#renderTapes();
                     break;
                 default:
