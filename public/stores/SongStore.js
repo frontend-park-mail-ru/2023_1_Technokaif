@@ -150,6 +150,7 @@ class SongStore extends IStore {
             this.#clearAll();
             this.#setPosition(action.offset);
             this.#storeType = 'playlist';
+            this.#playlist = action.playlistId;
             break;
         case ActionTypes.PLAY_ARTIST:
             this.#clearAll();
