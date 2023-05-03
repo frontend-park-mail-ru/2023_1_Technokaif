@@ -66,6 +66,16 @@ export function setupUserPlaylist(playlist: Playlist) {
         buttonPlay: 'playButton js__button__play',
         albumLike: 'albumLike',
 
+        mainDiv: 'navbar-avatar',
+        imgDiv: 'navbar-avatar__img-container',
+        imgAvatarClass: 'avatar-image-playlist',
+        defaultAvatar: imgPath.defaultArtist,
+        avatarImgClass: 'navbar-avatar__img',
+        textDiv: 'navbar-avatar__text-container',
+        textClass: 'navbar-avatar__text',
+        usersPlacement: 'user-placement',
+        users: playlist.users,
+
         isArtistPage: false,
         isPlaylistPage: true,
         isUserPlaylistPage: true,
@@ -110,6 +120,16 @@ export function setupPlaylist(playlist: Playlist) {
         liked: 'likedDiv',
         buttonPlay: 'playButton js__button__play',
         albumLike: 'albumLike',
+
+        mainDiv: 'navbar-avatar',
+        imgDiv: 'navbar-avatar__img-container',
+        imgAvatarClass: 'avatar-image-playlist',
+        defaultAvatar: imgPath.defaultArtist,
+        avatarImgClass: 'navbar-avatar__img',
+        textDiv: 'navbar-avatar__text-container',
+        textClass: 'navbar-avatar__text',
+        usersPlacement: 'user-placement',
+        users: playlist.users,
 
         isArtistPage: false,
         isPlaylistPage: true,
@@ -171,5 +191,32 @@ export function setupPlaylistLineList(items: [AlbumApi]):ContentArtist {
         isShowTitle: false,
 
         durationClass: 'track-line__duration',
+    };
+}
+
+/**
+ * Function to setup modal window
+ */
+export function setupModalWindow(playlist: Playlist) {
+    return {
+        windowOverlay: 'modal-overlay',
+        windowClass: 'modal',
+        titleClass: 'playlist-title',
+        title: 'Change your playlist info',
+        dataClass: 'playlist-info',
+        coverClass: 'playlist-modal-cover',
+        coverImg: 'playlist-cover-img',
+        coverSrc: playlist.cover,
+        defaultCover: imgPath.defaultTrack,
+        infoBlockClass: 'playlist-info-block',
+
+        saveButtonClass: 'modal-playlist-button',
+        nameInputClass: 'playlist-name',
+        descriptionInputClass: 'playlist-description',
+        inputValue: playlist.name,
+        textareaValue: playlist.description,
+        labelClass: '',
+        nameInputPlaceholder: 'Enter a playlist name',
+        descriptionPlaceholder: 'Add a description',
     };
 }

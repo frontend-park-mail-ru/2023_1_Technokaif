@@ -22,6 +22,7 @@ export const componentsNames = {
     LIBRARY_TRACKS: 'js__library-tracks',
     TRACK_LIBRARY_LINE_LIST: 'track-library-line-list',
     PLAYLIST_LINE_LIST: 'playlist-line-list',
+    PLAYLIST_MODAL_WINDOW: 'modal-overlay',
     LIBRARY_ARTISTS: 'js__library-artists',
     LIBRARY_ALBUMS: 'js__library-albums',
     LIBRARY_PLAYLISTS: 'js__library-playlists',

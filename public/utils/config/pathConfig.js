@@ -28,6 +28,7 @@ export const imgPath = {
     ellipseInArtist: '/static/svg/ellipses.svg',
 
     defaultAlbum: '/static/svg/default-album.svg',
+    defaultArtist: '/static/svg/default-artist.svg',
 
     whiteLogo: '/static/svg/whiteLogo.svg',
 

@@ -11,7 +11,6 @@ import {
     setupLineList,
 } from '../../../utils/setup/libraryTracksSetup';
 import SongStore from '../../../stores/SongStore';
-import IStore from '../../../stores/IStore';
 import { imgPath } from '../../../utils/config/pathConfig';
 import ApiActions from '../../../actions/ApiActions';
 import { playlistTypes, setupPlaylistLineList } from '../../../utils/setup/playlistSetup';
@@ -39,6 +38,10 @@ export abstract class Playlist extends BaseComponent {
      */
     // @ts-ignore
     private isPlaylist: boolean;
+
+    /** Field to collect all callbacks after render */
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    private callbacksOnRender: Array<Function>;
 
     /**
      * Flag to know if button clicked
@@ -69,6 +72,7 @@ export abstract class Playlist extends BaseComponent {
         this.activatedButton = false;
         this.#isAlbumLoaded = false;
         this.type = playlistTypes.PLAYLIST;
+        this.callbacksOnRender = [];
     }
 
     /**
@@ -202,18 +206,20 @@ export abstract class Playlist extends BaseComponent {
     }
 
     /**
-     * Function to subscribe for playlist page
-     * @param store
-     * @param eventType
+     * Function to subscribe for playlist page after page
      * @param callback
      * @protected
      */
-    protected addStoreSubscribeCallback(store: IStore, eventType: string, callback) {
-        store.subscribe(
-            callback,
-            eventType,
-            this.name,
-        );
+    protected addEventAfterRender(callback) {
+        this.callbacksOnRender.push(callback);
+    }
+
+    /**
+     * Function of calling functions
+     * @private
+     */
+    protected callAllAfterRender() {
+        this.callbacksOnRender.forEach((callback) => callback());
     }
 
     /**
