@@ -3,7 +3,7 @@
 .track-line {
   display: grid;
   align-items: center;
-  grid-template-columns: [index] 20px [first] 6fr [album] 2fr [listens] 2fr [like] 1fr [duration] 1fr ;
+  grid-template-columns: [index] 20px [first] 6fr [album] 4fr [listens] 2fr [like] 1fr [duration] 1fr [another] 1fr;
   padding: 0 16px 10px 10px;
   gap: 10px;
 }
@@ -109,6 +109,12 @@
   line-height: 20px;
 
   color: rgba(255, 255, 255, 0.5);
+}
+
+.track-line__another {
+  grid-area: another;
+  width: 30px;
+  height: 30px;
 }
 
 .track-line__cover {

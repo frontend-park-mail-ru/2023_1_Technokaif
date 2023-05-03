@@ -42,6 +42,8 @@ import {
 } from '../api/playlists/createPlaylistAjaxRequest';
 import { updatePlaylistAjaxRequest } from '../api/playlists/updatePlaylistAjaxRequest';
 import { uploadPlaylistCover } from '../api/playlists/uploadPlaylistCoverAjaxRequest';
+import { addTrackAjaxRequest } from '../api/playlists/addTrackAjaxRequest';
+import { removeTrackAjaxRequest } from '../api/playlists/removeTrackAjaxRequest';
 
 /**
  * Class using for getting data from backend.
@@ -154,6 +156,12 @@ class API extends IStore {
             break;
         case ActionTypes.GET_PLAYLIST_TRACKS:
             this.playlistTracksRequest(action.playlistId);
+            break;
+        case ActionTypes.ADD_TRACK_IN_PLAYLIST:
+            this.addTrackInPlaylistRequest(action.playlistId, action.trackId);
+            break;
+        case ActionTypes.REMOVE_TRACK_FROM_PLAYLIST:
+            this.removeTrackFromPlaylistRequest(action.playlistId, action.trackId);
             break;
         case ActionTypes.PLAY_PLAYLIST:
             this.playlistPlay(action.playlistId);
@@ -499,6 +507,28 @@ class API extends IStore {
     private playlistTracksRequest(playlistId: string) {
         getPlaylistTracks(playlistId).then((tracks) => {
             Actions.addPlaylistContent(tracks, instancesNames.PLAYLIST_TRACKS_PAGE);
+        });
+    }
+
+    /**
+     * Function to add track in playlist by playlist id
+     * @param playlistId
+     * @param trackId
+     */
+    private addTrackInPlaylistRequest(playlistId: string, trackId: string) {
+        addTrackAjaxRequest(playlistId, trackId).then((message) => {
+            this.jsEmit(EventTypes.ADDED_TRACK_IN_PLAYLIST, message);
+        });
+    }
+
+    /**
+     * Function to remove track from playlist by playlist id
+     * @param playlistId
+     * @param trackId
+     */
+    private removeTrackFromPlaylistRequest(playlistId: string, trackId: string) {
+        removeTrackAjaxRequest(playlistId, trackId).then((message) => {
+            this.jsEmit(EventTypes.REMOVED_TRACK_FROM_PLAYLIST, message);
         });
     }
 

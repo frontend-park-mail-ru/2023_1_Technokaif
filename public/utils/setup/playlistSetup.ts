@@ -1,6 +1,7 @@
 import { componentsNames } from '../config/componentsNames';
 import { imgPath } from '../config/pathConfig';
 import { AlbumApi, ContentArtist } from './artistSetup';
+import { DropDownSetup } from '../../components/smallComponents/dropDown/dropDown';
 
 export interface User {
     avatarSrc: string,
@@ -191,6 +192,8 @@ export function setupPlaylistLineList(items: [AlbumApi]):ContentArtist {
         isShowTitle: false,
 
         durationClass: 'track-line__duration',
+        anotherClass: 'track-line__another',
+        anotherSrc: imgPath.ellipseInArtist,
     };
 }
 
@@ -220,3 +223,17 @@ export function setupModalWindow(playlist: Playlist) {
         descriptionPlaceholder: 'Add a description',
     };
 }
+
+export const dropDownTrackSetup:DropDownSetup = {
+    mainDropDownDiv: 'track-dropDown',
+    dropdownName: 'track-dropDown__name',
+    dropdownTitleDiv: 'track-dropDown__title',
+    dropdownOptionsDiv: 'track-dropDown__options',
+};
+
+export const dropDownPlaylistsSetup:DropDownSetup = {
+    mainDropDownDiv: 'playlists-dropDown',
+    dropdownName: 'playlists-dropDown__name',
+    dropdownTitleDiv: 'playlists-dropDown__title',
+    dropdownOptionsDiv: 'playlists-dropDown__options',
+};

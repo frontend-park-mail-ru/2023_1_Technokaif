@@ -14,6 +14,8 @@ import { EventTypes } from '../../../utils/config/EventTypes';
 import API from '../../../stores/API';
 import { routingUrl } from '../../../utils/config/routingUrls';
 import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
+import { DIRECTIONS_DROPDOWN, DropDown } from '../../smallComponents/dropDown/dropDown';
+import { dropDownPlaylistsSetup, dropDownTrackSetup } from '../../../utils/setup/playlistSetup';
 
 /**
  * Tape for elements
@@ -22,6 +24,12 @@ export class LineList extends BaseComponent {
     private parent;
 
     private _config;
+
+    /**
+     * Dropdown element for track lines
+     * @private
+     */
+    private dropDown;
 
     /**
      * Create LineList component. Empty innerHtml before placement
@@ -100,12 +108,13 @@ export class LineList extends BaseComponent {
         this.parent.addEventListener('click', (event) => {
             const line = event.target.closest(`.${this._config.lineDiv}`) as HTMLDivElement;
             const like = event.target.closest(`.${this._config.likeButtonImg}`) as HTMLImageElement;
+            const another: HTMLImageElement|null = event.target.closest(`.${this._config.anotherClass}`);
             const album: HTMLDivElement = event.target.closest(`.${this._config.lineTitle}`);
             const buttons = event.target.closest(`.${this._config.playButtonImg}`) as HTMLImageElement;
             const playButtons = document.querySelectorAll(`.${this._config.playButton}`) as NodeListOf<HTMLButtonElement>;
             if (line) {
                 // todo not clear solution dont forget about
-                if (event.target !== buttons && event.target !== like && event.target !== album) {
+                if (event.target !== buttons && event.target !== like && event.target !== album && event.target !== another) {
                     return;
                 }
 
@@ -193,6 +202,61 @@ export class LineList extends BaseComponent {
                 } else if (event.target === album) {
                     const { albumid } = line.dataset;
                     Router.go(routingUrl.ALBUM_PAGE(albumid));
+                } else if (event.target === another) {
+                    if (this.dropDown) {
+                        this.dropDown.unRender();
+                    }
+                    if (!checkAuth()) {
+                        return;
+                    }
+
+                    this.dropDown = new DropDown(
+                        line,
+                        dropDownTrackSetup,
+                        DIRECTIONS_DROPDOWN.DOWN,
+                    );
+                    this.dropDown.render();
+
+                    const bt1 = document.createElement('div');
+                    bt1.textContent = 'Add track in playlist';
+
+                    const bt2 = document.createElement('div');
+                    bt2.textContent = 'Add to queue';
+
+                    this.dropDown.addOptionsElement(bt1, 'click', () => {
+                        const playlistsMenu = new DropDown(
+                            bt1,
+                            dropDownPlaylistsSetup,
+                            DIRECTIONS_DROPDOWN.LEFT,
+                        );
+                        playlistsMenu.render();
+                        ContentStore.subscribe((instance) => {
+                            // eslint-disable-next-line max-len
+                            const playlists = ContentStore.state[pageNames.LIBRARY_PLAYLISTS][instance];
+                            playlists.forEach((playlist) => {
+                                const playlistElement = document.createElement('div');
+                                playlistElement.textContent = playlist.name;
+                                playlistsMenu.addOptionsElement(playlistElement, 'click', () => {
+                                    ApiActions.addTrackInPlaylist(playlist.id, trackId);
+                                    playlistsMenu.unRender();
+                                });
+                            });
+                        }, EventTypes.GOT_USER_PLAYLISTS, this.name);
+                        // @ts-ignore
+                        ApiActions.userPlaylists(+localStorage.getItem('userId'));
+                    });
+
+                    this.dropDown.addOptionsElement(bt2, 'click', () => {
+                        Actions.queueTrack(trackId);
+                    });
+
+                    if (this.config?.isUserPlaylistPage) {
+                        const bt3 = document.createElement('div');
+                        bt3.textContent = 'Remove from playlist';
+                        this.dropDown.addOptionsElement(bt3, 'click', () => {
+                            ApiActions.removeTrackFromPlaylist(ContentStore.state[pageNames.PLAYLIST].id, trackId);
+                        });
+                    }
                 }
             }
         });

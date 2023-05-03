@@ -101,5 +101,7 @@ export function setupLineList(items) {
         isAlbumShow: false,
 
         durationClass: 'track-line__duration',
+        anotherClass: 'track-line__another',
+        anotherSrc: imgPath.ellipseInArtist,
     };
 }

@@ -245,6 +245,24 @@ const ApiActions = {
         });
     },
 
+    /** User playlists page api */
+    addTrackInPlaylist(playlistId, trackId) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ADD_TRACK_IN_PLAYLIST,
+            playlistId,
+            trackId,
+        });
+    },
+
+    /** User playlists page api */
+    removeTrackFromPlaylist(playlistId, trackId) {
+        Dispatcher.dispatch({
+            type: ActionTypes.REMOVE_TRACK_FROM_PLAYLIST,
+            playlistId,
+            trackId,
+        });
+    },
+
     /** search server */
     search(searchString) {
         Dispatcher.dispatch({

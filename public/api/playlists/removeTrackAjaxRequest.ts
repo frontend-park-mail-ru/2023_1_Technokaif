@@ -6,7 +6,7 @@ import Ajax from '../../modules/Ajax';
  * @param trackId
  * @param playlistId
  */
-export async function addTrackAjaxRequest(playlistId: string, trackId: string) {
+export async function removeTrackAjaxRequest(playlistId: string, trackId: string) {
     let status;
     await Ajax.delete({
         url: apiUrl.PLAYLIST_DELETE_TRACK(playlistId, trackId),
