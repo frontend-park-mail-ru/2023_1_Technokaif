@@ -16,6 +16,7 @@ export const apiUrl = {
     ARTIST_SEARCH_API: '/api/artists/search',
     TRACK_SEARCH_API: '/api/tracks/search',
     ALBUM_SEARCH_API: '/api/albums/search',
+    PLAYLIST_SEARCH_API: '/api/playlists/search',
 
     ARTIST_TRACKS_API: (id) => `/api/artists/${id}/tracks`,
     ARTIST_ALBUMS_API: (id) => `/api/artists/${id}/albums`,

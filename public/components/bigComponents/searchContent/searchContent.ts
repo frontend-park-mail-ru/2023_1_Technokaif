@@ -34,6 +34,19 @@ export class SearchContent extends BaseComponent {
         this.#parent = parent;
     }
 
+    /** Function to render playlists by input configs. */
+    private renderPlaylists(playlist) {
+        const playlistsPlacement = document.querySelector('.js__placement-playlists');
+        if (!playlistsPlacement) {
+            console.error('Error in rendering of playlists');
+            return;
+        }
+        const configForTape = setupTape('Playlists', 'Playlists', playlist);
+
+        const tape = new Tape(playlistsPlacement as HTMLElement, configForTape, 'Playlists');
+        tape.appendElement();
+    }
+
     /** Function to render track lines by input configs. */
     private renderLines(tracks) {
         const linesPlacement = document.querySelector('.js__placement-tracks');
@@ -135,6 +148,23 @@ export class SearchContent extends BaseComponent {
                 }
             },
             EventTypes.SEARCH_ARTISTS_ADDED,
+            this.name,
+        );
+
+        ContentStore.subscribe(
+            () => {
+                const state = ContentStore.state.search;
+                const playlistsPlacement = document.querySelector('.js__placement-playlists');
+                if (playlistsPlacement) {
+                    playlistsPlacement.innerHTML = '';
+                }
+
+                // @ts-ignore
+                if (state.playlists?.playlists?.length > 0) {
+                    this.renderPlaylists(state.playlists.playlists);
+                }
+            },
+            EventTypes.SEARCH_PLAYLIST_ADDED,
             this.name,
         );
     }

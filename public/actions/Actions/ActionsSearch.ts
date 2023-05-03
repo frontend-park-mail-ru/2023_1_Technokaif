@@ -29,6 +29,15 @@ const ActionsSearch = {
             items: artists,
         });
     },
+
+    /** Playlist found by search */
+    gotPlaylists(playlists) {
+        Dispatcher.dispatch({
+            // @ts-ignore
+            type: ActionTypes.GOT_PLAYLIST_SEARCH,
+            items: playlists,
+        });
+    },
 };
 
 export default ActionsSearch;
