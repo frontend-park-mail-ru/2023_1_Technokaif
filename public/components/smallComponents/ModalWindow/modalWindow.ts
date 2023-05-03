@@ -20,6 +20,9 @@ export class ModalWindow extends BaseComponent {
     /** Input file for playlist cover */
     private fileInput;
 
+    /** config */
+    private configA;
+
     /**
      * Create Line component.
      * @param {HTMLElement} parent - place where to render
@@ -29,6 +32,7 @@ export class ModalWindow extends BaseComponent {
     constructor(parent, config, name) {
         super(parent, config, templateHTML, name);
         this.parent = parent;
+        this.configA = config;
         this.fileInput = document.createElement('input');
         this.fileInput.setAttribute('type', 'file');
         this.fileInput.setAttribute('id', 'file');
@@ -61,21 +65,28 @@ export class ModalWindow extends BaseComponent {
         const coverElement: HTMLDivElement|null = document.querySelector('.playlist-cover-img');
         const nameElement: HTMLInputElement|null = document.querySelector('.playlist-name');
         const descriptionElement: HTMLTextAreaElement|null = document.querySelector('.playlist-description');
+        const area:HTMLTextAreaElement|null = document.querySelectorAll('.playlist-description')[1];
+        area.value = this.configA.textareaValue;
 
+        coverElement?.appendChild(this.fileInput);
         if (!root || !coverElement || !modalButton || !modal || !nameElement || !descriptionElement) {
             console.error('Cannot get element on modal window');
             return;
         }
-        document.addEventListener('click', (event) => {
+        const ff = (event) => {
             const element:HTMLElement = event.target as HTMLElement;
             if (element.classList.contains('headerNameOfElementClass')) {
                 return;
             }
-            const modal1 = document.querySelector(`.${this.name}`) as HTMLElement;
+            const modal1 = document.querySelector('.modal') as HTMLElement;
             if (!modal1.contains(element) && !modalButton.contains(element)) {
                 this.unrenderElement();
+                document.removeEventListener(METHOD.BUTTON, ff);
             }
-        });
+        };
+
+        document.addEventListener('click', ff);
+
         modalButton.addEventListener(METHOD.BUTTON, (event) => {
             event.preventDefault();
             const nameElement1 = document.querySelector('#name-input') as HTMLTextAreaElement;
@@ -88,20 +99,9 @@ export class ModalWindow extends BaseComponent {
                 users: ContentStore.state[pageNames.PLAYLIST].playlist.users.map((element) => element.id),
             });
         });
-        modal.addEventListener(
-            METHOD.FORM,
-            (event) => {
-                event.preventDefault();
-                ApiActions.updatePlaylist(ContentStore.state[pageNames.PLAYLIST].id, {
-                    name: nameElement.value,
-                    description: descriptionElement.value,
-                    users: ContentStore.state[pageNames.PLAYLIST].playlist.users,
-                });
-            },
-        );
 
         coverElement.addEventListener('click', () => {
-            root.appendChild(this.fileInput);
+            // root.appendChild(this.fileInput);
             this.fileInput.click();
         });
 
@@ -112,7 +112,7 @@ export class ModalWindow extends BaseComponent {
             formData.append('cover', file);
 
             ApiActions.uploadPlaylistCover(ContentStore.state[pageNames.PLAYLIST].id, formData);
-            root.removeChild(this.fileInput);
+            // root.removeChild(this.fileInput);
         });
 
         API.subscribe(

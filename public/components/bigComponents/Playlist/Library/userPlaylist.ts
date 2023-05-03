@@ -44,6 +44,7 @@ export class UserPlaylist extends Playlist {
      */
     private callModalWindow() {
         const root = document.querySelector(`#${componentsJSNames.ROOT}`);
+        console.log(ContentStore.state[pageNames.PLAYLIST].playlist);
         const modalWindow = new ModalWindow(root, setupModalWindow(ContentStore.state[pageNames.PLAYLIST].playlist), componentsNames.PLAYLIST_MODAL_WINDOW);
         modalWindow.appendElement();
     }
