@@ -237,6 +237,14 @@ const ApiActions = {
     },
 
     /** User playlists page api */
+    deletePlaylist(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.DELETE_PLAYLIST,
+            id,
+        });
+    },
+
+    /** User playlists page api */
     uploadPlaylistCover(id, cover) {
         Dispatcher.dispatch({
             type: ActionTypes.UPLOAD_PLAYLIST_COVER,

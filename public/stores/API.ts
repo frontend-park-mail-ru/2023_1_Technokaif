@@ -44,6 +44,7 @@ import { updatePlaylistAjaxRequest } from '../api/playlists/updatePlaylistAjaxRe
 import { uploadPlaylistCover } from '../api/playlists/uploadPlaylistCoverAjaxRequest';
 import { addTrackAjaxRequest } from '../api/playlists/addTrackAjaxRequest';
 import { removeTrackAjaxRequest } from '../api/playlists/removeTrackAjaxRequest';
+import { deletePlaylistAjaxRequest } from '../api/playlists/deletePlaylistAjaxRequest';
 
 /**
  * Class using for getting data from backend.
@@ -177,6 +178,9 @@ class API extends IStore {
             break;
         case ActionTypes.UPDATE_PLAYLIST:
             this.updatePlaylist(action.id, action.playlistData);
+            break;
+        case ActionTypes.DELETE_PLAYLIST:
+            this.deletePlaylist(action.id);
             break;
         case ActionTypes.UPLOAD_PLAYLIST_COVER:
             this.uploadPlaylistCover(action.id, action.cover);
@@ -487,6 +491,16 @@ class API extends IStore {
     private updatePlaylist(playlistId: string, playlistData: PlaylistContent) {
         updatePlaylistAjaxRequest(playlistId, playlistData).then((message) => {
             this.jsEmit(EventTypes.UPDATED_PLAYLIST, message);
+        });
+    }
+
+    /**
+     * Function to update playlist
+     * @param playlistId
+     */
+    private deletePlaylist(playlistId: string) {
+        deletePlaylistAjaxRequest(playlistId).then((message) => {
+            this.jsEmit(EventTypes.DELETED_PLAYLIST, message);
         });
     }
 

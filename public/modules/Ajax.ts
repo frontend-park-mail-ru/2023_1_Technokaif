@@ -55,28 +55,37 @@ class Ajax {
      * @param {function} reject -- function to handle an error
      */
     delete({ url, resolve = noop, reject = noop }) {
-        return fetch(url, {
-            method: AJAX_METHODS.DELETE,
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-            },
-        })
-            .then((response) => response.json().then((data) => {
-                if (response.ok) {
-                    resolve(data);
+        return csrfAjax().then((csrf) => {
+            if (!csrf) {
+                console.error('error in undefined csrf');
+                return;
+            }
 
-                    return data;
-                }
+            fetch(url, {
+                method: AJAX_METHODS.DELETE,
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8',
+                    'X-CSRF-Token': csrf,
+                },
+            })
+                .then((response) => response.json()
+                    .then((data) => {
+                        if (response.ok) {
+                            resolve(data);
 
-                throw data.message;
-            }))
-            .catch((error) => {
-                reject(error);
+                            return data;
+                        }
 
-                throw error;
-            });
+                        throw data.message;
+                    }))
+                .catch((error) => {
+                    reject(error);
+
+                    throw error;
+                });
+        });
     }
 
     /**
