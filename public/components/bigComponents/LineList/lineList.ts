@@ -48,8 +48,8 @@ export class LineList extends BaseComponent {
         this.parent = parent;
         this._config = config;
         this.dropDowns = [];
+        this.playlistsDropDowns = [];
         this.unsubscribeLines();
-        this.#addListeners();
     }
 
     /**
@@ -58,6 +58,7 @@ export class LineList extends BaseComponent {
     private unsubscribeLines() {
         unsubscribeFromAllStoresOnComponent(componentsNames.ALBUM_LINE_LIST);
         unsubscribeFromAllStoresOnComponent(componentsNames.ARTIST_LINE_LIST);
+        unsubscribeFromAllStoresOnComponent(componentsNames.PLAYLIST_LINE_LIST);
         unsubscribeFromAllStoresOnComponent(componentsNames.TRACK_LIBRARY_LINE_LIST);
     }
 
@@ -108,6 +109,18 @@ export class LineList extends BaseComponent {
         }
     }
 
+    #renderDropDownForOneLine(line:HTMLElement, index, another) {
+        const dropDown = new DropDown(
+            line,
+            dropDownTrackSetup(index),
+            DIRECTIONS_DROPDOWN.DOWN,
+        );
+        this.dropDowns.push(dropDown);
+        dropDown.render();
+
+        dropDown.addTitleElement(another);
+    }
+
     /**
      * Function to add click event on tape
      */
@@ -115,31 +128,13 @@ export class LineList extends BaseComponent {
         const lines = document.querySelectorAll(`.${this._config.lineDiv}`);
         const anothers = document.querySelectorAll(`.${this._config.anotherClass}`);
 
-        if (this.dropDowns) {
-            this.dropDowns.forEach((dropdown) => dropdown.clearTitleElement());
-            this.dropDowns.forEach((dropdown, index) => dropdown.addTitleElement(anothers[index]));
-        }
-        if (this.playlistsDropDowns) {
-            this.playlistsDropDowns.forEach((dropdown) => dropdown.clearTitleElement());
-        }
-
-        if (this.dropDowns) {
-            this.dropDowns.forEach((dropdown) => dropdown.unRender());
-        }
-
-        if (this.playlistsDropDowns) {
-            this.playlistsDropDowns.forEach((dropdown) => dropdown.unRender());
-        }
-
-        anothers.forEach((another, index) => {
-            this.dropDowns.push(new DropDown(
-                another,
-                dropDownTrackSetup(index),
-                DIRECTIONS_DROPDOWN.DOWN,
-            ));
+        lines.forEach((line, index) => {
+            this.#renderDropDownForOneLine(line, index, anothers[index]);
         });
+
         this.dropDowns.forEach((dropdown, index) => {
             dropdown.render();
+
             // @ts-ignore
             const trackId = lines[index].dataset.id;
 
@@ -149,12 +144,14 @@ export class LineList extends BaseComponent {
             const bt2 = document.createElement('div');
             bt2.textContent = 'Add to queue';
 
-            dropdown.addOptionsElement(bt1, 'click', () => {
+            const div = document.createElement('div');
+            dropdown.addOptionsElement(div, 'click', () => {
                 const playlistsMenu = new DropDown(
-                    bt1,
+                    div,
                     dropDownPlaylistsSetup(index),
                     DIRECTIONS_DROPDOWN.LEFT,
                 );
+                playlistsMenu.addTitleElement(bt1);
                 this.playlistsDropDowns.push(playlistsMenu);
                 playlistsMenu.render();
                 ContentStore.subscribe((instance) => {
@@ -185,6 +182,7 @@ export class LineList extends BaseComponent {
             }
         });
 
+        // todo dont touch
         this.parent.addEventListener('click', (event) => {
             const line = event.target.closest(`.${this._config.lineDiv}`) as HTMLDivElement;
             const like = event.target.closest(`.${this._config.likeButtonImg}`) as HTMLImageElement;
@@ -327,5 +325,26 @@ export class LineList extends BaseComponent {
             EventTypes.UNLIKED_TRACK,
             this.name,
         );
+
+        API.subscribe(
+            (message, id) => {
+                if (message === 'OK' && this.name === componentsNames.PLAYLIST_LINE_LIST) {
+                    this.unrenderTrack(id);
+                }
+            },
+            EventTypes.REMOVED_TRACK_FROM_PLAYLIST,
+            this.name,
+        );
+    }
+
+    override appendElement() {
+        const renderProcess = new Promise((resolve) => {
+            super.appendElement();
+            resolve('');
+        });
+
+        renderProcess.then(() => {
+            this.#addListeners();
+        });
     }
 }
