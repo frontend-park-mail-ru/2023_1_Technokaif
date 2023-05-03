@@ -1,20 +1,28 @@
 <div class="{{tracksClass}}">
     <div class="{{headerDiv}}">
-        {{#ifEquals isUserPlaylistPage false}}
+        {{#ifEquals isLikedSongs true}}
             <div class="{{headerImgClass}}">
-                <img class="{{imgClass}}" src="{{#if imgSrc}}{{#convert}}{{imgSrc}}{{/convert}}{{else}}/static/svg/playlistDefault.svg{{/if}}">
+                <img class="{{imgClass}}" src="{{#if imgSrc}}{{imgSrc}}{{else}}/static/svg/playlistDefault.svg{{/if}}">
             </div>
         {{/ifEquals}}
-        {{#ifEquals isUserPlaylistPage true}}
-            <div class="cover">
-                <label class="-label" for="file">
-                <span>
-                <img class="default" src="/static/svg/avatarHover.svg">
-                </span>
-                </label>
-                <img class="user-profile__img" src="{{#if imgSrc}}{{#convert}}{{imgSrc}}{{/convert}}{{else}}/static/svg/playlistDefault.svg{{/if}}" id="output">
-            </div>
+        {{#ifEquals isLikedSongs false}}
+            {{#ifEquals isUserPlaylistPage false}}
+                <div class="{{headerImgClass}}">
+                    <img class="{{imgClass}}" src="{{#if imgSrc}}{{#convertMedia}}{{imgSrc}}{{/convertMedia}}{{else}}/static/svg/playlistDefault.svg{{/if}}">
+                </div>
+            {{/ifEquals}}
+            {{#ifEquals isUserPlaylistPage true}}
+                <div class="cover">
+                    <label class="-label" for="file">
+                    <span>
+                    <img class="default" src="/static/svg/avatarHover.svg">
+                    </span>
+                    </label>
+                    <img class="user-profile__img" src="{{#if imgSrc}}{{#convertMedia}}{{imgSrc}}{{/convertMedia}}{{else}}/static/svg/playlistDefault.svg{{/if}}" id="output">
+                </div>
+            {{/ifEquals}}
         {{/ifEquals}}
+
         <div class="{{headerDescriptions}}">
             <div class="{{headerNameDiv}}">
                 <p class="{{headerNameClass}}">
@@ -38,7 +46,7 @@
                 {{#each users}}
                     <div class="{{../mainDiv}}" data-id="{{this.id}}">
                         <div class="{{../imgDiv}}">
-                            <img class="{{../imgAvatarClass}}" src="{{#if this.avatarSrc}}{{#convert}}{{this.avatarSrc}}{{/convert}}{{else}}{{../defaultAvatar}}{{/if}}"/>
+                            <img class="{{../imgAvatarClass}}" src="{{#if this.avatarSrc}}{{#convertMedia}}{{this.avatarSrc}}{{/convertMedia}}{{else}}{{../defaultAvatar}}{{/if}}"/>
                         </div>
                         <div class="{{../textDiv}}">
                             <p class="{{../textClass}}">{{this.username}}</p>
