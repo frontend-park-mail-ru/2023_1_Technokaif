@@ -20,6 +20,9 @@ export class ModalWindow extends BaseComponent {
     /** Input file for playlist cover */
     private fileInput;
 
+    /** config */
+    private configA;
+
     /**
      * Create Line component.
      * @param {HTMLElement} parent - place where to render
@@ -29,6 +32,7 @@ export class ModalWindow extends BaseComponent {
     constructor(parent, config, name) {
         super(parent, config, templateHTML, name);
         this.parent = parent;
+        this.configA = config;
         this.fileInput = document.createElement('input');
         this.fileInput.setAttribute('type', 'file');
         this.fileInput.setAttribute('id', 'file');
@@ -61,6 +65,8 @@ export class ModalWindow extends BaseComponent {
         const coverElement: HTMLDivElement|null = document.querySelector('.playlist-cover-img');
         const nameElement: HTMLInputElement|null = document.querySelector('.playlist-name');
         const descriptionElement: HTMLTextAreaElement|null = document.querySelector('.playlist-description');
+        const area:HTMLTextAreaElement|null = document.querySelectorAll('.playlist-description')[1];
+        area.value = this.configA.textareaValue;
 
         coverElement?.appendChild(this.fileInput);
         if (!root || !coverElement || !modalButton || !modal || !nameElement || !descriptionElement) {
