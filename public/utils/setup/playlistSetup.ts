@@ -66,6 +66,7 @@ export function setupUserPlaylist(playlist: Playlist) {
         liked: 'likedDiv',
         buttonPlay: 'playButton js__button__play',
         albumLike: 'albumLike',
+        playlistDelete: 'playlist-delete',
 
         mainDiv: 'navbar-avatar',
         imgDiv: 'navbar-avatar__img-container',

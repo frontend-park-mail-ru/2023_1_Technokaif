@@ -13,6 +13,8 @@ import API from '../../../../stores/API';
 import { componentsJSNames } from '../../../../utils/config/componentsJSNames';
 import { ModalWindow } from '../../../smallComponents/ModalWindow/modalWindow';
 import { componentsNames } from '../../../../utils/config/componentsNames';
+import { routingUrl } from '../../../../utils/config/routingUrls';
+import Router from '../../../../router/Router';
 
 /**
  * Class of favorite tracks playlist
@@ -57,10 +59,23 @@ export class UserPlaylist extends Playlist {
         const coverElement: HTMLDivElement|null = document.querySelector('.cover');
         const nameElement: HTMLDivElement|null = document.querySelector('.headerNameOfElementClass');
         const descriptionElement: HTMLDivElement|null = document.querySelector('.author__place');
-        if (!root || !coverElement || !nameElement || !descriptionElement) {
+        const deleteElement: HTMLDivElement|null = document.querySelector('.playlist-delete');
+        if (!root || !coverElement || !nameElement || !descriptionElement || !deleteElement) {
             console.error('Cannot get cover element');
             return;
         }
+
+        deleteElement.addEventListener('click', () => {
+            ApiActions.deletePlaylist(ContentStore.state[pageNames.PLAYLIST].id);
+        });
+
+        API.subscribe(
+            () => {
+                Router.go(routingUrl.LIBRARY_PLAYLISTS);
+            },
+            EventTypes.DELETED_PLAYLIST,
+            this.name,
+        );
 
         coverElement.addEventListener('click', () => {
             root.appendChild(this.fileInput);

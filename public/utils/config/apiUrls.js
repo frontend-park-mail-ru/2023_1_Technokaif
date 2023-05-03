@@ -33,6 +33,7 @@ export const apiUrl = {
     USER_FAVOURITE_PLAYLISTS: (id) => `/api/users/${id}/favorite/playlists`,
 
     CREATE_PLAYLIST: '/api/playlists/',
+    DELETE_PLAYLIST: (id) => `/api/playlists/${id}/`,
     UPDATE_PLAYLIST: (id) => `/api/playlists/${id}/update`,
     UPLOAD_PLAYLIST_COVER: (id) => `/api/playlists/${id}/cover`,
     COVER_REGEX: /^\/api\/playlists\/\d+\/cover$/,
