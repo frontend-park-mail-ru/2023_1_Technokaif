@@ -22,7 +22,7 @@ export class UserPlaylist extends Playlist {
     private parent: HTMLDivElement;
 
     /** Input file for playlist cover */
-    private fileInput;
+    private fileInput: HTMLInputElement;
 
     /**
      * Create playlist. Empty innerHtml before placement
@@ -44,7 +44,6 @@ export class UserPlaylist extends Playlist {
      */
     private callModalWindow() {
         const root = document.querySelector(`#${componentsJSNames.ROOT}`);
-        console.log(ContentStore.state[pageNames.PLAYLIST].playlist);
         const modalWindow = new ModalWindow(root, setupModalWindow(ContentStore.state[pageNames.PLAYLIST].playlist), componentsNames.PLAYLIST_MODAL_WINDOW);
         modalWindow.appendElement();
     }
@@ -69,9 +68,11 @@ export class UserPlaylist extends Playlist {
         });
 
         this.fileInput.addEventListener('change', () => {
+            // @ts-ignore
             const file = this.fileInput.files[0];
 
             const formData = new FormData();
+            // @ts-ignore
             formData.append('cover', file);
 
             ApiActions.uploadPlaylistCover(ContentStore.state[pageNames.PLAYLIST].id, formData);
@@ -141,6 +142,7 @@ export class UserPlaylist extends Playlist {
                         console.error('Error in avatar element');
                         return;
                     }
+                    // @ts-ignore
                     const blob = new Blob(this.fileInput.files, { type: 'image/jpeg' });
                     const imageUrl = URL.createObjectURL(blob);
                     avatarImg.src = imageUrl;

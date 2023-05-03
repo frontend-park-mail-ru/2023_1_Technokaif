@@ -224,16 +224,28 @@ export function setupModalWindow(playlist: Playlist) {
     };
 }
 
-export const dropDownTrackSetup:DropDownSetup = {
-    mainDropDownDiv: 'track-dropDown',
-    dropdownName: 'track-dropDown__name',
-    dropdownTitleDiv: 'track-dropDown__title',
-    dropdownOptionsDiv: 'track-dropDown__options',
-};
+/**
+ * Setup of track dropdown
+ * @param id
+ */
+export function dropDownTrackSetup(id: number):DropDownSetup {
+    return {
+        mainDropDownDiv: 'track-dropDown',
+        dropdownName: `track${id}-dropDown__name`,
+        dropdownTitleDiv: 'track-dropDown__title',
+        dropdownOptionsDiv: 'track-dropDown__options',
+    };
+}
 
-export const dropDownPlaylistsSetup:DropDownSetup = {
-    mainDropDownDiv: 'playlists-dropDown',
-    dropdownName: 'playlists-dropDown__name',
-    dropdownTitleDiv: 'playlists-dropDown__title',
-    dropdownOptionsDiv: 'playlists-dropDown__options',
-};
+/**
+ * Setup of track playlist dropdown
+ * @param id
+ */
+export function dropDownPlaylistsSetup(id: number):DropDownSetup {
+    return {
+        mainDropDownDiv: 'playlists-dropDown',
+        dropdownName: `track${id}-dropDown__name`,
+        dropdownTitleDiv: 'playlists-dropDown__title',
+        dropdownOptionsDiv: 'playlists-dropDown__options',
+    };
+}
