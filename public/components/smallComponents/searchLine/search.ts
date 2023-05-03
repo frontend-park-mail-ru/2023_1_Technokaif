@@ -39,6 +39,9 @@ export class SearchLine extends BaseComponent {
         const func = (field: HTMLInputElement) => (event) => {
             event.preventDefault();
             const { value } = field;
+            if (value === '') {
+                return;
+            }
             // todo Create action for search
             ApiActions.search(value);
         };
