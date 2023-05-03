@@ -54,7 +54,7 @@ export class UserPlaylist extends Playlist {
      */
     private setListeners() {
         const root = document.querySelector(`#${componentsJSNames.ROOT}`);
-        const coverElement: HTMLDivElement|null = document.querySelector('.user-profile__img');
+        const coverElement: HTMLDivElement|null = document.querySelector('.cover');
         const nameElement: HTMLDivElement|null = document.querySelector('.headerNameOfElementClass');
         const descriptionElement: HTMLDivElement|null = document.querySelector('.author__place');
         if (!root || !coverElement || !nameElement || !descriptionElement) {
