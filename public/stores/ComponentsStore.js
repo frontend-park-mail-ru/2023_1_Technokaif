@@ -55,6 +55,7 @@ class ComponentsStore extends IStore {
             this.#removeElementFromPage(action.name);
             break;
         default:
+            super.dispatch(action);
         }
     }
 

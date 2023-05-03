@@ -80,6 +80,15 @@ class Navbar {
                     this.#reRender();
                     const element: HTMLDivElement = document.querySelector(`.${componentsNames.PLAYER}`) as HTMLDivElement;
                     element.hidden = true;
+
+                    // todo remove to another config
+                    /*
+                    There we delete all info from stores when we logout
+                     */
+                    Actions.clearStore('ComponentsStore');
+                    Actions.clearStore('Content');
+                    Actions.clearStore('userInfo');
+                    Actions.clearStore('SONG_STORE');
                 }
             },
             EventTypes.LOGOUT_STATUS,

@@ -43,6 +43,7 @@ class UserInfoStore extends IStore {
             this.#addUserState(action.userData);
             break;
         default:
+            super.dispatch(action);
         }
     }
 

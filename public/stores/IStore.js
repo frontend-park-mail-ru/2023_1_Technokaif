@@ -1,6 +1,7 @@
 import Dispatcher from '../dispatcher/Dispatcher.js';
 import EventEmitter from './EventEmitter';
 import { METHOD } from '../utils/config/config';
+import ActionTypes from '../actions/ActionTypes';
 
 /**
  * Interface for project stores.
@@ -64,7 +65,15 @@ class IStore extends EventEmitter {
      *
      */
     dispatch(action) {
-
+        if (!action) return;
+        switch (action.type) {
+        case ActionTypes.CLEAR_STORE:
+            if (action.name === this.name) {
+                super.state = {};
+            }
+            break;
+        default:
+        }
     }
 
     /**

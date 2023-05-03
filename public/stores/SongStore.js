@@ -186,6 +186,7 @@ class SongStore extends IStore {
             this.#setPosition(action.offset);
             break;
         default:
+            super.dispatch(action);
             break;
         }
     }

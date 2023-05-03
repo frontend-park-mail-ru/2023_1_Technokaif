@@ -318,6 +318,14 @@ const Actions = {
             offset,
         });
     },
+
+    clearStore(name) {
+        Dispatcher.dispatch({
+            type: ActionTypes.CLEAR_STORE,
+            name,
+        });
+    }
+    ,
 };
 
 export default Actions;
