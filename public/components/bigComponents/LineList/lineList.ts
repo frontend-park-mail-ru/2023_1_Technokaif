@@ -15,7 +15,7 @@ import API from '../../../stores/API';
 import { routingUrl } from '../../../utils/config/routingUrls';
 import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
 import { DIRECTIONS_DROPDOWN, DropDown } from '../../smallComponents/dropDown/dropDown';
-import { dropDownPlaylistsSetup, dropDownTrackSetup } from '../../../utils/setup/playlistSetup';
+import { dropDownTrackSetup } from '../../../utils/setup/playlistSetup';
 
 /**
  * Tape for elements
@@ -151,6 +151,14 @@ export class LineList extends BaseComponent {
         addDropDown.title.style.color = 'white';
         addDropDown.options.style.color = 'white';
 
+        if (this.name === componentsNames.PLAYLIST) {
+            const bt3 = document.createElement('div');
+            bt3.textContent = 'Remove from playlist';
+            dropDown.addOptionsElement(bt3, 'click', () => {
+                ApiActions.removeTrackFromPlaylist(ContentStore.state[pageNames.PLAYLIST].id, trackId);
+            });
+        }
+
         this.#addSubDropDown(addDropDown, trackId);
     }
 
@@ -164,14 +172,6 @@ export class LineList extends BaseComponent {
                 ApiActions.addTrackInPlaylist(playlist.id, index);
             });
         });
-
-        if (this.config?.isUserPlaylistPage) {
-            const bt3 = document.createElement('div');
-            bt3.textContent = 'Remove from playlist';
-            where.addOptionsElement(bt3, 'click', () => {
-                ApiActions.removeTrackFromPlaylist(ContentStore.state[pageNames.PLAYLIST].id, index);
-            });
-        }
     }
 
     /**
@@ -344,7 +344,7 @@ export class LineList extends BaseComponent {
 
         API.subscribe(
             (message, id) => {
-                if (message === 'OK' && this.name === componentsNames.PLAYLIST_LINE_LIST) {
+                if (message === 'OK' && this.name === componentsNames.PLAYLIST) {
                     this.unrenderTrack(id);
                 }
             },

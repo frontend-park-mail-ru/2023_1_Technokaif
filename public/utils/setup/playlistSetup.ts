@@ -144,7 +144,7 @@ export function setupPlaylist(playlist: Playlist) {
  * Setup line of track
  * @returns {{json}}
  */
-export function setupPlaylistLineList(items: [AlbumApi]):ContentArtist {
+export function setupPlaylistLineList(items: [AlbumApi]):{ optionsBlock: string; lineDuration: string; lineCover: string; lineIndex: string; stopButtonImg: string; albumClass: string; artistClass: string; unlikeButtonImg: string; title: string; likeButtonImg: string; anotherSrc: string; likeButtons: string; content: [AlbumApi]; isLikedSongs: boolean; lineListensClass: string; lineTitle: string; titleText: string; unlike: string; durationClass: string; playButtonImg: string; isArtistShow: boolean; isAlbumShow: boolean; anotherClass: string; like: string; unlikeButtonSrc: string; defaultTrackSrc: string; lineListClass: string; lineBlock: string; playButton: string; likeButtonSrc: string; isUserPlaylistPage: boolean; titleArtistDiv: string; albumDiv: string; isArtistPage: boolean; lineDiv: string; buttonsClass: string; stopButton: string; stopButtonSrc: string; isPlaylistPage: boolean; playButtonSrc: string; trackLineOptions: string; isShowTitle: boolean } {
     return {
         lineListClass: 'line-list',
         title: 'popular-tracks-title',
@@ -191,6 +191,7 @@ export function setupPlaylistLineList(items: [AlbumApi]):ContentArtist {
         isArtistShow: true,
         isAlbumShow: false,
         isShowTitle: false,
+        isUserPlaylistPage: true,
 
         durationClass: 'track-line__duration',
         anotherClass: 'track-line__another',

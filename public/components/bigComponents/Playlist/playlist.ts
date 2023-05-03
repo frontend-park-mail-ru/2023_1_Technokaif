@@ -71,7 +71,7 @@ export abstract class Playlist extends BaseComponent {
         this.#lineConfigs = [];
         this.activatedButton = false;
         this.#isAlbumLoaded = false;
-        this.type = playlistTypes.PLAYLIST;
+        this.type = null;
         this.callbacksOnRender = [];
     }
 
@@ -175,15 +175,19 @@ export abstract class Playlist extends BaseComponent {
 
                 switch (instance) {
                 case 'tracks':
-                    this.#lineConfigs.push(setupLineList(tracks));
-                    this.isPlaylist = false;
+                    this.isPlaylist = this.type !== null;
+                    if (this.isPlaylist) {
+                        this.#lineConfigs.push(setupPlaylistLineList(tracks));
+                    } else {
+                        this.#lineConfigs.push(setupLineList(tracks));
+                    }
                     this.renderLines();
                     break;
-                case 'playlist':
-                    this.#lineConfigs.push(setupPlaylistLineList(tracks));
-                    this.isPlaylist = true;
-                    this.renderLines();
-                    break;
+                // case 'playlist':
+                //     this.#lineConfigs.push(setupPlaylistLineList(tracks));
+                //     this.isPlaylist = true;
+                //     this.renderLines();
+                //     break;
                 default:
                 }
             },
