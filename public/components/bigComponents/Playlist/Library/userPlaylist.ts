@@ -108,8 +108,8 @@ export class UserPlaylist extends Playlist {
                     console.error('Cannot get user id');
                     return;
                 }
-
                 const numUserId: number = +userId;
+
                 const state = ContentStore.state[pageNames.PLAYLIST];
                 if (state.playlist.users.filter((user) => user.id === numUserId).length !== 0) {
                     this.setType(playlistTypes.USER_PLAYLIST);

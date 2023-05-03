@@ -65,8 +65,8 @@ export class ModalWindow extends BaseComponent {
         const coverElement: HTMLDivElement|null = document.querySelector('.playlist-cover-img');
         const nameElement: HTMLInputElement|null = document.querySelector('.playlist-name');
         const descriptionElement: HTMLTextAreaElement|null = document.querySelector('.playlist-description');
-        const area:HTMLTextAreaElement|undefined = document.querySelectorAll('.playlist-description')[1] as HTMLTextAreaElement;
-        // @ts-ignore
+        const area = document.querySelectorAll('.playlist-description')[1] as HTMLTextAreaElement|null;
+        if (!area) { return; }
         area.value = this.configA.textareaValue;
 
         coverElement?.appendChild(this.fileInput);

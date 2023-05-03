@@ -70,6 +70,9 @@ class ContentStore extends IStore {
         case ActionTypes.GOT_ARTISTS_SEARCH:
             this.#addArtistsToSearchPage(action.items);
             break;
+        case ActionTypes.GOT_PLAYLIST_SEARCH:
+            this.#addPlaylistsToSearchPage(action.items);
+            break;
         default:
         }
     }
@@ -235,6 +238,12 @@ class ContentStore extends IStore {
     #addArtistsToSearchPage(items) {
         this.#addContent(pageNames.SEARCH, 'artists', items);
         this.jsEmit(EventTypes.SEARCH_ARTISTS_ADDED, 'artists');
+    }
+
+    /** Playlists add to search */
+    #addPlaylistsToSearchPage(items) {
+        this.#addContent(pageNames.SEARCH, 'playlists', items);
+        this.jsEmit(EventTypes.SEARCH_PLAYLIST_ADDED, 'playlists');
     }
 }
 

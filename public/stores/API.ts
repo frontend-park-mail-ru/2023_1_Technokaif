@@ -185,6 +185,7 @@ class API extends IStore {
             this.searchForAlbumsWithName(action.searchString);
             this.searchForArtistsWithName(action.searchString);
             this.searchForTracksWithName(action.searchString);
+            this.searchForPlaylistWithName(action.searchString);
             break;
         default:
         }
@@ -556,6 +557,13 @@ class API extends IStore {
     private searchForTracksWithName(value) {
         search(apiUrl.TRACK_SEARCH_API, value).then((tracks) => {
             ActionsSearch.gotTracks(tracks);
+        }).catch(() => {});
+    }
+
+    /** */
+    private searchForPlaylistWithName(value) {
+        search(apiUrl.PLAYLIST_SEARCH_API, value).then((playlists) => {
+            ActionsSearch.gotPlaylists(playlists);
         }).catch(() => {});
     }
 
