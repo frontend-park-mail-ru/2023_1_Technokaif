@@ -208,7 +208,11 @@ class API extends IStore {
      */
     #logoutRequest() {
         logoutAjax().then(
-            (message) => this.jsEmit(EventTypes.LOGOUT_STATUS, message),
+            (message) => {
+                this.jsEmit(EventTypes.LOGOUT_STATUS, message);
+                Actions.clearStore('userInfo');
+                Actions.clearStore('SONG_STORE');
+            },
         );
     }
 

@@ -112,7 +112,7 @@ const ActionTypes = {
     SET_OFFSET: 'SET_OFFSET',
 
     PLAY_PLAYLIST: 'PLAY_PLAYLIST',
-    CLEAR_STORE: 'CLEAR_STORE',
+    CLEAR_STORE: 'CLEAR_STORE_STATE',
 };
 
 export default ActionTypes;

@@ -71,6 +71,9 @@ class UserInfoStore extends IStore {
      * @param {*} value - value of field
      */
     #validationDispatch(nameOfField, value) {
+        if (!this.state.errors) {
+            this.state.errors = {};
+        }
         switch (nameOfField) {
         case 'username':
             super.changeFieldInState('username', value);
@@ -456,7 +459,7 @@ class UserInfoStore extends IStore {
      */
     #emitResponse(nameOfField, status) {
         const state = super.state;
-        if (!status || status === OK_RESPONSE) {
+        if (!status || status === undefined || status === OK_RESPONSE) {
             this.jsEmit(EventTypes.VALIDATION_RESPONSE, nameOfField, OK_RESPONSE);
             state.errors[nameOfField] = false;
         } else {

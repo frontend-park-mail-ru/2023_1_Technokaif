@@ -69,7 +69,7 @@ class IStore extends EventEmitter {
         switch (action.type) {
         case ActionTypes.CLEAR_STORE:
             if (action.name === this.name) {
-                super.state = {};
+                this.#state = {};
             }
             break;
         default:

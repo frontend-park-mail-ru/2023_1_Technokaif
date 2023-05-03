@@ -85,10 +85,6 @@ class Navbar {
                     /*
                     There we delete all info from stores when we logout
                      */
-                    Actions.clearStore('ComponentsStore');
-                    Actions.clearStore('Content');
-                    Actions.clearStore('userInfo');
-                    Actions.clearStore('SONG_STORE');
                 }
             },
             EventTypes.LOGOUT_STATUS,
