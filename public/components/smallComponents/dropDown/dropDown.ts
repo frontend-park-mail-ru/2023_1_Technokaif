@@ -22,6 +22,8 @@ export class DropDown extends BaseComponent {
     /** Flag to see if base structure was rendered */
     private isRendered;
 
+    private maxWidth;
+
     /** Config to set up basic structure */
     private configDropDown:DropDownSetup;
 
@@ -42,6 +44,7 @@ export class DropDown extends BaseComponent {
         this.listeners = [];
         this.whereMustGo = whereToGo;
         this.parent = parent;
+        this.maxWidth = 0;
     }
 
     /**
@@ -115,6 +118,7 @@ export class DropDown extends BaseComponent {
         if (!this.isRendered) this.render();
         const optionsPlacement = this.options;
         this.addElement(optionsPlacement, element, event, reaction);
+        this.whereToRender();
     }
 
     /** Show options of dropdown. Set css class 'dropdown-active' */
@@ -240,30 +244,28 @@ export class DropDown extends BaseComponent {
             return;
         }
 
-        element.style.maxWidth = `${title.offsetWidth}`;
+        if (element.offsetWidth > this.maxWidth) {
+            this.maxWidth = element.offsetWidth;
+        }
         switch (whereRender) {
         case DIRECTIONS_DROPDOWN.DOWN:
             element.style.top = `${title.offsetHeight * 1.3}`;
             element.style.left = '0';
-            element.style.transform = 'translateY(-1vh)';
             break;
         case DIRECTIONS_DROPDOWN.UP:
             // todo Change on bottom
             element.style.bottom = `-${element.offsetHeight * 1.3}`;
             element.style.left = '0';
-            element.style.transform = 'translateY(-1vh)';
             break;
         case DIRECTIONS_DROPDOWN.LEFT:
             // todo Change on right
             element.style.top = '0';
-            element.style.left = `-${element.offsetWidth}`;
-            element.style.transform = 'translateX(0.5vw)';
+            element.style.left = `-${this.maxWidth}`;
             break;
         case DIRECTIONS_DROPDOWN.RIGHT:
             // todo Change on left
             element.style.top = '0';
-            element.style.left = `${title.offsetWidth}`;
-            // element.style.transform = 'translateX(0.5vw)';
+            element.style.left = `${this.maxWidth}`;
             break;
         default:
             console.warn('Error at dropDown whereToRender', whereRender);

@@ -118,57 +118,55 @@ export class LineList extends BaseComponent {
         const dropDown = new DropDown(
             line,
             dropDownTrackSetup(`${index}_sub`),
-            DIRECTIONS_DROPDOWN.DOWN,
+            DIRECTIONS_DROPDOWN.LEFT,
         );
         this.dropDowns.push(dropDown);
         dropDown.render();
         dropDown.addTitleElement(another);
-        dropDown.menu.style.zIndex = '999';
+        dropDown.menu.style.zIndex = '10';
         dropDown.menu.style.width = 'fit-content';
         dropDown.menu.style.height = 'fit-content';
         dropDown.menu.style.color = 'white';
         dropDown.menu.classList.add('track-line__another');
 
         const bt1 = document.createElement('div');
-        const textAdd = document.createElement('div');
-        textAdd.textContent = 'Add track in playlist';
-        console.log('Text in div before', bt1.innerText);
+        const textAdd = document.createElement('p');
+        textAdd.textContent = 'Add';
         const addDropDown = new DropDown(
             bt1,
             dropDownTrackSetup(`${index}__subDropAdd`),
-            DIRECTIONS_DROPDOWN.RIGHT,
+            DIRECTIONS_DROPDOWN.LEFT,
         );
         this.playlistsDropDowns.push(addDropDown);
         addDropDown.render();
-        addDropDown.addTitleElement(textAdd);
 
         dropDown.addOptionsElement(bt1);
         addDropDown.title.style.zIndex = '9999';
-        addDropDown.title.style.width = '3vw';
-        addDropDown.title.style.height = '4vh';
-        addDropDown.title.style.color = 'white';
-        addDropDown.title.style.width = '3vw';
+        addDropDown.title.style.width = 'fit-content';
+        addDropDown.title.style.height = 'fit-content';
+        addDropDown.title.style.boxSizing = 'border-box';
+        addDropDown.title.style.color = 'fit-content';
+        addDropDown.title.style.width = 'fit-content';
         addDropDown.title.style.color = 'white';
         addDropDown.options.style.color = 'white';
 
         if (this.name === componentsNames.PLAYLIST) {
             const bt3 = document.createElement('div');
-            bt3.textContent = 'Remove from playlist';
+            bt3.textContent = 'Remove';
             dropDown.addOptionsElement(bt3, 'click', () => {
                 ApiActions.removeTrackFromPlaylist(ContentStore.state[pageNames.PLAYLIST].id, trackId);
             });
         }
 
+        addDropDown.addTitleElement(textAdd);
         this.#addSubDropDown(addDropDown, trackId);
     }
 
     #addSubDropDown(where, index) {
-        console.log('this.playlists', this.playlists);
         this.playlists.forEach((playlist) => {
             const div = document.createElement('p');
             div.textContent = playlist.name;
             where.addOptionsElement(div, 'click', () => {
-                console.log('playlist.id', playlist.id, index);
                 ApiActions.addTrackInPlaylist(playlist.id, index);
             });
         });
