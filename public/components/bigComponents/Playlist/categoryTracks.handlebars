@@ -34,16 +34,23 @@
                 </div>
             </div>
 
-            <div class="{{headerDescription}}">
-                <div class="{{DescriptionsDiv}}">
-                    <p class="{{DescriptionsClass}}">{{descriptionText}}</p>
-                </div>
+            <div class="{{usersPlacement}}">
+                {{#each users}}
+                    <div class="{{../mainDiv}}" data-id="{{this.id}}">
+                        <div class="{{../imgDiv}}">
+                            <img class="{{../imgAvatarClass}}" src="{{#if this.avatarSrc}}{{#convert}}{{this.avatarSrc}}{{/convert}}{{else}}{{../defaultAvatar}}{{/if}}"/>
+                        </div>
+                        <div class="{{../textDiv}}">
+                            <p class="{{../textClass}}">{{this.username}}</p>
+                        </div>
+                    </div>
+                {{/each}}
             </div>
 
         </div>
     </div>
     <div class="{{ButtonsDiv}}">
-        <img class="{{buttonPlay}}"src="/static/svg/play.svg">
+        <img class="{{buttonPlay}}" src="/static/svg/play.svg">
     {{#ifEquals isUserPlaylistPage false}}
         {{#ifEquals isLiked false}}
             <img class="{{albumLike}}" src="/static/svg/notLiked.svg">

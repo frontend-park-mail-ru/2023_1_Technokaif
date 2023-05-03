@@ -477,7 +477,7 @@ class API extends IStore {
      */
     private updatePlaylist(playlistId: string, playlistData: PlaylistContent) {
         updatePlaylistAjaxRequest(playlistId, playlistData).then((message) => {
-            this.jsEmit(EventTypes.CREATED_PLAYLIST, message);
+            this.jsEmit(EventTypes.UPDATED_PLAYLIST, message);
         });
     }
 
