@@ -68,11 +68,26 @@ export class ModalWindow extends BaseComponent {
         }
         document.addEventListener('click', (event) => {
             const element:HTMLElement = event.target as HTMLElement;
-            if (!modal.contains(element) && !modalButton.contains(element)) {
+            if (element.classList.contains('headerNameOfElementClass')) {
+                return;
+            }
+            const modal1 = document.querySelector(`.${this.name}`) as HTMLElement;
+            if (!modal1.contains(element) && !modalButton.contains(element)) {
                 this.unrenderElement();
             }
         });
+        modalButton.addEventListener(METHOD.BUTTON, (event) => {
+            event.preventDefault();
+            const nameElement1 = document.querySelector('#name-input') as HTMLTextAreaElement;
+            const descriptionElement2 = document.querySelectorAll('.playlist-description');
+            const descriptionElement1 = descriptionElement2[1] as HTMLTextAreaElement;
 
+            ApiActions.updatePlaylist(ContentStore.state[pageNames.PLAYLIST].id, {
+                name: nameElement1.value,
+                description: descriptionElement1.value,
+                users: ContentStore.state[pageNames.PLAYLIST].playlist.users,
+            });
+        });
         modal.addEventListener(
             METHOD.FORM,
             (event) => {
