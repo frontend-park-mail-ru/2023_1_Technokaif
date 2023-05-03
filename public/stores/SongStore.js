@@ -183,7 +183,7 @@ class SongStore extends IStore {
             this.#firstLaunch();
             break;
         case ActionTypes.SET_OFFSET:
-            this.#position = action.offset;
+            this.#setPosition(action.offset);
             break;
         default:
             break;
@@ -233,6 +233,9 @@ class SongStore extends IStore {
      * @param offset
      */
     #setPosition(offset = 0) {
+        if (offset === undefined) {
+            offset = 0;
+        }
         this.#position = offset;
     }
 
