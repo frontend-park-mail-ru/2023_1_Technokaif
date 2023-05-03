@@ -189,7 +189,7 @@ class API extends IStore {
             this.searchForAlbumsWithName(action.searchString);
             this.searchForArtistsWithName(action.searchString);
             this.searchForTracksWithName(action.searchString);
-            this.searchForPlaylistWithName(action.searchString);
+            // this.searchForPlaylistWithName(action.searchString);
             break;
         default:
         }
