@@ -2,7 +2,7 @@
     <div class="{{headerDiv}}">
         {{#ifEquals isUserPlaylistPage false}}
             <div class="{{headerImgClass}}">
-                <img class="{{imgClass}}" src="{{#if imgSrc}}{{imgSrc}}{{else}}/static/svg/playlistDefault.svg{{/if}}">
+                <img class="{{imgClass}}" src="{{#if imgSrc}}{{#convert}}{{imgSrc}}{{/convert}}{{else}}/static/svg/playlistDefault.svg{{/if}}">
             </div>
         {{/ifEquals}}
         {{#ifEquals isUserPlaylistPage true}}
@@ -12,7 +12,7 @@
                 <img class="default" src="/static/svg/avatarHover.svg">
                 </span>
                 </label>
-                <img class="user-profile__img" src="{{#if imgSrc}}{{imgSrc}}{{else}}/static/svg/playlistDefault.svg{{/if}}" id="output">
+                <img class="user-profile__img" src="{{#if imgSrc}}{{#convert}}{{imgSrc}}{{/convert}}{{else}}/static/svg/playlistDefault.svg{{/if}}" id="output">
             </div>
         {{/ifEquals}}
         <div class="{{headerDescriptions}}">

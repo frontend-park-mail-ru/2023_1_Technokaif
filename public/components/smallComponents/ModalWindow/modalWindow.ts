@@ -85,7 +85,7 @@ export class ModalWindow extends BaseComponent {
             ApiActions.updatePlaylist(ContentStore.state[pageNames.PLAYLIST].id, {
                 name: nameElement1.value,
                 description: descriptionElement1.value,
-                users: ContentStore.state[pageNames.PLAYLIST].playlist.users,
+                users: ContentStore.state[pageNames.PLAYLIST].playlist.users.map((element) => element.id),
             });
         });
         modal.addEventListener(
