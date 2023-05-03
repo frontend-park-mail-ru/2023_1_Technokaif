@@ -228,7 +228,7 @@ export function setupModalWindow(playlist: Playlist) {
  * Setup of track dropdown
  * @param id
  */
-export function dropDownTrackSetup(id: number):DropDownSetup {
+export function dropDownTrackSetup(id: string):DropDownSetup {
     return {
         mainDropDownDiv: 'track-dropDown',
         dropdownName: `track${id}-dropDown__name`,

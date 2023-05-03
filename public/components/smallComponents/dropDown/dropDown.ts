@@ -59,6 +59,7 @@ export class DropDown extends BaseComponent {
         reaction?: ()=> void,
     ) {
         if (!placement || !(placement instanceof HTMLElement)) {
+            console.warn('Placement doesn\'t exist');
             return;
         }
 
