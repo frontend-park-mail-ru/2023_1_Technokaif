@@ -18,12 +18,6 @@ import { componentsNames } from '../../../utils/config/componentsNames';
  */
 export class SearchContent extends BaseComponent {
     /**
-     * Parent where to render
-     */
-    // @ts-ignore
-    #parent : HTMLElement;
-
-    /**
      * Create Playlist. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place Playlist
      * @param {string} componentName
@@ -31,7 +25,6 @@ export class SearchContent extends BaseComponent {
      */
     constructor(parent, componentName, config) {
         super(parent, config, templateHtml, componentName);
-        this.#parent = parent;
     }
 
     /** Function to render playlists by input configs. */
@@ -109,7 +102,6 @@ export class SearchContent extends BaseComponent {
                 if (tracksPlacement) {
                     tracksPlacement.innerHTML = '';
                 }
-                // @ts-ignore
                 if (state.tracks?.tracks?.length > 0) {
                     this.renderLines(state.tracks.tracks);
                 }
@@ -125,7 +117,6 @@ export class SearchContent extends BaseComponent {
                 if (albumsPlacement) {
                     albumsPlacement.innerHTML = '';
                 }
-                // @ts-ignore
                 if (state.albums?.albums?.length > 0) {
                     this.renderAlbums(state.albums.albums);
                 }
@@ -142,7 +133,6 @@ export class SearchContent extends BaseComponent {
                     artistsPlacement.innerHTML = '';
                 }
 
-                // @ts-ignore
                 if (state.artists?.artists?.length > 0) {
                     this.renderArtist(state.artists.artists);
                 }
@@ -159,7 +149,6 @@ export class SearchContent extends BaseComponent {
                     playlistsPlacement.innerHTML = '';
                 }
 
-                // @ts-ignore
                 if (state.playlists?.playlists?.length > 0) {
                     this.renderPlaylists(state.playlists.playlists);
                 }

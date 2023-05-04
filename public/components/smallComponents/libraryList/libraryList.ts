@@ -28,21 +28,24 @@ export class LibraryList extends BaseComponent {
             return;
         }
         parent.addEventListener('click', (event) => {
-            // @ts-ignore
-            switch (event?.target?.innerText) {
-            case 'Tracks':
-                Router.go(routingUrl.LIBRARY_TRACKS);
-                break;
-            case 'Artists':
-                Router.go(routingUrl.LIBRARY_ARTISTS);
-                break;
-            case 'Albums':
-                Router.go(routingUrl.LIBRARY_ALBUMS);
-                break;
-            case 'Playlists':
-                Router.go(routingUrl.LIBRARY_PLAYLISTS);
-                break;
-            default:
+            if (event.target) {
+                const element = event.target;
+                if (!(element instanceof HTMLElement)) return;
+                switch (element.innerText) {
+                case 'Tracks':
+                    Router.go(routingUrl.LIBRARY_TRACKS);
+                    break;
+                case 'Artists':
+                    Router.go(routingUrl.LIBRARY_ARTISTS);
+                    break;
+                case 'Albums':
+                    Router.go(routingUrl.LIBRARY_ALBUMS);
+                    break;
+                case 'Playlists':
+                    Router.go(routingUrl.LIBRARY_PLAYLISTS);
+                    break;
+                default:
+                }
             }
         });
     }

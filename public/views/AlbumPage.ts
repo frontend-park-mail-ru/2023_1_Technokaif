@@ -37,8 +37,7 @@ class AlbumPageView extends BaseView {
             switch (componentName) {
             case componentsNames.ALBUM:
                 component.render(parent);
-                // todo
-                // @ts-ignore
+
                 Actions.addElementOnPage(componentName);
                 break;
             default:
@@ -53,8 +52,6 @@ class AlbumPageView extends BaseView {
         super.render();
         this.#addSubscribes();
 
-        // todo
-        // @ts-ignore
         Actions.whatRender(super.name);
     }
 }

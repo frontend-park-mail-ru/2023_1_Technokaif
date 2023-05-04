@@ -13,19 +13,12 @@ import { Tape } from '../Tape/tape';
  */
 export class FavoriteAlbums extends BaseComponent {
     /**
-     * Parent where to render
-     */
-    // @ts-ignore
-    #parent : Element;
-
-    /**
      * Create Favorite Album page. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place page
      * @param {string} componentName
      */
     constructor(parent, componentName) {
         super(parent, { category: componentName }, templateHtml, componentName);
-        this.#parent = parent;
     }
 
     /**
@@ -53,7 +46,6 @@ export class FavoriteAlbums extends BaseComponent {
                 this.renderTape(artists);
             },
             EventTypes.GOT_FAVORITE_ALBUMS,
-            // @ts-ignore
             this.name,
         );
     }

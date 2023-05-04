@@ -57,11 +57,8 @@ export class RegisterComponent extends BaseComponent {
                 console.warn('Error at login after register. Can\'t find email or password field');
                 return;
             }
-            // todo Remove later
-            // @ts-ignore
+
             ApiActions.login(
-                // todo Remove later
-                // @ts-ignore
                 (email as HTMLInputElement).value,
                 (password as HTMLInputElement).value,
             );
@@ -206,8 +203,6 @@ export class RegisterComponent extends BaseComponent {
     /** Add reactions to user actions */
     #addEventListeners() {
         const reactionOnInputElement = (nameOfReaction, element) => {
-            // todo Remove later
-            // @ts-ignore
             Actions.validationField(nameOfReaction, (element as HTMLInputElement).value);
         };
 
@@ -218,9 +213,11 @@ export class RegisterComponent extends BaseComponent {
                 return;
             }
             reactionOnInputElement(NAME_OF_VALIDATION.password, password);
-            // todo Remove later
-            // @ts-ignore
-            Actions.validatePasswordAndConf(nameOfReaction, (password as HTMLInputElement).value, (element as HTMLInputElement).value);
+            Actions.validatePasswordAndConf(
+                nameOfReaction,
+                (password as HTMLInputElement).value,
+                (element as HTMLInputElement).value,
+            );
         };
 
         this.#addEventOnField(
@@ -309,8 +306,6 @@ export class RegisterComponent extends BaseComponent {
                 if (password && confPassword) {
                     const passwordVal = (password as HTMLInputElement).value;
                     const confPasswordVal = (confPassword as HTMLInputElement).value;
-                    // todo Remove later
-                    // @ts-ignore
                     Actions.validateAll(
                         nameOfReaction,
                         {
@@ -326,11 +321,7 @@ export class RegisterComponent extends BaseComponent {
             'header',
             'title',
             METHOD.BUTTON,
-            // todo Remove later
-            // @ts-ignore
             (nameOfReaction, element) => {
-                // todo Remove later
-                // @ts-ignore
                 Router.go('/');
             },
         );
@@ -339,11 +330,7 @@ export class RegisterComponent extends BaseComponent {
             'bottomButton',
             'bottom__button',
             METHOD.BUTTON,
-            // todo Remove later
-            // @ts-ignore
             (nameOfReaction, element) => {
-                // todo Remove later
-                // @ts-ignore
                 Router.go('/login');
             },
         );
@@ -362,31 +349,23 @@ export class RegisterComponent extends BaseComponent {
                 this.dispatchErrors(name, status);
             },
             EventTypes.VALIDATION_RESPONSE,
-            // todo Remove later
-            // @ts-ignore
             nameOfComponent,
         );
         UserInfoStore.subscribe(
 
             (status) => { this.sendAllData(status); },
             EventTypes.SEND_DATA,
-            // todo Remove later
-            // @ts-ignore
             nameOfComponent,
         );
         API.subscribe(
             (message) => {
                 if (message === RESPONSES.OK) {
-                    // todo Remove later
-                    // @ts-ignore
                     Router.go('/');
                 } else {
                     console.error('failed after login with succeeded reg data');
                 }
             },
             EventTypes.LOGIN_STATUS,
-            // todo Remove later
-            // @ts-ignore
             nameOfComponent,
         );
         API.subscribe(
@@ -394,8 +373,6 @@ export class RegisterComponent extends BaseComponent {
                 this.#loginAfterSuccessRegistration(message);
             },
             EventTypes.REGISTER_STATUS,
-            // todo Remove later
-            // @ts-ignore
             nameOfComponent,
         );
     }
@@ -421,8 +398,6 @@ export class RegisterComponent extends BaseComponent {
                 return;
             }
 
-            // todo Remove later
-            // @ts-ignore
             ApiActions.register({
                 username: state.username,
                 email: state.email,

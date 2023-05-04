@@ -38,7 +38,6 @@ export class Input extends BaseComponent {
      * input.addReaction(event, action)
      */
     addReaction(event, action) {
-        // @ts-ignore
         const input = document.querySelector(`.js__${this.#config.nameOfField}`);
         if (!input) {
             console.error('Input error. Can\'t find input:', this.#config.nameOfField);

@@ -80,14 +80,11 @@ export abstract class BaseView {
      */
     #preRender() {
         const isNeed = ComponentsStore.prePageNeed(this.#viewName);
-        // @ts-ignore
         if (isNeed) {
             if (document.querySelector(`${componentsJSNames.MAIN}`) === null) {
                 prePageRender();
             }
-        }
-        // @ts-ignore
-        if (!isNeed) {
+        } else {
             const bodyElement = document.querySelector('factbody');
             const root = document.querySelector('#root');
             if (!root || !bodyElement) {

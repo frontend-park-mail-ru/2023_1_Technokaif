@@ -169,7 +169,6 @@ export class Tape extends BaseComponent {
     /** Subscribe to stores */
     #subscribe() {
         SongStore.subscribe(
-            // @ts-ignore
             (state) => {
                 const covers = document.querySelectorAll(`.component__${this.#name}`);
                 if (!covers) {
@@ -231,7 +230,6 @@ export class Tape extends BaseComponent {
                     }
                     const button = (covers[key] as HTMLElement).querySelector('.buttonComponent');
                     if (button) {
-                        // @ts-ignore
                         const idOnElement = (covers[key] as HTMLElement).dataset.id;
                         if (!idOnElement) {
                             console.warn('Id doesn\'t exist');

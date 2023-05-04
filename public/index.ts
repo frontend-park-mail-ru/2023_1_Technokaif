@@ -365,7 +365,6 @@ function renderMainPage() {
         localStorage.setItem('isAuth', `${value}`);
     });
 
-    // @ts-ignore
     Router.registerPermission(checkAuth, getPermittedByAuthUser, popAuthUser);
     Router.registerPermission(() => !checkAuth(), getPermittedByUnAuthUser, popNoAuthUser);
 

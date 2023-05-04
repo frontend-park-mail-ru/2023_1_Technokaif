@@ -6,14 +6,13 @@ import { BaseComponent } from '../../BaseComponent';
 import { EventTypes } from '../../../utils/config/EventTypes';
 import ContentStore from '../../../stores/ContentStore';
 import Actions from '../../../actions/Actions';
-// todo dont forget about it on playlist
 import {
     setupLineList,
 } from '../../../utils/setup/libraryTracksSetup';
 import SongStore from '../../../stores/SongStore';
 import { imgPath } from '../../../utils/config/pathConfig';
 import ApiActions from '../../../actions/ApiActions';
-import { playlistTypes, setupPlaylistLineList } from '../../../utils/setup/playlistSetup';
+import { setupPlaylistLineList } from '../../../utils/setup/playlistSetup';
 
 /**
  * Create Artist content
@@ -23,12 +22,6 @@ export abstract class Playlist extends BaseComponent {
     #isAlbumLoaded;
 
     /**
-     * Parent where to render
-     */
-    // @ts-ignore
-    #parent : Element;
-
-    /**
      * Config to use in handlebars setup of track lines
      */
     #lineConfigs : Array<object>;
@@ -36,8 +29,7 @@ export abstract class Playlist extends BaseComponent {
     /**
      * Config to use in handlebars setup of track lines
      */
-    // @ts-ignore
-    private isPlaylist: boolean;
+    private isPlaylist;
 
     /** Field to collect all callbacks after render */
     // eslint-disable-next-line @typescript-eslint/ban-types
@@ -67,11 +59,10 @@ export abstract class Playlist extends BaseComponent {
      */
     protected constructor(parent, componentName, config) {
         super(parent, config, templateHtml, componentName);
-        this.#parent = parent;
         this.#lineConfigs = [];
         this.activatedButton = false;
         this.#isAlbumLoaded = false;
-        this.type = null;
+        this.type = '';
         this.callbacksOnRender = [];
     }
 
@@ -175,7 +166,7 @@ export abstract class Playlist extends BaseComponent {
 
                 switch (instance) {
                 case 'tracks':
-                    this.isPlaylist = this.type !== null;
+                    this.isPlaylist = this.type !== '';
                     if (this.isPlaylist) {
                         this.#lineConfigs.push(setupPlaylistLineList(tracks));
                     } else {

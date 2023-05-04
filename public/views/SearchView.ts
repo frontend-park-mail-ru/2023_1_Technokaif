@@ -38,7 +38,6 @@ class SearchView extends BaseView {
             case componentsNames.SEARCH_LINE:
             case componentsNames.SEARCH_CONTENT:
                 component.render(parent);
-                // @ts-ignore
                 Actions.addElementOnPage(componentName);
                 break;
             default:
@@ -53,8 +52,6 @@ class SearchView extends BaseView {
         super.render();
         this.#addSubscribes();
 
-        // todo
-        // @ts-ignore
         Actions.whatRender(super.name);
     }
 }
