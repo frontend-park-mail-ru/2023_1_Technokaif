@@ -16,6 +16,7 @@ import { routingUrl } from '../../../utils/config/routingUrls';
 import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
 import { DIRECTIONS_DROPDOWN, DropDown } from '../../smallComponents/dropDown/dropDown';
 import { dropDownTrackSetup } from '../../../utils/setup/playlistSetup';
+import { METHOD } from '../../../utils/config/config';
 
 /**
  * Tape for elements
@@ -68,6 +69,23 @@ export class LineList extends BaseComponent {
         unsubscribeFromAllStoresOnComponent(componentsNames.ARTIST_LINE_LIST);
         unsubscribeFromAllStoresOnComponent(componentsNames.PLAYLIST_LINE_LIST);
         unsubscribeFromAllStoresOnComponent(componentsNames.TRACK_LIBRARY_LINE_LIST);
+    }
+
+    /** Unsubscribe dropdwon from window on input in search */
+    private unsubscribeFromWindow(element:DropDown) {
+        const search = document.querySelector('.js__search');
+        if (!search || !(search instanceof HTMLInputElement)) {
+            console.warn('Error wasn\'t find');
+        } else {
+            const funcOnSearch = () => {
+                if (search.value === '') {
+                    return;
+                }
+                search.removeEventListener(METHOD.CHANGE_FIELD_IMMEDIATELY, funcOnSearch);
+                element.unRender();
+            };
+            search.addEventListener(METHOD.CHANGE_FIELD_IMMEDIATELY, funcOnSearch);
+        }
     }
 
     /**
@@ -132,6 +150,7 @@ export class LineList extends BaseComponent {
         dropDown.menu.style.height = 'fit-content';
         dropDown.menu.style.color = 'white';
         dropDown.menu.classList.add('track-line__another');
+        this.unsubscribeFromWindow(dropDown);
 
         const bt1 = document.createElement('div');
         const textAdd = document.createElement('p');
@@ -143,6 +162,7 @@ export class LineList extends BaseComponent {
         );
         this.playlistsDropDowns.push(addDropDown);
         addDropDown.render();
+        this.unsubscribeFromWindow(addDropDown);
 
         dropDown.addOptionsElement(bt1);
         addDropDown.title.style.zIndex = '9999';
@@ -158,7 +178,10 @@ export class LineList extends BaseComponent {
             const bt3 = document.createElement('div');
             bt3.textContent = 'Remove';
             dropDown.addOptionsElement(bt3, 'click', () => {
-                ApiActions.removeTrackFromPlaylist(ContentStore.state[pageNames.PLAYLIST].id, trackId);
+                ApiActions.removeTrackFromPlaylist(
+                    ContentStore.state[pageNames.PLAYLIST].id,
+                    trackId,
+                );
             });
         }
 
