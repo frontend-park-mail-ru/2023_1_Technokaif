@@ -19,7 +19,7 @@
 }
 
 .navbar__link {
-    font-size: 2.5vh;
+    font-size: @font-sidebar;
     color: @shadow-color;
 }
 
@@ -32,15 +32,9 @@
     text-align: center;
 }
 
-.navbar__profile, .navbar__premium, .navbar__logout {
-    font-size: 1vh;
-    color: @opposed-main-color;
-}
-
 .navbar__link:hover, .navbar__button:hover {
     cursor: pointer;
-    animation-duration: 0.7s;
-    animation: transform;
+    color: @main-color
 }
 
 .navbar__login {
@@ -98,35 +92,6 @@ main {
     margin-bottom: 12.5vh;
     width: 100%;
     height: 87.5vh;
-}
-
-
-.navbar-dropDown {
-    border: none;
-    box-shadow: 0 0 1.2vw rgba(@main-color, 0.2);
-    background-color: transparent;
-    display: flex;
-    flex-direction: column;
-    margin-right: 1vw;
-    border-radius: @big-radius;
-}
-
-.navbar-dropDown__name {
-
-}
-
-.navbar-dropDown__title {
-    display: flex;
-    border-radius: @big-radius;
-    flex-direction: column;
-}
-
-.navbar-dropDown__options {
-    background-color: @opposed-main-color;
-    box-shadow: 0 2vh 3vh 0.01vh rgba(242, 242, 242, 0.1);
-    border-radius: min(5vh, 5vw);
-
-    padding: min(2vh, 2vw);
 }
 
 .navbar__profile__item, .navbar__logout__item {

@@ -183,17 +183,15 @@ class Navbar {
         );
         this.#dropDown.render();
 
-        const bt1 = document.createElement('button');
+        const bt1 = document.createElement('a');
         bt1.textContent = 'Profile';
         bt1.setAttribute('data-section', 'profile');
-        bt1.classList.add('navbar__profile');
-        bt1.classList.add('navbar__button');
+        bt1.classList.add('dropdown-element');
 
-        const bt2 = document.createElement('button');
+        const bt2 = document.createElement('a');
         bt2.textContent = 'Logout';
         bt2.setAttribute('data-section', 'logout');
-        bt2.classList.add('navbar__logout');
-        bt2.classList.add('navbar__button');
+        bt2.classList.add('dropdown-element');
 
         this.#dropDown.addOptionsElement(bt1);
         this.#dropDown.addOptionsElement(bt2);

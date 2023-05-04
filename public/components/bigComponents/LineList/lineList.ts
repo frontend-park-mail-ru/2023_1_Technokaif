@@ -122,7 +122,7 @@ export class LineList extends BaseComponent {
         const dropDown = new DropDown(
             line,
             dropDownTrackSetup(`${index}_sub`),
-            DIRECTIONS_DROPDOWN.DOWN,
+            DIRECTIONS_DROPDOWN.LEFT,
         );
         this.dropDowns.push(dropDown);
         dropDown.render();
