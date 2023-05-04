@@ -12,8 +12,8 @@ export const navbarAvatarSetup:AvatarSetup = {
 };
 
 export const dropDownAvatarSetup:DropDownSetup = {
-    mainDropDownDiv: 'navbar-dropDown',
+    mainDropDownDiv: 'dropDown',
     dropdownName: 'navbar-dropDown__name',
-    dropdownTitleDiv: 'navbar-dropDown__title',
-    dropdownOptionsDiv: 'navbar-dropDown__options',
+    dropdownTitleDiv: 'dropDown__title',
+    dropdownOptionsDiv: 'dropDown__options',
 };

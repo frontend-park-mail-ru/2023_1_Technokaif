@@ -211,7 +211,6 @@ export class LineList extends BaseComponent {
             const anothers = document.querySelectorAll(`.${this._config.anotherClass}`);
 
             lines.forEach((line, index) => {
-                console.log('Index', index);
                 this.#renderDropDownForOneLine(line, index, anothers[index]);
             });
             this.isRendered = true;
@@ -219,11 +218,6 @@ export class LineList extends BaseComponent {
 
         const lines = document.querySelectorAll(`.${this._config.lineDiv}`);
         const anothers = document.querySelectorAll(`.${this._config.anotherClass}`);
-
-        // lines.forEach((line, index) => {
-        //     console.log('Index', index);
-        //     this.#renderDropDownForOneLine(line, index, anothers[index]);
-        // });
 
         // todo dont touch
         this.parent.addEventListener('click', (event) => {

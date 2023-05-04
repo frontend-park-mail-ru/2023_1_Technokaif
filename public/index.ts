@@ -1,4 +1,5 @@
 import './static/css/style.less';
+import './static/css/reset.less';
 import Router from './router/Router';
 import FeedView from './views/FeedView';
 import ComponentsStore from './stores/ComponentsStore';

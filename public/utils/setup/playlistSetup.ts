@@ -1,6 +1,6 @@
 import { componentsNames } from '../config/componentsNames';
 import { imgPath } from '../config/pathConfig';
-import { AlbumApi, ContentArtist } from './artistSetup';
+import { AlbumApi } from './artistSetup';
 import { DropDownSetup } from '../../components/smallComponents/dropDown/dropDown';
 
 export interface User {
@@ -232,22 +232,9 @@ export function setupModalWindow(playlist: Playlist) {
  */
 export function dropDownTrackSetup(id: string):DropDownSetup {
     return {
-        mainDropDownDiv: 'track-dropDown',
+        mainDropDownDiv: 'dropDown',
         dropdownName: `track${id}-dropDown__name`,
-        dropdownTitleDiv: 'track-dropDown__title',
-        dropdownOptionsDiv: 'track-dropDown__options',
-    };
-}
-
-/**
- * Setup of track playlist dropdown
- * @param id
- */
-export function dropDownPlaylistsSetup(id: number):DropDownSetup {
-    return {
-        mainDropDownDiv: 'playlists-dropDown',
-        dropdownName: `track${id}-dropDown__name`,
-        dropdownTitleDiv: 'playlists-dropDown__title',
-        dropdownOptionsDiv: 'playlists-dropDown__options',
+        dropdownTitleDiv: 'dropDown__title',
+        dropdownOptionsDiv: 'dropDown__options',
     };
 }
