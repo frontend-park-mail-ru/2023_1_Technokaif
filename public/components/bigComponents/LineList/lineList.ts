@@ -39,6 +39,9 @@ export class LineList extends BaseComponent {
      */
     private playlistsDropDowns;
 
+    /** if was rendered */
+    private isRendered;
+
     /**
      * Create LineList component. Empty innerHtml before placement
      * @param {Element} parent -- where to place Track
@@ -52,6 +55,7 @@ export class LineList extends BaseComponent {
         this.dropDowns = [];
         this.playlistsDropDowns = [];
         this.playlists = [];
+        this.isRendered = false;
         this.unsubscribeLines();
         ApiActions.userPlaylists(+localStorage.getItem('userId'));
     }
@@ -177,6 +181,7 @@ export class LineList extends BaseComponent {
      */
     #addListeners() {
         ContentStore.subscribe((instance) => {
+            if (this.isRendered) return;
             // eslint-disable-next-line max-len
             this.playlists = ContentStore.state[pageNames.LIBRARY_PLAYLISTS][instance];
             const lines = document.querySelectorAll(`.${this._config.lineDiv}`);
@@ -186,6 +191,7 @@ export class LineList extends BaseComponent {
                 console.log('Index', index);
                 this.#renderDropDownForOneLine(line, index, anothers[index]);
             });
+            this.isRendered = true;
         }, EventTypes.GOT_USER_PLAYLISTS, this.name);
 
         const lines = document.querySelectorAll(`.${this._config.lineDiv}`);

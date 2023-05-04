@@ -153,6 +153,10 @@ export class DropDown extends BaseComponent {
                 return;
             }
 
+            if (!this.menu) {
+                window.removeEventListener(METHOD.BUTTON, allWindowReactionOnClick);
+            }
+
             const isDropDownTitle = e.target.closest(`.js__${this.configDropDown.dropdownName}-title`);
             if (!isDropDownTitle && e.target.closest(`.js__dropdown-${this.configDropDown.dropdownName}`) != null) return;
 
