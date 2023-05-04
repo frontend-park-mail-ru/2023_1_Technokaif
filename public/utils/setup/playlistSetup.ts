@@ -1,6 +1,6 @@
 import { componentsNames } from '../config/componentsNames';
 import { imgPath } from '../config/pathConfig';
-import { AlbumApi, ContentArtist } from './artistSetup';
+import { AlbumApi } from './artistSetup';
 import { DropDownSetup } from '../../components/smallComponents/dropDown/dropDown';
 
 export interface User {
