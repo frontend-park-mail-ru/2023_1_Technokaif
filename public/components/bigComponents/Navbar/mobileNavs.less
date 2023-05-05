@@ -1,0 +1,133 @@
+@import '../../../static/css/constants.less';
+
+
+.header__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+
+  @media (min-width: @desktop) {
+    gap: 150px;
+  }
+}
+
+.burger-logo {
+  @media (min-width: @desktop) {
+    display: none;
+  }
+}
+
+.header__name-org {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-logo {
+  width: fit-content;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
+}
+
+//выплывающее меню
+
+.burgerSidebar.open {
+  width: 100%;
+}
+
+.burgerSidebar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 250px;
+  width: 0;
+  position: fixed;
+  z-index: 106;
+  top: 0;
+  right: 0;
+  overflow-x: hidden;
+  transition: 0.5s;
+  gap: 30px;
+
+  @media (min-width: @desktop) {
+    display: none;
+  }
+}
+
+.burgerSidebar a {
+  @include text-detailed;
+  padding: 20px 0 0 0;
+  text-decoration: none;
+  font-size: 25px;
+  color: @main-color;
+  display: block;
+  transition: 0.8s;
+
+  @media (min-width: @desktop) {
+    padding: 0;
+  }
+}
+
+.burgerSidebar a:hover {
+  color: #f1f1f1;
+}
+
+.burgerSidebar .closebtn {
+  position: absolute;
+  top: 23px;
+  right: 26px;
+  font-size: 36px;
+
+  @media (min-width: @tablet) {
+    right: 46px;
+  }
+
+  @media (min-width: @desktop) {
+    display: none;
+  }
+}
+
+// бургерное меню
+.menu-burger {
+  height: 16px;
+  width: 37px;
+  position: relative;
+
+  @media (min-width: @desktop) {
+    display: none;
+  }
+}
+
+.menu-burger__header {
+  width: 37px;
+  height: 3px;
+  background: @main-color;
+  top: 21px;
+  border: 0;
+}
+
+.menu-burger__header::after,
+.menu-burger__header::before {
+  content: "";
+  display: block;
+  width: 37px;
+  height: 3px;
+  background: @main-color;
+  position: absolute;
+}
+
+.menu-burger__header::after {
+  top: 0;
+  left: 0;
+  bottom: -22px;
+}
+
+.menu-burger__header::before {
+  top: 10px;
+  left: 0;
+}

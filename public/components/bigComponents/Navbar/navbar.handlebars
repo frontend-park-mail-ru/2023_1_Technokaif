@@ -1,8 +1,25 @@
 <div class="navbar js__navbar">
     <div class="navbar_library_desktop">
     </div>
-    <div class="navbar_library_mobile">
+
+    <div class="sidebar__logo burger-logo">
+        <a><img class="header__img" src="/static/svg/fluire-logo.svg" alt="Logo"></a>
     </div>
+
+    <div class="menu-burger">
+        <button class="menu-burger__header openbtn" onclick="openNav()">
+            <span class="visually-hidden">Button</span>
+        </button>
+    </div>
+
+    <div id="sidebar" class="burgerSidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">
+            <img src="/static/svg/closeMenu.svg">
+        </a>
+        <a href="/profile" data-section="profile" class="navbar__link">Profile</a>
+        <a href="/logout" data-section="logout" class="navbar__link">Logout</a>
+    </div>
+
     {{#each items}}
         <div class="navbar__{{this.key}}__item">
             {{#ifEquals this.key 'registration'}}
@@ -26,4 +43,7 @@
         </div>
     {{/each}}
     <div class="js__avatar-placement"> </div>
+</div>
+
+<div class="navbar_library_mobile">
 </div>

@@ -8,13 +8,20 @@
     flex-wrap: nowrap;
     align-items: center;
     position: fixed;
-    height: 12.5vh;
     width: 100%;
-    max-height: 74px;
+    height: 74px;
     z-index: 999;
 
     @media(min-width: @desktop) {
         width: calc(100% - 288px);
+    }
+}
+
+.js__avatar-placement {
+    display: none;
+
+    @media (min-width: @desktop) {
+        display: block;
     }
 }
 

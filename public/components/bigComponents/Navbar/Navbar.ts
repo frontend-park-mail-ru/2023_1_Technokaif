@@ -15,6 +15,7 @@ import UserInfoStore from '../../../stores/UserInfoStore';
 import { DIRECTIONS_DROPDOWN, DropDown } from '../../smallComponents/dropDown/dropDown';
 import { dropDownAvatarSetup, navbarAvatarSetup } from '../../../utils/setup/avatarInNavbar';
 import { AvatarNavbar } from '../../smallComponents/navbarAvatar/avatarNavbar';
+import './mobileNavs.less';
 
 /**
  * Class for Navbar element: Login, Registration, Logout and user info.

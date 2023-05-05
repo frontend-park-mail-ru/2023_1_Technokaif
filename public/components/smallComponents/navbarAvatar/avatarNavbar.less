@@ -1,14 +1,20 @@
 @import '../../../static/css/constants.less';
 .navbar-avatar {
+  display: none;
   cursor: pointer;
-  display: flex;
   flex-direction: row;
-  width: 10vw;
+  align-self: end;
+  gap: 20px;
+  padding: 5px 30px;
+
+  @media (min-width: @desktop) {
+    display: flex;
+  }
 }
 
 .navbar-avatar__img-container {
-  width: min(5vh, 5vw);
-  height: min(5vh, 5vw);
+  width: 24px;
+  height: auto;
 }
 
 .navbar-avatar__img {
