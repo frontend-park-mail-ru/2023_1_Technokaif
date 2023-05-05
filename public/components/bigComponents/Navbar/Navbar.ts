@@ -91,6 +91,9 @@ class Navbar {
             () => {
                 if (checkAuth()) {
                     // const div = document.createElement('div');
+                    if (this.#dropDown) {
+                        document.querySelector('.js__avatar-placement').innerHTML = '';
+                    }
                     const configForAvatar = navbarAvatarSetup;
 
                     const values = UserInfoStore.state;
