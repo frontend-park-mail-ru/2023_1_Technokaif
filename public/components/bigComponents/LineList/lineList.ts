@@ -209,6 +209,9 @@ export class LineList extends BaseComponent {
                 this.#renderDropDownForOneLine(line, index, div);
                 // @ts-ignore
                 div.appendChild(anothers[index]);
+                // @ts-ignore
+                anothers[index].classList.add('dropdown-sub-title');
+                // @ts-ignore
                 anothers[index].style.zIndex = '1';
             });
             this.isRendered = true;

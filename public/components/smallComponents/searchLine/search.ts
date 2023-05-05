@@ -42,7 +42,7 @@ export class SearchLine extends BaseComponent {
             if (value === '') {
                 return;
             }
-            // todo Create action for search
+
             ApiActions.search(value);
         };
         input.addReaction(METHOD.CHANGE_FIELD_IMMEDIATELY, func);

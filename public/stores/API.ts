@@ -578,6 +578,7 @@ class API extends IStore {
     private searchForPlaylistWithName(value) {
         search(apiUrl.PLAYLIST_SEARCH_API, value).then((playlists) => {
             ActionsSearch.gotPlaylists(playlists);
+            console.log('Playlists', playlists);
         }).catch(() => {});
     }
 

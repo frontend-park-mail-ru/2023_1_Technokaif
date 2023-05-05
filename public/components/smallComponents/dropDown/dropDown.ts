@@ -3,6 +3,8 @@ import { BaseComponent } from '../../BaseComponent';
 import { METHOD } from '../../../utils/config/config';
 import './dropDown.less';
 
+import { mainTrigger } from './triggerMain';
+
 export interface DropDownSetup {
     mainDropDownDiv:string,
     dropdownName: string,
@@ -34,7 +36,7 @@ export class DropDown extends BaseComponent {
     private readonly whereMustGo;
 
     /** Parent where render */
-    private parent;
+    private readonly parent;
 
     /** Parent for render and config for base setup. Set whereToGo to render in this direction */
     constructor(parent, config, whereToGo = '') {
@@ -81,7 +83,6 @@ export class DropDown extends BaseComponent {
 
     /** Get title element of dropDown */
     get title() {
-        // return document.querySelector(`.js__${this.configDropDown.dropdownName}-title`);
         return this.parent;
     }
 
@@ -145,70 +146,8 @@ export class DropDown extends BaseComponent {
         title.addEventListener(METHOD.SHOW, () => this.showOptions());
         title.addEventListener(METHOD.TOGGLE, () => this.toggleOptions());
 
-        const allWindowReactionOnClick = (e:Event) => {
-            if (!e.target || !(e.target instanceof Element)) {
-                return;
-            }
-            if (!this.title) {
-                window.removeEventListener(METHOD.BUTTON, allWindowReactionOnClick);
-            }
-
-            let element = e.target;
-            // if ((e?.currentTarget as HTMLElement).classList?.contains(`${this.nameClass}`)) {
-            //     element = e.currentTarget;
-            //     console.log('CurrentTarget', element);
-            // }
-            if (element.tagName === 'IMG') {
-                element = e.target.parentElement;
-            }
-            // console.log('Element', element);
-
-            let isDropDownTitle = false;
-            if (element === this.title) {
-                isDropDownTitle = true;
-            }
-
-            if (!isDropDownTitle && element.closest(`.js__${this.configDropDown.dropdownName}-title`) !== null) {
-                return;
-            }
-
-            const parentDropDowns: Element[] = [];
-            let tmpElement = element.closest('.dropdown-title');
-            while (tmpElement) {
-                parentDropDowns.push(tmpElement);
-                const parent = tmpElement.parentNode;
-                if (!parent || !(parent instanceof Element)) {
-                    tmpElement = null;
-                } else {
-                    tmpElement = parent.closest('.dropdown-title');
-                }
-            }
-            let currentDropDown;
-            if (isDropDownTitle) {
-                currentDropDown = element.closest(`.js__${this.configDropDown.dropdownName}-title`);
-                const list = currentDropDown.classList;
-                if (list.contains('dropdown-active')) {
-                    list.remove('dropdown-active');
-                } else {
-                    list.add('dropdown-active');
-                }
-                parentDropDowns.push(currentDropDown);
-            }
-
-            document.querySelectorAll('.dropdown-active').forEach((dropDown) => {
-                if (dropDown === currentDropDown || parentDropDowns.includes(dropDown)) return;
-                dropDown.classList.remove('dropdown-active');
-            });
-
-            if (!parentDropDowns.find((dropDown) => dropDown === currentDropDown)) {
-                this.hideOptions();
-            }
-            console.groupEnd();
-        };
-
-        window.addEventListener(METHOD.BUTTON, allWindowReactionOnClick);
-        this.title.addEventListener(METHOD.BUTTON, allWindowReactionOnClick);
-        this.listeners.push({ event: METHOD.BUTTON, reaction: allWindowReactionOnClick });
+        window.removeEventListener(METHOD.BUTTON, mainTrigger);
+        window.addEventListener(METHOD.BUTTON, mainTrigger);
     }
 
     /** Search for free space around and render there */
@@ -265,7 +204,6 @@ export class DropDown extends BaseComponent {
         if (element.offsetWidth > this.maxWidth) {
             this.maxWidth = element.offsetWidth;
         }
-        console.log('SizeOfElement', element.offsetWidth - 1 + 1, this.maxWidth - 1 + 1);
 
         const padding = 5;
         switch (whereRender) {
@@ -288,11 +226,6 @@ export class DropDown extends BaseComponent {
         default:
             console.warn('Error at dropDown whereToRender', whereRender);
         }
-        // @ts-ignore
-        console.log('Before', this.options.style.width);
-        // this.options.style.width = `${this.maxWidth + padding * 2}`;
-        console.log('Wid', this.maxWidth, this.options);
-        console.log('After', this.options.style.width);
     }
 
     /** Render base structure */
@@ -320,7 +253,6 @@ export class DropDown extends BaseComponent {
             return;
         }
 
-        this.parent.removeChild(title);
         super.unRender();
     }
 }
