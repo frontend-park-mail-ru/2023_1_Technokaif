@@ -226,6 +226,7 @@ export class DropDown extends BaseComponent {
         default:
             console.warn('Error at dropDown whereToRender', whereRender);
         }
+        setTimeout(this.whereToRender, 100);
     }
 
     /** Render base structure */

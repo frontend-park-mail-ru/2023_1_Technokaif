@@ -154,6 +154,8 @@ export class LineList extends BaseComponent {
         const textAdd = document.createElement('p');
         textAdd.textContent = 'Add';
         dropDown.addOptionsElement(textAdd);
+        dropDown.options.style.padding = '5px';
+        dropDown.options.style.gap = '5px';
         const addDropDown = new DropDown(
             textAdd,
             dropDownTrackSetup(`${index}__subDropAdd`),
@@ -179,12 +181,21 @@ export class LineList extends BaseComponent {
     }
 
     #addSubDropDown(where, index) {
+        const div = document.createElement('div');
+        div.classList.add('list-container');
+        const ul = document.createElement('ul');
+        div.appendChild(ul);
+        where.addOptionsElement(div);
+        ul.classList.add('item-list');
+
         this.playlists.forEach((playlist) => {
-            const div = document.createElement('p');
-            div.textContent = playlist.name;
-            where.addOptionsElement(div, 'click', () => {
+            const li = document.createElement('li');
+            li.classList.add('li-element');
+            li.textContent = playlist.name;
+            where.addOptionsElement(li, 'click', () => {
                 ApiActions.addTrackInPlaylist(playlist.id, index);
             });
+            ul.appendChild(li);
         });
     }
 
