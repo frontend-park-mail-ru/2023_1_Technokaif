@@ -15,6 +15,7 @@ import UserInfoStore from '../../../stores/UserInfoStore';
 import { DIRECTIONS_DROPDOWN, DropDown } from '../../smallComponents/dropDown/dropDown';
 import { dropDownAvatarSetup, navbarAvatarSetup } from '../../../utils/setup/avatarInNavbar';
 import { AvatarNavbar } from '../../smallComponents/navbarAvatar/avatarNavbar';
+import './mobileNavs.less';
 
 /**
  * Class for Navbar element: Login, Registration, Logout and user info.
@@ -141,6 +142,31 @@ class Navbar {
                     Router.go(this.#config[section].href);
                 }
             }
+        });
+
+        const closebtn: HTMLDivElement = document.querySelector('.closebtn');
+        closebtn.addEventListener('click', () => {
+            const menu: HTMLDivElement = document.getElementById('sidebar');
+            const menuElement: HTMLDivElement = document.querySelector('.menu-burger');
+            const closeElement: HTMLDivElement = document.querySelector('.closebtn');
+            menuElement.hidden = false;
+            closeElement.hidden = true;
+            menu.classList.remove('open');
+        });
+
+        const openbtn: HTMLDivElement = document.querySelector('.openbtn');
+        openbtn.addEventListener('click', () => {
+            const menu: HTMLDivElement = document.getElementById('sidebar');
+            const menuElement: HTMLDivElement = document.querySelector('.menu-burger');
+            const closeElement: HTMLDivElement = document.querySelector('.closebtn');
+            menuElement.hidden = true;
+            closeElement.hidden = false;
+            menu.classList.add('open');
+        });
+
+        const logo: HTMLDivElement = document.querySelector('.burger-logo');
+        logo.addEventListener('click', () => {
+            Router.go('/');
         });
     }
 

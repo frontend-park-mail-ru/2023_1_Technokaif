@@ -45,3 +45,19 @@
 @tablet: 768px;
 @desktop: 1220px;
 @mobile-only: 767px;
+
+@wrapper-desktop: 1440px;
+
+@mixin wrapper-desktop {
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+@mixin wrapper-mobile {
+  padding: 0 18px;
+}
+
+@mixin wrapper-tablet {
+  padding: 0 38px;
+}

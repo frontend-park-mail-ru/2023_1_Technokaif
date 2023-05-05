@@ -1,0 +1,6 @@
+function openNav() {
+
+}
+
+function closeNav() {
+}
