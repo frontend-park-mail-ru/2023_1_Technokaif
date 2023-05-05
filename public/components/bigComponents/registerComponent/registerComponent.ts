@@ -321,6 +321,7 @@ export class RegisterComponent extends BaseComponent {
             'header',
             'title',
             METHOD.BUTTON,
+            // @ts-ignore
             (nameOfReaction, element) => {
                 Router.go('/');
             },
@@ -330,6 +331,7 @@ export class RegisterComponent extends BaseComponent {
             'bottomButton',
             'bottom__button',
             METHOD.BUTTON,
+            // @ts-ignore
             (nameOfReaction, element) => {
                 Router.go('/login');
             },

@@ -134,9 +134,7 @@ export class BaseComponent {
      */
     unRender() {
         const element = document.getElementsByClassName(`${this.name}`)[0];
-        if (!element) {
-            console.error('bad remove in', this.name);
-        } else {
+        if (element) {
             element.parentNode.removeChild(element);
         }
     }

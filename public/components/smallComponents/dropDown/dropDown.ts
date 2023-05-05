@@ -44,7 +44,9 @@ export class DropDown extends BaseComponent {
         this.listeners = [];
         this.whereMustGo = whereToGo;
         this.parent = parent;
+        this.parent.classList.add('dropdown-title');
         this.maxWidth = 0;
+        this.parent.classList.add(`js__${this.configDropDown.dropdownName}-title`);
     }
 
     /**
@@ -72,39 +74,20 @@ export class DropDown extends BaseComponent {
         }
     }
 
+    /** Get class name */
+    get nameClass() {
+        return `js__${this.configDropDown.dropdownName}-title`;
+    }
+
     /** Get title element of dropDown */
     get title() {
-        return document.querySelector(`.js__${this.configDropDown.dropdownName}-title`);
+        // return document.querySelector(`.js__${this.configDropDown.dropdownName}-title`);
+        return this.parent;
     }
 
     /** Get options element of dropDown */
     get options() {
         return document.querySelector(`.js__${this.configDropDown.dropdownName}-options`);
-    }
-
-    /** Get all component */
-    get menu() {
-        return document.querySelector(`.js__dropdown-${this.configDropDown.dropdownName}`);
-    }
-
-    /**
-     * Add element to Title of dropDown menu.
-     * If event and reactions presented then set reaction on this element.
-     * @param element
-     * @param event
-     * @param reaction
-     */
-    addTitleElement(element:HTMLElement, event?:string, reaction?: ()=> void) {
-        if (!this.isRendered) this.render();
-        const titlePlacement = this.title;
-        this.addElement(titlePlacement, element, event, reaction);
-        this.whereToRender();
-    }
-
-    /** Clear title element */
-    clearTitleElement() {
-        if (!this.title) return;
-        this.title.innerHTML = '';
     }
 
     /**
@@ -123,21 +106,31 @@ export class DropDown extends BaseComponent {
 
     /** Show options of dropdown. Set css class 'dropdown-active' */
     showOptions() {
-        const { menu } = this;
-        if (!menu) {
+        const { title } = this;
+        if (!title) {
             console.warn('DropDown doesn\'t exist');
             return;
         }
-        menu.classList.add('dropdown-active');
+        title.classList.add('dropdown-active');
     }
 
     /** Hide options of dropdown. Remove css class 'dropdown-active' */
     hideOptions() {
-        const { menu } = this;
-        if (!menu) {
+        const { title } = this;
+        if (!title) {
             return;
         }
-        menu.classList.remove('dropdown-active');
+        title.classList.remove('dropdown-active');
+    }
+
+    /** Toggle between show and hide */
+    toggleOptions() {
+        const list = this.title.classList;
+        if (list.contains('dropdown-active')) {
+            list.remove('dropdown-active');
+        } else {
+            list.add('dropdown-active');
+        }
     }
 
     /** Add basic reactions to dropDown structure. React on click elsewhere */
@@ -148,32 +141,51 @@ export class DropDown extends BaseComponent {
             console.warn('Title or options doesn\'t exist in page');
         }
 
+        title.addEventListener(METHOD.HIDE, () => this.hideOptions());
+        title.addEventListener(METHOD.SHOW, () => this.showOptions());
+        title.addEventListener(METHOD.TOGGLE, () => this.toggleOptions());
+
         const allWindowReactionOnClick = (e:Event) => {
             if (!e.target || !(e.target instanceof Element)) {
                 return;
             }
-
-            if (!this.menu) {
+            if (!this.title) {
                 window.removeEventListener(METHOD.BUTTON, allWindowReactionOnClick);
             }
 
-            const isDropDownTitle = e.target.closest(`.js__${this.configDropDown.dropdownName}-title`);
-            if (!isDropDownTitle && e.target.closest(`.js__dropdown-${this.configDropDown.dropdownName}`) != null) return;
+            let element = e.target;
+            // if ((e?.currentTarget as HTMLElement).classList?.contains(`${this.nameClass}`)) {
+            //     element = e.currentTarget;
+            //     console.log('CurrentTarget', element);
+            // }
+            if (element.tagName === 'IMG') {
+                element = e.target.parentElement;
+            }
+            // console.log('Element', element);
+
+            let isDropDownTitle = false;
+            if (element === this.title) {
+                isDropDownTitle = true;
+            }
+
+            if (!isDropDownTitle && element.closest(`.js__${this.configDropDown.dropdownName}-title`) !== null) {
+                return;
+            }
 
             const parentDropDowns: Element[] = [];
-            let tmpElement = e.target.closest('.dropdown-menu');
+            let tmpElement = element.closest('.dropdown-title');
             while (tmpElement) {
                 parentDropDowns.push(tmpElement);
                 const parent = tmpElement.parentNode;
                 if (!parent || !(parent instanceof Element)) {
                     tmpElement = null;
                 } else {
-                    tmpElement = parent.closest('.dropdown-menu');
+                    tmpElement = parent.closest('.dropdown-title');
                 }
             }
             let currentDropDown;
             if (isDropDownTitle) {
-                currentDropDown = e.target.closest(`.js__dropdown-${this.configDropDown.dropdownName}`);
+                currentDropDown = element.closest(`.js__${this.configDropDown.dropdownName}-title`);
                 const list = currentDropDown.classList;
                 if (list.contains('dropdown-active')) {
                     list.remove('dropdown-active');
@@ -191,9 +203,11 @@ export class DropDown extends BaseComponent {
             if (!parentDropDowns.find((dropDown) => dropDown === currentDropDown)) {
                 this.hideOptions();
             }
+            console.groupEnd();
         };
 
         window.addEventListener(METHOD.BUTTON, allWindowReactionOnClick);
+        this.title.addEventListener(METHOD.BUTTON, allWindowReactionOnClick);
         this.listeners.push({ event: METHOD.BUTTON, reaction: allWindowReactionOnClick });
     }
 
@@ -242,38 +256,43 @@ export class DropDown extends BaseComponent {
         if (!element || !(element instanceof HTMLElement)) {
             return;
         }
-
         const { title } = this;
         if (!title || !(title instanceof HTMLElement)) {
             return;
         }
+        // this.options.style.width = 'fit-content';
 
         if (element.offsetWidth > this.maxWidth) {
             this.maxWidth = element.offsetWidth;
         }
+        console.log('SizeOfElement', element.offsetWidth - 1 + 1, this.maxWidth - 1 + 1);
+
+        const padding = 5;
         switch (whereRender) {
         case DIRECTIONS_DROPDOWN.DOWN:
             element.style.top = `${title.offsetHeight * 1.3}`;
             element.style.left = '0';
             break;
         case DIRECTIONS_DROPDOWN.UP:
-            // todo Change on bottom
             element.style.bottom = `-${element.offsetHeight * 1.3}`;
             element.style.left = '0';
             break;
         case DIRECTIONS_DROPDOWN.LEFT:
-            // todo Change on right
-            element.style.top = '0';
-            element.style.left = `-${this.maxWidth}`;
+            element.style.top = `-${padding}`;
+            element.style.left = `-${this.maxWidth + padding * 2}`;
             break;
         case DIRECTIONS_DROPDOWN.RIGHT:
-            // todo Change on left
-            element.style.top = '0';
-            element.style.left = `${this.maxWidth}`;
+            element.style.top = `-${padding}`;
+            element.style.left = `${this.maxWidth + padding * 2}`;
             break;
         default:
             console.warn('Error at dropDown whereToRender', whereRender);
         }
+        // @ts-ignore
+        console.log('Before', this.options.style.width);
+        // this.options.style.width = `${this.maxWidth + padding * 2}`;
+        console.log('Wid', this.maxWidth, this.options);
+        console.log('After', this.options.style.width);
     }
 
     /** Render base structure */
@@ -281,6 +300,7 @@ export class DropDown extends BaseComponent {
         const pr = new Promise((resolve) => {
             super.appendElement();
             this.isRendered = true;
+            this.parent.classList.add(`js__${this.configDropDown.dropdownName}-title`);
             resolve('');
         });
 
@@ -292,15 +312,15 @@ export class DropDown extends BaseComponent {
 
     /** Delete children. Delete listeners of dropDown */
     public override unRender() {
-        const { menu } = this;
+        const { title } = this;
         this.listeners.forEach((action) => {
             window.removeEventListener(action.event, action.reaction);
         });
-        if (!menu || !this.parent || !(this.parent instanceof HTMLElement)) {
+        if (!title || !this.parent || !(this.parent instanceof HTMLElement)) {
             return;
         }
 
-        this.parent.removeChild(menu);
+        this.parent.removeChild(title);
         super.unRender();
     }
 }

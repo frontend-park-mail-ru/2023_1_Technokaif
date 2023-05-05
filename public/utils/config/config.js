@@ -81,6 +81,9 @@ export const METHOD = {
     ON_ELEMENT: 'mouseover',
     OUT_OF_ELEMENT: 'mouseout',
     KEY_PRESSED: 'keydown',
+    SHOW: 'show',
+    HIDE: 'hide',
+    TOGGLE: 'toggle',
 };
 
 export const ElementsClassForUser = {

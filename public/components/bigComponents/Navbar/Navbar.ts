@@ -4,7 +4,7 @@ import { componentsNames } from '../../../utils/config/componentsNames';
 import templateHtml from './navbar.handlebars';
 import { EventTypes } from '../../../utils/config/EventTypes';
 import API from '../../../stores/API';
-import { authNavConfig, unAuthNavConfig } from '../../../utils/config/config';
+import { authNavConfig, METHOD, unAuthNavConfig } from '../../../utils/config/config';
 import { componentsJSNames } from '../../../utils/config/componentsJSNames';
 import ComponentsStore from '../../../stores/ComponentsStore';
 import Actions from '../../../actions/Actions';
@@ -80,11 +80,6 @@ class Navbar {
                     this.#reRender();
                     const element: HTMLDivElement = document.querySelector(`.${componentsNames.PLAYER}`) as HTMLDivElement;
                     element.hidden = true;
-
-                    // todo remove to another config
-                    /*
-                    There we delete all info from stores when we logout
-                     */
                 }
             },
             EventTypes.LOGOUT_STATUS,
@@ -94,8 +89,7 @@ class Navbar {
         UserInfoStore.subscribe(
             () => {
                 if (checkAuth()) {
-                    this.#dropDown.clearTitleElement();
-                    const div = document.createElement('div');
+                    // const div = document.createElement('div');
                     const configForAvatar = navbarAvatarSetup;
 
                     const values = UserInfoStore.state;
@@ -106,10 +100,20 @@ class Navbar {
                     }
 
                     configForAvatar.text = values.username;
-                    const avatar = new AvatarNavbar(div, configForAvatar);
-
-                    avatar.render();
-                    this.#dropDown.addTitleElement(div);
+                    const pr = new Promise((resolve) => {
+                        const avatar = new AvatarNavbar(this.#dropDown.title, configForAvatar);
+                        avatar.appendElement();
+                        resolve('');
+                    });
+                    pr.then(() => {
+                        this.#dropDown.title.children[1].addEventListener(METHOD.BUTTON, (e) => {
+                            if (e?.target) {
+                                this.#dropDown.toggleOptions();
+                            } else {
+                                console.log('Not exist', e);
+                            }
+                        });
+                    });
                 }
             },
             EventTypes.USER_DATA_GOT_FOR_PAGE,

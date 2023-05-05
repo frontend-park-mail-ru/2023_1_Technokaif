@@ -58,7 +58,10 @@ export class LineList extends BaseComponent {
         this.playlists = [];
         this.isRendered = false;
         this.unsubscribeLines();
-        ApiActions.userPlaylists(+localStorage.getItem('userId'));
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+            ApiActions.userPlaylists(Number(userId));
+        }
     }
 
     /**
@@ -136,43 +139,29 @@ export class LineList extends BaseComponent {
     }
 
     #renderDropDownForOneLine(line:HTMLElement, index, another) {
+        // @ts-ignore
         const trackId = line.dataset.id;
         const dropDown = new DropDown(
-            line,
+            another,
             dropDownTrackSetup(`${index}_sub`),
             DIRECTIONS_DROPDOWN.LEFT,
         );
         this.dropDowns.push(dropDown);
         dropDown.render();
-        dropDown.addTitleElement(another);
-        dropDown.menu.style.zIndex = '10';
-        dropDown.menu.style.width = 'fit-content';
-        dropDown.menu.style.height = 'fit-content';
-        dropDown.menu.style.color = 'white';
-        dropDown.menu.classList.add('track-line__another');
         this.unsubscribeFromWindow(dropDown);
 
-        const bt1 = document.createElement('div');
+        // const bt1 = document.createElement('div');
         const textAdd = document.createElement('p');
         textAdd.textContent = 'Add';
+        dropDown.addOptionsElement(textAdd);
         const addDropDown = new DropDown(
-            bt1,
+            textAdd,
             dropDownTrackSetup(`${index}__subDropAdd`),
             DIRECTIONS_DROPDOWN.LEFT,
         );
         this.playlistsDropDowns.push(addDropDown);
         addDropDown.render();
         this.unsubscribeFromWindow(addDropDown);
-
-        dropDown.addOptionsElement(bt1);
-        addDropDown.title.style.zIndex = '9999';
-        addDropDown.title.style.width = 'fit-content';
-        addDropDown.title.style.height = 'fit-content';
-        addDropDown.title.style.boxSizing = 'border-box';
-        addDropDown.title.style.color = 'fit-content';
-        addDropDown.title.style.width = 'fit-content';
-        addDropDown.title.style.color = 'white';
-        addDropDown.options.style.color = 'white';
 
         if (this.name === componentsNames.PLAYLIST) {
             const bt3 = document.createElement('div');
@@ -185,7 +174,7 @@ export class LineList extends BaseComponent {
             });
         }
 
-        addDropDown.addTitleElement(textAdd);
+        // addDropDown.addTitleElement(textAdd);
         this.#addSubDropDown(addDropDown, trackId);
     }
 
@@ -211,15 +200,20 @@ export class LineList extends BaseComponent {
             const anothers = document.querySelectorAll(`.${this._config.anotherClass}`);
 
             lines.forEach((line, index) => {
-                this.#renderDropDownForOneLine(line, index, anothers[index]);
+                const div = document.createElement('div');
+                div.classList.add('track-line__another');
+                div.classList.add('placement-trigger');
+                // @ts-ignore
+                anothers[index].parentElement.appendChild(div);
+                // @ts-ignore
+                this.#renderDropDownForOneLine(line, index, div);
+                // @ts-ignore
+                div.appendChild(anothers[index]);
+                anothers[index].style.zIndex = '1';
             });
             this.isRendered = true;
         }, EventTypes.GOT_USER_PLAYLISTS, this.name);
 
-        const lines = document.querySelectorAll(`.${this._config.lineDiv}`);
-        const anothers = document.querySelectorAll(`.${this._config.anotherClass}`);
-
-        // todo dont touch
         this.parent.addEventListener('click', (event) => {
             const line = event.target.closest(`.${this._config.lineDiv}`) as HTMLDivElement;
             const like = event.target.closest(`.${this._config.likeButtonImg}`) as HTMLImageElement;
@@ -229,7 +223,10 @@ export class LineList extends BaseComponent {
             const playButtons = document.querySelectorAll(`.${this._config.playButton}`) as NodeListOf<HTMLButtonElement>;
             if (line) {
                 // todo not clear solution dont forget about
-                if (event.target !== buttons && event.target !== like && event.target !== album && event.target !== another) {
+                if (event.target !== buttons
+                    && event.target !== like
+                    && event.target !== album
+                    && event.target !== another) {
                     return;
                 }
 

@@ -230,6 +230,7 @@ export class Tape extends BaseComponent {
                     }
                     const button = (covers[key] as HTMLElement).querySelector('.buttonComponent');
                     if (button) {
+                        // @ts-ignore
                         const idOnElement = (covers[key] as HTMLElement).dataset.id;
                         if (!idOnElement) {
                             console.warn('Id doesn\'t exist');

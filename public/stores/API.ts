@@ -189,7 +189,7 @@ class API extends IStore {
             this.searchForAlbumsWithName(action.searchString);
             this.searchForArtistsWithName(action.searchString);
             this.searchForTracksWithName(action.searchString);
-            // this.searchForPlaylistWithName(action.searchString);
+            this.searchForPlaylistWithName(action.searchString);
             break;
         default:
         }
@@ -574,7 +574,7 @@ class API extends IStore {
         }).catch(() => {});
     }
 
-    /** */
+    /** Search for playlist with name */
     private searchForPlaylistWithName(value) {
         search(apiUrl.PLAYLIST_SEARCH_API, value).then((playlists) => {
             ActionsSearch.gotPlaylists(playlists);
