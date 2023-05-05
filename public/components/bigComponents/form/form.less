@@ -1,5 +1,11 @@
 @import '../../../static/css/constants.less';
 
+.promo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .form__button {
     cursor: pointer;
     color: @sub-color;
@@ -38,12 +44,15 @@
 }
 
 .content {
-    justify-content: center;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    flex-direction: column;
+    height: 100vh;
 }
 
 .js__formLeft {
-    margin-top: -69px;
+    @media (min-width: @desktop) {
+        margin-top: -69px;
+    }
 }

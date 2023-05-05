@@ -7,42 +7,41 @@
     </div>
 
     <div class="menu-burger">
-        <button class="menu-burger__header openbtn" onclick="openNav()">
+        <button class="menu-burger__header openbtn">
             <span class="visually-hidden">Button</span>
         </button>
     </div>
 
+
+<!--        <a href="/profile" data-section="profile" class="navbar__link">Profile</a>-->
+<!--        <a href="/logout" data-section="logout" class="navbar__link">Logout</a>-->
+
+
     <div id="sidebar" class="burgerSidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">
+        <a class="closebtn">
             <img src="/static/svg/closeMenu.svg">
         </a>
-        <a href="/profile" data-section="profile" class="navbar__link">Profile</a>
-        <a href="/logout" data-section="logout" class="navbar__link">Logout</a>
+
+        {{#each items}}
+            <div class="navbar__{{this.key}}__item">
+                <{{this.type}} href="{{this.href}}" data-section="{{this.key}}" class="{{#ifNotEquals key 'registration'}}
+                    navbar__{{this.key}}
+                {{/ifNotEquals}}
+                {{#ifAllEquals this.key 'registration' 'login'}} navbar__link {{/ifAllEquals}}
+                {{#ifAllEquals this.key 'profile' 'logout'}} navbar__button {{/ifAllEquals}}
+                {{#ifEquals this.key 'premium'}}
+                    {{#ifEquals ../name 'unAuthNavbar'}}
+                        navbar__link
+                    {{else}}
+                        navbar__button
+                    {{/ifEquals}}
+                {{/ifEquals}}">
+                    {{this.name}}
+                </{{this.type}}>
+            </div>
+        {{/each}}
     </div>
-
-    {{#each items}}
-        <div class="navbar__{{this.key}}__item">
-            {{#ifEquals this.key 'registration'}}
-                <div class="navbar__border-left"></div>
-            {{/ifEquals}}
-
-            <{{this.type}} href="{{this.href}}" data-section="{{this.key}}" class="{{#ifNotEquals key 'registration'}}
-                navbar__{{this.key}}
-            {{/ifNotEquals}}
-            {{#ifAllEquals this.key 'registration' 'login'}} navbar__link {{/ifAllEquals}}
-            {{#ifAllEquals this.key 'profile' 'logout'}} navbar__button {{/ifAllEquals}}
-            {{#ifEquals this.key 'premium'}}
-                {{#ifEquals ../name 'unAuthNavbar'}}
-                    navbar__link
-                {{else}}
-                    navbar__button
-                {{/ifEquals}}
-            {{/ifEquals}}">
-                {{this.name}}
-            </{{this.type}}>
-        </div>
-    {{/each}}
-    <div class="js__avatar-placement"> </div>
+    <div class="js__avatar-placement avatar__place"> </div>
 </div>
 
 <div class="navbar_library_mobile">

@@ -204,6 +204,7 @@ export class AudioPlayer extends BaseComponent {
 
         this.#functionSpace = (event) => {
             if (event.keyCode === 32 && !(event.target instanceof HTMLInputElement)) {
+                event.preventDefault();
                 this.toggle();
             }
         };

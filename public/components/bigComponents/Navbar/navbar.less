@@ -44,6 +44,7 @@
 .navbar__link {
     font-size: @font-sidebar;
     color: @shadow-color;
+    align-self: center;
 }
 
 .navbar__link, .navbar__profile, .navbar__premium, .navbar__logout {
@@ -60,6 +61,14 @@
     color: @main-color
 }
 
+.signup-desktop {
+    display: none;
+
+    @media (min-width: @desktop) {
+        display: block;
+    }
+}
+
 .navbar__login {
     margin-right: 40px;
     background: @main-color;
@@ -71,8 +80,11 @@
     font-size: @text-label;
     line-height: 19px;
     text-align: center;
-
     color: @opposed-main-color;
+
+    @media (min-width: @desktop) {
+        display: none;
+    }
 }
 
 .navbar__registration__item, .navbar__premium__item {
@@ -109,6 +121,7 @@
     margin-bottom: 2vh;
 
     color: @main-color;
+    transition: all 150ms;
 }
 
 main {
@@ -117,6 +130,17 @@ main {
     height: 87.5vh;
 }
 
-.navbar__profile__item, .navbar__logout__item {
-    display: none;
+//.navbar__profile__item, .navbar__logout__item {
+//    display: none;
+//}
+
+.js__navbar-dropDown__name-options {
+    padding:5px;
+    gap:5px;
+}
+
+.avatar__place {
+    height: 42.5px;
+    align-items: center;
+    display: contents;
 }

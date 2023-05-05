@@ -204,15 +204,14 @@ export class DropDown extends BaseComponent {
         if (element.offsetWidth > this.maxWidth) {
             this.maxWidth = element.offsetWidth;
         }
-
         const padding = 5;
         switch (whereRender) {
         case DIRECTIONS_DROPDOWN.DOWN:
-            element.style.top = `${title.offsetHeight * 1.3}`;
+            element.style.top = `${title.offsetHeight + padding}`;
             element.style.left = '0';
             break;
         case DIRECTIONS_DROPDOWN.UP:
-            element.style.bottom = `-${element.offsetHeight * 1.3}`;
+            element.style.bottom = `-${element.offsetHeight + padding}`;
             element.style.left = '0';
             break;
         case DIRECTIONS_DROPDOWN.LEFT:
@@ -226,6 +225,15 @@ export class DropDown extends BaseComponent {
         default:
             console.warn('Error at dropDown whereToRender', whereRender);
         }
+        if (title.offsetWidth <= 200 && this.maxWidth < 200) {
+            if (title.offsetWidth < this.maxWidth) {
+                element.style.width = this.maxWidth;
+            } else {
+                // @ts-ignore
+                element.style.width = title.offsetWidth;
+            }
+        }
+        // setTimeout(this.whereToRender, 100);
     }
 
     /** Render base structure */

@@ -14,13 +14,12 @@
   border-radius: @small-radius;
   flex-direction: column;
   justify-content: center;
-  width: 10%;
 }
 
 .dropdown-options {
   max-width: 200px;
   width: fit-content;
-  box-sizing: border-box;
+  box-sizing: content-box;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -30,7 +29,7 @@
   gap: 10px;
   transition: all 150ms;
   background-color: @sub-color;
-  padding: 5px;
+  //padding: 5px;
   border-radius: @small-radius;
 }
 
@@ -47,11 +46,12 @@
   font-size: @font-sidebar;
   color: @main-color;
   text-decoration: none;
-  padding: 5px 0;
+  //padding: 5px 0;
   font-style: normal;
   font-weight: @chars-weight;
   line-height: 19px;
   text-align: center;
+  transition: all 150ms;
 }
 
 .dropdown-element:hover {

@@ -1,7 +1,7 @@
 @import '../../../static/css/constants';
 
 .user {
-  margin-top: 100px;
+  padding-top: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,6 +17,11 @@
   margin-top: 35px;
   display: flex;
   align-items: center;
+  flex-direction: column;
+
+  @media (min-width: @desktop) {
+    flex-direction: row;
+  }
 }
 
 .user-profile {
@@ -161,7 +166,6 @@
 
 .avatar-block {
   display: flex;
-  width: 700px;
   flex-direction: column;
 }
 
