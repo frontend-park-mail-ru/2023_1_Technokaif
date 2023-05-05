@@ -6,11 +6,29 @@
         <a><img class="header__img" src="/static/svg/fluire-logo.svg" alt="Logo"></a>
     </div>
 
-    <div class="menu-burger">
-        <button class="menu-burger__header openbtn">
-            <span class="visually-hidden">Button</span>
-        </button>
+{{#each items}}
+        <div class="navbar__{{this.key}}__item">
+            <{{this.type}} href="{{this.href}}" data-section="{{this.key}}" class="{{#ifNotEquals key 'registration'}}
+            navbar__{{this.key}}
+        {{/ifNotEquals}}
+            {{#ifAllEquals this.key 'registration' 'login'}} navbar__link signup-desktop {{/ifAllEquals}}
+            {{#ifAllEquals this.key 'profile' 'logout'}} signin-desktop {{/ifAllEquals}}
+            {{#ifEquals this.key 'premium'}}
+                {{#ifEquals ../name 'unAuthNavbar'}}
+                    navbar__link
+                {{else}}
+                {{/ifEquals}}
+            {{/ifEquals}}">
+            {{this.name}}
+        </{{this.type}}>
     </div>
+{{/each}}
+
+<div class="menu-burger">
+    <button class="menu-burger__header openbtn">
+        <span class="visually-hidden">Button</span>
+    </button>
+</div>
 
 
 <!--        <a href="/profile" data-section="profile" class="navbar__link">Profile</a>-->
@@ -28,7 +46,7 @@
                     navbar__{{this.key}}
                 {{/ifNotEquals}}
                 {{#ifAllEquals this.key 'registration' 'login'}} navbar__link {{/ifAllEquals}}
-                {{#ifAllEquals this.key 'profile' 'logout'}} navbar__button {{/ifAllEquals}}
+                {{#ifAllEquals this.key 'profile' 'logout'}} {{/ifAllEquals}}
                 {{#ifEquals this.key 'premium'}}
                     {{#ifEquals ../name 'unAuthNavbar'}}
                         navbar__link

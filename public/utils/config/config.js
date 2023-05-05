@@ -27,13 +27,13 @@ export const authNavConfig = {
         name: 'Profile',
         href: '/profile',
         key: 'profile',
-        type: 'button',
+        type: 'a',
     },
     logout: {
         name: 'Logout',
         href: '/logout',
         key: 'logout',
-        type: 'button',
+        type: 'a',
     },
 };
 

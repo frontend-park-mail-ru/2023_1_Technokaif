@@ -1,3 +1,6 @@
+@import "../../../static/css/constants";
+
+
 .js__artist-page-window {
 }
 
@@ -85,5 +88,7 @@
 }
 
 .album-list {
-  width: max-content;
+  @media (min-width: @desktop) {
+    width: max-content;
+  }
 }

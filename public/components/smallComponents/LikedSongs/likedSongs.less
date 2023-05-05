@@ -1,8 +1,16 @@
+@import "../../../static/css/constants";
+
+
 .liked-songs {
-  display: flex;
+  display: none;
+
   flex-basis: 20%;
   flex-direction: column;
-  gap: 22px
+  gap: 22px;
+
+  @media (min-width: @desktop) {
+    display: flex;
+  }
 }
 
 .liked-songs__title {

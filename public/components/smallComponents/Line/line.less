@@ -3,10 +3,14 @@
 .track-line {
   display: grid;
   align-items: center;
-  grid-template-columns: [index] 20px [first] 6fr [album] 4fr [listens] 2fr [like] 1fr [duration] 1fr [another] 1fr;
+  grid-template-columns: [index] 20px [first] 4fr [like] 1fr [another] 1fr;
   padding: 0 16px 10px 10px;
   gap: 10px;
   transition: all 150ms;
+
+  @media (min-width: @desktop) {
+    grid-template-columns: [index] 20px [first] 6fr [album] 4fr [listens] 2fr [like] 1fr [duration] 1fr [another] 1fr;
+  }
 }
 
 .buttons {
@@ -62,10 +66,18 @@
   text-align: right;
 
   color: rgba(255, 255, 255, 0.5);
+
+  @media (max-width: @desktop) {
+    display: none;
+  }
 }
 
 .albumDiv {
   grid-area: album;
+
+  @media (max-width: @desktop) {
+    display: none;
+  }
 }
 
 .like-button-block {
@@ -110,17 +122,20 @@
   line-height: 20px;
 
   color: rgba(255, 255, 255, 0.5);
+
+  @media (max-width: @desktop) {
+    display: none;
+  }
 }
 
 .track-line__another {
+  grid-area: another;
   display: flex;
   justify-content: center;
   align-items:center;
-  grid-area: another;
   width: 30px;
   height: 30px;
   margin-height: 0;
-
 }
 
 .track-line__cover {
