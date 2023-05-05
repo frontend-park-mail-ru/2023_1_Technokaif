@@ -4,7 +4,7 @@ import { componentsNames } from '../../../utils/config/componentsNames';
 import templateHtml from './navbar.handlebars';
 import { EventTypes } from '../../../utils/config/EventTypes';
 import API from '../../../stores/API';
-import { authNavConfig, METHOD, unAuthNavConfig } from '../../../utils/config/config';
+import { authNavConfig, unAuthNavConfig } from '../../../utils/config/config';
 import { componentsJSNames } from '../../../utils/config/componentsJSNames';
 import ComponentsStore from '../../../stores/ComponentsStore';
 import Actions from '../../../actions/Actions';
@@ -101,18 +101,17 @@ class Navbar {
 
                     configForAvatar.text = values.username;
                     const pr = new Promise((resolve) => {
-                        const avatar = new AvatarNavbar(this.#dropDown.title, configForAvatar);
+                        const avatar = new AvatarNavbar(document.querySelector('.js__avatar-placement'), configForAvatar);
                         avatar.appendElement();
                         resolve('');
                     });
                     pr.then(() => {
-                        this.#dropDown.title.children[1].addEventListener(METHOD.BUTTON, (e) => {
-                            if (e?.target) {
-                                this.#dropDown.toggleOptions();
-                            } else {
-                                console.log('Not exist', e);
-                            }
-                        });
+                        const avatar = document.querySelector('.navbar-avatar');
+                        if (!avatar) {
+                            console.error('Avatar doesn\'t exist');
+                            return;
+                        }
+                        this.#renderDrop(avatar);
                     });
                 }
             },
@@ -167,14 +166,14 @@ class Navbar {
     }
 
     /** Render drop */
-    #renderDrop() {
+    #renderDrop(placement) {
         if (this.#dropDown) {
             this.#dropDown.unRender();
         }
         if (!checkAuth()) {
             return;
         }
-        const placement = document.querySelector('.js__avatar-placement');
+
         if (!placement) {
             console.warn('Placement for avatar doesn\'t exist');
             return;
@@ -220,7 +219,7 @@ class Navbar {
         }
         this.#parent.innerHTML += templateInnerHtml;
 
-        this.#renderDrop();
+        // this.#renderDrop();
         this.#callEventListener();
     }
 
@@ -249,7 +248,7 @@ class Navbar {
 
         const newElement = tempElement.firstChild;
         this.#parent.insertBefore(newElement, this.#parent.firstChild);
-        this.#renderDrop();
+        // this.#renderDrop();
         this.#callEventListener();
     }
 
