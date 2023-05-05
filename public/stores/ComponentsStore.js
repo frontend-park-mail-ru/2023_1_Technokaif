@@ -88,7 +88,10 @@ class ComponentsStore extends IStore {
         case componentsNames.PLAYER:
             return document.getElementById('player__placement');
         case componentsNames.LIBRARY_LIST:
-            return document.getElementsByClassName('navbar_library_element')[0];
+            const desktopElement = document.querySelector('.navbar_library_desktop[style*="display: block"]');
+            const mobileElement = document.querySelector('.navbar_library_mobile[style*="display: block"]');
+            console.log(mobileElement, desktopElement);
+            return desktopElement || mobileElement;
         default:
             console.error('position to place element by name', elementName, 'not found');
             return document.getElementById(`${componentsJSNames.ROOT}`);
