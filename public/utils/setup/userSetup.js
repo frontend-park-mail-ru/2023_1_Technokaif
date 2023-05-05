@@ -1,5 +1,4 @@
-// todo write setup
-import { CLASS_LOG as CLASS } from '../config/id';
+import { CLASS_LOG as CLASS } from '@config/id';
 
 /**
  * Return config

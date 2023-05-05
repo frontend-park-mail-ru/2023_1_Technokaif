@@ -1,9 +1,9 @@
 import templateHTML from './lineIn.handlebars';
-import { BaseComponent } from '../../BaseComponent';
+import { BaseComponent } from '@components/BaseComponent';
 import './line.less';
-import { METHOD } from '../../../utils/config/config';
-import { imgPath } from '../../../utils/config/pathConfig';
-import ApiActions from '../../../actions/ApiActions';
+import { METHOD } from '@config/config';
+import { imgPath } from '@config/pathConfig';
+import ApiActions from '@actions/ApiActions';
 
 /**
  * Create element with track-oriented line with img, title, duration, optionally (listens).

@@ -2,21 +2,21 @@ import templateHTML from './lineList.handlebars';
 import { BaseComponent } from '../../BaseComponent';
 import './lineList.less';
 import '../../smallComponents/Line/line.less';
-import { componentsNames } from '../../../utils/config/componentsNames';
+import { componentsNames } from '@config/componentsNames';
 import Actions from '../../../actions/Actions';
 import ContentStore from '../../../stores/ContentStore';
-import { pageNames } from '../../../utils/config/pageNames';
-import { checkAuth } from '../../../utils/functions/checkAuth';
+import { pageNames } from '@config/pageNames';
+import { checkAuth } from '@functions/checkAuth';
 import Router from '../../../router/Router';
 import SongStore from '../../../stores/SongStore';
 import ApiActions from '../../../actions/ApiActions';
-import { EventTypes } from '../../../utils/config/EventTypes';
+import { EventTypes } from '@config/EventTypes';
 import API from '../../../stores/API';
-import { routingUrl } from '../../../utils/config/routingUrls';
+import { routingUrl } from '@config/routingUrls';
 import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
-import { DIRECTIONS_DROPDOWN, DropDown } from '../../smallComponents/dropDown/dropDown';
-import { dropDownTrackSetup } from '../../../utils/setup/playlistSetup';
-import { METHOD } from '../../../utils/config/config';
+import { DIRECTIONS_DROPDOWN, DropDown } from '@smallComponents/dropDown/dropDown';
+import { dropDownTrackSetup } from '@setup/playlistSetup';
+import { METHOD } from '@config/config';
 
 /**
  * Tape for elements

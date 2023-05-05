@@ -1,5 +1,5 @@
-import Dispatcher from '../../dispatcher/Dispatcher';
-import ActionTypes from '../ActionTypes';
+import Dispatcher from '@dispatcher/Dispatcher';
+import ActionTypes from '@actions/ActionTypes';
 
 /** Global Action creator object. */
 const ActionsSearch = {

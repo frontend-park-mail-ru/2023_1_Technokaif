@@ -1,4 +1,4 @@
-import { componentsJSNames } from '../config/componentsJSNames';
+import { componentsJSNames } from '@config/componentsJSNames';
 
 /**
  * Function to clear root element.

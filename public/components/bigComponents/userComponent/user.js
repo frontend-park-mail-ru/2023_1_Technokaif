@@ -1,21 +1,20 @@
 import template from './user.handlebars';
-import { Button } from '../../smallComponents/Button/button';
-import { Avatar } from '../../smallComponents/avatar/avatar';
-import { Form } from '../form/form';
-import { dateSetup } from '../../../utils/setup/registrationSetup';
+import { Button } from '@smallComponents/Button/button';
+import { Avatar } from '@smallComponents/avatar/avatar';
+import { dateSetup } from '@setup/registrationSetup';
 import './user.less';
-import Actions from '../../../actions/Actions';
-import { getCheckedValueRadioButtons } from '../../../utils/functions/utils';
-import { ElementsClassForUser, METHOD, RESPONSES } from '../../../utils/config/config';
-import Router from '../../../router/Router';
-import UserInfoStore from '../../../stores/UserInfoStore';
-import ApiActions from '../../../actions/ApiActions';
-import { ERRORS_USER } from '../../../utils/config/errors';
-import { EventTypes } from '../../../utils/config/EventTypes';
-import { componentsNames } from '../../../utils/config/componentsNames';
-import { BaseComponent } from '../../BaseComponent';
-import { componentsJSNames } from '../../../utils/config/componentsJSNames';
-import API from '../../../stores/API.ts';
+import { ElementsClassForUser, METHOD, RESPONSES } from '@config/config';
+import { ERRORS_USER } from '@config/errors';
+import { EventTypes } from '@config/EventTypes';
+import { componentsNames } from '@config/componentsNames';
+import { componentsJSNames } from '@config/componentsJSNames';
+import { BaseComponent } from '@components/BaseComponent';
+import ApiActions from '@actions/ApiActions';
+import UserInfoStore from '@store/UserInfoStore';
+import Router from '@router/Router';
+import Actions from '@actions/Actions';
+import API from '@store/API.ts';
+import { Form } from '../form/form';
 
 /**
  * Class for artists content in main page.

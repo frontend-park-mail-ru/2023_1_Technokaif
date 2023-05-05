@@ -1,8 +1,8 @@
-import ComponentsStore from '../../stores/ComponentsStore';
-import UserInfoStore from '../../stores/UserInfoStore';
-import API from '../../stores/API.ts';
-import ContentStore from '../../stores/ContentStore';
-import SongStore from '../../stores/SongStore';
+import ComponentsStore from '@store/ComponentsStore';
+import UserInfoStore from '@store/UserInfoStore';
+import API from '@store/API.ts';
+import ContentStore from '@store/ContentStore';
+import SongStore from '@store/SongStore';
 
 /**
  * Function for unsubscribing from all stores in project on component

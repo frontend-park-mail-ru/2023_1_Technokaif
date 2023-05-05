@@ -1,37 +1,37 @@
 import './static/css/style.less';
 import './static/css/reset.less';
-import Router from './router/Router';
-import FeedView from './views/FeedView';
-import ComponentsStore from './stores/ComponentsStore';
-import { pageNames } from './utils/config/pageNames';
-import { componentsNames } from './utils/config/componentsNames';
-import API from './stores/API';
-import UserInfoStore from './stores/UserInfoStore';
+import { pageNames } from '@config/pageNames';
+import { componentsNames } from '@config/componentsNames';
+import { routingUrl } from '@config/routingUrls';
+import { checkAuthAjax } from '@api/auth/checkAuthAjaxReq';
+import { checkAuth } from '@functions/checkAuth';
+import { getPermittedByAuthUser, getPermittedByUnAuthUser } from '@router/permittedPath';
+import { popAuthUser, popNoAuthUser } from '@router/popPath';
 
 // todo Check why error is here
 // eslint-disable-next-line import/no-named-as-default
-import LoginView from './views/LoginView';
-import RegisterView from './views/RegisterView';
-import ComponentsRenders from './components/ComponentsRenders';
-import Page404View from './views/Page404View';
-import ArtistPageView from './views/ArtistPageView';
-import { routingUrl } from './utils/config/routingUrls';
+import LoginView from '@views/LoginView';
+import RegisterView from '@views/RegisterView';
+import Page404View from '@views/Page404View';
+import ArtistPageView from '@views/ArtistPageView';
 
 // todo Change import
 // eslint-disable-next-line import/no-named-as-default
-import UserView from './views/UserView';
-import { checkAuthAjax } from './api/auth/checkAuthAjaxReq';
+import UserView from '@views/UserView';
+import AlbumPageView from '@views/AlbumPage';
+import LibraryTracksView from '@views/LibraryTracksView';
+import LibraryAlbumsView from '@views/LibraryAlbumsView';
+import LibraryArtistsView from '@views/LibraryArtistsView';
+import SearchView from '@views/SearchView';
+import LibraryPlaylistsView from '@views/libraryPlaylistsView';
+import PlaylistView from '@views/PlaylistView';
+import ComponentsRenders from '@components/ComponentsRenders';
+import UserInfoStore from '@store/UserInfoStore';
+import API from '@store/API';
+import ComponentsStore from '@store/ComponentsStore';
+import FeedView from '@views/FeedView';
+import Router from '@router/Router';
 import serviceWorkerRegistration from './utils/sw/serviceWorkerRegistration';
-import AlbumPageView from './views/AlbumPage';
-import LibraryTracksView from './views/LibraryTracksView';
-import LibraryAlbumsView from './views/LibraryAlbumsView';
-import LibraryArtistsView from './views/LibraryArtistsView';
-import { checkAuth } from './utils/functions/checkAuth';
-import { getPermittedByAuthUser, getPermittedByUnAuthUser } from './router/permittedPath';
-import { popAuthUser, popNoAuthUser } from './router/popPath';
-import SearchView from './views/SearchView';
-import LibraryPlaylistsView from './views/libraryPlaylistsView';
-import PlaylistView from './views/PlaylistView';
 
 /**
  * Render main page of app

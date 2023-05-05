@@ -1,10 +1,10 @@
-import ComponentsStore from '../stores/ComponentsStore.js';
-import { prePageRender } from '../utils/functions/prePageRender.js';
-import { EventTypes } from '../utils/config/EventTypes.js';
-import Actions from '../actions/Actions';
-import { componentsNames } from '../utils/config/componentsNames.js';
-import { componentsJSNames } from '../utils/config/componentsJSNames';
-import { pageNames } from '../utils/config/pageNames';
+import { prePageRender } from '@functions/prePageRender';
+import { EventTypes } from '@config/EventTypes';
+import { componentsNames } from '@config/componentsNames';
+import { componentsJSNames } from '@config/componentsJSNames';
+import { pageNames } from '@config/pageNames';
+import Actions from '@actions/Actions';
+import ComponentsStore from '@store/ComponentsStore';
 
 /** Object that contain name and render function */
 export interface NameAndRender {

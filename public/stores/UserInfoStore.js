@@ -1,13 +1,13 @@
-import IStore from './IStore';
+import IStore from '@store/IStore';
 
 import {
     getUsernameError, getPasswordError, getDayError, getYearError, getMonthError, getEmailError,
     getNameError, checkIsEmail, translateMonthStrToInt,
-} from '../utils/functions/validation.js';
-import ActionTypes from '../actions/ActionTypes';
-import { EventTypes } from '../utils/config/EventTypes';
-import { checkForEmpty } from '../utils/functions/utils';
-import { NAME_OF_VALIDATION } from '../utils/config/validateConf';
+} from '@functions/validation';
+import ActionTypes from '@actions/ActionTypes';
+import { EventTypes } from '@config/EventTypes';
+import { checkForEmpty } from '@functions/utils';
+import { NAME_OF_VALIDATION } from '@config/validateConf';
 
 const EMPTY_ERROR = 'EMPTY';
 const OK_RESPONSE = 'OK';

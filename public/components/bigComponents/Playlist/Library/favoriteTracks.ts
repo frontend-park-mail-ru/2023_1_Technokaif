@@ -1,8 +1,8 @@
-import { Playlist } from '../playlist';
+import { setupLibraryTracks } from '@setup/libraryTracksSetup';
+import { EventTypes } from '@config/EventTypes';
+import { pageNames } from '@config/pageNames';
 import ApiActions from '../../../../actions/ApiActions';
-import { setupLibraryTracks } from '../../../../utils/setup/libraryTracksSetup';
-import { EventTypes } from '../../../../utils/config/EventTypes';
-import { pageNames } from '../../../../utils/config/pageNames';
+import { Playlist } from '../playlist';
 
 /**
  * Class of favorite tracks playlist

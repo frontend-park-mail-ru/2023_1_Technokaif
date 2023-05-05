@@ -1,5 +1,5 @@
-import Dispatcher from '../dispatcher/Dispatcher.js';
-import ActionTypes from './ActionTypes.js';
+import Dispatcher from '@dispatcher/Dispatcher';
+import ActionTypes from '@actions/ActionTypes';
 
 /**
  * Global Api actions creator

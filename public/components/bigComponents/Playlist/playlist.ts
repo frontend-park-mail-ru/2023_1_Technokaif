@@ -1,18 +1,18 @@
 import templateHtml from './categoryTracks.handlebars';
 import './library.less';
 import { LineList } from '../LineList/lineList';
-import { componentsNames } from '../../../utils/config/componentsNames';
+import { componentsNames } from '@config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
-import { EventTypes } from '../../../utils/config/EventTypes';
+import { EventTypes } from '@config/EventTypes';
 import ContentStore from '../../../stores/ContentStore';
 import Actions from '../../../actions/Actions';
 import {
     setupLineList,
-} from '../../../utils/setup/libraryTracksSetup';
+} from '@setup/libraryTracksSetup';
 import SongStore from '../../../stores/SongStore';
-import { imgPath } from '../../../utils/config/pathConfig';
+import { imgPath } from '@config/pathConfig';
 import ApiActions from '../../../actions/ApiActions';
-import { setupPlaylistLineList } from '../../../utils/setup/playlistSetup';
+import { setupPlaylistLineList } from '@setup/playlistSetup';
 
 /**
  * Create Artist content

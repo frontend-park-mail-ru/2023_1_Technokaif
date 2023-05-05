@@ -1,6 +1,6 @@
+import { apiUrl } from '@config/apiUrls';
+import { generatePageById } from '@functions/urlGenerators';
 import Ajax from '../../modules/Ajax';
-import { apiUrl } from '../../utils/config/apiUrls.js';
-import { generatePageById } from '../../utils/functions/urlGenerators';
 
 /**
  * get album by its ID

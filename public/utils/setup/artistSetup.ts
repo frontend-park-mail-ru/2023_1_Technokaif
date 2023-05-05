@@ -1,4 +1,4 @@
-import { imgPath } from '../config/pathConfig';
+import { imgPath } from '@config/pathConfig';
 
 /** Artists to show on albums */
 export interface ArtistApi {

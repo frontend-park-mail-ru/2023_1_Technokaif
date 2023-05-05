@@ -1,8 +1,8 @@
-import IStore from './IStore';
-import ActionTypes from '../actions/ActionTypes';
-import { EventTypes } from '../utils/config/EventTypes';
-import { componentsNames } from '../utils/config/componentsNames';
-import { componentsJSNames } from '../utils/config/componentsJSNames';
+import IStore from '@store/IStore';
+import ActionTypes from '@actions/ActionTypes';
+import { EventTypes } from '@config/EventTypes';
+import { componentsNames } from '@config/componentsNames';
+import { componentsJSNames } from '@config/componentsJSNames';
 
 /**
  * Store for components.

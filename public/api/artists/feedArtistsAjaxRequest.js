@@ -1,5 +1,5 @@
+import { apiUrl } from '@config/apiUrls';
 import Ajax from '../../modules/Ajax.ts';
-import { apiUrl } from '../../utils/config/apiUrls.js';
 
 /**
  * Function for main page content render.

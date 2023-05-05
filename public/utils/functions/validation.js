@@ -1,9 +1,9 @@
-import { MONTHS } from '../config/config.js';
+import { MONTHS } from '@config/config';
 import {
     ERRORS_VALIDATE as ERRORS,
     PASSWORD_ERROR,
     USERNAME_ERROR,
-} from '../config/validateConf.js';
+} from '@config/validateConf.js';
 
 const ALPHABET_BIG = 'ABCDEFGHIJKLMNOPQRSTUVWXYZАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
 const ALPHABET_SMALL = 'abcdefghijklmnopqrstuvwxyzабвгдеёжзийклмнопрстуфхцчшщъыьэюя';

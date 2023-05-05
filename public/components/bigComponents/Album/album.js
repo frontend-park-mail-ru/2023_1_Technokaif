@@ -1,15 +1,15 @@
 import tmp from './album.handlebars';
 import './album.less';
-import { componentsNames } from '../../../utils/config/componentsNames';
+import { componentsNames } from '@config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
-import { EventTypes } from '../../../utils/config/EventTypes';
+import { EventTypes } from '@config/EventTypes';
 import ContentStore from '../../../stores/ContentStore';
 import Actions from '../../../actions/Actions';
 import ApiActions from '../../../actions/ApiActions';
-import { pageNames } from '../../../utils/config/pageNames';
-import { setupLineList } from '../../../utils/setup/albumSetup';
+import { pageNames } from '@config/pageNames';
+import { setupLineList } from '@setup/albumSetup';
 import SongStore from '../../../stores/SongStore';
-import { imgPath } from '../../../utils/config/pathConfig';
+import { imgPath } from '@config/pathConfig';
 import Router from '../../../router/Router';
 // eslint-disable-next-line import/namespace
 import { LineList } from '../LineList/lineList';

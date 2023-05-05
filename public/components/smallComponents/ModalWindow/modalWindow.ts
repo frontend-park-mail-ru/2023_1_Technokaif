@@ -1,14 +1,14 @@
+import { BaseComponent } from '@components/BaseComponent';
 import templateHTML from './modalWindow.handlebars';
-import { BaseComponent } from '../../BaseComponent';
 import './modalWindow.less';
-import { componentsJSNames } from '../../../utils/config/componentsJSNames';
-import API from '../../../stores/API';
-import { EventTypes } from '../../../utils/config/EventTypes';
-import ApiActions from '../../../actions/ApiActions';
-import ContentStore from '../../../stores/ContentStore';
-import { pageNames } from '../../../utils/config/pageNames';
-import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
-import { METHOD } from '../../../utils/config/config';
+import { componentsJSNames } from '@config/componentsJSNames';
+import API from '@store/API';
+import { EventTypes } from '@config/EventTypes';
+import ApiActions from '@actions/ApiActions';
+import ContentStore from '@store/ContentStore';
+import { pageNames } from '@config/pageNames';
+import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
+import { METHOD } from '@config/config';
 
 /**
  * Create element with track-oriented line with img, title, duration, optionally (listens).

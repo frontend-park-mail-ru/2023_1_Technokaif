@@ -1,6 +1,6 @@
 import templateHTML from './artistCover.handlebars';
 import './artistCover.less';
-import { BaseComponent } from '../../BaseComponent';
+import { BaseComponent } from '@components/BaseComponent';
 
 /**
  * Create Artist cover

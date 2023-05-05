@@ -1,8 +1,8 @@
-import IStore from '../stores/IStore';
-import Actions from '../actions/Actions';
-import { routingUrl } from '../utils/config/routingUrls';
+import IStore from '@store/IStore';
+import Actions from '@actions//Actions';
+import { routingUrl } from '@config/routingUrls';
+import { ACTION_ON_PATH, DIRECTIONS } from '@config/config';
 import { PermissionUser, RegularPathToTake, PathConfig } from './routerDeclarations';
-import { ACTION_ON_PATH, DIRECTIONS } from '../utils/config/config';
 /**
  * Class for routing urls in app.
  */

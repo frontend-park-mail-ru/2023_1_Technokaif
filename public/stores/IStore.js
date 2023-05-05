@@ -1,7 +1,7 @@
-import Dispatcher from '../dispatcher/Dispatcher.js';
+import Dispatcher from '@dispatcher/Dispatcher.js';
+import { METHOD } from '@config/config';
+import ActionTypes from '@actions/ActionTypes';
 import EventEmitter from './EventEmitter';
-import { METHOD } from '../utils/config/config';
-import ActionTypes from '../actions/ActionTypes';
 
 /**
  * Interface for project stores.

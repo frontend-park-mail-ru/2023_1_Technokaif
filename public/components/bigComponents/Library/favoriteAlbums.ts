@@ -3,9 +3,9 @@ import templateHtml from './favorite.handlebars';
 import './favorite.less';
 import ApiActions from '../../../actions/ApiActions';
 import ContentStore from '../../../stores/ContentStore';
-import { pageNames } from '../../../utils/config/pageNames';
-import { setupTape } from '../../../utils/setup/artistSetup';
-import { EventTypes } from '../../../utils/config/EventTypes';
+import { pageNames } from '@config/pageNames';
+import { setupTape } from '@setup/artistSetup';
+import { EventTypes } from '@config/EventTypes';
 import { Tape } from '../Tape/tape';
 
 /**

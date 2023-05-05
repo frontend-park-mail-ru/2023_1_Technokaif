@@ -1,9 +1,9 @@
+import { pageNames } from '@config/pageNames';
+import { componentsNames } from '@config/componentsNames';
+import { EventTypes } from '@config/EventTypes';
+import ComponentsStore from '@store/ComponentsStore';
+import Actions from '@actions/Actions';
 import { BaseView } from './BaseView';
-import { pageNames } from '../utils/config/pageNames';
-import Actions from '../actions/Actions';
-import { componentsNames } from '../utils/config/componentsNames';
-import ComponentsStore from '../stores/ComponentsStore';
-import { EventTypes } from '../utils/config/EventTypes';
 
 /** Class for feed page view. */
 export class LoginView extends BaseView {

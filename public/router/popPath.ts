@@ -1,6 +1,6 @@
 import {
     ACTION_ON_PATH, BLACKLIST_AUTH, BLACKLIST_UNAUTH, DIRECTIONS,
-} from '../utils/config/config';
+} from '@config/config';
 
 /**
  * Get action on pop in auth user

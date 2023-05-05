@@ -1,4 +1,4 @@
-import { BLACKLIST_AUTH, BLACKLIST_UNAUTH } from '../utils/config/config';
+import { BLACKLIST_AUTH, BLACKLIST_UNAUTH } from '@config/config';
 
 /**
  * Get path to take if user is AUTH

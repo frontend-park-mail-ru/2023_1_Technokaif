@@ -1,6 +1,6 @@
+import { pageNames } from '@config/pageNames';
+import Actions from '@actions/Actions';
 import { BaseView } from './BaseView';
-import Actions from '../actions/Actions';
-import { pageNames } from '../utils/config/pageNames';
 
 /**
  * Class for feed page view.

@@ -1,19 +1,19 @@
-import { Playlist } from '../playlist';
-import ApiActions from '../../../../actions/ApiActions';
-import { EventTypes } from '../../../../utils/config/EventTypes';
-import { pageNames } from '../../../../utils/config/pageNames';
-import Actions from '../../../../actions/Actions';
-import ContentStore from '../../../../stores/ContentStore';
+import { EventTypes } from '@config/EventTypes';
+import { pageNames } from '@config/pageNames';
 import {
     playlistTypes, setupModalWindow,
     setupPlaylist,
     setupUserPlaylist,
-} from '../../../../utils/setup/playlistSetup';
+} from '@setup/playlistSetup';
+import { componentsJSNames } from '@config/componentsJSNames';
+import { ModalWindow } from '@smallComponents/ModalWindow/modalWindow';
+import { componentsNames } from '@config/componentsNames';
+import { routingUrl } from '@config/routingUrls';
 import API from '../../../../stores/API';
-import { componentsJSNames } from '../../../../utils/config/componentsJSNames';
-import { ModalWindow } from '../../../smallComponents/ModalWindow/modalWindow';
-import { componentsNames } from '../../../../utils/config/componentsNames';
-import { routingUrl } from '../../../../utils/config/routingUrls';
+import ContentStore from '../../../../stores/ContentStore';
+import Actions from '../../../../actions/Actions';
+import ApiActions from '../../../../actions/ApiActions';
+import { Playlist } from '../playlist';
 import Router from '../../../../router/Router';
 
 /**

@@ -1,5 +1,5 @@
-import { componentsNames } from '../config/componentsNames';
-import { imgPath } from '../config/pathConfig';
+import { componentsNames } from '@config/componentsNames';
+import { imgPath } from '@config/pathConfig';
 import { AlbumApi, ContentArtist } from './artistSetup';
 
 /**

@@ -1,9 +1,9 @@
+import { pageNames } from '@config/pageNames';
+import { EventTypes } from '@config/EventTypes';
+import { componentsNames } from '@config/componentsNames';
+import Actions from '@actions/Actions';
+import ComponentsStore from '@store/ComponentsStore';
 import { BaseView } from './BaseView';
-import ComponentsStore from '../stores/ComponentsStore';
-import Actions from '../actions/Actions';
-import { pageNames } from '../utils/config/pageNames';
-import { EventTypes } from '../utils/config/EventTypes';
-import { componentsNames } from '../utils/config/componentsNames';
 
 /**
  * Class for feed page view.

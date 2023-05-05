@@ -1,5 +1,5 @@
-import { csrfAjax } from '../api/auth/csrfAjaxReq';
-import { apiUrl } from '../utils/config/apiUrls';
+import { csrfAjax } from '@api/auth/csrfAjaxReq';
+import { apiUrl } from '@config/apiUrls';
 
 const AJAX_METHODS = {
     GET: 'GET',

@@ -1,28 +1,28 @@
 import templateHtml from './artistContent.handlebars';
 import './artistContent.less';
-import { LineList } from '../LineList/lineList';
-import { componentsNames } from '../../../utils/config/componentsNames';
-import { BaseComponent } from '../../BaseComponent';
-import { Tape } from '../Tape/tape';
-import { EventTypes } from '../../../utils/config/EventTypes';
-import ContentStore from '../../../stores/ContentStore';
-import Actions from '../../../actions/Actions';
-import ApiActions from '../../../actions/ApiActions';
-import { pageNames } from '../../../utils/config/pageNames';
-import { ArtistCover } from '../../smallComponents/ArtistCover/artistCover';
-import { componentsJSNames } from '../../../utils/config/componentsJSNames';
+import { componentsNames } from '@config/componentsNames';
+import { EventTypes } from '@config/EventTypes';
+import { pageNames } from '@config/pageNames';
+import { ArtistCover } from '@smallComponents/ArtistCover/artistCover';
+import { componentsJSNames } from '@config/componentsJSNames';
 import {
     setupArtistCover,
     setupLikedSongs,
     setupLineList,
     setupTape,
-} from '../../../utils/setup/artistSetup';
-import { shuffleArray } from '../../../utils/functions/shuffleArray';
+} from '@setup/artistSetup';
+import { shuffleArray } from '@functions/shuffleArray';
+import { LikedSongs } from '@smallComponents/LikedSongs/likedSongs';
+import { checkAuth } from '@functions/checkAuth';
+import { imgPath } from '@config/pathConfig';
+import { instancesNames } from '@config/instances';
 import SongStore from '../../../stores/SongStore';
-import { LikedSongs } from '../../smallComponents/LikedSongs/likedSongs';
-import { checkAuth } from '../../../utils/functions/checkAuth';
-import { imgPath } from '../../../utils/config/pathConfig';
-import { instancesNames } from '../../../utils/config/instances';
+import ApiActions from '../../../actions/ApiActions';
+import Actions from '../../../actions/Actions';
+import ContentStore from '../../../stores/ContentStore';
+import { Tape } from '../Tape/tape';
+import { BaseComponent } from '../../BaseComponent';
+import { LineList } from '../LineList/lineList';
 import API from '../../../stores/API';
 
 /**

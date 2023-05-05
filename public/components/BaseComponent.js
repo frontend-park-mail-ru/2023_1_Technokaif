@@ -1,11 +1,11 @@
-import ComponentsStore from '../stores/ComponentsStore';
-import Actions from '../actions/Actions';
+import { EventTypes } from '@config/EventTypes';
+import { pageNames } from '@config/pageNames';
+import { componentsNames } from '@config/componentsNames';
+import { componentsJSNames } from '@config/componentsJSNames';
+import ComponentsStore from '@store/ComponentsStore';
+import Actions from '@actions/Actions';
 import unsubscribeFromAllStoresOnComponent from '../utils/functions/unsubscribeFromAllStores';
-import { EventTypes } from '../utils/config/EventTypes';
 import ContentStore from '../stores/ContentStore';
-import { pageNames } from '../utils/config/pageNames';
-import { componentsNames } from '../utils/config/componentsNames';
-import { componentsJSNames } from '../utils/config/componentsJSNames';
 
 /**
  * Base Component class to handle render functions.

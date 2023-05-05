@@ -1,5 +1,5 @@
-import { DropDownSetup } from '../../components/smallComponents/dropDown/dropDown';
-import { AvatarSetup } from '../../components/smallComponents/navbarAvatar/avatarNavbar';
+import { DropDownSetup } from '@smallComponents/dropDown/dropDown';
+import { AvatarSetup } from '@smallComponents/navbarAvatar/avatarNavbar';
 
 export const navbarAvatarSetup:AvatarSetup = {
     mainDiv: 'navbar-avatar',

@@ -1,10 +1,10 @@
 import templateHtml from './search.handlebars';
 import './search.less';
-import { BaseComponent } from '../../BaseComponent';
-import { Input } from '../input/input';
-import { METHOD } from '../../../utils/config/config';
-import { componentsNames } from '../../../utils/config/componentsNames';
-import ApiActions from '../../../actions/ApiActions';
+import { BaseComponent } from '@components/BaseComponent';
+import { METHOD } from '@config/config';
+import { componentsNames } from '@config/componentsNames';
+import { Input } from '@smallComponents/input/input';
+import ApiActions from '@actions/ApiActions';
 
 /**
  * Class of input field for forms.

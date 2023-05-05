@@ -1,20 +1,20 @@
+import { AvatarNavbar } from '@components/smallComponents/navbarAvatar/avatarNavbar';
+import { componentsNames } from '@config/componentsNames';
+import { EventTypes } from '@config/EventTypes';
+import { authNavConfig, unAuthNavConfig } from '@config/config';
+import { componentsJSNames } from '@config/componentsJSNames';
+import { checkAuth } from '@functions/checkAuth';
+import { routingUrl } from '@config/routingUrls';
+import { DIRECTIONS_DROPDOWN, DropDown } from '@smallComponents/dropDown/dropDown';
+import { dropDownAvatarSetup, navbarAvatarSetup } from '@setup/avatarInNavbar';
 import Router from '../../../router/Router';
 import ApiActions from '../../../actions/ApiActions';
-import { componentsNames } from '../../../utils/config/componentsNames';
 import templateHtml from './navbar.handlebars';
-import { EventTypes } from '../../../utils/config/EventTypes';
 import API from '../../../stores/API';
-import { authNavConfig, unAuthNavConfig } from '../../../utils/config/config';
-import { componentsJSNames } from '../../../utils/config/componentsJSNames';
 import ComponentsStore from '../../../stores/ComponentsStore';
 import Actions from '../../../actions/Actions';
 import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
-import { checkAuth } from '../../../utils/functions/checkAuth';
-import { routingUrl } from '../../../utils/config/routingUrls';
 import UserInfoStore from '../../../stores/UserInfoStore';
-import { DIRECTIONS_DROPDOWN, DropDown } from '../../smallComponents/dropDown/dropDown';
-import { dropDownAvatarSetup, navbarAvatarSetup } from '../../../utils/setup/avatarInNavbar';
-import { AvatarNavbar } from '../../smallComponents/navbarAvatar/avatarNavbar';
 import './mobileNavs.less';
 
 /**

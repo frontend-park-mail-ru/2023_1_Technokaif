@@ -1,5 +1,5 @@
-import { ID_LOG, CLASS_LOG as CLASS } from '../config/id.js';
-import { imgPath } from '../config/pathConfig';
+import { ID_LOG, CLASS_LOG as CLASS } from '@config/id.js';
+import { imgPath } from '@config/pathConfig';
 
 /**
  * Function to create login form setup config for template.

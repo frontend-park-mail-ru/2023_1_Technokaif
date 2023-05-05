@@ -1,5 +1,5 @@
+import { BaseComponent } from '@components/BaseComponent';
 import templateHTML from './avatarNavbar.handlebars';
-import { BaseComponent } from '../../BaseComponent';
 import './avatarNavbar.less';
 
 /** Setup class for avatar in navbar */
