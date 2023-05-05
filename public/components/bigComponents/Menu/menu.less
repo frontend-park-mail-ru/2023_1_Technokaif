@@ -1,5 +1,18 @@
 @import '../../../static/css/constants';
 
+.sidebar {
+    display: none;
+
+    @media(min-width: @desktop) {
+        z-index: 100;
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        margin: 0 23px;
+        grid-area: menu;
+    }
+}
+
 .sidebar__link {
     width: 127px;
     font-style: normal;
@@ -56,16 +69,6 @@
     text-align: center;
 
     color: @main-color;
-}
-
-.sidebar {
-    z-index: 100;
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-
-    margin: 0 23px;
-    grid-area: menu;
 }
 
 .title {
