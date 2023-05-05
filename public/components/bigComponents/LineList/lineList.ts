@@ -154,7 +154,9 @@ export class LineList extends BaseComponent {
         const textAdd = document.createElement('p');
         textAdd.textContent = 'Add';
         dropDown.addOptionsElement(textAdd);
+        // @ts-ignore
         dropDown.options.style.padding = '5px';
+        // @ts-ignore
         dropDown.options.style.gap = '5px';
         const addDropDown = new DropDown(
             textAdd,
