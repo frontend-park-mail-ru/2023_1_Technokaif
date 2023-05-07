@@ -9,11 +9,11 @@ import { EventTypes } from '@config/EventTypes';
 import { componentsNames } from '@config/componentsNames';
 import { componentsJSNames } from '@config/componentsJSNames';
 import { BaseComponent } from '@components/BaseComponent';
-import ApiActions from '@actions/ApiActions';
 import UserInfoStore from '@store/UserInfoStore';
 import Router from '@router/Router';
-import Actions from '@actions/Actions';
+import Actions from '@Actions';
 import API from '@store/API.ts';
+import UserActions from '@API/UserActions';
 import { Form } from '../form/form';
 
 /**
@@ -76,7 +76,7 @@ export class User extends BaseComponent {
 
         renderPromise.then(() => {
             this.#subscribeForStores();
-            ApiActions.user(localStorage.getItem('userId'));
+            UserActions.user(localStorage.getItem('userId'));
         });
         document.title = 'Profile';
     }
@@ -207,7 +207,7 @@ export class User extends BaseComponent {
             if (day < 10) {
                 day = `0${day}`;
             }
-            ApiActions.userUpdateData(localStorage.getItem('userId'), {
+            UserActions.userUpdateData(localStorage.getItem('userId'), {
                 email: state.email,
                 firstName: state.firstName,
                 lastName: state.lastName,
@@ -224,7 +224,7 @@ export class User extends BaseComponent {
      */
     #sendAllDataCredential(status) {
         if (status === RESPONSES.OK) {
-            ApiActions.userUpdatePassword({
+            UserActions.userUpdatePassword({
                 oldPassword: document.querySelector('.js__password').value,
                 newPassword: document.querySelector('.js__new__password').value,
             });
@@ -395,7 +395,7 @@ export class User extends BaseComponent {
             const formData = new FormData();
             formData.append('avatar', file);
 
-            ApiActions.userUpdateAvatar(localStorage.getItem('userId'), formData);
+            UserActions.userUpdateAvatar(localStorage.getItem('userId'), formData);
             root.removeChild(this.fileInput);
         });
     }

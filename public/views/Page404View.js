@@ -1,5 +1,5 @@
 import { pageNames } from '@config/pageNames';
-import Actions from '@actions/Actions';
+import Actions from '@Actions';
 import { BaseView } from './BaseView';
 
 /**
@@ -18,7 +18,7 @@ class Page404View extends BaseView {
      */
     render() {
         super.render();
-        Actions.whatRender(super.name);
+        ComponentsActions.whatRender(super.name);
     }
 }
 

@@ -5,17 +5,20 @@ import { authNavConfig, unAuthNavConfig } from '@config/config';
 import { componentsJSNames } from '@config/componentsJSNames';
 import { checkAuth } from '@functions/checkAuth';
 import { routingUrl } from '@config/routingUrls';
-import { DIRECTIONS_DROPDOWN, DropDown } from '@smallComponents/dropDown/dropDown';
+import {
+    DIRECTIONS_DROPDOWN,
+    DropDown,
+} from '@smallComponents/dropDown/dropDown';
 import { dropDownAvatarSetup, navbarAvatarSetup } from '@setup/avatarInNavbar';
+import { ComponentsActions } from '@Actions/ComponentsActions';
 import Router from '../../../router/Router';
-import ApiActions from '../../../actions/ApiActions';
 import templateHtml from './navbar.handlebars';
 import API from '../../../stores/API';
 import ComponentsStore from '../../../stores/ComponentsStore';
-import Actions from '../../../actions/Actions';
 import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
 import UserInfoStore from '../../../stores/UserInfoStore';
 import './mobileNavs.less';
+import UserActions from '@API/UserActions';
 
 /**
  * Class for Navbar element: Login, Registration, Logout and user info.
@@ -34,11 +37,11 @@ class Navbar {
     #dropDown;
 
     /**
-     * Constructor
-     * @param {HTMLElement} parent -- where to place
-     * @param {Object} config -- config to configure Navbar
-     * @param {string} name -- name of Navbar
-     */
+   * Constructor
+   * @param {HTMLElement} parent -- where to place
+   * @param {Object} config -- config to configure Navbar
+   * @param {string} name -- name of Navbar
+   */
     constructor(parent, config, name) {
         this.#parent = parent;
         this.#config = config;
@@ -47,8 +50,8 @@ class Navbar {
     }
 
     /**
-     * Returns all entries of config
-     */
+   * Returns all entries of config
+   */
     get items() {
         return Object.entries(this.#config).map(([key, value]) => ({
             key,
@@ -57,15 +60,17 @@ class Navbar {
     }
 
     /**
-     * Add event listener to component. If HTMLAnchorElement or HTMLButtonElement was 'clicked'
-     * then redirect to section in dataset of element
-     */
+   * Add event listener to component. If HTMLAnchorElement or HTMLButtonElement was 'clicked'
+   * then redirect to section in dataset of element
+   */
     #callEventListener() {
         ComponentsStore.subscribe(
             (list) => {
-                const component = list.filter((comp) => comp.name === componentsNames.NAVBAR);
+                const component = list.filter(
+                    (comp) => comp.name === componentsNames.NAVBAR,
+                );
                 if (component.length !== 0) {
-                    Actions.removeElementFromPage(componentsNames.NAVBAR);
+                    ComponentsActions.removeElementFromPage(componentsNames.NAVBAR);
                     unsubscribeFromAllStoresOnComponent(componentsNames.NAVBAR);
                     this.unRender();
                 }
@@ -79,7 +84,9 @@ class Navbar {
                     console.error('bad respond from server during logout');
                 } else {
                     this.#reRender();
-                    const element: HTMLDivElement = document.querySelector(`.${componentsNames.PLAYER}`) as HTMLDivElement;
+                    const element: HTMLDivElement = document.querySelector(
+                        `.${componentsNames.PLAYER}`,
+                    ) as HTMLDivElement;
                     element.hidden = true;
                 }
             },
@@ -105,14 +112,17 @@ class Navbar {
 
                     configForAvatar.text = values.username;
                     const pr = new Promise((resolve) => {
-                        const avatar = new AvatarNavbar(document.querySelector('.js__avatar-placement'), configForAvatar);
+                        const avatar = new AvatarNavbar(
+                            document.querySelector('.js__avatar-placement'),
+                            configForAvatar,
+                        );
                         avatar.appendElement();
                         resolve('');
                     });
                     pr.then(() => {
                         const avatar = document.querySelector('.navbar-avatar');
                         if (!avatar) {
-                            console.error('Avatar doesn\'t exist');
+                            console.error("Avatar doesn't exist");
                             return;
                         }
                         this.#renderDrop(avatar);
@@ -123,12 +133,16 @@ class Navbar {
             componentsNames.NAVBAR,
         );
 
-        const mainElement: HTMLDivElement = document.querySelector(`.${componentsJSNames.MAIN}`) as HTMLDivElement;
+        const mainElement: HTMLDivElement = document.querySelector(
+            `.${componentsJSNames.MAIN}`,
+        ) as HTMLDivElement;
 
         mainElement.addEventListener('click', (e) => {
             e?.preventDefault?.();
-            if (e.target instanceof HTMLAnchorElement
-                    || e.target instanceof HTMLButtonElement) {
+            if (
+                e.target instanceof HTMLAnchorElement
+        || e.target instanceof HTMLButtonElement
+            ) {
                 const { section } = e.target.dataset;
                 if (!section) {
                     console.error('Error in navbar redirect section');
@@ -139,9 +153,8 @@ class Navbar {
                         Router.go('/');
                     }
 
-                    ApiActions.logout();
-                } else if (Object.keys(this.#config)
-                    .includes(section)) {
+                    UserActions.logout();
+                } else if (Object.keys(this.#config).includes(section)) {
                     Router.go(this.#config[section].href);
                 }
             }
@@ -174,10 +187,10 @@ class Navbar {
     }
 
     /**
-     * Get all Items from lastCfg and returns in object
-     * @param {config} lastCfg -- config where search items
-     * @returns newCfg -- items
-    */
+   * Get all Items from lastCfg and returns in object
+   * @param {config} lastCfg -- config where search items
+   * @returns newCfg -- items
+   */
     #translateToItems(lastCfg) {
         const newcfg = { items: [] };
         for (const obj in lastCfg) {
@@ -204,7 +217,7 @@ class Navbar {
         }
 
         if (!placement) {
-            console.warn('Placement for avatar doesn\'t exist');
+            console.warn("Placement for avatar doesn't exist");
             return;
         }
 
@@ -230,14 +243,14 @@ class Navbar {
     }
 
     /**
-     * Render Navbar element in parent
-     */
+   * Render Navbar element in parent
+   */
     render() {
         const items = this.#translateToItems(this.#config);
         // @ts-ignore
         items.name = this.#name;
         if (checkAuth()) {
-            ApiActions.user(localStorage.getItem('userId'));
+            UserActions.user(localStorage.getItem('userId'));
         }
 
         const template = templateHtml;
@@ -253,13 +266,13 @@ class Navbar {
     }
 
     /**
-     * Function to rerender navbar using only to change state from notAuth to auth state
-     */
+   * Function to rerender navbar using only to change state from notAuth to auth state
+   */
     #reRender() {
-        this.#config = (checkAuth()) ? authNavConfig : unAuthNavConfig;
-        this.#name = (checkAuth()) ? 'authNavbar' : 'unAuthNavbar';
+        this.#config = checkAuth() ? authNavConfig : unAuthNavConfig;
+        this.#name = checkAuth() ? 'authNavbar' : 'unAuthNavbar';
         if (checkAuth()) {
-            ApiActions.user(localStorage.getItem('userId'));
+            UserActions.user(localStorage.getItem('userId'));
         }
 
         const navbar = document.querySelector(`.${componentsNames.NAVBAR}`);
@@ -282,8 +295,8 @@ class Navbar {
     }
 
     /**
-     * Function to unrender Navbar component
-     */
+   * Function to unrender Navbar component
+   */
     private unRender() {
         const element = document.querySelector(`.${componentsJSNames.NAVBAR}`);
         if (this.#dropDown) {

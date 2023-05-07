@@ -3,7 +3,7 @@ import { BaseComponent } from '@components/BaseComponent';
 import './line.less';
 import { METHOD } from '@config/config';
 import { imgPath } from '@config/pathConfig';
-import ApiActions from '@actions/ApiActions';
+import TrackActions from '@API/TrackActions';
 
 /**
  * Create element with track-oriented line with img, title, duration, optionally (listens).
@@ -41,10 +41,10 @@ export class Line extends BaseComponent {
         likeImg.addEventListener(METHOD.BUTTON, () => {
             if (!this.#config.isLiked) {
                 img.src = imgPath.liked;
-                ApiActions.likeTrack(this.#id);
+                TrackActions.likeTrack(this.#id);
             } else {
                 img.src = imgPath.notLiked;
-                ApiActions.unlikeTrack(this.#id);
+                TrackActions.unlikeTrack(this.#id);
             }
             this.#config.isLiked = !this.#config.isLiked;
         });

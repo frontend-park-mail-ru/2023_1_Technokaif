@@ -1,12 +1,12 @@
 import { BaseComponent } from '../../BaseComponent';
 import templateHtml from './favorite.handlebars';
 import './favorite.less';
-import ApiActions from '../../../actions/ApiActions';
-import ContentStore from '../../../stores/ContentStore';
 import { pageNames } from '@config/pageNames';
 import { setupTape } from '@setup/artistSetup';
 import { EventTypes } from '@config/EventTypes';
+import UserActions from '@API/UserActions';
 import { Tape } from '../Tape/tape';
+import ContentStore from '../../../stores/ContentStore';
 
 /**
  * Class for favorite albums page
@@ -77,7 +77,7 @@ export class FavoriteAlbums extends BaseComponent {
         renderProcess.then(() => {
             this.subscribeForStores();
             this.actionsOnRender();
-            ApiActions.favoriteAlbums(localStorage.getItem('userId'));
+            UserActions.favoriteAlbums(localStorage.getItem('userId'));
         });
 
         document.title = 'Favourite Albums';

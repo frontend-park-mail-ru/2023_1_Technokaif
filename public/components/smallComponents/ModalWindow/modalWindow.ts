@@ -4,11 +4,11 @@ import './modalWindow.less';
 import { componentsJSNames } from '@config/componentsJSNames';
 import API from '@store/API';
 import { EventTypes } from '@config/EventTypes';
-import ApiActions from '@actions/ApiActions';
 import ContentStore from '@store/ContentStore';
 import { pageNames } from '@config/pageNames';
 import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
 import { METHOD } from '@config/config';
+import PlaylistActions from '@API/PlaylistActions';
 
 /**
  * Create element with track-oriented line with img, title, duration, optionally (listens).
@@ -94,7 +94,7 @@ export class ModalWindow extends BaseComponent {
             const descriptionElement2 = document.querySelectorAll('.playlist-description');
             const descriptionElement1 = descriptionElement2[1] as HTMLTextAreaElement;
 
-            ApiActions.updatePlaylist(ContentStore.state[pageNames.PLAYLIST].id, {
+            PlaylistActions.updatePlaylist(ContentStore.state[pageNames.PLAYLIST].id, {
                 name: nameElement1.value,
                 description: descriptionElement1.value,
                 users: ContentStore.state[pageNames.PLAYLIST].playlist.users.map((element) => element.id),
@@ -112,7 +112,7 @@ export class ModalWindow extends BaseComponent {
             const formData = new FormData();
             formData.append('cover', file);
 
-            ApiActions.uploadPlaylistCover(ContentStore.state[pageNames.PLAYLIST].id, formData);
+            PlaylistActions.uploadPlaylistCover(ContentStore.state[pageNames.PLAYLIST].id, formData);
             // root.removeChild(this.fileInput);
         });
 

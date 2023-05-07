@@ -3,7 +3,7 @@ import { pageNames } from '@config/pageNames';
 import { componentsNames } from '@config/componentsNames';
 import { componentsJSNames } from '@config/componentsJSNames';
 import ComponentsStore from '@store/ComponentsStore';
-import Actions from '@actions/Actions';
+import Actions from '@Actions';
 import unsubscribeFromAllStoresOnComponent from '../utils/functions/unsubscribeFromAllStores';
 import ContentStore from '../stores/ContentStore';
 

@@ -8,7 +8,7 @@ import { componentsNames } from '@config/componentsNames';
 import { setupTape } from '@setup/artistSetup';
 import { shuffleArray } from '@functions/shuffleArray';
 import { componentsJSNames } from '@config/componentsJSNames';
-import ApiActions from '../../../actions/ApiActions';
+import ApiActions from '@actions/Api/ApiActions';
 import { BaseComponent } from '../../BaseComponent';
 import ContentStore from '../../../stores/ContentStore';
 

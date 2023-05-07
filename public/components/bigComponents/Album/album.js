@@ -1,18 +1,19 @@
 import tmp from './album.handlebars';
 import './album.less';
 import { componentsNames } from '@config/componentsNames';
-import { BaseComponent } from '../../BaseComponent';
 import { EventTypes } from '@config/EventTypes';
-import ContentStore from '../../../stores/ContentStore';
-import Actions from '../../../actions/Actions';
-import ApiActions from '../../../actions/ApiActions';
 import { pageNames } from '@config/pageNames';
 import { setupLineList } from '@setup/albumSetup';
-import SongStore from '../../../stores/SongStore';
 import { imgPath } from '@config/pathConfig';
-import Router from '../../../router/Router';
 // eslint-disable-next-line import/namespace
+import AlbumActions from '@API/AlbumActions';
+import PlayerActions from '@Actions/PlayerActions';
 import { LineList } from '../LineList/lineList';
+import Router from '../../../router/Router';
+import { BaseComponent } from '../../BaseComponent';
+import ContentStore from '../../../stores/ContentStore';
+import Actions from '../../../actions/Actions';
+import SongStore from '../../../stores/SongStore';
 
 /** Class for Album */
 export class Album extends BaseComponent {
@@ -96,10 +97,10 @@ export class Album extends BaseComponent {
                     const state = ContentStore.state.ALBUM;
                     if (state.isLiked) {
                         imgLike.src = imgPath.notLiked;
-                        ApiActions.unLikeAlbum(this.#id);
+                        AlbumActions.unLikeAlbum(this.#id);
                     } else {
                         imgLike.src = imgPath.liked;
-                        ApiActions.likeAlbum(this.#id);
+                        AlbumActions.likeAlbum(this.#id);
                     }
                     state.isLiked = !state.isLiked;
                 });
@@ -108,18 +109,18 @@ export class Album extends BaseComponent {
                     this.firstPlay = true;
                     if (!this.#isAlbumLoaded) {
                         this.#isAlbumLoaded = true;
-                        Actions.playAlbum(id);
+                        PlayerActions.playAlbum(id);
                     }
 
                     if (!SongStore.isPlaying) {
-                        Actions.changePlayState(true);
+                        PlayerActions.changePlayState(true);
                     } else {
-                        Actions.changePlayState(false);
+                        PlayerActions.changePlayState(false);
                     }
                 });
 
                 if (id !== undefined) {
-                    ApiActions.getAlbum(id);
+                    AlbumActions.getAlbum(id);
                 }
             },
             EventTypes.ID_CAN_BE_VIEWED,

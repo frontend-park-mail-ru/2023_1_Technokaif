@@ -143,14 +143,14 @@ export class AudioPlayer extends BaseComponent {
     /** Start playing audio */
     #play() {
         if (SongStore.exist) {
-            Actions.changePlayState(true);
+            PlayerActions.changePlayState(true);
         }
     }
 
     /** Stop playing audio */
     #pause() {
         if (SongStore.exist) {
-            Actions.changePlayState(false);
+            PlayerActions.changePlayState(false);
         }
     }
 

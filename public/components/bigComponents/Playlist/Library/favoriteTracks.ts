@@ -1,7 +1,7 @@
 import { setupLibraryTracks } from '@setup/libraryTracksSetup';
 import { EventTypes } from '@config/EventTypes';
 import { pageNames } from '@config/pageNames';
-import ApiActions from '../../../../actions/ApiActions';
+import UserActions from '@API/UserActions';
 import { Playlist } from '../playlist';
 
 /**
@@ -42,7 +42,7 @@ export class FavoriteTracks extends Playlist {
         });
 
         renderProcess.then(() => {
-            ApiActions.favoriteTracks(localStorage.getItem('userId'));
+            UserActions.favoriteTracks(localStorage.getItem('userId'));
             this.actionsOnRender();
             super.subscribeBaseLogic(EventTypes.GOT_FAVORITE_TRACKS, pageNames.LIBRARY_TRACKS);
         });

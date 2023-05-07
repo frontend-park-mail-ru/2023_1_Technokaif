@@ -2,7 +2,7 @@ import { pageNames } from '@config/pageNames';
 import { componentsNames } from '@config/componentsNames';
 import { EventTypes } from '@config/EventTypes';
 import ComponentsStore from '@store/ComponentsStore';
-import Actions from '@actions/Actions';
+import Actions from '@Actions';
 import { BaseView } from './BaseView';
 
 // todo Validate all create func to check
@@ -39,7 +39,7 @@ class RegisterView extends BaseView {
             switch (componentName) {
             case componentsNames.REGISTER_FORM:
                 component.render(parent);
-                Actions.addElementOnPage(componentName);
+                ComponentsActions.addElementOnPage(componentName);
                 break;
             default:
             }
@@ -53,7 +53,7 @@ class RegisterView extends BaseView {
         super.render();
         this.#addSubscribes();
 
-        Actions.whatRender(super.name);
+        ComponentsActions.whatRender(super.name);
     }
 }
 

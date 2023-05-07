@@ -41,10 +41,13 @@ import { uploadPlaylistCover } from '@api/playlists/uploadPlaylistCoverAjaxReque
 import { addTrackAjaxRequest } from '@api/playlists/addTrackAjaxRequest';
 import { removeTrackAjaxRequest } from '@api/playlists/removeTrackAjaxRequest';
 import { deletePlaylistAjaxRequest } from '@api/playlists/deletePlaylistAjaxRequest';
-import ActionsSearch from '@actions/Actions/ActionsSearch';
-import Actions from '@actions/Actions';
+import ActionsSearch from '@Actions/ActionsSearch';
+import Actions from '@Actions';
 import ActionTypes from '@actions/ActionTypes';
 import IStore from '@store/IStore';
+import PlaylistActions from '@API/PlaylistActions';
+import PlayerActions from '@Actions/PlayerActions';
+import ContentActions from '@Actions/ContentActions';
 
 /**
  * Class using for getting data from backend.
@@ -304,21 +307,21 @@ class API extends IStore {
     /** Function to get Tracks from server */
     #trackRequestFromServer(id: string) {
         trackAjax(id).then((tracks) => {
-            Actions.loadMoreLine(tracks);
+            ContentActions.loadMoreLine(tracks);
         });
     }
 
     /** Function to get Albums from server */
     #albumsRequestFromServer(id: string) {
         getAlbumTracksFromServer(id).then((tracks) => {
-            Actions.loadMoreLine(tracks);
+            ContentActions.loadMoreLine(tracks);
         });
     }
 
     /** Function to get Artists from server */
     #artistRequestFromServer(id: string) {
         artistTracksAjax(id).then((tracks) => {
-            Actions.loadMoreLine(tracks);
+            ContentActions.loadMoreLine(tracks);
         });
     }
 
@@ -606,16 +609,16 @@ class API extends IStore {
         });
         Promise.all(promises).then((values) => {
             tracks = values;
-            Actions.setOffset(offset);
-            Actions.loadMoreLine(tracks);
-            Actions.changePlayState(true);
+            PlayerActions.setOffset(offset);
+            ContentActions.loadMoreLine(tracks);
+            PlayerActions.changePlayState(true);
         });
     }
 
     /** Add playlist tracks to SongStore */
     private playlistPlay(playlistId) {
         getPlaylistTracks(playlistId).then((tracks) => {
-            Actions.loadMoreLine(tracks);
+            ContentActions.loadMoreLine(tracks);
         });
     }
 }

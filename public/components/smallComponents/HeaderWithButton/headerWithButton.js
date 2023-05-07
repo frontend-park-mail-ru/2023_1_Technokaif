@@ -8,7 +8,7 @@ import { EventTypes } from '@config/EventTypes';
 import { componentsNames } from '@config/componentsNames';
 import { componentsJSNames } from '@config/componentsJSNames';
 import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
-import Actions from '@actions/Actions';
+import Actions from '@Actions';
 import ComponentsStore from '@store/ComponentsStore';
 
 /**

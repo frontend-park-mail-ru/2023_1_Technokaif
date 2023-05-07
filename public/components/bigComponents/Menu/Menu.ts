@@ -3,12 +3,12 @@ import { EventTypes } from '@config/EventTypes';
 import { componentsJSNames } from '@config/componentsJSNames';
 import { checkAuth } from '@functions/checkAuth';
 import { routingUrl } from '@config/routingUrls';
+import PlaylistActions from '@API/PlaylistActions';
 import Router from '../../../router/Router';
 import templateHtml from './menu.handlebars';
 import ComponentsStore from '../../../stores/ComponentsStore';
 import Actions from '../../../actions/Actions';
 import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
-import ApiActions from '../../../actions/ApiActions';
 import API from '../../../stores/API';
 
 /**
@@ -89,7 +89,7 @@ class Menu {
                             console.error('Error in user id');
                             return;
                         }
-                        ApiActions.createPlaylist({
+                        PlaylistActions.createPlaylist({
                             description: '',
                             name: 'New playlist',
                             users: [

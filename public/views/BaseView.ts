@@ -3,8 +3,9 @@ import { EventTypes } from '@config/EventTypes';
 import { componentsNames } from '@config/componentsNames';
 import { componentsJSNames } from '@config/componentsJSNames';
 import { pageNames } from '@config/pageNames';
-import Actions from '@actions/Actions';
+import Actions from '@Actions';
 import ComponentsStore from '@store/ComponentsStore';
+import ComponentsActions from '@Actions/ComponentsActions';
 
 /** Object that contain name and render function */
 export interface NameAndRender {
@@ -68,7 +69,7 @@ export abstract class BaseView {
             case componentsNames.PLAYER:
             case componentsNames.LIBRARY_LIST:
                 component.render(parent);
-                Actions.addElementOnPage(componentName);
+                ComponentsActions.addElementOnPage(componentName);
                 break;
             default:
             }

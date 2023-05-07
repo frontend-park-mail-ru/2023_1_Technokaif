@@ -2,7 +2,7 @@ import { pageNames } from '@config/pageNames';
 import { EventTypes } from '@config/EventTypes';
 import { componentsNames } from '@config/componentsNames';
 import ComponentsStore from '@store/ComponentsStore';
-import Actions from '@actions/Actions';
+import ComponentsActions from '@Actions/ComponentsActions';
 import { BaseView } from './BaseView';
 
 /** Class that render Album page */
@@ -38,7 +38,7 @@ class SearchView extends BaseView {
             case componentsNames.SEARCH_LINE:
             case componentsNames.SEARCH_CONTENT:
                 component.render(parent);
-                Actions.addElementOnPage(componentName);
+                ComponentsComponentsActions.addElementOnPage(componentName);
                 break;
             default:
             }
@@ -52,7 +52,7 @@ class SearchView extends BaseView {
         super.render();
         this.#addSubscribes();
 
-        Actions.whatRender(super.name);
+        ComponentsComponentsActions.whatRender(super.name);
     }
 }
 

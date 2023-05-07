@@ -108,6 +108,8 @@ module.exports = {
             '@views': path.resolve(__dirname, 'public/views'),
             '@store': path.resolve(__dirname, 'public/stores'),
             '@svg': path.resolve(__dirname, 'public/static/svg'),
+            "@API":  path.resolve(__dirname, 'public/actions/Api),
+            "@Actions": path.resolve(__dirname, 'public/actions/Actions),
         },
         fallback: {
             path: require.resolve('path-browserify'),

@@ -65,11 +65,11 @@ export class Tape extends BaseComponent {
                             return;
                         }
                         if (event.target.classList.contains('play')) {
-                            Actions.changePlayState(false);
+                            PlayerActions.changePlayState(false);
                             event.target.classList.remove('play');
                         } else {
                             if (SongStore.artistsInfo.find((artist) => Number(id) === artist.id)) {
-                                Actions.changePlayState(true);
+                                PlayerActions.changePlayState(true);
                             } else {
                                 Actions.playArtist(id);
                             }
@@ -87,11 +87,11 @@ export class Tape extends BaseComponent {
                         }
 
                         if (event.target.classList.contains('play')) {
-                            Actions.changePlayState(false);
+                            PlayerActions.changePlayState(false);
                             event.target.classList.remove('play');
                         } else {
                             if (SongStore.trackInfo.id === Number(id)) {
-                                Actions.changePlayState(true);
+                                PlayerActions.changePlayState(true);
                             } else {
                                 Actions.playTrack(id);
                             }
@@ -107,11 +107,11 @@ export class Tape extends BaseComponent {
                         }
 
                         if (event.target.classList.contains('play')) {
-                            Actions.changePlayState(false);
+                            PlayerActions.changePlayState(false);
                             event.target.classList.remove('play');
                         } else {
                             if (SongStore.albumInfo === Number(id)) {
-                                Actions.changePlayState(true);
+                                PlayerActions.changePlayState(true);
                             } else {
                                 Actions.playAlbum(id);
                             }
@@ -129,11 +129,11 @@ export class Tape extends BaseComponent {
                         }
 
                         if (event.target.classList.contains('play')) {
-                            Actions.changePlayState(false);
+                            PlayerActions.changePlayState(false);
                             event.target.classList.remove('play');
                         } else {
                             if (SongStore.albumInfo === Number(id)) {
-                                Actions.changePlayState(true);
+                                PlayerActions.changePlayState(true);
                             } else {
                                 Actions.playPlaylistWithOffset(id, 0);
                             }

@@ -4,6 +4,7 @@ import { logFormSetup } from '@setup/loginSetup';
 import { METHOD } from '@config/config';
 import { EventTypes } from '@config/EventTypes';
 import { ERRORS_LOG } from '@config/errors';
+import UserActions from '@API/UserActions';
 import template from './loginComponent.handlebars';
 import { BaseComponent } from '../../BaseComponent';
 import Actions from '../../../actions/Actions';
@@ -11,7 +12,6 @@ import { Form } from '../form/form';
 import Router from '../../../router/Router';
 import UserInfoStore from '../../../stores/UserInfoStore';
 import API from '../../../stores/API.ts';
-import ApiActions from '../../../actions/ApiActions';
 
 const ElementsClassForLogin = {
     login: 'js__login',
@@ -146,7 +146,7 @@ export class LoginComponent extends BaseComponent {
     sendAllData(status) {
         if (status === 'OK') {
             const { login } = UserInfoStore.state;
-            ApiActions.login(
+            UserActions.login(
                 login,
                 document.querySelector(`.${ElementsClassForLogin.password}`).value,
             );

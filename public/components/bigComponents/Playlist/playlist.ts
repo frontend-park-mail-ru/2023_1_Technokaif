@@ -11,8 +11,8 @@ import {
 } from '@setup/libraryTracksSetup';
 import SongStore from '../../../stores/SongStore';
 import { imgPath } from '@config/pathConfig';
-import ApiActions from '../../../actions/ApiActions';
 import { setupPlaylistLineList } from '@setup/playlistSetup';
+import PlaylistActions from '@API/PlaylistActions';
 
 /**
  * Create Artist content
@@ -139,10 +139,10 @@ export abstract class Playlist extends BaseComponent {
                         const state = ContentStore.state[pageName];
                         if (state.isLiked) {
                             imgLike.src = imgPath.notLiked;
-                            ApiActions.unlikePlaylist(state.id);
+                            PlaylistActions.unlikePlaylist(state.id);
                         } else {
                             imgLike.src = imgPath.liked;
-                            ApiActions.likePlaylist(state.id);
+                            PlaylistActions.likePlaylist(state.id);
                         }
                         state.isLiked = !state.isLiked;
                     });
@@ -158,9 +158,9 @@ export abstract class Playlist extends BaseComponent {
                     }
 
                     if (!SongStore.isPlaying) {
-                        Actions.changePlayState(true);
+                        PlayerActions.changePlayState(true);
                     } else {
-                        Actions.changePlayState(false);
+                        PlayerActions.changePlayState(false);
                     }
                 });
 

@@ -1,8 +1,8 @@
 import { pageNames } from '@config/pageNames';
 import { EventTypes } from '@config/EventTypes';
 import { componentsNames } from '@config/componentsNames';
-import Actions from '@actions/Actions';
 import ComponentsStore from '@store/ComponentsStore';
+import ComponentsActions from '@Actions/ComponentsActions';
 import { BaseView } from './BaseView';
 
 /** Class that render Album page */
@@ -37,7 +37,7 @@ class LibraryPlaylistsView extends BaseView {
             switch (componentName) {
             case componentsNames.LIBRARY_PLAYLISTS:
                 component.render(parent);
-                Actions.addElementOnPage(componentName);
+                ComponentsComponentsActions.addElementOnPage(componentName);
                 break;
             default:
             }
@@ -51,7 +51,7 @@ class LibraryPlaylistsView extends BaseView {
         super.render();
         this.#addSubscribes();
 
-        Actions.whatRender(super.name);
+        ComponentsComponentsActions.whatRender(super.name);
     }
 }
 

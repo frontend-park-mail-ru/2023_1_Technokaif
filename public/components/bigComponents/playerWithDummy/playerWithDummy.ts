@@ -47,7 +47,7 @@ export class PlayerWithDummy extends BaseComponent {
 
                     pr.then(() => {
                         this.render();
-                        Actions.addElementOnPage(componentsNames.PLAYER);
+                        ComponentsActions.addElementOnPage(componentsNames.PLAYER);
                     });
                 }
             },

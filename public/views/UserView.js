@@ -2,7 +2,7 @@ import { pageNames } from '@config/pageNames';
 import { componentsNames } from '@config/componentsNames';
 import { EventTypes } from '@config/EventTypes';
 import ComponentsStore from '@store/ComponentsStore';
-import Actions from '@actions/Actions';
+import Actions from '@Actions';
 import { BaseView } from './BaseView';
 
 /** Class for user page view. */
@@ -35,7 +35,7 @@ export class UserView extends BaseView {
             switch (componentName) {
             case componentsNames.USER:
                 component.render(parent);
-                Actions.addElementOnPage(componentName);
+                ComponentsActions.addElementOnPage(componentName);
                 break;
             default:
             }
@@ -49,7 +49,7 @@ export class UserView extends BaseView {
         super.render();
 
         this.#addSubscribes();
-        Actions.whatRender(super.name);
+        ComponentsActions.whatRender(super.name);
     }
 }
 

@@ -3,20 +3,22 @@ import { BaseComponent } from '../../BaseComponent';
 import './lineList.less';
 import '../../smallComponents/Line/line.less';
 import { componentsNames } from '@config/componentsNames';
-import Actions from '../../../actions/Actions';
-import ContentStore from '../../../stores/ContentStore';
 import { pageNames } from '@config/pageNames';
 import { checkAuth } from '@functions/checkAuth';
-import Router from '../../../router/Router';
-import SongStore from '../../../stores/SongStore';
-import ApiActions from '../../../actions/ApiActions';
 import { EventTypes } from '@config/EventTypes';
-import API from '../../../stores/API';
 import { routingUrl } from '@config/routingUrls';
-import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
 import { DIRECTIONS_DROPDOWN, DropDown } from '@smallComponents/dropDown/dropDown';
 import { dropDownTrackSetup } from '@setup/playlistSetup';
 import { METHOD } from '@config/config';
+import UserActions from '@API/UserActions';
+import TrackActions from '@API/TrackActions';
+import PlaylistActions from '@API/PlaylistActions';
+import Actions from '../../../actions/Actions';
+import ContentStore from '../../../stores/ContentStore';
+import Router from '../../../router/Router';
+import SongStore from '../../../stores/SongStore';
+import API from '../../../stores/API';
+import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
 
 /**
  * Tape for elements
@@ -60,7 +62,7 @@ export class LineList extends BaseComponent {
         this.unsubscribeLines();
         const userId = localStorage.getItem('userId');
         if (userId) {
-            ApiActions.userPlaylists(Number(userId));
+            UserActions.userPlaylists(Number(userId));
         }
     }
 
@@ -171,7 +173,7 @@ export class LineList extends BaseComponent {
             const bt3 = document.createElement('div');
             bt3.textContent = 'Remove';
             dropDown.addOptionsElement(bt3, 'click', () => {
-                ApiActions.removeTrackFromPlaylist(
+                PlaylistActions.removeTrackFromPlaylist(
                     ContentStore.state[pageNames.PLAYLIST].id,
                     trackId,
                 );
@@ -195,7 +197,7 @@ export class LineList extends BaseComponent {
             li.classList.add('li-element');
             li.textContent = playlist.name;
             where.addOptionsElement(li, 'click', () => {
-                ApiActions.addTrackInPlaylist(playlist.id, index);
+                PlaylistActions.addTrackInPlaylist(playlist.id, index);
             });
             ul.appendChild(li);
         });
@@ -273,7 +275,7 @@ export class LineList extends BaseComponent {
                     if (!playButtons[id - 1]?.hidden) {
                         // eslint-disable-next-line max-len
                         if (SongStore.exist && SongStore.trackInfo.id === +trackId) {
-                            Actions.changePlayState(true);
+                            PlayerActions.changePlayState(true);
                         } else {
                             switch (this.name) {
                             case componentsNames.ARTIST_LINE_LIST:
@@ -303,7 +305,7 @@ export class LineList extends BaseComponent {
                             }
                         }
                     } else {
-                        Actions.changePlayState(false);
+                        PlayerActions.changePlayState(false);
                     }
                 } else if (event.target === like) {
                     const likeBlock: NodeListOf<HTMLButtonElement> = document.querySelectorAll(`.${this._config.like}`) as NodeListOf<HTMLButtonElement>;
@@ -315,13 +317,13 @@ export class LineList extends BaseComponent {
                     }
 
                     if (!likeBlock[id - 1]?.hidden) {
-                        ApiActions.likeTrack(trackId);
+                        TrackActions.likeTrack(trackId);
                         // @ts-ignore
                         likeBlock[id - 1].hidden = true;
                         // @ts-ignore
                         unlike[id - 1].hidden = false;
                     } else {
-                        ApiActions.unlikeTrack(trackId);
+                        TrackActions.unlikeTrack(trackId);
                         // @ts-ignore
                         likeBlock[id - 1].hidden = false;
                         // @ts-ignore
