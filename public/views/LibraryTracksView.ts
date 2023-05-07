@@ -38,7 +38,7 @@ class LibraryPageView extends BaseView {
             switch (componentName) {
             case componentsNames.LIBRARY_TRACKS:
                 component.render(parent);
-                ComponentsComponentsActions.addElementOnPage(componentName);
+                ComponentsActions.addElementOnPage(componentName);
                 break;
             default:
             }
@@ -52,7 +52,7 @@ class LibraryPageView extends BaseView {
         super.render();
         this.#addSubscribes();
 
-        ComponentsComponentsActions.whatRender(super.name);
+        ComponentsActions.whatRender(super.name);
     }
 }
 

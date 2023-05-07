@@ -37,7 +37,7 @@ class PlaylistView extends BaseView {
             switch (componentName) {
             case componentsNames.PLAYLIST:
                 component.render(parent);
-                ComponentsComponentsActions.addElementOnPage(componentName);
+                ComponentsActions.addElementOnPage(componentName);
                 break;
             default:
             }
@@ -51,7 +51,7 @@ class PlaylistView extends BaseView {
         super.render();
         this.#addSubscribes();
 
-        ComponentsComponentsActions.whatRender(super.name);
+        ComponentsActions.whatRender(super.name);
     }
 }
 

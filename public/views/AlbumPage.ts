@@ -38,7 +38,7 @@ class AlbumPageView extends BaseView {
             case componentsNames.ALBUM:
                 component.render(parent);
 
-                ComponentsComponentsActions.addElementOnPage(componentName);
+                ComponentsActions.addElementOnPage(componentName);
                 break;
             default:
             }

@@ -1,5 +1,5 @@
 import Dispatcher from '@dispatcher/Dispatcher';
-import ActionTypes from '@actions/ActionTypes';
+import ActionTypes from '@Actions/ActionTypes.js';
 import {
     AlbumApi, ArtistApi, PlaylistApi, TracksApi,
 } from '@api/ApiAnswers';

@@ -42,10 +42,9 @@ import { addTrackAjaxRequest } from '@api/playlists/addTrackAjaxRequest';
 import { removeTrackAjaxRequest } from '@api/playlists/removeTrackAjaxRequest';
 import { deletePlaylistAjaxRequest } from '@api/playlists/deletePlaylistAjaxRequest';
 import ActionsSearch from '@Actions/ActionsSearch';
-import Actions from '@Actions';
+import PlaylistActions from '@Actions/PlayerActions';
 import ActionTypes from '@actions/ActionTypes';
 import IStore from '@store/IStore';
-import PlaylistActions from '@API/PlaylistActions';
 import PlayerActions from '@Actions/PlayerActions';
 import ContentActions from '@Actions/ContentActions';
 
