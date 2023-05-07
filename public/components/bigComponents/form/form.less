@@ -48,7 +48,10 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 100vh;
+
+    @media (max-width: @desktop) {
+        height: 100vh;
+    }
 }
 
 .js__formLeft {

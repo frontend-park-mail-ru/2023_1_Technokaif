@@ -33,7 +33,7 @@ self.addEventListener('fetch', (event) => {
             .then((cachedResponse) => {
                 if (navigator.onLine) {
                     return fetch(event.request).then((response) => {
-                        if (!response?.ok || !response.method !== 'GET') {
+                        if (!response?.ok || response.method !== 'GET') {
                             return response;
                         }
 
