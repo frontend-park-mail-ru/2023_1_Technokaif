@@ -1,4 +1,4 @@
-import IStore from '../stores/IStore';
+import IStore from '@stores/IStore';
 
 /** Function to call in Router to call */
 export type FunctionRenderInRouter = () => void;

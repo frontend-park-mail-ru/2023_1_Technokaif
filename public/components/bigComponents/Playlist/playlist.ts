@@ -1,18 +1,18 @@
 import templateHtml from './categoryTracks.handlebars';
 import './library.less';
 import { LineList } from '../LineList/lineList';
-import { componentsNames } from '../../../utils/config/componentsNames';
+import { componentsNames } from '@config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
-import { EventTypes } from '../../../utils/config/EventTypes';
+import { EventTypes } from '@config/EventTypes';
 import ContentStore from '../../../stores/ContentStore';
 import Actions from '../../../actions/Actions';
 import {
     setupLineList,
-} from '../../../utils/setup/libraryTracksSetup';
+} from '@setup/libraryTracksSetup';
 import SongStore from '../../../stores/SongStore';
-import { imgPath } from '../../../utils/config/pathConfig';
-import ApiActions from '../../../actions/ApiActions';
-import { setupPlaylistLineList } from '../../../utils/setup/playlistSetup';
+import { imgPath } from '@config/pathConfig';
+import { setupPlaylistLineList } from '@setup/playlistSetup';
+import PlaylistActions from '@API/PlaylistActions';
 
 /**
  * Create Artist content
@@ -139,10 +139,10 @@ export abstract class Playlist extends BaseComponent {
                         const state = ContentStore.state[pageName];
                         if (state.isLiked) {
                             imgLike.src = imgPath.notLiked;
-                            ApiActions.unlikePlaylist(state.id);
+                            PlaylistActions.unlikePlaylist(state.id);
                         } else {
                             imgLike.src = imgPath.liked;
-                            ApiActions.likePlaylist(state.id);
+                            PlaylistActions.likePlaylist(state.id);
                         }
                         state.isLiked = !state.isLiked;
                     });
@@ -158,9 +158,9 @@ export abstract class Playlist extends BaseComponent {
                     }
 
                     if (!SongStore.isPlaying) {
-                        Actions.changePlayState(true);
+                        PlayerActions.changePlayState(true);
                     } else {
-                        Actions.changePlayState(false);
+                        PlayerActions.changePlayState(false);
                     }
                 });
 

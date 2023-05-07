@@ -1,6 +1,6 @@
+import { apiUrl } from '@config/apiUrls';
+import { generatePageById } from '@functions/urlGenerators';
 import Ajax from '../../modules/Ajax.ts';
-import { apiUrl } from '../../utils/config/apiUrls.js';
-import { generatePageById } from '../../utils/functions/urlGenerators';
 
 /**
  * Function for main page content render.

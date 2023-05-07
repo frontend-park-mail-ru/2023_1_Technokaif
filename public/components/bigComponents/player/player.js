@@ -2,14 +2,14 @@ import Actions from '../../../actions/Actions';
 import template from './player.handlebars';
 import './player.less';
 import SongStore from '../../../stores/SongStore';
-import { EventTypes } from '../../../utils/config/EventTypes';
-import { componentsNames } from '../../../utils/config/componentsNames';
+import { EventTypes } from '@config/EventTypes';
+import { componentsNames } from '@config/componentsNames';
 import { BaseComponent } from '../../BaseComponent';
 import ComponentsStore from '../../../stores/ComponentsStore';
 import {
     METHOD, playerConfig, playerElementsJS, RESPONSES,
-} from '../../../utils/config/config';
-import { imgPath } from '../../../utils/config/pathConfig';
+} from '@config/config';
+import { imgPath } from '@config/pathConfig';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer extends BaseComponent {
@@ -143,14 +143,14 @@ export class AudioPlayer extends BaseComponent {
     /** Start playing audio */
     #play() {
         if (SongStore.exist) {
-            Actions.changePlayState(true);
+            PlayerActions.changePlayState(true);
         }
     }
 
     /** Stop playing audio */
     #pause() {
         if (SongStore.exist) {
-            Actions.changePlayState(false);
+            PlayerActions.changePlayState(false);
         }
     }
 

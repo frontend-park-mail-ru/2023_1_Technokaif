@@ -1,4 +1,4 @@
-import { imgPath } from '../config/pathConfig';
+import { imgPath } from '@config/pathConfig';
 
 /**
  * Search setup

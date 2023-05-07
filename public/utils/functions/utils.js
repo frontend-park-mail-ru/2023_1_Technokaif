@@ -1,4 +1,4 @@
-import { ID_REG } from '../config/id';
+import { ID_REG } from '@config/id';
 
 /**
  * Create div block with classes and apeend it to parent

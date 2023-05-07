@@ -1,21 +1,20 @@
 import template from './user.handlebars';
-import { Button } from '../../smallComponents/Button/button';
-import { Avatar } from '../../smallComponents/avatar/avatar';
-import { Form } from '../form/form';
-import { dateSetup } from '../../../utils/setup/registrationSetup';
+import { Button } from '@smallComponents/Button/button';
+import { Avatar } from '@smallComponents/avatar/avatar';
+import { dateSetup } from '@setup/registrationSetup';
 import './user.less';
-import Actions from '../../../actions/Actions';
-import { getCheckedValueRadioButtons } from '../../../utils/functions/utils';
-import { ElementsClassForUser, METHOD, RESPONSES } from '../../../utils/config/config';
-import Router from '../../../router/Router';
-import UserInfoStore from '../../../stores/UserInfoStore';
-import ApiActions from '../../../actions/ApiActions';
-import { ERRORS_USER } from '../../../utils/config/errors';
-import { EventTypes } from '../../../utils/config/EventTypes';
-import { componentsNames } from '../../../utils/config/componentsNames';
-import { BaseComponent } from '../../BaseComponent';
-import { componentsJSNames } from '../../../utils/config/componentsJSNames';
-import API from '../../../stores/API.ts';
+import { ElementsClassForUser, METHOD, RESPONSES } from '@config/config';
+import { ERRORS_USER } from '@config/errors';
+import { EventTypes } from '@config/EventTypes';
+import { componentsNames } from '@config/componentsNames';
+import { componentsJSNames } from '@config/componentsJSNames';
+import { BaseComponent } from '@components/BaseComponent';
+import UserInfoStore from '@store/UserInfoStore';
+import Router from '@router/Router';
+import Actions from '@Actions';
+import API from '@store/API.ts';
+import UserActions from '@API/UserActions';
+import { Form } from '../form/form';
 
 /**
  * Class for artists content in main page.
@@ -77,7 +76,7 @@ export class User extends BaseComponent {
 
         renderPromise.then(() => {
             this.#subscribeForStores();
-            ApiActions.user(localStorage.getItem('userId'));
+            UserActions.user(localStorage.getItem('userId'));
         });
         document.title = 'Profile';
     }
@@ -208,7 +207,7 @@ export class User extends BaseComponent {
             if (day < 10) {
                 day = `0${day}`;
             }
-            ApiActions.userUpdateData(localStorage.getItem('userId'), {
+            UserActions.userUpdateData(localStorage.getItem('userId'), {
                 email: state.email,
                 firstName: state.firstName,
                 lastName: state.lastName,
@@ -225,7 +224,7 @@ export class User extends BaseComponent {
      */
     #sendAllDataCredential(status) {
         if (status === RESPONSES.OK) {
-            ApiActions.userUpdatePassword({
+            UserActions.userUpdatePassword({
                 oldPassword: document.querySelector('.js__password').value,
                 newPassword: document.querySelector('.js__new__password').value,
             });
@@ -396,7 +395,7 @@ export class User extends BaseComponent {
             const formData = new FormData();
             formData.append('avatar', file);
 
-            ApiActions.userUpdateAvatar(localStorage.getItem('userId'), formData);
+            UserActions.userUpdateAvatar(localStorage.getItem('userId'), formData);
             root.removeChild(this.fileInput);
         });
     }

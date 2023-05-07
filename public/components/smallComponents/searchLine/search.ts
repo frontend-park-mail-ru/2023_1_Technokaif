@@ -1,10 +1,10 @@
 import templateHtml from './search.handlebars';
 import './search.less';
-import { BaseComponent } from '../../BaseComponent';
-import { Input } from '../input/input';
-import { METHOD } from '../../../utils/config/config';
-import { componentsNames } from '../../../utils/config/componentsNames';
-import ApiActions from '../../../actions/ApiActions';
+import { BaseComponent } from '@components/BaseComponent';
+import { METHOD } from '@config/config';
+import { componentsNames } from '@config/componentsNames';
+import { Input } from '@smallComponents/input/input';
+import SearchAtions from '@API/SearchAtions';
 
 /**
  * Class of input field for forms.
@@ -43,7 +43,7 @@ export class SearchLine extends BaseComponent {
                 return;
             }
 
-            ApiActions.search(value);
+            SearchAtions.search(value);
         };
         input.addReaction(METHOD.CHANGE_FIELD_IMMEDIATELY, func);
     }

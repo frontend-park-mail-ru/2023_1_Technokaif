@@ -1,19 +1,19 @@
-import { Playlist } from '../playlist';
-import ApiActions from '../../../../actions/ApiActions';
-import { EventTypes } from '../../../../utils/config/EventTypes';
-import { pageNames } from '../../../../utils/config/pageNames';
-import Actions from '../../../../actions/Actions';
-import ContentStore from '../../../../stores/ContentStore';
+import { EventTypes } from '@config/EventTypes';
+import { pageNames } from '@config/pageNames';
 import {
     playlistTypes, setupModalWindow,
     setupPlaylist,
     setupUserPlaylist,
-} from '../../../../utils/setup/playlistSetup';
+} from '@setup/playlistSetup';
+import { componentsJSNames } from '@config/componentsJSNames';
+import { ModalWindow } from '@smallComponents/ModalWindow/modalWindow';
+import { componentsNames } from '@config/componentsNames';
+import { routingUrl } from '@config/routingUrls';
+import PlaylistActions from '@API/PlaylistActions';
 import API from '../../../../stores/API';
-import { componentsJSNames } from '../../../../utils/config/componentsJSNames';
-import { ModalWindow } from '../../../smallComponents/ModalWindow/modalWindow';
-import { componentsNames } from '../../../../utils/config/componentsNames';
-import { routingUrl } from '../../../../utils/config/routingUrls';
+import ContentStore from '../../../../stores/ContentStore';
+import Actions from '../../../../actions/Actions';
+import { Playlist } from '../playlist';
 import Router from '../../../../router/Router';
 
 /**
@@ -66,7 +66,7 @@ export class UserPlaylist extends Playlist {
         }
 
         deleteElement.addEventListener('click', () => {
-            ApiActions.deletePlaylist(ContentStore.state[pageNames.PLAYLIST].id);
+            PlaylistActions.deletePlaylist(ContentStore.state[pageNames.PLAYLIST].id);
         });
 
         API.subscribe(
@@ -90,7 +90,7 @@ export class UserPlaylist extends Playlist {
             // @ts-ignore
             formData.append('cover', file);
 
-            ApiActions.uploadPlaylistCover(ContentStore.state[pageNames.PLAYLIST].id, formData);
+            PlaylistActions.uploadPlaylistCover(ContentStore.state[pageNames.PLAYLIST].id, formData);
             root.removeChild(this.fileInput);
         });
 
@@ -109,7 +109,7 @@ export class UserPlaylist extends Playlist {
                 const { id } = ContentStore.state[pageNames.PLAYLIST];
 
                 if (id !== undefined) {
-                    ApiActions.playlist(id);
+                    PlaylistActions.playlist(id);
                 }
             },
             EventTypes.ID_CAN_BE_VIEWED,
@@ -139,7 +139,7 @@ export class UserPlaylist extends Playlist {
                     resolve(true);
                 });
                 pr.then(() => {
-                    ApiActions.playlistTracks(state.id);
+                    PlaylistActions.playlistTracks(state.id);
                     this.setListeners();
                 });
             },

@@ -1,5 +1,5 @@
+import { BaseComponent } from '@components/BaseComponent';
 import templateHtml from './date.handlebars';
-import { BaseComponent } from '../../BaseComponent';
 
 /**
  * Class for date fields manipulations.

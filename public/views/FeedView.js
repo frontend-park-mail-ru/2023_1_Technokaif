@@ -1,9 +1,9 @@
+import { pageNames } from '@config/pageNames';
+import { EventTypes } from '@config/EventTypes';
+import { componentsNames } from '@config/componentsNames';
+import Actions from '@Actions';
+import ComponentsStore from '@store/ComponentsStore';
 import { BaseView } from './BaseView';
-import ComponentsStore from '../stores/ComponentsStore';
-import Actions from '../actions/Actions';
-import { pageNames } from '../utils/config/pageNames';
-import { EventTypes } from '../utils/config/EventTypes';
-import { componentsNames } from '../utils/config/componentsNames';
 
 /**
  * Class for feed page view.
@@ -39,7 +39,7 @@ class FeedView extends BaseView {
             switch (componentName) {
             case componentsNames.FEED_CONTENT:
                 component.render(parent);
-                Actions.addElementOnPage(componentName);
+                ComponentsActions.addElementOnPage(componentName);
                 break;
             default:
             }
@@ -53,7 +53,7 @@ class FeedView extends BaseView {
         super.render();
         this.#addSubscribes();
 
-        Actions.whatRender(super.name);
+        ComponentsActions.whatRender(super.name);
     }
 }
 

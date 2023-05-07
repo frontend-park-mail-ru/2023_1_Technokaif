@@ -1,15 +1,15 @@
 import './tape.less';
-import template from './tape.handlebars';
-import { BaseComponent } from '../../BaseComponent';
-import Router from '../../../router/Router';
-import { instancesNames } from '../../../utils/config/instances';
-import { checkAuth } from '../../../utils/functions/checkAuth';
-import Actions from '../../../actions/Actions';
-import { TapeSetup } from '../../../utils/setup/artistSetup';
-import { METHOD } from '../../../utils/config/config';
+import { instancesNames } from '@config/instances';
+import { checkAuth } from '@functions/checkAuth';
+import { TapeSetup } from '@setup/artistSetup';
+import { METHOD } from '@config/config';
+import { EventTypes } from '@config/EventTypes';
+import { imgPath } from '@config/pathConfig';
 import SongStore from '../../../stores/SongStore';
-import { EventTypes } from '../../../utils/config/EventTypes';
-import { imgPath } from '../../../utils/config/pathConfig';
+import Actions from '../../../actions/Actions';
+import Router from '../../../router/Router';
+import { BaseComponent } from '../../BaseComponent';
+import template from './tape.handlebars';
 
 /** Tape for elements */
 export class Tape extends BaseComponent {
@@ -65,11 +65,11 @@ export class Tape extends BaseComponent {
                             return;
                         }
                         if (event.target.classList.contains('play')) {
-                            Actions.changePlayState(false);
+                            PlayerActions.changePlayState(false);
                             event.target.classList.remove('play');
                         } else {
                             if (SongStore.artistsInfo.find((artist) => Number(id) === artist.id)) {
-                                Actions.changePlayState(true);
+                                PlayerActions.changePlayState(true);
                             } else {
                                 Actions.playArtist(id);
                             }
@@ -87,11 +87,11 @@ export class Tape extends BaseComponent {
                         }
 
                         if (event.target.classList.contains('play')) {
-                            Actions.changePlayState(false);
+                            PlayerActions.changePlayState(false);
                             event.target.classList.remove('play');
                         } else {
                             if (SongStore.trackInfo.id === Number(id)) {
-                                Actions.changePlayState(true);
+                                PlayerActions.changePlayState(true);
                             } else {
                                 Actions.playTrack(id);
                             }
@@ -107,11 +107,11 @@ export class Tape extends BaseComponent {
                         }
 
                         if (event.target.classList.contains('play')) {
-                            Actions.changePlayState(false);
+                            PlayerActions.changePlayState(false);
                             event.target.classList.remove('play');
                         } else {
                             if (SongStore.albumInfo === Number(id)) {
-                                Actions.changePlayState(true);
+                                PlayerActions.changePlayState(true);
                             } else {
                                 Actions.playAlbum(id);
                             }
@@ -129,11 +129,11 @@ export class Tape extends BaseComponent {
                         }
 
                         if (event.target.classList.contains('play')) {
-                            Actions.changePlayState(false);
+                            PlayerActions.changePlayState(false);
                             event.target.classList.remove('play');
                         } else {
                             if (SongStore.albumInfo === Number(id)) {
-                                Actions.changePlayState(true);
+                                PlayerActions.changePlayState(true);
                             } else {
                                 Actions.playPlaylistWithOffset(id, 0);
                             }

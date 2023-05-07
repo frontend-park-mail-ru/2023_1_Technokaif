@@ -1,11 +1,11 @@
+import { checkAuth } from '@functions/checkAuth';
+import { componentsNames } from '@config/componentsNames';
+import { EventTypes } from '@config/EventTypes';
 import { BaseComponent } from '../../BaseComponent';
-import { checkAuth } from '../../../utils/functions/checkAuth';
 import { AudioPlayer } from '../player/player';
 import { PlayerDummy } from '../playerDummy/playerDummy';
 import Actions from '../../../actions/Actions';
-import { componentsNames } from '../../../utils/config/componentsNames';
 import API from '../../../stores/API';
-import { EventTypes } from '../../../utils/config/EventTypes';
 
 /**
  * Class for dummy instead of player
@@ -47,7 +47,7 @@ export class PlayerWithDummy extends BaseComponent {
 
                     pr.then(() => {
                         this.render();
-                        Actions.addElementOnPage(componentsNames.PLAYER);
+                        ComponentsActions.addElementOnPage(componentsNames.PLAYER);
                     });
                 }
             },

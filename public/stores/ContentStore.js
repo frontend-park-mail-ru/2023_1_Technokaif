@@ -1,8 +1,8 @@
-import ActionTypes from '../actions/ActionTypes';
-import IStore from './IStore';
-import { EventTypes } from '../utils/config/EventTypes';
-import { pageNames } from '../utils/config/pageNames';
-import { instancesNames } from '../utils/config/instances';
+import ActionTypes from '@actions/ActionTypes';
+import IStore from '@store/IStore';
+import { EventTypes } from '@config/EventTypes';
+import { pageNames } from '@config/pageNames';
+import { instancesNames } from '@config/instances';
 
 // TODO rename file to content
 /**

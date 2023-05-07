@@ -1,9 +1,9 @@
-import { FormFooter } from '../../smallComponents/formFooter/formFooter.js';
-import { Header } from '../../smallComponents/Header/header.js';
-import { Input } from '../../smallComponents/input/input.js';
+import { FormFooter } from '@smallComponents/formFooter/formFooter';
+import { Header } from '@smallComponents/Header/header';
+import { Input } from '@smallComponents/input/input';
+import { Date } from '@smallComponents/date/date';
+import { Button } from '@smallComponents/Button/button';
 import templateHtml from './form.handlebars';
-import { Date } from '../../smallComponents/date/date.js';
-import { Button } from '../../smallComponents/Button/button';
 
 /**
  * Class for artists content in main page.

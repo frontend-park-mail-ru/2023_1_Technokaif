@@ -1,5 +1,5 @@
+import { BaseComponent } from '@components/BaseComponent';
 import templateHtml from './header.handlebars';
-import { BaseComponent } from '../../BaseComponent';
 
 /**
  * Class for header in login and registration.

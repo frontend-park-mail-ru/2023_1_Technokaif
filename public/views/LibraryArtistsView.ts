@@ -1,9 +1,10 @@
+import { pageNames } from '@config/pageNames';
+import { EventTypes } from '@config/EventTypes';
+import { componentsNames } from '@config/componentsNames';
+import Actions from '@Actions';
+import ComponentsStore from '@store/ComponentsStore';
+import ComponentsActions from '@Actions/ComponentsActions';
 import { BaseView } from './BaseView';
-import { pageNames } from '../utils/config/pageNames';
-import ComponentsStore from '../stores/ComponentsStore';
-import { EventTypes } from '../utils/config/EventTypes';
-import { componentsNames } from '../utils/config/componentsNames';
-import Actions from '../actions/Actions.js';
 
 /** Class that render Album page */
 class LibraryPageView extends BaseView {
@@ -37,21 +38,19 @@ class LibraryPageView extends BaseView {
             switch (componentName) {
             case componentsNames.LIBRARY_ARTISTS:
                 component.render(parent);
-                Actions.addElementOnPage(componentName);
+                ComponentsActions.addElementOnPage(componentName);
                 break;
             default:
             }
         });
     }
 
-    /**
-     * Render all view by components.
-     */
+    /** Render all view by components */
     public override render(): void {
         super.render();
         this.#addSubscribes();
 
-        Actions.whatRender(super.name);
+        ComponentsActions.whatRender(super.name);
     }
 }
 

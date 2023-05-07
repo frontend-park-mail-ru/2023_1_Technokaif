@@ -1,4 +1,4 @@
-import { METHOD } from '../../../utils/config/config';
+import { METHOD } from '@config/config';
 
 /** Check for dropDowns. Hide if click elsewhere. Open if click on dropdown. */
 export function mainTrigger(e) {

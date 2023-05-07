@@ -1,29 +1,31 @@
 import templateHtml from './artistContent.handlebars';
 import './artistContent.less';
-import { LineList } from '../LineList/lineList';
-import { componentsNames } from '../../../utils/config/componentsNames';
-import { BaseComponent } from '../../BaseComponent';
-import { Tape } from '../Tape/tape';
-import { EventTypes } from '../../../utils/config/EventTypes';
-import ContentStore from '../../../stores/ContentStore';
-import Actions from '../../../actions/Actions';
-import ApiActions from '../../../actions/ApiActions';
-import { pageNames } from '../../../utils/config/pageNames';
-import { ArtistCover } from '../../smallComponents/ArtistCover/artistCover';
-import { componentsJSNames } from '../../../utils/config/componentsJSNames';
+import { componentsNames } from '@config/componentsNames';
+import { EventTypes } from '@config/EventTypes';
+import { pageNames } from '@config/pageNames';
+import { ArtistCover } from '@smallComponents/ArtistCover/artistCover';
+import { componentsJSNames } from '@config/componentsJSNames';
 import {
     setupArtistCover,
     setupLikedSongs,
     setupLineList,
     setupTape,
-} from '../../../utils/setup/artistSetup';
-import { shuffleArray } from '../../../utils/functions/shuffleArray';
-import SongStore from '../../../stores/SongStore';
-import { LikedSongs } from '../../smallComponents/LikedSongs/likedSongs';
-import { checkAuth } from '../../../utils/functions/checkAuth';
-import { imgPath } from '../../../utils/config/pathConfig';
-import { instancesNames } from '../../../utils/config/instances';
-import API from '../../../stores/API';
+} from '@setup/artistSetup';
+import { shuffleArray } from '@functions/shuffleArray';
+import { LikedSongs } from '@smallComponents/LikedSongs/likedSongs';
+import { checkAuth } from '@functions/checkAuth';
+import { imgPath } from '@config/pathConfig';
+import { instancesNames } from '@config/instances';
+import ArtistActions from '@API/ArtistActions';
+import PlayerActions from '@Actions/PlayerActions';
+import UserActions from '@API/UserActions';
+import API from '@store/API';
+import { LineList } from '@bigComponents/LineList/lineList';
+import { BaseComponent } from '@components/BaseComponent';
+import { Tape } from '@bigComponents/Tape/tape';
+import ContentStore from '@store/ContentStore';
+import Actions from '@actions/Actions';
+import SongStore from '@store/SongStore';
 
 /**
  * Create Artist content
@@ -115,7 +117,11 @@ export class ArtistContent extends BaseComponent {
         if (likeBlock) {
             placement.removeChild(likeBlock);
         }
-        const counter = tracks.filter((track) => (track.artists.filter((trackArtist) => trackArtist.name === artist.name).length > 0)).length;
+        const counter = tracks.filter(
+            (track) => (track.artists.filter(
+                (trackArtist) => trackArtist.name === artist.name,
+            ).length > 0),
+        ).length;
         const likedSongs = new LikedSongs(placement, setupLikedSongs(artist, counter));
         likedSongs.appendElement();
     }
@@ -129,10 +135,10 @@ export class ArtistContent extends BaseComponent {
             const { artist } = ContentStore.state[pageNames.ARTIST_PAGE];
             if (artist.isLiked) {
                 imgLike.src = imgPath.notLiked;
-                ApiActions.unLikeArtist(artist.id);
+                ArtistActions.unLikeArtist(artist.id);
             } else {
                 imgLike.src = imgPath.liked;
-                ApiActions.likeArtist(artist.id);
+                ArtistActions.likeArtist(artist.id);
             }
             artist.isLiked = !artist.isLiked;
         });
@@ -148,15 +154,15 @@ export class ArtistContent extends BaseComponent {
                     if (!playButton.hidden) {
                         // eslint-disable-next-line max-len
                         if (SongStore.exist && SongStore.trackInfo.artists.filter((element) => element.name === ContentStore.state[pageNames.ARTIST_PAGE].artist.name).length > 0) {
-                            Actions.changePlayState(true);
+                            PlayerActions.changePlayState(true);
                         } else {
-                            Actions.playArtist(id);
+                            PlayerActions.playArtist(id);
                         }
 
                         playButton.hidden = true;
                         stopButton.hidden = false;
                     } else {
-                        Actions.changePlayState(false);
+                        PlayerActions.changePlayState(false);
                         stopButton.hidden = true;
                         playButton.hidden = false;
                     }
@@ -164,9 +170,9 @@ export class ArtistContent extends BaseComponent {
                     this.#activatedButton = true;
                 });
                 if (id !== undefined) {
-                    ApiActions.artist(id);
-                    ApiActions.artistTracks(id);
-                    ApiActions.artistAlbums(id);
+                    ArtistActions.artist(id);
+                    ArtistActions.artistTracks(id);
+                    ArtistActions.artistAlbums(id);
                 }
             },
             EventTypes.ID_CAN_BE_VIEWED,
@@ -213,7 +219,7 @@ export class ArtistContent extends BaseComponent {
                     this.#renderLines();
 
                     if (checkAuth()) {
-                        ApiActions.favoriteTracks(localStorage.getItem('userId'));
+                        UserActions.favoriteTracks(localStorage.getItem('userId'));
                     }
 
                     break;
@@ -232,7 +238,7 @@ export class ArtistContent extends BaseComponent {
 
         API.subscribe(
             () => {
-                ApiActions.favoriteTracks(localStorage.getItem('userId'));
+                UserActions.favoriteTracks(localStorage.getItem('userId'));
             },
             EventTypes.LIKED_TRACK,
             this.name,
@@ -240,7 +246,7 @@ export class ArtistContent extends BaseComponent {
 
         API.subscribe(
             () => {
-                ApiActions.favoriteTracks(localStorage.getItem('userId'));
+                UserActions.favoriteTracks(localStorage.getItem('userId'));
             },
             EventTypes.UNLIKED_TRACK,
             this.name,
@@ -249,7 +255,8 @@ export class ArtistContent extends BaseComponent {
         ContentStore.subscribe(
             (instance) => {
                 const { artist } = ContentStore.state[pageNames.ARTIST_PAGE];
-                const tracks = ContentStore.state[pageNames.ARTIST_PAGE][instancesNames.LIKED_SONGS];
+                const tracks = ContentStore
+                    .state[pageNames.ARTIST_PAGE][instancesNames.LIKED_SONGS];
                 switch (instance) {
                 case instancesNames.LIKED_SONGS:
                     this.#renderLikedSongs(artist, tracks);

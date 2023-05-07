@@ -1,15 +1,15 @@
+import { componentsNames } from '@config/componentsNames';
+import { EventTypes } from '@config/EventTypes';
+import { componentsJSNames } from '@config/componentsJSNames';
+import { checkAuth } from '@functions/checkAuth';
+import { routingUrl } from '@config/routingUrls';
+import PlaylistActions from '@API/PlaylistActions';
 import Router from '../../../router/Router';
 import templateHtml from './menu.handlebars';
 import ComponentsStore from '../../../stores/ComponentsStore';
-import { componentsNames } from '../../../utils/config/componentsNames';
 import Actions from '../../../actions/Actions';
 import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
-import { EventTypes } from '../../../utils/config/EventTypes';
-import { componentsJSNames } from '../../../utils/config/componentsJSNames';
-import { checkAuth } from '../../../utils/functions/checkAuth';
-import ApiActions from '../../../actions/ApiActions';
 import API from '../../../stores/API';
-import { routingUrl } from '../../../utils/config/routingUrls';
 
 /**
  * Class for Menu: Home, Search, Playlist, Create Playlist, Liked Songs.
@@ -89,7 +89,7 @@ class Menu {
                             console.error('Error in user id');
                             return;
                         }
-                        ApiActions.createPlaylist({
+                        PlaylistActions.createPlaylist({
                             description: '',
                             name: 'New playlist',
                             users: [

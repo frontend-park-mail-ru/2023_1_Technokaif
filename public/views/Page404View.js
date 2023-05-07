@@ -1,6 +1,6 @@
+import { pageNames } from '@config/pageNames';
+import Actions from '@Actions';
 import { BaseView } from './BaseView';
-import Actions from '../actions/Actions';
-import { pageNames } from '../utils/config/pageNames';
 
 /**
  * Class for feed page view.
@@ -18,7 +18,7 @@ class Page404View extends BaseView {
      */
     render() {
         super.render();
-        Actions.whatRender(super.name);
+        ComponentsActions.whatRender(super.name);
     }
 }
 

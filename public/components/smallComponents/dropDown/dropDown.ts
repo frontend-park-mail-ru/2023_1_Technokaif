@@ -1,6 +1,6 @@
+import { METHOD } from '@config/config';
+import { BaseComponent } from '@components/BaseComponent';
 import templateHtml from './dropDown.handlebars';
-import { BaseComponent } from '../../BaseComponent';
-import { METHOD } from '../../../utils/config/config';
 import './dropDown.less';
 
 import { mainTrigger } from './triggerMain';

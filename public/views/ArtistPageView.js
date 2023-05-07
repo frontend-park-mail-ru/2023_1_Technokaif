@@ -1,9 +1,9 @@
+import { pageNames } from '@config/pageNames';
+import { EventTypes } from '@config/EventTypes';
+import { componentsNames } from '@config/componentsNames';
+import ComponentsStore from '@store/ComponentsStore';
+import Actions from '@Actions';
 import { BaseView } from './BaseView';
-import { pageNames } from '../utils/config/pageNames';
-import ComponentsStore from '../stores/ComponentsStore';
-import { EventTypes } from '../utils/config/EventTypes';
-import { componentsNames } from '../utils/config/componentsNames';
-import Actions from '../actions/Actions';
 
 /**
  * Class for artist page view.
@@ -39,7 +39,7 @@ class ArtistPageView extends BaseView {
             switch (componentName) {
             case componentsNames.ARTIST_CONTENT:
                 component.render(parent);
-                Actions.addElementOnPage(componentName);
+                ComponentsActions.addElementOnPage(componentName);
                 break;
             default:
             }
@@ -53,7 +53,7 @@ class ArtistPageView extends BaseView {
         super.render();
         this.#addSubscribes();
 
-        Actions.whatRender(super.name);
+        ComponentsActions.whatRender(super.name);
     }
 }
 

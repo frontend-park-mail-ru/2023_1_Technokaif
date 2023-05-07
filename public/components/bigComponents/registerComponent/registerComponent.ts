@@ -1,17 +1,17 @@
+import { componentsNames } from '@config/componentsNames';
+import { dateSetup, regFormSetup } from '@setup/registrationSetup';
+import { ElementsClassForRegister, METHOD, RESPONSES } from '@config/config';
+import { EventTypes } from '@config/EventTypes';
+import { ERRORS_REG } from '@config/errors';
+import { NAME_OF_VALIDATION } from '@config/validateConf';
+import UserActions from '@API/UserActions';
 import Router from '../../../router/Router';
 import { BaseComponent } from '../../BaseComponent';
-import { componentsNames } from '../../../utils/config/componentsNames';
 import template from './registerComponent.handlebars';
 import { Form } from '../form/form';
-import { dateSetup, regFormSetup } from '../../../utils/setup/registrationSetup';
-import { ElementsClassForRegister, METHOD, RESPONSES } from '../../../utils/config/config';
 import Actions from '../../../actions/Actions';
-import ApiActions from '../../../actions/ApiActions';
 import UserInfoStore from '../../../stores/UserInfoStore';
-import { EventTypes } from '../../../utils/config/EventTypes';
 import API from '../../../stores/API';
-import { ERRORS_REG } from '../../../utils/config/errors';
-import { NAME_OF_VALIDATION } from '../../../utils/config/validateConf';
 
 /** Function to work with listener triggered */
 interface reactionOnTrigger {
@@ -58,7 +58,7 @@ export class RegisterComponent extends BaseComponent {
                 return;
             }
 
-            ApiActions.login(
+            UserActions.login(
                 (email as HTMLInputElement).value,
                 (password as HTMLInputElement).value,
             );
@@ -400,7 +400,7 @@ export class RegisterComponent extends BaseComponent {
                 return;
             }
 
-            ApiActions.register({
+            UserActions.register({
                 username: state.username,
                 email: state.email,
                 firstName: state.firstName,

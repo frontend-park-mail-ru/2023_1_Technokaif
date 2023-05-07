@@ -1,6 +1,6 @@
 import templateHtml from './input.handlebars';
 import './input.less';
-import { BaseComponent } from '../../BaseComponent';
+import { BaseComponent } from '@components/BaseComponent';
 
 /**
  * Class of input field for forms.

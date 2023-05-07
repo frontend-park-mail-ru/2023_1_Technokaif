@@ -1,15 +1,15 @@
-import { Header } from '../Header/header.js';
+import { Header } from '@smallComponents/Header/header.js';
 import templateHtml from './headerWithButton.handlebars';
-import { Button } from '../Button/button';
+import { Button } from '@smallComponents/Button/button';
 
 import './headerWithButton.less';
-import Router from '../../../router/Router';
-import ComponentsStore from '../../../stores/ComponentsStore';
-import Actions from '../../../actions/Actions';
-import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
-import { EventTypes } from '../../../utils/config/EventTypes';
-import { componentsNames } from '../../../utils/config/componentsNames';
-import { componentsJSNames } from '../../../utils/config/componentsJSNames';
+import Router from '@router/Router';
+import { EventTypes } from '@config/EventTypes';
+import { componentsNames } from '@config/componentsNames';
+import { componentsJSNames } from '@config/componentsJSNames';
+import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
+import Actions from '@Actions';
+import ComponentsStore from '@store/ComponentsStore';
 
 /**
  * Class for not found content in main page.

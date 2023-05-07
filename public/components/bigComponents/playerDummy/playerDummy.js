@@ -2,7 +2,7 @@ import { BaseComponent } from '../../BaseComponent';
 import './playerDummy.less';
 import template from './playerDymmy.handlebars';
 import Router from '../../../router/Router';
-import { componentsNames } from '../../../utils/config/componentsNames';
+import { componentsNames } from '@config/componentsNames';
 import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
 
 /**

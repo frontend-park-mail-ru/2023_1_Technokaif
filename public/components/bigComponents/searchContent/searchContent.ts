@@ -1,17 +1,17 @@
 import templateHtml from './searchContent.handlebars';
 import './searchContent.less';
-import { BaseComponent } from '../../BaseComponent';
-import { EventTypes } from '../../../utils/config/EventTypes';
-import ContentStore from '../../../stores/ContentStore';
+import { EventTypes } from '@config/EventTypes';
 import {
     setupTape,
-} from '../../../utils/setup/artistSetup';
-import { Tape } from '../Tape/tape';
-import { SearchLine } from '../../smallComponents/searchLine/search';
-import { searchSetup } from '../../../utils/setup/searchSetup';
+} from '@setup/artistSetup';
+import { SearchLine } from '@smallComponents/searchLine/search';
+import { searchSetup } from '@setup/searchSetup';
+import { setupLineList } from '@setup/libraryTracksSetup';
+import { componentsNames } from '@config/componentsNames';
 import { LineList } from '../LineList/lineList';
-import { setupLineList } from '../../../utils/setup/libraryTracksSetup';
-import { componentsNames } from '../../../utils/config/componentsNames';
+import { Tape } from '../Tape/tape';
+import ContentStore from '../../../stores/ContentStore';
+import { BaseComponent } from '../../BaseComponent';
 
 /**
  * Create Artist content

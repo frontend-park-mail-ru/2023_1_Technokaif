@@ -1,12 +1,12 @@
 import { BaseComponent } from '../../BaseComponent';
 import templateHtml from './favorite.handlebars';
 import './favorite.less';
-import ApiActions from '../../../actions/ApiActions';
-import ContentStore from '../../../stores/ContentStore';
-import { pageNames } from '../../../utils/config/pageNames';
-import { BaseComponentInTape, setupTape } from '../../../utils/setup/artistSetup';
-import { EventTypes } from '../../../utils/config/EventTypes';
+import { pageNames } from '@config/pageNames';
+import { BaseComponentInTape, setupTape } from '@setup/artistSetup';
+import { EventTypes } from '@config/EventTypes';
+import UserActions from '@API/UserActions';
 import { Tape } from '../Tape/tape';
+import ContentStore from '../../../stores/ContentStore';
 
 /**
  * Class for favorite playlists page
@@ -50,7 +50,7 @@ export class LibraryPlaylists extends BaseComponent {
             (instance) => {
                 const playlists = ContentStore.state[pageNames.LIBRARY_PLAYLISTS][instance];
                 this.renderTape(playlists, 'Your playlists');
-                ApiActions.userFavoritePlaylists(localStorage.getItem('userId'));
+                UserActions.userFavoritePlaylists(localStorage.getItem('userId'));
             },
             EventTypes.GOT_USER_PLAYLISTS,
             this.name,
@@ -93,7 +93,7 @@ export class LibraryPlaylists extends BaseComponent {
         renderProcess.then(() => {
             this.subscribeForStores();
             this.actionsOnRender();
-            ApiActions.userPlaylists(localStorage.getItem('userId'));
+            UserActions.userPlaylists(localStorage.getItem('userId'));
         });
 
         document.title = 'Favourite Playlists';

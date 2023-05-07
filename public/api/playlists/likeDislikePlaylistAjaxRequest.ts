@@ -1,5 +1,5 @@
+import { apiUrl } from '@config/apiUrls';
 import Ajax from '../../modules/Ajax';
-import { apiUrl } from '../../utils/config/apiUrls.js';
 
 /**
  * Like/dislike playlist

@@ -5,6 +5,8 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
     mode: 'development',
@@ -91,11 +93,28 @@ module.exports = {
     resolve: {
         alias: {
             handlebars: 'handlebars/dist/handlebars.min.js',
+            // todo remove when will be in ts
+            '@components': path.resolve(__dirname, 'public/components'),
+            '@smallComponents': path.resolve(__dirname, 'public/components/smallComponents'),
+            '@bigComponents': path.resolve(__dirname, 'public/components/bigComponents'),
+            '@router': path.resolve(__dirname, 'public/router'),
+            '@api': path.resolve(__dirname, 'public/api'),
+            '@actions': path.resolve(__dirname, 'public/actions'),
+            '@dispatcher': path.resolve(__dirname, 'public/dispatcher'),
+            '@modules': path.resolve(__dirname, 'public/modules'),
+            '@config': path.resolve(__dirname, 'public/utils/config'),
+            '@setup': path.resolve(__dirname, 'public/utils/setup'),
+            '@functions': path.resolve(__dirname, 'public/utils/functions'),
+            '@views': path.resolve(__dirname, 'public/views'),
+            '@store': path.resolve(__dirname, 'public/stores'),
+            '@svg': path.resolve(__dirname, 'public/static/svg'),
+            "@API":  path.resolve(__dirname, 'public/actions/Api),
+            "@Actions": path.resolve(__dirname, 'public/actions/Actions),
         },
         fallback: {
             path: require.resolve('path-browserify'),
         },
         extensions: ['.tsx', '.ts', '.js'],
-
+        plugins: [new TsconfigPathsPlugin()],
     },
 };

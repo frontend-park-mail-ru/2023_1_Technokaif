@@ -1,5 +1,5 @@
+import { BaseComponent } from '@components/BaseComponent';
 import templateHtml from './formFooter.handlebars';
-import { BaseComponent } from '../../BaseComponent';
 
 /**
  * Class for next to form content(buttons...).

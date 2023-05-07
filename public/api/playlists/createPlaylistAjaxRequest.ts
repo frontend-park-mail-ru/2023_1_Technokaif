@@ -1,4 +1,4 @@
-import { apiUrl } from '../../utils/config/apiUrls.js';
+import { apiUrl } from '@config/apiUrls';
 import Ajax from '../../modules/Ajax';
 
 export interface PlaylistContent {

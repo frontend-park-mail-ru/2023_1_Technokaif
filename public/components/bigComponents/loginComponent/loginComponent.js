@@ -1,17 +1,17 @@
 import './loginComponent.less';
+import { componentsNames } from '@config/componentsNames';
+import { logFormSetup } from '@setup/loginSetup';
+import { METHOD } from '@config/config';
+import { EventTypes } from '@config/EventTypes';
+import { ERRORS_LOG } from '@config/errors';
+import UserActions from '@API/UserActions';
 import template from './loginComponent.handlebars';
 import { BaseComponent } from '../../BaseComponent';
-import { componentsNames } from '../../../utils/config/componentsNames';
-import { logFormSetup } from '../../../utils/setup/loginSetup';
 import Actions from '../../../actions/Actions';
 import { Form } from '../form/form';
-import { METHOD } from '../../../utils/config/config';
 import Router from '../../../router/Router';
 import UserInfoStore from '../../../stores/UserInfoStore';
-import { EventTypes } from '../../../utils/config/EventTypes';
 import API from '../../../stores/API.ts';
-import { ERRORS_LOG } from '../../../utils/config/errors';
-import ApiActions from '../../../actions/ApiActions';
 
 const ElementsClassForLogin = {
     login: 'js__login',
@@ -146,7 +146,7 @@ export class LoginComponent extends BaseComponent {
     sendAllData(status) {
         if (status === 'OK') {
             const { login } = UserInfoStore.state;
-            ApiActions.login(
+            UserActions.login(
                 login,
                 document.querySelector(`.${ElementsClassForLogin.password}`).value,
             );

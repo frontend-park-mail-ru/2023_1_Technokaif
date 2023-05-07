@@ -2,15 +2,15 @@ import { Tape } from '../Tape/tape';
 import templateHtml from './feedContent.handlebars';
 
 import './feedContent.less';
-import ContentStore from '../../../stores/ContentStore';
-import { pageNames } from '../../../utils/config/pageNames';
-import { EventTypes } from '../../../utils/config/EventTypes';
+import { pageNames } from '@config/pageNames';
+import { EventTypes } from '@config/EventTypes';
+import { componentsNames } from '@config/componentsNames';
+import { setupTape } from '@setup/artistSetup';
+import { shuffleArray } from '@functions/shuffleArray';
+import { componentsJSNames } from '@config/componentsJSNames';
+import ApiActions from '@actions/Api/ApiActions';
 import { BaseComponent } from '../../BaseComponent';
-import { componentsNames } from '../../../utils/config/componentsNames';
-import ApiActions from '../../../actions/ApiActions';
-import { setupTape } from '../../../utils/setup/artistSetup';
-import { shuffleArray } from '../../../utils/functions/shuffleArray';
-import { componentsJSNames } from '../../../utils/config/componentsJSNames';
+import ContentStore from '../../../stores/ContentStore';
 
 /**
  * Create FeedContent content with tapes

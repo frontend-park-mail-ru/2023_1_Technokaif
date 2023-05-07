@@ -1,5 +1,5 @@
-import { ID_REG, CLASS_REG as CLASS } from '../config/id.js';
-import { imgPath } from '../config/pathConfig';
+import { ID_REG, CLASS_REG as CLASS } from '@config/id.js';
+import { imgPath } from '@config/pathConfig';
 
 /**
  * Function to create registration form setup config for template.

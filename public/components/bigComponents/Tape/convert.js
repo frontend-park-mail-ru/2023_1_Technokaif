@@ -1,4 +1,4 @@
-import { convertImgSrc } from '../../../utils/functions/stringOperations.js';
+import { convertImgSrc } from '@functions/stringOperations';
 
 /**
  * Function to convert srcImg to static format.
