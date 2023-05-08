@@ -1,6 +1,7 @@
 import Dispatcher from '@dispatcher/Dispatcher';
 import ActionTypes from '@actions/ActionTypes';
 
+/** Search Actions */
 class ApiSearchActions {
     /** search server */
     search(searchString) {

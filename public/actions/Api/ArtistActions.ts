@@ -1,6 +1,7 @@
 import Dispatcher from '@dispatcher/Dispatcher';
 import ActionTypes from '@actions/ActionTypes';
 
+/** Work with artist */
 class ApiArtistActions {
     /** Artist Page */
     artist(id) {
@@ -10,6 +11,7 @@ class ApiArtistActions {
         });
     }
 
+    /** Get Artist albums */
     artistAlbums(id) {
         Dispatcher.dispatch({
             type: ActionTypes.ARTIST_ALBUMS,
@@ -17,6 +19,7 @@ class ApiArtistActions {
         });
     }
 
+    /** Get Artist tracks */
     artistTracks(id) {
         Dispatcher.dispatch({
             type: ActionTypes.ARTIST_TRACKS,

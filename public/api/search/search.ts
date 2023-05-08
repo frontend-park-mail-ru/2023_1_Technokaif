@@ -1,4 +1,4 @@
-import Ajax from '../../modules/Ajax';
+import Ajax from '@modules/Ajax';
 
 /** Search for name with url */
 export async function search(url, name) {

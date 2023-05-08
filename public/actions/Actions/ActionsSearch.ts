@@ -1,14 +1,9 @@
 import Dispatcher from '@dispatcher/Dispatcher';
-import ActionTypes from '@Actions/ActionTypes.js';
+import ActionTypes from '@actions/ActionTypes';
+
 import {
     AlbumApi, ArtistApi, PlaylistApi, TracksApi,
 } from '@api/ApiAnswers';
-
-export declare interface SearchDispatch {
-    type: ActionTypes.GOT_PLAYLIST_SEARCH|ActionTypes.GOT_ALBUMS_SEARCH
-    |ActionTypes.GOT_TRACKS_SEARCH|ActionTypes.GOT_ARTISTS_SEARCH,
-    items: AlbumApi|ArtistApi|TracksApi|PlaylistApi,
-}
 
 /** Global Action creator object. */
 class ActionsSearch {

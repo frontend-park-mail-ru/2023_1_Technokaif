@@ -1,39 +1,40 @@
-import ActionTypes from "@actions/ActionTypes";
-import Dispatcher from "@dispatcher/Dispatcher";
+import ActionTypes from '@actions/ActionTypes';
+import Dispatcher from '@dispatcher/Dispatcher';
 
+/** Work with content of pages */
 class ContentActions {
-  /** Action to add items got from feed api in ContentStore */
-  feedAddContent(items) {
-    Dispatcher.dispatch({
-      type: ActionTypes.FEED_GOT_CONTENT,
-      items,
-    });
-  }
+    /** Action to add items got from feed api in ContentStore */
+    feedAddContent(items) {
+        Dispatcher.dispatch({
+            type: ActionTypes.FEED_GOT_CONTENT,
+            items,
+        });
+    }
 
-  /** Action to add items got from artist api in ContentStore */
-  artistAddContent(item, instance) {
-    Dispatcher.dispatch({
-      type: ActionTypes.ARTIST_GOT_ALL_CONTENT,
-      item,
-      instance,
-    });
-  }
+    /** Action to add items got from artist api in ContentStore */
+    artistAddContent(item, instance) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ARTIST_GOT_ALL_CONTENT,
+            item,
+            instance,
+        });
+    }
 
-  /** Action to add items got from user api in ContentStore */
-  userAddContent(userData) {
-    Dispatcher.dispatch({
-      type: ActionTypes.ADD_USER_INFO,
-      userData,
-    });
-  }
+    /** Action to add items got from user api in ContentStore */
+    userAddContent(userData) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ADD_USER_INFO,
+            userData,
+        });
+    }
 
-  /** Add new line to exit one */
-  loadMoreLine(requestJSON) {
-    Dispatcher.dispatch({
-      type: ActionTypes.UPLOAD_TAPE,
-      requestJSON,
-    });
-  }
+    /** Add new line to exit one */
+    loadMoreLine(requestJSON) {
+        Dispatcher.dispatch({
+            type: ActionTypes.UPLOAD_TAPE,
+            requestJSON,
+        });
+    }
 
     /**
      * Add album JSON to content
@@ -43,7 +44,7 @@ class ContentActions {
             type: ActionTypes.ALBUM_TO_CONTENT,
             items,
         });
-    },
+    }
 
     /** addOneAlbumToContent */
     addOneAlbum(item) {

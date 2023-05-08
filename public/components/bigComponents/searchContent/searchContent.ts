@@ -8,10 +8,10 @@ import { SearchLine } from '@smallComponents/searchLine/search';
 import { searchSetup } from '@setup/searchSetup';
 import { setupLineList } from '@setup/libraryTracksSetup';
 import { componentsNames } from '@config/componentsNames';
-import { LineList } from '../LineList/lineList';
-import { Tape } from '../Tape/tape';
-import ContentStore from '../../../stores/ContentStore';
-import { BaseComponent } from '../../BaseComponent';
+import ContentStore from '@store/ContentStore';
+import { Tape } from '@bigComponents/Tape/tape';
+import { BaseComponent } from '@components/BaseComponent';
+import { LineList } from '@bigComponents/LineList/lineList';
 
 /**
  * Create Artist content

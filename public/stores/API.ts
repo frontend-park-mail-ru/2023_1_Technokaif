@@ -42,11 +42,12 @@ import { addTrackAjaxRequest } from '@api/playlists/addTrackAjaxRequest';
 import { removeTrackAjaxRequest } from '@api/playlists/removeTrackAjaxRequest';
 import { deletePlaylistAjaxRequest } from '@api/playlists/deletePlaylistAjaxRequest';
 import ActionsSearch from '@Actions/ActionsSearch';
-import PlaylistActions from '@Actions/PlayerActions';
 import ActionTypes from '@actions/ActionTypes';
 import IStore from '@store/IStore';
 import PlayerActions from '@Actions/PlayerActions';
 import ContentActions from '@Actions/ContentActions';
+import ComponentsActions from '@Actions/ComponentsActions';
+import Actions from '@actions/Actions';
 
 /**
  * Class using for getting data from backend.
@@ -235,9 +236,9 @@ class API extends IStore {
      * Function to get feed page data from server.
      */
     #feedRequest() {
-        feedTracksAjax().then((tracks) => Actions.feedAddContent({ Tracks: tracks }));
-        feedArtistsAjax().then((artists) => Actions.feedAddContent({ Artists: artists }));
-        feedAlbumsAjax().then((albums) => Actions.feedAddContent({ Albums: albums }));
+        feedTracksAjax().then((tracks) => ContentActions.feedAddContent({ Tracks: tracks }));
+        feedArtistsAjax().then((artists) => ContentActions.feedAddContent({ Artists: artists }));
+        feedAlbumsAjax().then((albums) => ContentActions.feedAddContent({ Albums: albums }));
     }
 
     /**
@@ -245,7 +246,7 @@ class API extends IStore {
      */
     #profileRequest(id: string) {
         userAjax(id).then((userData) => {
-            Actions.userAddContent(userData);
+            ContentActions.userAddContent(userData);
         });
     }
 
@@ -254,7 +255,7 @@ class API extends IStore {
      */
     #artistRequest(id: string) {
         artistAjax(id).then((artist) => {
-            Actions.artistAddContent(artist, instancesNames.ARTIST_PAGE);
+            ContentActions.artistAddContent(artist, instancesNames.ARTIST_PAGE);
         });
     }
 
@@ -263,7 +264,7 @@ class API extends IStore {
      */
     #artistTracksRequest(id: string) {
         artistTracksAjax(id).then((tracks) => {
-            Actions.artistAddContent(tracks, 'tracks');
+            ContentActions.artistAddContent(tracks, 'tracks');
         });
     }
 
@@ -292,7 +293,7 @@ class API extends IStore {
      */
     #artistAlbumsRequest(id: string) {
         artistAlbumsAjax(id).then((albums) => {
-            Actions.artistAddContent(albums, instancesNames.FAVORITE_ALBUMS_PAGE);
+            ContentActions.artistAddContent(albums, instancesNames.FAVORITE_ALBUMS_PAGE);
         });
     }
 
@@ -351,13 +352,13 @@ class API extends IStore {
     /** Get album from API */
     #getAlbumTracks(id: string) {
         getAlbumTracksFromServer(id).then((tracks) => {
-            Actions.addAlbumToContent(tracks);
+            ContentActions.addAlbumToContent(tracks);
         });
     }
 
     /** Get one album */
     #getAlbum(id: string) {
-        getAlbumById(id).then((message) => Actions.addOneAlbum(message));
+        getAlbumById(id).then((message) => ContentActions.addOneAlbum(message));
     }
 
     /** Get name of album by id */
@@ -417,8 +418,8 @@ class API extends IStore {
                     }
                 });
                 Promise.allSettled(promises).then(() => {
-                    Actions.addFavoriteContent(tracks, instancesNames.FAVORITE_TRACKS_PAGE);
-                    Actions.addFavoriteContent(tracks, instancesNames.LIKED_SONGS);
+                    ContentActions.addFavoriteContent(tracks, instancesNames.FAVORITE_TRACKS_PAGE);
+                    ContentActions.addFavoriteContent(tracks, instancesNames.LIKED_SONGS);
                 });
             }
             // this.jsEmit(EventTypes.GOT_FAVORITE_TRACKS, tracks);
@@ -431,7 +432,7 @@ class API extends IStore {
      */
     private userFavoriteAlbumsRequest(userId: string) {
         userFavoriteAlbumsAjax(userId).then((albums) => {
-            Actions.addFavoriteContent(albums, instancesNames.FAVORITE_ALBUMS_PAGE);
+            ContentActions.addFavoriteContent(albums, instancesNames.FAVORITE_ALBUMS_PAGE);
         });
     }
 
@@ -441,7 +442,7 @@ class API extends IStore {
      */
     private userFavoriteArtistsRequest(userId: string) {
         userFavoriteArtistsAjax(userId).then((artists) => {
-            Actions.addFavoriteContent(artists, instancesNames.FAVORITE_ARTISTS_PAGE);
+            ContentActions.addFavoriteContent(artists, instancesNames.FAVORITE_ARTISTS_PAGE);
         });
     }
 
@@ -451,7 +452,7 @@ class API extends IStore {
      */
     private userFavoritePlaylistsRequest(userId: string) {
         userFavoritePlaylistsAjax(userId).then((playlists) => {
-            Actions.addFavoriteContent(playlists, instancesNames.FAVORITE_PLAYLISTS_PAGE);
+            ContentActions.addFavoriteContent(playlists, instancesNames.FAVORITE_PLAYLISTS_PAGE);
         });
     }
 
@@ -461,7 +462,7 @@ class API extends IStore {
      */
     private userPlaylistsRequest(userId: string) {
         userPlaylistsAjax(userId).then((playlists) => {
-            Actions.addFavoriteContent(playlists, instancesNames.USER_PLAYLISTS_PAGE);
+            ContentActions.addFavoriteContent(playlists, instancesNames.USER_PLAYLISTS_PAGE);
         });
     }
 
@@ -471,7 +472,7 @@ class API extends IStore {
      */
     private playlistRequest(playlistId: string) {
         getPlaylist(playlistId).then((playlist) => {
-            Actions.addPlaylistContent(playlist, instancesNames.PLAYLIST_PAGE);
+            ContentActions.addPlaylistContent(playlist, instancesNames.PLAYLIST_PAGE);
         });
     }
 
@@ -523,7 +524,7 @@ class API extends IStore {
      */
     private playlistTracksRequest(playlistId: string) {
         getPlaylistTracks(playlistId).then((tracks) => {
-            Actions.addPlaylistContent(tracks, instancesNames.PLAYLIST_TRACKS_PAGE);
+            ContentActions.addPlaylistContent(tracks, instancesNames.PLAYLIST_TRACKS_PAGE);
         });
     }
 
@@ -599,7 +600,7 @@ class API extends IStore {
 
     /** load all tracks in ids queue */
     private queueTrack(ids, offset) {
-        Actions.playerDelete();
+        ComponentsActions.playerDelete();
         let tracks = [];
         const promises = [];
         ids.forEach((ind) => {

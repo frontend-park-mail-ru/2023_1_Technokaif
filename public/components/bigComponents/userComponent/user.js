@@ -11,10 +11,10 @@ import { componentsJSNames } from '@config/componentsJSNames';
 import { BaseComponent } from '@components/BaseComponent';
 import UserInfoStore from '@store/UserInfoStore';
 import Router from '@router/Router';
-import Actions from '@Actions';
 import API from '@store/API.ts';
 import UserActions from '@API/UserActions';
-import { Form } from '../form/form';
+import ValidationActions from '@Actions/ValidationActions';
+import { Form } from '@bigComponents/form/form';
 
 /**
  * Class for artists content in main page.
@@ -95,22 +95,22 @@ export class User extends BaseComponent {
 
         email.addEventListener(METHOD.FIELD, (event) => {
             event.preventDefault();
-            Actions.validationField('email', email.value);
+            ValidationActions.validationField('email', email.value);
         });
 
         password.addEventListener(METHOD.FIELD, (event) => {
             event.preventDefault();
-            Actions.validationField('password', document.querySelector(`.${ElementsClassForUser.password}`).value);
+            ValidationActions.validationField('password', document.querySelector(`.${ElementsClassForUser.password}`).value);
         });
 
         newPassword.addEventListener(METHOD.FIELD, (event) => {
             event.preventDefault();
-            Actions.validationField('newPassword', newPassword.value);
+            ValidationActions.validationField('newPassword', newPassword.value);
         });
 
         newConfPassword.addEventListener(METHOD.FIELD, (event) => {
             event.preventDefault();
-            Actions.validationField('newConfPassword', {
+            ValidationActions.validationField('newConfPassword', {
                 newPassword: newPassword.value,
                 confPassword: newConfPassword.value,
             });
@@ -118,17 +118,17 @@ export class User extends BaseComponent {
 
         day.addEventListener(METHOD.FIELD, (event) => {
             event.preventDefault();
-            Actions.validationField('day', document.querySelector(`.${ElementsClassForUser.day}`).value);
+            ValidationActions.validationField('day', document.querySelector(`.${ElementsClassForUser.day}`).value);
         });
 
         month.addEventListener(METHOD.FIELD, (event) => {
             event.preventDefault();
-            Actions.validationField('month', document.querySelector(`.${ElementsClassForUser.month}`).value);
+            ValidationActions.validationField('month', document.querySelector(`.${ElementsClassForUser.month}`).value);
         });
 
         year.addEventListener(METHOD.FIELD, (event) => {
             event.preventDefault();
-            Actions.validationField('year', document.querySelector(`.${ElementsClassForUser.year}`).value);
+            ValidationActions.validationField('year', document.querySelector(`.${ElementsClassForUser.year}`).value);
         });
 
         cancelButton.addEventListener(METHOD.BUTTON, (event) => {
@@ -139,7 +139,7 @@ export class User extends BaseComponent {
         saveButton.addEventListener(METHOD.BUTTON, (event) => {
             event.preventDefault();
 
-            Actions.validateAll('userPageValidate', {
+            ValidationActions.validateAll('userPageValidate', {
                 email: email.value,
                 day: day.value,
                 month: month.value,
@@ -147,7 +147,7 @@ export class User extends BaseComponent {
             });
 
             if (password.value !== '' || newPassword.value !== '' || newConfPassword.value !== '') {
-                Actions.validateAll('userPagePasswordValidate', {
+                ValidationActions.validateAll('userPagePasswordValidate', {
                     password: password.value,
                     newPassword: newPassword.value,
                     newConfPassword: newConfPassword.value,

@@ -4,12 +4,12 @@ import { componentsJSNames } from '@config/componentsJSNames';
 import { checkAuth } from '@functions/checkAuth';
 import { routingUrl } from '@config/routingUrls';
 import PlaylistActions from '@API/PlaylistActions';
-import Router from '../../../router/Router';
+import Router from '@router/Router';
+import ComponentsStore from '@store/ComponentsStore';
+import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
+import API from '@store/API';
+import ComponentsActions from '@Actions/ComponentsActions';
 import templateHtml from './menu.handlebars';
-import ComponentsStore from '../../../stores/ComponentsStore';
-import Actions from '../../../actions/Actions';
-import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
-import API from '../../../stores/API';
 
 /**
  * Class for Menu: Home, Search, Playlist, Create Playlist, Liked Songs.
@@ -63,7 +63,7 @@ class Menu {
             (list) => {
                 const component = list.filter((comp) => comp.name === componentsNames.SIDEBAR);
                 if (component.length !== 0) {
-                    Actions.removeElementFromPage(componentsNames.SIDEBAR);
+                    ComponentsActions.removeElementFromPage(componentsNames.SIDEBAR);
                     unsubscribeFromAllStoresOnComponent(componentsNames.SIDEBAR);
                     this.#unRender();
                 }

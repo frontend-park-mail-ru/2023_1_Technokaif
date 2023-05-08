@@ -70,7 +70,12 @@ export class ModalWindow extends BaseComponent {
         area.value = this.configA.textareaValue;
 
         coverElement?.appendChild(this.fileInput);
-        if (!root || !coverElement || !modalButton || !modal || !nameElement || !descriptionElement) {
+        if (!root
+            || !coverElement
+            || !modalButton
+            || !modal
+            || !nameElement
+            || !descriptionElement) {
             console.error('Cannot get element on modal window');
             return;
         }
@@ -97,7 +102,8 @@ export class ModalWindow extends BaseComponent {
             PlaylistActions.updatePlaylist(ContentStore.state[pageNames.PLAYLIST].id, {
                 name: nameElement1.value,
                 description: descriptionElement1.value,
-                users: ContentStore.state[pageNames.PLAYLIST].playlist.users.map((element) => element.id),
+                users: ContentStore.state[pageNames.PLAYLIST]
+                    .playlist.users.map((element) => element.id),
             });
         });
 
@@ -112,7 +118,10 @@ export class ModalWindow extends BaseComponent {
             const formData = new FormData();
             formData.append('cover', file);
 
-            PlaylistActions.uploadPlaylistCover(ContentStore.state[pageNames.PLAYLIST].id, formData);
+            PlaylistActions.uploadPlaylistCover(
+                ContentStore.state[pageNames.PLAYLIST].id,
+                formData,
+            );
             // root.removeChild(this.fileInput);
         });
 

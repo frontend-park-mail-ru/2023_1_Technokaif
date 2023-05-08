@@ -1,9 +1,9 @@
-import { BaseComponent } from '../../BaseComponent';
+import { BaseComponent } from '@components/BaseComponent';
 import './playerDummy.less';
-import template from './playerDymmy.handlebars';
-import Router from '../../../router/Router';
+import Router from '@router/Router';
 import { componentsNames } from '@config/componentsNames';
-import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
+import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
+import template from './playerDymmy.handlebars';
 
 /**
  * Class for dummy instead of player

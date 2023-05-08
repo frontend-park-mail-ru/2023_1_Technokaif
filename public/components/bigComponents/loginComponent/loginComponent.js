@@ -5,13 +5,13 @@ import { METHOD } from '@config/config';
 import { EventTypes } from '@config/EventTypes';
 import { ERRORS_LOG } from '@config/errors';
 import UserActions from '@API/UserActions';
+import ValidationActions from '@Actions/ValidationActions';
+import UserInfoStore from '@store/UserInfoStore';
+import API from '@store/API.ts';
+import { BaseComponent } from '@components/BaseComponent';
+import Router from '@router/Router';
+import { Form } from '@bigComponents/form/form';
 import template from './loginComponent.handlebars';
-import { BaseComponent } from '../../BaseComponent';
-import Actions from '../../../actions/Actions';
-import { Form } from '../form/form';
-import Router from '../../../router/Router';
-import UserInfoStore from '../../../stores/UserInfoStore';
-import API from '../../../stores/API.ts';
 
 const ElementsClassForLogin = {
     login: 'js__login',
@@ -50,7 +50,7 @@ export class LoginComponent extends BaseComponent {
         );
         login.addEventListener(METHOD.CHANGE_FIELD_IMMEDIATELY, (event) => {
             event.preventDefault();
-            Actions.validationField('log_username', login.value);
+            ValidationActions.validationField('log_username', login.value);
         });
 
         const password = document.querySelector(
@@ -58,7 +58,7 @@ export class LoginComponent extends BaseComponent {
         );
         password.addEventListener(METHOD.CHANGE_FIELD_IMMEDIATELY, (event) => {
             event.preventDefault();
-            Actions.validationField('log_password', password.value);
+            ValidationActions.validationField('log_password', password.value);
         });
 
         const header = document.querySelector('.title');
@@ -71,7 +71,7 @@ export class LoginComponent extends BaseComponent {
             METHOD.FORM,
             (event) => {
                 event.preventDefault();
-                Actions.validateAll('validate_login', password.value);
+                ValidationActions.validateAll('validate_login', password.value);
             },
         );
 

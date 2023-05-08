@@ -1,4 +1,3 @@
-import tmp from './album.handlebars';
 import './album.less';
 import { componentsNames } from '@config/componentsNames';
 import { EventTypes } from '@config/EventTypes';
@@ -8,12 +7,13 @@ import { imgPath } from '@config/pathConfig';
 // eslint-disable-next-line import/namespace
 import AlbumActions from '@API/AlbumActions';
 import PlayerActions from '@Actions/PlayerActions';
-import { LineList } from '../LineList/lineList';
-import Router from '../../../router/Router';
-import { BaseComponent } from '../../BaseComponent';
-import ContentStore from '../../../stores/ContentStore';
-import Actions from '../../../actions/Actions';
-import SongStore from '../../../stores/SongStore';
+import SongStore from '@store/SongStore';
+import Actions from '@actions/Actions';
+import ContentStore from '@store/ContentStore';
+import { BaseComponent } from '@components/BaseComponent';
+import Router from '@router/Router';
+import { LineList } from '@bigComponents/LineList/lineList';
+import tmp from './album.handlebars';
 
 /** Class for Album */
 export class Album extends BaseComponent {

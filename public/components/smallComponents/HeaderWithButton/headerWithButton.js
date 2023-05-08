@@ -8,8 +8,8 @@ import { EventTypes } from '@config/EventTypes';
 import { componentsNames } from '@config/componentsNames';
 import { componentsJSNames } from '@config/componentsJSNames';
 import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
-import Actions from '@Actions';
 import ComponentsStore from '@store/ComponentsStore';
+import ComponentsActions from '@Actions/ComponentsActions';
 
 /**
  * Class for not found content in main page.
@@ -44,7 +44,7 @@ export class HeaderWithButton {
                 const component = list.filter((comp) => comp.name === this.#name);
                 if (component.length !== 0) {
                     component.forEach((element) => {
-                        Actions.removeElementFromPage(element.name);
+                        ComponentsActions.removeElementFromPage(element.name);
                     });
 
                     unsubscribeFromAllStoresOnComponent(this.#name);

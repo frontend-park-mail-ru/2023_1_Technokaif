@@ -1,7 +1,9 @@
 import Dispatcher from '@dispatcher/Dispatcher';
 import ActionTypes from '@actions/ActionTypes';
 
+/** Work with User */
 class ApiUserActions {
+    /** Login user with password and username */
     login(username, password) {
         Dispatcher.dispatch({
             type: ActionTypes.LOGIN,
@@ -10,6 +12,7 @@ class ApiUserActions {
         });
     }
 
+    /** Register user */
     register(data) {
         Dispatcher.dispatch({
             type: ActionTypes.REGISTER,
@@ -17,6 +20,7 @@ class ApiUserActions {
         });
     }
 
+    /** Logout from account */
     logout() {
         Dispatcher.dispatch({
             type: ActionTypes.LOGOUT,

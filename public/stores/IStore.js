@@ -1,4 +1,4 @@
-import Dispatcher from '@dispatcher/Dispatcher.js';
+import Dispatcher from '@dispatcher/Dispatcher';
 import { METHOD } from '@config/config';
 import ActionTypes from '@actions/ActionTypes';
 import EventEmitter from './EventEmitter';

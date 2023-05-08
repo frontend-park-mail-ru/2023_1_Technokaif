@@ -1,6 +1,7 @@
 import Dispatcher from '@dispatcher/Dispatcher';
 import ActionTypes from '@actions/ActionTypes';
 
+/** Playlist */
 class PlaylistActions {
     /** User playlists page api */
     playlist(playlistId) {

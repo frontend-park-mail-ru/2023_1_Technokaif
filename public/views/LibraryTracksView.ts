@@ -2,7 +2,6 @@ import { pageNames } from '@config/pageNames';
 import { EventTypes } from '@config/EventTypes';
 import { componentsNames } from '@config/componentsNames';
 import ComponentsStore from '@store/ComponentsStore';
-import Actions from '@Actions';
 import ComponentsActions from '@Actions/ComponentsActions';
 import { BaseView } from './BaseView';
 

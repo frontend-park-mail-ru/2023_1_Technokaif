@@ -1,7 +1,7 @@
 import templateHTML from './lineList.handlebars';
-import { BaseComponent } from '../../BaseComponent';
+import { BaseComponent } from '@components/BaseComponent';
 import './lineList.less';
-import '../../smallComponents/Line/line.less';
+import '@smallComponents/Line/line.less';
 import { componentsNames } from '@config/componentsNames';
 import { pageNames } from '@config/pageNames';
 import { checkAuth } from '@functions/checkAuth';
@@ -13,12 +13,12 @@ import { METHOD } from '@config/config';
 import UserActions from '@API/UserActions';
 import TrackActions from '@API/TrackActions';
 import PlaylistActions from '@API/PlaylistActions';
-import Actions from '../../../actions/Actions';
-import ContentStore from '../../../stores/ContentStore';
-import Router from '../../../router/Router';
-import SongStore from '../../../stores/SongStore';
-import API from '../../../stores/API';
-import unsubscribeFromAllStoresOnComponent from '../../../utils/functions/unsubscribeFromAllStores';
+import PlayerActions from '@Actions/PlayerActions';
+import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
+import API from '@store/API';
+import SongStore from '@store/SongStore';
+import Router from '@router/Router';
+import ContentStore from '@store/ContentStore';
 
 /**
  * Tape for elements
@@ -280,11 +280,11 @@ export class LineList extends BaseComponent {
                             switch (this.name) {
                             case componentsNames.ARTIST_LINE_LIST:
                                 // eslint-disable-next-line max-len
-                                Actions.playArtistWithOffset(ContentStore.state[pageNames.ARTIST_PAGE].id, id - 1);
+                                PlayerActions.playArtistWithOffset(ContentStore.state[pageNames.ARTIST_PAGE].id, id - 1);
                                 break;
                             case componentsNames.ALBUM_LINE_LIST:
                                 // eslint-disable-next-line max-len
-                                Actions.playAlbumWithOffset(ContentStore.state[pageNames.ALBUM].id, id - 1);
+                                PlayerActions.playAlbumWithOffset(ContentStore.state[pageNames.ALBUM].id, id - 1);
                                 break;
                             case componentsNames.TRACK_LIBRARY_LINE_LIST:
                                 // eslint-disable-next-line no-case-declarations
@@ -296,10 +296,10 @@ export class LineList extends BaseComponent {
                                     offset = 0;
                                 }
 
-                                Actions.addQueueTracks(trackIds, offset);
+                                PlayerActions.addQueueTracks(trackIds, offset);
                                 break;
                             case componentsNames.SEARCH_LINE:
-                                Actions.playTrack(trackId);
+                                PlayerActions.playTrack(trackId);
                                 break;
                             default:
                             }

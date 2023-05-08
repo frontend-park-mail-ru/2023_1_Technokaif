@@ -1,12 +1,12 @@
-import { BaseComponent } from '../../BaseComponent';
+import { BaseComponent } from '@components/BaseComponent';
 import templateHtml from './favorite.handlebars';
 import './favorite.less';
 import { pageNames } from '@config/pageNames';
 import { setupTape } from '@setup/artistSetup';
 import { EventTypes } from '@config/EventTypes';
 import UserActions from '@API/UserActions';
-import { Tape } from '../Tape/tape';
-import ContentStore from '../../../stores/ContentStore';
+import { Tape } from '@bigComponents/Tape/tape';
+import ContentStore from '@store/ContentStore';
 
 /**
  * Class for favorite albums page

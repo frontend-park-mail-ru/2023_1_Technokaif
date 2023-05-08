@@ -1,5 +1,5 @@
 import { pageNames } from '@config/pageNames';
-import Actions from '@Actions';
+import ComponentsActions from '@Actions/ComponentsActions';
 import { BaseView } from './BaseView';
 
 /**

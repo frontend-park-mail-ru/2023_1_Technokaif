@@ -5,13 +5,13 @@ import { EventTypes } from '@config/EventTypes';
 import { ERRORS_REG } from '@config/errors';
 import { NAME_OF_VALIDATION } from '@config/validateConf';
 import UserActions from '@API/UserActions';
-import Router from '../../../router/Router';
-import { BaseComponent } from '../../BaseComponent';
+import ValidationActions from '@Actions/ValidationActions';
+import Router from '@router/Router';
+import { BaseComponent } from '@components/BaseComponent';
+import { Form } from '@bigComponents/form/form';
+import UserInfoStore from '@store/UserInfoStore';
+import API from '@store/API';
 import template from './registerComponent.handlebars';
-import { Form } from '../form/form';
-import Actions from '../../../actions/Actions';
-import UserInfoStore from '../../../stores/UserInfoStore';
-import API from '../../../stores/API';
 
 /** Function to work with listener triggered */
 interface reactionOnTrigger {
@@ -203,7 +203,7 @@ export class RegisterComponent extends BaseComponent {
     /** Add reactions to user actions */
     #addEventListeners() {
         const reactionOnInputElement = (nameOfReaction, element) => {
-            Actions.validationField(nameOfReaction, (element as HTMLInputElement).value);
+            ValidationActions.validationField(nameOfReaction, (element as HTMLInputElement).value);
         };
 
         const passwordsChecks = (nameOfReaction, element) => {
@@ -213,7 +213,7 @@ export class RegisterComponent extends BaseComponent {
                 return;
             }
             reactionOnInputElement(NAME_OF_VALIDATION.password, password);
-            Actions.validatePasswordAndConf(
+            ValidationActions.validatePasswordAndConf(
                 nameOfReaction,
                 (password as HTMLInputElement).value,
                 (element as HTMLInputElement).value,
@@ -300,13 +300,13 @@ export class RegisterComponent extends BaseComponent {
             METHOD.FORM,
             // todo Check and do rewrite
             (nameOfReaction, _) => {
-                Actions.validationField(NAME_OF_VALIDATION.sex, { gender: 'F' });
+                ValidationActions.validationField(NAME_OF_VALIDATION.sex, { gender: 'F' });
                 const password = document.querySelector(`.${ElementsClassForRegister.password}`);
                 const confPassword = document.querySelector(`.${ElementsClassForRegister.confPassword}`);
                 if (password && confPassword) {
                     const passwordVal = (password as HTMLInputElement).value;
                     const confPasswordVal = (confPassword as HTMLInputElement).value;
-                    Actions.validateAll(
+                    ValidationActions.validateAll(
                         nameOfReaction,
                         {
                             password: passwordVal,

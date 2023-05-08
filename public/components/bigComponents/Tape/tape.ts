@@ -5,10 +5,10 @@ import { TapeSetup } from '@setup/artistSetup';
 import { METHOD } from '@config/config';
 import { EventTypes } from '@config/EventTypes';
 import { imgPath } from '@config/pathConfig';
-import SongStore from '../../../stores/SongStore';
-import Actions from '../../../actions/Actions';
-import Router from '../../../router/Router';
-import { BaseComponent } from '../../BaseComponent';
+import PlayerActions from '@Actions/PlayerActions';
+import SongStore from '@store/SongStore';
+import Router from '@router/Router';
+import { BaseComponent } from '@components/BaseComponent';
 import template from './tape.handlebars';
 
 /** Tape for elements */
@@ -71,7 +71,7 @@ export class Tape extends BaseComponent {
                             if (SongStore.artistsInfo.find((artist) => Number(id) === artist.id)) {
                                 PlayerActions.changePlayState(true);
                             } else {
-                                Actions.playArtist(id);
+                                PlayerActions.playArtist(id);
                             }
                             event.target.classList.add('play');
                         }
@@ -93,7 +93,7 @@ export class Tape extends BaseComponent {
                             if (SongStore.trackInfo.id === Number(id)) {
                                 PlayerActions.changePlayState(true);
                             } else {
-                                Actions.playTrack(id);
+                                PlayerActions.playTrack(id);
                             }
                             event.target.classList.add('play');
                         }
@@ -113,7 +113,7 @@ export class Tape extends BaseComponent {
                             if (SongStore.albumInfo === Number(id)) {
                                 PlayerActions.changePlayState(true);
                             } else {
-                                Actions.playAlbum(id);
+                                PlayerActions.playAlbum(id);
                             }
                             event.target.classList.add('play');
                         }
@@ -135,7 +135,7 @@ export class Tape extends BaseComponent {
                             if (SongStore.albumInfo === Number(id)) {
                                 PlayerActions.changePlayState(true);
                             } else {
-                                Actions.playPlaylistWithOffset(id, 0);
+                                PlayerActions.playPlaylistWithOffset(id, 0);
                             }
                             event.target.classList.add('play');
                         }

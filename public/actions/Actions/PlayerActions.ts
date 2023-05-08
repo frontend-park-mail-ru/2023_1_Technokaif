@@ -1,8 +1,8 @@
 import ActionTypes from '@actions/ActionTypes';
 import Dispatcher from '@dispatcher/Dispatcher';
 
+/** Actions with Player */
 class PlayerActions {
-    // todo replace playTrack and playTrackWithOffset to playTrack and default value
     /** Send action to SongStore and search for needed track */
     searchForTrack(status, whatTrack) {
         Dispatcher.dispatch({
@@ -121,7 +121,7 @@ class PlayerActions {
     }
 
     /** Queue Tracks */
-    addQueueTracks(trackId, offset) {
+    addQueueTracks(trackId, offset = 0) {
         Dispatcher.dispatch({
             type: ActionTypes.QUEUE_TRACK,
             idOfTracks: trackId,

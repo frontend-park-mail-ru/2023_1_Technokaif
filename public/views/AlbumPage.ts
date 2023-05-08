@@ -52,7 +52,7 @@ class AlbumPageView extends BaseView {
         super.render();
         this.#addSubscribes();
 
-        ComponentsComponentsActions.whatRender(super.name);
+        ComponentsActions.whatRender(super.name);
     }
 }
 

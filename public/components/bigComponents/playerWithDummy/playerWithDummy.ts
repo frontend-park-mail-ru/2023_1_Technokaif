@@ -1,11 +1,11 @@
 import { checkAuth } from '@functions/checkAuth';
 import { componentsNames } from '@config/componentsNames';
 import { EventTypes } from '@config/EventTypes';
-import { BaseComponent } from '../../BaseComponent';
+import ComponentsActions from '@Actions/ComponentsActions';
+import API from '@store/API';
+import { BaseComponent } from '@components/BaseComponent';
 import { AudioPlayer } from '../player/player';
 import { PlayerDummy } from '../playerDummy/playerDummy';
-import Actions from '../../../actions/Actions';
-import API from '../../../stores/API';
 
 /**
  * Class for dummy instead of player
@@ -41,7 +41,7 @@ export class PlayerWithDummy extends BaseComponent {
             (message) => {
                 if (message === 'OK') {
                     const pr = new Promise((resolve) => {
-                        Actions.removeElementFromPage(componentsNames.PLAYER);
+                        ComponentsActions.removeElementFromPage(componentsNames.PLAYER);
                         resolve('');
                     });
 
@@ -58,6 +58,6 @@ export class PlayerWithDummy extends BaseComponent {
 
     override unRender() {
         super.unRender();
-        Actions.removeElementFromPage(componentsNames.PLAYER);
+        ComponentsActions.removeElementFromPage(componentsNames.PLAYER);
     }
 }

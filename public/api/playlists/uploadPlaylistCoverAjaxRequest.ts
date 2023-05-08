@@ -1,5 +1,5 @@
 import { apiUrl } from '@config/apiUrls';
-import Ajax from '../../modules/Ajax';
+import Ajax from '@modules/Ajax';
 
 /**
  * Api-oriented user update avatar function.

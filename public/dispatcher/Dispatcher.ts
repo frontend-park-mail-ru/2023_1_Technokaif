@@ -1,3 +1,10 @@
+/** Interface for any payload to send */
+interface IPayload {
+    type:string,
+    // @ts-ignore
+    [key: string]: any;
+}
+
 /**
  * Object to send all actions to stores
  */
@@ -31,7 +38,7 @@ class Dispatcher {
      * @param {function} reaction
      * @returns string -- id of reaction
      */
-    register(reaction) {
+    register(reaction: (payload:IPayload) => void) {
         this.#reactionsForAction.push(reaction);
         return this.#reactionsForAction.length - 1;
     }
@@ -40,7 +47,7 @@ class Dispatcher {
      * Delete reaction for action with ID
      * @param {string} id -- what reaction delete
      */
-    unregister(id) {
+    unregister(id:string) {
         delete this.#reactionsForAction[id];
     }
 
@@ -48,7 +55,7 @@ class Dispatcher {
      * Send payload to stores
      * @param {JSON} payload -- action
      */
-    dispatch(payload) {
+    dispatch(payload:IPayload) {
         if (this.#isDispatching) {
             this.#waitOrder.push(payload);
             return;
@@ -82,7 +89,7 @@ class Dispatcher {
      * @param {string} id -- what reaction to send
      * @param {JSON} action -- what to send
      */
-    #sendToReaction(id, action) {
+    #sendToReaction(id:string, action:IPayload) {
         const reaction = this.#reactionsForAction[id];
         if (reaction) {
             reaction(action);

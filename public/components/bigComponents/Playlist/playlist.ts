@@ -1,18 +1,18 @@
 import templateHtml from './categoryTracks.handlebars';
 import './library.less';
-import { LineList } from '../LineList/lineList';
 import { componentsNames } from '@config/componentsNames';
-import { BaseComponent } from '../../BaseComponent';
 import { EventTypes } from '@config/EventTypes';
-import ContentStore from '../../../stores/ContentStore';
-import Actions from '../../../actions/Actions';
 import {
     setupLineList,
 } from '@setup/libraryTracksSetup';
-import SongStore from '../../../stores/SongStore';
 import { imgPath } from '@config/pathConfig';
 import { setupPlaylistLineList } from '@setup/playlistSetup';
 import PlaylistActions from '@API/PlaylistActions';
+import PlayerActions from '@Actions/PlayerActions';
+import SongStore from '@store/SongStore';
+import ContentStore from '@store/ContentStore';
+import { BaseComponent } from '@components/BaseComponent';
+import { LineList } from '@bigComponents/LineList/lineList';
 
 /**
  * Create Artist content
@@ -154,7 +154,7 @@ export abstract class Playlist extends BaseComponent {
                     // eslint-disable-next-line max-len
                     if (!this.#isAlbumLoaded || !(SongStore.exist && tracks.filter((track) => SongStore.trackInfo.name === track.name).length > 0)) {
                         this.#isAlbumLoaded = true;
-                        Actions.addQueueTracks(trackIds);
+                        PlayerActions.addQueueTracks(trackIds);
                     }
 
                     if (!SongStore.isPlaying) {

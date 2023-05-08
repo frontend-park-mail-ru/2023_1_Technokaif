@@ -1,6 +1,7 @@
 import Dispatcher from '@dispatcher/Dispatcher';
 import ActionTypes from '@actions/ActionTypes';
 
+/** Album api */
 class ApiAlbumActions {
     /** Get one album by it id */
     getAlbum(id) {

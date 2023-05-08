@@ -3,9 +3,9 @@ import { pageNames } from '@config/pageNames';
 import { componentsNames } from '@config/componentsNames';
 import { componentsJSNames } from '@config/componentsJSNames';
 import ComponentsStore from '@store/ComponentsStore';
-import Actions from '@Actions';
-import unsubscribeFromAllStoresOnComponent from '../utils/functions/unsubscribeFromAllStores';
-import ContentStore from '../stores/ContentStore';
+import ComponentsActions from '@Actions/ComponentsActions';
+import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
+import ContentStore from '@store/ContentStore';
 
 /**
  * Base Component class to handle render functions.
@@ -72,7 +72,7 @@ export class BaseComponent {
             (list) => {
                 let component = list.filter((comp) => comp.name === this.#name);
                 if (component.length !== 0) {
-                    Actions.removeElementFromPage(this.#name);
+                    ComponentsActions.removeElementFromPage(this.#name);
                     unsubscribeFromAllStoresOnComponent(this.#name);
                     ContentStore.state[this.#name] = {};
                     // todo костыль
@@ -86,7 +86,7 @@ export class BaseComponent {
                         || nameComp === componentsNames.ALBUM || componentsNames.ARTIST_CONTENT) {
                         component = list.filter((comp) => comp.name === componentsNames.MAIN);
                         if (component.length !== 0) {
-                            Actions.removeElementFromPage(componentsNames.MAIN);
+                            ComponentsActions.removeElementFromPage(componentsNames.MAIN);
                             unsubscribeFromAllStoresOnComponent(componentsNames.MAIN);
                             const parent = ComponentsStore.checkWhereToPlace(componentsNames.MAIN);
                             const child = document.querySelector(`.${componentsJSNames.MAIN}`);

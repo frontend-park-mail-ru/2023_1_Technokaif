@@ -1,6 +1,6 @@
 import { apiUrl } from '@config/apiUrls';
 import { generatePageById } from '@functions/urlGenerators';
-import Ajax from '../../modules/Ajax';
+import Ajax from '@modules/Ajax';
 
 /**
  * Like album

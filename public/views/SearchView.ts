@@ -38,7 +38,7 @@ class SearchView extends BaseView {
             case componentsNames.SEARCH_LINE:
             case componentsNames.SEARCH_CONTENT:
                 component.render(parent);
-                ComponentsComponentsActions.addElementOnPage(componentName);
+                ComponentsActions.addElementOnPage(componentName);
                 break;
             default:
             }

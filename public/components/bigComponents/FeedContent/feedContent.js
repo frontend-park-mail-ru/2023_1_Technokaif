@@ -1,4 +1,4 @@
-import { Tape } from '../Tape/tape';
+import { Tape } from '@bigComponents/Tape/tape';
 import templateHtml from './feedContent.handlebars';
 
 import './feedContent.less';
@@ -9,8 +9,8 @@ import { setupTape } from '@setup/artistSetup';
 import { shuffleArray } from '@functions/shuffleArray';
 import { componentsJSNames } from '@config/componentsJSNames';
 import ApiActions from '@actions/Api/ApiActions';
-import { BaseComponent } from '../../BaseComponent';
-import ContentStore from '../../../stores/ContentStore';
+import { BaseComponent } from '@components/BaseComponent';
+import ContentStore from '@store/ContentStore';
 
 /**
  * Create FeedContent content with tapes

@@ -1,6 +1,7 @@
 import ActionTypes from '@actions/ActionTypes';
 import Dispatcher from '@dispatcher/Dispatcher';
 
+/** Validation actions */
 class ValidationActions {
     /** Action to validate a named field in login or registration form and add it in state */
     validationField(nameOfField, content) {

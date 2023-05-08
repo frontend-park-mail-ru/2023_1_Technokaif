@@ -10,11 +10,11 @@ import { ModalWindow } from '@smallComponents/ModalWindow/modalWindow';
 import { componentsNames } from '@config/componentsNames';
 import { routingUrl } from '@config/routingUrls';
 import PlaylistActions from '@API/PlaylistActions';
-import API from '../../../../stores/API';
-import ContentStore from '../../../../stores/ContentStore';
-import Actions from '../../../../actions/Actions';
+import API from '@store/API';
+import ContentStore from '@store/ContentStore';
+import Actions from '@actions/Actions';
+import Router from '@router/Router';
 import { Playlist } from '../playlist';
-import Router from '../../../../router/Router';
 
 /**
  * Class of favorite tracks playlist

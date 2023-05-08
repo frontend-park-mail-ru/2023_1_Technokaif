@@ -1,15 +1,17 @@
-import Actions from '../../../actions/Actions';
+import Actions from '@actions/Actions';
 import template from './player.handlebars';
 import './player.less';
-import SongStore from '../../../stores/SongStore';
 import { EventTypes } from '@config/EventTypes';
 import { componentsNames } from '@config/componentsNames';
-import { BaseComponent } from '../../BaseComponent';
-import ComponentsStore from '../../../stores/ComponentsStore';
 import {
     METHOD, playerConfig, playerElementsJS, RESPONSES,
 } from '@config/config';
 import { imgPath } from '@config/pathConfig';
+import PlayerActions from '@Actions/PlayerActions';
+import ComponentsActions from '@actions/Actions/ComponentsActions';
+import SongStore from '@store/SongStore';
+import ComponentsStore from '@store/ComponentsStore';
+import { BaseComponent } from '@components/BaseComponent';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer extends BaseComponent {
@@ -80,7 +82,7 @@ export class AudioPlayer extends BaseComponent {
                 if (list.find(
                     (element) => element.name === componentsNames.PLAYER,
                 )) {
-                    Actions.playerDelete();
+                    ComponentsActions.playerDelete();
                     delete this;
                 }
             },
@@ -185,7 +187,7 @@ export class AudioPlayer extends BaseComponent {
         elements.volume_slider.addEventListener(
             METHOD.CHANGE_FIELD_IMMEDIATELY,
             () => {
-                Actions.volumeChange(this.#elements.volume_slider.value / 100);
+                PlayerActions.volumeChange(this.#elements.volume_slider.value / 100);
             },
         );
 
@@ -241,7 +243,7 @@ export class AudioPlayer extends BaseComponent {
      * */
     #loadTrack(whatTrack) {
         if (!this.#isRepeat) {
-            Actions.searchForTrack(whatTrack, whatTrack);
+            PlayerActions.searchForTrack(whatTrack, whatTrack);
         } else {
             this.#resetAllToStart();
             this.#elements.track_art.src = `/static/img${this.#lastResponse.cover}`;
@@ -274,25 +276,25 @@ export class AudioPlayer extends BaseComponent {
         switch (response.type) {
         case 'album':
             if (response.how) {
-                Actions.playAlbum(response.id);
+                PlayerActions.playAlbum(response.id);
             } else {
-                Actions.queueAlbum(response.id);
+                PlayerActions.queueAlbum(response.id);
             }
 
             break;
         case 'artist':
             if (response.how) {
-                Actions.playArtist(response.id);
+                PlayerActions.playArtist(response.id);
             } else {
-                Actions.queueArtist(response.id);
+                PlayerActions.queueArtist(response.id);
             }
 
             break;
         case 'track':
             if (response.how) {
-                Actions.playTrack(response.id);
+                PlayerActions.playTrack(response.id);
             } else {
-                Actions.queueTrack(response.id);
+                PlayerActions.queueTrack(response.id);
             }
             break;
         default:
@@ -341,7 +343,7 @@ export class AudioPlayer extends BaseComponent {
         this.#elements.total_duration.textContent = '00:00';
         this.#elements.seek_slider.value = 0;
         this.#elements.track_art.src = imgPath.defaultTrack;
-        Actions.setTimeToTrack(0);
+        PlayerActions.setTimeToTrack(0);
     }
 
     /** Calculate line on song */
@@ -353,7 +355,7 @@ export class AudioPlayer extends BaseComponent {
             return;
         }
 
-        Actions.setTimeToTrack(whereToPlace);
+        PlayerActions.setTimeToTrack(whereToPlace);
     }
 
     /** calculate all times */
@@ -391,7 +393,7 @@ export class AudioPlayer extends BaseComponent {
         }
 
         this.#isRepeat = !this.#isRepeat;
-        Actions.createRepeat(this.#isRepeat);
+        PlayerActions.createRepeat(this.#isRepeat);
     }
 
     /** First render */
