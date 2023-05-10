@@ -97,9 +97,14 @@ class Navbar {
         UserInfoStore.subscribe(
             () => {
                 if (checkAuth()) {
-                    // const div = document.createElement('div');
                     if (this.#dropDown) {
-                        document.querySelector('.js__avatar-placement').innerHTML = '';
+                        const avatar = document.querySelector('.js__avatar-placement');
+                        if (!avatar) {
+                            console.error("Avatar doesn't exist");
+                            return;
+                        }
+
+                        avatar.innerHTML = '';
                     }
                     const configForAvatar = navbarAvatarSetup;
 
@@ -160,27 +165,49 @@ class Navbar {
             }
         });
 
-        const closebtn: HTMLDivElement = document.querySelector('.closebtn');
+        const closebtn: HTMLDivElement|null = document.querySelector('.closebtn');
+        if (!closebtn) {
+            console.error('Error in navbar closebutton');
+            return;
+        }
         closebtn.addEventListener('click', () => {
-            const menu: HTMLDivElement = document.getElementById('sidebar');
-            const menuElement: HTMLDivElement = document.querySelector('.menu-burger');
-            const closeElement: HTMLDivElement = document.querySelector('.closebtn');
+            const menu: HTMLElement|null = document.getElementById('sidebar');
+            const menuElement: HTMLDivElement|null = document.querySelector('.menu-burger');
+            const closeElement: HTMLDivElement|null = document.querySelector('.closebtn');
+            if (!menu || !menuElement || !closeElement) {
+                console.error('Error in navbar listeners elements');
+                return;
+            }
+
             menuElement.hidden = false;
             closeElement.hidden = true;
             menu.classList.remove('open');
         });
 
-        const openbtn: HTMLDivElement = document.querySelector('.openbtn');
+        const openbtn: HTMLDivElement|null = document.querySelector('.openbtn');
+        if (!openbtn) {
+            console.error('Error in navbar openbutton');
+            return;
+        }
         openbtn.addEventListener('click', () => {
-            const menu: HTMLDivElement = document.getElementById('sidebar');
-            const menuElement: HTMLDivElement = document.querySelector('.menu-burger');
-            const closeElement: HTMLDivElement = document.querySelector('.closebtn');
+            const menu: HTMLElement|null = document.getElementById('sidebar');
+            const menuElement: HTMLDivElement|null = document.querySelector('.menu-burger');
+            const closeElement: HTMLDivElement|null = document.querySelector('.closebtn');
+            if (!menu || !menuElement || !closeElement) {
+                console.error('Error in navbar listeners elements');
+                return;
+            }
+
             menuElement.hidden = true;
             closeElement.hidden = false;
             menu.classList.add('open');
         });
 
-        const logo: HTMLDivElement = document.querySelector('.burger-logo');
+        const logo: HTMLDivElement|null = document.querySelector('.burger-logo');
+        if (!logo) {
+            console.error('Error in navbar logo');
+            return;
+        }
         logo.addEventListener('click', () => {
             Router.go('/');
         });
