@@ -93,7 +93,7 @@ export class BaseComponent {
                         || nameComp === componentsNames.SEARCH_CONTENT
                         || nameComp === componentsNames.ALBUM || componentsNames.ARTIST_CONTENT) {
                         component = list.find((comp) => comp.name === componentsNames.MAIN);
-                        if (component > 0) {
+                        if (component) {
                             ComponentsActions.removeElementFromPage(componentsNames.MAIN);
                             unsubscribeFromAllStoresOnComponent(componentsNames.MAIN);
                             const parent = ComponentsStore.checkWhereToPlace(componentsNames.MAIN);
