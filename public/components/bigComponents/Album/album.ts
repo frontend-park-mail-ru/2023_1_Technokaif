@@ -2,7 +2,7 @@ import './album.less';
 import { componentsNames } from '@config/componentsNames';
 import { EventTypes } from '@config/EventTypes';
 import { pageNames } from '@config/pageNames';
-import { setupLineList } from '@setup/albumSetup';
+import { ISetupAlbumConfg, setupLineList } from '@setup/albumSetup';
 import { imgPath } from '@config/pathConfig';
 // eslint-disable-next-line import/namespace
 import AlbumActions from '@API/AlbumActions';
@@ -14,16 +14,12 @@ import { BaseComponent } from '@components/BaseComponent';
 import Router from '@router/Router';
 import { LineList } from '@bigComponents/LineList/lineList';
 import tmp from './album.handlebars';
+import headerTemplate from './headerAlbum.handlebars';
 
 /** Class for Album */
 export class Album extends BaseComponent {
     /** Flag if album was loaded */
     #isAlbumLoaded;
-
-    /**
-     * Parent where to render
-     */
-    #parent;
 
     /**
      * Config to use in handlebars setup of track lines
@@ -33,7 +29,7 @@ export class Album extends BaseComponent {
     /**
      * If button in play mode
      */
-    #isPlaying;
+    public isPlaying;
 
     /**
      * Play button
@@ -41,7 +37,7 @@ export class Album extends BaseComponent {
     playButton;
 
     /** If first play */
-    #firstPlay;
+    private firstPlay;
 
     /** id of Album */
     #id;
@@ -51,13 +47,12 @@ export class Album extends BaseComponent {
      * @param {HTMLElement} parent -- where to place Album
      * @param {{json}} config
      */
-    constructor(parent, config) {
+    constructor(parent, config: ISetupAlbumConfg) {
         super(parent, config, tmp, componentsNames.ALBUM);
-        this.parent = parent;
         this.#lineConfigs = [];
-        this.#isPlaying = SongStore.isPlaying;
+        this.isPlaying = SongStore.isPlaying;
         this.#isAlbumLoaded = false;
-        this.#firstPlay = false;
+        this.firstPlay = false;
     }
 
     /**
@@ -79,7 +74,8 @@ export class Album extends BaseComponent {
     /**
      * Function to subscribe to all events from Stores
      */
-    #addSubscribes() {
+    private addSubscribes() {
+        const name = super.name;
         ContentStore.subscribe(
             () => {
                 const { id } = ContentStore.state[pageNames.ALBUM];
@@ -87,7 +83,11 @@ export class Album extends BaseComponent {
                 const buttons = document.querySelector('.js__button__play');
                 const imgLike = document.querySelector('.albumLike');
 
-                if (!buttons || !imgLike) {
+                if (!imgLike || !(imgLike instanceof HTMLImageElement)) {
+                    console.warn('Img doesn\'t exist in album');
+                    return;
+                }
+                if (!buttons) {
                     console.warn('Button doesn\'t\'exist on Album');
                     return;
                 }
@@ -124,7 +124,7 @@ export class Album extends BaseComponent {
                 }
             },
             EventTypes.ID_CAN_BE_VIEWED,
-            super.name,
+            name,
         );
 
         ContentStore.subscribe(
@@ -132,39 +132,16 @@ export class Album extends BaseComponent {
                 if (instance === 'tracks') {
                     const { tracks } = ContentStore.state[pageNames.ALBUM];
                     this.#lineConfigs.push(setupLineList(tracks));
-                    this.#renderLines(tracks);
+                    this.#renderLines();
                 }
             },
             EventTypes.ALBUM_CONTENT_DONE,
-            super.name,
+            name,
         );
 
         ContentStore.subscribe(
             () => {
-                const artistItem = document.querySelector('.js__author');
-                artistItem.addEventListener('click', () => {
-                    Router.go(`/artist/${ContentStore.state.ALBUM.id}`);
-                });
-
                 const state = ContentStore.state.ALBUM;
-                const img = document.querySelector('.album__img');
-                const name = document.querySelector('.headerNameOfElementClass');
-                const author = document.querySelector('.ArtistClass');
-                const imgLike = document.querySelector('.albumLike');
-                const description = document.querySelector('.js__description-album');
-
-                if (!img || !name || !author || !imgLike) {
-                    console.warn('Error at album. Doesnt have header');
-                    return;
-                }
-                img.src = `/static/img${state.cover}`;
-
-                if (state.isLiked) {
-                    imgLike.src = imgPath.liked;
-                } else {
-                    imgLike.src = imgPath.notLiked;
-                }
-                name.textContent = state.name;
                 let artistsText = state.artists[0].name;
                 if (state.artists.length > 2) {
                     artistsText = state.artists.reduce((acc, value, index) => {
@@ -175,13 +152,49 @@ export class Album extends BaseComponent {
                         return `${acc} ${value.name}`;
                     });
                 }
-                author.textContent = artistsText;
-                description.textContent = state.description;
+
+                const placement = document.querySelector('.album__descriptions');
+                if (!placement) {
+                    console.warn('Error at album. Cannot find placement for description');
+                    return;
+                }
+
+                new Promise((resolve) => {
+                    this.config.imgSrc = '/static/img${state.cover';
+                    this.config.headerNameOfElement = state.name;
+                    this.config.ArtistName = artistsText;
+                    this.config.Descriptions = state.description;
+                    placement.innerHTML = headerTemplate();
+                    placement.innerHTML = headerTemplate(this.config);
+                    resolve('');
+                }).then(() => {
+                    const artistItem = document.querySelector('.js__author');
+                    if (!artistItem) {
+                        console.warn('Error at ablum. Can\'t add listener');
+                        return;
+                    }
+                    artistItem.addEventListener('click', () => {
+                        Router.go(`/artist/${ContentStore.state.ALBUM.id}`);
+                    });
+                });
+
+                const imgLike = document.querySelector('.albumLike');
+
+                if (!imgLike || !(imgLike instanceof HTMLImageElement)) {
+                    console.warn('Error at album. Doesnt have header');
+                    return;
+                }
+
+                if (state.isLiked) {
+                    imgLike.src = imgPath.liked;
+                } else {
+                    imgLike.src = imgPath.notLiked;
+                }
 
                 document.title = state.name;
             },
             EventTypes.GOT_ONE_ALBUM,
-            super.name,
+            name,
         );
 
         SongStore.subscribe(
@@ -207,14 +220,14 @@ export class Album extends BaseComponent {
     /**
      * @description render MainWindowContent in parent
      */
-    render() {
+    override render() {
         const renderProcess = new Promise((resolve) => {
             super.appendElement();
-            resolve();
+            resolve('');
         });
 
         renderProcess.then(() => {
-            this.#addSubscribes();
+            this.addSubscribes();
             Actions.checkID(pageNames.ALBUM);
         });
     }

@@ -1,10 +1,54 @@
 import { imgPath } from '@config/pathConfig';
 
+export declare interface ISetupAlbumConfg{
+    mainDiv: string,
+    imgSrc: string,
+    imgClass: string,
+
+    headerDiv: string,
+    headerImgClass: string,
+    headerDescriptions: string,
+
+    headerNameDiv: string,
+    headerNameClass: string,
+    headerName: string,
+    headerNameOfElementDiv: string,
+    headerNameOfElementClass: string,
+    headerNameOfElement: string,
+    byClass: string,
+    headerDescription: string,
+    ArtistDiv: string,
+    ArtistClass: string,
+    ArtistName: string,
+    DescriptionsDiv: string,
+    DescriptionsClass: string,
+    Descriptions: string,
+    ButtonsDiv: string,
+    bottomDiv: string,
+
+    buttonDiv: string,
+    buttonSrc: string,
+    buttonClass: string,
+
+    numberDiv: string,
+    TitleDiv: string,
+    ListensDiv: string,
+
+    placementTracks: string,
+    liked: string,
+    buttonPlay: string,
+    albumLike: string,
+    isArtistPage: boolean,
+    isPlaylistPage: boolean,
+
+    hrClass: string,
+}
+
 /**
  * Setup album cover
  * @returns {{json}}
  */
-export function setupAlbum() {
+export function setupAlbum(): ISetupAlbumConfg {
     return {
         mainDiv: 'album',
         imgSrc: '',
@@ -19,15 +63,15 @@ export function setupAlbum() {
         headerName: 'Album',
         headerNameOfElementDiv: '',
         headerNameOfElementClass: 'headerNameOfElementClass',
-        headerNameOfElement: 'Album name',
+        headerNameOfElement: '',
         byClass: 'author',
         headerDescription: 'author__place',
         ArtistDiv: 'by__div',
         ArtistClass: 'ArtistClass js__author',
-        ArtistName: 'name artist',
+        ArtistName: '',
         DescriptionsDiv: '',
         DescriptionsClass: 'js__description-album',
-        Descriptions: '2019 11 songs 32 min',
+        Descriptions: '',
         ButtonsDiv: 'album__buttons',
         bottomDiv: 'bottomDiv',
 

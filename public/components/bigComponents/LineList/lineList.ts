@@ -79,9 +79,7 @@ export class LineList extends BaseComponent {
     /** Unsubscribe dropdwon from window on input in search */
     private unsubscribeFromWindow(element:DropDown) {
         const search = document.querySelector('.js__search');
-        if (!search || !(search instanceof HTMLInputElement)) {
-            console.warn('Error wasn\'t find');
-        } else {
+        if (search && (search instanceof HTMLInputElement)) {
             const funcOnSearch = () => {
                 if (search.value === '') {
                     return;
@@ -218,16 +216,24 @@ export class LineList extends BaseComponent {
                 const div = document.createElement('div');
                 div.classList.add('track-line__another');
                 div.classList.add('placement-trigger');
-                // @ts-ignore
-                anothers[index].parentElement.appendChild(div);
-                // @ts-ignore
+
+                if (!(line instanceof HTMLElement)) {
+                    console.warn('Line doesnt HTMLElement');
+                    return;
+                }
+
+                const element = anothers[index];
+                const parentOfDots = anothers[index]?.parentElement;
+                if (!element || !(parentOfDots) || !(element instanceof HTMLImageElement)) {
+                    console.warn('Cant find 3 dots');
+                    return;
+                }
+
+                parentOfDots.appendChild(div);
                 this.#renderDropDownForOneLine(line, index, div);
-                // @ts-ignore
-                div.appendChild(anothers[index]);
-                // @ts-ignore
-                anothers[index].classList.add('dropdown-sub-title');
-                // @ts-ignore
-                anothers[index].style.zIndex = '1';
+                div.appendChild(element);
+                element.classList.add('dropdown-sub-title');
+                element.style.zIndex = '1';
             });
             this.isRendered = true;
         }, EventTypes.GOT_USER_PLAYLISTS, this.name);
