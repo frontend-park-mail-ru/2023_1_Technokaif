@@ -1,4 +1,3 @@
-import templateHtml from './searchContent.handlebars';
 import './searchContent.less';
 import { EventTypes } from '@config/EventTypes';
 import {
@@ -12,6 +11,7 @@ import ContentStore from '@store/ContentStore';
 import { Tape } from '@bigComponents/Tape/tape';
 import { BaseComponent } from '@components/BaseComponent';
 import { LineList } from '@bigComponents/LineList/lineList';
+import templateHtml from './searchContent.handlebars';
 
 declare interface ILenParam {
     length: number,
@@ -117,12 +117,12 @@ export class SearchContent extends BaseComponent {
         const nothingPlacement = document.querySelector('.js__nothing-found');
         const label = document.createElement('p');
         if (!nothingPlacement) return;
+        nothingPlacement.innerHTML = '';
+
         if (!isExist) {
             label.innerHTML = 'Nothing was found';
             label.classList.add('nothing-found');
             nothingPlacement.appendChild(label);
-        } else {
-            nothingPlacement.innerHTML = '';
         }
 
         this.lengths = [];
