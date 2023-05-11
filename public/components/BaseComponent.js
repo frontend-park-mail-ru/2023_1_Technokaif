@@ -78,8 +78,8 @@ export class BaseComponent {
     #subscribeAll() {
         ComponentsStore.subscribe(
             (list) => {
-                let component = list.filter((comp) => comp.name === this.#name);
-                if (component.length !== 0) {
+                let component = list.find((comp) => comp.name === this.#name);
+                if (component) {
                     ComponentsActions.removeElementFromPage(this.#name);
                     unsubscribeFromAllStoresOnComponent(this.#name);
                     ContentStore.state[this.#name] = {};
@@ -92,8 +92,8 @@ export class BaseComponent {
                     if (nameComp === componentsNames.FEED_CONTENT
                         || nameComp === componentsNames.SEARCH_CONTENT
                         || nameComp === componentsNames.ALBUM || componentsNames.ARTIST_CONTENT) {
-                        component = list.filter((comp) => comp.name === componentsNames.MAIN);
-                        if (component.length !== 0) {
+                        component = list.find((comp) => comp.name === componentsNames.MAIN);
+                        if (component > 0) {
                             ComponentsActions.removeElementFromPage(componentsNames.MAIN);
                             unsubscribeFromAllStoresOnComponent(componentsNames.MAIN);
                             const parent = ComponentsStore.checkWhereToPlace(componentsNames.MAIN);

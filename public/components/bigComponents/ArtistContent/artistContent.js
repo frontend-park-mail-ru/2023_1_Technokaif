@@ -117,11 +117,17 @@ export class ArtistContent extends BaseComponent {
         if (likeBlock) {
             placement.removeChild(likeBlock);
         }
-        const counter = tracks.filter(
-            (track) => (track.artists.filter(
-                (trackArtist) => trackArtist.name === artist.name,
-            ).length > 0),
-        ).length;
+
+        const counter = tracks.reduce((acc, track) => {
+            const isTrackOfArtist = track.artists.find((trackArtist) => trackArtist.name
+                === artist.name);
+
+            if (isTrackOfArtist) {
+                acc += 1;
+            }
+            return acc;
+        }, 0);
+
         const likedSongs = new LikedSongs(placement, setupLikedSongs(artist, counter));
         likedSongs.appendElement();
     }
@@ -152,8 +158,15 @@ export class ArtistContent extends BaseComponent {
 
                 buttons.addEventListener('click', () => {
                     if (!playButton.hidden) {
-                        // eslint-disable-next-line max-len
-                        if (SongStore.exist && SongStore.trackInfo.artists.filter((element) => element.name === ContentStore.state[pageNames.ARTIST_PAGE].artist.name).length > 0) {
+                        const isThisArtist = SongStore
+                            .trackInfo
+                            .artists
+                            .find((element) => element.name === ContentStore
+                                .state[pageNames.ARTIST_PAGE]
+                                .artist
+                                .name);
+
+                        if (SongStore.exist && isThisArtist) {
                             PlayerActions.changePlayState(true);
                         } else {
                             PlayerActions.playArtist(id);
@@ -206,11 +219,7 @@ export class ArtistContent extends BaseComponent {
                     // eslint-disable-next-line no-case-declarations
                     const { artist } = ContentStore.state[pageNames.ARTIST_PAGE];
                     this.#renderCover(artist);
-                    if (artist.isLiked) {
-                        imgLike.src = imgPath.liked;
-                    } else {
-                        imgLike.src = imgPath.notLiked;
-                    }
+                    imgLike.src = artist.isLiked ? imgPath.liked : imgPath.notLiked;
                     break;
                 case 'tracks':
                     // eslint-disable-next-line no-case-declarations

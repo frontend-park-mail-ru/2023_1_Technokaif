@@ -66,10 +66,10 @@ class Navbar {
     #callEventListener() {
         ComponentsStore.subscribe(
             (list) => {
-                const component = list.filter(
+                const component = list.find(
                     (comp) => comp.name === componentsNames.NAVBAR,
                 );
-                if (component.length !== 0) {
+                if (component) {
                     ComponentsActions.removeElementFromPage(componentsNames.NAVBAR);
                     unsubscribeFromAllStoresOnComponent(componentsNames.NAVBAR);
                     this.unRender();

@@ -112,11 +112,7 @@ export class Album extends BaseComponent {
                         PlayerActions.playAlbum(id);
                     }
 
-                    if (!SongStore.isPlaying) {
-                        PlayerActions.changePlayState(true);
-                    } else {
-                        PlayerActions.changePlayState(false);
-                    }
+                    PlayerActions.changePlayState(!SongStore.isPlaying);
                 });
 
                 if (id !== undefined) {
@@ -142,16 +138,21 @@ export class Album extends BaseComponent {
         ContentStore.subscribe(
             () => {
                 const state = ContentStore.state.ALBUM;
-                let artistsText = state.artists[0].name;
-                if (state.artists.length > 2) {
-                    artistsText = state.artists.reduce((acc, value, index) => {
-                        if (index !== state.artists.length) {
-                            return `${acc} ${value.name},`;
-                        }
+                // let artistsText = state.artists[0].name;
+                // if (state.artists.length > 2) {
+                //     artistsText = state.artists.reduce((acc, value, index) => {
+                //         if (index !== state.artists.length) {
+                //             return `${acc} ${value.name},`;
+                //         }
+                //
+                //         return `${acc} ${value.name}`;
+                //     });
+                // }
 
-                        return `${acc} ${value.name}`;
-                    });
-                }
+                const artistsText = state.artists.reduce((acc, { name }) => {
+                    acc.push(name);
+                    return acc;
+                }, []).join(' ');
 
                 const placement = document.querySelector('.album__descriptions');
                 if (!placement) {
@@ -185,12 +186,7 @@ export class Album extends BaseComponent {
                     return;
                 }
 
-                if (state.isLiked) {
-                    imgLike.src = imgPath.liked;
-                } else {
-                    imgLike.src = imgPath.notLiked;
-                }
-
+                imgLike.src = state.isLiked ? imgPath.liked : imgPath.notLiked;
                 document.title = state.name;
             },
             EventTypes.GOT_ONE_ALBUM,
@@ -206,14 +202,14 @@ export class Album extends BaseComponent {
 
     /** Change state of Play button */
     changeStatePlayer(newState) {
-        if (this.firstPlay) {
-            if (newState) {
-                this.firstPlay = true;
-                this.playButton.src = imgPath.pauseAlbum;
-            } else {
-                this.isPlaying = false;
-                this.playButton.src = imgPath.playAlbum;
-            }
+        if (this.firstPlay && newState) {
+            this.firstPlay = true;
+            this.playButton.src = imgPath.pauseAlbum;
+        }
+
+        if (this.firstPlay && !newState) {
+            this.isPlaying = false;
+            this.playButton.src = imgPath.playAlbum;
         }
     }
 

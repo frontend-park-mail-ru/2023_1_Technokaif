@@ -157,11 +157,7 @@ export abstract class Playlist extends BaseComponent {
                         PlayerActions.addQueueTracks(trackIds);
                     }
 
-                    if (!SongStore.isPlaying) {
-                        PlayerActions.changePlayState(true);
-                    } else {
-                        PlayerActions.changePlayState(false);
-                    }
+                    PlayerActions.changePlayState(!SongStore.isPlaying);
                 });
 
                 switch (instance) {
@@ -174,11 +170,6 @@ export abstract class Playlist extends BaseComponent {
                     }
                     this.renderLines();
                     break;
-                // case 'playlist':
-                //     this.#lineConfigs.push(setupPlaylistLineList(tracks));
-                //     this.isPlaylist = true;
-                //     this.renderLines();
-                //     break;
                 default:
                 }
             },

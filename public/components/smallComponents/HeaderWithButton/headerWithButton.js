@@ -41,8 +41,8 @@ export class HeaderWithButton {
     #subscribeComponents() {
         ComponentsStore.subscribe(
             (list) => {
-                const component = list.filter((comp) => comp.name === this.#name);
-                if (component.length !== 0) {
+                const component = list.find((comp) => comp.name === this.#name);
+                if (component) {
                     component.forEach((element) => {
                         ComponentsActions.removeElementFromPage(element.name);
                     });

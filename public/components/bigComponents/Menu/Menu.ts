@@ -61,8 +61,8 @@ class Menu {
         });
         ComponentsStore.subscribe(
             (list) => {
-                const component = list.filter((comp) => comp.name === componentsNames.SIDEBAR);
-                if (component.length !== 0) {
+                const component = list.find((comp) => comp.name === componentsNames.SIDEBAR);
+                if (component) {
                     ComponentsActions.removeElementFromPage(componentsNames.SIDEBAR);
                     unsubscribeFromAllStoresOnComponent(componentsNames.SIDEBAR);
                     this.#unRender();
