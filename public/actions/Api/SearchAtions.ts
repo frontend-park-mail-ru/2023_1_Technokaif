@@ -10,6 +10,13 @@ class ApiSearchActions {
             searchString,
         });
     }
+
+    /** Empty search */
+    emptySearch() {
+        Dispatcher.dispatch({
+            type: ActionTypes.EMPTY_SEARCH,
+        });
+    }
 }
 
 export default new ApiSearchActions();

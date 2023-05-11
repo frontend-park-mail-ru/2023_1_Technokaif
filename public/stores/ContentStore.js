@@ -73,6 +73,9 @@ class ContentStore extends IStore {
         case ActionTypes.GOT_PLAYLIST_SEARCH:
             this.#addPlaylistsToSearchPage(action.items);
             break;
+        case ActionTypes.EMPTY_SEARCH:
+            this.jsEmit(EventTypes.EMPTY_SEARCH);
+            break;
         default:
         }
     }

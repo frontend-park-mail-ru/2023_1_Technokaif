@@ -117,6 +117,7 @@ const ActionTypes = {
 
     PLAY_PLAYLIST: 'PLAY_PLAYLIST',
     CLEAR_STORE: 'CLEAR_STORE_STATE',
+    EMPTY_SEARCH: 'EMPTY_SEARCH',
 };
 
 export default ActionTypes;

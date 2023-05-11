@@ -40,6 +40,7 @@ export class SearchLine extends BaseComponent {
             event.preventDefault();
             const { value } = field;
             if (value === '') {
+                SearchAtions.emptySearch();
                 return;
             }
 
