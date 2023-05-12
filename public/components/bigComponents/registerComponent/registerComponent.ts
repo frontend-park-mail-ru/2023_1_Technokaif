@@ -164,6 +164,13 @@ export class RegisterComponent extends BaseComponent {
                 ERRORS_REG.year,
             );
             break;
+        case 'date':
+            this.#errorsRender(
+                ElementsClassForRegister.date_error,
+                status,
+                status,
+            );
+            break;
         default:
         }
     }
