@@ -11,6 +11,7 @@ import { BaseComponent } from '@components/BaseComponent';
 import { Form } from '@bigComponents/form/form';
 import UserInfoStore from '@store/UserInfoStore';
 import API from '@store/API';
+import { sexType } from '@api/ApiAnswers';
 import template from './registerComponent.handlebars';
 
 /** Function to work with listener triggered */
@@ -300,7 +301,7 @@ export class RegisterComponent extends BaseComponent {
             METHOD.FORM,
             // todo Check and do rewrite
             (nameOfReaction, _) => {
-                ValidationActions.validationField(NAME_OF_VALIDATION.sex, { gender: 'F' });
+                ValidationActions.validationField(NAME_OF_VALIDATION.sex, { gender: sexType.F });
                 const password = document.querySelector(`.${ElementsClassForRegister.password}`);
                 const confPassword = document.querySelector(`.${ElementsClassForRegister.confPassword}`);
                 if (password && confPassword) {
@@ -405,7 +406,7 @@ export class RegisterComponent extends BaseComponent {
                 email: state.email,
                 firstName: state.firstName,
                 lastName: state.lastName,
-                sex: 'F',
+                sex: sexType.F,
                 birthDate: [state.year, stringToReturn, state.day].join('-'),
                 password: (passwordField as HTMLInputElement).value,
             });

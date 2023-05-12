@@ -89,9 +89,8 @@ export class BaseComponent {
 
                     // todo change to config
                     const nameComp = this.#name;
-                    if (nameComp === componentsNames.FEED_CONTENT
-                        || nameComp === componentsNames.SEARCH_CONTENT
-                        || nameComp === componentsNames.ALBUM || componentsNames.ARTIST_CONTENT) {
+                    // eslint-disable-next-line max-len
+                    if ([componentsNames.FEED_CONTENT, componentsNames.SEARCH_CONTENT, nameComp === componentsNames.ALBUM, componentsNames.ARTIST_CONTENT].includes(nameComp)) {
                         component = list.find((comp) => comp.name === componentsNames.MAIN);
                         if (component) {
                             ComponentsActions.removeElementFromPage(componentsNames.MAIN);

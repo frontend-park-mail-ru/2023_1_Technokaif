@@ -30,7 +30,12 @@ export declare interface AlbumApi
     ]
 }
 
-type sexType = 'M'|'F'|'O';
+// eslint-disable-next-line no-shadow
+export enum sexType {
+    'M',
+    'F',
+    'O',
+}
 export declare interface PlaylistApi
 {
     'playlists': [

@@ -99,9 +99,9 @@ export class LineList extends BaseComponent {
         const trackLines: NodeListOf<HTMLDivElement> = document.querySelectorAll(`.${this._config.lineDiv}`);
         Array.from(trackLines).reduce((previousValue, currentValue, index, array) => {
             const currentIndex: HTMLDivElement = currentValue.querySelector(`.${this._config.lineIndex}`) as HTMLDivElement;
-            const currentId = +currentIndex?.innerText;
+            const currentId = Number(currentIndex?.innerText);
             const prevIndex: HTMLDivElement = previousValue.querySelector(`.${this._config.lineIndex}`) as HTMLDivElement;
-            const prevId = +prevIndex?.innerText;
+            const prevId = Number(prevIndex?.innerText);
             if (prevId > index) {
                 prevIndex.innerText = String(prevId - 1);
             }
@@ -138,6 +138,13 @@ export class LineList extends BaseComponent {
         }
     }
 
+    /**
+     * Render dropdown list for track line
+     * @param line
+     * @param index
+     * @param another
+     * @private
+     */
     #renderDropDownForOneLine(line:HTMLElement, index, another) {
         // @ts-ignore
         const trackId = line.dataset.id;
@@ -150,7 +157,6 @@ export class LineList extends BaseComponent {
         dropDown.render();
         this.unsubscribeFromWindow(dropDown);
 
-        // const bt1 = document.createElement('div');
         const textAdd = document.createElement('p');
         textAdd.textContent = 'Add';
         dropDown.addOptionsElement(textAdd);
@@ -270,7 +276,7 @@ export class LineList extends BaseComponent {
                     return;
                 }
 
-                const id = +indexBlock?.innerText;
+                const id = Number(indexBlock?.innerText);
                 if (!id) {
                     console.error('Cannot get inner text or convert');
                     return;
@@ -362,16 +368,16 @@ export class LineList extends BaseComponent {
                         return;
                     }
                     // @ts-ignore
-                    if (+lines[key]?.dataset.id === trackId && state === true) {
+                    if (Number(lines[key]?.dataset.id) === trackId && state === true) {
                         // @ts-ignore
-                        playButtons[+key].hidden = true;
+                        playButtons[Number(key)].hidden = true;
                         // @ts-ignore
-                        stopButtons[+key].hidden = false;
+                        stopButtons[Number(key)].hidden = false;
                     } else {
                         // @ts-ignore
-                        playButtons[+key].hidden = false;
+                        playButtons[Number(key)].hidden = false;
                         // @ts-ignore
-                        stopButtons[+key].hidden = true;
+                        stopButtons[Number(key)].hidden = true;
                     }
                 }
             },

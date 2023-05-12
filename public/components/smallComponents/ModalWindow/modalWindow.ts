@@ -108,7 +108,6 @@ export class ModalWindow extends BaseComponent {
         });
 
         coverElement.addEventListener('click', () => {
-            // root.appendChild(this.fileInput);
             this.fileInput.click();
         });
 
@@ -122,7 +121,6 @@ export class ModalWindow extends BaseComponent {
                 ContentStore.state[pageNames.PLAYLIST].id,
                 formData,
             );
-            // root.removeChild(this.fileInput);
         });
 
         API.subscribe(

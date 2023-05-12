@@ -15,6 +15,7 @@ import API from '@store/API.ts';
 import UserActions from '@API/UserActions';
 import ValidationActions from '@Actions/ValidationActions';
 import { Form } from '@bigComponents/form/form';
+import { sexType } from '@api/ApiAnswers';
 
 /**
  * Class for artists content in main page.
@@ -212,7 +213,7 @@ export class User extends BaseComponent {
                 firstName: state.firstName,
                 lastName: state.lastName,
                 birthDate: [state.year, monthNumber, day].join('-'),
-                sex: 'M',
+                sex: sexType.M,
             });
         }
     }

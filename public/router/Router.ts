@@ -216,6 +216,7 @@ class Router extends IStore {
             // @ts-ignore
             return { id, page, stateStore };
         }
+
         return null;
     }
 
