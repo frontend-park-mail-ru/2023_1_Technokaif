@@ -21,10 +21,6 @@ export default class EventEmitter {
      */
     #events;
 
-    #isDispatching;
-
-    #waitOrder;
-
     /**
      * Stores general events using in subscription without providing nameOfComponent.
      *
@@ -37,9 +33,6 @@ export default class EventEmitter {
     constructor() {
         this.#events = {};
         this.#generalEvents = [];
-
-        this.#isDispatching = false;
-        this.#waitOrder = [];
     }
 
     /**
@@ -118,7 +111,7 @@ export default class EventEmitter {
                 });
             }
 
-            resolve();
+            resolve('');
         });
 
         p.then(() => {

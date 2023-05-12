@@ -4,6 +4,11 @@ import { EventTypes } from '@config/EventTypes';
 import { componentsNames } from '@config/componentsNames';
 import { componentsJSNames } from '@config/componentsJSNames';
 
+declare interface Component{
+    name:string,
+    render: {(HTMLElement): void}
+}
+
 /**
  * Store for components.
  */
@@ -43,7 +48,7 @@ class ComponentsStore extends IStore {
      * Function to handle dispatcher behaviour.
      * @param action
      */
-    dispatch(action) {
+    override dispatch(action) {
         switch (action.type) {
         case ActionTypes.CHECK_WHAT_RENDER:
             this.#checkElementsForPage(action.name);
@@ -87,7 +92,7 @@ class ComponentsStore extends IStore {
             return document.getElementById(`${componentsJSNames.ROOT}`);
         case componentsNames.PLAYER:
             return document.getElementById('player__placement');
-        case componentsNames.LIBRARY_LIST:
+        case componentsNames.LIBRARY_LIST: {
             const desktopElement = document.querySelector('.navbar_library_desktop');
             const mobileElement = document.querySelector('.navbar_library_mobile');
             if (window.innerWidth < 767) {
@@ -95,18 +100,11 @@ class ComponentsStore extends IStore {
             }
 
             return desktopElement;
-
+        }
         default:
             console.error('position to place element by name', elementName, 'not found');
             return document.getElementById(`${componentsJSNames.ROOT}`);
         }
-    }
-
-    /**
-     * Function to clear #whatExistOnPage field.
-     */
-    #clearAllElements() {
-        this.#whatExistOnPage = [];
     }
 
     /**
@@ -131,6 +129,7 @@ class ComponentsStore extends IStore {
      * Register the page and it's requirement.
      * @param {string} nameOfPage - name of Page
      * @param {json} requiredComponents
+     * @param {boolean} isPrePageNeed
      * @example of requiredComponents
      * [
      *     {
@@ -164,8 +163,8 @@ class ComponentsStore extends IStore {
      */
     #checkElementsForPage(pageName) {
         const { components } = this.#whatNeedForPage.find((element) => element.page === pageName);
-        const notExist = [];
-        components.forEach((component) => {
+        const notExist: Component[] = [];
+        components.forEach((component: Component) => {
             const alreadyExistsOnPage = this.#whatExistOnPage.find(
                 (currentComponent) => currentComponent === component.name,
             );

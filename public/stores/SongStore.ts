@@ -3,10 +3,6 @@ import ActionTypes from '@actions/ActionTypes';
 import { EventTypes } from '@config/EventTypes';
 import { RESPONSES } from '@config/config';
 
-export const METHODS_STORE = {
-    REPLACE: 'REPLACE',
-};
-
 /** Store to work with songs player */
 class SongStore extends IStore {
     /** Prev volume to back */
@@ -125,7 +121,7 @@ class SongStore extends IStore {
      * Dispatch all actions to methods inside
      * @param {JSON} action
      */
-    dispatch(action) {
+    override dispatch(action) {
         switch (action.type) {
         case ActionTypes.DOWNLOAD_DIRECTIONAL_TRACK:
             this.#searchForTrack(action.status);
@@ -179,7 +175,7 @@ class SongStore extends IStore {
             this.#clearAll();
             break;
         case ActionTypes.FIRST_START_AFTER_RESTART:
-            this.#firstLaunch();
+            this.firstLaunch();
             break;
         case ActionTypes.SET_OFFSET:
             this.#setPosition(action.offset);
@@ -197,7 +193,7 @@ class SongStore extends IStore {
     }
 
     /** Set data for track for first launch */
-    #firstLaunch() {
+    private firstLaunch() {
         const state = super.state;
         if (state) {
             if (state.songs?.length > 0) {
@@ -206,7 +202,7 @@ class SongStore extends IStore {
                 this.#position = state.position;
                 this.#songs = state.songs;
                 this.#clearTrack = false;
-                this.#playlist = super.playlist;
+                this.#playlist = state.playlist;
 
                 this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
                 this.#setRepeat(state.repeat);
@@ -237,6 +233,19 @@ class SongStore extends IStore {
             offset = 0;
         }
         this.#position = offset;
+    }
+
+    /** Set track to play */
+    private setTrack() {
+        this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
+        this.#clearTrack = false;
+        this.jsEmit(EventTypes.SONG_FOUND, {
+            status: RESPONSES.OK,
+            id: this.#songs[this.#position].id,
+            artists: this.#songs[this.#position].artists,
+            name: this.#songs[this.#position].name,
+            cover: this.#songs[this.#position].cover,
+        });
     }
 
     /**
@@ -333,24 +342,6 @@ class SongStore extends IStore {
                 this.#listFromBeginning = true;
                 return;
             }
-
-            let id;
-            switch (this.#storeType) {
-            case 'album':
-                id = this.#songs[this.#position].albumID;
-                break;
-            case 'artist':
-                id = this.#songs[this.#position].artists.id;
-                break;
-            case 'track':
-                // todo https://github.com/orgs/frontend-park-mail-ru/projects/1/views/1?pane=issue&itemId=25985431
-                // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
-                id = this.#songs[this.#position].id;
-                break;
-            default:
-                console.warn('Not Artist/Album/Track direction in SonStore');
-                break;
-            }
         }
 
         if (!this.#songs[this.#position].recordSrc
@@ -368,15 +359,7 @@ class SongStore extends IStore {
             return;
         }
 
-        this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
-        this.#clearTrack = false;
-        this.jsEmit(EventTypes.SONG_FOUND, {
-            status: RESPONSES.OK,
-            id: this.#songs[this.#position].id,
-            artists: this.#songs[this.#position].artists,
-            name: this.#songs[this.#position].name,
-            cover: this.#songs[this.#position].cover,
-        });
+        this.setTrack();
     }
 
     /**
@@ -395,21 +378,13 @@ class SongStore extends IStore {
     #uploadTape(response) {
         this.#songs = this.#songs.concat(response);
 
-        if (this.#songs.length > 0) {
-            if (this.#songs.length <= this.#position) {
-                console.warn('Length exceeded, existed:', this.#songs.length, ' position:', this.#position);
-                this.#position = this.#songs.length - 1;
-            }
+        if (this.#songs.length > 0 && this.#songs.length <= this.#position) {
+            console.warn('Length exceeded, existed:', this.#songs.length, ' position:', this.#position);
+            this.#position = this.#songs.length - 1;
+        }
 
-            this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
-            this.#clearTrack = false;
-            this.jsEmit(EventTypes.SONG_FOUND, {
-                status: RESPONSES.OK,
-                id: this.#songs[this.#position].id,
-                artists: this.#songs[this.#position].artists,
-                name: this.#songs[this.#position].name,
-                cover: this.#songs[this.#position].cover,
-            });
+        if (this.#songs.length > 0) {
+            this.setTrack();
         }
     }
 }

@@ -39,4 +39,5 @@ export const NAME_OF_VALIDATION = {
     month: 'month',
     year: 'year',
     validate_register: 'validate_register',
+    sex: 'sex',
 };

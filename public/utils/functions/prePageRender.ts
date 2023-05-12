@@ -4,7 +4,10 @@ import { componentsJSNames } from '@config/componentsJSNames';
  * Function to clear root element.
  */
 export function clearBars() {
-    document.querySelector('#root').innerHTML = '';
+    const element = document.querySelector('#root');
+    if (element) {
+        element.innerHTML = '';
+    }
 }
 
 /**
@@ -20,5 +23,9 @@ export function prePageRender() {
     bodyElement.id = `${componentsJSNames.BODY}`;
 
     const root = document.querySelector('#root');
+    if (!root) {
+        console.error('Root doesn\'t exist');
+        return;
+    }
     root.appendChild(bodyElement);
 }
