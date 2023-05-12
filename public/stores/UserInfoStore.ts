@@ -31,16 +31,16 @@ class UserInfoStore extends IStore {
      * Dispatching func.
      * @param {json} action
      */
-    dispatch(action) {
-        super.dispatch();
+    override dispatch(action) {
+        super.dispatch(action);
 
         switch (action.type) {
         case ActionTypes.VALIDATION_CHECK_CORRECT_ALL:
         case ActionTypes.VALIDATION_FIELD:
-            this.#validationDispatch(action.nameOfField, action.content);
+            this.validationDispatch(action.nameOfField, action.content);
             break;
         case ActionTypes.ADD_USER_INFO:
-            this.#addUserState(action.userData);
+            this.addUserState(action.userData);
             break;
         default:
             super.dispatch(action);
@@ -50,7 +50,7 @@ class UserInfoStore extends IStore {
     /**
      * Add an info for user
      */
-    #addUserState(userData) {
+    private addUserState(userData) {
         for (const key in userData) {
             if (key === 'birthDate') {
                 const date = new Date(Date.parse(userData[key]));
@@ -70,78 +70,73 @@ class UserInfoStore extends IStore {
      * @param {string} nameOfField - name of field
      * @param {*} value - value of field
      */
-    #validationDispatch(nameOfField, value) {
+    private validationDispatch(nameOfField, value) {
         if (!this.state.errors) {
             this.state.errors = {};
         }
         switch (nameOfField) {
         case 'username':
             super.changeFieldInState('username', value);
-            this.#getErrorsUsername();
+            this.getErrorsUsername();
             break;
         case 'password':
-            this.#getPasswordError(value);
+            this.getPasswordError(value);
             break;
         case 'day':
             super.changeFieldInState('day', value);
-            this.#getDayError();
+            this.getDayError();
             break;
         case 'month':
             super.changeFieldInState('month', value);
-            this.#getMonthError();
+            this.getMonthError();
             break;
         case 'year':
             super.changeFieldInState('year', value);
-            this.#getYearError();
+            this.getYearError();
             break;
         case 'email':
             super.changeFieldInState('email', value);
-            this.#getEmailError();
-            break;
-        case 'confEmail':
-            // todo Remove confirm email
-            super.changeFieldInState('confEmail', value);
-            this.#getConfEmailError();
+            this.getEmailError();
             break;
         case NAME_OF_VALIDATION.confPassword:
             super.changeFieldInState(NAME_OF_VALIDATION.confPassword, value);
-            this.#getConfError({
+            this.getConfError({
                 Password: value.password,
                 confPassword: value.confPassword,
             }, false);
             break;
         case 'firstname':
             super.changeFieldInState('firstName', value);
-            this.#checkName('firstName');
+            this.checkName('firstName');
             break;
         case 'lastname':
             super.changeFieldInState('lastName', value);
-            this.#checkName('lastName');
+            this.checkName('lastName');
             break;
         case 'newPassword':
-            this.#getPasswordError(value, 'newPassword', false);
+            this.getPasswordError(value, 'newPassword', false);
             break;
         case 'newConfPassword':
-            this.#getPasswordConfError(value, false);
+            this.getPasswordConfError(value, false);
             break;
         case 'validate_register':
-            this.#checkForErrorsInRegistration(value.password, value.confPassword);
+            this.checkForErrorsInRegistration(value.password, value.confPassword);
             break;
         case 'validate_login':
-            this.#checkForErrorsInLogin(value);
+            this.checkForErrorsInLogin(value);
             break;
         case 'log_username':
             super.changeFieldInState('login', value);
-            this.#getLoginError();
+            this.getLoginError();
             break;
         case 'log_password':
-            this.#getPasswordError(value);
+            this.getPasswordError(value);
             break;
         case 'userPageValidate':
-            this.#checkForUserPage(value);
+            this.checkForUserPage(value);
             break;
         case 'userPagePasswordValidate':
-            this.#checkForUserPageWithPassword(value);
+            this.checkForUserPageWithPassword(value);
             break;
         default:
         }
@@ -153,7 +148,7 @@ class UserInfoStore extends IStore {
      * If field is empty will return 'OK' without loginType flag
      * @param {boolean} loginType if true will return 'BAD' when empty field
      */
-    #getErrorsUsername(loginType = false) {
+    private getErrorsUsername(loginType = false) {
         const { username } = super.state;
 
         let status;
@@ -164,11 +159,11 @@ class UserInfoStore extends IStore {
         }
 
         if (status !== EMPTY_ERROR || loginType) {
-            this.#emitResponse('username', status);
+            this.emitResponse('username', status);
         }
 
         if (status === EMPTY_ERROR && !loginType) {
-            this.#emitResponse('username', OK_RESPONSE);
+            this.emitResponse('username', OK_RESPONSE);
         }
     }
 
@@ -179,7 +174,7 @@ class UserInfoStore extends IStore {
      * @param {string} nameOfSpace what signal emit and what field to check
      * @param {boolean} loginType if true will return 'BAD' when empty field
      */
-    #getPasswordError(password, nameOfSpace = 'password', loginType = false) {
+    private getPasswordError(password, nameOfSpace = 'password', loginType = false) {
         let status;
         if (!checkForEmpty(password) || loginType) {
             status = getPasswordError(password);
@@ -188,10 +183,10 @@ class UserInfoStore extends IStore {
         }
 
         if (status !== EMPTY_ERROR || loginType) {
-            this.#emitResponse(nameOfSpace, status);
+            this.emitResponse(nameOfSpace, status);
         }
         if (status === EMPTY_ERROR && !loginType) {
-            this.#emitResponse(nameOfSpace, OK_RESPONSE);
+            this.emitResponse(nameOfSpace, OK_RESPONSE);
         }
     }
 
@@ -204,11 +199,11 @@ class UserInfoStore extends IStore {
      * @param confPassword
      * @param {boolean} isChange - if true then we need to check for empty strings in passwords
      */
-    #getPasswordConfError({
+    private getPasswordConfError({
         newPassword,
         confPassword,
     }, isChange = false) {
-        this.#checkIfEquap('newConfPassword', newPassword, confPassword, isChange);
+        this.checkIfEquap('newConfPassword', newPassword, confPassword, isChange);
     }
 
     /**
@@ -220,11 +215,11 @@ class UserInfoStore extends IStore {
      * @param confPassword
      * @param {boolean} isChange - if true then we need to check for empty strings in passwords
      */
-    #getConfError({
+    private getConfError({
         Password,
         confPassword,
     }, isChange = false) {
-        this.#checkIfEquap(NAME_OF_VALIDATION.confPassword, Password, confPassword, isChange);
+        this.checkIfEquap(NAME_OF_VALIDATION.confPassword, Password, confPassword, isChange);
     }
 
     /**
@@ -232,7 +227,7 @@ class UserInfoStore extends IStore {
      * If field is empty will return 'OK' without loginType flag
      * @param {boolean} loginType if true will return 'BAD' when empty field
      */
-    #getDayError(loginType = false) {
+    private getDayError(loginType = false) {
         const { day } = super.state;
 
         let status;
@@ -246,10 +241,10 @@ class UserInfoStore extends IStore {
         }
 
         if (status !== EMPTY_ERROR || loginType) {
-            this.#emitResponse('day', status);
+            this.emitResponse('day', status);
         }
         if (status === EMPTY_ERROR && !loginType) {
-            this.#emitResponse('day', OK_RESPONSE);
+            this.emitResponse('day', OK_RESPONSE);
         }
     }
 
@@ -258,7 +253,7 @@ class UserInfoStore extends IStore {
      * If field is empty will return 'OK' without loginType flag
      * @param {boolean} loginType if true will return 'BAD' when empty field
      */
-    #getYearError(loginType = false) {
+    private getYearError(loginType = false) {
         const { year } = super.state;
         let status;
         if (checkForEmpty(year)) {
@@ -268,10 +263,10 @@ class UserInfoStore extends IStore {
         }
 
         if (status !== EMPTY_ERROR || loginType) {
-            this.#emitResponse('year', status);
+            this.emitResponse('year', status);
         }
         if (status === EMPTY_ERROR && !loginType) {
-            this.#emitResponse('year', OK_RESPONSE);
+            this.emitResponse('year', OK_RESPONSE);
         }
     }
 
@@ -280,7 +275,7 @@ class UserInfoStore extends IStore {
      * If field is empty will return 'OK' without loginType flag
      * @param {boolean} loginType if true will return 'BAD' when empty field
      */
-    #getMonthError(loginType = false) {
+    private getMonthError(loginType = false) {
         const { month } = super.state;
         let status;
         if (checkForEmpty(month) && !loginType) {
@@ -294,10 +289,10 @@ class UserInfoStore extends IStore {
         }
 
         if (status !== EMPTY_ERROR) {
-            this.#emitResponse('month', status);
+            this.emitResponse('month', status);
         }
         if (status === EMPTY_ERROR) {
-            this.#emitResponse('month', OK_RESPONSE);
+            this.emitResponse('month', OK_RESPONSE);
         }
     }
 
@@ -309,7 +304,7 @@ class UserInfoStore extends IStore {
      * or empty with loginType flag
      * @param {boolean} loginType if true will return 'BAD' when empty field
      */
-    #getEmailError(loginType = false) {
+    private getEmailError(loginType = false) {
         const { email } = super.state;
         let status;
         if (checkForEmpty(email) && !loginType) {
@@ -323,41 +318,12 @@ class UserInfoStore extends IStore {
 
         if (status !== EMPTY_ERROR) {
             if (status.indexOf('email') < 0) {
-                this.#emitResponse('email', OK_RESPONSE);
+                this.emitResponse('email', OK_RESPONSE);
             } else {
-                this.#emitResponse('email', BAD_RESPONSE);
+                this.emitResponse('email', BAD_RESPONSE);
             }
         } else {
-            this.#emitResponse('email', OK_RESPONSE);
-        }
-    }
-
-    /**
-     * If confirmation email correct will emit 'OK' else 'BAD'
-     * If field is empty will return 'OK' without loginType flag
-     * If email field is empty will return 'OK' without loginType flag
-     *
-     * Emit confEmail signal with 'BAD' status if confEmail not correct
-     * or empty with loginType flag
-     * @param {boolean} loginType if true will return 'BAD' when empty field
-     */
-    #getConfEmailError(loginType = false) {
-        const { email } = super.state;
-        const { confEmail } = super.state;
-        let status;
-        if (checkForEmpty(email) && !loginType) {
-            status = EMPTY_ERROR;
-        } else {
-            status = getEmailError(email, confEmail) || [];
-            if (Array.isArray(status) && status.length === 0) {
-                status = OK_RESPONSE;
-            }
-        }
-
-        if (status !== EMPTY_ERROR) {
-            this.#emitResponse('confEmail', status);
-        } else {
-            this.#emitResponse('confEmail', OK_RESPONSE);
+            this.emitResponse('email', OK_RESPONSE);
         }
     }
 
@@ -369,7 +335,7 @@ class UserInfoStore extends IStore {
      * @param {string} nameOfField what field to check
      * @param {boolean} loginType
      */
-    #checkName(nameOfField, loginType = false) {
+    private checkName(nameOfField, loginType = false) {
         const valueOfField = super.state[nameOfField];
         let status;
 
@@ -383,10 +349,10 @@ class UserInfoStore extends IStore {
         }
 
         if (status !== EMPTY_ERROR) {
-            this.#emitResponse(nameOfField, status);
+            this.emitResponse(nameOfField, status);
         }
         if (status === EMPTY_ERROR) {
-            this.#emitResponse(nameOfField, OK_RESPONSE);
+            this.emitResponse(nameOfField, OK_RESPONSE);
         }
     }
 
@@ -396,7 +362,7 @@ class UserInfoStore extends IStore {
      * If login isn't email or username it will generate 'BAD' signal
      * @param {boolean} loginType if true then emit signal on empty field else not emit
      */
-    #getLoginError(loginType = false) {
+    private getLoginError(loginType = false) {
         const login = super.getValueInState('login');
 
         let errors;
@@ -414,10 +380,10 @@ class UserInfoStore extends IStore {
         super.state.errors.login = !!errors;
 
         if (errors !== EMPTY_ERROR) {
-            this.#emitResponse(nameOfField, errors);
+            this.emitResponse(nameOfField, errors);
         }
         if (errors === EMPTY_ERROR) {
-            this.#emitResponse(nameOfField, OK_RESPONSE);
+            this.emitResponse(nameOfField, OK_RESPONSE);
         }
     }
 
@@ -431,17 +397,17 @@ class UserInfoStore extends IStore {
      * @param {boolean} checkForEmptySecond if true check for empty strings in second field
      * default false
      */
-    #checkIfEquap(nameOfField, firstValue, secondValue, checkForEmptySecond = false) {
+    private checkIfEquap(nameOfField, firstValue, secondValue, checkForEmptySecond = false) {
         let status;
         if (firstValue === secondValue) {
             status = OK_RESPONSE;
-        } else if ((firstValue !== '' && secondValue === '' || secondValue === '') && !checkForEmptySecond) {
+        } else if (((firstValue !== '' && secondValue === '') || secondValue === '') && !checkForEmptySecond) {
             status = OK_RESPONSE;
         } else {
             status = BAD_RESPONSE;
         }
 
-        this.#emitResponse(nameOfField, status);
+        this.emitResponse(nameOfField, status);
         return status;
     }
 
@@ -457,9 +423,9 @@ class UserInfoStore extends IStore {
      * @param {string} nameOfField what field is emit signal
      * @param status status of validation
      */
-    #emitResponse(nameOfField, status) {
+    private emitResponse(nameOfField, status) {
         const state = super.state;
-        if (!status || status === undefined || status === OK_RESPONSE) {
+        if (!status || status === OK_RESPONSE) {
             this.jsEmit(EventTypes.VALIDATION_RESPONSE, nameOfField, OK_RESPONSE);
             state.errors[nameOfField] = false;
         } else {
@@ -474,9 +440,9 @@ class UserInfoStore extends IStore {
      * If errors exist then it will emit 'BAD'
      * @param {string} password - value of password
      */
-    #checkForErrorsInLogin(password) {
-        this.#getLoginError(true);
-        this.#getPasswordError(password, 'password', true);
+    private checkForErrorsInLogin(password) {
+        this.getLoginError(true);
+        this.getPasswordError(password, 'password', true);
 
         const errors = super.getValueInState('errors');
         let status = OK_RESPONSE;
@@ -494,20 +460,21 @@ class UserInfoStore extends IStore {
      * If all fields without errors then it will emit signal 'OK'
      * If errors exist then it will emit 'BAD'
      * @param {string} password - password value to check
+     * @param {string} confPassword
      */
-    #checkForErrorsInRegistration(password, confPassword) {
-        this.#getEmailError(true);
-        this.#getErrorsUsername(true);
+    private checkForErrorsInRegistration(password, confPassword) {
+        this.getEmailError(true);
+        this.getErrorsUsername(true);
 
-        this.#getPasswordError(password, 'password', true);
-        this.#getConfError({ Password: password, confPassword }, true);
+        this.getPasswordError(password, 'password', true);
+        this.getConfError({ Password: password, confPassword }, true);
 
-        this.#getDayError(true);
-        this.#getYearError(true);
-        this.#getMonthError(true);
+        this.getDayError(true);
+        this.getYearError(true);
+        this.getMonthError(true);
 
-        this.#checkName('firstName', true);
-        this.#checkName('lastName', true);
+        this.checkName('firstName', true);
+        this.checkName('lastName', true);
 
         const { errors } = super.state;
 
@@ -528,10 +495,10 @@ class UserInfoStore extends IStore {
      * newPassword
      * newConfPassword
      */
-    #checkForUserPageWithPassword(value) {
-        this.#getPasswordError(value.password, 'password', true);
-        this.#getPasswordError(value.newPassword, 'newPassword', true);
-        this.#getPasswordConfError({
+    private checkForUserPageWithPassword(value) {
+        this.getPasswordError(value.password, 'password', true);
+        this.getPasswordError(value.newPassword, 'newPassword', true);
+        this.getPasswordConfError({
             newPassword: value.newPassword,
             confPassword: value.newConfPassword,
         }, true);
@@ -560,17 +527,17 @@ class UserInfoStore extends IStore {
      * newPassword
      * newConfPassword
      */
-    #checkForUserPage(value) {
+    private checkForUserPage(value) {
         super.changeFieldInState('email', value.email);
         super.changeFieldInState('confEmail', value.email);
         super.changeFieldInState('day', value.day);
         super.changeFieldInState('month', value.month);
         super.changeFieldInState('year', value.year);
 
-        this.#getDayError(true);
-        this.#getYearError(true);
-        this.#getMonthError(true);
-        this.#getEmailError(true);
+        this.getDayError(true);
+        this.getYearError(true);
+        this.getMonthError(true);
+        this.getEmailError(true);
 
         const whatToCheck = ['email', 'day', 'month', 'year'];
 
