@@ -317,7 +317,6 @@ class Navbar {
 
         const newElement = tempElement.firstChild;
         this.#parent.insertBefore(newElement, this.#parent.firstChild);
-        // this.#renderDrop();
         this.#callEventListener();
     }
 
