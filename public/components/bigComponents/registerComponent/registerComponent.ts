@@ -107,13 +107,6 @@ export class RegisterComponent extends BaseComponent {
                 ERRORS_REG.email,
             );
             break;
-        case 'confEmail':
-            this.#errorsRender(
-                ElementsClassForRegister.confEmail_error,
-                status,
-                ERRORS_REG.confirmEmail,
-            );
-            break;
         case 'password':
             this.#errorsRender(
                 ElementsClassForRegister.password_error,
