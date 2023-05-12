@@ -13,6 +13,7 @@ import ContentStore from '@store/ContentStore';
 import { BaseComponent } from '@components/BaseComponent';
 import Router from '@router/Router';
 import { LineList } from '@bigComponents/LineList/lineList';
+import { instancesNames } from '@config/instances';
 import tmp from './album.handlebars';
 import headerTemplate from './headerAlbum.handlebars';
 
@@ -175,7 +176,7 @@ export class Album extends BaseComponent {
                         return;
                     }
                     artistItem.addEventListener('click', () => {
-                        Router.go(`/artist/${ContentStore.state.ALBUM.id}`);
+                        Router.go(`/${instancesNames.ARTIST_PAGE}/${ContentStore.state.ALBUM.id}`);
                     });
                 });
 
@@ -217,14 +218,8 @@ export class Album extends BaseComponent {
      * @description render MainWindowContent in parent
      */
     override render() {
-        const renderProcess = new Promise((resolve) => {
-            super.appendElement();
-            resolve('');
-        });
-
-        renderProcess.then(() => {
-            this.addSubscribes();
-            Actions.checkID(pageNames.ALBUM);
-        });
+        super.appendElement();
+        this.addSubscribes();
+        Actions.checkID(pageNames.ALBUM);
     }
 }

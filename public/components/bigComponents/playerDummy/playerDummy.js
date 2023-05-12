@@ -3,6 +3,7 @@ import './playerDummy.less';
 import Router from '@router/Router';
 import { componentsNames } from '@config/componentsNames';
 import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
+import { routingUrl } from '@config/routingUrls';
 import template from './playerDymmy.handlebars';
 
 /**
@@ -37,7 +38,7 @@ export class PlayerDummy extends BaseComponent {
     /** Add events to buttons inside */
     #addEvents() {
         document.querySelector('.js__button__dummy').addEventListener('click', () => {
-            Router.go('/login');
+            Router.go(routingUrl.LOGIN);
         });
     }
 }

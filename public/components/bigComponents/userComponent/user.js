@@ -15,7 +15,7 @@ import API from '@store/API.ts';
 import UserActions from '@API/UserActions';
 import ValidationActions from '@Actions/ValidationActions';
 import { Form } from '@bigComponents/form/form';
-import { sexType } from '@api/ApiAnswers';
+import { routingUrl } from '@config/routingUrls';
 
 /**
  * Class for artists content in main page.
@@ -134,7 +134,7 @@ export class User extends BaseComponent {
 
         cancelButton.addEventListener(METHOD.BUTTON, (event) => {
             event.preventDefault();
-            Router.go('/');
+            Router.go(routingUrl.ROOT);
         });
 
         saveButton.addEventListener(METHOD.BUTTON, (event) => {
@@ -213,7 +213,7 @@ export class User extends BaseComponent {
                 firstName: state.firstName,
                 lastName: state.lastName,
                 birthDate: [state.year, monthNumber, day].join('-'),
-                sex: sexType.M,
+                sex: 'M',
             });
         }
     }

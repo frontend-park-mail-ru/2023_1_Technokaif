@@ -112,11 +112,11 @@ export class LineList extends BaseComponent {
             return currentValue;
         });
 
-        const indexBlock: NodeListOf<HTMLDivElement> = document.querySelectorAll(`.${this._config.lineIndex}`);
+        const indexBlocks: NodeListOf<HTMLDivElement> = document.querySelectorAll(`.${this._config.lineIndex}`);
         // @ts-ignore
-        if (Array.from(indexBlock).length === 2) {
+        if (Array.from(indexBlocks).length === 2) {
             // @ts-ignore
-            indexBlock[1]?.innerText = String(+indexBlock[1]?.innerText - 1);
+            indexBlocks[1]?.innerText = String(Number(indexBlocks[1])?.innerText - 1);
         }
     }
 
@@ -267,7 +267,7 @@ export class LineList extends BaseComponent {
                 }
 
                 if (!checkAuth()) {
-                    Router.go('/login');
+                    Router.go(routingUrl.LOGIN);
                     return;
                 }
 
@@ -407,14 +407,11 @@ export class LineList extends BaseComponent {
         );
     }
 
+    /**
+     * Append line list
+     */
     override appendElement() {
-        const renderProcess = new Promise((resolve) => {
-            super.appendElement();
-            resolve('');
-        });
-
-        renderProcess.then(() => {
-            this.#addListeners();
-        });
+        super.appendElement();
+        this.#addListeners();
     }
 }

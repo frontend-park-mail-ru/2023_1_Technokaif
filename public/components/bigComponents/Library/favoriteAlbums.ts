@@ -69,16 +69,10 @@ export class FavoriteAlbums extends BaseComponent {
      * Base function to render page
      */
     renderFavoriteAlbums() {
-        const renderProcess = new Promise((resolve) => {
-            super.appendElement();
-            resolve(true);
-        });
-
-        renderProcess.then(() => {
-            this.subscribeForStores();
-            this.actionsOnRender();
-            UserActions.favoriteAlbums(localStorage.getItem('userId'));
-        });
+        super.appendElement();
+        this.subscribeForStores();
+        this.actionsOnRender();
+        UserActions.favoriteAlbums(localStorage.getItem('userId'));
 
         document.title = 'Favourite Albums';
     }

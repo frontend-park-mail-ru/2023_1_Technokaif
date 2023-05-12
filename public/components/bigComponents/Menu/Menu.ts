@@ -57,7 +57,7 @@ class Menu {
             return;
         }
         logo.addEventListener('click', () => {
-            Router.go('/');
+            Router.go(routingUrl.ROOT);
         });
         ComponentsStore.subscribe(
             (list) => {
@@ -100,7 +100,7 @@ class Menu {
                         return;
                     }
                     if ((section === 'library' || section === 'createPlaylist' || section === 'likedSongs') && !checkAuth()) {
-                        Router.go('/login');
+                        Router.go(routingUrl.LOGIN);
                     } else {
                         Router.go(this.#config[section].href);
                     }

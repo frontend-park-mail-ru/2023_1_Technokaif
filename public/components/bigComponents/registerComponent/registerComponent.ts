@@ -11,7 +11,7 @@ import { BaseComponent } from '@components/BaseComponent';
 import { Form } from '@bigComponents/form/form';
 import UserInfoStore from '@store/UserInfoStore';
 import API from '@store/API';
-import { sexType } from '@api/ApiAnswers';
+import { routingUrl } from '@config/routingUrls';
 import template from './registerComponent.handlebars';
 
 /** Function to work with listener triggered */
@@ -301,7 +301,7 @@ export class RegisterComponent extends BaseComponent {
             METHOD.FORM,
             // todo Check and do rewrite
             (nameOfReaction, _) => {
-                ValidationActions.validationField(NAME_OF_VALIDATION.sex, { gender: sexType.F });
+                ValidationActions.validationField(NAME_OF_VALIDATION.sex, { gender: 'F' });
                 const password = document.querySelector(`.${ElementsClassForRegister.password}`);
                 const confPassword = document.querySelector(`.${ElementsClassForRegister.confPassword}`);
                 if (password && confPassword) {
@@ -324,7 +324,7 @@ export class RegisterComponent extends BaseComponent {
             METHOD.BUTTON,
             // @ts-ignore
             (nameOfReaction, element) => {
-                Router.go('/');
+                Router.go(routingUrl.ROOT);
             },
         );
 
@@ -334,7 +334,7 @@ export class RegisterComponent extends BaseComponent {
             METHOD.BUTTON,
             // @ts-ignore
             (nameOfReaction, element) => {
-                Router.go('/login');
+                Router.go(routingUrl.LOGIN);
             },
         );
     }
@@ -363,7 +363,7 @@ export class RegisterComponent extends BaseComponent {
         API.subscribe(
             (message) => {
                 if (message === RESPONSES.OK) {
-                    Router.go('/');
+                    Router.go(routingUrl.ROOT);
                 } else {
                     console.error('failed after login with succeeded reg data');
                 }
@@ -406,7 +406,7 @@ export class RegisterComponent extends BaseComponent {
                 email: state.email,
                 firstName: state.firstName,
                 lastName: state.lastName,
-                sex: sexType.F,
+                sex: 'F',
                 birthDate: [state.year, stringToReturn, state.day].join('-'),
                 password: (passwordField as HTMLInputElement).value,
             });
