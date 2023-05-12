@@ -2,7 +2,7 @@ import IStore from '@store/IStore';
 
 import {
     getUsernameError, getPasswordError, getDayError, getYearError, getMonthError, getEmailError,
-    getNameError, checkIsEmail, translateMonthStrToInt,
+    getNameError, checkIsEmail, translateMonthStrToInt, dateValidate,
 } from '@functions/validation';
 import ActionTypes from '@actions/ActionTypes';
 import { EventTypes } from '@config/EventTypes';
@@ -41,6 +41,10 @@ class UserInfoStore extends IStore {
             break;
         case ActionTypes.ADD_USER_INFO:
             this.addUserState(action.userData);
+            break;
+        case ActionTypes.LOGOUT_STATUS:
+        case ActionTypes.LOGIN_STATUS:
+            this.state = {};
             break;
         default:
             super.dispatch(action);
@@ -85,14 +89,17 @@ class UserInfoStore extends IStore {
         case 'day':
             super.changeFieldInState('day', value);
             this.getDayError();
+            this.checkForBiggerValue();
             break;
         case 'month':
             super.changeFieldInState('month', value);
             this.getMonthError();
+            this.checkForBiggerValue();
             break;
         case 'year':
             super.changeFieldInState('year', value);
             this.getYearError();
+            this.checkForBiggerValue();
             break;
         case 'email':
             super.changeFieldInState('email', value);
@@ -165,6 +172,12 @@ class UserInfoStore extends IStore {
         if (status === EMPTY_ERROR && !loginType) {
             this.emitResponse('username', OK_RESPONSE);
         }
+    }
+
+    /** Check if picked date greater than current */
+    private checkForBiggerValue() {
+        const dateErr = dateValidate(this.state.day, this.state.month, this.state.year);
+        this.emitResponse('date', dateErr);
     }
 
     /**
@@ -475,6 +488,7 @@ class UserInfoStore extends IStore {
 
         this.checkName('firstName', true);
         this.checkName('lastName', true);
+        this.checkForBiggerValue();
 
         const { errors } = super.state;
 

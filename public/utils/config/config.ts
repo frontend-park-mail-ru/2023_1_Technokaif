@@ -112,6 +112,7 @@ export const ElementsClassForUser = {
 
     cancelButton: 'js__cancel-button',
     saveButton: 'js__save-button',
+    date_error: 'js__date-error',
 };
 
 /** Next track and prev track of player */
@@ -167,6 +168,7 @@ export const ElementsClassForRegister = {
     day_error: 'js__error__day',
     month_error: 'js__error__month',
     year_error: 'js__error__year',
+    date_error: 'js__date-error',
 };
 
 export const DIRECTIONS = {

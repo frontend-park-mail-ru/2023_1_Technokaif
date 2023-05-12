@@ -261,3 +261,19 @@ export function getNameError(name) {
 
     return null;
 }
+
+/** Check if date is correct */
+export function dateValidate(day, month, year) {
+    if (!day || !month || !year) {
+        return null;
+    }
+
+    const date = new Date(`${year}-${month}-${day}`);
+    if (date.getDate() !== Number(day) || MONTHS[date.getMonth()] !== month) {
+        return ERRORS.dayIncorrect;
+    }
+    if (date.getTime() < Date.now()) {
+        return null;
+    }
+    return ERRORS.date;
+}

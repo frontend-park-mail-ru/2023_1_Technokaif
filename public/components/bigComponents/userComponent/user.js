@@ -288,6 +288,13 @@ export class User extends BaseComponent {
                 ERRORS_USER.year,
             );
             break;
+        case 'date':
+            this.#errorsRender(
+                ElementsClassForUser.date_error,
+                status,
+                status,
+            );
+            break;
         default:
         }
     }

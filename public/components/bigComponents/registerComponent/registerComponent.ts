@@ -11,7 +11,6 @@ import { BaseComponent } from '@components/BaseComponent';
 import { Form } from '@bigComponents/form/form';
 import UserInfoStore from '@store/UserInfoStore';
 import API from '@store/API';
-import { sexType } from '@api/ApiAnswers';
 import template from './registerComponent.handlebars';
 
 /** Function to work with listener triggered */
@@ -164,6 +163,13 @@ export class RegisterComponent extends BaseComponent {
                 ERRORS_REG.year,
             );
             break;
+        case 'date':
+            this.#errorsRender(
+                ElementsClassForRegister.date_error,
+                status,
+                status,
+            );
+            break;
         default:
         }
     }
@@ -294,7 +300,7 @@ export class RegisterComponent extends BaseComponent {
             METHOD.FORM,
             // todo Check and do rewrite
             (nameOfReaction, _) => {
-                ValidationActions.validationField(NAME_OF_VALIDATION.sex, { gender: sexType.F });
+                ValidationActions.validationField(NAME_OF_VALIDATION.sex, { gender: 'Female' });
                 const password = document.querySelector(`.${ElementsClassForRegister.password}`);
                 const confPassword = document.querySelector(`.${ElementsClassForRegister.confPassword}`);
                 if (password && confPassword) {
@@ -399,7 +405,8 @@ export class RegisterComponent extends BaseComponent {
                 email: state.email,
                 firstName: state.firstName,
                 lastName: state.lastName,
-                sex: sexType.F,
+                // todo sexType error
+                sex: 'F',
                 birthDate: [state.year, stringToReturn, state.day].join('-'),
                 password: (passwordField as HTMLInputElement).value,
             });
