@@ -105,6 +105,7 @@ export class LineList extends BaseComponent {
             if (prevId > index) {
                 prevIndex.innerText = String(prevId - 1);
             }
+            // eslint-disable-next-line max-len
             if (prevId + 1 !== currentId || (prevId + 1 === currentId && index === array.length - 1)) {
                 currentIndex.innerText = String(currentId - 1);
             }

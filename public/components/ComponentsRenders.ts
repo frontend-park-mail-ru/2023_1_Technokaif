@@ -21,6 +21,7 @@ import { SearchContent } from '@bigComponents/searchContent/searchContent';
 import { LibraryPlaylists } from '@bigComponents/Library/libraryPlaylists';
 import { UserPlaylist } from '@bigComponents/Playlist/Library/userPlaylist';
 import { PlayerWithDummy } from '@bigComponents/playerWithDummy/playerWithDummy';
+import { ID_REG } from '@config/id';
 import Router from '../router/Router';
 import Menu from './bigComponents/Menu/Menu';
 import Navbar from './bigComponents/Navbar/Navbar';
@@ -57,7 +58,7 @@ class ComponentsRenders {
     renderMainElement(parent) {
         const main = document.createElement('main');
         main.classList.add(`${componentsJSNames.MAIN}`, `${componentsNames.MAIN}`);
-        main.id = 'cont';
+        main.id = ID_REG.mainElementId;
 
         parent.appendChild(main);
     }

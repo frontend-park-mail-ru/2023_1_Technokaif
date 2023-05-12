@@ -30,6 +30,7 @@ export const ID_REG = {
     monthErr: 'monthErr',
     yearErr: 'yearErr',
     errorTop: 'error-server',
+    mainElementId: 'cont',
 };
 
 /**
