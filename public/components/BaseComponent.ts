@@ -10,7 +10,7 @@ import ContentStore from '@store/ContentStore';
 /**
  * Base Component class to handle render functions.
  */
-export class BaseComponent {
+export abstract class BaseComponent {
     /**
      * Parent where to render
      */
@@ -66,7 +66,6 @@ export class BaseComponent {
 
     /**
      * Setter of config
-     * @param config
      */
     get config() {
         return this.#config;
@@ -141,7 +140,7 @@ export class BaseComponent {
      */
     unRender() {
         const element = document.getElementsByClassName(`${this.name}`)[0];
-        if (element) {
+        if (element && element.parentNode) {
             element.parentNode.removeChild(element);
         }
     }

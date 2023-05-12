@@ -119,7 +119,6 @@ export function regFormSetup() {
 }
 
 /**
- *
  * @return -- all settings to date template in register
  */
 export function dateSetup() {

@@ -9,7 +9,6 @@ import { EventTypes } from '@config/EventTypes';
 import { routingUrl } from '@config/routingUrls';
 import { DIRECTIONS_DROPDOWN, DropDown } from '@smallComponents/dropDown/dropDown';
 import { dropDownTrackSetup } from '@setup/playlistSetup';
-import { METHOD } from '@config/config';
 import UserActions from '@API/UserActions';
 import TrackActions from '@API/TrackActions';
 import PlaylistActions from '@API/PlaylistActions';

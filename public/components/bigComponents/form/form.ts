@@ -27,7 +27,7 @@ export class Form {
      * @param {Object} config -- config for Form component
      * @param {Object} dateConf -- config for date component
      */
-    constructor(parent, config, dateConf = '') {
+    constructor(parent, config, dateConf = {}) {
         this.#parent = parent;
         this.#config = config;
         this.#confDate = dateConf;
@@ -73,7 +73,7 @@ export class Form {
     #renderFooter() {
         if (this.#config.bottomClass) {
             const footer = new FormFooter(this.#parent, this.#config);
-            return footer.HTML(this.#config);
+            return footer.HTML();
         }
         return '';
     }
@@ -96,7 +96,7 @@ export class Form {
     */
     #renderDate() {
         const date = new Date(this.#parent, this.#confDate);
-        return date.HTML(this.#confDate);
+        return date.HTML();
     }
 
     /**
@@ -107,7 +107,7 @@ export class Form {
         let htmlInputs = '';
         for (const obj of this.#config.inputs) {
             const inp = new Input(this.#parent, obj);
-            htmlInputs += inp.HTML(obj);
+            htmlInputs += inp.HTML();
         }
 
         return htmlInputs;
