@@ -76,21 +76,6 @@ export class LineList extends BaseComponent {
         unsubscribeFromAllStoresOnComponent(componentsNames.TRACK_LIBRARY_LINE_LIST);
     }
 
-    /** Unsubscribe dropdwon from window on input in search */
-    private unsubscribeFromWindow(element:DropDown) {
-        const search = document.querySelector('.js__search');
-        if (search && (search instanceof HTMLInputElement)) {
-            const funcOnSearch = () => {
-                if (search.value === '') {
-                    return;
-                }
-                search.removeEventListener(METHOD.CHANGE_FIELD_IMMEDIATELY, funcOnSearch);
-                element.unRender();
-            };
-            search.addEventListener(METHOD.CHANGE_FIELD_IMMEDIATELY, funcOnSearch);
-        }
-    }
-
     /**
      * Function to make indexes order correct
      * @private
@@ -148,7 +133,6 @@ export class LineList extends BaseComponent {
         );
         this.dropDowns.push(dropDown);
         dropDown.render();
-        this.unsubscribeFromWindow(dropDown);
 
         // const bt1 = document.createElement('div');
         const textAdd = document.createElement('p');
@@ -170,7 +154,6 @@ export class LineList extends BaseComponent {
         );
         this.playlistsDropDowns.push(addDropDown);
         addDropDown.render();
-        this.unsubscribeFromWindow(addDropDown);
 
         if (this.name === componentsNames.PLAYLIST) {
             const bt3 = document.createElement('div');
