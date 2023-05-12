@@ -8,6 +8,11 @@ import UserActions from '@API/UserActions';
 import { Tape } from '@bigComponents/Tape/tape';
 import ContentStore from '@store/ContentStore';
 
+const playlistsTypes = {
+    PERSONAL_PLAYLISTS: 'Your playlists',
+    FAVORITE_PLAYLISTS: 'Favorite playlists',
+};
+
 /**
  * Class for favorite playlists page
  */
@@ -29,7 +34,7 @@ export class LibraryPlaylists extends BaseComponent {
      */
     private renderTape(playlists: [BaseComponentInTape], name: string) {
         let element: HTMLDivElement;
-        if (name === 'Your playlists') {
+        if (name === playlistsTypes.PERSONAL_PLAYLISTS) {
             element = document.querySelector('.js__user-playlists-placement') as HTMLDivElement;
         } else {
             element = document.querySelector('.js__favorite-playlists-placement') as HTMLDivElement;
@@ -49,7 +54,7 @@ export class LibraryPlaylists extends BaseComponent {
         ContentStore.subscribe(
             (instance) => {
                 const playlists = ContentStore.state[pageNames.LIBRARY_PLAYLISTS][instance];
-                this.renderTape(playlists, 'Your playlists');
+                this.renderTape(playlists, playlistsTypes.PERSONAL_PLAYLISTS);
                 UserActions.userFavoritePlaylists(localStorage.getItem('userId'));
             },
             EventTypes.GOT_USER_PLAYLISTS,
@@ -59,7 +64,7 @@ export class LibraryPlaylists extends BaseComponent {
         ContentStore.subscribe(
             (instance) => {
                 const playlists = ContentStore.state[pageNames.LIBRARY_PLAYLISTS][instance];
-                this.renderTape(playlists, 'Favorite playlists');
+                this.renderTape(playlists, playlistsTypes.FAVORITE_PLAYLISTS);
             },
             EventTypes.GOT_FAVORITE_PLAYLISTS,
             this.name,
@@ -85,16 +90,10 @@ export class LibraryPlaylists extends BaseComponent {
      * Base function to render page
      */
     renderFavoritePlaylists() {
-        const renderProcess = new Promise((resolve) => {
-            super.appendElement();
-            resolve(true);
-        });
-
-        renderProcess.then(() => {
-            this.subscribeForStores();
-            this.actionsOnRender();
-            UserActions.userPlaylists(localStorage.getItem('userId'));
-        });
+        super.appendElement();
+        this.subscribeForStores();
+        this.actionsOnRender();
+        UserActions.userPlaylists(localStorage.getItem('userId'));
 
         document.title = 'Favourite Playlists';
     }

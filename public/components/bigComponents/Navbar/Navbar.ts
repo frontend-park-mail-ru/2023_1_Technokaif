@@ -116,22 +116,18 @@ class Navbar {
                     }
 
                     configForAvatar.text = values.username;
-                    const pr = new Promise((resolve) => {
-                        const avatar = new AvatarNavbar(
-                            document.querySelector('.js__avatar-placement'),
-                            configForAvatar,
-                        );
-                        avatar.appendElement();
-                        resolve('');
-                    });
-                    pr.then(() => {
-                        const avatar = document.querySelector('.navbar-avatar');
-                        if (!avatar) {
-                            console.error("Avatar doesn't exist");
-                            return;
-                        }
-                        this.#renderDrop(avatar);
-                    });
+                    const avatar = new AvatarNavbar(
+                        document.querySelector('.js__avatar-placement'),
+                        configForAvatar,
+                    );
+                    avatar.appendElement();
+
+                    const avatarElement: HTMLElement|null = document.querySelector('.navbar-avatar');
+                    if (!avatarElement) {
+                        console.error("Avatar doesn't exist");
+                        return;
+                    }
+                    this.#renderDrop(avatarElement);
                 }
             },
             EventTypes.USER_DATA_GOT_FOR_PAGE,
@@ -155,7 +151,7 @@ class Navbar {
                 }
                 if (section === 'logout') {
                     if (window.location.pathname === routingUrl.PROFILE) {
-                        Router.go('/');
+                        Router.go(routingUrl.ROOT);
                     }
 
                     UserActions.logout();
@@ -209,7 +205,7 @@ class Navbar {
             return;
         }
         logo.addEventListener('click', () => {
-            Router.go('/');
+            Router.go(routingUrl.ROOT);
         });
     }
 
@@ -219,7 +215,9 @@ class Navbar {
    * @returns newCfg -- items
    */
     #translateToItems(lastCfg) {
-        const newcfg = { items: [] };
+        const newcfg = {
+            items: [],
+        };
         for (const obj in lastCfg) {
             const tmpItem = {};
 

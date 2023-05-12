@@ -40,15 +40,9 @@ export class PlayerWithDummy extends BaseComponent {
         API.subscribe(
             (message) => {
                 if (message === 'OK') {
-                    const pr = new Promise((resolve) => {
-                        ComponentsActions.removeElementFromPage(componentsNames.PLAYER);
-                        resolve('');
-                    });
-
-                    pr.then(() => {
-                        this.render();
-                        ComponentsActions.addElementOnPage(componentsNames.PLAYER);
-                    });
+                    ComponentsActions.removeElementFromPage(componentsNames.PLAYER);
+                    this.render();
+                    ComponentsActions.addElementOnPage(componentsNames.PLAYER);
                 }
             },
             EventTypes.LOGOUT_STATUS,
@@ -56,6 +50,7 @@ export class PlayerWithDummy extends BaseComponent {
         );
     }
 
+    /** Method to unRender player dummy */
     override unRender() {
         super.unRender();
         ComponentsActions.removeElementFromPage(componentsNames.PLAYER);

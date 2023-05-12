@@ -21,6 +21,8 @@ import { SearchContent } from '@bigComponents/searchContent/searchContent';
 import { LibraryPlaylists } from '@bigComponents/Library/libraryPlaylists';
 import { UserPlaylist } from '@bigComponents/Playlist/Library/userPlaylist';
 import { PlayerWithDummy } from '@bigComponents/playerWithDummy/playerWithDummy';
+import { ID_REG } from '@config/id';
+import { routingUrl } from '@config/routingUrls';
 import Router from '../router/Router';
 import Menu from './bigComponents/Menu/Menu';
 import Navbar from './bigComponents/Navbar/Navbar';
@@ -57,7 +59,7 @@ class ComponentsRenders {
     renderMainElement(parent) {
         const main = document.createElement('main');
         main.classList.add(`${componentsJSNames.MAIN}`, `${componentsNames.MAIN}`);
-        main.id = 'cont';
+        main.id = ID_REG.mainElementId;
 
         parent.appendChild(main);
     }
@@ -113,7 +115,7 @@ class ComponentsRenders {
      */
     renderUserPage(parent) {
         if (!checkAuth()) {
-            Router.go('/');
+            Router.go(routingUrl.ROOT);
             return;
         }
 
@@ -130,7 +132,7 @@ class ComponentsRenders {
     /** Render in navbar */
     renderLibraryList(parent) {
         if (!checkAuth()) {
-            Router.go('/login');
+            Router.go(routingUrl.LOGIN);
         }
 
         const libraryList = new LibraryList(parent);
@@ -140,7 +142,7 @@ class ComponentsRenders {
     /** Render library in parent */
     renderTracksLibrary(parent) {
         if (!checkAuth()) {
-            Router.go('/login');
+            Router.go(routingUrl.LOGIN);
         }
 
         const library = new FavoriteTracks(parent, componentsNames.LIBRARY_TRACKS);
@@ -150,7 +152,7 @@ class ComponentsRenders {
     /** Render library in parent */
     renderArtistsLibrary(parent) {
         if (!checkAuth()) {
-            Router.go('/login');
+            Router.go(routingUrl.LOGIN);
         }
 
         const library = new FavoriteArtists(parent, componentsNames.LIBRARY_ARTISTS);
@@ -160,7 +162,7 @@ class ComponentsRenders {
     /** Render library in parent */
     renderAlbumsLibrary(parent) {
         if (!checkAuth()) {
-            Router.go('/login');
+            Router.go(routingUrl.LOGIN);
         }
 
         const library = new FavoriteAlbums(parent, componentsNames.LIBRARY_ALBUMS);
@@ -170,7 +172,7 @@ class ComponentsRenders {
     /** Render library in parent */
     renderPlaylistsLibrary(parent) {
         if (!checkAuth()) {
-            Router.go('/login');
+            Router.go(routingUrl.LOGIN);
         }
 
         const library = new LibraryPlaylists(parent, componentsNames.LIBRARY_PLAYLISTS);

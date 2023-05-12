@@ -6,10 +6,11 @@ import { pageNames } from '@config/pageNames';
 import { ArtistCover } from '@smallComponents/ArtistCover/artistCover';
 import { componentsJSNames } from '@config/componentsJSNames';
 import {
+    ContentArtist,
     setupArtistCover,
     setupLikedSongs,
     setupLineList,
-    setupTape,
+    setupTape, TapeSetup,
 } from '@setup/artistSetup';
 import { shuffleArray } from '@functions/shuffleArray';
 import { LikedSongs } from '@smallComponents/LikedSongs/likedSongs';
@@ -32,25 +33,20 @@ import SongStore from '@store/SongStore';
  */
 export class ArtistContent extends BaseComponent {
     /**
-     * Parent where to render
-     */
-    #parent;
-
-    /**
      * Config to use in handlebars setup of tapes
      */
-    #tapeConfigs;
+    private tapeConfigs: Array<TapeSetup>;
 
     /**
      * Config to use in handlebars setup of track lines
      */
-    #lineConfigs;
+    private lineConfigs: Array<ContentArtist>;
 
     /**
      * Flag to know if the button already started the music or not
      * Boolean
      */
-    #activatedButton;
+    private activatedButton: boolean;
 
     /**
      * Create ArtistCover. Empty innerHtml before placement
@@ -59,17 +55,22 @@ export class ArtistContent extends BaseComponent {
      */
     constructor(parent, config) {
         super(parent, config, templateHtml, componentsNames.ARTIST_CONTENT);
-        this.#parent = parent;
-        this.#tapeConfigs = [];
-        this.#lineConfigs = [];
+        this.tapeConfigs = [];
+        this.lineConfigs = [];
+        this.activatedButton = false;
     }
 
     /**
      * Function to render track lines by input configs.
      */
     #renderLines() {
-        const linesPlacement = document.querySelector('.artist-items');
-        this.#lineConfigs.forEach((configForInsertElement) => {
+        const linesPlacement: HTMLElement|null = document.querySelector('.artist-items');
+        if (!linesPlacement) {
+            console.error('Error in lines render on artist');
+            return;
+        }
+
+        this.lineConfigs.forEach((configForInsertElement) => {
             const line = new LineList(
                 linesPlacement,
                 configForInsertElement,
@@ -83,8 +84,13 @@ export class ArtistContent extends BaseComponent {
      * Function to render tapes for albums
      */
     #renderTapes() {
-        const tapesPlacement = document.querySelector('.album-list');
-        this.#tapeConfigs.forEach((configForInsertElement) => {
+        const tapesPlacement: HTMLElement|null = document.querySelector('.album-list');
+        if (!tapesPlacement) {
+            console.error('Error in tapes render on artist');
+            return;
+        }
+
+        this.tapeConfigs.forEach((configForInsertElement) => {
             const tape = new Tape(
                 tapesPlacement,
                 configForInsertElement,
@@ -99,7 +105,12 @@ export class ArtistContent extends BaseComponent {
      * @param artist
      */
     #renderCover(artist) {
-        const parent = document.querySelector(`.${componentsJSNames.ARTIST_COVER}`);
+        const parent: HTMLElement|null = document.querySelector(`.${componentsJSNames.ARTIST_COVER}`);
+        if (!parent) {
+            console.error('Error in cover render on artist');
+            return;
+        }
+
         const artistCover = new ArtistCover(parent, setupArtistCover(artist));
         artistCover.appendElement();
 
@@ -112,8 +123,13 @@ export class ArtistContent extends BaseComponent {
      * @param tracks
      */
     #renderLikedSongs(artist, tracks) {
-        const placement = document.querySelector('.artist-items');
-        const likeBlock = document.querySelector('.liked-songs');
+        const placement: HTMLElement|null = document.querySelector('.artist-items');
+        const likeBlock: HTMLElement|null = document.querySelector('.liked-songs');
+        if (!placement) {
+            console.error('Error in liked songs render on artist');
+            return;
+        }
+
         if (likeBlock) {
             placement.removeChild(likeBlock);
         }
@@ -136,7 +152,12 @@ export class ArtistContent extends BaseComponent {
      * Function to subscribe to all events from Stores
      */
     #addSubscribes() {
-        const imgLike = document.querySelector('.like__img');
+        const imgLike: HTMLImageElement|null = document.querySelector('.like__img');
+        if (!imgLike) {
+            console.error('Error on artist img find');
+            return;
+        }
+
         imgLike.addEventListener('click', () => {
             const { artist } = ContentStore.state[pageNames.ARTIST_PAGE];
             if (artist.isLiked) {
@@ -151,10 +172,15 @@ export class ArtistContent extends BaseComponent {
 
         ContentStore.subscribe(
             () => {
-                const buttons = document.querySelector('.pre-buttons');
-                const playButton = document.querySelector('.play-button');
-                const stopButton = document.querySelector('.stop-button');
+                const buttons: HTMLDivElement|null = document.querySelector('.pre-buttons');
+                const playButton: HTMLButtonElement|null = document.querySelector('.play-button');
+                const stopButton: HTMLButtonElement|null = document.querySelector('.stop-button');
                 const { id } = ContentStore.state[pageNames.ARTIST_PAGE];
+
+                if (!buttons || !playButton || !stopButton) {
+                    console.error('Error on artist subscribes');
+                    return;
+                }
 
                 buttons.addEventListener('click', () => {
                     if (!playButton.hidden) {
@@ -180,7 +206,7 @@ export class ArtistContent extends BaseComponent {
                         playButton.hidden = false;
                     }
 
-                    this.#activatedButton = true;
+                    this.activatedButton = true;
                 });
                 if (id !== undefined) {
                     ArtistActions.artist(id);
@@ -193,11 +219,16 @@ export class ArtistContent extends BaseComponent {
         );
         SongStore.subscribe(
             (state) => {
-                const playButton = document.querySelector('.play-button');
-                const stopButton = document.querySelector('.stop-button');
+                const playButton: HTMLButtonElement|null = document.querySelector('.play-button');
+                const stopButton: HTMLButtonElement|null = document.querySelector('.stop-button');
+                if (!playButton || !stopButton) {
+                    console.error('Error on artist subscribes on song store');
+                    return;
+                }
+
                 if (state) {
-                    if (!this.#activatedButton) {
-                        this.#activatedButton = false;
+                    if (!this.activatedButton) {
+                        this.activatedButton = false;
                         return;
                     }
 
@@ -213,18 +244,17 @@ export class ArtistContent extends BaseComponent {
         );
         ContentStore.subscribe(
             (instance) => {
+                const { artist } = ContentStore.state[pageNames.ARTIST_PAGE];
+                const { tracks } = ContentStore.state[pageNames.ARTIST_PAGE];
+                const { albums } = ContentStore.state[pageNames.ARTIST_PAGE];
+
                 switch (instance) {
                 case 'artist':
-                    // todo Remove const from Switch case
-                    // eslint-disable-next-line no-case-declarations
-                    const { artist } = ContentStore.state[pageNames.ARTIST_PAGE];
                     this.#renderCover(artist);
                     imgLike.src = artist.isLiked ? imgPath.liked : imgPath.notLiked;
                     break;
                 case 'tracks':
-                    // eslint-disable-next-line no-case-declarations
-                    const { tracks } = ContentStore.state[pageNames.ARTIST_PAGE];
-                    this.#lineConfigs.push(setupLineList(tracks.slice(0, 5)));
+                    this.lineConfigs.push(setupLineList(tracks.slice(0, 5)));
                     this.#renderLines();
 
                     if (checkAuth()) {
@@ -233,9 +263,7 @@ export class ArtistContent extends BaseComponent {
 
                     break;
                 case 'albums':
-                    // eslint-disable-next-line no-case-declarations
-                    const { albums } = ContentStore.state[pageNames.ARTIST_PAGE];
-                    this.#tapeConfigs.push(setupTape('Albums', 'Albums', shuffleArray(albums).slice(0, 5)));
+                    this.tapeConfigs.push(setupTape('Albums', 'Albums', shuffleArray(albums).slice(0, 5)));
                     this.#renderTapes();
                     break;
                 default:
@@ -282,15 +310,10 @@ export class ArtistContent extends BaseComponent {
      * @description render MainWindowContent in parent
      * @description render MainWindowContent in parent
      */
-    render() {
-        const renderProcess = new Promise((resolve) => {
-            super.appendElement();
-            resolve();
-        });
+    override render() {
+        super.appendElement();
 
-        renderProcess.then(() => {
-            this.#addSubscribes();
-            Actions.checkID(pageNames.ARTIST_PAGE);
-        });
+        this.#addSubscribes();
+        Actions.checkID(pageNames.ARTIST_PAGE);
     }
 }

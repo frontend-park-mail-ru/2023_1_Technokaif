@@ -9,7 +9,7 @@ export class ArtistCover extends BaseComponent {
     /**
      * Create Artist Cover component.
      * @param {HTMLElement} parent - place where to render
-     * @param {{json}} config - to template
+     * @param config - to template
      */
     constructor(parent, config) {
         super(parent, config, templateHTML);

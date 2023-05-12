@@ -11,6 +11,7 @@ import API from '@store/API.ts';
 import { BaseComponent } from '@components/BaseComponent';
 import Router from '@router/Router';
 import { Form } from '@bigComponents/form/form';
+import { routingUrl } from '@config/routingUrls';
 import template from './loginComponent.handlebars';
 
 const ElementsClassForLogin = {
@@ -64,7 +65,7 @@ export class LoginComponent extends BaseComponent {
         const header = document.querySelector('.title');
         header.addEventListener(METHOD.BUTTON, (event) => {
             event.preventDefault();
-            Router.go('/');
+            Router.go(routingUrl.ROOT);
         });
 
         document.querySelector('.content').addEventListener(
@@ -78,7 +79,7 @@ export class LoginComponent extends BaseComponent {
         const bottomButton = document.querySelector('.bottom__button');
         bottomButton.addEventListener(METHOD.BUTTON, (event) => {
             event.preventDefault();
-            Router.go('/register');
+            Router.go(routingUrl.REGISTER);
         });
     }
 

@@ -17,11 +17,6 @@ import ContentStore from '@store/ContentStore';
  */
 export class FeedContent extends BaseComponent {
     /**
-     * Parent where to render
-     */
-    #parent;
-
-    /**
      * Config to use in tapes
      */
     #configs;
@@ -33,7 +28,6 @@ export class FeedContent extends BaseComponent {
      */
     constructor(parent, config) {
         super(parent, config, templateHtml, componentsNames.FEED_CONTENT);
-        this.#parent = parent;
         this.#configs = [];
     }
 
@@ -42,11 +36,15 @@ export class FeedContent extends BaseComponent {
      */
     #renderTapes() {
         this.#configs.sort((a, b) => a.titleText.localeCompare(b.titleText));
+        const parent: HTMLElement|null = document.querySelector(`.${componentsJSNames.FEED_CONTENT}`);
+        if (!parent) {
+            console.error('Error in tapes render finding parent element on feed');
+            return;
+        }
+
         this.#configs.forEach((configForInsertElement) => {
             const tape = new Tape(
-                // todo Find error or replace on names https://github.com/orgs/frontend-park-mail-ru/projects/1/views/1?pane=issue&itemId=25425155
-                // this.element,
-                document.querySelector(`.${componentsJSNames.FEED_CONTENT}`),
+                parent,
                 configForInsertElement,
                 configForInsertElement.titleText,
             );
@@ -70,29 +68,15 @@ export class FeedContent extends BaseComponent {
             EventTypes.FEED_CONTENT_DONE,
             this.name,
         );
-
-        // window.addEventListener('online', () => {
-        //     this.#parent.removeChild(document.querySelector('.offline-logo'));
-        // });
     }
 
     /**
      * @description render MainWindowContent in parent
      */
-    render() {
-        const renderProcess = new Promise((resolve) => {
-            super.appendElement();
-            // if (navigator.onLine) {
-            resolve();
-            // } else {
-            //     this.#parent.innerHTML += offlineLogoHtml();
-            // }
-        });
-
-        renderProcess.then(() => {
-            this.#addSubscribes();
-            ApiActions.feed();
-        });
+    override render() {
+        super.appendElement();
+        this.#addSubscribes();
+        ApiActions.feed();
         document.title = 'Fluire';
     }
 }

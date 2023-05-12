@@ -9,6 +9,7 @@ import PlayerActions from '@Actions/PlayerActions';
 import SongStore from '@store/SongStore';
 import Router from '@router/Router';
 import { BaseComponent } from '@components/BaseComponent';
+import { routingUrl } from '@config/routingUrls';
 import template from './tape.handlebars';
 
 /** Tape for elements */
@@ -61,7 +62,7 @@ export class Tape extends BaseComponent {
                 case 'Artists':
                     if (isPlayPressed) {
                         if (!checkAuth()) {
-                            Router.go('/login');
+                            Router.go(routingUrl.LOGIN);
                             return;
                         }
                         if (event.target.classList.contains('play')) {
@@ -82,7 +83,7 @@ export class Tape extends BaseComponent {
                 case 'Tracks':
                     if (isPlayPressed) {
                         if (!checkAuth()) {
-                            Router.go('/login');
+                            Router.go(routingUrl.LOGIN);
                             return;
                         }
 
@@ -102,7 +103,7 @@ export class Tape extends BaseComponent {
                 case 'Albums':
                     if (isPlayPressed) {
                         if (!checkAuth()) {
-                            Router.go('/login');
+                            Router.go(routingUrl.LOGIN);
                             return;
                         }
 
@@ -124,7 +125,7 @@ export class Tape extends BaseComponent {
                 case 'Playlists':
                     if (isPlayPressed) {
                         if (!checkAuth()) {
-                            Router.go('/login');
+                            Router.go(routingUrl.LOGIN);
                             return;
                         }
 
@@ -253,14 +254,8 @@ export class Tape extends BaseComponent {
 
     /** Append element to parent */
     public override appendElement() {
-        const pr:Promise<void> = new Promise((resolve) => {
-            super.appendElement();
-            resolve();
-        });
-
-        pr.then(() => {
-            this.#addEventListeners();
-            this.#subscribe();
-        });
+        super.appendElement();
+        this.#addEventListeners();
+        this.#subscribe();
     }
 }

@@ -10,6 +10,7 @@ import { componentsJSNames } from '@config/componentsJSNames';
 import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
 import ComponentsStore from '@store/ComponentsStore';
 import ComponentsActions from '@Actions/ComponentsActions';
+import { routingUrl } from '@config/routingUrls';
 
 /**
  * Class for not found content in main page.
@@ -58,13 +59,13 @@ export class HeaderWithButton {
         const header = document.querySelector('.header');
         header.addEventListener('click', (event) => {
             event.preventDefault();
-            Router.go('/');
+            Router.go(routingUrl.ROOT);
         });
 
         const button = document.querySelector('.primary');
         button.addEventListener('click', (event) => {
             event.preventDefault();
-            Router.go('/');
+            Router.go(routingUrl.ROOT);
         });
     }
 
