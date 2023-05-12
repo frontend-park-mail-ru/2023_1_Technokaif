@@ -1,6 +1,6 @@
 import ComponentsStore from '@store/ComponentsStore';
 import UserInfoStore from '@store/UserInfoStore';
-import API from '@store/API.ts';
+import API from '@store/API';
 import ContentStore from '@store/ContentStore';
 import SongStore from '@store/SongStore';
 

@@ -1,4 +1,4 @@
-import { ID_LOG, CLASS_LOG as CLASS } from '@config/id.js';
+import { ID_LOG, CLASS_LOG as CLASS } from '@config/id';
 import { imgPath } from '@config/pathConfig';
 
 /**

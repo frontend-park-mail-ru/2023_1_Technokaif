@@ -13,21 +13,21 @@ class IStore extends EventEmitter {
      */
     #state;
 
-    #nameOfStore;
+    private readonly nameOfStore;
 
     /** function to save store before download */
-    #saveFunc;
+    private readonly saveFunc;
 
     /**
      * Construct a Store.
      */
-    constructor(name, saveState = null) {
-        super(name);
+    constructor(name, saveState: null|{(): void} = null) {
+        super();
 
-        this.#saveFunc = saveState;
+        this.saveFunc = saveState;
 
         Dispatcher.register(this.dispatch.bind(this));
-        this.#nameOfStore = name;
+        this.nameOfStore = name;
         this.#subscribe();
 
         this.loadFromSessionStore();
@@ -38,7 +38,7 @@ class IStore extends EventEmitter {
      * @return {null|JSON} - null if cant get value from store or JSON with value
      */
     loadFromSessionStore() {
-        const valueFromStore = sessionStorage.getItem(this.#nameOfStore);
+        const valueFromStore = sessionStorage.getItem(this.nameOfStore);
         if (valueFromStore) {
             this.#state = JSON.parse(valueFromStore);
         } else {
@@ -49,8 +49,8 @@ class IStore extends EventEmitter {
     /** Subscribe for save to session state */
     #subscribe() {
         window.addEventListener(METHOD.UNLOAD_PAGE, () => {
-            if (this.#saveFunc !== null) {
-                this.#saveFunc();
+            if (this.saveFunc !== null) {
+                this.saveFunc();
             }
             this.saveToSessionStore();
         });
@@ -58,7 +58,7 @@ class IStore extends EventEmitter {
 
     /** Save data from session store */
     saveToSessionStore() {
-        sessionStorage.setItem(this.#nameOfStore, JSON.stringify(this.state));
+        sessionStorage.setItem(this.nameOfStore, JSON.stringify(this.state));
     }
 
     /** Switches over the action's type when an action is dispatched.
@@ -151,7 +151,7 @@ class IStore extends EventEmitter {
      * @returns {string}
      */
     get name() {
-        return this.#nameOfStore;
+        return this.nameOfStore;
     }
 
     /**

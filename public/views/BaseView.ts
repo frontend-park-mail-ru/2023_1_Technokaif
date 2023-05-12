@@ -60,6 +60,11 @@ export abstract class BaseView {
         list.forEach((component) => {
             const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);
+            if (!parent) {
+                console.error('Can\'t find parent for component', componentName);
+                return;
+            }
+
             switch (componentName) {
             case componentsNames.SIDEBAR:
             case componentsNames.MAIN:

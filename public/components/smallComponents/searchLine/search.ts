@@ -35,18 +35,24 @@ export class SearchLine extends BaseComponent {
         }
         const input = new Input(whereToPlaceInput as HTMLElement, this.#config.input);
         input.render();
-
+        let timer;
         const func = (field: HTMLInputElement) => (event) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => this.sendReaction(field), 100);
             event.preventDefault();
-            const { value } = field;
-            if (value === '') {
-                SearchAtions.emptySearch();
-                return;
-            }
-
-            SearchAtions.search(value);
         };
         input.addReaction(METHOD.CHANGE_FIELD_IMMEDIATELY, func);
+    }
+
+    /** Send reaction */
+    private sendReaction(field) {
+        const { value } = field;
+        if (value === '') {
+            SearchAtions.emptySearch();
+            return;
+        }
+
+        SearchAtions.search(value);
     }
 
     /** Render component in parent */

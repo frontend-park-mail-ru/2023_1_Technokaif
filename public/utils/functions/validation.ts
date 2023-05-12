@@ -3,7 +3,7 @@ import {
     ERRORS_VALIDATE as ERRORS,
     PASSWORD_ERROR,
     USERNAME_ERROR,
-} from '@config/validateConf.js';
+} from '@config/validateConf';
 
 const ALPHABET_BIG = 'ABCDEFGHIJKLMNOPQRSTUVWXYZАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
 const ALPHABET_SMALL = 'abcdefghijklmnopqrstuvwxyzабвгдеёжзийклмнопрстуфхцчшщъыьэюя';
@@ -13,7 +13,7 @@ const FORBIDDEN_EMAIL_SYMBOLS = '<>()[],;:\\/';
 /**
  *
  * @param {string} login -- string to check
- * @return {bool} -- return true if login contains @
+ * @return {boolean} -- return true if login contains @
  */
 export function checkIsEmail(login) {
     if (!login || login === '') {
@@ -122,8 +122,8 @@ export function getMonthError(month) {
 
 /**
  * Return integer value of month string
- * @param {string} - monthStr
- * @returns {int} - month number
+ * @param {string} monthStr
+ * @returns {int}  month number
  */
 export function translateMonthStrToInt(monthStr) {
     return MONTHS.findIndex((month) => monthStr === month) + 1;
@@ -147,7 +147,7 @@ export function translateMonthStrToInt(monthStr) {
  *   <>()[],;:\/"
  */
 export function getEmailError(email, confirmEmail = '') {
-    let result = [];
+    let result:string[]|null = [];
 
     if (!email || email === '') {
         return ERRORS.email;
@@ -260,50 +260,4 @@ export function getNameError(name) {
     }
 
     return null;
-}
-
-/**
- *
- * @param  {...any} params -- all params to check
- * [0, 1] -- email and confirm email
- * [2] -- password
- * [3] -- firstName
- * [4] -- lastName
- * [5] -- username
- * [6] -- day
- * [7] -- month
- * [8] -- year
- * [9-11] -- sex
- * @return null if correct else return array of strings with error elements
- */
-export function getAllErrors(...params) {
-    const result = [];
-
-    const emailErrors = getEmailError(params[0], params[1]);
-    if (emailErrors) {
-        emailErrors.forEach((el) => {
-            result.push(el);
-        });
-    }
-
-    result.push(getPasswordError(params[2]));
-
-    const firstErr = getNameError(params[3]);
-    const lastErr = getNameError(params[4]);
-
-    if (firstErr) {
-        result.push(`first${firstErr}`);
-    }
-
-    if (firstErr) {
-        result.push(`last${lastErr}`);
-    }
-
-    result.push(getUsernameError(params[5]));
-    result.push(getDayError(params[6]));
-    result.push(getMonthError(params[7]));
-    result.push(getYearError(params[8]));
-    result.push(getSexError(params[9], params[10], params[11]));
-
-    return result.filter(Boolean);
 }
