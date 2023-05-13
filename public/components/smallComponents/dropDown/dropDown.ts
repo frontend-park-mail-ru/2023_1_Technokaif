@@ -216,11 +216,11 @@ export class DropDown extends BaseComponent {
             break;
         case DIRECTIONS_DROPDOWN.LEFT:
             element.style.top = `-${padding}`;
-            element.style.left = `-${this.maxWidth + padding * 2}`;
+            element.style.left = `-${this.maxWidth + padding}`;
             break;
         case DIRECTIONS_DROPDOWN.RIGHT:
             element.style.top = `-${padding}`;
-            element.style.left = `${this.maxWidth + padding * 2}`;
+            element.style.left = `${this.maxWidth + padding}`;
             break;
         default:
             console.warn('Error at dropDown whereToRender', whereRender);

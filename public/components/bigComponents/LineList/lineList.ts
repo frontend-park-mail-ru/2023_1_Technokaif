@@ -142,6 +142,10 @@ export class LineList extends BaseComponent {
         );
         this.dropDowns.push(dropDown);
         dropDown.render();
+        const opt = dropDown.options;
+        if (opt) {
+            opt.classList.add('dropdown-options__add-remove-options');
+        }
 
         const textAdd = document.createElement('p');
         textAdd.textContent = 'Add';
