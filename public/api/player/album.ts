@@ -4,16 +4,16 @@ import Ajax from '@modules/Ajax';
 
 // todo can be rewritten to one function
 /**
- * Function for get Artist track from server
+ * Function for get Album track from server
  */
-export async function trackOneAjax(id) {
+export async function getAlbumTracksFromServer(id: string) {
     let items;
-    const url = `${generatePageById(apiUrl.TRACK_API, id)}`;
+    const url = `${generatePageById(apiUrl.ALBUM_API, id)}tracks`;
 
     await Ajax.get({
         url,
         reject: (message) => {
-            console.error('Track one request api error:', message);
+            console.error('Album request api error:', message);
         },
     }).then((data) => {
         items = data;

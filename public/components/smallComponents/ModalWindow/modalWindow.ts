@@ -1,6 +1,4 @@
 import { BaseComponent } from '@components/BaseComponent';
-import templateHTML from './modalWindow.handlebars';
-import './modalWindow.less';
 import { componentsJSNames } from '@config/componentsJSNames';
 import API from '@store/API';
 import { EventTypes } from '@config/EventTypes';
@@ -9,6 +7,9 @@ import { pageNames } from '@config/pageNames';
 import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
 import { METHOD } from '@config/config';
 import PlaylistActions from '@API/PlaylistActions';
+
+import templateHTML from './modalWindow.handlebars';
+import './modalWindow.less';
 
 /**
  * Create element with track-oriented line with img, title, duration, optionally (listens).

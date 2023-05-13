@@ -4,13 +4,13 @@ import Ajax from '@modules/Ajax';
 /**
  * Function for main page content render.
  */
-export async function artistAlbumsAjax(id) {
+export async function artistTracksAjax(id: string) {
     let items;
 
     await Ajax.get({
-        url: apiUrl.ARTIST_ALBUMS_API.bind(apiUrl)(id),
+        url: apiUrl.ARTIST_TRACKS_API.bind(apiUrl)(id),
         reject: (message) => {
-            console.error('Artist albums request api error:', message);
+            console.error('Artist tracks request api error:', message);
         },
     }).then((data) => {
         items = data;

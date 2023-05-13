@@ -6,7 +6,7 @@ import Ajax from '@modules/Ajax';
  * @param id
  * @param avatar
  */
-export async function userUpdateAvatarAjax(id, avatar) {
+export async function userUpdateAvatarAjax(id: string, avatar: FormData) {
     let status;
     await Ajax.post({
         url: apiUrl.USER_UPDATE_AVATAR_API(id),

@@ -7,7 +7,7 @@ import { ERRORS_LOG } from '@config/errors';
 import UserActions from '@API/UserActions';
 import ValidationActions from '@Actions/ValidationActions';
 import UserInfoStore from '@store/UserInfoStore';
-import API from '@store/API.ts';
+import API from '@store/API';
 import { BaseComponent } from '@components/BaseComponent';
 import Router from '@router/Router';
 import { Form } from '@bigComponents/form/form';
@@ -46,29 +46,37 @@ export class LoginComponent extends BaseComponent {
 
     /** Create listeners for fields. Send actions to dispatchers. */
     #createActionsForFields() {
-        const login = document.querySelector(
+        const login: HTMLInputElement|null = document.querySelector(
             `.${ElementsClassForLogin.login}`,
         );
+        const password: HTMLInputElement|null = document.querySelector(
+            `.${ElementsClassForLogin.password}`,
+        );
+        const header: HTMLAnchorElement|null = document.querySelector('.title');
+        const main: HTMLElement|null = document.querySelector('.content');
+        const bottomButton: HTMLAnchorElement|null = document.querySelector('.bottom__button');
+
+        if (!login || !password || !header || !main || !bottomButton) {
+            console.error('Error in fields');
+            return;
+        }
+
         login.addEventListener(METHOD.CHANGE_FIELD_IMMEDIATELY, (event) => {
             event.preventDefault();
             ValidationActions.validationField('log_username', login.value);
         });
 
-        const password = document.querySelector(
-            `.${ElementsClassForLogin.password}`,
-        );
         password.addEventListener(METHOD.CHANGE_FIELD_IMMEDIATELY, (event) => {
             event.preventDefault();
             ValidationActions.validationField('log_password', password.value);
         });
 
-        const header = document.querySelector('.title');
         header.addEventListener(METHOD.BUTTON, (event) => {
             event.preventDefault();
             Router.go(routingUrl.ROOT);
         });
 
-        document.querySelector('.content').addEventListener(
+        main.addEventListener(
             METHOD.FORM,
             (event) => {
                 event.preventDefault();
@@ -76,7 +84,6 @@ export class LoginComponent extends BaseComponent {
             },
         );
 
-        const bottomButton = document.querySelector('.bottom__button');
         bottomButton.addEventListener(METHOD.BUTTON, (event) => {
             event.preventDefault();
             Router.go(routingUrl.REGISTER);
@@ -111,7 +118,11 @@ export class LoginComponent extends BaseComponent {
      * @param error - text of error
      */
     #errorsRender(whatSearch, status, error) {
-        const placeForError = document.querySelector(`.${whatSearch}`);
+        const placeForError: HTMLElement|null = document.querySelector(`.${whatSearch}`);
+        if (!placeForError) {
+            console.error('Error in fields errors placement', whatSearch);
+            return;
+        }
 
         if (status === 'OK') {
             placeForError.innerHTML = '';
@@ -147,9 +158,15 @@ export class LoginComponent extends BaseComponent {
     sendAllData(status) {
         if (status === 'OK') {
             const { login } = UserInfoStore.state;
+            const passElement: HTMLInputElement|null = document.querySelector(`.${ElementsClassForLogin.password}`);
+            if (!passElement) {
+                console.error('Error in fields data');
+                return;
+            }
+
             UserActions.login(
                 login,
-                document.querySelector(`.${ElementsClassForLogin.password}`).value,
+                passElement.value,
             );
         }
     }
@@ -163,24 +180,24 @@ export class LoginComponent extends BaseComponent {
             // eslint-disable-next-line no-restricted-globals
             history.go(-1);
         } else {
-            const element = document.querySelector('.title__error-text');
+            const element: HTMLParagraphElement|null = document.querySelector('.title__error-text');
+            if (!element) {
+                console.error('Error in login error text');
+                return;
+            }
+
             element.hidden = false;
             element.innerText = message;
         }
     }
 
     /** Render all view by components. */
-    render() {
-        const renderProcess = new Promise((resolve) => {
-            this.#renderContent();
-            this.appendElement();
-            resolve();
-        });
+    override render() {
+        this.#renderContent();
+        this.appendElement();
 
-        renderProcess.then(() => {
-            this.#createActionsForFields();
-            this.#subscribeStore();
-        });
+        this.#createActionsForFields();
+        this.#subscribeStore();
 
         document.title = 'Login';
     }

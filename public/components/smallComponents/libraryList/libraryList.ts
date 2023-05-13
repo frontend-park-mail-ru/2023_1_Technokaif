@@ -1,9 +1,10 @@
-import templateHTML from './libraryList.handlebars';
-import './libraryList.less';
 import { BaseComponent } from '@components/BaseComponent';
 import { componentsNames } from '@config/componentsNames';
 import { routingUrl } from '@config/routingUrls';
 import Router from '@router/Router';
+
+import templateHTML from './libraryList.handlebars';
+import './libraryList.less';
 
 /**
  * Create Artist cover

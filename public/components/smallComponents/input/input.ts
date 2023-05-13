@@ -1,6 +1,6 @@
+import { BaseComponent } from '@components/BaseComponent';
 import templateHtml from './input.handlebars';
 import './input.less';
-import { BaseComponent } from '@components/BaseComponent';
 
 /**
  * Class of input field for forms.
@@ -9,9 +9,6 @@ import { BaseComponent } from '@components/BaseComponent';
  * @param {json} config - Config with json fields.
  */
 export class Input extends BaseComponent {
-    /** parent where to render */
-    #parent;
-
     /** config for element */
     #config;
 
@@ -23,7 +20,6 @@ export class Input extends BaseComponent {
     constructor(parent, config) {
         super(parent, config, templateHtml);
         this.#config = config;
-        this.#parent = parent;
     }
 
     /**
@@ -38,11 +34,12 @@ export class Input extends BaseComponent {
      * input.addReaction(event, action)
      */
     addReaction(event, action) {
-        const input = document.querySelector(`.js__${this.#config.nameOfField}`);
+        const input: HTMLInputElement|null = document.querySelector(`.js__${this.#config.nameOfField}`);
         if (!input) {
             console.error('Input error. Can\'t find input:', this.#config.nameOfField);
             return;
         }
+
         input.addEventListener(event, action(input));
     }
 }

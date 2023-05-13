@@ -77,3 +77,11 @@ export declare interface TracksApi
         }
     ]
 }
+
+export declare interface csrfResponse {
+    csrf: string,
+}
+
+export declare interface loginResponse {
+    id: string,
+}

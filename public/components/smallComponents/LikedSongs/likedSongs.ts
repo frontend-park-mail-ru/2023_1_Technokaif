@@ -1,6 +1,6 @@
-import './likedSongs.less';
 import { BaseComponent } from '@components/BaseComponent';
 import templateHTML from './likedSongs.handlebars';
+import './likedSongs.less';
 
 /**
  * Tape for elements

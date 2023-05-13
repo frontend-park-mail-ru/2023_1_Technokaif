@@ -1,10 +1,11 @@
-import templateHtml from './search.handlebars';
-import './search.less';
 import { BaseComponent } from '@components/BaseComponent';
 import { METHOD } from '@config/config';
 import { componentsNames } from '@config/componentsNames';
 import { Input } from '@smallComponents/input/input';
-import SearchAtions from '@API/SearchAtions';
+import SearchActions from '@API/SearchActions';
+
+import templateHtml from './search.handlebars';
+import './search.less';
 
 /**
  * Class of input field for forms.
@@ -48,11 +49,11 @@ export class SearchLine extends BaseComponent {
     private sendReaction(field) {
         const { value } = field;
         if (value === '') {
-            SearchAtions.emptySearch();
+            SearchActions.emptySearch();
             return;
         }
 
-        SearchAtions.search(value);
+        SearchActions.search(value);
     }
 
     /** Render component in parent */

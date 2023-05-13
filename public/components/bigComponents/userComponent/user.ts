@@ -11,7 +11,7 @@ import { componentsJSNames } from '@config/componentsJSNames';
 import { BaseComponent } from '@components/BaseComponent';
 import UserInfoStore from '@store/UserInfoStore';
 import Router from '@router/Router';
-import API from '@store/API.ts';
+import API from '@store/API';
 import UserActions from '@API/UserActions';
 import ValidationActions from '@Actions/ValidationActions';
 import { Form } from '@bigComponents/form/form';
@@ -50,49 +50,51 @@ export class User extends BaseComponent {
     /**
      *  @description render User in parent element
      */
-    render() {
-        const renderPromise = new Promise((resolve) => {
-            super.appendElement();
-            resolve();
+    override render() {
+        super.appendElement();
 
-            const avatarPlacement = this.#parent.querySelector('.js__placement__avatar');
-            const formsPlacement = this.#parent.querySelector('.js__placement__where__form');
-            const buttonsPlacement = this.#parent.querySelector('.js__placement__buttons');
+        const avatarPlacement = this.#parent.querySelector('.js__placement__avatar');
+        const formsPlacement = this.#parent.querySelector('.js__placement__where__form');
+        const buttonsPlacement = this.#parent.querySelector('.js__placement__buttons');
 
-            const avatar = new Avatar(avatarPlacement, this.#config);
-            avatar.render();
+        const avatar = new Avatar(avatarPlacement, this.#config);
+        avatar.render();
 
-            const formL = new Form(formsPlacement, this.#config.leftForm, dateSetup());
-            formL.render();
+        const formL = new Form(formsPlacement, this.#config.leftForm, dateSetup());
+        formL.render();
 
-            const formPassword = new Form(formsPlacement, this.#config.passwordForm);
-            formPassword.render();
+        const formPassword = new Form(formsPlacement, this.#config.passwordForm);
+        formPassword.render();
 
-            const buttonCancel = new Button(buttonsPlacement, this.#config.buttons[0]);
-            buttonCancel.appendElement();
+        const buttonCancel = new Button(buttonsPlacement, this.#config.buttons[0]);
+        buttonCancel.appendElement();
 
-            const buttonSubmit = new Button(buttonsPlacement, this.#config.buttons[1]);
-            buttonSubmit.appendElement();
-        });
+        const buttonSubmit = new Button(buttonsPlacement, this.#config.buttons[1]);
+        buttonSubmit.appendElement();
 
-        renderPromise.then(() => {
-            this.#subscribeForStores();
-            UserActions.user(localStorage.getItem('userId'));
-        });
+        this.#subscribeForStores();
+        UserActions.user(localStorage.getItem('userId'));
         document.title = 'Profile';
     }
 
     /** Add creation of Actions on User action on page */
     #addEventListenersForFields() {
-        const email = document.querySelector(`.${ElementsClassForUser.email}`);
-        const password = document.querySelector(`.${ElementsClassForUser.password}`);
-        const newPassword = document.querySelector(`.${ElementsClassForUser.newPassword}`);
-        const newConfPassword = document.querySelector(`.${ElementsClassForUser.newConfPassword}`);
-        const day = document.querySelector(`.${ElementsClassForUser.day}`);
-        const month = document.querySelector(`.${ElementsClassForUser.month}`);
-        const year = document.querySelector(`.${ElementsClassForUser.year}`);
-        const cancelButton = document.querySelector(`.${ElementsClassForUser.cancelButton}`);
-        const saveButton = document.querySelector(`.${ElementsClassForUser.saveButton}`);
+        const email: HTMLInputElement|null = document.querySelector(`.${ElementsClassForUser.email}`);
+        const password: HTMLInputElement|null = document.querySelector(`.${ElementsClassForUser.password}`);
+        const newPassword: HTMLInputElement|null = document.querySelector(`.${ElementsClassForUser.newPassword}`);
+        const newConfPassword: HTMLInputElement|null = document.querySelector(`.${ElementsClassForUser.newConfPassword}`);
+        const day: HTMLInputElement|null = document.querySelector(`.${ElementsClassForUser.day}`);
+        const month: HTMLInputElement|null = document.querySelector(`.${ElementsClassForUser.month}`);
+        const year: HTMLInputElement|null = document.querySelector(`.${ElementsClassForUser.year}`);
+        const cancelButton: HTMLButtonElement|null = document.querySelector(`.${ElementsClassForUser.cancelButton}`);
+        const saveButton: HTMLButtonElement|null = document.querySelector(`.${ElementsClassForUser.saveButton}`);
+        if (
+            !email || !password || !newPassword || !newConfPassword || !day || !month
+            || !year || !cancelButton || !saveButton
+        ) {
+            console.error('Not found field on user page');
+            return;
+        }
 
         email.addEventListener(METHOD.FIELD, (event) => {
             event.preventDefault();
@@ -101,7 +103,7 @@ export class User extends BaseComponent {
 
         password.addEventListener(METHOD.FIELD, (event) => {
             event.preventDefault();
-            ValidationActions.validationField('password', document.querySelector(`.${ElementsClassForUser.password}`).value);
+            ValidationActions.validationField('password', password.value);
         });
 
         newPassword.addEventListener(METHOD.FIELD, (event) => {
@@ -119,17 +121,17 @@ export class User extends BaseComponent {
 
         day.addEventListener(METHOD.FIELD, (event) => {
             event.preventDefault();
-            ValidationActions.validationField('day', document.querySelector(`.${ElementsClassForUser.day}`).value);
+            ValidationActions.validationField('day', day.value);
         });
 
         month.addEventListener(METHOD.FIELD, (event) => {
             event.preventDefault();
-            ValidationActions.validationField('month', document.querySelector(`.${ElementsClassForUser.month}`).value);
+            ValidationActions.validationField('month', month.value);
         });
 
         year.addEventListener(METHOD.FIELD, (event) => {
             event.preventDefault();
-            ValidationActions.validationField('year', document.querySelector(`.${ElementsClassForUser.year}`).value);
+            ValidationActions.validationField('year', year.value);
         });
 
         cancelButton.addEventListener(METHOD.BUTTON, (event) => {
@@ -160,18 +162,35 @@ export class User extends BaseComponent {
     /** Add date for fields. Used when open page and need date in forms */
     #addDataToFields() {
         const values = UserInfoStore.state;
+        const avatarImg: HTMLImageElement|null = document.querySelector('.user-profile__img');
+        if (!avatarImg) {
+            console.error('Cannot find user image element');
+            return;
+        }
         // todo create IMG in userstore
         if (!values.avatarSrc || values.avatarSrc === '') {
-            document.querySelector('.user-profile__img').src = '/static/svg/default-artist.svg';
+            avatarImg.src = '/static/svg/default-artist.svg';
         } else {
-            document.querySelector('.user-profile__img').src = `/media${values.avatarSrc}`;
+            avatarImg.src = `/media${values.avatarSrc}`;
         }
-        document.querySelector('.user-profile__username-text').innerText = values.username;
-        document.querySelector('.user-profile__initials-text').innerText = `${values.firstName} ${values.lastName}`;
-        document.querySelector(`.${ElementsClassForUser.email}`).value = values.email;
-        document.querySelector(`.${ElementsClassForUser.day}`).value = values.day;
-        document.querySelector(`.${ElementsClassForUser.year}`).value = values.year;
-        document.querySelector(`.${ElementsClassForUser.month}`).value = values.month;
+        const usernameTextElement: HTMLParagraphElement|null = document.querySelector('.user-profile__username-text');
+        const initialsTextElement: HTMLParagraphElement|null = document.querySelector('.user-profile__initials-text');
+
+        const email: HTMLInputElement|null = document.querySelector(`.${ElementsClassForUser.email}`);
+        const day: HTMLInputElement|null = document.querySelector(`.${ElementsClassForUser.day}`);
+        const year: HTMLInputElement|null = document.querySelector(`.${ElementsClassForUser.year}`);
+        const month: HTMLInputElement|null = document.querySelector(`.${ElementsClassForUser.month}`);
+        if (!usernameTextElement || !initialsTextElement || !email || !day || !year || !month) {
+            console.error('Error in user data elements');
+            return;
+        }
+
+        usernameTextElement.innerText = values.username;
+        initialsTextElement.innerText = `${values.firstName} ${values.lastName}`;
+        email.value = values.email;
+        day.value = values.day;
+        year.value = values.year;
+        month.value = values.month;
     }
 
     /**
@@ -182,7 +201,11 @@ export class User extends BaseComponent {
      * @param error - text of error
      */
     #errorsRender(whatSearch, status, error) {
-        const placeForError = document.querySelector(`.${whatSearch}`);
+        const placeForError: HTMLElement|null = document.querySelector(`.${whatSearch}`);
+        if (!placeForError) {
+            console.error('Error in user error renders');
+            return;
+        }
 
         if (status === 'OK') {
             placeForError.innerHTML = '';
@@ -200,9 +223,12 @@ export class User extends BaseComponent {
         if (status === RESPONSES.OK) {
             const { state } = UserInfoStore;
             const date = new Date(`${state.month} 1, 2000`);
-            let monthNumber = date.getMonth() + 1;
+            const monthNumber = date.getMonth() + 1;
+            let month: string;
             if (monthNumber < 10) {
-                monthNumber = `0${monthNumber}`;
+                month = `0${monthNumber}`;
+            } else {
+                month = String(monthNumber);
             }
             let { day } = state;
             if (day < 10) {
@@ -212,7 +238,7 @@ export class User extends BaseComponent {
                 email: state.email,
                 firstName: state.firstName,
                 lastName: state.lastName,
-                birthDate: [state.year, monthNumber, day].join('-'),
+                birthDate: [state.year, month, day].join('-'),
                 sex: 'M',
             });
         }
@@ -225,9 +251,16 @@ export class User extends BaseComponent {
      */
     #sendAllDataCredential(status) {
         if (status === RESPONSES.OK) {
+            const password: HTMLInputElement|null = document.querySelector(`.${ElementsClassForUser.password}`);
+            const newPassword: HTMLInputElement|null = document.querySelector(`.${ElementsClassForUser.newPassword}`);
+            if (!password || !newPassword) {
+                console.error('Error in user password elements');
+                return;
+            }
+
             UserActions.userUpdatePassword({
-                oldPassword: document.querySelector('.js__password').value,
-                newPassword: document.querySelector('.js__new__password').value,
+                oldPassword: password.value,
+                newPassword: newPassword.value,
             });
         }
     }
@@ -326,19 +359,22 @@ export class User extends BaseComponent {
         );
         API.subscribe(
             (message) => {
+                const errorElement: HTMLDivElement|null = document.querySelector('.user__error-text');
+                const successElement: HTMLDivElement|null = document.querySelector('.user__success-text');
+                if (!errorElement || !successElement) {
+                    console.error('No any error or success blocks');
+                    return;
+                }
+
                 if (message !== 'OK') {
                     console.error(message);
-                    const element = document.querySelector('.user__error-text');
-                    const useless = document.querySelector('.user__success-text');
-                    useless.hidden = true;
-                    element.hidden = false;
-                    element.innerText = message;
+                    successElement.hidden = true;
+                    errorElement.hidden = false;
+                    errorElement.innerText = message;
                 } else {
-                    const element = document.querySelector('.user__success-text');
-                    const useless = document.querySelector('.user__error-text');
-                    useless.hidden = true;
-                    element.hidden = false;
-                    element.innerText = 'Successfully changed user info';
+                    errorElement.hidden = true;
+                    successElement.hidden = false;
+                    successElement.innerText = 'Successfully changed user info';
                 }
             },
             EventTypes.UPDATE_DATA_RECEIVED,
@@ -346,39 +382,46 @@ export class User extends BaseComponent {
         );
         API.subscribe(
             (message) => {
+                const errorElement: HTMLDivElement|null = document.querySelector('.user__error-text');
+                const successElement: HTMLDivElement|null = document.querySelector('.user__success-text');
+                if (!errorElement || !successElement) {
+                    console.error('No any error or success blocks');
+                    return;
+                }
+
                 if (message !== 'OK') {
                     console.error(message);
-                    const element = document.querySelector('.user__error-text');
-                    const useless = document.querySelector('.user__success-text');
-                    useless.hidden = true;
-                    element.hidden = false;
-                    element.innerText = message;
+                    successElement.hidden = true;
+                    errorElement.hidden = false;
+                    errorElement.innerText = message;
                 } else {
-                    const element = document.querySelector('.user__success-text');
-                    const useless = document.querySelector('.user__error-text');
-                    useless.hidden = true;
-                    element.hidden = false;
-                    element.innerText = 'Successfully changed password';
+                    errorElement.hidden = true;
+                    successElement.hidden = false;
+                    successElement.innerText = 'Successfully changed password';
                 }
             },
             EventTypes.UPDATE_DATA_WITH_PASS_RECEIVED,
             this.name,
         );
+
         API.subscribe(
             (message) => {
+                const errorElement: HTMLDivElement|null = document.querySelector('.user__error-text');
+                const successElement: HTMLDivElement|null = document.querySelector('.user__success-text');
+                if (!errorElement || !successElement) {
+                    console.error('No any error or success blocks');
+                    return;
+                }
+
                 if (message !== 'OK') {
                     console.error(message);
-                    const element = document.querySelector('.user__error-text');
-                    const useless = document.querySelector('.user__success-text');
-                    useless.hidden = true;
-                    element.hidden = false;
-                    element.innerText = message;
+                    successElement.hidden = true;
+                    errorElement.hidden = false;
+                    errorElement.innerText = message;
                 } else {
-                    const element = document.querySelector('.user__success-text');
-                    const useless = document.querySelector('.user__error-text');
-                    useless.hidden = true;
-                    element.hidden = false;
-                    element.innerText = 'Successfully changed avatar';
+                    errorElement.hidden = true;
+                    successElement.hidden = false;
+                    successElement.innerText = 'Successfully changed avatar';
                     const avatarImg = this.#parent.querySelector('.user-profile__img');
                     const blob = new Blob(this.fileInput.files, { type: 'image/jpeg' });
                     const imageUrl = URL.createObjectURL(blob);
@@ -389,8 +432,12 @@ export class User extends BaseComponent {
             this.name,
         );
 
-        const avatar = this.#parent.querySelector('.avatar');
-        const root = document.querySelector(`#${componentsJSNames.ROOT}`);
+        const avatar: HTMLDivElement|null = this.#parent.querySelector('.avatar');
+        const root: HTMLDivElement|null = document.querySelector(`#${componentsJSNames.ROOT}`);
+        if (!root || !avatar) {
+            console.error('Error in user avatar elements');
+            return;
+        }
 
         avatar.addEventListener('click', () => {
             root.appendChild(this.fileInput);

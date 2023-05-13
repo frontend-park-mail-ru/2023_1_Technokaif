@@ -1,9 +1,7 @@
-import { Header } from '@smallComponents/Header/header.js';
-import templateHtml from './headerWithButton.handlebars';
+import { Header } from '@smallComponents/Header/header';
 import { Button } from '@smallComponents/Button/button';
-
-import './headerWithButton.less';
 import Router from '@router/Router';
+
 import { EventTypes } from '@config/EventTypes';
 import { componentsNames } from '@config/componentsNames';
 import { componentsJSNames } from '@config/componentsJSNames';
@@ -11,6 +9,9 @@ import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllSt
 import ComponentsStore from '@store/ComponentsStore';
 import ComponentsActions from '@Actions/ComponentsActions';
 import { routingUrl } from '@config/routingUrls';
+
+import templateHtml from './headerWithButton.handlebars';
+import './headerWithButton.less';
 
 /**
  * Class for not found content in main page.
@@ -56,13 +57,17 @@ export class HeaderWithButton {
             this.#name,
         );
 
-        const header = document.querySelector('.header');
+        const header: HTMLElement|null = document.querySelector('.header');
+        const button: HTMLElement|null = document.querySelector('.primary');
+        if (!header || !button) {
+            console.error('Error in header or button');
+            return;
+        }
+
         header.addEventListener('click', (event) => {
             event.preventDefault();
             Router.go(routingUrl.ROOT);
         });
-
-        const button = document.querySelector('.primary');
         button.addEventListener('click', (event) => {
             event.preventDefault();
             Router.go(routingUrl.ROOT);

@@ -6,14 +6,14 @@ import Ajax from '@modules/Ajax';
 /**
  * Function for get Artist track from server
  */
-export async function artistTracksAjax(id) {
+export async function trackOneAjax(id: string) {
     let items;
-    const url = `${generatePageById(apiUrl.ARTIST_API, id)}tracks`;
+    const url = `${generatePageById(apiUrl.TRACK_API, id)}`;
 
     await Ajax.get({
         url,
         reject: (message) => {
-            console.error('Artist request api error:', message);
+            console.error('Track one request api error:', message);
         },
     }).then((data) => {
         items = data;

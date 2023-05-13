@@ -5,7 +5,7 @@ import Ajax from '@modules/Ajax';
  * Api-oriented user function.
  * @param id
  */
-export async function userAjax(id) {
+export async function userAjax(id: string) {
     let profileData;
     await Ajax.get({
         url: apiUrl.USER_API(id),

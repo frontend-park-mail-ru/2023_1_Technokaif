@@ -177,44 +177,53 @@ export class Tape extends BaseComponent {
                     return;
                 }
                 let idArray:number[];
+                const artists = SongStore.artistsInfo;
+
                 switch (this.#name) {
                 case 'Artists':
-                    const artists = SongStore.artistsInfo;
                     if (!artists) {
                         console.warn('Artist doesn\'t exist');
                         return;
                     }
-                    const artistID: number[] = [];
-                    artists.forEach((el) => artistID.push(el.id));
-                    idArray = artistID;
+
+                    {
+                        const artistID: number[] = [];
+                        artists.forEach((el) => artistID.push(el.id));
+                        idArray = artistID;
+                    }
                     break;
                 case 'Tracks':
-                    const trackId = SongStore.trackInfo.id;
-                    const arrTr = [];
-                    arrTr.push((trackId as never));
-                    idArray = arrTr;
+                    {
+                        const trackId = SongStore.trackInfo.id;
+                        const arrTr = [];
+                        arrTr.push((trackId as never));
+                        idArray = arrTr;
+                    }
+
                     break;
                 case 'Albums':
-                    let albumId = SongStore.albumInfo;
-                    if (!albumId) {
-                        console.warn('Albums doesn\'t exist');
-                        albumId = '-1';
-                        // return;
+                    {
+                        let albumId = SongStore.albumInfo;
+                        if (!albumId) {
+                            console.warn('Albums doesn\'t exist');
+                            albumId = '-1';
+                        }
+                        const arrAlb = [];
+                        arrAlb.push((albumId as never));
+                        idArray = arrAlb;
                     }
-                    const arrAlb = [];
-                    arrAlb.push((albumId as never));
-                    idArray = arrAlb;
                     break;
                 case 'Playlists':
-                    let playlistId = SongStore.playlist;
-                    if (!playlistId) {
-                        console.warn('Playlist doesn\'t exist');
-                        playlistId = -1;
-                        // return;
+                    {
+                        let playlistId = SongStore.playlist;
+                        if (!playlistId) {
+                            console.warn('Playlist doesn\'t exist');
+                            playlistId = -1;
+                        }
+                        const arrPlaylist = [];
+                        arrPlaylist.push((playlistId as never));
+                        idArray = arrPlaylist;
                     }
-                    const arrPlaylist = [];
-                    arrPlaylist.push((playlistId as never));
-                    idArray = arrPlaylist;
                     break;
                 default:
                     return;

@@ -42,8 +42,13 @@ export class Form {
         this.#insertedElement = this.#parent.querySelector(`.${this.#config.content}`);
         this.#insertedElement.querySelector('.header-placement').innerHTML = this.#renderHeader();
         this.#insertedElement.querySelector('.inputs-placement').innerHTML = this.#renderInputs();
-        if (this.#confDate !== '') {
-            this.#insertedElement.querySelector('.form__placement-additionall').innerHTML += this.#renderDate();
+        if (this.#confDate) {
+            const element: HTMLElement|null = this.#insertedElement.querySelector('.form__placement-additionall');
+            if (element) {
+                element.innerHTML += this.#renderDate();
+            } else {
+                console.error('Error in render additional');
+            }
         }
 
         if (this.#config['bottom-placement']) {

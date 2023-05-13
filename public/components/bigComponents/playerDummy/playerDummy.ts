@@ -10,19 +10,15 @@ import template from './playerDymmy.handlebars';
  * Class for dummy instead of player
  */
 export class PlayerDummy extends BaseComponent {
-    #parent;
-
     /** Default values with parent */
     constructor(parent) {
         super(parent, '', template, componentsNames.PLAYER);
-        this.#parent = parent;
     }
 
-    // todo remove later
     /**
      * Append element to parent
      */
-    render() {
+    override render() {
         super.render();
         this.#addEvents();
     }
@@ -30,14 +26,20 @@ export class PlayerDummy extends BaseComponent {
     /**
      * Method to unrender dummy player
      */
-    unRender() {
+    override unRender() {
         super.unRender();
         unsubscribeFromAllStoresOnComponent(componentsNames.PLAYER);
     }
 
     /** Add events to buttons inside */
     #addEvents() {
-        document.querySelector('.js__button__dummy').addEventListener('click', () => {
+        const dummyLoginButton: HTMLButtonElement|null = document.querySelector('.js__button__dummy');
+        if (!dummyLoginButton) {
+            console.error('Error in dummy player component render');
+            return;
+        }
+
+        dummyLoginButton.addEventListener('click', () => {
             Router.go(routingUrl.LOGIN);
         });
     }

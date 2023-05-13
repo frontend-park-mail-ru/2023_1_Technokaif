@@ -2,13 +2,13 @@ import { apiUrl } from '@config/apiUrls';
 import Ajax from '@modules/Ajax';
 
 /**
- * Api-oriented track like function.
+ * Api-oriented track unlike function.
  * @param id
  */
-export async function setTrackLikeAjax(id) {
+export async function removeTrackLikeAjax(id: string) {
     let status;
     await Ajax.post({
-        url: apiUrl.TRACK_LIKE(id),
+        url: apiUrl.TRACK_UNLIKE(id),
         body: null,
         reject: (message) => {
             console.error('Track like request api error:', message);
