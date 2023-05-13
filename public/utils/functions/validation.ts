@@ -157,52 +157,17 @@ export function getEmailError(email, confirmEmail = '') {
         result.push(ERRORS.emailConf);
     }
 
-    if (email.length < 8 || email.length > 30) {
+    if (email.length < 8 || email.length > 255) {
         result.push(ERRORS.email);
         return result;
     }
 
-    if (email.search('..') === -1) {
+    // RFC 2822 https://www.w3resource.com/javascript/form/email-validation.php
+    // eslint-disable-next-line no-control-regex
+    const regExp = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+    if (!regExp.test(email)) {
         result.push(ERRORS.email);
         return result;
-    }
-
-    if (!email.includes('@')) {
-        result.push(ERRORS.email);
-        return result;
-    }
-
-    if (email[email.indexOf('@') + 1] === '.') {
-        result.push(ERRORS.email);
-        return result;
-    }
-    const emailAfter = email.substring(email.indexOf('@') + 1);
-    if (!(emailAfter.includes('.'))) {
-        result.push(ERRORS.email);
-        return result;
-    }
-
-    if (emailAfter.includes('@')) {
-        result.push(ERRORS.email);
-        return result;
-    }
-
-    const lastSymb = email[email.length];
-    if (lastSymb === '.' || lastSymb === '-' || lastSymb === '_') {
-        result.push(ERRORS.email);
-        return result;
-    }
-
-    for (let i = 0; i < email.length; i++) {
-        if (FORBIDDEN_EMAIL_SYMBOLS.includes(email[i])) {
-            result.push(ERRORS.email);
-            return result;
-        }
-
-        if (!(ALPHABET_BIG.includes(email[i]) || ALPHABET_SMALL.includes(email[i])
-            || DIGITS.includes(email[i]) || '@.-_'.includes(email[i]))) {
-            result.push(ERRORS.email);
-        }
     }
 
     if (result.length === 0) {
