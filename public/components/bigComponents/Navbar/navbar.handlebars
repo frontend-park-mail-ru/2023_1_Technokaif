@@ -1,17 +1,19 @@
 <div class="navbar js__navbar">
-    <div class="navbar_library_desktop">
-    </div>
-
     <div class="sidebar__logo burger-logo">
         <a><img class="header__img" src="/static/svg/fluire-logo.svg" alt="Logo"></a>
     </div>
 
-{{#each items}}
+
+    <div class="navbar_library">
+    </div>
+
+    {{#each items}}
         <div class="navbar__{{this.key}}__item">
             <{{this.type}} href="{{this.href}}" data-section="{{this.key}}" class="{{#ifNotEquals key 'registration'}}
             navbar__{{this.key}}
         {{/ifNotEquals}}
-            {{#ifAllEquals this.key 'registration' 'login'}} navbar__link signup-desktop {{/ifAllEquals}}
+            {{#ifEquals this.key 'registration'}} navbar__link signup-desktop {{/ifEquals}}
+            {{#ifEquals this.key 'login'}} signup-desktop {{/ifEquals}}
             {{#ifAllEquals this.key 'profile' 'logout'}} signin-desktop {{/ifAllEquals}}
             {{#ifEquals this.key 'premium'}}
                 {{#ifEquals ../name 'unAuthNavbar'}}
@@ -21,18 +23,14 @@
             {{/ifEquals}}">
             {{this.name}}
         </{{this.type}}>
+        </div>
+    {{/each}}
+
+    <div class="menu-burger">
+        <button class="menu-burger__header openbtn">
+            <span class="visually-hidden">Button</span>
+        </button>
     </div>
-{{/each}}
-
-<div class="menu-burger">
-    <button class="menu-burger__header openbtn">
-        <span class="visually-hidden">Button</span>
-    </button>
-</div>
-
-
-<!--        <a href="/profile" data-section="profile" class="navbar__link">Profile</a>-->
-<!--        <a href="/logout" data-section="logout" class="navbar__link">Logout</a>-->
 
 
     <div id="sidebar" class="burgerSidebar">
@@ -42,10 +40,11 @@
 
         {{#each items}}
             <div class="navbar__{{this.key}}__item">
-                <{{this.type}} href="{{this.href}}" data-section="{{this.key}}" class="{{#ifNotEquals key 'registration'}}
+                <{{#ifEquals this.key 'login'}}a{{/ifEquals}}{{#ifNotEquals this.key 'login'}}{{this.type}}{{/ifNotEquals}} href="{{this.href}}" data-section="{{this.key}}" class="{{#ifNotEquals key 'registration'}}
                     navbar__{{this.key}}
                 {{/ifNotEquals}}
-                {{#ifAllEquals this.key 'registration' 'login'}} navbar__link {{/ifAllEquals}}
+                {{#ifEquals this.key 'registration'}} navbar__link {{/ifEquals}}
+                {{#ifEquals this.key 'login'}} navbar__link {{/ifEquals}}
                 {{#ifAllEquals this.key 'profile' 'logout'}} {{/ifAllEquals}}
                 {{#ifEquals this.key 'premium'}}
                     {{#ifEquals ../name 'unAuthNavbar'}}
@@ -55,12 +54,9 @@
                     {{/ifEquals}}
                 {{/ifEquals}}">
                     {{this.name}}
-                </{{this.type}}>
+                </{{#ifEquals this.key 'login'}}a{{/ifEquals}}{{#ifNotEquals this.key 'login'}}{{this.type}}{{/ifNotEquals}}>
             </div>
         {{/each}}
     </div>
     <div class="js__avatar-placement avatar__place"> </div>
-</div>
-
-<div class="navbar_library_mobile">
 </div>
