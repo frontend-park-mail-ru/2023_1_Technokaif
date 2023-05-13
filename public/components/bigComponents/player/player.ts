@@ -209,7 +209,10 @@ export class AudioPlayer extends BaseComponent {
         });
 
         this.#functionSpace = (event) => {
-            if (event.keyCode === 32 && !(event.target instanceof HTMLInputElement)) {
+            if (event.keyCode === 32
+                && !(event.target instanceof HTMLInputElement)
+                && !(event.target instanceof HTMLTextAreaElement)
+            ) {
                 event.preventDefault();
                 this.toggle();
             }

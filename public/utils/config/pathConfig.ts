@@ -38,4 +38,5 @@ export const imgPath = {
     playAlbum: '/static/svg/play.svg',
     pauseAlbum: '/static/svg/Pause.svg',
 
+    closeOppositeMain: '/static/svg/CloseBlack.svg',
 };

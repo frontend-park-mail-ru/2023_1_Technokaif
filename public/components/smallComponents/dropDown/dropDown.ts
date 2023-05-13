@@ -199,11 +199,11 @@ export class DropDown extends BaseComponent {
         if (!title || !(title instanceof HTMLElement)) {
             return;
         }
-        // this.options.style.width = 'fit-content';
 
         if (element.offsetWidth > this.maxWidth) {
             this.maxWidth = element.offsetWidth;
         }
+
         const padding = 5;
         switch (whereRender) {
         case DIRECTIONS_DROPDOWN.DOWN:
