@@ -392,17 +392,17 @@ export class AudioPlayer extends BaseComponent {
             } else {
                 currentSeconds = String(currentSecondsNumber);
             }
-            if (currentSecondsNumber < 10) {
+            if (currentMinutesNumber < 10) {
                 currentMinutes = `0${currentMinutesNumber}`;
             } else {
                 currentMinutes = String(currentMinutesNumber);
             }
-            if (currentSecondsNumber < 10) {
+            if (durationMinutesNumber < 10) {
                 durationMinutes = `0${durationMinutesNumber}`;
             } else {
                 durationMinutes = String(durationMinutesNumber);
             }
-            if (currentSecondsNumber < 10) {
+            if (durationSecondsNumber < 10) {
                 durationSeconds = `0${durationSecondsNumber}`;
             } else {
                 durationSeconds = String(durationSecondsNumber);
