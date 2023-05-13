@@ -8,7 +8,7 @@ import {
 const ALPHABET_BIG = 'ABCDEFGHIJKLMNOPQRSTUVWXYZАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
 const ALPHABET_SMALL = 'abcdefghijklmnopqrstuvwxyzабвгдеёжзийклмнопрстуфхцчшщъыьэюя';
 const DIGITS = '0123456789';
-const FORBIDDEN_EMAIL_SYMBOLS = '<>()[],;:\\/';
+// const FORBIDDEN_EMAIL_SYMBOLS = '<>()[],;:\\/';
 
 /**
  *

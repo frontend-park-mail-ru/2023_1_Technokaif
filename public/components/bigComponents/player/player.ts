@@ -1,6 +1,4 @@
 import Actions from '@actions/Actions';
-import template from './player.handlebars';
-import './player.less';
 import { EventTypes } from '@config/EventTypes';
 import { componentsNames } from '@config/componentsNames';
 import {
@@ -13,19 +11,20 @@ import SongStore from '@store/SongStore';
 import ComponentsStore from '@store/ComponentsStore';
 import { BaseComponent } from '@components/BaseComponent';
 
+import template from './player.handlebars';
+import './player.less';
+
 /** Class for Audio player view and its creation */
 export class AudioPlayer extends BaseComponent {
     /** Flag to check if track exist in player */
-    #isExist;
+    // @ts-ignore
+    private isExist: boolean;
 
     /** Flag to set repeat of current track */
-    #isRepeat;
+    #isRepeat: boolean;
 
     /** Last response with last track from API */
     #lastResponse;
-
-    /** Where to render player */
-    #parent;
 
     /** Flag to set playing/stop playing mode of player */
     #isPlaying;
@@ -39,14 +38,13 @@ export class AudioPlayer extends BaseComponent {
     /** Default all fields to empty except parent */
     constructor(parent) {
         super(parent, [], template, componentsNames.PLAYER);
-        this.#parent = parent;
         this.#elements = {};
 
         this.#lastResponse = {};
         this.#isPlaying = false;
         this.#isRepeat = false;
 
-        this.#isExist = false;
+        this.isExist = false;
     }
 
     /** Subscribe Stores */
@@ -83,6 +81,7 @@ export class AudioPlayer extends BaseComponent {
                     (element) => element.name === componentsNames.PLAYER,
                 )) {
                     ComponentsActions.playerDelete();
+                    // @ts-ignore
                     delete this;
                 }
             },
@@ -93,7 +92,12 @@ export class AudioPlayer extends BaseComponent {
         SongStore.subscribe(
             (volume) => {
                 let source;
-                const element = document.querySelector('.js__music-icon');
+                const element: HTMLImageElement|null = document.querySelector('.js__music-icon');
+                if (!element) {
+                    console.error('Error in image of player');
+                    return;
+                }
+
                 this.#elements.volume_slider.value = volume * 100;
 
                 if (volume > 0.6) {
@@ -330,7 +334,7 @@ export class AudioPlayer extends BaseComponent {
         );
 
         if (!startAfterRefresh) {
-            this.#isExist = true;
+            this.isExist = true;
             this.#play();
         }
 
@@ -367,16 +371,39 @@ export class AudioPlayer extends BaseComponent {
             this.#elements.seek_slider.value = seekPosition;
 
             // Calculate the time left and the total duration
-            let currentMinutes = Math.floor(SongStore.audio.currentTime / 60);
-            let currentSeconds = Math.floor(SongStore.audio.currentTime - currentMinutes * 60);
-            let durationMinutes = Math.floor(SongStore.audio.duration / 60);
-            let durationSeconds = Math.floor(SongStore.audio.duration - durationMinutes * 60);
+            const currentMinutesNumber = Math.floor(SongStore.audio.currentTime / 60);
+            // eslint-disable-next-line max-len
+            const currentSecondsNumber = Math.floor(SongStore.audio.currentTime - currentMinutesNumber * 60);
+            const durationMinutesNumber = Math.floor(SongStore.audio.duration / 60);
+            // eslint-disable-next-line max-len
+            const durationSecondsNumber = Math.floor(SongStore.audio.duration - durationMinutesNumber * 60);
+
+            let currentSeconds;
+            let currentMinutes;
+            let durationMinutes;
+            let durationSeconds;
 
             // Add a zero to the single digit time values
-            if (currentSeconds < 10) { currentSeconds = `0${currentSeconds}`; }
-            if (durationSeconds < 10) { durationSeconds = `0${durationSeconds}`; }
-            if (currentMinutes < 10) { currentMinutes = `0${currentMinutes}`; }
-            if (durationMinutes < 10) { durationMinutes = `0${durationMinutes}`; }
+            if (currentSecondsNumber < 10) {
+                currentSeconds = `0${currentSecondsNumber}`;
+            } else {
+                currentSeconds = String(currentSecondsNumber);
+            }
+            if (currentSecondsNumber < 10) {
+                currentMinutes = `0${currentMinutesNumber}`;
+            } else {
+                currentMinutes = String(currentMinutesNumber);
+            }
+            if (currentSecondsNumber < 10) {
+                durationMinutes = `0${durationMinutesNumber}`;
+            } else {
+                durationMinutes = String(durationMinutesNumber);
+            }
+            if (currentSecondsNumber < 10) {
+                durationSeconds = `0${durationSecondsNumber}`;
+            } else {
+                durationSeconds = String(durationSecondsNumber);
+            }
 
             // Display the updated duration
             this.#elements.curr_time.textContent = `${currentMinutes}:${currentSeconds}`;
@@ -402,7 +429,7 @@ export class AudioPlayer extends BaseComponent {
     }
 
     /** Render player in parent */
-    render() {
+    override render() {
         super.render();
 
         this.#subscribe();
@@ -415,7 +442,7 @@ export class AudioPlayer extends BaseComponent {
     }
 
     /** Unrender element */
-    unRender() {
+    override unRender() {
         super.unRender();
         document.removeEventListener(METHOD.KEY_PRESSED, this.#functionSpace);
     }
