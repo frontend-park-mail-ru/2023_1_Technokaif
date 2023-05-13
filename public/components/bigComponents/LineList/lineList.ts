@@ -1,6 +1,4 @@
-import templateHTML from './lineList.handlebars';
 import { BaseComponent } from '@components/BaseComponent';
-import './lineList.less';
 import '@smallComponents/Line/line.less';
 import { componentsNames } from '@config/componentsNames';
 import { pageNames } from '@config/pageNames';
@@ -18,6 +16,10 @@ import API from '@store/API';
 import SongStore from '@store/SongStore';
 import Router from '@router/Router';
 import ContentStore from '@store/ContentStore';
+import { METHOD } from '@config/config';
+import { Notification } from '@smallComponents/notification/notification';
+import templateHTML from './lineList.handlebars';
+import './lineList.less';
 
 /**
  * Tape for elements
@@ -140,6 +142,10 @@ export class LineList extends BaseComponent {
         );
         this.dropDowns.push(dropDown);
         dropDown.render();
+        const opt = dropDown.options;
+        if (opt) {
+            opt.classList.add('dropdown-options__add-remove-options');
+        }
 
         const textAdd = document.createElement('p');
         textAdd.textContent = 'Add';
@@ -172,16 +178,29 @@ export class LineList extends BaseComponent {
             });
         }
 
-        // addDropDown.addTitleElement(textAdd);
-        this.#addSubDropDown(addDropDown, trackId);
+        this.#addSubDropDown(addDropDown, trackId, dropDown);
     }
 
-    #addSubDropDown(where, index) {
+    #addSubDropDown(where, index, mainDropDown) {
+        const deleteNotification = (elementToDelete) => {
+            const placement = mainDropDown.parent;
+            if (!placement) return;
+            placement.removeChild(elementToDelete);
+        };
+
         const div = document.createElement('div');
         div.classList.add('list-container');
         const ul = document.createElement('ul');
         div.appendChild(ul);
-        where.addOptionsElement(div);
+        where.addOptionsElement(div, METHOD.BUTTON, () => {
+            mainDropDown.hideOptions();
+            const notification = new Notification(document.querySelector('.js__navbar'), 'Song is added to playlist!');
+            notification.appendElement();
+
+            // setTimeout(()=>{
+            //     deleteNotification(notification.element)
+            // }, 1000);
+        });
         ul.classList.add('item-list');
 
         this.playlists.forEach((playlist) => {
@@ -238,7 +257,9 @@ export class LineList extends BaseComponent {
             const another: HTMLImageElement|null = event.target.closest(`.${this._config.anotherClass}`);
             const album: HTMLDivElement = event.target.closest(`.${this._config.lineTitle}`);
             const buttons = event.target.closest(`.${this._config.playButtonImg}`) as HTMLImageElement;
-            const playButtons = document.querySelectorAll(`.${this._config.playButton}`) as NodeListOf<HTMLButtonElement>;
+            const playButtons = document
+                .querySelectorAll(`.${this._config.playButton}`) as NodeListOf<HTMLButtonElement>;
+
             if (line) {
                 // todo not clear solution dont forget about
                 if (event.target !== buttons

@@ -199,11 +199,11 @@ export class DropDown extends BaseComponent {
         if (!title || !(title instanceof HTMLElement)) {
             return;
         }
-        // this.options.style.width = 'fit-content';
 
         if (element.offsetWidth > this.maxWidth) {
             this.maxWidth = element.offsetWidth;
         }
+
         const padding = 5;
         switch (whereRender) {
         case DIRECTIONS_DROPDOWN.DOWN:
@@ -216,11 +216,11 @@ export class DropDown extends BaseComponent {
             break;
         case DIRECTIONS_DROPDOWN.LEFT:
             element.style.top = `-${padding}`;
-            element.style.left = `-${this.maxWidth + padding * 2}`;
+            element.style.left = `-${this.maxWidth + padding}`;
             break;
         case DIRECTIONS_DROPDOWN.RIGHT:
             element.style.top = `-${padding}`;
-            element.style.left = `${this.maxWidth + padding * 2}`;
+            element.style.left = `${this.maxWidth + padding}`;
             break;
         default:
             console.warn('Error at dropDown whereToRender', whereRender);
