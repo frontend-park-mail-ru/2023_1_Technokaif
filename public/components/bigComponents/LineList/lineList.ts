@@ -182,12 +182,6 @@ export class LineList extends BaseComponent {
     }
 
     #addSubDropDown(where, index, mainDropDown) {
-        const deleteNotification = (elementToDelete) => {
-            const placement = mainDropDown.parent;
-            if (!placement) return;
-            placement.removeChild(elementToDelete);
-        };
-
         const div = document.createElement('div');
         div.classList.add('list-container');
         const ul = document.createElement('ul');
@@ -196,10 +190,6 @@ export class LineList extends BaseComponent {
             mainDropDown.hideOptions();
             const notification = new Notification(document.querySelector('.js__navbar'), 'Song is added to playlist!');
             notification.appendElement();
-
-            // setTimeout(()=>{
-            //     deleteNotification(notification.element)
-            // }, 1000);
         });
         ul.classList.add('item-list');
 
@@ -301,11 +291,11 @@ export class LineList extends BaseComponent {
                             switch (this.name) {
                             case componentsNames.ARTIST_LINE_LIST:
                                 // eslint-disable-next-line max-len
-                                PlayerActions.playArtistWithOffset(ContentStore.state[pageNames.ARTIST_PAGE].id, id - 1);
+                                PlayerActions.playArtist(ContentStore.state[pageNames.ARTIST_PAGE].id, id - 1);
                                 break;
                             case componentsNames.ALBUM_LINE_LIST:
                                 // eslint-disable-next-line max-len
-                                PlayerActions.playAlbumWithOffset(ContentStore.state[pageNames.ALBUM].id, id - 1);
+                                PlayerActions.playAlbum(ContentStore.state[pageNames.ALBUM].id, id - 1);
                                 break;
                             case componentsNames.TRACK_LIBRARY_LINE_LIST:
                                 // eslint-disable-next-line no-case-declarations
@@ -317,11 +307,25 @@ export class LineList extends BaseComponent {
                                     offset = 0;
                                 }
 
-                                PlayerActions.addQueueTracks(trackIds, offset);
+                                PlayerActions.playTrack(trackIds, offset);
                                 break;
                             case componentsNames.SEARCH_LINE:
-                                PlayerActions.playTrack(trackId);
+                                PlayerActions.playTrack([trackId]);
                                 break;
+                                // todo remove to js component
+                            case 'js__playlist': {
+                                // eslint-disable-next-line no-case-declarations
+                                const { tracks } = ContentStore.state[pageNames.PLAYLIST];
+                                // eslint-disable-next-line no-case-declarations
+                                const trackIds = tracks.map((track) => track.id);
+                                let offset = id - 1;
+                                if (offset < 0) {
+                                    offset = 0;
+                                }
+
+                                PlayerActions.playTrack(trackIds, offset);
+                                break;
+                            }
                             default:
                             }
                         }

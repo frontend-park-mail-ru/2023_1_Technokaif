@@ -3,129 +3,11 @@ import Dispatcher from '@dispatcher/Dispatcher';
 
 /** Actions with Player */
 class PlayerActions {
-    /** Send action to SongStore and search for needed track */
-    searchForTrack(status, whatTrack) {
+    /** Set repeat state */
+    createRepeat(state) {
         Dispatcher.dispatch({
-            type: ActionTypes.DOWNLOAD_DIRECTIONAL_TRACK,
-            status,
-            whatTrack,
-        });
-    }
-
-    /** Change volume in Store */
-    volumeChange(volume) {
-        Dispatcher.dispatch({
-            type: ActionTypes.CHANGE_VOLUME,
-            volume,
-        });
-    }
-
-    /** Play track send in SongStore id to play now */
-    playTrack(id) {
-        Dispatcher.dispatch({
-            type: ActionTypes.PLAY_TRACK,
-            id,
-        });
-    }
-
-    /** Play album send in SongStore album id to play now */
-    playAlbum(id) {
-        Dispatcher.dispatch({
-            type: ActionTypes.PLAY_ALBUM,
-            id,
-        });
-    }
-
-    /** Play artist send in SongStore artist id to play now his tracks (compilation) */
-    playArtist(id) {
-        Dispatcher.dispatch({
-            type: ActionTypes.PLAY_ARTIST,
-            id,
-        });
-    }
-
-    /** Play artist send in SongStore artist id to play now from track (compilation) */
-    playArtistWithOffset(id, offset) {
-        Dispatcher.dispatch({
-            type: ActionTypes.PLAY_ARTIST,
-            id,
-            offset,
-        });
-    }
-
-    /** Play album send in SongStore album id to play now from track (compilation) */
-    playAlbumWithOffset(id, offset) {
-        Dispatcher.dispatch({
-            type: ActionTypes.PLAY_ALBUM,
-            id,
-            offset,
-        });
-    }
-
-    /** Play playlist send in SongStore id to play now from track */
-    playPlaylistWithOffset(id, offset = 0) {
-        Dispatcher.dispatch({
-            type: ActionTypes.PLAY_PLAYLIST,
-            playlistId: id,
-            offset,
-        });
-    }
-
-    /** Queue track send in SongStore track id to play now from track (compilation) */
-    queueTrackWithOffset(id, offset) {
-        Dispatcher.dispatch({
-            type: ActionTypes.QUEUE_TRACK,
-            id,
-            offset,
-        });
-    }
-
-    /** Queue track send in SongStore id to put in queue */
-    queueTrack(id) {
-        Dispatcher.dispatch({
-            type: ActionTypes.QUEUE_TRACK,
-            id,
-        });
-    }
-
-    /** Queue album send in SongStore album id to put in queue */
-    queueAlbum(id) {
-        Dispatcher.dispatch({
-            type: ActionTypes.QUEUE_ALBUM,
-            id,
-        });
-    }
-
-    /** Queue artist send in SongStore artist id to put in queue */
-    queueArtist(id) {
-        Dispatcher.dispatch({
-            type: ActionTypes.QUEUE_ARTIST,
-            id,
-        });
-    }
-
-    /** Set play state */
-    changePlayState(state) {
-        Dispatcher.dispatch({
-            type: ActionTypes.SET_STATE,
+            type: ActionTypes.SET_REPEAT,
             state,
-        });
-    }
-
-    /** Set time to track in Store */
-    setTimeToTrack(time) {
-        Dispatcher.dispatch({
-            type: ActionTypes.TIME_OF_PLAY,
-            time,
-        });
-    }
-
-    /** Queue Tracks */
-    addQueueTracks(trackId, offset = 0) {
-        Dispatcher.dispatch({
-            type: ActionTypes.QUEUE_TRACK,
-            idOfTracks: trackId,
-            offset,
         });
     }
 
@@ -137,11 +19,207 @@ class PlayerActions {
         });
     }
 
-    /** Set repeat state */
-    createRepeat(state) {
+    /** Set time to track in Store */
+    setTimeToTrack(time) {
         Dispatcher.dispatch({
-            type: ActionTypes.SET_REPEAT,
+            type: ActionTypes.TIME_OF_PLAY,
+            time,
+        });
+    }
+
+    /** Set play state */
+    changePlayState(state) {
+        Dispatcher.dispatch({
+            type: ActionTypes.SET_STATE,
             state,
+        });
+    }
+
+    /** Change volume in Store */
+    volumeChange(volume) {
+        Dispatcher.dispatch({
+            type: ActionTypes.CHANGE_VOLUME,
+            volume,
+        });
+    }
+
+    /**
+     * Play next track if whatDirection === 1
+     * Play prev track if whatDirection === -1
+     */
+    playNextOrPrevTrack(whatDirection: 1 | -1) {
+        Dispatcher.dispatch({
+            type: ActionTypes.DOWNLOAD_DIRECTIONAL_TRACK,
+            status: whatDirection,
+        });
+    }
+
+    /**
+     * Play track immediately with ID
+     */
+    playTrack(id, offset = 0) {
+        Dispatcher.dispatch({
+            type: ActionTypes.PLAY_TRACK_API,
+            id,
+            offset,
+        });
+    }
+
+    /**
+     * Play album immediately with ID. Offset of track. If 0 then play from start
+     */
+    playAlbum(id, offset = 0) {
+        Dispatcher.dispatch({
+            type: ActionTypes.PLAY_ALBUM_API,
+            id,
+            offset,
+        });
+    }
+
+    /**
+     * Play artist immediately with ID. Offset of track. If 0 then play from start
+     */
+    playArtist(id, offset = 0) {
+        Dispatcher.dispatch({
+            type: ActionTypes.PLAY_ARTIST_API,
+            id,
+            offset,
+        });
+    }
+
+    /** Play playlist send in SongStore id to play now from track */
+    playPlaylist(id, offset = 0) {
+        Dispatcher.dispatch({
+            type: ActionTypes.PLAY_PLAYLIST_API,
+            playlistId: id,
+            offset,
+        });
+    }
+
+    /**
+     * Queue track with id.
+     * @param {number[]} idsOfTracks ids of all tracks to play. If given one id will play it
+     * @param {number} offset offset to play from in idsOfTracks
+     */
+    queueTrack(idOfTracks, offset = 0) {
+        Dispatcher.dispatch({
+            type: ActionTypes.QUEUE_TRACK_API,
+            idOfTracks,
+            offset,
+        });
+    }
+
+    /**
+     * Queue album with id
+     */
+    queueAlbum(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.QUEUE_ALBUM_API,
+            id,
+        });
+    }
+
+    /**
+     * Queue artist with id
+     */
+    queueArtist(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.QUEUE_ARTIST_API,
+            id,
+        });
+    }
+
+    /**
+     * Queue playlist with id
+     */
+    queuePlaylist(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.QUEUE_PLAYLIST_API,
+            id,
+        });
+    }
+
+    /**
+     * Play track from API
+     */
+    apiPlayTrack(tracks, offset = 0) {
+        Dispatcher.dispatch({
+            type: ActionTypes.PLAY_TRACK,
+            tracks,
+            offset,
+        });
+    }
+
+    /**
+     * Play album from API
+     */
+    apiPlayAlbum(tracks, offset = 0) {
+        Dispatcher.dispatch({
+            type: ActionTypes.PLAY_ALBUM,
+            tracks,
+            offset,
+        });
+    }
+
+    /**
+     * Play artist from API
+     */
+    apiPlayArtist(tracks, offset = 0) {
+        Dispatcher.dispatch({
+            type: ActionTypes.PLAY_ARTIST,
+            tracks,
+            offset,
+        });
+    }
+
+    /**
+     * Play playlist from API
+     */
+    apiPlayPlaylist(tracks, offset = 0) {
+        Dispatcher.dispatch({
+            type: ActionTypes.PLAY_PLAYLIST,
+            tracks,
+            offset,
+        });
+    }
+
+    /**
+     * Queue tracks from api
+     */
+    apiQueueTracks(tracks) {
+        Dispatcher.dispatch({
+            type: ActionTypes.QUEUE_TRACK,
+            tracks,
+        });
+    }
+
+    /**
+     * Queue artist from api
+     */
+    apiQueueArtist(tracks) {
+        Dispatcher.dispatch({
+            type: ActionTypes.QUEUE_ARTIST,
+            tracks,
+        });
+    }
+
+    /**
+     * Queue album from api
+     */
+    apiQueueAlbum(tracks) {
+        Dispatcher.dispatch({
+            type: ActionTypes.QUEUE_ALBUM,
+            tracks,
+        });
+    }
+
+    /**
+     * Queue Playlist from api
+     */
+    apiQueuePlaylist(tracks) {
+        Dispatcher.dispatch({
+            type: ActionTypes.QUEUE_PLAYLIST,
+            tracks,
         });
     }
 }

@@ -154,7 +154,7 @@ export abstract class Playlist extends BaseComponent {
                     // eslint-disable-next-line max-len
                     if (!this.#isAlbumLoaded || !(SongStore.exist && tracks.filter((track) => SongStore.trackInfo.name === track.name).length > 0)) {
                         this.#isAlbumLoaded = true;
-                        PlayerActions.addQueueTracks(trackIds);
+                        PlayerActions.playTrack(trackIds);
                     }
 
                     PlayerActions.changePlayState(!SongStore.isPlaying);

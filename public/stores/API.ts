@@ -8,7 +8,6 @@ import { feedArtistsAjax } from '@api/artists/feedArtistsAjaxRequest';
 import { artistAjax } from '@api/artists/artistAjaxRequest';
 import { artistTracksAjax } from '@api/tracks/artistTracksAjaxRequest';
 import { artistAlbumsAjax } from '@api/albums/artistAlbumsAjaxRequest';
-import { trackAjax } from '@api/player/trackRequest';
 import { getAlbumTracksFromServer } from '@api/player/album';
 import { trackOneAjax } from '@api/player/track';
 import { userAjax } from '@api/user/userRequestAjax';
@@ -44,10 +43,9 @@ import { deletePlaylistAjaxRequest } from '@api/playlists/deletePlaylistAjaxRequ
 import ActionsSearch from '@Actions/ActionsSearch';
 import ActionTypes from '@actions/ActionTypes';
 import IStore from '@store/IStore';
-import PlayerActions from '@Actions/PlayerActions';
 import ContentActions from '@Actions/ContentActions';
-import ComponentsActions from '@Actions/ComponentsActions';
 import Actions from '@actions/Actions';
+import APISongs from '@store/APISongs';
 
 /**
  * Class using for getting data from backend.
@@ -95,20 +93,6 @@ class API extends IStore {
             break;
         case ActionTypes.ARTIST_ALBUMS:
             this.#artistAlbumsRequest(action.id);
-            break;
-        case ActionTypes.PLAY_TRACK:
-            this.#trackRequestFromServer(action.id);
-            break;
-        case ActionTypes.QUEUE_TRACK:
-            this.queueTrack(action.idOfTracks, action.offset);
-            break;
-        case ActionTypes.PLAY_ALBUM:
-        case ActionTypes.QUEUE_ALBUM:
-            this.#albumsRequestFromServer(action.id);
-            break;
-        case ActionTypes.PLAY_ARTIST:
-        case ActionTypes.QUEUE_ARTIST:
-            this.#artistRequestFromServer(action.id);
             break;
         case ActionTypes.DOWNLOAD_TRACK:
             this.#downloadTrack(action.id);
@@ -167,9 +151,6 @@ class API extends IStore {
         case ActionTypes.REMOVE_TRACK_FROM_PLAYLIST:
             this.removeTrackFromPlaylistRequest(action.playlistId, action.trackId);
             break;
-        case ActionTypes.PLAY_PLAYLIST:
-            this.playlistPlay(action.playlistId);
-            break;
         case ActionTypes.LIKE_PLAYLIST:
             this.likePlaylist(action.playlistId);
             break;
@@ -193,6 +174,9 @@ class API extends IStore {
             this.searchForArtistsWithName(action.searchString);
             this.searchForTracksWithName(action.searchString);
             this.searchForPlaylistWithName(action.searchString);
+            break;
+        case ActionTypes.PLAY_ARTIST:
+            APISongs.dispatch(action);
             break;
         default:
         }
@@ -301,27 +285,6 @@ class API extends IStore {
     #downloadTrack(id: string) {
         trackOneAjax(id).then((track) => {
             this.jsEmit(EventTypes.LOAD_TRACK, { track });
-        });
-    }
-
-    /** Function to get Tracks from server */
-    #trackRequestFromServer(id: string) {
-        trackAjax(id).then((tracks) => {
-            ContentActions.loadMoreLine(tracks);
-        });
-    }
-
-    /** Function to get Albums from server */
-    #albumsRequestFromServer(id: string) {
-        getAlbumTracksFromServer(id).then((tracks) => {
-            ContentActions.loadMoreLine(tracks);
-        });
-    }
-
-    /** Function to get Artists from server */
-    #artistRequestFromServer(id: string) {
-        artistTracksAjax(id).then((tracks) => {
-            ContentActions.loadMoreLine(tracks);
         });
     }
 
@@ -596,30 +559,6 @@ class API extends IStore {
         search(apiUrl.ARTIST_SEARCH_API, value).then((artists) => {
             ActionsSearch.gotArtists(artists);
         }).catch(() => {});
-    }
-
-    /** load all tracks in ids queue */
-    private queueTrack(ids, offset) {
-        ComponentsActions.playerDelete();
-        let tracks = [];
-        const promises = [];
-        ids.forEach((ind) => {
-            // @ts-ignore
-            promises.push(trackOneAjax(ind));
-        });
-        Promise.all(promises).then((values) => {
-            tracks = values;
-            PlayerActions.setOffset(offset);
-            ContentActions.loadMoreLine(tracks);
-            PlayerActions.changePlayState(true);
-        });
-    }
-
-    /** Add playlist tracks to SongStore */
-    private playlistPlay(playlistId) {
-        getPlaylistTracks(playlistId).then((tracks) => {
-            ContentActions.loadMoreLine(tracks);
-        });
     }
 }
 

@@ -250,7 +250,7 @@ export class AudioPlayer extends BaseComponent {
      * */
     #loadTrack(whatTrack) {
         if (!this.#isRepeat) {
-            PlayerActions.searchForTrack(whatTrack, whatTrack);
+            PlayerActions.playNextOrPrevTrack(whatTrack);
         } else {
             this.#resetAllToStart();
             this.#elements.track_art.src = `/static/img${this.#lastResponse.cover}`;

@@ -136,7 +136,7 @@ export class Tape extends BaseComponent {
                             if (SongStore.albumInfo === Number(id)) {
                                 PlayerActions.changePlayState(true);
                             } else {
-                                PlayerActions.playPlaylistWithOffset(id, 0);
+                                PlayerActions.playPlaylist(id);
                             }
                             event.target.classList.add('play');
                         }

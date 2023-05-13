@@ -32,7 +32,7 @@ class ContentActions {
     loadMoreLine(requestJSON) {
         Dispatcher.dispatch({
             type: ActionTypes.UPLOAD_TAPE,
-            requestJSON,
+            tracks: requestJSON,
         });
     }
 

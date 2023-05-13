@@ -35,9 +35,6 @@ class SongStore extends IStore {
     /** Type of tape Store is using now */
     #storeType;
 
-    /** Playlist id of playing. ID === -1 if not playlist */
-    #playlist;
-
     /** Default value to delete all state */
     constructor() {
         super('SONG_STORE', () => {
@@ -49,7 +46,6 @@ class SongStore extends IStore {
                 repeat: this.#isRepeat,
 
                 secondsPlayed: this.#audioTrack.currentTime,
-                playlist: this.#playlist,
             };
         });
 
@@ -61,7 +57,6 @@ class SongStore extends IStore {
         this.#songVolume = 0.5;
         this.#prevVolume = 0.5;
         this.#audioTrack.volume = 0.5;
-        this.#playlist = -1;
 
         this.#position = -1;
         this.#songs = [];
@@ -114,7 +109,7 @@ class SongStore extends IStore {
 
     /** get playlist */
     get playlist() {
-        return this.#playlist;
+        return this.#songs[this.#position].playlistID;
     }
 
     /**
@@ -123,44 +118,63 @@ class SongStore extends IStore {
      */
     override dispatch(action) {
         switch (action.type) {
-        case ActionTypes.DOWNLOAD_DIRECTIONAL_TRACK:
-            this.#searchForTrack(action.status);
-            break;
         case ActionTypes.UPLOAD_TAPE:
             this.#uploadTape(action.requestJSON);
             break;
-        case ActionTypes.CHANGE_VOLUME:
-            this.#setVolume(action.volume);
+        case ActionTypes.CLEAR_ALL:
+            this.#clearAll();
+            break;
+        case ActionTypes.FIRST_START_AFTER_RESTART:
+            this.firstLaunch();
+            break;
+        // next play tracks
+        case ActionTypes.DOWNLOAD_DIRECTIONAL_TRACK:
+            this.#searchForTrack(action.status);
             break;
         case ActionTypes.PLAY_TRACK:
             this.#clearAll();
+            this.#setPosition(action.offset);
+            this.#uploadTape(action.tracks);
             this.#storeType = 'track';
             break;
         case ActionTypes.PLAY_ALBUM:
             this.#clearAll();
             this.#setPosition(action.offset);
+            this.#uploadTape(action.tracks);
             this.#storeType = 'album';
-            break;
-        case ActionTypes.PLAY_PLAYLIST:
-            this.#clearAll();
-            this.#setPosition(action.offset);
-            this.#storeType = 'playlist';
-            this.#playlist = action.playlistId;
             break;
         case ActionTypes.PLAY_ARTIST:
             this.#clearAll();
             this.#setPosition(action.offset);
+            this.#uploadTape(action.tracks);
             this.#storeType = 'artist';
             break;
-        case ActionTypes.QUEUE_TRACK:
+        case ActionTypes.PLAY_PLAYLIST:
+            this.#clearAll();
             this.#setPosition(action.offset);
+            this.#uploadTape(action.tracks);
+            this.#storeType = 'playlist';
+            break;
+        // queue tracks
+        case ActionTypes.QUEUE_TRACK:
             this.#storeType = 'track';
+            this.#uploadTape(action.tracks);
             break;
         case ActionTypes.QUEUE_ALBUM:
             this.#storeType = 'album';
+            this.#uploadTape(action.tracks);
             break;
         case ActionTypes.QUEUE_ARTIST:
             this.#storeType = 'artist';
+            this.#uploadTape(action.tracks);
+            break;
+        case ActionTypes.QUEUE_PLAYLIST:
+            this.#storeType = 'playlist';
+            this.#uploadTape(action.tracks);
+            break;
+        // Next actions of changes of state not tracks
+        case ActionTypes.CHANGE_VOLUME:
+            this.#setVolume(action.volume);
             break;
         case ActionTypes.SET_STATE:
             this.#setPlaying(action.state);
@@ -170,12 +184,6 @@ class SongStore extends IStore {
             break;
         case ActionTypes.TIME_OF_PLAY:
             this.#setTime(action.time);
-            break;
-        case ActionTypes.CLEAR_ALL:
-            this.#clearAll();
-            break;
-        case ActionTypes.FIRST_START_AFTER_RESTART:
-            this.firstLaunch();
             break;
         case ActionTypes.SET_OFFSET:
             this.#setPosition(action.offset);
@@ -202,7 +210,6 @@ class SongStore extends IStore {
                 this.#position = state.position;
                 this.#songs = state.songs;
                 this.#clearTrack = false;
-                this.#playlist = state.playlist;
 
                 this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
                 this.#setRepeat(state.repeat);
@@ -293,7 +300,6 @@ class SongStore extends IStore {
 
     /** Clear position of track and track list */
     #clearAll() {
-        this.#playlist = -1;
         this.#songs = [];
         this.#position = 0;
 
