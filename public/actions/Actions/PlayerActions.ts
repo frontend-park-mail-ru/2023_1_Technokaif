@@ -98,10 +98,10 @@ class PlayerActions {
 
     /**
      * Queue track with id.
-     * @param {number[]} idsOfTracks ids of all tracks to play. If given one id will play it
+     * @param {number[]} idOfTracks ids of all tracks to play. If given one id will play it
      * @param {number} offset offset to play from in idsOfTracks
      */
-    queueTrack(idOfTracks, offset = 0) {
+    queueTrack(idOfTracks: number[], offset = 0) {
         Dispatcher.dispatch({
             type: ActionTypes.QUEUE_TRACK_API,
             idOfTracks,

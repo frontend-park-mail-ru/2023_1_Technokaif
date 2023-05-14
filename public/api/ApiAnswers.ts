@@ -60,21 +60,23 @@ export declare interface PlaylistApi
     ]
 }
 
+export declare interface TrackApi {
+    ArtistApi,
+    'albumID': Partial<number>,
+    'albumPosition': Partial<number>,
+    'cover': string,
+    'duration': Partial<number>,
+    'id': Partial<number>,
+    'isLiked': boolean,
+    'listens': Partial<number>,
+    'name': string,
+    'recordSrc': string
+}
+
 export declare interface TracksApi
 {
     'tracks': [
-        {
-            ArtistApi,
-            'albumID': Partial<number>,
-            'albumPosition': Partial<number>,
-            'cover': string,
-            'duration': Partial<number>,
-            'id': Partial<number>,
-            'isLiked': boolean,
-            'listens': Partial<number>,
-            'name': string,
-            'recordSrc': string
-        }
+        TrackApi,
     ]
 }
 

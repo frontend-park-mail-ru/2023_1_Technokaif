@@ -158,19 +158,19 @@ class SongStore extends IStore {
         // queue tracks
         case ActionTypes.QUEUE_TRACK:
             this.#storeType = 'track';
-            this.#uploadTape(action.tracks);
+            this.#songs = this.#songs.concat(action.tracks);
             break;
         case ActionTypes.QUEUE_ALBUM:
             this.#storeType = 'album';
-            this.#uploadTape(action.tracks);
+            this.#songs = this.#songs.concat(action.tracks);
             break;
         case ActionTypes.QUEUE_ARTIST:
             this.#storeType = 'artist';
-            this.#uploadTape(action.tracks);
+            this.#songs = this.#songs.concat(action.tracks);
             break;
         case ActionTypes.QUEUE_PLAYLIST:
             this.#storeType = 'playlist';
-            this.#uploadTape(action.tracks);
+            this.#songs = this.#songs.concat(action.tracks);
             break;
         // Next actions of changes of state not tracks
         case ActionTypes.CHANGE_VOLUME:
