@@ -188,10 +188,72 @@ class SongStore extends IStore {
         case ActionTypes.SET_OFFSET:
             this.#setPosition(action.offset);
             break;
+        case ActionTypes.REMOVE_FROM_QUEUE:
+            this.removeTracks(action.tracks);
+            break;
+        case ActionTypes.SWAP_IN_QUEUE:
+            this.swapTrack(action.idOfFirstTrack, action.idOfSecondTrack);
+            break;
         default:
             super.dispatch(action);
             break;
         }
+    }
+
+    /** Remove tracks from queue */
+    private removeTracks(tracksIDs: number[]) {
+        tracksIDs.forEach((trackID) => {
+            if (this.#songs.length === 1) {
+                this.#setPlaying(false);
+                return;
+            }
+
+            const positionOfTrack = this.#songs.find((track) => track.id === trackID);
+            if (positionOfTrack === this.#position
+                && positionOfTrack !== (this.#songs.length - 1)) {
+                this.#songs = this.#songs.filter((track) => track.id !== trackID);
+                this.setTrack();
+            }
+
+            if (positionOfTrack === this.#position) {
+                this.#songs = this.#songs.filter((track) => track.id !== trackID);
+                this.#position -= 1;
+                this.#songs = this.#songs.filter((track) => track.id !== trackID);
+                this.setTrack();
+            }
+
+            if (positionOfTrack < this.#position) {
+                this.#position -= 1;
+            }
+            this.#songs = this.#songs.filter((track) => track.id !== trackID);
+        });
+    }
+
+    /** Swap track in queue */
+    private swapTrack(idOfFirstSwap: number, idOfSecondSwap:number) {
+        const positionOfFirstTrack = this.#songs.find((track) => track.id === idOfFirstSwap);
+        const positionOfSecondTrack = this.#songs.find((track) => track.id === idOfSecondSwap);
+
+        if (!positionOfFirstTrack || !positionOfSecondTrack) {
+            console.error('Can\'t swap. ID is greater than length of queue');
+            return;
+        }
+
+        if (this.#position === positionOfFirstTrack) {
+            this.#position = positionOfSecondTrack;
+        }
+
+        if (this.#position === positionOfSecondTrack) {
+            this.#position = positionOfFirstTrack;
+        }
+
+        [
+            this.#songs[positionOfFirstTrack],
+            this.#songs[positionOfSecondTrack],
+        ] = [
+            this.#songs[positionOfSecondTrack],
+            this.#songs[positionOfFirstTrack],
+        ];
     }
 
     /** Set Repeat state */

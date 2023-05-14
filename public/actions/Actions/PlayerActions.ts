@@ -222,6 +222,23 @@ class PlayerActions {
             tracks,
         });
     }
+
+    /** Remove tracks from Player queue */
+    removeTrackFromQueue(ids:number[]) {
+        Dispatcher.dispatch({
+            type: ActionTypes.REMOVE_FROM_QUEUE,
+            tracks: ids,
+        });
+    }
+
+    /** Swap two tracks with id */
+    swapTracks(idOfFirstTrack:number, idOfSecondTrack:number) {
+        Dispatcher.dispatch({
+            type: ActionTypes.SWAP_IN_QUEUE,
+            idOfFirstTrack,
+            idOfSecondTrack,
+        });
+    }
 }
 
 export default new PlayerActions();

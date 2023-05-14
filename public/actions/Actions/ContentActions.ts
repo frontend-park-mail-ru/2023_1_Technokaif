@@ -28,14 +28,6 @@ class ContentActions {
         });
     }
 
-    /** Add new line to exit one */
-    loadMoreLine(requestJSON) {
-        Dispatcher.dispatch({
-            type: ActionTypes.UPLOAD_TAPE,
-            tracks: requestJSON,
-        });
-    }
-
     /**
      * Add album JSON to content
      */
