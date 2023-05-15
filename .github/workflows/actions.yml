@@ -46,3 +46,11 @@ jobs:
           source: "dist/*"
           target: "/home/ubuntu/frontend/2023_1_Technokaif/dist"
           strip_components: 1
+      - name: Deploy static files to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: 89.208.199.114
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: cp -r /home/ubuntu/frontend/2023_1_Technokaif/dist/static/* ../../../static/
+
