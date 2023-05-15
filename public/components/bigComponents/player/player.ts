@@ -336,8 +336,7 @@ export class AudioPlayer extends BaseComponent {
             playerConfig.INTERVAL,
         );
 
-        if (!startAfterRefresh) {
-            this.isExist = true;
+        if (SongStore.isPlaying) {
             this.#play();
         }
 

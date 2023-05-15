@@ -2,6 +2,32 @@ import IStore from '@store/IStore';
 import ActionTypes from '@actions/ActionTypes';
 import { EventTypes } from '@config/EventTypes';
 import { RESPONSES } from '@config/config';
+import {
+    changerStringToJSON,
+    getValueFromLocalStorage,
+    saveValueToLocalStorage,
+} from '@functions/FunctionsToWorkWithLocalStore';
+import { TracksApi } from '@api/ApiAnswers';
+
+const COUNTER = 'Counter';
+
+/** Values stored in storage */
+declare interface SongValuesStorage{
+    songs: TracksApi,
+    position: number,
+}
+
+/** Number of plays. If number increase then stop play */
+declare interface CounterValueStorage{
+    counter:number,
+}
+
+const TypesOfStore = {
+    album: 'albums',
+    track: 'track',
+    playlist: 'playlist',
+    artist: 'artist',
+};
 
 /** Store to work with songs player */
 class SongStore extends IStore {
@@ -66,7 +92,26 @@ class SongStore extends IStore {
             'ended',
             () => this.jsEmit(EventTypes.TRACK_END, {}),
         );
-        super.loadFromSessionStore();
+
+        window.addEventListener('storage', (event:StorageEvent) => {
+            if (event.key !== this.name && event.key !== COUNTER) return;
+
+            if (event.key === COUNTER) {
+                this.#setPlaying(false);
+                return;
+            }
+
+            const newValue = changerStringToJSON(event.newValue);
+            if (!newValue) {
+                this.#clearAll();
+                return;
+            }
+
+            this.#songs = newValue.songs;
+            this.position = newValue.position;
+            if (newValue.position >= newValue.songs.length) return;
+            this.setTrack();
+        });
     }
 
     /** Return audio element */
@@ -81,19 +126,24 @@ class SongStore extends IStore {
 
     /** Return what album is playing or null if doesn't exist */
     get albumInfo() {
-        if (!this.#songs[this.#position]) {
-            return null;
-        }
+        if (this.#storeType !== TypesOfStore.album) return null;
         return this.#songs[this.#position].albumID;
     }
 
     /** Return what artists is playing or null if doesn't exist */
     get artistsInfo() {
-        return this.#songs[this.#position].artists;
+        if (this.#storeType !== TypesOfStore.artist) return null;
+        return this.#songs[this.#position]?.artists;
+    }
+
+    /** get playlist */
+    get playlist() {
+        if (this.#storeType !== TypesOfStore.playlist) return null;
+        return this.#songs[this.#position].playlistID;
     }
 
     /** Return playing status */
-    get isPlaying() {
+    get isPlaying(): boolean {
         return this.#isPlaying;
     }
 
@@ -107,9 +157,57 @@ class SongStore extends IStore {
         return !this.#clearTrack;
     }
 
-    /** get playlist */
-    get playlist() {
-        return this.#songs[this.#position].playlistID;
+    /** Set songs new value */
+    private set songs(newValue: TracksApi) {
+        this.#songs = newValue;
+    }
+
+    /** Set position to new value */
+    private set position(newValue:number) {
+        this.#position = newValue;
+    }
+
+    /** Save songs and position to localStorage */
+    private saveSongsAndPosition(songs:TracksApi, position:number, clearBeforeWrite = true) {
+        const valueFromStore = getValueFromLocalStorage(this.name);
+        let valueToWrite:SongValuesStorage;
+        if (valueFromStore) {
+            let songsToWrite;
+            if (clearBeforeWrite) {
+                songsToWrite = songs;
+            } else {
+                songsToWrite = valueFromStore.songs.concat(songs);
+            }
+
+            valueToWrite = {
+                songs: songsToWrite,
+                position,
+            };
+        } else {
+            valueToWrite = {
+                songs,
+                position,
+            };
+        }
+
+        saveValueToLocalStorage(this.name, valueToWrite);
+    }
+
+    /** Indicate that player start playing for another tabs */
+    private increasePlayingCounter() {
+        const valueFromStore = getValueFromLocalStorage(COUNTER);
+        let valueToWrite: CounterValueStorage;
+        if (valueFromStore) {
+            valueToWrite = {
+                counter: valueFromStore.counter + 1,
+            };
+        } else {
+            valueToWrite = {
+                counter: 0,
+            };
+        }
+
+        saveValueToLocalStorage(COUNTER, valueToWrite);
     }
 
     /**
@@ -118,9 +216,6 @@ class SongStore extends IStore {
      */
     override dispatch(action) {
         switch (action.type) {
-        case ActionTypes.UPLOAD_TAPE:
-            this.#uploadTape(action.requestJSON);
-            break;
         case ActionTypes.CLEAR_ALL:
             this.#clearAll();
             break;
@@ -135,42 +230,46 @@ class SongStore extends IStore {
             this.#clearAll();
             this.#setPosition(action.offset);
             this.#uploadTape(action.tracks);
-            this.#storeType = 'track';
+            this.#storeType = TypesOfStore.track;
+            this.#setPlaying(true);
             break;
         case ActionTypes.PLAY_ALBUM:
             this.#clearAll();
             this.#setPosition(action.offset);
             this.#uploadTape(action.tracks);
-            this.#storeType = 'album';
+            this.#storeType = TypesOfStore.album;
+            this.#setPlaying(true);
             break;
         case ActionTypes.PLAY_ARTIST:
             this.#clearAll();
             this.#setPosition(action.offset);
             this.#uploadTape(action.tracks);
-            this.#storeType = 'artist';
+            this.#storeType = TypesOfStore.artist;
+            this.#setPlaying(true);
             break;
         case ActionTypes.PLAY_PLAYLIST:
             this.#clearAll();
             this.#setPosition(action.offset);
             this.#uploadTape(action.tracks);
-            this.#storeType = 'playlist';
+            this.#storeType = TypesOfStore.playlist;
+            this.#setPlaying(true);
             break;
         // queue tracks
         case ActionTypes.QUEUE_TRACK:
-            this.#storeType = 'track';
-            this.#songs = this.#songs.concat(action.tracks);
+            this.#storeType = undefined;
+            this.#uploadTape(action.tracks);
             break;
         case ActionTypes.QUEUE_ALBUM:
-            this.#storeType = 'album';
-            this.#songs = this.#songs.concat(action.tracks);
+            this.#storeType = undefined;
+            this.#uploadTape(action.tracks);
             break;
         case ActionTypes.QUEUE_ARTIST:
-            this.#storeType = 'artist';
-            this.#songs = this.#songs.concat(action.tracks);
+            this.#storeType = undefined;
+            this.#uploadTape(action.tracks);
             break;
         case ActionTypes.QUEUE_PLAYLIST:
-            this.#storeType = 'playlist';
-            this.#songs = this.#songs.concat(action.tracks);
+            this.#storeType = undefined;
+            this.#uploadTape(action.tracks);
             break;
         // Next actions of changes of state not tracks
         case ActionTypes.CHANGE_VOLUME:
@@ -211,21 +310,25 @@ class SongStore extends IStore {
             const positionOfTrack = this.#songs.find((track) => track.id === trackID);
             if (positionOfTrack === this.#position
                 && positionOfTrack !== (this.#songs.length - 1)) {
-                this.#songs = this.#songs.filter((track) => track.id !== trackID);
+                this.songs = this.#songs.filter((track) => track.id !== trackID);
+                this.saveSongsAndPosition(this.#songs, this.#position);
                 this.setTrack();
+                return;
             }
 
             if (positionOfTrack === this.#position) {
-                this.#songs = this.#songs.filter((track) => track.id !== trackID);
-                this.#position -= 1;
-                this.#songs = this.#songs.filter((track) => track.id !== trackID);
+                this.songs = this.#songs.filter((track) => track.id !== trackID);
+                this.position -= 1;
+                this.saveSongsAndPosition(this.#songs, this.#position);
                 this.setTrack();
+                return;
             }
 
             if (positionOfTrack < this.#position) {
-                this.#position -= 1;
+                this.position -= 1;
             }
-            this.#songs = this.#songs.filter((track) => track.id !== trackID);
+            this.songs = this.#songs.filter((track) => track.id !== trackID);
+            this.saveSongsAndPosition(this.#songs, this.#position);
         });
     }
 
@@ -240,11 +343,11 @@ class SongStore extends IStore {
         }
 
         if (this.#position === positionOfFirstTrack) {
-            this.#position = positionOfSecondTrack;
+            this.position = positionOfSecondTrack;
         }
 
         if (this.#position === positionOfSecondTrack) {
-            this.#position = positionOfFirstTrack;
+            this.position = positionOfFirstTrack;
         }
 
         [
@@ -254,6 +357,8 @@ class SongStore extends IStore {
             this.#songs[positionOfSecondTrack],
             this.#songs[positionOfFirstTrack],
         ];
+
+        this.saveSongsAndPosition(this.#songs, this.#position);
     }
 
     /** Set Repeat state */
@@ -265,12 +370,22 @@ class SongStore extends IStore {
     /** Set data for track for first launch */
     private firstLaunch() {
         const state = super.state;
+        const valueFromLocalStorage = getValueFromLocalStorage(this.name);
+
+        let valueToReadFrom = valueFromLocalStorage;
+        if (!valueFromLocalStorage) {
+            valueToReadFrom = {
+                songs: [],
+                position: 0,
+            };
+        }
+        this.#position = valueToReadFrom.position;
+        this.#songs = valueToReadFrom.songs;
+
         if (state) {
             if (state.songs?.length > 0) {
                 this.#setVolume(state.volume);
                 this.#storeType = state.storeType;
-                this.#position = state.position;
-                this.#songs = state.songs;
                 this.#clearTrack = false;
 
                 this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
@@ -301,11 +416,12 @@ class SongStore extends IStore {
         if (offset === undefined) {
             offset = 0;
         }
-        this.#position = offset;
+        this.position = offset;
     }
 
     /** Set track to play */
     private setTrack() {
+        if (!this.#songs[this.#position]?.recordSrc) return;
         this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
         this.#clearTrack = false;
         this.jsEmit(EventTypes.SONG_FOUND, {
@@ -338,6 +454,9 @@ class SongStore extends IStore {
             this.#isPlaying = false;
         }
 
+        if (this.isPlaying) {
+            this.increasePlayingCounter();
+        }
         this.jsEmit(EventTypes.CHANGE_PLAY_STATE, this.#isPlaying);
     }
 
@@ -362,8 +481,10 @@ class SongStore extends IStore {
 
     /** Clear position of track and track list */
     #clearAll() {
-        this.#songs = [];
-        this.#position = 0;
+        // @ts-ignore
+        this.songs = [];
+        this.position = 0;
+        this.saveSongsAndPosition(this.#songs, this.#position);
 
         this.#clearTrackSrc();
     }
@@ -383,12 +504,6 @@ class SongStore extends IStore {
      * @param whatDirection
      */
     #searchForTrack(whatDirection) {
-        if (!this.#storeType) {
-            console.warn('Not store type set');
-            this.#clearTrackSrc();
-            return;
-        }
-
         if (this.#isRepeat) {
             this.jsEmit(EventTypes.SONG_FOUND, {
                 status: RESPONSES.REPEAT,
@@ -400,10 +515,9 @@ class SongStore extends IStore {
             return;
         }
 
-        this.#position += whatDirection;
+        this.position = this.#position + whatDirection;
         if (!(this.#position < this.#songs.length && this.#position >= 0)) {
             if (!this.#songs[this.#position]) {
-                // this.#position = 0;
                 const tracks = this.#songs;
                 this.#clearAll();
                 this.#uploadTape(tracks);
@@ -427,6 +541,7 @@ class SongStore extends IStore {
             return;
         }
 
+        this.saveSongsAndPosition(this.#songs, this.#position);
         this.setTrack();
     }
 
@@ -444,13 +559,13 @@ class SongStore extends IStore {
      * }
      */
     #uploadTape(response) {
-        this.#songs = this.#songs.concat(response);
-
+        this.songs = this.#songs.concat(response);
         if (this.#songs.length > 0 && this.#songs.length <= this.#position) {
             console.warn('Length exceeded, existed:', this.#songs.length, ' position:', this.#position);
-            this.#position = this.#songs.length - 1;
+            this.position = this.#songs.length - 1;
         }
 
+        this.saveSongsAndPosition(this.#songs, this.#position);
         if (this.#songs.length > 0) {
             this.setTrack();
         }

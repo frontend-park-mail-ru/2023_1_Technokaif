@@ -94,7 +94,7 @@ export class Tape extends BaseComponent {
                             if (SongStore.trackInfo.id === Number(id)) {
                                 PlayerActions.changePlayState(true);
                             } else {
-                                PlayerActions.playTrack(id);
+                                PlayerActions.playTrack([id]);
                             }
                             event.target.classList.add('play');
                         }
