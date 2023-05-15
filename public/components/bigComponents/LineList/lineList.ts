@@ -83,27 +83,18 @@ export class LineList extends BaseComponent {
      */
     private indexLines() {
         const trackLines: NodeListOf<HTMLDivElement> = document.querySelectorAll(`.${this._config.lineDiv}`);
-        Array.from(trackLines).reduce((previousValue, currentValue, index, array) => {
-            const currentIndex: HTMLDivElement = currentValue.querySelector(`.${this._config.lineIndex}`) as HTMLDivElement;
-            const currentId = Number(currentIndex?.innerText);
-            const prevIndex: HTMLDivElement = previousValue.querySelector(`.${this._config.lineIndex}`) as HTMLDivElement;
-            const prevId = Number(prevIndex?.innerText);
-            if (prevId > index) {
-                prevIndex.innerText = String(prevId - 1);
+        Array.from(trackLines).forEach((trackLine, index) => {
+            const currentIndexElement: HTMLDivElement|null = trackLine.querySelector(`.${this._config.lineIndex}`);
+            if (!currentIndexElement) {
+                console.error('Error in index element');
+                return;
             }
-            // eslint-disable-next-line max-len
-            if (prevId + 1 !== currentId || (prevId + 1 === currentId && index === array.length - 1)) {
-                currentIndex.innerText = String(currentId - 1);
-            }
-            return currentValue;
-        });
 
-        const indexBlocks: NodeListOf<HTMLDivElement> = document.querySelectorAll(`.${this._config.lineIndex}`);
-        // @ts-ignore
-        if (Array.from(indexBlocks).length === 2) {
-            // @ts-ignore
-            indexBlocks[1]?.innerText = String(Number(indexBlocks[1])?.innerText - 1);
-        }
+            const currentIndex = Number(currentIndexElement?.innerText);
+            if (currentIndex !== index + 1) {
+                currentIndexElement.innerText = String(index + 1);
+            }
+        });
     }
 
     /**

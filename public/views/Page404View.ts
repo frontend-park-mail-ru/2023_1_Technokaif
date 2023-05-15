@@ -16,7 +16,7 @@ class Page404View extends BaseView {
     /**
      * Render all view by components.
      */
-    render() {
+    override render() {
         super.render();
         ComponentsActions.whatRender(super.name);
     }

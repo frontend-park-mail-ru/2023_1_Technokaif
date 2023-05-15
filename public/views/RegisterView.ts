@@ -49,7 +49,7 @@ class RegisterView extends BaseView {
     /**
      * Render all view by components.
      */
-    render() {
+    override render() {
         super.render();
         this.#addSubscribes();
 

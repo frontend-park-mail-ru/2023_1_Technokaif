@@ -5,11 +5,11 @@ import ComponentsStore from '@store/ComponentsStore';
 import ComponentsActions from '@Actions/ComponentsActions';
 import { BaseView } from './BaseView';
 
-/** Class for feed page view. */
-export class LoginView extends BaseView {
+/** Class for user page view. */
+export class UserView extends BaseView {
     /** Set default value of name * */
     constructor() {
-        super(pageNames.LOGIN);
+        super(pageNames.USER);
     }
 
     /**
@@ -33,7 +33,7 @@ export class LoginView extends BaseView {
             const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);
             switch (componentName) {
-            case componentsNames.LOGIN_FORM:
+            case componentsNames.USER:
                 component.render(parent);
                 ComponentsActions.addElementOnPage(componentName);
                 break;
@@ -45,12 +45,12 @@ export class LoginView extends BaseView {
     /**
      * Render all view by components.
      */
-    render() {
+    override render() {
         super.render();
-        this.#addSubscribes();
 
+        this.#addSubscribes();
         ComponentsActions.whatRender(super.name);
     }
 }
 
-export default new LoginView();
+export default new UserView();
