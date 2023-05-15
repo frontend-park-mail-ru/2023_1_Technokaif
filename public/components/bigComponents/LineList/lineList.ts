@@ -167,6 +167,21 @@ export class LineList extends BaseComponent {
         this.playlistsDropDowns.push(addDropDown);
         addDropDown.render();
 
+        const btQueue = document.createElement('div');
+        btQueue.textContent = 'Add to queue';
+        dropDown.addOptionsElement(btQueue, METHOD.BUTTON, () => {
+            PlayerActions.queueTrack(
+                [Number(trackId)],
+            );
+            dropDown.hideOptions();
+            const notification = new Notification(
+                document.querySelector('.js__navbar'),
+                'Song is added to queue!',
+                `${trackId}_queue`,
+            );
+            notification.appendElement();
+        });
+
         if (this.name === componentsNames.PLAYLIST) {
             const bt3 = document.createElement('div');
             bt3.textContent = 'Remove';
@@ -175,12 +190,20 @@ export class LineList extends BaseComponent {
                     ContentStore.state[pageNames.PLAYLIST].id,
                     trackId,
                 );
+                dropDown.hideOptions();
+                const notification = new Notification(
+                    document.querySelector('.js__navbar'),
+                    'Song is removed from Playlist!',
+                    `${trackId}_remove`,
+                );
+                notification.appendElement();
             });
         }
 
         this.#addSubDropDown(addDropDown, trackId, dropDown);
     }
 
+    /** Add sub drops where playlists are placed */
     #addSubDropDown(where, index, mainDropDown) {
         const div = document.createElement('div');
         div.classList.add('list-container');
@@ -188,12 +211,20 @@ export class LineList extends BaseComponent {
         div.appendChild(ul);
         where.addOptionsElement(div, METHOD.BUTTON, () => {
             mainDropDown.hideOptions();
-            const notification = new Notification(document.querySelector('.js__navbar'), 'Song is added to playlist!');
+            const notification = new Notification(
+                document.querySelector('.js__navbar'),
+                'Song is added to playlist!',
+                `${index}_add`,
+            );
             notification.appendElement();
         });
         ul.classList.add('item-list');
 
         this.playlists.forEach((playlist) => {
+            if (playlist.tracks.find((track) => Number(track.id) === Number(index))) {
+                return;
+            }
+
             const li = document.createElement('li');
             li.classList.add('li-element');
             li.textContent = playlist.name;

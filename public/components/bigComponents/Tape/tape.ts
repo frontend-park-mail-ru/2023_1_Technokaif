@@ -69,7 +69,7 @@ export class Tape extends BaseComponent {
                             PlayerActions.changePlayState(false);
                             event.target.classList.remove('play');
                         } else {
-                            if (SongStore.artistsInfo.find((artist) => Number(id) === artist.id)) {
+                            if (SongStore.artistsInfo?.find((artist) => Number(id) === artist.id)) {
                                 PlayerActions.changePlayState(true);
                             } else {
                                 PlayerActions.playArtist(id);
@@ -94,7 +94,7 @@ export class Tape extends BaseComponent {
                             if (SongStore.trackInfo.id === Number(id)) {
                                 PlayerActions.changePlayState(true);
                             } else {
-                                PlayerActions.playTrack(id);
+                                PlayerActions.playTrack([id]);
                             }
                             event.target.classList.add('play');
                         }

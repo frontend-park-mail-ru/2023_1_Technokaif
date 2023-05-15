@@ -425,7 +425,18 @@ class API extends IStore {
      */
     private userPlaylistsRequest(userId: string) {
         userPlaylistsAjax(userId).then((playlists) => {
-            ContentActions.addFavoriteContent(playlists, instancesNames.USER_PLAYLISTS_PAGE);
+            const promises: Promise<void>[] = [];
+            playlists.forEach((playlist) => {
+                promises.push(
+                    getPlaylistTracks(playlist.id)
+                        .then((tracks) => {
+                            playlist.tracks = tracks;
+                        }),
+                );
+            });
+            Promise.all(promises).then(() => {
+                ContentActions.addFavoriteContent(playlists, instancesNames.USER_PLAYLISTS_PAGE);
+            });
         });
     }
 
