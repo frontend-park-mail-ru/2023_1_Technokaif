@@ -5,30 +5,12 @@ import { getPlaylistTracks } from '@api/playlists/getTracksAjaxRequest';
 import ActionTypes from '@actions/ActionTypes';
 import IStore from '@store/IStore';
 import PlayerActions from '@Actions/PlayerActions';
+import { TrackApi } from '@api/ApiAnswers';
 
-declare interface Artist {
-    'cover': string,
-    'id': number,
-    'isLiked': boolean,
-    'name': string
+declare interface ApiTrackWithPlaylistID extends TrackApi{
+    playlistID: number,
 }
 
-declare interface ApiTrack {
-    'albumID': number,
-    'albumPosition': number,
-    'artists': Artist[],
-    'cover': string,
-    'duration': number,
-    'id': number,
-    'isLiked': boolean,
-    'listens': number,
-    'name': string,
-    'recordSrc': string
-}
-
-declare interface ApiTrackWithPlaylistID extends ApiTrack{
-    playlistID: number;
-}
 /**
  * Class using for getting data from backend.
  */
@@ -76,7 +58,7 @@ class APISongs extends IStore {
 
     /** Load tracks from server with offset in it */
     private loadTracks(tracksIds: number[]) {
-        const promises: Promise<ApiTrack>[] = [];
+        const promises: Promise<TrackApi>[] = [];
         tracksIds.forEach((ind) => {
             promises.push(trackOneAjax(String(ind)));
         });
@@ -93,47 +75,47 @@ class APISongs extends IStore {
 
     /** Queue tracks */
     private queueTrack(ids: number[]) {
-        const promises: Promise<ApiTrack>[] = [];
+        const promises: Promise<TrackApi>[] = [];
         ids.forEach((ind) => {
             promises.push(trackOneAjax(String(ind)));
         });
 
-        Promise.all(promises).then((values:ApiTrack[]) => {
+        Promise.all(promises).then((values:TrackApi[]) => {
             PlayerActions.apiQueueTracks(values);
         });
     }
 
     /** Album queue */
     private queueAlbum(id:string) {
-        getAlbumTracksFromServer(id).then((tracks:ApiTrack[]) => {
+        getAlbumTracksFromServer(id).then((tracks:TrackApi[]) => {
             PlayerActions.apiQueueAlbum(tracks);
         });
     }
 
     /** Album play */
     private playAlbum(id: string, offset = 0) {
-        getAlbumTracksFromServer(id).then((tracks:ApiTrack[]) => {
+        getAlbumTracksFromServer(id).then((tracks:TrackApi[]) => {
             PlayerActions.apiPlayAlbum(tracks, offset);
         });
     }
 
     /** Function to get Artists from server */
     private playArtist(id: string, offset = 0) {
-        artistTracksAjax(id).then((tracks:ApiTrack[]) => {
+        artistTracksAjax(id).then((tracks:TrackApi[]) => {
             PlayerActions.apiPlayArtist(tracks, offset);
         });
     }
 
     /** Function to get Artists from server */
     private queueArtist(id: string) {
-        artistTracksAjax(id).then((tracks:ApiTrack[]) => {
+        artistTracksAjax(id).then((tracks:TrackApi[]) => {
             PlayerActions.apiQueueArtist(tracks);
         });
     }
 
     /** Add playlist tracks to SongStore */
     private playlistPlay(playlistId, offset = 0) {
-        getPlaylistTracks(playlistId).then((tracks:ApiTrack[]) => {
+        getPlaylistTracks(playlistId).then((tracks:TrackApi[]) => {
             const tracksWithPlaylist = tracks
                 .map((track): ApiTrackWithPlaylistID => ({ ...track, playlistID: playlistId }));
             PlayerActions.playPlaylist(tracksWithPlaylist, offset);
@@ -142,7 +124,7 @@ class APISongs extends IStore {
 
     /** Add playlist tracks to SongStore */
     private queuePlay(playlistId) {
-        getPlaylistTracks(playlistId).then((tracks:ApiTrack[]) => {
+        getPlaylistTracks(playlistId).then((tracks:TrackApi[]) => {
             const tracksWithPlaylist = tracks
                 .map((track): ApiTrackWithPlaylistID => ({ ...track, playlistID: playlistId }));
             PlayerActions.queuePlaylist(tracksWithPlaylist);

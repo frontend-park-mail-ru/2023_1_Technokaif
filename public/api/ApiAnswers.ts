@@ -1,81 +1,14 @@
-export declare interface SearchRequest{
-    'amount': Partial<number>,
-    'query'?: string
-}
+import { definitions } from '../../schema';
 
-export declare interface BaseApi {
-    'cover': string,
-    'id': Partial<number>,
-    'isLiked': boolean,
-    'name': string
-}
+export type ArtistApi = definitions['models.ArtistTransfer'];
+export type ArtistsApi = ArtistApi[];
 
-export declare interface ArtistApi
-{
-    'artists': [
-        {
-            BaseApi,
-        }
-    ]
-}
+export type AlbumApi = definitions['models.AlbumTransfer'];
+export type PlaylistApi = definitions['models.PlaylistTransfer'];
 
-export declare interface AlbumApi
-{
-    'albums': [
-        {
-            ArtistApi,
-            'description': string,
-            BaseApi,
-        }
-    ]
-}
-
-// eslint-disable-next-line no-shadow
-export enum sexType {
-    'M',
-    'F',
-    'O',
-}
-export declare interface PlaylistApi
-{
-    'playlists': [
-        {
-            'description': string,
-            BaseApi,
-            'users': [
-                {
-                    'avatarSrc': string,
-                    'birthDate': {
-                        'time.Time': string
-                    },
-                    'email': string,
-                    'firstName': string,
-                    'id': Partial<number>,
-                    'lastName': string,
-                    'sex': sexType,
-                    'username': string
-                }
-            ]
-        }
-    ]
-}
-
-export declare interface TrackApi {
-    ArtistApi,
-    'albumID': Partial<number>,
-    'albumPosition': Partial<number>,
-    'cover': string,
-    'duration': Partial<number>,
-    'id': Partial<number>,
-    'isLiked': boolean,
-    'listens': Partial<number>,
-    'name': string,
-    'recordSrc': string
-}
-
-export declare interface TracksApi
-{
-    'tracks': [
+export type TrackApi = definitions['models.TrackTransfer'];
+export type TracksApi = {
+    tracks: [
         TrackApi,
     ]
 }

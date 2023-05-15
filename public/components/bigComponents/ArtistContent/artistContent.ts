@@ -186,8 +186,8 @@ export class ArtistContent extends BaseComponent {
                     if (!playButton.hidden) {
                         const isThisArtist = SongStore
                             .trackInfo
-                            .artists
-                            .find((element) => element.name === ContentStore
+                            ?.artists
+                            ?.find((element) => element.name === ContentStore
                                 .state[pageNames.ARTIST_PAGE]
                                 .artist
                                 .name);
