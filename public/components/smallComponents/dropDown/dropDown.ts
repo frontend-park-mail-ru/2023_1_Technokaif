@@ -94,14 +94,11 @@ export class DropDown extends BaseComponent {
     /**
      * Add element to Options of dropDown menu.
      * If event and reactions presented then set reaction on this element.
-     * @param element
-     * @param event
-     * @param reaction
      */
-    addOptionsElement(element:HTMLElement, event?:string, reaction?: ()=> void) {
+    addOptionsElement(element:HTMLElement, eventTrigger?:string, reaction?: (event?:Event)=> void) {
         if (!this.isRendered) this.render();
         const optionsPlacement = this.options;
-        this.addElement(optionsPlacement, element, event, reaction);
+        this.addElement(optionsPlacement, element, eventTrigger, reaction);
         this.whereToRender();
     }
 
@@ -148,6 +145,17 @@ export class DropDown extends BaseComponent {
 
         window.removeEventListener(METHOD.BUTTON, mainTrigger);
         window.addEventListener(METHOD.BUTTON, mainTrigger);
+
+        let timer;
+        const resizeDropDown = () => {
+            if (!this.options) {
+                window.removeEventListener('resize', resizeDropDown);
+            }
+
+            clearTimeout(timer);
+            timer = setTimeout(this.whereToRender.bind(this), 100);
+        };
+        window.addEventListener('resize', resizeDropDown);
     }
 
     /** Search for free space around and render there */
@@ -233,7 +241,7 @@ export class DropDown extends BaseComponent {
                 element.style.width = title.offsetWidth;
             }
         }
-        // setTimeout(this.whereToRender, 100);
+        setTimeout(this.whereToRender, 100);
     }
 
     /** Render base structure */
@@ -244,7 +252,6 @@ export class DropDown extends BaseComponent {
             this.parent.classList.add(`js__${this.configDropDown.dropdownName}-title`);
             resolve('');
         });
-
         pr.then(() => {
             this.addBasicReactions();
             this.whereToRender();

@@ -126,19 +126,22 @@ class SongStore extends IStore {
 
     /** Return what album is playing or null if doesn't exist */
     get albumInfo() {
-        if (this.#storeType !== TypesOfStore.album) return null;
+        if (this.#storeType !== TypesOfStore.album
+        || !this.#songs[this.#position]) return null;
         return this.#songs[this.#position].albumID;
     }
 
     /** Return what artists is playing or null if doesn't exist */
     get artistsInfo() {
-        if (this.#storeType !== TypesOfStore.artist) return null;
-        return this.#songs[this.#position]?.artists;
+        if (this.#storeType !== TypesOfStore.artist
+            || !this.#songs[this.#position]) return null;
+        return this.#songs[this.#position].artists;
     }
 
     /** get playlist */
     get playlist() {
-        if (this.#storeType !== TypesOfStore.playlist) return null;
+        if (this.#storeType !== TypesOfStore.playlist
+            || !this.#songs[this.#position]) return null;
         return this.#songs[this.#position].playlistID;
     }
 
