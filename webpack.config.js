@@ -72,11 +72,17 @@ module.exports = {
                 test: /\.handlebars$/,
                 loader: 'handlebars-loader',
                 exclude: /node_modules/,
+                options: {
+                    helperDirs: [path.resolve(__dirname, 'public/utils/helpers/')],
+                },
             },
             {
                 test: /\.hbs$/,
                 loader: 'handlebars-loader',
                 exclude: /node_modules/,
+                options: {
+                    helperDirs: [path.resolve(__dirname, 'public/utils/helpers/')],
+                },
             },
             {
                 test: /\.less$/i,

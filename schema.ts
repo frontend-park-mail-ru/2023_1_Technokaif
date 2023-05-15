@@ -37,50 +37,6 @@ export interface paths {
       };
     };
   };
-  "/api/albums/feed": {
-    /** Feed albums */
-    get: {
-      responses: {
-        /** Albums feed */
-        200: {
-          schema: definitions["models.AlbumTransfer"][];
-        };
-        /** Server error */
-        500: {
-          schema: definitions["http.Error"];
-        };
-      };
-    };
-  };
-  "/api/albums/search": {
-    /** Find amount of albums by search-query */
-    post: {
-      parameters: {
-        body: {
-          /** Query for search */
-          query: definitions["delivery.searchRequest"];
-        };
-      };
-      responses: {
-        /** Albums found */
-        200: {
-          schema: definitions["delivery.searchAlbumsResponse"];
-        };
-        /** Incorrect body */
-        400: {
-          schema: definitions["http.Error"];
-        };
-        /** User unathorized */
-        401: {
-          schema: definitions["http.Error"];
-        };
-        /** Server error */
-        500: {
-          schema: definitions["http.Error"];
-        };
-      };
-    };
-  };
   "/api/albums/{albumID}/": {
     /** Get album with chosen ID */
     get: {
@@ -194,19 +150,34 @@ export interface paths {
       };
     };
   };
-  "/api/artists/": {
-    /** Create new artist by sent object */
+  "/api/albums/feed": {
+    /** Feed albums */
+    get: {
+      responses: {
+        /** Albums feed */
+        200: {
+          schema: definitions["models.AlbumTransfer"][];
+        };
+        /** Server error */
+        500: {
+          schema: definitions["http.Error"];
+        };
+      };
+    };
+  };
+  "/api/albums/search": {
+    /** Find amount of albums by search-query */
     post: {
       parameters: {
         body: {
-          /** Track info */
-          artist: definitions["http.artistCreateInput"];
+          /** Query for search */
+          query: definitions["delivery.searchRequest"];
         };
       };
       responses: {
-        /** Artist created */
+        /** Albums found */
         200: {
-          schema: definitions["http.artistCreateResponse"];
+          schema: definitions["delivery.searchAlbumsResponse"];
         };
         /** Incorrect body */
         400: {
@@ -223,34 +194,19 @@ export interface paths {
       };
     };
   };
-  "/api/artists/feed": {
-    /** Feed artists */
-    get: {
-      responses: {
-        /** Artists feed */
-        200: {
-          schema: definitions["models.ArtistTransfer"][];
-        };
-        /** Server error */
-        500: {
-          schema: definitions["http.Error"];
-        };
-      };
-    };
-  };
-  "/api/artists/search": {
-    /** Find amount of artists by search-query */
+  "/api/artists/": {
+    /** Create new artist by sent object */
     post: {
       parameters: {
         body: {
-          /** Query for search */
-          query: definitions["delivery.searchRequest"];
+          /** Track info */
+          artist: definitions["http.artistCreateInput"];
         };
       };
       responses: {
-        /** Artists found */
+        /** Artist created */
         200: {
-          schema: definitions["delivery.searchArtistsResponse"];
+          schema: definitions["http.artistCreateResponse"];
         };
         /** Incorrect body */
         400: {
@@ -395,6 +351,50 @@ export interface paths {
       };
     };
   };
+  "/api/artists/feed": {
+    /** Feed artists */
+    get: {
+      responses: {
+        /** Artists feed */
+        200: {
+          schema: definitions["models.ArtistTransfer"][];
+        };
+        /** Server error */
+        500: {
+          schema: definitions["http.Error"];
+        };
+      };
+    };
+  };
+  "/api/artists/search": {
+    /** Find amount of artists by search-query */
+    post: {
+      parameters: {
+        body: {
+          /** Query for search */
+          query: definitions["delivery.searchRequest"];
+        };
+      };
+      responses: {
+        /** Artists found */
+        200: {
+          schema: definitions["delivery.searchArtistsResponse"];
+        };
+        /** Incorrect body */
+        400: {
+          schema: definitions["http.Error"];
+        };
+        /** User unathorized */
+        401: {
+          schema: definitions["http.Error"];
+        };
+        /** Server error */
+        500: {
+          schema: definitions["http.Error"];
+        };
+      };
+    };
+  };
   "/api/auth/login": {
     /** Login account */
     post: {
@@ -488,50 +488,6 @@ export interface paths {
         };
         /** User hasn't rights */
         403: {
-          schema: definitions["http.Error"];
-        };
-        /** Server error */
-        500: {
-          schema: definitions["http.Error"];
-        };
-      };
-    };
-  };
-  "/api/playlists/feed": {
-    /** Feed playlists */
-    get: {
-      responses: {
-        /** Playlist feed */
-        200: {
-          schema: definitions["models.PlaylistTransfer"][];
-        };
-        /** Server error */
-        500: {
-          schema: definitions["http.Error"];
-        };
-      };
-    };
-  };
-  "/api/playlists/search": {
-    /** Find amount of playlists by search-query */
-    post: {
-      parameters: {
-        body: {
-          /** Query for search */
-          query: definitions["delivery.searchRequest"];
-        };
-      };
-      responses: {
-        /** Playlists found */
-        200: {
-          schema: definitions["delivery.searchPlaylistsResponse"];
-        };
-        /** Incorrect body */
-        400: {
-          schema: definitions["http.Error"];
-        };
-        /** User unathorized */
-        401: {
           schema: definitions["http.Error"];
         };
         /** Server error */
@@ -772,6 +728,50 @@ export interface paths {
       };
     };
   };
+  "/api/playlists/feed": {
+    /** Feed playlists */
+    get: {
+      responses: {
+        /** Playlist feed */
+        200: {
+          schema: definitions["models.PlaylistTransfer"][];
+        };
+        /** Server error */
+        500: {
+          schema: definitions["http.Error"];
+        };
+      };
+    };
+  };
+  "/api/playlists/search": {
+    /** Find amount of playlists by search-query */
+    post: {
+      parameters: {
+        body: {
+          /** Query for search */
+          query: definitions["delivery.searchRequest"];
+        };
+      };
+      responses: {
+        /** Playlists found */
+        200: {
+          schema: definitions["delivery.searchPlaylistsResponse"];
+        };
+        /** Incorrect body */
+        400: {
+          schema: definitions["http.Error"];
+        };
+        /** User unathorized */
+        401: {
+          schema: definitions["http.Error"];
+        };
+        /** Server error */
+        500: {
+          schema: definitions["http.Error"];
+        };
+      };
+    };
+  };
   "/api/tracks/": {
     /** Create new track by sent object */
     post: {
@@ -796,50 +796,6 @@ export interface paths {
         };
         /** User hasn't rights */
         403: {
-          schema: definitions["http.Error"];
-        };
-        /** Server error */
-        500: {
-          schema: definitions["http.Error"];
-        };
-      };
-    };
-  };
-  "/api/tracks/feed": {
-    /** Feed tracks */
-    get: {
-      responses: {
-        /** Tracks feed */
-        200: {
-          schema: definitions["models.TrackTransfer"][];
-        };
-        /** Server error */
-        500: {
-          schema: definitions["http.Error"];
-        };
-      };
-    };
-  };
-  "/api/tracks/search": {
-    /** Find amount of tracks by search-query */
-    post: {
-      parameters: {
-        body: {
-          /** Query for search */
-          query: definitions["delivery.searchRequest"];
-        };
-      };
-      responses: {
-        /** Tracks found */
-        200: {
-          schema: definitions["delivery.searchTracksResponse"];
-        };
-        /** Incorrect body */
-        400: {
-          schema: definitions["http.Error"];
-        };
-        /** User unathorized */
-        401: {
           schema: definitions["http.Error"];
         };
         /** Server error */
@@ -929,6 +885,50 @@ export interface paths {
           schema: definitions["http.trackLikeResponse"];
         };
         /** Client error */
+        400: {
+          schema: definitions["http.Error"];
+        };
+        /** User unathorized */
+        401: {
+          schema: definitions["http.Error"];
+        };
+        /** Server error */
+        500: {
+          schema: definitions["http.Error"];
+        };
+      };
+    };
+  };
+  "/api/tracks/feed": {
+    /** Feed tracks */
+    get: {
+      responses: {
+        /** Tracks feed */
+        200: {
+          schema: definitions["models.TrackTransfer"][];
+        };
+        /** Server error */
+        500: {
+          schema: definitions["http.Error"];
+        };
+      };
+    };
+  };
+  "/api/tracks/search": {
+    /** Find amount of tracks by search-query */
+    post: {
+      parameters: {
+        body: {
+          /** Query for search */
+          query: definitions["delivery.searchRequest"];
+        };
+      };
+      responses: {
+        /** Tracks found */
+        200: {
+          schema: definitions["delivery.searchTracksResponse"];
+        };
+        /** Incorrect body */
         400: {
           schema: definitions["http.Error"];
         };

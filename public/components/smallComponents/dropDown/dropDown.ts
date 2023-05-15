@@ -241,17 +241,21 @@ export class DropDown extends BaseComponent {
                 element.style.width = title.offsetWidth;
             }
         }
-        // setTimeout(this.whereToRender, 100);
+        setTimeout(this.whereToRender, 100);
     }
 
     /** Render base structure */
     override render() {
-        super.appendElement();
-        this.isRendered = true;
-        this.parent.classList.add(`js__${this.configDropDown.dropdownName}-title`);
-
-        this.addBasicReactions();
-        this.whereToRender();
+        const pr = new Promise((resolve) => {
+            super.appendElement();
+            this.isRendered = true;
+            this.parent.classList.add(`js__${this.configDropDown.dropdownName}-title`);
+            resolve('');
+        });
+        pr.then(() => {
+            this.addBasicReactions();
+            this.whereToRender();
+        });
     }
 
     /** Delete children. Delete listeners of dropDown */

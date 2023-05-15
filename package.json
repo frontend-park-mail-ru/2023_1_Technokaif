@@ -10,7 +10,8 @@
     "lint": "eslint ./",
     "build": "webpack --config webpack.config.js",
     "eslint": "npx eslint --fix .",
-    "repeat": "npx jscpd -c .jscpd.json ."
+    "repeat": "npx jscpd -c .jscpd.json .",
+    "shema": "curl https://raw.githubusercontent.com/go-park-mail-ru/2023_1_Technokaif/main/docs/swagger.yaml > data.yaml && npx openapi-typescript ./data.yaml -o ./schema.ts"
   },
   "author": "",
   "license": "ISC",
