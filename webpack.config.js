@@ -28,6 +28,7 @@ module.exports = {
                     <meta charset="UTF-8">
                     <meta http-equiv="X-UA-Compatible" content="IE=edge">
                     <title>Fluire</title>
+                    <link rel="manifest" href="/manifest.json">
                     <link rel="shortcut icon" type="image/jpg" href="./static/svg/whiteLogo.svg">
                 </head>
                 <body>
@@ -45,6 +46,10 @@ module.exports = {
                 },
                 {
                     from: 'public/utils/sw/serviceWorker.js',
+                    to: '.',
+                },
+                {
+                    from: 'manifest.json',
                     to: '.',
                 },
             ],
