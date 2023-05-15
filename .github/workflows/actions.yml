@@ -44,5 +44,5 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           source: "dist/*"
-          target: "/home/ubuntu/frontend/2023_1_Technokaif"
+          target: "/home/ubuntu/frontend/2023_1_Technokaif/dist"
           strip_components: 1
