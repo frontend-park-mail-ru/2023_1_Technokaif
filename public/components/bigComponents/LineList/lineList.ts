@@ -182,11 +182,11 @@ export class LineList extends BaseComponent {
     }
 
     #addSubDropDown(where, index, mainDropDown) {
-        const deleteNotification = (elementToDelete) => {
-            const placement = mainDropDown.parent;
-            if (!placement) return;
-            placement.removeChild(elementToDelete);
-        };
+        // const deleteNotification = (elementToDelete) => {
+        //     const placement = mainDropDown.parent;
+        //     if (!placement) return;
+        //     placement.removeChild(elementToDelete);
+        // };
 
         const div = document.createElement('div');
         div.classList.add('list-container');
