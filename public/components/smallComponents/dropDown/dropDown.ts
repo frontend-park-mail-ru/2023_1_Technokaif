@@ -94,9 +94,6 @@ export class DropDown extends BaseComponent {
     /**
      * Add element to Options of dropDown menu.
      * If event and reactions presented then set reaction on this element.
-     * @param element
-     * @param event
-     * @param reaction
      */
     addOptionsElement(element:HTMLElement, eventTrigger?:string, reaction?: (event?:Event)=> void) {
         if (!this.isRendered) this.render();
@@ -148,6 +145,17 @@ export class DropDown extends BaseComponent {
 
         window.removeEventListener(METHOD.BUTTON, mainTrigger);
         window.addEventListener(METHOD.BUTTON, mainTrigger);
+
+        let timer;
+        const resizeDropDown = () => {
+            if (!this.options) {
+                window.removeEventListener('resize', resizeDropDown);
+            }
+
+            clearTimeout(timer);
+            timer = setTimeout(this.whereToRender.bind(this), 100);
+        };
+        window.addEventListener('resize', resizeDropDown);
     }
 
     /** Search for free space around and render there */
@@ -238,17 +246,12 @@ export class DropDown extends BaseComponent {
 
     /** Render base structure */
     override render() {
-        const pr = new Promise((resolve) => {
-            super.appendElement();
-            this.isRendered = true;
-            this.parent.classList.add(`js__${this.configDropDown.dropdownName}-title`);
-            resolve('');
-        });
+        super.appendElement();
+        this.isRendered = true;
+        this.parent.classList.add(`js__${this.configDropDown.dropdownName}-title`);
 
-        pr.then(() => {
-            this.addBasicReactions();
-            this.whereToRender();
-        });
+        this.addBasicReactions();
+        this.whereToRender();
     }
 
     /** Delete children. Delete listeners of dropDown */
