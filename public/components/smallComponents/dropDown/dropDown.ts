@@ -98,10 +98,10 @@ export class DropDown extends BaseComponent {
      * @param event
      * @param reaction
      */
-    addOptionsElement(element:HTMLElement, event?:string, reaction?: ()=> void) {
+    addOptionsElement(element:HTMLElement, eventTrigger?:string, reaction?: (event?:Event)=> void) {
         if (!this.isRendered) this.render();
         const optionsPlacement = this.options;
-        this.addElement(optionsPlacement, element, event, reaction);
+        this.addElement(optionsPlacement, element, eventTrigger, reaction);
         this.whereToRender();
     }
 

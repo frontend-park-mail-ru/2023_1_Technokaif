@@ -209,8 +209,14 @@ export class LineList extends BaseComponent {
         div.classList.add('list-container');
         const ul = document.createElement('ul');
         div.appendChild(ul);
-        where.addOptionsElement(div, METHOD.BUTTON, () => {
+        where.addOptionsElement(div, METHOD.BUTTON, (event) => {
             mainDropDown.hideOptions();
+
+            const placeWhereDelete = where.options.children[0]?.children[0];
+            if (placeWhereDelete) {
+                placeWhereDelete.removeChild(event.target);
+            }
+
             const notification = new Notification(
                 document.querySelector('.js__navbar'),
                 'Song is added to playlist!',
