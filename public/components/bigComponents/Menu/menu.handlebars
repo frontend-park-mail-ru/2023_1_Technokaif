@@ -7,7 +7,7 @@
     </div>
 
     {{#each items}}
-        <div class="sidebar__item">
+        <div class="sidebar__item {{#ifEquals key "library"}}sidebar-item__library{{/ifEquals}}">
             <img src="{{logoSrc}}" class="sidebar__img">
             <a href="{{this.href}}" data-section="{{key}}" class="sidebar__link {{#ifEquals @index 0}}sidebar__item-active{{/ifEquals}}">
                     {{name}}
