@@ -2,8 +2,8 @@ import { METHOD } from '@config/config';
 import { BaseComponent } from '@components/BaseComponent';
 import templateHtml from './dropDown.handlebars';
 import './dropDown.less';
-
 import { mainTrigger } from './triggerMain';
+import { runAfterFramePaint } from '@functions/renderAfterPaintDone';
 
 export interface DropDownSetup {
     mainDropDownDiv:string,
@@ -195,64 +195,63 @@ export class DropDown extends BaseComponent {
      * <b>Watch only on window size! Occupied elements doesn't count.</b>
      */
     private whereToRender() {
-        let whereRender = this.whereMustGo;
-        if (whereRender === '') {
-            whereRender = this.searchForFreeSpace();
-        }
-        const element = this.options;
-        if (!element || !(element instanceof HTMLElement)) {
-            return;
-        }
-        const { title } = this;
-        if (!title || !(title instanceof HTMLElement)) {
-            return;
-        }
-
-        if (element.offsetWidth > this.maxWidth) {
-            this.maxWidth = element.offsetWidth;
-        }
-
-        const padding = 5;
-        switch (whereRender) {
-        case DIRECTIONS_DROPDOWN.DOWN:
-            element.style.top = `${title.offsetHeight + padding}`;
-            element.style.left = '0';
-            break;
-        case DIRECTIONS_DROPDOWN.UP:
-            element.style.bottom = `-${element.offsetHeight + padding}`;
-            element.style.left = '0';
-            break;
-        case DIRECTIONS_DROPDOWN.LEFT:
-            element.style.top = `-${padding}`;
-            element.style.left = `-${this.maxWidth + padding}`;
-            break;
-        case DIRECTIONS_DROPDOWN.RIGHT:
-            element.style.top = `-${padding}`;
-            element.style.left = `${this.maxWidth + padding}`;
-            break;
-        default:
-            console.warn('Error at dropDown whereToRender', whereRender);
-        }
-        if (title.offsetWidth <= 200 && this.maxWidth < 200) {
-            if (title.offsetWidth < this.maxWidth) {
-                element.style.width = this.maxWidth;
-            } else {
-                // @ts-ignore
-                element.style.width = title.offsetWidth;
+        runAfterFramePaint(() => {
+            let whereRender = this.whereMustGo;
+            if (whereRender === '') {
+                whereRender = this.searchForFreeSpace();
             }
-        }
-        setTimeout(this.whereToRender, 100);
+            const element = this.options;
+            if (!element || !(element instanceof HTMLElement)) {
+                return;
+            }
+            const { title } = this;
+            if (!title || !(title instanceof HTMLElement)) {
+                return;
+            }
+
+            if (element.offsetWidth > this.maxWidth) {
+                this.maxWidth = element.offsetWidth;
+            }
+
+            const padding = 5;
+            switch (whereRender) {
+            case DIRECTIONS_DROPDOWN.DOWN:
+                element.style.top = `${title.offsetHeight + padding}`;
+                element.style.left = '0';
+                break;
+            case DIRECTIONS_DROPDOWN.UP:
+                element.style.bottom = `-${element.offsetHeight + padding}`;
+                element.style.left = '0';
+                break;
+            case DIRECTIONS_DROPDOWN.LEFT:
+                element.style.top = `-${padding}`;
+                element.style.left = `-${this.maxWidth + padding}`;
+                break;
+            case DIRECTIONS_DROPDOWN.RIGHT:
+                element.style.top = `-${padding}`;
+                element.style.left = `${this.maxWidth + padding}`;
+                break;
+            default:
+                console.warn('Error at dropDown whereToRender', whereRender);
+            }
+            if (title.offsetWidth <= 200 && this.maxWidth < 200) {
+                if (title.offsetWidth < this.maxWidth) {
+                    element.style.width = this.maxWidth;
+                } else {
+                // @ts-ignore
+                    element.style.width = title.offsetWidth;
+                }
+            }
+            setTimeout(this.whereToRender, 100);
+        });
     }
 
     /** Render base structure */
     override render() {
-        const pr = new Promise((resolve) => {
-            super.appendElement();
+        super.appendElement();
+        runAfterFramePaint(() => {
             this.isRendered = true;
             this.parent.classList.add(`js__${this.configDropDown.dropdownName}-title`);
-            resolve('');
-        });
-        pr.then(() => {
             this.addBasicReactions();
             this.whereToRender();
         });
