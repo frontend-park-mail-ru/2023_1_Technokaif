@@ -1,5 +1,3 @@
-import templateHtml from './artistContent.handlebars';
-import './artistContent.less';
 import { componentsNames } from '@config/componentsNames';
 import { EventTypes } from '@config/EventTypes';
 import { pageNames } from '@config/pageNames';
@@ -27,6 +25,8 @@ import { Tape } from '@bigComponents/Tape/tape';
 import ContentStore from '@store/ContentStore';
 import Actions from '@actions/Actions';
 import SongStore from '@store/SongStore';
+import templateHtml from './artistContent.handlebars';
+import './artistContent.less';
 
 /**
  * Create Artist content
@@ -134,15 +134,8 @@ export class ArtistContent extends BaseComponent {
             placement.removeChild(likeBlock);
         }
 
-        const counter = tracks.reduce((acc, track) => {
-            const isTrackOfArtist = track.artists.find((trackArtist) => trackArtist.name
-                === artist.name);
-
-            if (isTrackOfArtist) {
-                acc += 1;
-            }
-            return acc;
-        }, 0);
+        // eslint-disable-next-line max-len
+        const counter = tracks.reduce((acc, track) => ((track.artists.find((trackArtist) => trackArtist.name === artist.name)) ? acc + 1 : acc), 0);
 
         const likedSongs = new LikedSongs(placement, setupLikedSongs(artist, counter));
         likedSongs.appendElement();

@@ -39,8 +39,7 @@ class ComponentsRenders {
         const config = (checkAuth()) ? authNavConfig : unAuthNavConfig;
         const name = (checkAuth()) ? 'authNavbar' : 'unAuthNavbar';
 
-        const navbar = new Navbar(parent, config, name);
-        navbar.render();
+        new Navbar(parent, config, name).render();
     }
 
     /**
@@ -48,8 +47,7 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- where to place Sidebar
      */
     renderSidebar(parent) {
-        const sidebar = new Menu(parent, sidebarConfig, 'sidebar');
-        sidebar.render();
+        new Menu(parent, sidebarConfig, 'sidebar').render();
     }
 
     /**
@@ -69,8 +67,7 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- where to place Sidebar
      */
     renderFeedContent(parent) {
-        const mainPage = new FeedContent(parent, { mainPageWindowDiv: 'main-page-window' });
-        mainPage.render();
+        new FeedContent(parent, { mainPageWindowDiv: 'main-page-window' }).render();
     }
 
     /**
@@ -78,8 +75,7 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- where to place Sidebar
      */
     renderArtistContent(parent) {
-        const artistPage = new ArtistContent(parent, setupArtistContent());
-        artistPage.render();
+        new ArtistContent(parent, setupArtistContent()).render();
     }
 
     /**
@@ -87,8 +83,7 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- where to place Sidebar
      */
     renderFormLogin(parent) {
-        const form = new LoginComponent(parent);
-        form.render();
+        new LoginComponent(parent).render();
     }
 
     /**
@@ -96,8 +91,7 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- where to place Sidebar
      */
     renderFormRegister(parent) {
-        const form = new RegisterComponent(parent);
-        form.render();
+        new RegisterComponent(parent).render();
     }
 
     /**
@@ -105,8 +99,7 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- where to place Sidebar
      */
     renderPage404(parent) {
-        const page404 = new HeaderWithButton(parent, page404Setup());
-        page404.render();
+        new HeaderWithButton(parent, page404Setup()).render();
     }
 
     /**
@@ -119,14 +112,12 @@ class ComponentsRenders {
             return;
         }
 
-        const user = new User(parent, userSetup());
-        user.render();
+        new User(parent, userSetup()).render();
     }
 
     /** Render player in parent */
     renderPlayer(parent) {
-        const player = new PlayerWithDummy(parent);
-        player.render();
+        new PlayerWithDummy(parent).render();
     }
 
     /** Render in navbar */
@@ -135,8 +126,7 @@ class ComponentsRenders {
             Router.go(routingUrl.LOGIN);
         }
 
-        const libraryList = new LibraryList(parent);
-        libraryList.render();
+        new LibraryList(parent).render();
     }
 
     /** Render library in parent */
@@ -145,8 +135,7 @@ class ComponentsRenders {
             Router.go(routingUrl.LOGIN);
         }
 
-        const library = new FavoriteTracks(parent, componentsNames.LIBRARY_TRACKS);
-        library.renderFavoriteTracks();
+        new FavoriteTracks(parent, componentsNames.LIBRARY_TRACKS).renderFavoriteTracks();
     }
 
     /** Render library in parent */
@@ -155,8 +144,7 @@ class ComponentsRenders {
             Router.go(routingUrl.LOGIN);
         }
 
-        const library = new FavoriteArtists(parent, componentsNames.LIBRARY_ARTISTS);
-        library.renderFavoriteArtists();
+        new FavoriteArtists(parent, componentsNames.LIBRARY_ARTISTS).renderFavoriteArtists();
     }
 
     /** Render library in parent */
@@ -165,8 +153,7 @@ class ComponentsRenders {
             Router.go(routingUrl.LOGIN);
         }
 
-        const library = new FavoriteAlbums(parent, componentsNames.LIBRARY_ALBUMS);
-        library.renderFavoriteAlbums();
+        new FavoriteAlbums(parent, componentsNames.LIBRARY_ALBUMS).renderFavoriteAlbums();
     }
 
     /** Render library in parent */
@@ -175,27 +162,22 @@ class ComponentsRenders {
             Router.go(routingUrl.LOGIN);
         }
 
-        const library = new LibraryPlaylists(parent, componentsNames.LIBRARY_PLAYLISTS);
-        library.renderFavoritePlaylists();
+        new LibraryPlaylists(parent, componentsNames.LIBRARY_PLAYLISTS).renderFavoritePlaylists();
     }
 
     /** Render Playlist in parent */
     renderPlaylist(parent) {
-        // todo change setup
-        const playlist = new UserPlaylist(parent, componentsNames.PLAYLIST);
-        playlist.render();
+        new UserPlaylist(parent, componentsNames.PLAYLIST).render();
     }
 
     /** Render Album in parent */
     renderAlbum(parent) {
-        const album = new Album(parent, setupAlbum());
-        album.render();
+        new Album(parent, setupAlbum()).render();
     }
 
     /** Render search content */
     renderSearchContent(parent) {
-        const searchContent = new SearchContent(parent, componentsNames.SEARCH_CONTENT, { mainDiv: 'search-content' });
-        searchContent.render();
+        new SearchContent(parent, componentsNames.SEARCH_CONTENT, { mainDiv: 'search-content' }).render();
     }
 }
 

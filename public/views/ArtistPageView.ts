@@ -6,14 +6,14 @@ import ComponentsActions from '@Actions/ComponentsActions';
 import { BaseView } from './BaseView';
 
 /**
- * Class for feed page view.
+ * Class for artist page view.
  */
-class FeedView extends BaseView {
+class ArtistPageView extends BaseView {
     /**
      * Constructor for feed page view.
      */
     constructor() {
-        super(pageNames.FEED);
+        super(pageNames.ARTIST_PAGE);
     }
 
     /**
@@ -22,7 +22,7 @@ class FeedView extends BaseView {
     #addSubscribes() {
         ComponentsStore.subscribe(
             (list) => {
-                this.#renderFeedComponents(list);
+                this.#renderComponents(list);
             },
             EventTypes.ON_NOT_RENDERED_ITEMS,
         );
@@ -32,12 +32,12 @@ class FeedView extends BaseView {
      * Callback to pass throw store to subscribe rendering components.
      * @param list
      */
-    #renderFeedComponents(list) {
+    #renderComponents(list) {
         list.forEach((component) => {
             const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);
             switch (componentName) {
-            case componentsNames.FEED_CONTENT:
+            case componentsNames.ARTIST_CONTENT:
                 component.render(parent);
                 ComponentsActions.addElementOnPage(componentName);
                 break;
@@ -49,7 +49,7 @@ class FeedView extends BaseView {
     /**
      * Render all view by components.
      */
-    render() {
+    override render() {
         super.render();
         this.#addSubscribes();
 
@@ -57,4 +57,4 @@ class FeedView extends BaseView {
     }
 }
 
-export default new FeedView();
+export default new ArtistPageView();

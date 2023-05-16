@@ -6,7 +6,8 @@
   grid-template-columns: [index] 20px [first] 4fr [like] 1fr [another] 1fr;
   padding: 0 16px 10px 10px;
   gap: 10px;
-  transition: all 150ms;
+  transition-duration: 150ms;
+  transition-property: background-color, display, border-radius, cursor;
 
   @media (min-width: @desktop) {
     grid-template-columns: [index] 20px [first] 6fr [album] 4fr [listens] 2fr [like] 1fr [duration] 1fr [another] 1fr;

@@ -76,23 +76,22 @@ export class Album extends BaseComponent {
      * Function to subscribe to all events from Stores
      */
     private addSubscribes() {
-        const name = super.name;
         ContentStore.subscribe(
             () => {
                 const { id } = ContentStore.state[pageNames.ALBUM];
                 this.#id = id;
-                const buttons = document.querySelector('.js__button__play');
+                const button = document.querySelector('.js__button__play');
                 const imgLike = document.querySelector('.albumLike');
 
                 if (!imgLike || !(imgLike instanceof HTMLImageElement)) {
                     console.warn('Img doesn\'t exist in album');
                     return;
                 }
-                if (!buttons) {
+                if (!button) {
                     console.warn('Button doesn\'t\'exist on Album');
                     return;
                 }
-                this.playButton = buttons;
+                this.playButton = button;
 
                 imgLike.addEventListener('click', () => {
                     const state = ContentStore.state.ALBUM;
@@ -106,7 +105,7 @@ export class Album extends BaseComponent {
                     state.isLiked = !state.isLiked;
                 });
 
-                buttons.addEventListener('click', () => {
+                button.addEventListener('click', () => {
                     this.firstPlay = true;
                     if (!this.#isAlbumLoaded) {
                         this.#isAlbumLoaded = true;
@@ -121,7 +120,7 @@ export class Album extends BaseComponent {
                 }
             },
             EventTypes.ID_CAN_BE_VIEWED,
-            name,
+            this.name,
         );
 
         ContentStore.subscribe(
@@ -133,22 +132,12 @@ export class Album extends BaseComponent {
                 }
             },
             EventTypes.ALBUM_CONTENT_DONE,
-            name,
+            this.name,
         );
 
         ContentStore.subscribe(
             () => {
                 const state = ContentStore.state.ALBUM;
-                // let artistsText = state.artists[0].name;
-                // if (state.artists.length > 2) {
-                //     artistsText = state.artists.reduce((acc, value, index) => {
-                //         if (index !== state.artists.length) {
-                //             return `${acc} ${value.name},`;
-                //         }
-                //
-                //         return `${acc} ${value.name}`;
-                //     });
-                // }
 
                 const artistsText = state.artists.reduce((acc, { name }) => {
                     acc.push(name);
@@ -161,23 +150,19 @@ export class Album extends BaseComponent {
                     return;
                 }
 
-                new Promise((resolve) => {
-                    this.config.imgSrc = '/static/img${state.cover';
-                    this.config.headerNameOfElement = state.name;
-                    this.config.ArtistName = artistsText;
-                    this.config.Descriptions = state.description;
-                    placement.innerHTML = headerTemplate();
-                    placement.innerHTML = headerTemplate(this.config);
-                    resolve('');
-                }).then(() => {
-                    const artistItem = document.querySelector('.js__author');
-                    if (!artistItem) {
-                        console.warn('Error at ablum. Can\'t add listener');
-                        return;
-                    }
-                    artistItem.addEventListener('click', () => {
-                        Router.go(`/${instancesNames.ARTIST_PAGE}/${ContentStore.state.ALBUM.id}`);
-                    });
+                this.config.imgSrc = '/static/img${state.cover';
+                this.config.headerNameOfElement = state.name;
+                this.config.ArtistName = artistsText;
+                this.config.Descriptions = state.description;
+                placement.innerHTML = headerTemplate();
+                placement.innerHTML = headerTemplate(this.config);
+                const artistItem = document.querySelector('.js__author');
+                if (!artistItem) {
+                    console.warn('Error at ablum. Can\'t add listener');
+                    return;
+                }
+                artistItem.addEventListener('click', () => {
+                    Router.go(`/${instancesNames.ARTIST_PAGE}/${ContentStore.state.ALBUM.id}`);
                 });
 
                 const imgLike = document.querySelector('.albumLike');
@@ -191,7 +176,7 @@ export class Album extends BaseComponent {
                 document.title = state.name;
             },
             EventTypes.GOT_ONE_ALBUM,
-            name,
+            this.name,
         );
 
         SongStore.subscribe(
