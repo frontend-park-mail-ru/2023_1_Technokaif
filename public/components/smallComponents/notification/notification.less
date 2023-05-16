@@ -1,18 +1,36 @@
 @import '/public/static/css/constants';
 
 .notification {
+  font-size: 1rem;
   position:absolute;
   right: min(2vw, 20px);
   top: min(11vh, 90px);
 
   border-radius: @small-radius;
   background-color: @sub-color;
-  padding: 0.4rem;
+  padding: 0.4em;
   box-sizing: border-box;
   overflow: hidden;
 
   transition: all 0.3s ease-in-out;
   animation: appear linear 0.1s forwards;
+}
+
+@media @mobileMax {
+  .notification {
+    font-size: 2rem;
+  }
+}
+@media @tabletSize {
+  .notification {
+    font-size: 1.7rem;
+  }
+}
+
+@media @desktopMin {
+  .notification {
+    font-size: 1.4rem;
+  }
 }
 
 @keyframes appear {
@@ -32,7 +50,7 @@
   flex-direction: column;
   box-sizing: content-box;
 
-  padding: 0.25rem 0.5rem;
+  padding: 0.25em 0.5em;
 }
 
 .notification__content {
@@ -45,24 +63,24 @@
 }
 
 .notification__close-button {
-  padding: 0 0.4rem;
+  padding: 0 0.4em;
   opacity: 0.7;
   cursor: pointer;
 }
 
 .notification__close-button-img {
-  height: 1.25rem;
+  height: 1.25em;
 }
 
 .notification-text-title {
   color: @main-color;
-  font-size: 1.1rem;
+  font-size: 1.1em;
   font-weight: 800;
 }
 
 .notification-text {
   color: @main-color;
-  font-size: 1rem;
+  font-size: 1em;
 }
 
 .notification__progress-bar {
@@ -71,7 +89,7 @@
   right: 0;
 
   width: 100%;
-  height: min(0.3rem, 10px);
+  height: min(0.3em, 10px);
   background-color: @player-color-theme;
 
   animation: progress 3s linear 0.5s forwards;
