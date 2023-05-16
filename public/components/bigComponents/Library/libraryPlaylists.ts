@@ -32,13 +32,32 @@ export class LibraryPlaylists extends BaseComponent {
      * @param playlists
      * @param name
      */
-    private renderTape(playlists: [BaseComponentInTape], name: string) {
+    private renderTape(playlists: BaseComponentInTape[], name: string) {
         let element: HTMLDivElement;
+        let textForNothing = '';
         if (name === playlistsTypes.PERSONAL_PLAYLISTS) {
+            textForNothing = 'No personal playlists';
             element = document.querySelector('.js__user-playlists-placement') as HTMLDivElement;
         } else {
+            textForNothing = 'No liked playlists';
             element = document.querySelector('.js__favorite-playlists-placement') as HTMLDivElement;
         }
+        const nothingPlacement = document.querySelector('.js__placement-nothing');
+        if (!element || !nothingPlacement) {
+            return;
+        }
+        if (playlists.length === 0) {
+            element.innerHTML = '';
+        }
+
+        if (playlists.length === 0) {
+            const textOfNothing = document.createElement('p');
+            textOfNothing.innerText = textForNothing;
+            textOfNothing.classList.add('library__nothing-text');
+            nothingPlacement.appendChild(textOfNothing);
+            return;
+        }
+        nothingPlacement.innerHTML = '';
         if (!element) {
             return;
         }

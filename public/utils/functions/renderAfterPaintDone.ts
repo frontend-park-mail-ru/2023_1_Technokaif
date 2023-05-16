@@ -1,8 +1,8 @@
 /** Run callback function after paint was done */
 export function runAfterFramePaint(callback: {():void}) {
-    requestAnimationFrame(()=> {
+    requestAnimationFrame(() => {
         const messageChannel = new MessageChannel();
         messageChannel.port1.onmessage = callback;
         messageChannel.port2.postMessage(undefined);
-    }
+    });
 }

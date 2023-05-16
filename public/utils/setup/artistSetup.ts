@@ -167,7 +167,7 @@ export interface TapeSetup {
 
     titleText: string,
     title: string,
-    content: [BaseComponentInTape],
+    content: BaseComponentInTape[],
 }
 
 /**
@@ -283,7 +283,7 @@ export function setupLikedSongs(artist:ArtistApi, count: number):LikedSongs {
  * Setup tapes
  * @returns {{json}}
  */
-export function setupTape(name: string, title: string, items: [BaseComponentInTape]): TapeSetup {
+export function setupTape(name: string, title: string, items: BaseComponentInTape[]): TapeSetup {
     return {
         tapeDiv: 'tape',
         titleMainDivClass: 'tape__title',

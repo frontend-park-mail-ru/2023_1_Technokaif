@@ -28,9 +28,19 @@ export class FavoriteArtists extends BaseComponent {
      */
     private renderTape(artists) {
         const element = document.querySelector(`.${this.name}`);
-        if (!element) {
+        const nothingPlacement = document.querySelector('.js__placement-nothing');
+        if (!element || !nothingPlacement) {
             return;
         }
+
+        if (artists.length === 0) {
+            const textOfNothing = document.createElement('p');
+            textOfNothing.innerText = 'No artist is liked';
+            textOfNothing.classList.add('library__nothing-text');
+            nothingPlacement.appendChild(textOfNothing);
+            return;
+        }
+        nothingPlacement.innerHTML = '';
         const artistsTapes = new Tape(element as HTMLElement, setupTape('Artists', 'Favorite artists', artists), 'Artists');
         artistsTapes.appendElement();
     }

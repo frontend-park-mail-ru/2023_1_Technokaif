@@ -28,9 +28,19 @@ export class FavoriteAlbums extends BaseComponent {
      */
     private renderTape(albums) {
         const element = document.querySelector(`.${this.name}`);
-        if (!element) {
+        const nothingPlacement = document.querySelector('.js__placement-nothing');
+        if (!element || !nothingPlacement) {
             return;
         }
+
+        if (albums.length === 0) {
+            const textOfNothing = document.createElement('p');
+            textOfNothing.innerText = 'No albums is liked';
+            textOfNothing.classList.add('library__nothing-text');
+            nothingPlacement.appendChild(textOfNothing);
+            return;
+        }
+        nothingPlacement.innerHTML = '';
         const albumsTapes = new Tape(element as HTMLElement, setupTape('Albums', 'Favorite albums', albums), 'Albums');
         albumsTapes.appendElement();
     }
