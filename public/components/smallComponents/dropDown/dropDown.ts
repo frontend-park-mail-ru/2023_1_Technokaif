@@ -1,9 +1,9 @@
 import { METHOD } from '@config/config';
 import { BaseComponent } from '@components/BaseComponent';
+import { runAfterFramePaint } from '@functions/renderAfterPaintDone';
+import { mainTrigger } from './triggerMain';
 import templateHtml from './dropDown.handlebars';
 import './dropDown.less';
-import { mainTrigger } from './triggerMain';
-import { runAfterFramePaint } from '@functions/renderAfterPaintDone';
 
 export interface DropDownSetup {
     mainDropDownDiv:string,
@@ -249,9 +249,11 @@ export class DropDown extends BaseComponent {
     /** Render base structure */
     override render() {
         super.appendElement();
+
+        this.parent.classList.add(`js__${this.configDropDown.dropdownName}-title`);
+        this.isRendered = true;
+
         runAfterFramePaint(() => {
-            this.isRendered = true;
-            this.parent.classList.add(`js__${this.configDropDown.dropdownName}-title`);
             this.addBasicReactions();
             this.whereToRender();
         });
