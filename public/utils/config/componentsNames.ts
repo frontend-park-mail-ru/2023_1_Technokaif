@@ -12,9 +12,11 @@ export const componentsNames = {
     ARTIST_TAPE: 'tape',
     ARTIST_LINE_LIST: 'artist-line-list',
     ALBUM_LINE_LIST: 'album-line-list',
+    TRACK_LINE_LIST: 'track-line-list',
     USER: 'user',
     PLAYER: 'js__player-main',
     ALBUM: 'js__album',
+    TRACK: 'js__track',
     PLAYLIST: 'js__playlist',
     MENU_PLAYLISTS_LIST: 'js__menu-playlists',
 
