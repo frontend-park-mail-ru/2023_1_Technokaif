@@ -16,6 +16,7 @@ export const componentsNames = {
     PLAYER: 'js__player-main',
     ALBUM: 'js__album',
     PLAYLIST: 'js__playlist',
+    MENU_PLAYLISTS_LIST: 'js__menu-playlists',
 
     LIBRARY_LIST: 'library-list',
     LIBRARY: 'js__library',
@@ -29,4 +30,7 @@ export const componentsNames = {
     SEARCH_LINE: 'SEARCH_LINE',
     SEARCH_CONTENT: 'search-content',
     SEARCH_LIST: 'SEARCH_LIST',
+
+    SIDEBAR_LINK: 'sidebar__link',
+    SIDEBAR_ITEM: 'sidebar__item',
 };
