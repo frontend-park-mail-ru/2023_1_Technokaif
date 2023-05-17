@@ -68,11 +68,18 @@
 }
 
 // sizes of elements
-@max-input-size: 400px;
+@maxSizeForFormTablet: 600px;
+@maxSizeForFormDesktop: 400px;
 
 // todo another file with import in index.ts
 @media @mobileMax {
   html {
     font-size: 32px;
+  }
+}
+
+@media @tabletSize {
+  html {
+    font-size: 25px;
   }
 }

@@ -1,11 +1,11 @@
 <div class="{{dateMainDiv}}">
     <label for="{{divChooseId}}" class="{{labelClass}}">{{labelText}}</label>
     <div id="{{divChooseId}}" class="{{dateChooseDiv}}">
-        <div class="{{#if divDayClass}} {{divDayClass}} {{/if}}">
+        <div class="{{#if divDayClass}} {{divDayClass}} {{/if}} date__day__width">
             <input type="{{typeOfDayInput}}" class="{{dayClass}} js__day" name="{{nameOfDayInput}}" placeholder="{{placeholderOfDay}}" id="{{idOfDay}}" autocomplete="x7pv66b">
         </div>
 
-        <div class = "{{#if divMonthClass}}{{divMonthClass}} {{/if}}">
+        <div class = "{{#if divMonthClass}}{{divMonthClass}} {{/if}} date__month__width">
             <select name="{{nameOfMonthInput}}" id="{{idOfMonth}}" class="{{selectClass}} js__month">
                 {{#each optionsDate}}
                     <option value="{{this.option}}" {{#if this.class}} class="{{this.class}}" {{/if}}>{{this.text}}</option>
@@ -13,7 +13,7 @@
             </select>
         </div>
 
-        <div class = "{{#if divYearClass}} {{divYearClass}} {{/if}}">
+        <div class = "{{#if divYearClass}} {{divYearClass}} {{/if}} date__year__width">
             <input type="{{typeOfDayInput}}" class="{{yearClass}} js__year" name="{{nameOfYearInput}}" placeholder="{{placeholderOfYear}}" id="{{idOfYear}}" autocomplete="x7pv66b">
         </div>
     </div>

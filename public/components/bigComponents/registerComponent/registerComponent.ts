@@ -13,6 +13,7 @@ import UserInfoStore from '@store/UserInfoStore';
 import API from '@store/API';
 import { routingUrl } from '@config/routingUrls';
 import template from './registerComponent.handlebars';
+import './registerComponent.less';
 
 /** Function to work with listener triggered */
 interface reactionOnTrigger {
@@ -39,6 +40,7 @@ export class RegisterComponent extends BaseComponent {
     #renderContent() {
         const form = new Form(
             this.#place,
+            // registrationFormPlacement,
             regFormSetup(),
             dateSetup(),
         );
@@ -416,8 +418,8 @@ export class RegisterComponent extends BaseComponent {
     /** Render component in parent */
     public override render() {
         const renderProcess:Promise<void> = new Promise((resolve) => {
-            this.#renderContent();
             this.appendElement();
+            this.#renderContent();
             resolve();
         });
 

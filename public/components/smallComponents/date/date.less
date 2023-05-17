@@ -22,23 +22,21 @@
 
 .date__day, .date__month, .date__year {
     outline: none;
-    margin-left: 15px;
     border-radius: @small-radius;
     border: 1px rgba(@main-color, .4) solid;
     color: @main-color;
     background-color: transparent;
+    font-size: 1rem;
+    width: 100%;
 }
 
 .date__day {
-    margin-left: 0px;
-    width: 80px;
-    height: 30px;
+    height: 2rem;
 }
 
 .date__month {
     cursor: pointer;
-    width: 160px;
-    height: 30px;
+    height: 2rem;
 }
 
 .date__month>option {
@@ -46,6 +44,16 @@
 }
 
 .date__year {
-    width: 80px;
-    height: 30px;
+    height: 2rem;
+}
+
+
+.date__day__width, .date__month__width,
+.date__year__width {
+    width: 31.6%;
+    padding-left: 0.5rem;
+}
+
+.date__day__width {
+    padding: 0;
 }
