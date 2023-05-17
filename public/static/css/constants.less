@@ -1,11 +1,11 @@
-@text-label: 15px;
-@title-font: 40px;
-@description-font: 24px;
-@artist-name-font: 13px;
-@font-input-element: 15px;
-@error-font: 15px;
-@font-sidebar: 18px;
-@font-logo: 36px;
+@text-label: 1rem;
+@title-font: 2.1rem;
+@description-font: 1.5rem;
+@artist-name-font: 0.8rem;
+@font-input-element: 1rem;
+@error-font: 1rem;
+@font-sidebar: 1.1rem;
+@font-logo: 2rem;
 
 @chars-weight: 700;
 @chars-less-weight:500;
@@ -65,4 +65,14 @@
 
 @mixin wrapper-tablet {
   padding: 0 38px;
+}
+
+// sizes of elements
+@max-input-size: 400px;
+
+// todo another file with import in index.ts
+@media @mobileMax {
+  html {
+    font-size: 32px;
+  }
 }
