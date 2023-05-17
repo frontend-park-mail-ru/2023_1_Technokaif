@@ -1,15 +1,45 @@
 @import '../../../static/css/constants';
 
+.sidebar {
+    display: flex;
+    position: fixed;
+    flex-direction: row;
+    z-index: 100;
+    margin: 0 23px;
+
+    @media(min-width: @desktop) {
+        position: fixed;
+        flex-direction: column;
+        grid-area: menu;
+    }
+
+    @media(max-width: @desktop) {
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+
+        padding: 20px 0;
+        margin-left: 0;
+        background-color: @sub-color;
+    }
+}
+
 .sidebar__link {
     width: 127px;
     font-style: normal;
     font-size: @font-sidebar;
     line-height: 17px;
-    letter-spacing: -0.01em;
 
     text-decoration: none;
     color: @main-color;
     margin-top: 5px;
+    transition: color 150ms;
+}
+
+.sidebar__link:hover {
+    color: #8aa7eb;
 }
 
 .sidebar__img {
@@ -17,11 +47,24 @@
 }
 
 .sidebar__item {
+    cursor: pointer;
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 0 16px;
     margin-bottom: 15px;
+}
+
+.sidebar-item__library {
+    order: 1;
+
+    @media(min-width: @desktop) {
+        order: 0;
+    }
+}
+
+.sidebar__item:first-child {
+    margin-top: 30px;
 }
 
 .sidebar__item-active {
@@ -31,8 +74,17 @@
 .sidebar__logo {
     display: flex;
     flex-direction: column;
-
+    border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+    margin-bottom: 20px;
     align-items: center;
+}
+
+.downMenu-logo {
+    display: none;
+
+    @media(min-width: @desktop) {
+        display: flex;
+    }
 }
 
 .title__label {
@@ -45,20 +97,6 @@
     align-items: center;
     text-align: center;
 
-    color: @main-color;
-}
-
-.sidebar {
-    z-index: 100;
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-
-    margin: 0 23px;
-    grid-area: menu;
-}
-
-.sidebar__link:hover {
     color: @main-color;
 }
 
@@ -79,7 +117,6 @@
 
 .sidebar__hr {
     background: rgba(@main-color, 0.5);
-    width: 60%;
     height: 0.01em;
     width: 216px;
     margin: 10px 0 30px;

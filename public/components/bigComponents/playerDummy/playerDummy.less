@@ -1,39 +1,69 @@
 @import '../../../static/css/constants.less';
 
+
 .dummy {
-  background-color: @opposed-main-color;
-  height: 50px;
+  background: linear-gradient(90.15deg, #FE6EBC 0%, rgba(0, 102, 255, 1) 125.53%);
+  height: 8%;
   width: 100%;
   position: fixed;
-  left: 0px;
-  bottom: 10px;
+  left: 0;
+  bottom: 0;
 
   display: flex;
-  flex-display: row;;
+  flex-direction: row;
+
+  @media(max-width: @desktop) {
+    bottom: 81px;
+  }
 }
 
 
 .dummy__text-div {
   display: flex;
-  align-items: center;
-  margin-left: 20px;
+  flex-direction: column;
+  width: 70%;
+  height: 100%;
+  margin-left: 2%;
+}
+
+.dummy__text-title {
+  margin-top: 0.3%;
+  font-size: @title-font;
 }
 
 .dummy__text-class {
-
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 0.4%;
+  font-size: @artist-name-font;
 }
 
 .dummy__button-div {
-
+  width: 20%;
+  height: 100%;
 }
 
 .dummy__button-class {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1%;
+  margin-top: 4%;
   border-color: @main-color;
   border-radius: @big-radius;
-  width: 150px;
-  height: 50px;
+  width: 90%;
+  height: 60%;
+  transition-duration: 300ms;
+  font-size: @font-input-element;
 }
 
+.dummy__button-class:hover {
+  scale: 1.05;
+  box-shadow: 0 0 1vw rgba(@main-color, 0.3);
+}
+
+
 .dummy__space {
-  width: 70%;
+  width: 10%;
 }

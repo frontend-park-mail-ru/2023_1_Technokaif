@@ -3,16 +3,22 @@ module.exports = {
         browser: true,
         es2021: true,
     },
+    plugins: [
+        '@typescript-eslint',
+    ],
     extends: [
         'airbnb',
         'plugin:import/errors',
         'plugin:import/warnings',
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended',
     ],
     settings: {
         'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
     },
     overrides: [
     ],
+    parser: '@typescript-eslint/parser',
     parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
@@ -27,6 +33,7 @@ module.exports = {
         'import/no-cycle': 'off',
         'import/prefer-default-export': 'off',
         'import/extensions': 'off',
+        'import/no-unresolved': 'off',
         'class-methods-use-this': 'off',
         'guard-for-in': 'off',
         'no-restricted-syntax': 'off',

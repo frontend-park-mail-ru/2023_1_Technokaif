@@ -1,0 +1,146 @@
+@import '../../../static/css/constants';
+
+.library-tracks {
+  padding: 20px;
+  padding-top: 55px;
+}
+
+.cover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  a:hover {
+    text-decoration: none;
+  }
+  color: transparent;
+  transition: text-decoration 0.3s ease;
+  position: relative;
+
+
+  input {
+    display: none;
+  }
+
+  img {
+    position: absolute;
+    object-fit: cover;
+    width: @circleSize;
+    height: @circleSize;
+    box-shadow: @shadow;
+    .default {
+      width: 20px;
+      height: auto;
+    }
+    z-index: 0;
+  }
+
+  .-label {
+    cursor: pointer;
+    height: @circleSize;
+    width: @circleSize;
+  }
+
+  &:hover {
+    .-label {
+      span {
+        opacity: 1;
+        will-change: opacity;
+      }
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 10000;
+      color: @fontColor;
+      transition: background-color 0.2s ease-in-out;
+      margin-bottom: 0;
+    }
+  }
+  span {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    opacity: 0;
+    will-change: opacity;
+  }
+}
+
+.playlist-desc {
+  margin-left: 20px;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+}
+
+.user-placement {
+  gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.avatar-image-playlist {
+  height: 100%;
+  width: 100%;
+  border-radius: @big-radius;
+}
+
+.track-dropDown {
+  border: none;
+  box-shadow: 0 0 1.2vw rgba(@main-color, 0.2);
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  margin-right: 1vw;
+  border-radius: @big-radius;
+}
+
+.track-dropDown__name {
+
+}
+
+.track-dropDown__title {
+  width: 5vw;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  border-radius: @big-radius;
+  flex-direction: column;
+}
+
+.track-dropDown__options {
+  background-color: @opposed-main-color;
+  box-shadow: 0 2vh 3vh 0.01vh rgba(242, 242, 242, 0.1);
+  border-radius: @small-radius;
+
+  padding: min(2vh, 2vw);
+}
+
+.playlists-dropDown {
+  border: none;
+  box-shadow: 0 0 1.2vw rgba(@main-color, 0.2);
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  margin-right: 1vw;
+  border-radius: @big-radius;
+}
+
+.playlists-dropDown__name {
+
+}
+
+.playlists-dropDown__title {
+  width: 5vw;
+  display: flex;
+  border-radius: @big-radius;
+  flex-direction: column;
+}
+
+.playlists-dropDown__options {
+  background-color: @opposed-main-color;
+  box-shadow: 0 2vh 3vh 0.01vh rgba(242, 242, 242, 0.1);
+  border-radius: min(5vh, 5vw);
+
+  padding: min(2vh, 2vw);
+}

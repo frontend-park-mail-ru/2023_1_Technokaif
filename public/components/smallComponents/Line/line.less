@@ -1,21 +1,48 @@
+@import '../../../static/css/constants.less';
+
 .track-line {
-  cursor: pointer;
   display: grid;
-  grid-gap: 16px;
   align-items: center;
-  grid-template-columns: [index] 16px [first] 4fr [var1] 2fr [last] minmax(120px,1fr);
-  padding: 0 16px;
+  grid-template-columns: [index] 20px [first] 4fr [like] 1fr [another] 1fr;
+  padding: 0 16px 10px 10px;
   gap: 10px;
+  transition-duration: 150ms;
+  transition-property: background-color, display, border-radius, cursor;
+
+  @media (min-width: @desktop) {
+    grid-template-columns: [index] 20px [first] 6fr [album] 4fr [listens] 2fr [like] 1fr [duration] 1fr [another] 1fr;
+  }
+}
+
+.buttons {
+  cursor: pointer;
+  display: none;
+  grid-area: index;
+  margin-right: 15px;
+}
+
+.track-line:hover {
+  background-color: @hover-color;
+  border-radius: @small-radius;
+}
+
+.track-line:hover .buttons {
+  display: block;
+  cursor: pointer;
+}
+
+.track-line:hover .track-line__index {
+  display: none;
 }
 
 .track-line__index {
-  grid-area:index;
+  grid-area: index;
+  text-align: center;
 
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
   line-height: 19px;
-
 
   color: rgba(255, 255, 255, 0.7);
 }
@@ -28,7 +55,7 @@
 }
 
 .track-line__listens {
-  grid-area: var1;
+  grid-area: listens;
   display: flex;
   align-items: center;
   justify-self: start;
@@ -41,20 +68,75 @@
 
   color: rgba(255, 255, 255, 0.5);
 
+  @media (max-width: @desktop) {
+    display: none;
+  }
+}
+
+.albumDiv {
+  grid-area: album;
+
+  @media (max-width: @desktop) {
+    display: none;
+  }
+}
+
+.like-button-block {
+  grid-area: like;
+}
+
+.like-button {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border: none;
+}
+
+.like-button__img {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+.unlike-button__img {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+.unlike-button {
+  background-color: transparent;
+  border: none;
+  width: 20px;
+  height: 20px;
 }
 
 .track-line__duration {
-  grid-area: last;
+  grid-area: duration;
   align-items: center;
   justify-self: end;
 
   font-style: normal;
   font-weight: 700;
-  font-size: 15.5014px;
+  font-size: 15px;
   line-height: 20px;
-  letter-spacing: -0.01em;
 
   color: rgba(255, 255, 255, 0.5);
+
+  @media (max-width: @desktop) {
+    display: none;
+  }
+}
+
+.track-line__another {
+  grid-area: another;
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  width: 30px;
+  height: 30px;
+  margin-height: 0;
 }
 
 .track-line__cover {
@@ -63,11 +145,72 @@
 }
 
 .track-line__title {
+  cursor: pointer;
   font-style: normal;
   font-weight: 700;
   font-size: 15.4459px;
   line-height: 20px;
-  letter-spacing: -0.01em;
 
   color: #FFFFFF;
 }
+
+.play-button-track {
+  background-color: transparent;
+  border: none;
+}
+
+.stop-button-track {
+  background-color: transparent;
+  border: none;
+}
+
+.likeImg {
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+}
+
+.list-container {
+  height: fit-content;
+  max-height: 180px;
+  overflow-y: auto;
+  width: 180px;
+}
+
+.item-list {
+  list-style-type: none;
+  width: 140px;
+  padding: 0;
+  margin: 0;
+}
+
+.li-element {
+  background-color: @sub-color;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  height: 10px;
+  padding: 10px;
+  margin-bottom: 5px;
+  width: 100%;
+  border-radius: @small-radius;
+}
+
+.list-container::-webkit-scrollbar {
+  width: 10px;
+}
+
+.list-container::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+  border-radius: @radius;
+}
+
+.list-container::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 5px;
+}
+
+.list-container::-webkit-scrollbar-thumb:hover {
+  background-color: #aaa;
+}
+

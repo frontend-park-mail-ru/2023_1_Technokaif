@@ -1,0 +1,35 @@
+<div class="{{lineListClass}} {{#ifEquals isArtistPage true}} artist-line-list {{/ifEquals}}">
+<!--    todo rewrite later-->
+    {{#ifEquals isArtistPage true}}
+        <p class="{{title}}">{{titleText}}</p>
+    {{/ifEquals}}
+
+    {{#ifEquals isShowTitle true}}
+        {{#ifEquals isArtistPage false}}
+            <p class="{{title}}">{{titleText}}</p>
+        {{/ifEquals}}
+    {{/ifEquals}}
+
+    {{#ifEquals isArtistPage false}}
+    <div class="{{trackLineOptions}} {{optionsBlock}}">
+        <div class="{{lineIndex}}">
+            <p>#</p>
+        </div>
+        <div class="{{lineBlock}}">
+            <p>TITLE</p>
+        </div>
+        {{#ifEquals isPlaylistPage true}}
+            <div class="{{albumDiv}}">
+                <p>ALBUM</p>
+            </div>
+        {{/ifEquals}}
+        <div class="{{durationClass}}">
+            <p>DURATION</p>
+        </div>
+    </div>
+    {{/ifEquals}}
+
+    {{#each content}}
+        {{> ../../smallComponents/Line/line.handlebars item = this root = ../. }}
+    {{/each}}
+</div>

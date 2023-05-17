@@ -1,18 +1,26 @@
 @import '../../../static/css/constants.less';
 
 .main-page-window__factBody {
-    display: grid;
+    margin-bottom: 400px;
+    position: relative;
 
-    grid-template-areas:
+    @media(min-width: @desktop) {
+        display: grid;
+
+        grid-template-areas:
         "menu main";
 
-    grid-template-rows: 1fr;
-    grid-template-columns: 288px 1fr;
+        grid-template-rows: 1fr;
+        grid-template-columns: 288px 1fr;
+    }
 }
 
 main {
-    grid-area: main;
-    background: linear-gradient(180deg, @main-color-theme 0%, @opposed-main-color 60.89%);
+    background: linear-gradient(180deg, @main-color-theme 0%, @opposed-main-color 60%);
+
+    @media(min-width: @desktop) {
+        grid-area: main;
+    }
 }
 
 
@@ -20,7 +28,7 @@ main {
     display: flex;
     flex-direction: column;
     padding: 10px 60px;
-    margin-top: 73px;
+    padding-top: 73px;
 }
 
 .offline-logo {

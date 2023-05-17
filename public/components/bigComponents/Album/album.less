@@ -1,0 +1,204 @@
+@import '../../../static/css/constants.less';
+
+.album {
+  padding: 20px;
+  padding-top: 75px;
+}
+
+.album__img {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  margin-right: 15px;
+}
+
+.album__descriptions{
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  height: 200px;
+}
+
+.headerNameClass {
+  font-size: @font-sidebar;
+  font-weight: @chars-weight;
+  color: @shadow-color;
+}
+
+.descriptions {
+  padding-left: 10px;
+  margin-left: 200px;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+}
+
+.author__place{
+  cursor: pointer;
+  font-size: @font-input-element;
+  color: @shadow-color;
+  font-weight: @chars-weight;
+}
+
+.author {
+  color: @shadow-color;
+  margin-right: @font-sidebar;
+}
+
+.headerNameOfElementClass {
+  cursor: pointer;
+  font-weight: @chars-weight;
+  font-size: @font-logo;
+  color: @main-color;
+  margin-bottom: 15px;
+}
+
+.ArtistClass {
+  color: @main-color;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.by__div {
+  display: flex;
+  flex-direction: row;
+}
+
+.album__buttons {
+  margin: 20px 0;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 20px
+}
+
+.playButton{
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+}
+
+.albumLike {
+  width: 40px;
+  height: 40px;
+}
+
+.playlist-delete {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+}
+
+.subscribeButton {
+  box-shadow: none;
+  margin-top: 20px;
+  border-radius: @big-radius;
+  border-width: 2px;
+  border-color: @main-color;
+  background-color: transparent;
+  color:rgba(lime, 0.7);
+  width: 150px;
+  height: 40px;
+
+  font-size: @font-sidebar;
+}
+
+.bottomDiv {
+  margin-top: 25px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: row;
+
+  color: @shadow-color;
+}
+
+.track-hr {
+  max-width: 90vw;
+  border-width: 1px;
+  margin-bottom: 20px;
+}
+
+.numberDiv {
+  text-align: center;
+  min-width: @index-size-track;
+}
+
+.ListensDiv {
+  min-width: @listens-size-track;
+  display: flex;
+  justify-content: center;
+}
+
+.track {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 15px;
+}
+
+.track__img-block {
+  display: flex;
+  flex-direction: row;
+  min-width: @title-size-track;
+}
+
+.track__index {
+  display: flex;
+  align-items: center;
+  min-width: @index-size-track;
+}
+
+.track__liked-img {
+  min-width: @index-size-track;
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.imgLike {
+  max-width: 20px;
+  max-height: 20px;
+}
+
+.likedDiv {
+  min-width: @index-size-track;
+  margin-right: 5px;
+}
+
+.track__title {
+  display: flex;
+  align-items: center;
+}
+
+.track__listens {
+  min-width: @listens-size-track;
+  width: @listens-size-track;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.artist__with__title {
+  display: flex;
+  flex-direction: column;
+}
+
+.artists__text {
+  color: @shadow-color;
+  font-weight: 200;
+  padding-top: 2px;
+}
+
+.albumDiv {
+  display: flex;
+  width: 70%;
+  justify-content: right;
+}
+
+.albumClass {
+  color: @shadow-color;
+  font-weight: 200;
+  padding-top: 2px;
+}

@@ -1,0 +1,24 @@
+<div class="{{windowOverlay}}">
+    <div class="{{windowClass}}">
+        <h2 class="{{titleClass}}">{{title}}</h2>
+        <form>
+            <div class="{{dataClass}}">
+                <div class="{{coverClass}}">
+                    <img class="{{coverImg}}" src="{{#if coverSrc}}{{#convert}}{{coverSrc}}{{/convert}}{{else}}{{defaultCover}}{{/if}}">
+                </div>
+                <div class="{{infoBlockClass}}">
+                    <div class="{{nameInputClass}}">
+                        <label for="name-input" class="{{labelClass}}">Name</label>
+                        <input id="name-input" type="text" class="{{nameInputClass}}" value="{{inputValue}}" placeholder="{{nameInputPlaceholder}}">
+                    </div>
+                    <div class ="{{descriptionInputClass}}">
+                        <label for="description-textarea" class="{{labelClass}}">Description</label>
+                        <textarea id="description-textarea" class="{{descriptionInputClass}}" value="{{textareaValue}}" placeholder="{{descriptionPlaceholder}}">
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <button type="submit" class="{{saveButtonClass}}">Save changes</button>
+    </div>
+</div>

@@ -1,0 +1,105 @@
+@import '/public/static/css/constants';
+
+.notification {
+  font-size: 1rem;
+  position:absolute;
+  right: min(2vw, 20px);
+  top: min(11vh, 90px);
+
+  border-radius: @small-radius;
+  background-color: @sub-color;
+  padding: 0.4em;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  animation: appear linear 0.1s forwards;
+}
+
+@media @mobileMax {
+  .notification {
+    font-size: 2rem;
+  }
+}
+@media @tabletSize {
+  .notification {
+    font-size: 1.7rem;
+  }
+}
+
+@media @desktopMin {
+  .notification {
+    font-size: 1.4rem;
+  }
+}
+
+@keyframes appear {
+  0% {
+    transform: translateX(calc(100% + min(2vw, 20px)));
+    animation-play-state: running;
+  }
+  100%{
+    transform: translateX(0);
+    animation-play-state: running;
+  }
+}
+
+
+.notification__text-container {
+  display: flex;
+  flex-direction: column;
+  box-sizing: content-box;
+
+  padding: 0.25em 0.5em;
+}
+
+.notification__content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  border-radius: @small-radius;
+  background-color: @notification-inside;
+}
+
+.notification__close-button {
+  padding: 0 0.4em;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.notification__close-button-img {
+  height: 1.25em;
+}
+
+.notification-text-title {
+  color: @main-color;
+  font-size: 1.1em;
+  font-weight: 800;
+}
+
+.notification-text {
+  color: @main-color;
+  font-size: 1em;
+}
+
+.notification__progress-bar {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+
+  width: 100%;
+  height: min(0.3em, 10px);
+  background-color: @player-color-theme;
+
+  animation: progress 3s linear 0.5s forwards;
+}
+
+
+@keyframes progress {
+  0% {
+    right: 0; animation-play-state: running;
+  }
+  100%{
+    right: 100%; animation-play-state: running;
+  }
+}

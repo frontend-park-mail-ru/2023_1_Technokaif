@@ -1,0 +1,42 @@
+@import '../../../static/css/constants.less';
+.navbar-avatar {
+  display: none;
+  cursor: pointer;
+  flex-direction: row;
+  align-self: end;
+  gap: 20px;
+  padding: 5px 30px;
+  align-items: center;
+
+  @media (min-width: @desktop) {
+    display: flex;
+  }
+}
+
+.navbar-avatar__img-container {
+  width: 24px;
+  height: 24px;
+}
+
+.navbar-avatar__img {
+  border-radius: @big-radius;
+  width: 100%;
+  height: 100%;
+}
+
+.navbar-avatar__text-container {
+  color: @main-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.navbar-avatar__text {
+  display: flex;
+}
+
+.js__navbar-dropDown__name-title {
+  right: 0;
+}

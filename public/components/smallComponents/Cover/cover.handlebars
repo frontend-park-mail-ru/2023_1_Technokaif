@@ -1,31 +1,52 @@
 <div data-id="{{item.id}}" class="{{root.coverMainClass}} {{root.coverMainClass}}__{{root.titleText}}">
     <div class="{{root.imgDiv}}">
-        <img class="{{root.imgClass}}" src="{{#convert}}{{item.cover}}{{/convert}}">
+        <img class="{{root.imgClass}}" src="
+        {{#ifEquals root.titleText 'Playlists'}}
+            {{#if item.cover}}
+                {{#mediaConvert}}{{item.cover}}{{/mediaConvert}}">
+            {{else}}
+                {{root.defaultSrc}}">
+            {{/if}}
+        {{/ifEquals}}
+            {{#ifNotEquals root.titleText 'Playlists'}}
+                {{#if item.cover}}
+                    {{#convert}}{{item.cover}}{{/convert}}">
+                {{else}}
+                    {{root.defaultSrc}}">
+                {{/if}}
+            {{/ifNotEquals}}
+
+        <div class="{{root.buttonDiv}}">
+            <img src="{{root.buttonSrc}}" class="{{root.buttonClass}} js__button__{{root.titleText}}-{{item.id}}">
+        </div>
     </div>
 
-    <div class="{{root.titleTextDiv}}">
-        <p>{{item.name}}</p>
-    </div>
-    {{#if item.artists}}
-        <div class="{{root.artistsDiv}}">
-            {{#each item.artists}}
-                <p>{{this.name}} </p>
-            {{/each}}
+    <div class="component-options">
+        <div class="{{root.titleTextDiv}}">
+            <p>{{item.name}}</p>
         </div>
-    {{/if}}
-    {{#if item.description}}
-        <div class="{{root.descriptionDiv}}">
-            <p>{{item.description}}</p>
-        </div>
-    {{/if}}
+        {{#if item.artists}}
+            <div class="{{root.artistsDiv}}">
+                {{#each item.artists}}
+                    <p>{{this.name}} </p>
+                {{/each}}
+            </div>
+        {{/if}}
+        {{#if item.description}}
+            <div class="{{root.descriptionDiv}}">
+                <p>{{item.description}}</p>
+            </div>
+        {{/if}}
 
-    {{#if root.footerElements}}
-        <div class="{{root.footerMainDiv}}">
-            {{#each root.footerElements}}
-                <div class="{{root.footerElementDiv}}">
-                    <p>{{this.name}}</p>
-                </div>
-            {{/each}}
-        </div>
-    {{/if}}
+        {{#if root.footerElements}}
+            <div class="{{root.footerMainDiv}}">
+                {{#each root.footerElements}}
+                    <div class="{{root.footerElementDiv}}">
+                        <p>{{this.name}}</p>
+                    </div>
+                {{/each}}
+            </div>
+        {{/if}}
+
+    </div>
 </div>

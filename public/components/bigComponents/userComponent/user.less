@@ -1,7 +1,7 @@
 @import '../../../static/css/constants';
 
 .user {
-  margin-top: 100px;
+  padding-top: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,6 +17,11 @@
   margin-top: 35px;
   display: flex;
   align-items: center;
+  flex-direction: column;
+
+  @media (min-width: @desktop) {
+    flex-direction: row;
+  }
 }
 
 .user-profile {
@@ -34,9 +39,70 @@
 }
 
 .user-profile__img {
-  width: 150px;
-  height: 150px;
-  border-radius: 100px;
+  max-width: 100%;
+  height: auto;
+}
+
+.avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  a:hover {
+    text-decoration: none;
+  }
+  color: transparent;
+  transition: text-decoration 0.3s ease;
+  position: relative;
+
+  input {
+    display: none;
+  }
+
+  img {
+    position: absolute;
+    object-fit: cover;
+    width: @circleSize;
+    height: @circleSize;
+    box-shadow: @shadow;
+    border-radius: @radius;
+    .default {
+      width: 20px;
+      height: auto;
+    }
+    z-index: 0;
+  }
+
+  .-label {
+    cursor: pointer;
+    height: @circleSize;
+    width: @circleSize;
+  }
+
+  &:hover {
+    .-label {
+      span {
+        opacity: 1;
+        will-change: opacity;
+      }
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 10000;
+      color: @fontColor;
+      transition: background-color 0.2s ease-in-out;
+      border-radius: @radius;
+      margin-bottom: 0;
+    }
+  }
+
+  span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    will-change: opacity;
+  }
 }
 
 .user-profile__initials-text {
@@ -102,7 +168,6 @@
 
 .avatar-block {
   display: flex;
-  width: 700px;
   flex-direction: column;
 }
 
