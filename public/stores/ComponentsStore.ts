@@ -193,14 +193,18 @@ class ComponentsStore extends IStore {
                 return false;
             })) {
                 needToBeDeletedExist.splice(0, 0, dynamicIdComponent);
-                notExist.splice(0, 0, dynamicIdComponent);
+                if (!notExist.includes(dynamicIdComponent)) {
+                    notExist.splice(0, 0, dynamicIdComponent);
+                }
             }
         }
 
         if (needToBeDeletedExist.length !== 0) {
+            console.log(needToBeDeletedExist, 'unrender');
             this.jsEmit(EventTypes.ON_REMOVE_ANOTHER_ITEMS, needToBeDeletedExist);
         }
         if (notExist.length !== 0) {
+            console.log(notExist, 'render');
             this.jsEmitAndPopListeners(EventTypes.ON_NOT_RENDERED_ITEMS, notExist);
         }
     }
