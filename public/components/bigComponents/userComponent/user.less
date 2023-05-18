@@ -8,6 +8,23 @@
   flex-direction: column;
 }
 
+@media @mobileMax {
+  .user {
+    padding-bottom: @bottomSizeForMobile;
+    width: 95%;
+    margin: 0 auto;
+  }
+}
+
+@media @tabletSize {
+  .user {
+    padding-bottom: @bottomSizeForMobile;
+    width: 100%;
+    max-width: @maxSizeForFormTablet;
+    margin: 0 auto;
+  }
+}
+
 .user__blocks-space {
   display: inherit;
   width: 40px;
@@ -18,9 +35,13 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+}
 
-  @media (min-width: @desktop) {
+@media (min-width: @desktop) {
+  .user__form-placement {
     flex-direction: row;
+    gap: 1rem;
+    align-items: flex-start;
   }
 }
 
@@ -116,9 +137,6 @@
   font-weight: @chars-weight;
 }
 
-.form-data {
-  margin-right: 20px;
-}
 
 .user_button-placement {
   margin-left: 50px;
@@ -126,6 +144,19 @@
   justify-content: space-between;
   gap: 60px;
 }
+
+@media @mobileMax, @tabletSize {
+  .user_button-placement {
+    width: 100%;
+    margin: 0;
+    justify-content: center;
+  }
+
+  .formDiv {
+    margin-top: -1rem;
+  }
+}
+
 
 .user__button-cancel {
   background-color: transparent;
@@ -146,6 +177,14 @@
   width: 140px;
   height: 50px;
   cursor: pointer;
+}
+
+@media @mobileMax, @tabletSize {
+  .user__button-save {
+    width: fit-content;
+    padding: 0.5rem;
+    height: fit-content;
+  }
 }
 
 .user__error-text {
@@ -173,4 +212,17 @@
 
 .js__placement__avatar {
   align-self: flex-start;
+}
+
+
+@media @desktopMin {
+  .formDiv, .formData {
+    width: @maxSizeForUserInfoFormDesktop;
+  }
+}
+
+@media @mobileMax, @tabletSize {
+  .js__formPasswords {
+    width: 100%;
+  }
 }
