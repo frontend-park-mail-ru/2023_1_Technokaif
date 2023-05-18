@@ -122,6 +122,8 @@ export class ModalWindow extends BaseComponent {
                 ContentStore.state[pageNames.PLAYLIST].id,
                 formData,
             );
+
+            root.removeChild(this.fileInput);
         });
 
         API.subscribe(

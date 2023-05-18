@@ -9,6 +9,13 @@ declare interface Component{
     render: {(HTMLElement): void}
 }
 
+const dynamicPages = [
+    componentsNames.ARTIST_CONTENT,
+    componentsNames.ALBUM,
+    componentsNames.LIBRARY_PLAYLISTS,
+    componentsNames.PLAYLIST,
+];
+
 /**
  * Store for components.
  */
@@ -174,6 +181,22 @@ class ComponentsStore extends IStore {
         needToBeDeletedExist = needToBeDeletedExist.filter(
             (item, index) => needToBeDeletedExist.indexOf(item) === index,
         ).map((element) => this.#allElements.find((elem) => elem.name === element)).reverse();
+
+        if (this.#whatExistOnPage.length > 0) {
+            let dynamicIdComponent: Component = components[0];
+            if (components.some((item) => {
+                if (dynamicPages.includes(item.name)) {
+                    dynamicIdComponent = item;
+                    return true;
+                }
+
+                return false;
+            })) {
+                needToBeDeletedExist.splice(0, 0, dynamicIdComponent);
+                notExist.splice(0, 0, dynamicIdComponent);
+            }
+        }
+
         if (needToBeDeletedExist.length !== 0) {
             this.jsEmit(EventTypes.ON_REMOVE_ANOTHER_ITEMS, needToBeDeletedExist);
         }

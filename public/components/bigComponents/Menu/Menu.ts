@@ -18,7 +18,6 @@ import {
 } from '@smallComponents/listWithCoversAndNames/listWithCoversAndNames';
 import { setupMenuPlaylists } from '@setup/navbarMenuSetup';
 import { Playlist } from '@setup/playlistSetup';
-import * as events from 'events';
 import templateHtml from './menu.handlebars';
 
 /**
@@ -85,6 +84,8 @@ class Menu {
 
         API.subscribe(
             (playlistId) => {
+                this.unRenderPlaylists();
+                UserActions.userPlaylists(localStorage.getItem('userId'));
                 Router.go(routingUrl.PLAYLIST_PAGE(playlistId));
             },
             EventTypes.CREATED_PLAYLIST,
@@ -116,7 +117,6 @@ class Menu {
 
             const sidebarItem: HTMLElement|null = e.target.closest(`.${componentsNames.SIDEBAR_ITEM}`);
             if (!sidebarItem) {
-                console.error('Bad target on menu click event');
                 return;
             }
             const sidebarLink: HTMLAnchorElement|null = sidebarItem.querySelector(`.${componentsNames.SIDEBAR_LINK}`);
@@ -125,7 +125,6 @@ class Menu {
             }
 
             if (!sidebarLink || !sidebarItem) {
-                console.error('Bad target on menu click event');
                 return;
             }
 
@@ -176,6 +175,21 @@ class Menu {
             setupMenuPlaylists(playlists),
             componentsNames.MENU_PLAYLISTS_LIST,
         ).appendElement();
+    }
+
+    /**
+     * Unrender list of playlists
+     * @private
+     */
+    private unRenderPlaylists() {
+        const parent: HTMLElement|null = document.querySelector(`.${componentsNames.SIDEBAR}`);
+        const element: HTMLElement|null = document.querySelector(`.${componentsNames.MENU_PLAYLISTS_LIST}`);
+        if (!element || !parent) {
+            console.error('Something bad in menu list elements or sidebar');
+            return;
+        }
+
+        parent?.removeChild(element);
     }
 
     /**
