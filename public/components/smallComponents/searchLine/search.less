@@ -26,9 +26,28 @@
   border-radius: @small-radius;
   display: flex;
   flex-direction: row;
-  width: 25%;
   height: 5vh;
   position: relative;
+}
+
+@media @desktopMin {
+  .search-line {
+    width: 50%;
+    max-width: @maxSizeForUserInfoFormDesktop;
+  }
+}
+
+@media @mobileMax {
+  .search-line {
+    width: 100%;
+  }
+}
+
+@media @tabletSize {
+  .search-line {
+    width: 70%;
+    max-width: @maxSizeForFormTablet;
+  }
 }
 
 .search-line__img-container {

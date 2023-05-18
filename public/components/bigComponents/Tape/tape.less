@@ -24,7 +24,6 @@
 }
 
 .component {
-    width: 100%;
     overflow: hidden;
     cursor: pointer;
     display: flex;
@@ -73,9 +72,17 @@
     letter-spacing: -0.025em;
 
     color: @main-color;
+}
 
-    @media (max-width: @desktop) {
+@media (max-width: @desktop) {
+    .component__title {
         font-size: @description-font;
+    }
+}
+
+@media @mobileMax {
+    .component__title {
+        line-height: 1.5rem;
     }
 }
 
