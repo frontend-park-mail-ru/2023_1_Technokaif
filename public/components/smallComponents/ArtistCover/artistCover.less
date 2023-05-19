@@ -1,3 +1,4 @@
+@import '../../../static/css/constants.less';
 
 .artist-cover {
   display: flex;
@@ -25,6 +26,12 @@
   gap: 10px;
 }
 
+@media @mobileMax, @tabletSize {
+  .artist-title__verify {
+    font-size: 0.66rem;
+  }
+}
+
 .artist-title__name {
   margin: 10px 0 20px 0 ;
   font-style: normal;
@@ -32,6 +39,27 @@
   font-size: 50px;
 
   color: #FFFFFF;
+}
+
+@media @mobileMax, @tabletSize {
+  .artist-title__name {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    font-size: 1.2rem;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .artist-title {
+    box-sizing: border-box;
+    max-width: 100%;
+    width: 100%;
+    overflow: hidden;
+
+    padding: 0.7rem;
+  }
 }
 
 .artist-title__listens {

@@ -9,7 +9,7 @@ export function setupLibraryAlbums(albums) {
         imgClass: 'album__img',
 
         headerDiv: 'album__descriptions',
-        headerImgClass: '',
+        headerImgClass: 'header__img__sing-page',
         headerDescriptions: 'descriptions',
 
         headerNameDiv: '',

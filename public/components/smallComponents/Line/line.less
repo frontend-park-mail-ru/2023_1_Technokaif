@@ -52,6 +52,10 @@
   display: flex;
   gap: 10px;
   align-items: center;
+
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .track-line__listens {
@@ -146,7 +150,6 @@
 
 @media @mobileMax {
     .track-line__cover {
-      height: 3.3rem;
       width: fit-content;
     }
 }
@@ -161,15 +164,15 @@
   color: #FFFFFF;
 }
 
-@media @mobileMax {
+@media @mobileMax, @tabletSize {
   .track-line__title {
-    max-width: @maxSizeForTextInLineListMobile;
-    width: @maxSizeForTextInLineListMobile;
+    width: 100%;
+    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 1.3rem;
-    line-height: 1.5rem;
+    font-size: 0.8rem;
+    line-height: 0.9rem;
   }
 }
 
@@ -213,6 +216,14 @@
   margin-bottom: 5px;
   width: 100%;
   border-radius: @small-radius;
+}
+
+@media @mobileMax,@tabletSize {
+  .li-element {
+    font-size: 0.8rem;
+    line-height: 1rem;
+    height: 1rem;
+  }
 }
 
 .list-container::-webkit-scrollbar {

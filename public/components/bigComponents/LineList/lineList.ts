@@ -140,6 +140,7 @@ export class LineList extends BaseComponent {
 
         const textAdd = document.createElement('p');
         textAdd.textContent = 'Add';
+        textAdd.classList.add('optionSize');
         dropDown.addOptionsElement(textAdd);
         if (dropDown?.options && (dropDown.options instanceof HTMLElement)) {
             // @ts-ignore
@@ -159,7 +160,8 @@ export class LineList extends BaseComponent {
         addDropDown.render();
 
         const btQueue = document.createElement('div');
-        btQueue.textContent = 'Add to queue';
+        btQueue.textContent = 'Queue';
+        btQueue.classList.add('optionSize');
         dropDown.addOptionsElement(btQueue, METHOD.BUTTON, () => {
             PlayerActions.queueTrack(
                 [Number(trackId)],

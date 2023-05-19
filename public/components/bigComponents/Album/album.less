@@ -10,6 +10,14 @@
   height: 200px;
   margin-right: 15px;
 }
+@media @mobileMax, @tabletSize {
+  .album__img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
 
 .album__descriptions{
   position: relative;
@@ -25,7 +33,7 @@
 }
 
 .headerNameClass {
-  font-size: @font-sidebar;
+  font-size: 1rem;
   font-weight: @chars-weight;
   color: @shadow-color;
 }
@@ -37,11 +45,13 @@
   flex-direction: column;
   margin-top: 5px;
   max-width: 100%;
+  overflow: hidden;
+  width: 100%;
 }
 
-.author__place{
+.author__place {
   cursor: pointer;
-  font-size: @font-input-element;
+  font-size: 0.66rem;
   color: @shadow-color;
   font-weight: @chars-weight;
 }
@@ -51,18 +61,39 @@
   margin-right: @font-sidebar;
 }
 
+@media @mobileMax, @tabletSize {
+  .author {
+    margin-right: 0;
+    padding-right: 0.3rem;
+  }
+}
+
 .headerNameOfElementClass {
   cursor: pointer;
   font-weight: @chars-weight;
-  font-size: @font-logo;
+  font-size: 1.2rem;
   color: @main-color;
   margin-bottom: 15px;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .ArtistClass {
   color: @main-color;
   margin-bottom: 10px;
   cursor: pointer;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.js__description-album {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .by__div {
@@ -187,6 +218,7 @@
 }
 
 .artist__with__title {
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -195,6 +227,13 @@
   color: @shadow-color;
   font-weight: 200;
   padding-top: 2px;
+}
+
+@media @mobileMax,@tabletSize {
+  .artists__text {
+    font-size: 0.6rem;
+    white-space: nowrap;
+  }
 }
 
 .albumDiv {
@@ -207,4 +246,25 @@
   color: @shadow-color;
   font-weight: 200;
   padding-top: 2px;
+}
+
+@media @mobileMax,@tabletSize {
+  .header__img__sing-page {
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+
+.artist__text__line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media @mobileMax,@tabletSize {
+  .optionSize {
+    font-size: 0.8rem;
+  }
 }

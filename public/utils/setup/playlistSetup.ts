@@ -41,7 +41,7 @@ export function setupUserPlaylist(playlist: Playlist) {
         imgClass: 'album__img',
 
         headerDiv: 'album__descriptions',
-        headerImgClass: '',
+        headerImgClass: 'header__img__sing-page',
         headerDescriptions: 'playlist-desc',
         headerNameDiv: '',
         headerNameClass: 'headerNameClass',
@@ -96,7 +96,7 @@ export function setupPlaylist(playlist: Playlist) {
         imgClass: 'album__img',
 
         headerDiv: 'album__descriptions',
-        headerImgClass: '',
+        headerImgClass: 'header__img__sing-page',
         headerDescriptions: 'playlist-desc',
 
         headerNameDiv: '',
