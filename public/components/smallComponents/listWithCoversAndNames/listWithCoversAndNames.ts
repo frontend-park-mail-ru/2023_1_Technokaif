@@ -7,6 +7,7 @@ import templateHTML from './listWithCoversAndNames.handlebars';
 import './listWithCoversAndNames.less';
 import Router from '@router/Router';
 import { routingUrl } from '@config/routingUrls';
+import { PlaylistContent } from '@api/playlists/createPlaylistAjaxRequest';
 
 /**
  * Create element with track-oriented line with img, title, duration, optionally (listens).
@@ -80,6 +81,55 @@ export class ListWithCoversAndNames extends BaseComponent {
             const { id } = item.dataset;
             Router.go(routingUrl.PLAYLIST_PAGE(id));
         });
+
+        API.subscribe(
+            (message: string, playlistData: PlaylistContent, playlistId: string) => {
+                if (message !== 'OK') {
+                    console.error('Error in playlist update api');
+                    return;
+                }
+
+                const playlistItem: HTMLDivElement|null = document.querySelector(`.playlist-item[data-id="${playlistId}"]`);
+                if (!playlistItem) {
+                    return;
+                }
+
+                const nameElement: HTMLDivElement|null = playlistItem.querySelector('.menu-playlist-name');
+                if (!nameElement) {
+                    console.error('Cannot get name or description element');
+                    return;
+                }
+
+                nameElement.innerText = playlistData.name;
+            },
+            EventTypes.UPDATED_PLAYLIST,
+            this.name,
+        );
+
+        API.subscribe(
+            (message, cover, playlistId) => {
+                if (message !== 'OK') {
+                    console.error(message);
+                } else {
+                    const playlistItem: HTMLDivElement|null = document.querySelector(`.playlist-item[data-id="${playlistId}"]`);
+                    if (!playlistItem) {
+                        return;
+                    }
+
+                    const coverElement: HTMLImageElement|null = playlistItem.querySelector('.playlist-cover');
+                    if (!coverElement) {
+                        console.error('Error in avatar element');
+                        return;
+                    }
+                    // @ts-ignore
+                    const blob = new Blob([cover], { type: 'image/jpeg' });
+                    const imageUrl = URL.createObjectURL(blob);
+                    coverElement.src = imageUrl;
+                }
+            },
+            EventTypes.UPLOADED_PLAYLIST_COVER,
+            this.name,
+        );
     }
 
     /**

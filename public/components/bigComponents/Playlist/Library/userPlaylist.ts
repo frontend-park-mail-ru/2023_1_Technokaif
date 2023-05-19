@@ -14,6 +14,7 @@ import API from '@store/API';
 import ContentStore from '@store/ContentStore';
 import Actions from '@actions/Actions';
 import Router from '@router/Router';
+import { PlaylistContent } from '@api/playlists/createPlaylistAjaxRequest';
 import { Playlist } from '../playlist';
 
 /**
@@ -46,7 +47,9 @@ export class UserPlaylist extends Playlist {
      */
     private callModalWindow() {
         const root = document.querySelector(`#${componentsJSNames.ROOT}`);
-        const modalWindow = new ModalWindow(root, setupModalWindow(ContentStore.state[pageNames.PLAYLIST].playlist), componentsNames.PLAYLIST_MODAL_WINDOW);
+
+        const { playlist } = ContentStore.state[pageNames.PLAYLIST];
+        const modalWindow = new ModalWindow(root, setupModalWindow(playlist), componentsNames.PLAYLIST_MODAL_WINDOW);
         modalWindow.appendElement();
     }
 
@@ -58,7 +61,7 @@ export class UserPlaylist extends Playlist {
         const root = document.querySelector(`#${componentsJSNames.ROOT}`);
         const coverElement: HTMLDivElement|null = document.querySelector('.cover');
         const nameElement: HTMLDivElement|null = document.querySelector('.headerNameOfElementClass');
-        const descriptionElement: HTMLDivElement|null = document.querySelector('.author__place');
+        const descriptionElement: HTMLDivElement|null = document.querySelector('.js__description-album');
         const deleteElement: HTMLDivElement|null = document.querySelector('.playlist-delete');
         if (!root || !coverElement || !nameElement || !descriptionElement || !deleteElement) {
             console.error('Cannot get cover element');
@@ -68,14 +71,6 @@ export class UserPlaylist extends Playlist {
         deleteElement.addEventListener('click', () => {
             PlaylistActions.deletePlaylist(ContentStore.state[pageNames.PLAYLIST].id);
         });
-
-        API.subscribe(
-            () => {
-                Router.go(routingUrl.LIBRARY_PLAYLISTS);
-            },
-            EventTypes.DELETED_PLAYLIST,
-            this.name,
-        );
 
         coverElement.addEventListener('click', () => {
             root.appendChild(this.fileInput);
@@ -104,6 +99,14 @@ export class UserPlaylist extends Playlist {
      * @private
      */
     private subscribes() {
+        API.subscribe(
+            () => {
+                Router.go(routingUrl.LIBRARY_PLAYLISTS);
+            },
+            EventTypes.DELETED_PLAYLIST,
+            this.name,
+        );
+
         ContentStore.subscribe(
             () => {
                 const { id } = ContentStore.state[pageNames.PLAYLIST];
@@ -123,10 +126,10 @@ export class UserPlaylist extends Playlist {
                     console.error('Cannot get user id');
                     return;
                 }
-                const numUserId: number = +userId;
+                const numUserId = Number(userId);
 
                 const state = ContentStore.state[pageNames.PLAYLIST];
-                if (state.playlist.users.filter((user) => user.id === numUserId).length !== 0) {
+                if (state.playlist.users.find((user) => user.id === numUserId)) {
                     this.setType(playlistTypes.USER_PLAYLIST);
                     super.setConfig(setupUserPlaylist(state.playlist));
                 } else {
@@ -148,7 +151,28 @@ export class UserPlaylist extends Playlist {
         );
 
         API.subscribe(
-            (message) => {
+            (message: string, playlistData: PlaylistContent) => {
+                if (message !== 'OK') {
+                    console.error('Error in playlist update api');
+                    return;
+                }
+
+                const nameElement: HTMLDivElement|null = document.querySelector('.headerNameOfElementClass');
+                const descriptionElement: HTMLDivElement|null = document.querySelector('.js__description-album');
+                if (!nameElement || !descriptionElement) {
+                    console.error('Cannot get name or description element');
+                    return;
+                }
+
+                nameElement.innerText = playlistData.name;
+                descriptionElement.innerText = playlistData.description;
+            },
+            EventTypes.UPDATED_PLAYLIST,
+            this.name,
+        );
+
+        API.subscribe(
+            (message, cover) => {
                 if (message !== 'OK') {
                     console.error(message);
                 } else {
@@ -158,7 +182,7 @@ export class UserPlaylist extends Playlist {
                         return;
                     }
                     // @ts-ignore
-                    const blob = new Blob(this.fileInput.files, { type: 'image/jpeg' });
+                    const blob = new Blob([cover], { type: 'image/jpeg' });
                     const imageUrl = URL.createObjectURL(blob);
                     avatarImg.src = imageUrl;
                 }

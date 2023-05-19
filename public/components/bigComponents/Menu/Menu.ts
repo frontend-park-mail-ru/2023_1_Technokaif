@@ -92,6 +92,15 @@ class Menu {
             componentsNames.SIDEBAR,
         );
 
+        API.subscribe(
+            () => {
+                this.unRenderPlaylists();
+                UserActions.userPlaylists(localStorage.getItem('userId'));
+            },
+            EventTypes.DELETED_PLAYLIST,
+            componentsNames.SIDEBAR,
+        );
+
         ContentStore.subscribe(
             (instance) => {
                 const playlists = ContentStore.state[pageNames.LIBRARY_PLAYLISTS][instance];

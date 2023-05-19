@@ -360,6 +360,33 @@ function renderMainPage() {
         true,
     );
 
+    ComponentsStore.register(
+        pageNames.TRACK,
+        [
+            {
+                name: componentsNames.SIDEBAR,
+                render: ComponentsRenders.renderSidebar,
+            },
+            {
+                name: componentsNames.MAIN,
+                render: ComponentsRenders.renderMainElement,
+            },
+            {
+                name: componentsNames.NAVBAR,
+                render: ComponentsRenders.renderNavbar,
+            },
+            {
+                name: componentsNames.PLAYER,
+                render: ComponentsRenders.renderPlayer,
+            },
+            {
+                name: componentsNames.PLAYER,
+                render: ComponentsRenders.renderPlayer,
+            },
+        ],
+        true,
+    );
+
     serviceWorkerRegistration();
 
     checkAuthAjax().then((value) => {

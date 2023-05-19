@@ -50,7 +50,7 @@ export class LibraryPlaylists extends BaseComponent {
             element.innerHTML = '';
         }
 
-        if (playlists.length === 0) {
+        if (playlists.length === 0 && nothingPlacement.children.length < 2) {
             const textOfNothing = document.createElement('p');
             textOfNothing.innerText = textForNothing;
             textOfNothing.classList.add('library__nothing-text');
