@@ -24,11 +24,20 @@
   margin-left: 20px;
 }
 
+@media @mobileMax {
+  .details {
+    margin:0;
+  }
+}
+
 
 .details__group-track-info {
   flex-direction: column;
   display: flex;
   width: fit-content;
+}
+@media @mobileMax {
+
 }
 
 .player__main-container {
@@ -48,13 +57,19 @@
 }
 
 .track-name {
-  font-size: @font-input-element;
+  font-size: 0.8rem;
   font-weight: @chars-weight;
   color: @main-color;
 }
 
+
+@keyframes slide-right {
+  0% { right: -10%; }
+  100% { right: 100%; }
+}
+
 .track-artist {
-  font-size: @artist-name-font;
+  font-size: 0.66rem;
   font-weight: @chars-weight;
   color: @shadow-color;
 }
@@ -178,10 +193,24 @@ input[type="range"] {
   padding-left: 15px;
   padding-right: 15px;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media @mobileMax {
+  .player__under-slider {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }
 
 
 .player__sound-block {
+}
+@media @mobileMax {
+  .player__sound-block {
+    display:none;
+  }
 }
 
 
@@ -190,4 +219,10 @@ input[type="range"] {
   display: flex;
   gap:15px;
   align-items: center;
+}
+
+@media @mobileMax {
+  .player__control {
+    gap: 10px;
+  }
 }
