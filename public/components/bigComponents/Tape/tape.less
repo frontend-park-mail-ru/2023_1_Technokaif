@@ -11,6 +11,13 @@
     color: @shadow-color;
 }
 
+@media @mobileMax {
+        .text__cover {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+}
 
 .tape__components {
     gap: 15px;
@@ -24,6 +31,7 @@
 }
 
 .component {
+    width: 100%;
     overflow: hidden;
     cursor: pointer;
     display: flex;
@@ -42,6 +50,15 @@
     }
 }
 
+@media @mobileMax {
+        .component {
+            max-width: 100vw;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+        }
+}
+
 .component-options {
     display: flex;
     flex-direction: column;
@@ -49,6 +66,12 @@
     @media (max-width: @desktop) {
         padding: 0 10px;
     }
+}
+@media @mobileMax {
+        .component-options {
+            overflow: hidden;
+            font-size: @fontForCovers;
+        }
 }
 
 .component:hover {
@@ -58,8 +81,14 @@
 
 .component__img {
     height: 175px;
-    width: 175px;
+    width: auto;
     border-radius: @small-radius;
+}
+
+@media @mobileMax {
+        .component__img {
+            height: 75px;
+        }
 }
 
 .component__title {
@@ -82,7 +111,8 @@
 
 @media @mobileMax {
     .component__title {
-        line-height: 1.5rem;
+        line-height: calc(@fontForCovers + 0.2rem);
+        font-size: 0.8em;
     }
 }
 
@@ -99,6 +129,12 @@
     }
 }
 
+@media @mobileMax {
+    .component__artists {
+        font-size: 0.5em;
+    }
+}
+
 .component__description {
     line-height: 179.2%;
     font-size: @artist-name-font;
@@ -109,6 +145,12 @@
 
     @media (max-width: @desktop) {
         font-size: @font-sidebar;
+    }
+}
+
+@media @mobileMax {
+    .component__description {
+        font-size: 0.5em;
     }
 }
 
@@ -128,4 +170,25 @@
     width: 100%;
     height: 100%;
     position: static;
+}
+
+@media @mobileMax, @tabletSize {
+        .main {
+            height: fit-content;
+            margin-bottom: 300px;
+        }
+}
+
+@media @tabletSize {
+    .main {
+        height: fit-content;
+        margin-bottom: 200px;
+    }
+}
+
+@media @desktopMin {
+        .main {
+            height: fit-content;
+            margin-bottom: 75px;
+        }
 }

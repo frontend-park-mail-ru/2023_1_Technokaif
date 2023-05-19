@@ -48,15 +48,15 @@
     justify-content: center;
 }
 .title__img {
-    width: @image-resolution;
-    height: @image-resolution;
+    width: auto;
+    height: 1.4em;
     margin-right: @image-margin;
 }
 
 @media @mobileMax {
     .title__img {
-        width: 2.2rem;
-        height: 2.2rem;
+        width: auto;
+        height: 1.4rem;
     }
 }
 
@@ -68,11 +68,12 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    font-size: 1.4rem
 }
 
 @media @mobileMax {
-    .title_name {
-        font-size: 2.5rem
+    .title__name {
+        font-size: 1.4rem
     }
 }
 
@@ -82,7 +83,7 @@
     font-size: @description-font;
     font-weight: @chars-weight;
     height: 2em;
-    margin: 1.8em 0;
+    margin: 1.4em 0;
 }
 
 @media @mobileMax {
@@ -91,6 +92,16 @@
         width: 100%;
         max-width: 100%;
         margin: 1.3rem 0 1.8rem 0;
+        font-size: 1rem;
+    }
+}
+
+@media @tabletSize {
+    .title__page-description {
+        height: 100%;
+        width: 100%;
+        max-width: 100%;
+        font-size: 1rem;
     }
 }
 

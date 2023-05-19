@@ -10,9 +10,17 @@
         grid-template-areas:
         "menu main";
 
+        margin-bottom: 0;
+        height: fit-content;
         grid-template-rows: 1fr;
         grid-template-columns: 288px 1fr;
     }
+}
+
+@media only screen and (max-height: 670px) {
+        .main-page-window__factBody {
+            margin-bottom: 300px;
+        }
 }
 
 main {
@@ -20,6 +28,7 @@ main {
 
     @media(min-width: @desktop) {
         grid-area: main;
+        margin-bottom: 0;
     }
 }
 
@@ -29,6 +38,13 @@ main {
     flex-direction: column;
     padding: 10px 60px;
     padding-top: 73px;
+}
+
+@media @mobileMax {
+    .main-page-window {
+        padding-right: 2.5%;
+        padding-left: 2.5%;
+    }
 }
 
 .offline-logo {

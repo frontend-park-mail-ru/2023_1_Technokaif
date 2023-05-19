@@ -144,6 +144,13 @@
   height: 40px;
 }
 
+@media @mobileMax {
+    .track-line__cover {
+      height: 3.3rem;
+      width: fit-content;
+    }
+}
+
 .track-line__title {
   cursor: pointer;
   font-style: normal;
@@ -152,6 +159,18 @@
   line-height: 20px;
 
   color: #FFFFFF;
+}
+
+@media @mobileMax {
+  .track-line__title {
+    max-width: @maxSizeForTextInLineListMobile;
+    width: @maxSizeForTextInLineListMobile;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1.3rem;
+    line-height: 1.5rem;
+  }
 }
 
 .play-button-track {

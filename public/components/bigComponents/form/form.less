@@ -8,7 +8,7 @@
 
 .form__button {
     cursor: pointer;
-    color: @sub-color;
+    color: @opposed-main-color;
     height: 2.2rem;
     text-decoration: none;
     border: 0 black solid;
@@ -16,11 +16,14 @@
     font-weight: @chars-weight;
     border-radius: @radius;
     width: 100%;
+    font-size: 1rem;
+    height: 1.4rem;
 }
 
 @media @mobileMax {
     .form__button {
-        font-size: 1.2rem;
+        font-size: 1rem;
+        height: 1.4rem;
     }
 }
 
@@ -64,7 +67,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 95%;
+    width: 100%;
     padding-top: 1rem;
     padding-bottom: 1rem;
 }
@@ -81,5 +84,11 @@
     display: flex;
     justify-content: center;
     padding-top: 1em;
+}
+
+@media @mobileMax {
+    .bottom__placement {
+        font-size: 0.8rem;
+    }
 }
 

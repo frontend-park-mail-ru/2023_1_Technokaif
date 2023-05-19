@@ -14,6 +14,12 @@
     color: rgba(@main-color, 0.95);
 }
 
+@media @mobileMax {
+    .input-block__label {
+        font-size: 0.8rem;
+    }
+}
+
 .input-block__input-element {
     outline: none;
     font-size: @text-label;
@@ -38,4 +44,9 @@
 .input-block__input-element:hover {
     border: 0 solid black;
     outline: none;
+}
+
+.input-block__input-element::placeholder {
+  white-space: pre-line;
+  font-size: 0.66rem;
 }

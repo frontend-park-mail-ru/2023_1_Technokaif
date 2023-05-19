@@ -14,6 +14,11 @@
     color: rgba(@main-color, .95);
     margin-top: -10px;
 }
+@media @mobileMax {
+    .date__label {
+        font-size: 0.8rem;
+    }
+}
 
 .date__choose-place {
     display: flex;
@@ -28,6 +33,13 @@
     background-color: transparent;
     font-size: 1rem;
     width: 100%;
+    height: 1.5rem;
+}
+
+@media @mobileMax {
+    .date__day, .date__month, .date__year {
+        font-size: 0.8rem;
+    }
 }
 
 .date__day {
