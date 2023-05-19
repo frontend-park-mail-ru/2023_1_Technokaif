@@ -12,13 +12,13 @@ import {
 import { dropDownAvatarSetup, navbarAvatarSetup } from '@setup/avatarInNavbar';
 import UserActions from '@API/UserActions';
 import Router from '@router/Router';
-import templateHtml from './navbar.handlebars';
 import API from '@store/API';
 import ComponentsStore from '@store/ComponentsStore';
 import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
 import UserInfoStore from '@store/UserInfoStore';
-import './mobileNavs.less';
 import ComponentsActions from '@Actions/ComponentsActions';
+import templateHtml from './navbar.handlebars';
+import './mobileNavs.less';
 
 /**
  * Class for Navbar element: Login, Registration, Logout and user info.

@@ -12,10 +12,13 @@ export const componentsNames = {
     ARTIST_TAPE: 'tape',
     ARTIST_LINE_LIST: 'artist-line-list',
     ALBUM_LINE_LIST: 'album-line-list',
+    TRACK_LINE_LIST: 'track-line-list',
     USER: 'user',
     PLAYER: 'js__player-main',
     ALBUM: 'js__album',
+    TRACK: 'js__track',
     PLAYLIST: 'js__playlist',
+    MENU_PLAYLISTS_LIST: 'js__menu-playlists',
 
     LIBRARY_LIST: 'library-list',
     LIBRARY: 'js__library',
@@ -29,4 +32,7 @@ export const componentsNames = {
     SEARCH_LINE: 'SEARCH_LINE',
     SEARCH_CONTENT: 'search-content',
     SEARCH_LIST: 'SEARCH_LIST',
+
+    SIDEBAR_LINK: 'sidebar__link',
+    SIDEBAR_ITEM: 'sidebar__item',
 };

@@ -175,6 +175,11 @@ class ComponentsRenders {
         new Album(parent, setupAlbum()).render();
     }
 
+    /** Render Track in parent */
+    renderTrack(parent) {
+        new Album(parent, setupAlbum()).render();
+    }
+
     /** Render search content */
     renderSearchContent(parent) {
         new SearchContent(parent, componentsNames.SEARCH_CONTENT, { mainDiv: 'search-content' }).render();

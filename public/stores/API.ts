@@ -467,7 +467,8 @@ class API extends IStore {
      */
     private updatePlaylist(playlistId: string, playlistData: PlaylistContent) {
         updatePlaylistAjaxRequest(playlistId, playlistData).then((message) => {
-            this.jsEmit(EventTypes.UPDATED_PLAYLIST, message);
+            ContentActions.updatePlaylistContent(playlistData);
+            this.jsEmit(EventTypes.UPDATED_PLAYLIST, message, playlistData, playlistId);
         });
     }
 
@@ -488,7 +489,7 @@ class API extends IStore {
      */
     private uploadPlaylistCover(playlistId: string, cover: FormData) {
         uploadPlaylistCover(playlistId, cover).then((message) => {
-            this.jsEmit(EventTypes.UPLOADED_PLAYLIST_COVER, message);
+            this.jsEmit(EventTypes.UPLOADED_PLAYLIST_COVER, message, cover.get('cover'), playlistId);
         });
     }
 

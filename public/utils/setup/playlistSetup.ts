@@ -96,7 +96,7 @@ export function setupPlaylist(playlist: Playlist) {
         imgClass: 'album__img',
 
         headerDiv: 'album__descriptions',
-        headerImgClass: 'header__img__sing-page',
+        headerImgClass: 'header__img__sing-page element-for-public-playlists',
         headerDescriptions: 'playlist-desc',
 
         headerNameDiv: '',
@@ -216,11 +216,13 @@ export function setupModalWindow(playlist: Playlist) {
         infoBlockClass: 'playlist-info-block',
 
         saveButtonClass: 'modal-playlist-button',
-        nameInputClass: 'playlist-name',
-        descriptionInputClass: 'playlist-description',
+        nameInputClass: 'playlist-name-input',
+        nameBlockClass: 'playlist-name',
+        descriptionInputClass: 'playlist-description-input',
+        descriptionBlockClass: 'playlist-description',
         inputValue: playlist.name,
         textareaValue: playlist.description,
-        labelClass: '',
+        labelClass: 'modal-window-label',
         nameInputPlaceholder: 'Enter a playlist name',
         descriptionPlaceholder: 'Add a description',
     };
