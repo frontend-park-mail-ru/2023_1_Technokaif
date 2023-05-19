@@ -61,7 +61,6 @@
 }
 
 .title__name {
-    font-size: @title-font;
     font-weight: @chars-weight;
     text-align: center;
     background: @main-color;
@@ -73,7 +72,7 @@
 
 @media @mobileMax {
     .title__name {
-        font-size: 1.4rem
+        .mainTitle();
     }
 }
 
@@ -92,6 +91,7 @@
 @media @mobileMax {
     .title__page-description {
         margin: 1.3rem 0 1.8rem 0;
+        .bigTitle();
     }
 }
 

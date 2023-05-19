@@ -178,6 +178,7 @@ export class LineList extends BaseComponent {
         if (this.name === componentsNames.PLAYLIST) {
             const bt3 = document.createElement('div');
             bt3.textContent = 'Remove';
+            bt3.classList.add('optionSize');
             dropDown.addOptionsElement(bt3, 'click', () => {
                 PlaylistActions.removeTrackFromPlaylist(
                     ContentStore.state[pageNames.PLAYLIST].id,

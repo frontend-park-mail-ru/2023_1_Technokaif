@@ -61,7 +61,7 @@
 }
 
 .track-name {
-  font-size: 0.8rem;
+  .smallText();
   font-weight: @chars-weight;
   color: @main-color;
 }
@@ -75,7 +75,7 @@
 }
 
 .track-artist {
-  font-size: 0.66rem;
+  .smallText();
   font-weight: @chars-weight;
   color: @shadow-color;
 }
@@ -123,6 +123,7 @@
 
 @media @mobileMax, @tabletSize {
   .player-slider__current-time {
+    display: none;
     font-size: 0.6rem;
     top: -2;
   }
@@ -138,6 +139,7 @@
 
 @media @mobileMax, @tabletSize {
   .player-slider__total-duration {
+    display: none;
     font-size: 0.6rem;
     top: -2;
   }
@@ -163,10 +165,12 @@
   width: 60%;
 }
 
+@sizeOfTrackLine: 5px;
+
 input[type="range"]::-webkit-slider-thumb {
   width: 1px;
   -webkit-appearance: none;
-  height: 15px;
+  height: @sizeOfTrackLine;
   cursor: ew-resize;
   box-shadow: -100vw 0 0 100vw @complementary-color-theme, inset 0 0 0 15px;
   transition: box-shadow 0.2s ease-in-out;
@@ -175,12 +179,12 @@ input[type="range"]::-webkit-slider-thumb {
 
 input[type="range"]::-webkit-slider-runnable-track {
   background: rgba(@main-color, 0.75);
-  height: 15px;
+  height: @sizeOfTrackLine;
 }
 
 input[type="range"] {
   overflow: hidden;
-  height: 15px;
+  height: @sizeOfTrackLine;
   -webkit-appearance: none;
   outline: 0;
   border: 0;

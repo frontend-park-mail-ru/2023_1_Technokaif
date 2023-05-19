@@ -24,11 +24,13 @@
 .artist-title__verify {
   display: flex;
   gap: 10px;
+  .titleText();
+  font-weight: 500;
 }
 
 @media @mobileMax, @tabletSize {
   .artist-title__verify {
-    font-size: 0.66rem;
+    .smallText();
   }
 }
 
@@ -46,11 +48,12 @@
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    font-size: 1.2rem;
 
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    .bigTitle();
   }
   .artist-title {
     box-sizing: border-box;
@@ -64,9 +67,9 @@
 
 .artist-title__listens {
   font-style: normal;
-  font-weight: 700;
-  font-size: 14px;
   line-height: 17px;
+  .titleText();
+  font-weight: 500;
 
   color: #FFFFFF;
 }

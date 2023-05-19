@@ -80,12 +80,93 @@
 // todo another file with import in index.ts
 @media @mobileMax {
   html {
-    font-size: 30px;
+    font-size: 25px;
   }
 }
 
 @media @tabletSize {
   html {
+    font-size: 30px;
+  }
+}
+
+@media @desktopMin {
+  html {
     font-size: 25px;
   }
+}
+
+// text sizes not relative
+@hugeTextFont: 1.4rem;
+@bigTextFont: 1.2rem;
+@usualTextFont: 1rem;
+@smallTextFont: 0.8rem;
+@verySmallTextFont: 0.66rem;
+@tinyTextFont: 0.6rem;
+
+
+// relative text sizes
+@hugeTextFontR: 1.4em;
+@bigTextFontR: 1.2em;
+@usualTextFontR: 1em;
+@smallTextFontR: 0.8em;
+@verySmallTextFontR: 0.66em;
+@tinyTextFontR: 0.6em;
+
+//.mainTitle {
+//  font-size: @hugeTextFont;
+//  font-weight: 700;
+//  line-height: calc(@hugeTextFont + 0.2em);
+//}
+//
+//.title{
+//  font-size: @usualTextFont;
+//  font-weight: 700;
+//  line-height: calc(@usualTextFont + 0.2em);
+//}
+//
+//.relativeTitle {
+//  font-size: @smallTextFontR;
+//  font-weight: 700;
+//  line-height: calc(@smallTextFontR + 0.2em);
+//}
+//
+//.relativeUsualText {
+//  font-size: 0.7em;
+//  font-weight: 500;
+//  line-height: calc(0.7 + 0.2em);
+//}
+//
+//.inputLabelText {
+//  font-size: @verySmallTextFont;
+//  font-weight: 700;
+//  line-height: calc(@verySmallTextFont + 0.2rem);
+//}
+//
+//.smallTextForInput {
+//  font-size: @tinyTextFont;
+//  font-weight: 600;
+//  line-height: calc(@tinyTextFont + 0.2rem);
+//}
+
+
+.mainTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.smallText {
+  font-size: 0.66rem;
+  font-weight: 500;
+  line-height: calc(0.66rem + 0.1rem);
+}
+
+.titleText {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.bigTitle{
+  font-weight: 700;
+  font-size: 1rem;
 }

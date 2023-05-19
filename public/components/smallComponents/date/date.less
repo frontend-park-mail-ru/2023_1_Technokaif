@@ -15,6 +15,12 @@
     font-size: 0.8rem;
 }
 
+@media @mobileMax {
+    .date__label {
+        .titleText();
+    }
+}
+
 .date__choose-place {
     display: flex;
     padding-bottom: 15px;
@@ -28,7 +34,16 @@
     background-color: transparent;
     width: 100%;
     height: 1.2rem;
-    font-size: 0.66rem;
+
+    .smallText();
+    padding-left: 0.2rem;
+}
+
+@media @mobileMax {
+    .date__day, .date__month, .date__year {
+        .smallText();
+        height: 200%;
+    }
 }
 
 .date__day {

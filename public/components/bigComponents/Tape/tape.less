@@ -5,7 +5,7 @@
     align-items: center;
     display: flex;
     justify-content: space-between;
-    font-size: 0.8rem;
+    .smallText();
 }
 
 .tape__show-text {
@@ -55,10 +55,10 @@
 
 @media @mobileMax {
         .component {
-            max-width: 100vw;
+            max-width: 100%;
             box-sizing: border-box;
             display: flex;
-            align-items: center;
+            align-items: center;;
         }
 }
 
@@ -66,7 +66,7 @@
     display: flex;
     flex-direction: column;
 
-    font-size: 1rem;
+    font-size: @smallTextFont;
     overflow: hidden;
     width: 100%;
     max-width: 100%;;
@@ -99,11 +99,9 @@
 .component__title {
     word-wrap: break-word;
     font-style: normal;
-    font-weight: @chars-weight;
     letter-spacing: -0.025em;
 
-    line-height: calc(@fontForCovers + 0.2rem);
-    font-size: 0.8em;
+    .titleText();
     color: @main-color;
 }
 
@@ -114,22 +112,20 @@
 }
 
 .component__artists {
-    line-height: 179.2%;
-    font-weight: @chars-weight;
     font-style: normal;
     letter-spacing: -0.025em;
     color: rgba(@main-color, .6);
-
-    font-size: 0.5em;
+    padding-top: 0.1rem;
+    .smallText();
 }
 
 .component__description {
     line-height: 179.2%;
-    font-size: 0.5em;
-    font-weight: @chars-weight;
     font-style: normal;
     letter-spacing: -0.025em;
     color: rgba(@main-color, .6);
+
+    .smallText();
 }
 
 .component__img-div {

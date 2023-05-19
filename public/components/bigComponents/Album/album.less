@@ -23,19 +23,15 @@
   position: relative;
   display: flex;
   flex-direction: row;
-  height: 200px;
-}
 
-@media @mobileMax {
-  .album__descriptions {
-
-  }
+  height: 100%;
+  width: 100%;
+  //margin-top: 1rem;
 }
 
 .headerNameClass {
-  font-size: 1rem;
-  font-weight: @chars-weight;
   color: @shadow-color;
+  .bigTitle();
 }
 
 .descriptions {
@@ -51,9 +47,10 @@
 
 .author__place {
   cursor: pointer;
-  font-size: 0.66rem;
   color: @shadow-color;
-  font-weight: @chars-weight;
+
+  .titleText();
+  font-weight: 500;
 }
 
 .author {
@@ -70,14 +67,11 @@
 
 .headerNameOfElementClass {
   cursor: pointer;
-  font-weight: @chars-weight;
-  font-size: 1.2rem;
   color: @main-color;
   margin-bottom: 15px;
 
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+  .bigTitle();
+  white-space: inherit;
 }
 
 .ArtistClass {
@@ -240,6 +234,7 @@
   display: flex;
   width: 70%;
   justify-content: right;
+  .smallText();
 }
 
 .albumClass {
@@ -263,8 +258,8 @@
   text-overflow: ellipsis;
 }
 
-@media @mobileMax,@tabletSize {
-  .optionSize {
-    font-size: 0.8rem;
-  }
+.optionSize {
+  .smallText();
+  width: fit-content;
 }
+
