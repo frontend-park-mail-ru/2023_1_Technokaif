@@ -5,6 +5,7 @@
     align-items: center;
     display: flex;
     justify-content: space-between;
+    font-size: 0.8rem;
 }
 
 .tape__show-text {
@@ -31,6 +32,8 @@
 }
 
 .component {
+    box-sizing: border-box;
+
     width: 100%;
     overflow: hidden;
     cursor: pointer;
@@ -63,15 +66,17 @@
     display: flex;
     flex-direction: column;
 
+    font-size: 1rem;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;;
+
     @media (max-width: @desktop) {
         padding: 0 10px;
     }
-}
-@media @mobileMax {
-        .component-options {
-            overflow: hidden;
-            font-size: @fontForCovers;
-        }
+    @media @desktopMin {
+        font-size: 1.4rem;
+    }
 }
 
 .component:hover {
@@ -80,78 +85,51 @@
 }
 
 .component__img {
-    height: 175px;
+    height: 145px;
     width: auto;
     border-radius: @small-radius;
 }
 
 @media @mobileMax {
-        .component__img {
-            height: 75px;
-        }
-}
-
-.component__title {
-    margin-top: 10px;
-    word-wrap: break-word;
-    font-style: normal;
-    font-weight: @chars-weight;
-    font-size: @text-label;
-    line-height: 20px;
-    letter-spacing: -0.025em;
-
-    color: @main-color;
-}
-
-@media (max-width: @desktop) {
-    .component__title {
-        font-size: @description-font;
+    .component__img {
+        height: 75px;
     }
 }
 
-@media @mobileMax {
+.component__title {
+    word-wrap: break-word;
+    font-style: normal;
+    font-weight: @chars-weight;
+    letter-spacing: -0.025em;
+
+    line-height: calc(@fontForCovers + 0.2rem);
+    font-size: 0.8em;
+    color: @main-color;
+}
+
+@media @desktopMin{
     .component__title {
-        line-height: calc(@fontForCovers + 0.2rem);
-        font-size: 0.8em;
+        padding-top: 0.7rem;
     }
 }
 
 .component__artists {
     line-height: 179.2%;
-    font-size: @artist-name-font;
     font-weight: @chars-weight;
     font-style: normal;
     letter-spacing: -0.025em;
     color: rgba(@main-color, .6);
 
-    @media (max-width: @desktop) {
-        font-size: @font-sidebar;
-    }
-}
-
-@media @mobileMax {
-    .component__artists {
-        font-size: 0.5em;
-    }
+    font-size: 0.5em;
 }
 
 .component__description {
     line-height: 179.2%;
-    font-size: @artist-name-font;
+    font-size: 0.5em;
     font-weight: @chars-weight;
     font-style: normal;
     letter-spacing: -0.025em;
     color: rgba(@main-color, .6);
-
-    @media (max-width: @desktop) {
-        font-size: @font-sidebar;
-    }
-}
-
-@media @mobileMax {
-    .component__description {
-        font-size: 0.5em;
-    }
 }
 
 .component__img-div {
