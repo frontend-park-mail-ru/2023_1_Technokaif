@@ -9,15 +9,9 @@
 
 .input-block__label {
     margin-bottom: calc(calc(1 / 3) * 1rem);
-    font-size: @text-label;
     font-weight: @chars-weight;
     color: rgba(@main-color, 0.95);
-}
-
-@media @mobileMax {
-    .input-block__label {
-        font-size: 0.8rem;
-    }
+    font-size: 0.8rem;
 }
 
 .input-block__input-element {
@@ -33,11 +27,13 @@
     transition-property: border, outline;
     max-width: 100%;
     width: 100%;
+    font-size: 0.66rem;
 }
 
 .input-block__error-placement {
     color: @attractive-color;
     display: block;
+    font-size: 0.8rem;
 }
 
 

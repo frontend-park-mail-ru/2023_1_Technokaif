@@ -1,5 +1,9 @@
 @import '../../../static/css/constants';
 
+.reg {
+  width: 100%;
+}
+
 @media @mobileMax {
   .reg {
     width: 100%
@@ -10,5 +14,11 @@
   .reg {
     max-width: @maxSizeForFormTablet;
     width: 80%
+  }
+}
+
+@media @desktopMin {
+  .reg {
+    max-width: @maxSizeForFormDesktop;
   }
 }

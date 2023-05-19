@@ -33,10 +33,12 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  width: 100%;
 }
 
 @media (min-width: @desktop) {
   .user__form-placement {
+    justify-content: center;
     flex-direction: row;
     gap: 1rem;
     align-items: flex-start;
@@ -138,20 +140,15 @@
 
 .user-profile__initials-text {
   margin-top: 15px;
-  font-size: @title-font;
   font-weight: @chars-weight;
+  font-size: 1.2rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
-@media @mobileMax {
-    .user-profile__initials-text {
-      font-size: 1.5rem;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
-}
 
 .user-profile__username-text {
-  font-size: @font-input-element;
+  font-size: 1rem;
   font-weight: @chars-weight;
 }
 
@@ -185,13 +182,14 @@
 
 @media @tabletSize {
    .user_button-placement {
-   gap: 40px;
-   width: 100%;
-   margin-bottom: 50px;
-   margin-left: 0;
-   justify-content: center;
-   padding-left: 0.4rem;
-   padding-right: 0.4rem;
+     gap: 40px;
+     width: 100%;
+     margin-bottom: 50px;
+     margin-left: 0;
+     justify-content: center;
+     padding-left: 0.4rem;
+     padding-right: 0.4rem;
+     font-size: 0.8rem;
   }
 }
 
@@ -200,7 +198,7 @@
   background-color: transparent;
   color: @shadow-color;
   border-style: none;
-  font-size: @font-input-element;
+  font-size: 1em;
   font-weight: @chars-weight;
   cursor: pointer;
 
@@ -209,39 +207,23 @@
 .user__button-save {
   background-color: @main-color;
   color: @opposed-main-color;
-  font-size: @font-input-element;
   font-weight: @chars-weight;
   border-radius: @radius;
-  width: 140px;
-  height: 50px;
+  width: fit-content;
+  padding: 0.5rem;
+  height: fit-content;
+
   cursor: pointer;
+  font-size: 1em;
 }
 
-@media @mobileMax {
-    .user__button-save {
-      width: fit-content;
-      padding: 0.5rem;
-      height: fit-content;
-      font-size: 0.7rem;
-    }
-
-    .user__button-cancel {
-      font-size: 0.7rem;
-    }
-}
-
-@media @tabletSize {
+@media @desktopMin {
   .user__button-save {
-    width: fit-content;
-    padding: 0.5rem;
-    height: fit-content;
-      font-size: 1rem;
-    }
-
-    .user__button-cancel {
-      font-size: 1rem;
+    max-width: 140px;
+    max-height: 50px;
   }
 }
+
 
 .user__error-text {
   font-weight: 700;
@@ -270,15 +252,19 @@
   align-self: flex-start;
 }
 
+.js__formPasswords, .js__formLeft {
+  width: 100%;
+}
 
 @media @desktopMin {
-  .formDiv, .formData {
-    width: @maxSizeForUserInfoFormDesktop;
+  .js__formPasswords, .js__formLeft {
+    max-width: @maxSizeForFormDesktop;
   }
 }
 
-@media @mobileMax, @tabletSize {
-  .js__formPasswords {
+@media @desktopMin {
+  .form-data {
     width: 100%;
+    max-width: @maxSizeForFormDesktop;
   }
 }
