@@ -27,6 +27,8 @@
 @media @mobileMax {
   .details {
     margin:0;
+    max-width: 100%;
+    overflow: hidden;
   }
 }
 
@@ -37,7 +39,9 @@
   width: fit-content;
 }
 @media @mobileMax {
-
+    .details__group-track-info {
+      overflow: hidden;
+    }
 }
 
 .player__main-container {
@@ -62,16 +66,26 @@
   color: @main-color;
 }
 
-
-@keyframes slide-right {
-  0% { right: -10%; }
-  100% { right: 100%; }
+@media @mobileMax {
+  .track-name {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+  }
 }
 
 .track-artist {
   font-size: 0.66rem;
   font-weight: @chars-weight;
   color: @shadow-color;
+}
+
+@media @mobileMax, @tabletSize {
+  .track-artist {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 
 .player-slider_container {
@@ -107,12 +121,26 @@
   left: 2vw;
 }
 
+@media @mobileMax, @tabletSize {
+  .player-slider__current-time {
+    font-size: 0.6rem;
+    top: -2;
+  }
+}
+
 .player-slider__total-duration{
   z-index: 6;
   color: rgba(@opposed-main-color);
   pointer-events: none;
   position: absolute;
   right: 2vw;
+}
+
+@media @mobileMax, @tabletSize {
+  .player-slider__total-duration {
+    font-size: 0.6rem;
+    top: -2;
+  }
 }
 
 .player-slider__seek-slider {
@@ -223,6 +251,7 @@ input[type="range"] {
 
 @media @mobileMax {
   .player__control {
+    width: 100%;
     gap: 10px;
   }
 }

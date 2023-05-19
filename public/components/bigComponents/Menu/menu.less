@@ -17,9 +17,10 @@
         bottom: 0;
         left: 0;
         width: 100%;
-        justify-content: center;
         align-items: center;
+        justify-content: space-between;
 
+        overflow-x: scroll;
         padding: 20px 0;
         margin-left: 0;
         background-color: @sub-color;
@@ -38,6 +39,14 @@
     transition: color 150ms;
 }
 
+@media @mobileMax, @tabletSize {
+    .sidebar__link {
+        width: 100%;
+        font-size:0.66rem;
+        line-height: 0.8rem;
+    }
+}
+
 .sidebar__link:hover {
     color: #8aa7eb;
 }
@@ -53,6 +62,12 @@
     align-items: center;
     padding: 0 16px;
     margin-bottom: 15px;
+}
+
+@media @mobileMax,@tabletSize {
+    .sidebar__item {
+        margin-bottom: 0;
+    }
 }
 
 .sidebar-item__library {
