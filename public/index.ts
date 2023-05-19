@@ -31,6 +31,7 @@ import API from '@store/API';
 import ComponentsStore from '@store/ComponentsStore';
 import FeedView from '@views/FeedView';
 import Router from '@router/Router';
+import TrackView from '@views/TrackView';
 import serviceWorkerRegistration from './utils/sw/serviceWorkerRegistration';
 
 /**
@@ -352,10 +353,6 @@ function renderMainPage() {
                 name: componentsNames.PLAYER,
                 render: ComponentsRenders.renderPlayer,
             },
-            {
-                name: componentsNames.PLAYER,
-                render: ComponentsRenders.renderPlayer,
-            },
         ],
         true,
     );
@@ -376,8 +373,8 @@ function renderMainPage() {
                 render: ComponentsRenders.renderNavbar,
             },
             {
-                name: componentsNames.PLAYER,
-                render: ComponentsRenders.renderPlayer,
+                name: componentsNames.TRACK,
+                render: ComponentsRenders.renderTrack,
             },
             {
                 name: componentsNames.PLAYER,
@@ -408,6 +405,7 @@ function renderMainPage() {
     Router.register(routingUrl.SEARCH, () => { SearchView.render(); }, [API]);
     Router.registerRouteWithRegEx(`${routingUrl.ARTIST_PAGE_EXP}`, () => { ArtistPageView.render(); }, [API]);
     Router.registerRouteWithRegEx(`${routingUrl.ALBUM_PAGE_EXP}`, () => { AlbumPageView.render(); }, [API]);
+    Router.registerRouteWithRegEx(`${routingUrl.TRACK_PAGE_EXP}`, () => { TrackView.render(); }, [API]);
     Router.registerRouteWithRegEx(`${routingUrl.PLAYLIST_PAGE_EXP}`, () => { PlaylistView.render(); }, [API]);
     Router.start();
 }
