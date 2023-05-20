@@ -36,9 +36,9 @@
 }
 
 .navbar__link {
-    font-size: @font-sidebar;
     color: @shadow-color;
     align-self: center;
+    .titleText();
 }
 
 .navbar__link, .navbar__profile, .navbar__premium, .navbar__logout {
@@ -70,9 +70,7 @@
 .navbar__login {
     margin-right: 40px;
     border-radius: @radius;
-    width: 110px;
-    font-style: normal;
-    font-weight: @chars-weight;
+    width: 100px;
     font-size: @text-label;
     line-height: 19px;
     text-align: center;
@@ -83,12 +81,16 @@
         background: @main-color;
         height: 50px;
     }
+
+    .titleText();
 }
 
 .navbar__registration__item, .navbar__premium__item {
     display: flex;
     flex-direction: row;
     align-items: center;
+    white-space: nowrap;
+    justify-content: center;
 }
 
 .navbar__border-left {

@@ -109,6 +109,7 @@
 }
 
 .player-slider__current-time {
+  .smallText();
   z-index: 6;
   color: rgba(@opposed-main-color);
   pointer-events: none;
@@ -119,7 +120,6 @@
 @media @mobileMax, @tabletSize {
   .player-slider__current-time {
     display: none;
-    font-size: 0.6rem;
     top: -2vw;
   }
 }
@@ -130,13 +130,12 @@
   pointer-events: none;
   position: absolute;
   right: 2vw;
+  .smallText();
 }
 
 @media @mobileMax, @tabletSize {
   .player-slider__total-duration {
     display: none;
-    font-size: 0.6rem;
-    top: -2vw;
   }
 }
 

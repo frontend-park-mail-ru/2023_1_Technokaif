@@ -85,6 +85,7 @@
 }
 
 .component__img {
+    box-sizing: border-box;
     height: 145px;
     width: auto;
     border-radius: @small-radius;
@@ -92,7 +93,10 @@
 
 @media @mobileMax {
     .component__img {
-        height: 75px;
+        max-height: 75px;
+        max-width: 75px;
+        width: 100%;
+        height: 100%;
     }
 }
 
@@ -103,6 +107,12 @@
 
     .titleText();
     color: @main-color;
+}
+
+@media @tabletSize {
+    .component__title {
+        padding-top: 0.3rem;
+    }
 }
 
 @media @desktopMin{

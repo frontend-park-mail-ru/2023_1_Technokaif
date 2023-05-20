@@ -2,6 +2,8 @@
 
 
 .menu-playlists {
+  direction: rtl;
+
   margin-top: 20px;
   display: flex;
   flex-direction: column;
@@ -11,6 +13,8 @@
   border-radius: @small-radius;
   background: hsla(0,0%,100%,.1);
 
+  overflow-y: auto;
+  max-height: 100%;
 
   @media (max-width: @desktop) {
     display: none;
@@ -18,6 +22,7 @@
 }
 
 .playlist-item {
+  direction: ltr;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -32,15 +37,15 @@
 }
 
 .playlist-cover {
-  width: 50px;
-  height: 50px;
+  width: auto;
+  height: @bigTextFont;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .menu-playlist-name {
   padding: 10px 0;
   font-style: normal;
-  font-weight: @chars-weight;
-  font-size: @text-label;
   line-height: 20px;
   text-align: center;
   display: flex;
@@ -52,9 +57,7 @@
 
   color: @main-color;
 
-  @media (max-width: @desktop) {
-    font-size: @description-font;
-  }
+  .smallText();
 }
 
 .menu-playlist-name p {
