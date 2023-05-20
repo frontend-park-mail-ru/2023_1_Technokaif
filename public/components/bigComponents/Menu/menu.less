@@ -19,7 +19,7 @@
         left: 0;
         width: 100%;
         align-items: center;
-        justify-content: space-between;
+        justify-content: space-around;
 
         overflow-x: scroll;
         padding: 20px 0;
@@ -39,6 +39,10 @@
     transition: color 150ms;
     width: 100%;
     .smallText();
+
+    @media(max-width: @desktop) {
+        display: none;
+    }
 }
 
 .sidebar__link:hover {
@@ -49,6 +53,12 @@
     margin-right: 16px;
 }
 
+@media @mobileMax,@tabletSize {
+    .sidebar__img {
+        margin: 0;
+    }
+}
+
 .sidebar__item {
     cursor: pointer;
     display: flex;
@@ -56,6 +66,10 @@
     align-items: center;
     padding: 0 16px;
     margin-bottom: 15px;
+
+    @media(max-width: @desktop) {
+        padding: 0;
+    }
 }
 
 @media @mobileMax,@tabletSize {
@@ -116,6 +130,10 @@
 
 .sidebar__space {
     margin-bottom: 40px;
+
+    @media(max-width: @desktop) {
+        display: none;
+    }
 }
 
 .sidebar__hr {
