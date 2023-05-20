@@ -112,6 +112,7 @@ class SongStore extends IStore {
             if (newValue.position >= newValue.songs.length) return;
             this.setTrack();
         });
+        this.setTrackIfExistInStore();
     }
 
     /** Return audio element */
@@ -385,24 +386,25 @@ class SongStore extends IStore {
         this.#position = valueToReadFrom.position;
         this.#songs = valueToReadFrom.songs;
 
-        if (state) {
-            if (state.songs?.length > 0) {
-                this.#setVolume(state.volume);
-                this.#storeType = state.storeType;
-                this.#clearTrack = false;
+        if (valueToReadFrom?.songs?.length > 0) {
+            this.#clearTrack = false;
 
-                this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
-                this.#setRepeat(state.repeat);
+            this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
 
-                this.jsEmit(EventTypes.GET_DATA_AFTER_RESTART, {
-                    status: RESPONSES.OK,
-                    id: this.#songs[this.#position].id,
-                    artists: this.#songs[this.#position].artists,
-                    name: this.#songs[this.#position].name,
-                    cover: this.#songs[this.#position].cover,
-                });
-                this.#setTime(state.secondsPlayed);
-            }
+            this.jsEmit(EventTypes.GET_DATA_AFTER_RESTART, {
+                status: RESPONSES.OK,
+                id: this.#songs[this.#position].id,
+                artists: this.#songs[this.#position].artists,
+                name: this.#songs[this.#position].name,
+                cover: this.#songs[this.#position].cover,
+            });
+        }
+
+        if (state && state.songs?.length > 0) {
+            this.#setVolume(state.volume);
+            this.#storeType = state.storeType;
+            this.#setRepeat(state.repeat);
+            this.#setTime(state.secondsPlayed);
         }
     }
 
@@ -424,6 +426,7 @@ class SongStore extends IStore {
 
     /** Set track to play */
     private setTrack() {
+        console.log(this.#songs[this.#position]);
         if (!this.#songs[this.#position]?.recordSrc) return;
         this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
         this.#clearTrack = false;
@@ -572,6 +575,11 @@ class SongStore extends IStore {
         if (this.#songs.length > 0) {
             this.setTrack();
         }
+    }
+
+    /** Get First track if in localStorage */
+    private setTrackIfExistInStore() {
+        this.firstLaunch();
     }
 }
 
