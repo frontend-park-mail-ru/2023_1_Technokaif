@@ -52,5 +52,4 @@ jobs:
           host: 89.208.199.114
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
-          script: cp -r /home/ubuntu/frontend/2023_1_Technokaif/dist/static/* static/
-
+          script: cp -r /home/ubuntu/frontend/2023_1_Technokaif/dist/static/* static/ && aws s3 sync ./media/ s3://fluire/media --endpoint-url http://hb.bizmrg.com && aws s3 sync ./static/ s3://fluire/static --endpoint-url http://hb.bizmrg.com
