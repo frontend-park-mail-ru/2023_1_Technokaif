@@ -426,7 +426,6 @@ class SongStore extends IStore {
 
     /** Set track to play */
     private setTrack() {
-        console.log(this.#songs[this.#position]);
         if (!this.#songs[this.#position]?.recordSrc) return;
         this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
         this.#clearTrack = false;

@@ -94,6 +94,22 @@ class Navbar {
             componentsNames.NAVBAR,
         );
 
+        API.subscribe(
+            (message) => {
+                if (message !== 'OK') {
+                    console.error('bad respond from server during login');
+                } else {
+                    this.#reRender();
+                    const element: HTMLDivElement = document.querySelector(
+                        `.${componentsNames.PLAYER}`,
+                    ) as HTMLDivElement;
+                    element.hidden = false;
+                }
+            },
+            EventTypes.LOGIN_STATUS,
+            componentsNames.NAVBAR,
+        );
+
         UserInfoStore.subscribe(
             () => {
                 if (checkAuth()) {

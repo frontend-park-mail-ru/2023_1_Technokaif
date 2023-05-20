@@ -48,6 +48,18 @@ export class PlayerWithDummy extends BaseComponent {
             EventTypes.LOGOUT_STATUS,
             componentsNames.PLAYER,
         );
+
+        API.subscribe(
+            (message) => {
+                if (message === 'OK') {
+                    ComponentsActions.removeElementFromPage(componentsNames.PLAYER);
+                    this.render();
+                    ComponentsActions.addElementOnPage(componentsNames.PLAYER);
+                }
+            },
+            EventTypes.LOGIN_STATUS,
+            componentsNames.PLAYER,
+        );
     }
 
     /** Method to unRender player dummy */
