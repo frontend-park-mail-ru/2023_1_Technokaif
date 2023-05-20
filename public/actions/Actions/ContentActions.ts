@@ -1,5 +1,6 @@
 import ActionTypes from '@actions/ActionTypes';
 import Dispatcher from '@dispatcher/Dispatcher';
+import { PlaylistContent } from '@api/playlists/createPlaylistAjaxRequest';
 
 /** Work with content of pages */
 class ContentActions {
@@ -61,6 +62,14 @@ class ContentActions {
             type: ActionTypes.ADD_PLAYLIST_CONTENT,
             items,
             instance,
+        });
+    }
+
+    /** Function to update data about playlists in ContentStore from API */
+    updatePlaylistContent(items: PlaylistContent) {
+        Dispatcher.dispatch({
+            type: ActionTypes.UPDATE_PLAYLIST_CONTENT,
+            items,
         });
     }
 

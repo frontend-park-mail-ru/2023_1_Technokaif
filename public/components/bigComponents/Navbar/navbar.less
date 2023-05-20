@@ -13,7 +13,7 @@
     z-index: 999;
 
     @media(min-width: @desktop) {
-        width: calc(100% - 288px);
+        width: calc(100% - 300px);
     }
 }
 
@@ -29,7 +29,10 @@
     margin-right: auto;
     width: 100%;
     max-width: 100%;
-    overflow-x: scroll;
+
+    @media (max-width: @desktop) {
+        overflow-x: scroll;
+    }
 }
 
 .navbar__link {

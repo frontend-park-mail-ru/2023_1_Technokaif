@@ -3,6 +3,7 @@ import IStore from '@store/IStore';
 import { EventTypes } from '@config/EventTypes';
 import { pageNames } from '@config/pageNames';
 import { instancesNames } from '@config/instances';
+import { PlaylistContent } from '@api/playlists/createPlaylistAjaxRequest';
 
 /**
  * Stores Content of pages like artists, tracks.
@@ -46,6 +47,9 @@ class ContentStore extends IStore {
             break;
         case ActionTypes.ADD_PLAYLIST_CONTENT:
             this.addContentOnPlaylistPage(action.items, action.instance);
+            break;
+        case ActionTypes.UPDATE_PLAYLIST_CONTENT:
+            this.updatePlaylistData(action.items);
             break;
         case ActionTypes.FEED_GOT_CONTENT:
             this.addContentOnFeed(action.items);
@@ -203,6 +207,18 @@ class ContentStore extends IStore {
             break;
         default:
         }
+    }
+
+    /**
+     * Update playlist info
+     * @param items
+     * @private
+     */
+    private updatePlaylistData(items: PlaylistContent) {
+        const { playlist } = this.state[pageNames.PLAYLIST];
+        playlist.name = items.name;
+        playlist.description = items.description;
+        this.addContent(pageNames.PLAYLIST, instancesNames.PLAYLIST_PAGE, playlist);
     }
 
     /**

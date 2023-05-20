@@ -14,11 +14,12 @@ import { BaseComponent } from '@components/BaseComponent';
 import Router from '@router/Router';
 import { LineList } from '@bigComponents/LineList/lineList';
 import { instancesNames } from '@config/instances';
+import TrackActions from '@API/TrackActions';
 import tmp from './album.handlebars';
 import headerTemplate from './headerAlbum.handlebars';
 
 /** Class for Album */
-export class Album extends BaseComponent {
+export class Track extends BaseComponent {
     /** Flag if album was loaded */
     #isAlbumLoaded;
 
@@ -49,7 +50,7 @@ export class Album extends BaseComponent {
      * @param {{json}} config
      */
     constructor(parent, config: ISetupAlbumConfg) {
-        super(parent, config, tmp, componentsNames.ALBUM);
+        super(parent, config, tmp, componentsNames.TRACK);
         this.#lineConfigs = [];
         this.isPlaying = SongStore.isPlaying;
         this.#isAlbumLoaded = false;
@@ -65,7 +66,7 @@ export class Album extends BaseComponent {
             const line = new LineList(
                 linesPlacement,
                 configForInsertElement,
-                componentsNames.ALBUM_LINE_LIST,
+                componentsNames.TRACK_LINE_LIST,
             );
 
             line.appendElement();
@@ -78,7 +79,7 @@ export class Album extends BaseComponent {
     private addSubscribes() {
         ContentStore.subscribe(
             () => {
-                const { id } = ContentStore.state[pageNames.ALBUM];
+                const { id } = ContentStore.state[pageNames.TRACK];
                 this.#id = id;
                 const button = document.querySelector('.js__button__play');
                 const imgLike = document.querySelector('.albumLike');
@@ -94,13 +95,13 @@ export class Album extends BaseComponent {
                 this.playButton = button;
 
                 imgLike.addEventListener('click', () => {
-                    const state = ContentStore.state.ALBUM;
+                    const state = ContentStore.state.TRACK;
                     if (state.isLiked) {
                         imgLike.src = imgPath.notLiked;
-                        AlbumActions.unLikeAlbum(this.#id);
+                        TrackActions.likeTrack(this.#id);
                     } else {
                         imgLike.src = imgPath.liked;
-                        AlbumActions.likeAlbum(this.#id);
+                        TrackActions.unlikeTrack(this.#id);
                     }
                     state.isLiked = !state.isLiked;
                 });
@@ -182,7 +183,7 @@ export class Album extends BaseComponent {
         SongStore.subscribe(
             this.changeStatePlayer.bind(this),
             EventTypes.CHANGE_PLAY_STATE,
-            componentsNames.ALBUM,
+            componentsNames.TRACK,
         );
     }
 
@@ -205,6 +206,6 @@ export class Album extends BaseComponent {
     override render() {
         super.appendElement();
         this.addSubscribes();
-        Actions.checkID(pageNames.ALBUM);
+        Actions.checkID(pageNames.TRACK);
     }
 }

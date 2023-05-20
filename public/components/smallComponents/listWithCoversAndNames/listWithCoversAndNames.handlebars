@@ -1,0 +1,16 @@
+<div class="{{jsMain}} {{mainElement}}">
+    {{#each items}}
+        <div class="{{../blockOfItem}}" data-id="{{this.id}}">
+            <img class="{{../coverClass}}" src="{{#if this.cover}}
+                {{#mediaConvert}}{{this.cover}}{{/mediaConvert}}">
+            {{else}}
+                {{../defaultSrc}}">
+            {{/if}}
+
+            <div class="{{../titleClass}}">
+                <p>{{this.name}}</p>
+            </div>
+
+        </div>
+    {{/each}}
+</div>

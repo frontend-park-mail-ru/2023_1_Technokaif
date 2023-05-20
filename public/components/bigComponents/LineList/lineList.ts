@@ -29,7 +29,7 @@ export class LineList extends BaseComponent {
 
     private parent;
 
-    private _config;
+    private elementConfig;
 
     /**
      * Dropdown elements for track lines
@@ -55,7 +55,7 @@ export class LineList extends BaseComponent {
     constructor(parent, config, name) {
         super(parent, config, templateHTML, name);
         this.parent = parent;
-        this._config = config;
+        this.elementConfig = config;
         this.dropDowns = [];
         this.playlistsDropDowns = [];
         this.playlists = [];
@@ -82,9 +82,9 @@ export class LineList extends BaseComponent {
      * @private
      */
     private indexLines() {
-        const trackLines: NodeListOf<HTMLDivElement> = document.querySelectorAll(`.${this._config.lineDiv}`);
+        const trackLines: NodeListOf<HTMLDivElement> = document.querySelectorAll(`.${this.elementConfig.lineDiv}`);
         Array.from(trackLines).forEach((trackLine, index) => {
-            const currentIndexElement: HTMLDivElement|null = trackLine.querySelector(`.${this._config.lineIndex}`);
+            const currentIndexElement: HTMLDivElement|null = trackLine.querySelector(`.${this.elementConfig.lineIndex}`);
             if (!currentIndexElement) {
                 console.error('Error in index element');
                 return;
@@ -103,7 +103,7 @@ export class LineList extends BaseComponent {
      * @private
      */
     private unrenderTrack(id: string) {
-        const trackLines = document.querySelectorAll(`.${this._config.lineDiv}`) as NodeListOf<HTMLDivElement>;
+        const trackLines = document.querySelectorAll(`.${this.elementConfig.lineDiv}`) as NodeListOf<HTMLDivElement>;
         // @ts-ignore
         const line = Array.from(trackLines).find((trackLine) => trackLine.dataset.id === id);
         if (!line) {
@@ -243,8 +243,8 @@ export class LineList extends BaseComponent {
             if (this.isRendered) return;
             // eslint-disable-next-line max-len
             this.playlists = ContentStore.state[pageNames.LIBRARY_PLAYLISTS][instance];
-            const lines = document.querySelectorAll(`.${this._config.lineDiv}`);
-            const anothers = document.querySelectorAll(`.${this._config.anotherClass}`);
+            const lines = document.querySelectorAll(`.${this.elementConfig.lineDiv}`);
+            const anothers = document.querySelectorAll(`.${this.elementConfig.anotherClass}`);
 
             lines.forEach((line, index) => {
                 const div = document.createElement('div');
@@ -273,13 +273,13 @@ export class LineList extends BaseComponent {
         }, EventTypes.GOT_USER_PLAYLISTS, this.name);
 
         this.parent.addEventListener('click', (event) => {
-            const line = event.target.closest(`.${this._config.lineDiv}`) as HTMLDivElement;
-            const like = event.target.closest(`.${this._config.likeButtonImg}`) as HTMLImageElement;
-            const another: HTMLImageElement|null = event.target.closest(`.${this._config.anotherClass}`);
-            const album: HTMLDivElement = event.target.closest(`.${this._config.lineTitle}`);
-            const buttons = event.target.closest(`.${this._config.playButtonImg}`) as HTMLImageElement;
+            const line = event.target.closest(`.${this.elementConfig.lineDiv}`) as HTMLDivElement;
+            const like = event.target.closest(`.${this.elementConfig.likeButtonImg}`) as HTMLImageElement;
+            const another: HTMLImageElement|null = event.target.closest(`.${this.elementConfig.anotherClass}`);
+            const album: HTMLDivElement = event.target.closest(`.${this.elementConfig.lineTitle}`);
+            const buttons = event.target.closest(`.${this.elementConfig.playButtonImg}`) as HTMLImageElement;
             const playButtons = document
-                .querySelectorAll(`.${this._config.playButton}`) as NodeListOf<HTMLButtonElement>;
+                .querySelectorAll(`.${this.elementConfig.playButton}`) as NodeListOf<HTMLButtonElement>;
 
             if (line) {
                 // todo not clear solution dont forget about
@@ -295,7 +295,7 @@ export class LineList extends BaseComponent {
                     return;
                 }
 
-                const indexBlock: HTMLDivElement = line.querySelector(`.${this._config.lineIndex}`) as HTMLDivElement;
+                const indexBlock: HTMLDivElement = line.querySelector(`.${this.elementConfig.lineIndex}`) as HTMLDivElement;
                 if (!indexBlock) {
                     console.error('Cannot find index block');
                     return;
@@ -364,8 +364,8 @@ export class LineList extends BaseComponent {
                         PlayerActions.changePlayState(false);
                     }
                 } else if (event.target === like) {
-                    const likeBlock: NodeListOf<HTMLButtonElement> = document.querySelectorAll(`.${this._config.like}`) as NodeListOf<HTMLButtonElement>;
-                    const unlike: NodeListOf<HTMLButtonElement> = document.querySelectorAll(`.${this._config.unlike}`) as NodeListOf<HTMLButtonElement>;
+                    const likeBlock: NodeListOf<HTMLButtonElement> = document.querySelectorAll(`.${this.elementConfig.like}`) as NodeListOf<HTMLButtonElement>;
+                    const unlike: NodeListOf<HTMLButtonElement> = document.querySelectorAll(`.${this.elementConfig.unlike}`) as NodeListOf<HTMLButtonElement>;
                     // eslint-disable-next-line max-len
                     if (!likeBlock || !unlike || likeBlock[id - 1] === undefined || unlike[id - 1] === undefined) {
                         console.error('Cannot find like block', id);
@@ -396,9 +396,9 @@ export class LineList extends BaseComponent {
 
         SongStore.subscribe(
             (state) => {
-                const playButtons = document.querySelectorAll(`.${this._config.playButton}`) as NodeListOf<HTMLButtonElement>;
-                const stopButtons = document.querySelectorAll(`.${this._config.stopButton}`) as NodeListOf<HTMLButtonElement>;
-                const lines = document.querySelectorAll(`.${this._config.lineDiv}`) as NodeListOf<HTMLDivElement>;
+                const playButtons = document.querySelectorAll(`.${this.elementConfig.playButton}`) as NodeListOf<HTMLButtonElement>;
+                const stopButtons = document.querySelectorAll(`.${this.elementConfig.stopButton}`) as NodeListOf<HTMLButtonElement>;
+                const lines = document.querySelectorAll(`.${this.elementConfig.lineDiv}`) as NodeListOf<HTMLDivElement>;
                 const trackId = SongStore.trackInfo.id;
                 for (const key in lines) {
                     if (key === 'entries') break;

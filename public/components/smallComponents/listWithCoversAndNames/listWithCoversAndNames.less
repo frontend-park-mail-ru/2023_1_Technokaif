@@ -1,0 +1,62 @@
+@import '../../../static/css/constants.less';
+
+
+.menu-playlists {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+
+  border: 1px solid transparent;
+  border-radius: @small-radius;
+  background: hsla(0,0%,100%,.1);
+
+
+  @media (max-width: @desktop) {
+    display: none;
+  }
+}
+
+.playlist-item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 10px 10px;
+}
+
+.playlist-item:hover {
+  background-color: @hover-color;
+  border-radius: @small-radius;
+}
+
+.playlist-cover {
+  width: 50px;
+  height: 50px;
+}
+
+.menu-playlist-name {
+  padding: 10px 0;
+  font-style: normal;
+  font-weight: @chars-weight;
+  font-size: @text-label;
+  line-height: 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  color: @main-color;
+
+  @media (max-width: @desktop) {
+    font-size: @description-font;
+  }
+}
+
+.menu-playlist-name p {
+  width: 100%;
+}

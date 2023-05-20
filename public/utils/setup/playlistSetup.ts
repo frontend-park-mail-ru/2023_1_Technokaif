@@ -216,11 +216,13 @@ export function setupModalWindow(playlist: Playlist) {
         infoBlockClass: 'playlist-info-block',
 
         saveButtonClass: 'modal-playlist-button',
-        nameInputClass: 'playlist-name',
-        descriptionInputClass: 'playlist-description',
+        nameInputClass: 'playlist-name-input',
+        nameBlockClass: 'playlist-name',
+        descriptionInputClass: 'playlist-description-input',
+        descriptionBlockClass: 'playlist-description',
         inputValue: playlist.name,
         textareaValue: playlist.description,
-        labelClass: '',
+        labelClass: 'modal-window-label',
         nameInputPlaceholder: 'Enter a playlist name',
         descriptionPlaceholder: 'Add a description',
     };

@@ -50,7 +50,7 @@ export class LibraryPlaylists extends BaseComponent {
             element.innerHTML = '';
         }
 
-        if (playlists.length === 0) {
+        if (playlists.length === 0 && nothingPlacement.children.length < 2) {
             const textOfNothing = document.createElement('p');
             textOfNothing.innerText = textForNothing;
             textOfNothing.classList.add('library__nothing-text');
@@ -72,6 +72,10 @@ export class LibraryPlaylists extends BaseComponent {
     private subscribeForStores() {
         ContentStore.subscribe(
             (instance) => {
+                const element: HTMLDivElement|null = document.querySelector('.js__user-playlists-placement');
+                if (element?.children.length) {
+                    return;
+                }
                 const playlists = ContentStore.state[pageNames.LIBRARY_PLAYLISTS][instance];
                 this.renderTape(playlists, playlistsTypes.PERSONAL_PLAYLISTS);
                 UserActions.userFavoritePlaylists(localStorage.getItem('userId'));
@@ -82,6 +86,10 @@ export class LibraryPlaylists extends BaseComponent {
 
         ContentStore.subscribe(
             (instance) => {
+                const element: HTMLDivElement|null = document.querySelector('.js__favorite-playlists-placement');
+                if (element?.children.length) {
+                    return;
+                }
                 const playlists = ContentStore.state[pageNames.LIBRARY_PLAYLISTS][instance];
                 this.renderTape(playlists, playlistsTypes.FAVORITE_PLAYLISTS);
             },

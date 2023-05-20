@@ -21,9 +21,6 @@ export class ModalWindow extends BaseComponent {
     /** Input file for playlist cover */
     private fileInput;
 
-    /** config */
-    private configA;
-
     /**
      * Create Line component.
      * @param {HTMLElement} parent - place where to render
@@ -33,7 +30,6 @@ export class ModalWindow extends BaseComponent {
     constructor(parent, config, name) {
         super(parent, config, templateHTML, name);
         this.parent = parent;
-        this.configA = config;
         this.fileInput = document.createElement('input');
         this.fileInput.setAttribute('type', 'file');
         this.fileInput.setAttribute('id', 'file');
@@ -56,6 +52,29 @@ export class ModalWindow extends BaseComponent {
     }
 
     /**
+     * Method to use like callback for inputs
+     * @param event
+     * @param nameElement
+     * @param descriptionElement
+     * @private
+     */
+    private updatePlaylistData(event, nameElement: HTMLInputElement|undefined, descriptionElement: HTMLTextAreaElement|undefined) {
+        event.preventDefault();
+
+        if (!nameElement || !descriptionElement) {
+            console.error('Cannot get element on modal window');
+            return;
+        }
+
+        PlaylistActions.updatePlaylist(ContentStore.state[pageNames.PLAYLIST].id, {
+            name: nameElement.value,
+            description: descriptionElement.value.trim(),
+            users: ContentStore.state[pageNames.PLAYLIST]
+                .playlist.users.map((element) => element.id),
+        });
+    }
+
+    /**
      * Function to add subscribes
      * @private
      */
@@ -63,12 +82,9 @@ export class ModalWindow extends BaseComponent {
         const modal = document.querySelector(`.${this.name}`);
         const modalButton = document.querySelector('.modal-playlist-button');
         const root = document.querySelector(`#${componentsJSNames.ROOT}`);
-        const coverElement: HTMLDivElement|null = document.querySelector('.playlist-cover-img');
-        const nameElement: HTMLInputElement|null = document.querySelector('.playlist-name');
-        const descriptionElement: HTMLTextAreaElement|null = document.querySelector('.playlist-description');
-        const area = document.querySelectorAll('.playlist-description')[1] as HTMLTextAreaElement|null;
-        if (!area) { return; }
-        area.value = this.configA.textareaValue;
+        const coverElement: Element|undefined = document.getElementsByClassName('playlist-cover-img')[0];
+        const nameElement: Element|undefined = document.getElementsByClassName('playlist-name-input')[0];
+        const descriptionElement: Element|undefined = document.getElementsByClassName('playlist-description-input')[0];
 
         coverElement?.appendChild(this.fileInput);
         if (!root
@@ -80,14 +96,27 @@ export class ModalWindow extends BaseComponent {
             console.error('Cannot get element on modal window');
             return;
         }
+
+        // we append file input there because it could be removed from ff callback on close
+        root.appendChild(this.fileInput);
+
+        const avatarImg: HTMLImageElement|null = this.parent.querySelector('.user-profile__img');
+        if (!avatarImg) {
+            console.error('Error in avatar element');
+            return;
+        }
+
+        (coverElement as HTMLImageElement).src = avatarImg.src;
+
         const ff = (event) => {
             const element:HTMLElement = event.target as HTMLElement;
-            if (element.classList.contains('headerNameOfElementClass')) {
+            if (element.classList.contains('headerNameOfElementClass') || element.classList.contains('js__description-album') || element.id === 'file') {
                 return;
             }
             const modal1 = document.querySelector('.modal') as HTMLElement;
             if (!modal1.contains(element) && !modalButton.contains(element)) {
                 this.unrenderElement();
+                root.removeChild(this.fileInput);
                 document.removeEventListener(METHOD.BUTTON, ff);
             }
         };
@@ -95,17 +124,19 @@ export class ModalWindow extends BaseComponent {
         document.addEventListener('click', ff);
 
         modalButton.addEventListener(METHOD.BUTTON, (event) => {
-            event.preventDefault();
-            const nameElement1 = document.querySelector('#name-input') as HTMLTextAreaElement;
-            const descriptionElement2 = document.querySelectorAll('.playlist-description');
-            const descriptionElement1 = descriptionElement2[1] as HTMLTextAreaElement;
+            this.updatePlaylistData(
+                event,
+                nameElement as HTMLInputElement,
+                descriptionElement as HTMLTextAreaElement,
+            );
+        });
 
-            PlaylistActions.updatePlaylist(ContentStore.state[pageNames.PLAYLIST].id, {
-                name: nameElement1.value,
-                description: descriptionElement1.value,
-                users: ContentStore.state[pageNames.PLAYLIST]
-                    .playlist.users.map((element) => element.id),
-            });
+        modal.addEventListener(METHOD.FORM, (event) => {
+            this.updatePlaylistData(
+                event,
+                nameElement as HTMLInputElement,
+                descriptionElement as HTMLTextAreaElement,
+            );
         });
 
         coverElement.addEventListener('click', () => {
@@ -113,10 +144,8 @@ export class ModalWindow extends BaseComponent {
         });
 
         this.fileInput.addEventListener('change', () => {
-            const file = this.fileInput.files[0];
-
             const formData = new FormData();
-            formData.append('cover', file);
+            formData.append('cover', this.fileInput.files[0]);
 
             PlaylistActions.uploadPlaylistCover(
                 ContentStore.state[pageNames.PLAYLIST].id,
@@ -129,14 +158,14 @@ export class ModalWindow extends BaseComponent {
                 if (message !== 'OK') {
                     console.error(message);
                 } else {
-                    const avatarImg: HTMLImageElement|null = this.parent.querySelector('.playlist-cover-img');
-                    if (!avatarImg) {
+                    const playlistImg: HTMLImageElement|null = this.parent.querySelector('.playlist-cover-img');
+                    if (!playlistImg) {
                         console.error('Error in cover element');
                         return;
                     }
                     const blob = new Blob(this.fileInput.files, { type: 'image/jpeg' });
                     const imageUrl = URL.createObjectURL(blob);
-                    avatarImg.src = imageUrl;
+                    playlistImg.src = imageUrl;
                 }
             },
             EventTypes.UPLOADED_PLAYLIST_COVER,
