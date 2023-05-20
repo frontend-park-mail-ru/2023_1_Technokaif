@@ -47,6 +47,15 @@ export class AudioPlayer extends BaseComponent {
         this.isExist = false;
     }
 
+    /** Remove all disabled from player */
+    private removeDisabled() {
+        const disabledElements = document.querySelectorAll('.disabled__player-control');
+        if (!disabledElements) return;
+        disabledElements.forEach((el) => {
+            el.classList.remove('disabled__player-control');
+        });
+    }
+
     /** Subscribe Stores */
     #subscribe() {
         // Subscribe player on found songs
@@ -268,6 +277,7 @@ export class AudioPlayer extends BaseComponent {
      *  }
      */
     trackLoading(responseFromStore) {
+        this.removeDisabled();
         if (responseFromStore.status === RESPONSES.REPEAT) {
             this.#resetAllToStart();
             return;
@@ -315,6 +325,7 @@ export class AudioPlayer extends BaseComponent {
      * @param {boolean} startAfterRefresh -if set dont clear fields and dont play
      */
     #setNewTrack(response, startAfterRefresh = false) {
+        this.removeDisabled();
         clearInterval(this.#elements.updateTimer);
         if (!startAfterRefresh) {
             this.#resetAllToStart();
