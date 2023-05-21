@@ -13,10 +13,10 @@ import { BaseComponent } from '@components/BaseComponent';
 
 import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
 import TrackActions from '@API/TrackActions';
+import API from '@store/API';
 
 import template from './player.handlebars';
 import './player.less';
-import API from '@store/API';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer extends BaseComponent {
@@ -258,10 +258,6 @@ export class AudioPlayer extends BaseComponent {
             this.#elements.volume_slider.dispatchEvent(new Event('input'));
         });
 
-        elements.repeat.addEventListener(METHOD.BUTTON, () => {
-            this.#toggleRepeat();
-        });
-
         this.#functionSpace = (event) => {
             if (event.keyCode === 32
                 && !(event.target instanceof HTMLInputElement)
@@ -273,50 +269,6 @@ export class AudioPlayer extends BaseComponent {
         };
 
         document.addEventListener(METHOD.KEY_PRESSED, this.#functionSpace);
-
-        const like: HTMLImageElement|null = document.querySelector('.playerLike');
-        const player: HTMLDivElement|null = document.querySelector('.player');
-        if (!player || !like) {
-            console.error('Cannot find player element');
-            return;
-        }
-        const share: HTMLImageElement|null = player.querySelector('.playerShare');
-        if (!share) {
-            console.error('Button share are not exist');
-            return;
-        }
-
-        share.addEventListener('click', () => {
-            navigator.clipboard.writeText(window.location.href)
-                .then(() => {
-                    const notification = new Notification(
-                        document.querySelector('.js__navbar'),
-                        'Track link saved to clipboard!',
-                    );
-                    notification.appendElement();
-                })
-                .catch((error) => {
-                    const notification = new Notification(
-                        document.querySelector('.js__navbar'),
-                        'Track link haven\'t been saved to clipboard!',
-                        'notify',
-                        TypeOfNotification.failure,
-                    );
-                    notification.appendElement();
-                    console.error(`Error in copy to clipboard: ${error}`);
-                });
-        });
-
-        like.addEventListener('click', () => {
-            const track = SongStore.trackInfo;
-            if (track.isLiked) {
-                TrackActions.unlikeTrack(track.id);
-                like.src = imgPath.notLiked;
-            } else {
-                TrackActions.likeTrack(track.id);
-                like.src = imgPath.liked;
-            }
-        });
     }
 
     /** Add all elements of player to elements to use it later */
@@ -447,7 +399,56 @@ export class AudioPlayer extends BaseComponent {
             console.error('Cannot find track like');
             return;
         }
+
         imgLike.src = SongStore.trackInfo.isLiked ? imgPath.liked : imgPath.notLiked;
+
+        const like: HTMLImageElement|null = document.querySelector('.playerLike');
+        const player: HTMLDivElement|null = document.querySelector('.player');
+        if (!player || !like) {
+            console.error('Cannot find player element');
+            return;
+        }
+        const share: HTMLImageElement|null = player.querySelector('.playerShare');
+        if (!share) {
+            console.error('Button share are not exist');
+            return;
+        }
+
+        share.addEventListener('click', () => {
+            navigator.clipboard.writeText(`${window.location.origin}/track/${SongStore.trackInfo.id}`)
+                .then(() => {
+                    const notification = new Notification(
+                        document.querySelector('.js__navbar'),
+                        'Track link saved to clipboard!',
+                    );
+                    notification.appendElement();
+                })
+                .catch((error) => {
+                    const notification = new Notification(
+                        document.querySelector('.js__navbar'),
+                        'Track link haven\'t been saved to clipboard!',
+                        'notify',
+                        TypeOfNotification.failure,
+                    );
+                    notification.appendElement();
+                    console.error(`Error in copy to clipboard: ${error}`);
+                });
+        });
+
+        like.addEventListener('click', () => {
+            const track = SongStore.trackInfo;
+            if (track.isLiked) {
+                TrackActions.unlikeTrack(track.id);
+                like.src = imgPath.notLiked;
+            } else {
+                TrackActions.likeTrack(track.id);
+                like.src = imgPath.liked;
+            }
+        });
+
+        this.#elements.repeat.addEventListener(METHOD.BUTTON, () => {
+            this.#toggleRepeat();
+        });
     }
 
     /** Set values of Time, Duration, Line to 0 */
