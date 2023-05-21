@@ -150,6 +150,16 @@
     bottom: 5%;
 }
 
+@media @mobileMax, @tabletSize {
+    .buttonPlayOnComponent {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        right: 0;
+        bottom: 0;
+    }
+}
+
 .buttonComponent {
     width: 100%;
     height: 100%;
@@ -157,10 +167,10 @@
 }
 
 @media @mobileMax, @tabletSize {
-        .main {
-            height: fit-content;
-            margin-bottom: 300px;
-        }
+    .main {
+        height: fit-content;
+        margin-bottom: 300px;
+    }
 }
 
 @media @tabletSize {
