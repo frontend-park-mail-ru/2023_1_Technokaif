@@ -1,17 +1,22 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-// todo https://github.com/orgs/frontend-park-mail-ru/projects/1/views/1?pane=issue&itemId=25985431
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const postcssPresetEnv = require('postcss-preset-env');
 
 module.exports = {
     mode: 'production',
-    entry: path.resolve(__dirname, 'public', 'index.ts'),
+    entry: {
+        main: path.resolve(__dirname, 'public', 'index.ts'),
+        Router: path.resolve(__dirname, 'public/router', 'Router.ts'),
+    },
     plugins: [
+        new MiniCssExtractPlugin(),
         new HtmlWebpackPlugin({
             templateContent: `
                 <html>
@@ -33,8 +38,12 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 {
-                    from: './public/static',
-                    to: './static',
+                    from: './public/static/svg',
+                    to: './static/svg',
+                },
+                {
+                    from: './public/static/img/icons',
+                    to: './static/img/icons',
                 },
                 {
                     from: 'public/utils/sw/serviceWorker.js',
@@ -55,6 +64,29 @@ module.exports = {
     },
     module: {
         rules: [
+            {
+                test: /\.svg$/,
+                use: [
+                    'file-loader',
+                    {
+                        loader: 'svgo-loader',
+                        options: {
+                            plugins: [
+                                { removeTitle: true },
+                                { removeComments: true },
+                                { removeDesc: true },
+                                { removeMetadata: true },
+                                { removeUselessDefs: true },
+                                { removeEditorsNSData: true },
+                                { removeEmptyAttrs: true },
+                                { removeHiddenElems: true },
+                                { removeEmptyText: true },
+                                { removeEmptyContainers: true },
+                            ],
+                        },
+                    },
+                ],
+            },
             {
                 test: /\.tsx?$/,
                 use: 'ts-loader',
@@ -94,18 +126,22 @@ module.exports = {
                 },
             },
             {
-                test: /\.less$/i,
+                test: /\.less$/,
                 use: [
-                    // compiles Less to CSS
-                    'style-loader',
+                    MiniCssExtractPlugin.loader,
                     'css-loader',
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    postcssPresetEnv(),
+                                ],
+                            },
+                        },
+                    },
                     'less-loader',
                 ],
-                exclude: /node_modules/,
-            },
-            {
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
                 exclude: /node_modules/,
             },
         ],
@@ -145,9 +181,68 @@ module.exports = {
                     compress: { drop_console: true },
                 },
             }),
+            new ImageMinimizerPlugin({
+                minimizer: {
+                    implementation: ImageMinimizerPlugin.sharpMinify,
+                    options: {
+                        encodeOptions: {
+                            jpeg: {
+                                // https://sharp.pixelplumbing.com/api-output#jpeg
+                                quality: 100,
+                            },
+                            webp: {
+                                // https://sharp.pixelplumbing.com/api-output#webp
+                                lossless: true,
+                            },
+                            // png by default sets the quality to 100%, which is same as lossless
+                            // https://sharp.pixelplumbing.com/api-output#png
+                            png: {},
+                        },
+                    },
+                },
+            }),
         ],
         usedExports: true,
         minimize: true,
         removeEmptyChunks: true,
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    name: 'node_vendors',
+                    test: /[\\/]node_modules[\\/]/,
+                    chunks: 'all',
+                },
+                functions: {
+                    name: 'utils',
+                    test: /[\\/]utils[\\/]/,
+                    chunks: 'all',
+                    minSize: 0,
+                },
+                apiRequests: {
+                    name: 'apiRequests',
+                    test: /[\\/]api[\\/]/,
+                    chunks: 'all',
+                    minSize: 0,
+                },
+                actions: {
+                    name: 'actions',
+                    test: /[\\/]actions[\\/]/,
+                    chunks: 'all',
+                    minSize: 0,
+                },
+                dispatcher: {
+                    name: 'dispatcher',
+                    test: /[\\/]dispatcher[\\/]/,
+                    chunks: 'all',
+                    minSize: 0,
+                },
+                stores: {
+                    name: 'stores',
+                    test: /[\\/]stores[\\/]/,
+                    chunks: 'all',
+                    minSize: 0,
+                },
+            },
+        },
     },
 };
