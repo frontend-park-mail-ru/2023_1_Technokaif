@@ -41,7 +41,8 @@ self.addEventListener('fetch', (event) => {
 
                         caches.open('Fluire')
                             .then((cache) => {
-                                cache.put(event.request, responseToCache);
+                                cache.put(event.request, responseToCache)
+                                    .catch(() => {});
                             });
 
                         return response;
