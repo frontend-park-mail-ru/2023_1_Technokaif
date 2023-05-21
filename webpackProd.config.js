@@ -1,12 +1,12 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // todo https://github.com/orgs/frontend-park-mail-ru/projects/1/views/1?pane=issue&itemId=25985431
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const CopyPlugin = require('copy-webpack-plugin');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     mode: 'production',
@@ -140,5 +140,18 @@ module.exports = {
         },
         extensions: ['.tsx', '.ts', '.js'],
         plugins: [new TsconfigPathsPlugin()],
+    },
+    optimization: {
+        minimizer: [
+            new CssMinimizerPlugin(),
+            new TerserPlugin({
+                terserOptions: {
+                    compress: { drop_console: true },
+                },
+            }),
+        ],
+        usedExports: true,
+        minimize: true,
+        removeEmptyChunks: true,
     },
 };

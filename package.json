@@ -11,7 +11,8 @@
     "build": "webpack --config webpack.config.js",
     "eslint": "npx eslint --fix .",
     "repeat": "npx jscpd -c .jscpd.json .",
-    "shema": "curl https://raw.githubusercontent.com/go-park-mail-ru/2023_1_Technokaif/main/docs/swagger.yaml > data.yaml && npx openapi-typescript ./data.yaml -o ./schema.ts"
+    "shema": "curl https://raw.githubusercontent.com/go-park-mail-ru/2023_1_Technokaif/main/docs/swagger.yaml > data.yaml && npx openapi-typescript ./data.yaml -o ./schema.ts",
+    "buildProduct" : "webpack --config webpackProd.config.js"
   },
   "author": "",
   "license": "ISC",
@@ -42,6 +43,7 @@
     "babel-loader": "^9.1.2",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
+    "css-minimizer-webpack-plugin": "^5.0.0",
     "eslint": "^8.38.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-standard": "^17.0.0",
@@ -59,6 +61,7 @@
     "pre-commit": "^1.2.2",
     "style-loader": "^3.3.1",
     "stylelint": "^15.3.0",
+    "terser-webpack-plugin": "^5.3.9",
     "ts-loader": "^9.4.2",
     "tsconfig-paths-webpack-plugin": "^4.0.1",
     "typescript": "^5.0.4",
