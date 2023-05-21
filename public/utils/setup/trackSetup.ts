@@ -17,7 +17,7 @@ export function setupTrack(): ISetupAlbumConfg {
 
         headerNameDiv: '',
         headerNameClass: 'headerNameClass',
-        headerName: 'Single',
+        headerName: 'Track',
         headerNameOfElementDiv: '',
         headerNameOfElementClass: 'headerNameOfElementClass',
         headerNameOfElement: '',
