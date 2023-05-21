@@ -17,7 +17,7 @@ import SongStore from '@store/SongStore';
 import Router from '@router/Router';
 import ContentStore from '@store/ContentStore';
 import { METHOD } from '@config/config';
-import { Notification } from '@smallComponents/notification/notification';
+import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
 import templateHTML from './lineList.handlebars';
 import './lineList.less';
 
@@ -168,7 +168,29 @@ export class LineList extends BaseComponent {
         const textAdd = document.createElement('p');
         textAdd.textContent = 'Add';
         textAdd.classList.add('optionSize');
-        dropDown.addOptionsElement(textAdd);
+        dropDown.addOptionsElement(textAdd, METHOD.BUTTON, () => {
+            const trackElement: HTMLDivElement|null = document.querySelector(`.track-line[data-id="${trackId}"]`);
+            if (!trackElement) {
+                return;
+            }
+
+            const playlistsContainer: HTMLUListElement|null = trackElement.querySelector('.item-list');
+            if (!playlistsContainer) {
+                return;
+            }
+
+            if (!playlistsContainer.children.length) {
+                const notification = new Notification(
+                    document.querySelector('.js__navbar'),
+                    'Error adding track in player. No players found.',
+                    `${trackId}_queue`,
+                    TypeOfNotification.failure,
+                );
+
+                notification.appendElement();
+            }
+        });
+
         if (dropDown?.options && (dropDown.options instanceof HTMLElement)) {
             // @ts-ignore
             dropDown.options.style = {
@@ -247,11 +269,13 @@ export class LineList extends BaseComponent {
         });
         ul.classList.add('item-list');
 
+        let hasPlaylist = false;
         this.playlists.forEach((playlist) => {
             if (playlist.tracks.find((track) => Number(track.id) === Number(index))) {
                 return;
             }
 
+            hasPlaylist = true;
             const li = document.createElement('li');
             li.classList.add('li-element');
             li.textContent = playlist.name;
@@ -260,6 +284,10 @@ export class LineList extends BaseComponent {
             });
             ul.appendChild(li);
         });
+
+        if (!hasPlaylist) {
+            div.classList.add('container-for-line');
+        }
     }
 
     /**
