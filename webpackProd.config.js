@@ -9,16 +9,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
-    mode: 'development',
-    watch: true,
-    watchOptions: {
-        aggregateTimeout: 200,
-        poll: 1000,
-        ignored: /node_modules/,
-    },
-    devServer: {
-        historyApiFallback: true,
-    },
+    mode: 'production',
     entry: path.resolve(__dirname, 'public', 'index.ts'),
     plugins: [
         new HtmlWebpackPlugin({
