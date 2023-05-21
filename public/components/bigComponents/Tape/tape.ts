@@ -98,6 +98,8 @@ export class Tape extends BaseComponent {
                             }
                             event.target.classList.add('play');
                         }
+                    } else {
+                        Router.go(`/${instancesNames.TRACK_PAGE}/${id}`);
                     }
                     break;
                 case 'Albums':

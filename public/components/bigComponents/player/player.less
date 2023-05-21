@@ -18,6 +18,30 @@
   }
 }
 
+.playerLike, .playerShare {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.shareButton {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+@media @mobileMax {
+  .shareButton, .playerShare {
+    display: none;
+  }
+}
+
+@media @mobileMax {
+  .player-buttons__repeat {
+    display: none;
+  }
+}
+
 .details {
   display: flex;
   width: 100%;

@@ -117,6 +117,33 @@ export class LineList extends BaseComponent {
     }
 
     /**
+     * Function to change state
+     * @param id
+     * @param state
+     * @private
+     */
+    private changeLikeState(id: string, state: boolean) {
+        const trackLines = document.querySelectorAll(`.${this.elementConfig.lineDiv}`) as NodeListOf<HTMLDivElement>;
+        // @ts-ignore
+        const line = Array.from(trackLines).find((trackLine) => trackLine.dataset.id === String(id));
+        if (!line) {
+            return;
+        }
+
+        const likeButton: HTMLButtonElement|null = line.querySelector('.like-button');
+        const unlikeButton: HTMLButtonElement|null = line.querySelector('.unlike-button');
+        if (!state) {
+            if (unlikeButton && likeButton?.hidden) {
+                likeButton.hidden = false;
+                unlikeButton.hidden = true;
+            }
+        } else if (likeButton && unlikeButton?.hidden) {
+            unlikeButton.hidden = false;
+            likeButton.hidden = true;
+        }
+    }
+
+    /**
      * Render dropdown list for track line
      * @param line
      * @param index
@@ -324,6 +351,10 @@ export class LineList extends BaseComponent {
                                 // eslint-disable-next-line max-len
                                 PlayerActions.playArtist(ContentStore.state[pageNames.ARTIST_PAGE].id, id - 1);
                                 break;
+                            case componentsNames.TRACK_LINE_LIST:
+                                // eslint-disable-next-line max-len
+                                PlayerActions.apiPlayTrack([ContentStore.state[pageNames.TRACK].track]);
+                                break;
                             case componentsNames.ALBUM_LINE_LIST:
                                 // eslint-disable-next-line max-len
                                 PlayerActions.playAlbum(ContentStore.state[pageNames.ALBUM].id, id - 1);
@@ -388,8 +419,6 @@ export class LineList extends BaseComponent {
                 } else if (event.target === album) {
                     const { albumid } = line.dataset;
                     Router.go(routingUrl.ALBUM_PAGE(albumid));
-                } else if (event.target === another) {
-
                 }
             }
         });
@@ -426,8 +455,20 @@ export class LineList extends BaseComponent {
 
         API.subscribe(
             (message, id) => {
+                if (message === 'OK') {
+                    this.changeLikeState(id, true);
+                }
+            },
+            EventTypes.LIKED_TRACK,
+            this.name,
+        );
+
+        API.subscribe(
+            (message, id) => {
                 if (message === 'OK' && this.name === componentsNames.TRACK_LIBRARY_LINE_LIST) {
                     this.unrenderTrack(id);
+                } else if (message === 'OK') {
+                    this.changeLikeState(id, false);
                 }
             },
             EventTypes.UNLIKED_TRACK,

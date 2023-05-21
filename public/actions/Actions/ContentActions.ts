@@ -21,6 +21,14 @@ class ContentActions {
         });
     }
 
+    /** Action to add items got from artist api in ContentStore */
+    addTrackContent(item) {
+        Dispatcher.dispatch({
+            type: ActionTypes.GOT_TRACK,
+            item,
+        });
+    }
+
     /** Action to add items got from user api in ContentStore */
     userAddContent(userData) {
         Dispatcher.dispatch({

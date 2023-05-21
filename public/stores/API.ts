@@ -85,6 +85,9 @@ class API extends IStore {
         case ActionTypes.ARTIST_TRACKS:
             this.#artistTracksRequest(action.id);
             break;
+        case ActionTypes.GET_TRACK:
+            this.trackRequest(action.id);
+            break;
         case ActionTypes.LIKE_TRACK:
             this.#likeTrackRequest(action.id);
             break;
@@ -253,6 +256,16 @@ class API extends IStore {
     }
 
     /**
+     * Function to get one track by id
+     * @param id
+     */
+    private trackRequest(id: string) {
+        trackOneAjax(id).then((track) => {
+            ContentActions.addTrackContent(track);
+        });
+    }
+
+    /**
      * Function to send like post request to track by id
      * @param id
      */
@@ -349,7 +362,7 @@ class API extends IStore {
      */
     private likeArtistRequest(id: string) {
         likeArtist(id).then((message) => {
-            this.jsEmit(EventTypes.LIKED_TRACK, message);
+            this.jsEmit(EventTypes.LIKED_ARTIST, message);
         });
     }
 
@@ -499,7 +512,21 @@ class API extends IStore {
      */
     private playlistTracksRequest(playlistId: string) {
         getPlaylistTracks(playlistId).then((tracks) => {
-            ContentActions.addPlaylistContent(tracks, instancesNames.PLAYLIST_TRACKS_PAGE);
+            const promises: Promise<string>[] = [] as Promise<string>[];
+            if (tracks) {
+                (tracks as Array<TrackInTape>).forEach((element) => {
+                    const albumId = element.albumID;
+                    if (albumId) {
+                        promises.push(this.#getAlbumName(albumId).then((albumMessage) => {
+                            element.albumName = albumMessage;
+                            return albumMessage;
+                        }));
+                    }
+                });
+                Promise.allSettled(promises).then(() => {
+                    ContentActions.addPlaylistContent(tracks, instancesNames.PLAYLIST_TRACKS_PAGE);
+                });
+            }
         });
     }
 
@@ -548,8 +575,22 @@ class API extends IStore {
     /** Search for track with value */
     private searchForTracksWithName(value) {
         search(apiUrl.TRACK_SEARCH_API, value).then((tracks) => {
-            ActionsSearch.gotTracks(tracks);
-        }).catch(() => {});
+            const promises: Promise<string>[] = [] as Promise<string>[];
+            if (tracks.tracks.length) {
+                (tracks.tracks as Array<TrackInTape>).forEach((element) => {
+                    const albumId = element.albumID;
+                    if (albumId) {
+                        promises.push(this.#getAlbumName(albumId).then((albumMessage) => {
+                            element.albumName = albumMessage;
+                            return albumMessage;
+                        }));
+                    }
+                });
+                Promise.allSettled(promises).then(() => {
+                    ActionsSearch.gotTracks(tracks);
+                });
+            }
+        });
     }
 
     /** Search for playlist with name */

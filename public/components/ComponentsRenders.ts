@@ -23,6 +23,8 @@ import { UserPlaylist } from '@bigComponents/Playlist/Library/userPlaylist';
 import { PlayerWithDummy } from '@bigComponents/playerWithDummy/playerWithDummy';
 import { ID_REG } from '@config/id';
 import { routingUrl } from '@config/routingUrls';
+import { Track } from '@bigComponents/Track/track';
+import { setupTrack } from '@setup/trackSetup';
 import Router from '../router/Router';
 import Menu from './bigComponents/Menu/Menu';
 import Navbar from './bigComponents/Navbar/Navbar';
@@ -177,7 +179,7 @@ class ComponentsRenders {
 
     /** Render Track in parent */
     renderTrack(parent) {
-        new Album(parent, setupAlbum()).render();
+        new Track(parent, setupTrack()).render();
     }
 
     /** Render search content */

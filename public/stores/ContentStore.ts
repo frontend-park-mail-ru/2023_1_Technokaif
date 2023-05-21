@@ -79,6 +79,9 @@ class ContentStore extends IStore {
         case ActionTypes.EMPTY_SEARCH:
             this.jsEmit(EventTypes.EMPTY_SEARCH);
             break;
+        case ActionTypes.GOT_TRACK:
+            this.addTrack(action.item);
+            break;
         default:
         }
     }
@@ -107,6 +110,9 @@ class ContentStore extends IStore {
             break;
         case instancesNames.PLAYLIST_PAGE:
             this.addContent(pageNames.PLAYLIST, 'id', id);
+            break;
+        case instancesNames.TRACK_PAGE:
+            this.addContent(pageNames.TRACK, 'id', id);
             break;
         default:
         }
@@ -262,6 +268,12 @@ class ContentStore extends IStore {
     private addPlaylistsToSearchPage(items) {
         this.addContent(pageNames.SEARCH, 'playlists', items);
         this.jsEmit(EventTypes.SEARCH_PLAYLIST_ADDED, 'playlists');
+    }
+
+    /** Track content */
+    private addTrack(item) {
+        this.addContent(pageNames.TRACK, 'track', item);
+        this.jsEmit(EventTypes.GOT_TRACK, 'track');
     }
 }
 

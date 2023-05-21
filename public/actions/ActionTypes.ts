@@ -9,6 +9,8 @@ const ActionTypes = {
     ARTIST: 'ARTIST',
     ARTIST_ALBUMS: 'ARTIST_ALBUMS',
     ARTIST_TRACKS: 'ARTIST_TRACKS',
+    GET_TRACK: 'GET_TRACK',
+    GOT_TRACK: 'GOT_TRACK',
 
     /** ComponentsStore checks for what render and handle un/render */
     CHECK_WHAT_RENDER: 'CHECK_WHAT_RENDER',

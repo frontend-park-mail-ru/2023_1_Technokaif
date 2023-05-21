@@ -14,6 +14,7 @@ const dynamicPages = [
     componentsNames.ALBUM,
     componentsNames.LIBRARY_PLAYLISTS,
     componentsNames.PLAYLIST,
+    componentsNames.TRACK,
 ];
 
 /**
@@ -92,6 +93,7 @@ class ComponentsStore extends IStore {
         case componentsNames.LIBRARY_PLAYLISTS:
         case componentsNames.PLAYLIST:
         case componentsNames.SEARCH_CONTENT:
+        case componentsNames.TRACK:
             return document.getElementsByClassName(`${componentsJSNames.MAIN}`)[0];
         case componentsNames.LOGIN_FORM:
         case componentsNames.REGISTER_FORM:

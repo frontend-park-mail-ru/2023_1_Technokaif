@@ -14,6 +14,7 @@ import { BaseComponent } from '@components/BaseComponent';
 import Router from '@router/Router';
 import { LineList } from '@bigComponents/LineList/lineList';
 import { instancesNames } from '@config/instances';
+import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
 import tmp from './album.handlebars';
 import headerTemplate from './headerAlbum.handlebars';
 
@@ -113,6 +114,33 @@ export class Album extends BaseComponent {
                     }
 
                     PlayerActions.changePlayState(!SongStore.isPlaying);
+                });
+
+                const share: HTMLImageElement|null = document.querySelector('.shareButton');
+                if (!share) {
+                    console.error('Button share are not exist');
+                    return;
+                }
+
+                share.addEventListener('click', () => {
+                    navigator.clipboard.writeText(window.location.href)
+                        .then(() => {
+                            const notification = new Notification(
+                                document.querySelector('.js__navbar'),
+                                'Album link saved to clipboard!',
+                            );
+                            notification.appendElement();
+                        })
+                        .catch((error) => {
+                            const notification = new Notification(
+                                document.querySelector('.js__navbar'),
+                                'Album link haven\'t been saved to clipboard!',
+                                'notify',
+                                TypeOfNotification.failure,
+                            );
+                            notification.appendElement();
+                            console.error(`Error in copy to clipboard: ${error}`);
+                        });
                 });
 
                 if (id !== undefined) {

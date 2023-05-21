@@ -3,6 +3,16 @@ import ActionTypes from '@actions/ActionTypes';
 
 /** Tracks Actions */
 class ApiTrackActions {
+    /** Get track
+     * @param id
+     */
+    getTrack(id: string) {
+        Dispatcher.dispatch({
+            type: ActionTypes.GET_TRACK,
+            id,
+        });
+    }
+
     /** Like track */
     likeTrack(id) {
         Dispatcher.dispatch({

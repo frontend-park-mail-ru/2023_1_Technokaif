@@ -382,13 +382,11 @@ class Router extends IStore {
                 // @ts-ignore
                 setTimeout(window.dispatchEvent(new Event('popstate')), 100);
                 return;
-                break;
             case ACTION_ON_PATH.goBackward:
                 window.history.back();
                 // @ts-ignore
                 setTimeout(window.dispatchEvent(new Event('popstate')), 100);
                 return;
-                break;
             case ACTION_ON_PATH.login:
                 this.go('/login');
                 break;

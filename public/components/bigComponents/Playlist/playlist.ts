@@ -13,6 +13,7 @@ import SongStore from '@store/SongStore';
 import ContentStore from '@store/ContentStore';
 import { BaseComponent } from '@components/BaseComponent';
 import { LineList } from '@bigComponents/LineList/lineList';
+import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
 
 /**
  * Create Artist content
@@ -159,6 +160,32 @@ export abstract class Playlist extends BaseComponent {
 
                     PlayerActions.changePlayState(!SongStore.isPlaying);
                 });
+
+                const share: HTMLImageElement|null = document.querySelector('.shareButton');
+                if (!share) {
+                    console.error('Button doesn\'t\'exist on Album', buttons, imgLike);
+                } else {
+                    share.addEventListener('click', () => {
+                        navigator.clipboard.writeText(window.location.href)
+                            .then(() => {
+                                const notification = new Notification(
+                                    document.querySelector('.js__navbar'),
+                                    'Playlist link saved to clipboard!',
+                                );
+                                notification.appendElement();
+                            })
+                            .catch((error) => {
+                                const notification = new Notification(
+                                    document.querySelector('.js__navbar'),
+                                    'Playlist link haven\'t been saved to clipboard!',
+                                    'notify',
+                                    TypeOfNotification.failure,
+                                );
+                                notification.appendElement();
+                                console.error(`Error in copy to clipboard: ${error}`);
+                            });
+                    });
+                }
 
                 switch (instance) {
                 case 'tracks':

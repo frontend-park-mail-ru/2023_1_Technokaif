@@ -27,6 +27,7 @@ import Actions from '@actions/Actions';
 import SongStore from '@store/SongStore';
 import templateHtml from './artistContent.handlebars';
 import './artistContent.less';
+import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
 
 /**
  * Create Artist content
@@ -201,6 +202,34 @@ export class ArtistContent extends BaseComponent {
 
                     this.activatedButton = true;
                 });
+
+                const share: HTMLImageElement|null = document.querySelector('.shareButton');
+                if (!share) {
+                    console.error('Button share are not exist');
+                    return;
+                }
+
+                share.addEventListener('click', () => {
+                    navigator.clipboard.writeText(window.location.href)
+                        .then(() => {
+                            const notification = new Notification(
+                                document.querySelector('.js__navbar'),
+                                'Artist link saved to clipboard!',
+                            );
+                            notification.appendElement();
+                        })
+                        .catch((error) => {
+                            const notification = new Notification(
+                                document.querySelector('.js__navbar'),
+                                'Artist link haven\'t been saved to clipboard!',
+                                'notify',
+                                TypeOfNotification.failure,
+                            );
+                            notification.appendElement();
+                            console.error(`Error in copy to clipboard: ${error}`);
+                        });
+                });
+
                 if (id !== undefined) {
                     ArtistActions.artist(id);
                     ArtistActions.artistTracks(id);

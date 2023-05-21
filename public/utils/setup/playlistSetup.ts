@@ -42,7 +42,7 @@ export function setupUserPlaylist(playlist: Playlist) {
 
         headerDiv: 'album__descriptions',
         headerImgClass: 'header__img__sing-page',
-        headerDescriptions: 'playlist-desc',
+        headerDescriptions: 'descriptions',
         headerNameDiv: '',
         headerNameClass: 'headerNameClass',
         headerName: 'Playlist',
@@ -97,7 +97,7 @@ export function setupPlaylist(playlist: Playlist) {
 
         headerDiv: 'album__descriptions',
         headerImgClass: 'header__img__sing-page',
-        headerDescriptions: 'playlist-desc',
+        headerDescriptions: 'descriptions',
 
         headerNameDiv: '',
         headerNameClass: 'headerNameClass',

@@ -11,8 +11,12 @@ import SongStore from '@store/SongStore';
 import ComponentsStore from '@store/ComponentsStore';
 import { BaseComponent } from '@components/BaseComponent';
 
+import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
+import TrackActions from '@API/TrackActions';
+
 import template from './player.handlebars';
 import './player.less';
+import API from '@store/API';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer extends BaseComponent {
@@ -45,6 +49,23 @@ export class AudioPlayer extends BaseComponent {
         this.#isRepeat = false;
 
         this.isExist = false;
+    }
+
+    /**
+     * Function to check like state
+     * @private
+     */
+    private checkLikeState(like: HTMLImageElement|null, id: string) {
+        if (!like) {
+            return;
+        }
+
+        const track = SongStore.trackInfo;
+        if (track.id === Number(id) && track.isLiked) {
+            like.src = imgPath.liked;
+        } else if (track.id === Number(id)) {
+            like.src = imgPath.notLiked;
+        }
     }
 
     /** Remove all disabled from player */
@@ -142,6 +163,30 @@ export class AudioPlayer extends BaseComponent {
             EventTypes.GET_DATA_AFTER_RESTART,
             componentsNames.PLAYER,
         );
+
+        API.subscribe(
+            (message, id) => {
+                if (message === 'OK') {
+                    SongStore.setTrackIsLiked(true, id);
+                    const like: HTMLImageElement|null = document.querySelector('.playerLike');
+                    this.checkLikeState(like, id);
+                }
+            },
+            EventTypes.LIKED_TRACK,
+            this.name,
+        );
+
+        API.subscribe(
+            (message, id) => {
+                if (message === 'OK') {
+                    SongStore.setTrackIsLiked(false, id);
+                    const like: HTMLImageElement|null = document.querySelector('.playerLike');
+                    this.checkLikeState(like, id);
+                }
+            },
+            EventTypes.UNLIKED_TRACK,
+            this.name,
+        );
     }
 
     /** Change player state */
@@ -228,6 +273,50 @@ export class AudioPlayer extends BaseComponent {
         };
 
         document.addEventListener(METHOD.KEY_PRESSED, this.#functionSpace);
+
+        const like: HTMLImageElement|null = document.querySelector('.playerLike');
+        const player: HTMLDivElement|null = document.querySelector('.player');
+        if (!player || !like) {
+            console.error('Cannot find player element');
+            return;
+        }
+        const share: HTMLImageElement|null = player.querySelector('.playerShare');
+        if (!share) {
+            console.error('Button share are not exist');
+            return;
+        }
+
+        share.addEventListener('click', () => {
+            navigator.clipboard.writeText(window.location.href)
+                .then(() => {
+                    const notification = new Notification(
+                        document.querySelector('.js__navbar'),
+                        'Track link saved to clipboard!',
+                    );
+                    notification.appendElement();
+                })
+                .catch((error) => {
+                    const notification = new Notification(
+                        document.querySelector('.js__navbar'),
+                        'Track link haven\'t been saved to clipboard!',
+                        'notify',
+                        TypeOfNotification.failure,
+                    );
+                    notification.appendElement();
+                    console.error(`Error in copy to clipboard: ${error}`);
+                });
+        });
+
+        like.addEventListener('click', () => {
+            const track = SongStore.trackInfo;
+            if (track.isLiked) {
+                TrackActions.unlikeTrack(track.id);
+                like.src = imgPath.notLiked;
+            } else {
+                TrackActions.likeTrack(track.id);
+                like.src = imgPath.liked;
+            }
+        });
     }
 
     /** Add all elements of player to elements to use it later */
@@ -352,6 +441,13 @@ export class AudioPlayer extends BaseComponent {
         }
 
         this.#lastResponse = response;
+
+        const imgLike: HTMLImageElement|null = document.querySelector('.playerLike');
+        if (!imgLike) {
+            console.error('Cannot find track like');
+            return;
+        }
+        imgLike.src = SongStore.trackInfo.isLiked ? imgPath.liked : imgPath.notLiked;
     }
 
     /** Set values of Time, Duration, Line to 0 */

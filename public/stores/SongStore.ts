@@ -124,6 +124,14 @@ class SongStore extends IStore {
         return this.#songs[this.#position];
     }
 
+    /** Set like status */
+    setTrackIsLiked(value, id: string) {
+        const trackInd = this.#songs.findIndex((song) => song.id === Number(id));
+        if (trackInd !== -1) {
+            this.#songs[trackInd].isLiked = value;
+        }
+    }
+
     /** Return what album is playing or null if doesn't exist */
     get albumInfo() {
         if (this.#storeType !== TypesOfStore.album
