@@ -14,6 +14,7 @@ import { instancesNames } from '@config/instances';
 import TrackActions from '@API/TrackActions';
 
 import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
+import API from '@store/API';
 import tmp from './track.handlebars';
 import headerTemplate from './headerTrack.handlebars';
 
@@ -76,6 +77,34 @@ export class Track extends BaseComponent {
      * Function to subscribe to all events from Stores
      */
     private addSubscribes() {
+        API.subscribe(
+            (message) => {
+                if (message === 'OK') {
+                    const like: HTMLImageElement|null = document.querySelector('.albumLike');
+                    if (!like) {
+                        return;
+                    }
+                    like.src = imgPath.liked;
+                }
+            },
+            EventTypes.LIKED_TRACK,
+            this.name,
+        );
+
+        API.subscribe(
+            (message) => {
+                if (message === 'OK') {
+                    const like: HTMLImageElement|null = document.querySelector('.albumLike');
+                    if (!like) {
+                        return;
+                    }
+                    like.src = imgPath.notLiked;
+                }
+            },
+            EventTypes.UNLIKED_TRACK,
+            this.name,
+        );
+
         ContentStore.subscribe(
             () => {
                 const { id } = ContentStore.state[pageNames.TRACK];
