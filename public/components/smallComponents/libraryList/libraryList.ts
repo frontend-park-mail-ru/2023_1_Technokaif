@@ -23,6 +23,11 @@ export class LibraryList extends BaseComponent {
      * @private
      */
     private listenersOnButtons() {
+        const list: Element|undefined = document.getElementsByClassName('navbar_library')[0];
+        if (!list) {
+            return;
+        }
+
         const parent = document.querySelector(`.${this.name}`)?.parentNode;
         if (!parent) {
             console.error('Error in library list rendering');
@@ -32,6 +37,7 @@ export class LibraryList extends BaseComponent {
             if (event.target) {
                 const element = event.target;
                 if (!(element instanceof HTMLElement)) return;
+                localStorage.setItem('listScrollLeft', String(list.scrollLeft));
                 switch (element.innerText) {
                 case 'Tracks':
                     Router.go(routingUrl.LIBRARY_TRACKS);
@@ -46,6 +52,11 @@ export class LibraryList extends BaseComponent {
                     Router.go(routingUrl.LIBRARY_PLAYLISTS);
                     break;
                 default:
+                }
+
+                const scrollLeft = localStorage.getItem('listScrollLeft');
+                if (scrollLeft) {
+                    list.scrollLeft = Number(scrollLeft);
                 }
             }
         });
