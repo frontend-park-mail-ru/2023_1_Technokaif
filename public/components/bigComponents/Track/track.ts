@@ -250,7 +250,6 @@ export class Track extends BaseComponent {
      * @description render MainWindowContent in parent
      */
     override render() {
-        console.log(this.config);
         super.appendElement();
         this.addSubscribes();
         Actions.checkID(pageNames.TRACK);
