@@ -88,8 +88,12 @@ export abstract class BaseComponent {
 
                     // todo change to config
                     const nameComp = this.#name;
-                    // eslint-disable-next-line max-len
-                    if ([componentsNames.FEED_CONTENT, componentsNames.SEARCH_CONTENT, componentsNames.ALBUM, componentsNames.ARTIST_CONTENT].includes(nameComp)) {
+                    if ([componentsNames.FEED_CONTENT,
+                        componentsNames.SEARCH_CONTENT,
+                        componentsNames.ALBUM,
+                        componentsNames.ARTIST_CONTENT,
+                        componentsNames.PLAYLIST,
+                    ].includes(nameComp)) {
                         // eslint-disable-next-line max-len
                         const mainComponent = list.find((comp) => comp.name === componentsNames.MAIN);
                         if (mainComponent) {
