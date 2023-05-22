@@ -1,6 +1,5 @@
 import './tape.less';
 import { instancesNames } from '@config/instances';
-import { checkAuth } from '@functions/checkAuth';
 import { TapeSetup } from '@setup/artistSetup';
 import { METHOD } from '@config/config';
 import { EventTypes } from '@config/EventTypes';
@@ -9,7 +8,7 @@ import PlayerActions from '@Actions/PlayerActions';
 import SongStore from '@store/SongStore';
 import Router from '@router/Router';
 import { BaseComponent } from '@components/BaseComponent';
-import { routingUrl } from '@config/routingUrls';
+import { checkAuth } from '@functions/checkAuth';
 import template from './tape.handlebars';
 
 /** Tape for elements */
@@ -62,9 +61,10 @@ export class Tape extends BaseComponent {
                 case 'Artists':
                     if (isPlayPressed) {
                         if (!checkAuth()) {
-                            Router.go(routingUrl.LOGIN);
+                            Router.goToLogin();
                             return;
                         }
+
                         if (event.target.classList.contains('play')) {
                             PlayerActions.changePlayState(false);
                             event.target.classList.remove('play');
@@ -83,7 +83,7 @@ export class Tape extends BaseComponent {
                 case 'Tracks':
                     if (isPlayPressed) {
                         if (!checkAuth()) {
-                            Router.go(routingUrl.LOGIN);
+                            Router.goToLogin();
                             return;
                         }
 
@@ -105,7 +105,7 @@ export class Tape extends BaseComponent {
                 case 'Albums':
                     if (isPlayPressed) {
                         if (!checkAuth()) {
-                            Router.go(routingUrl.LOGIN);
+                            Router.goToLogin();
                             return;
                         }
 
@@ -127,7 +127,7 @@ export class Tape extends BaseComponent {
                 case 'Playlists':
                     if (isPlayPressed) {
                         if (!checkAuth()) {
-                            Router.go(routingUrl.LOGIN);
+                            Router.goToLogin();
                             return;
                         }
 

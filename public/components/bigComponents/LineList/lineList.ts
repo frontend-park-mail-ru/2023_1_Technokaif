@@ -2,7 +2,6 @@ import { BaseComponent } from '@components/BaseComponent';
 import '@smallComponents/Line/line.less';
 import { componentsNames } from '@config/componentsNames';
 import { pageNames } from '@config/pageNames';
-import { checkAuth } from '@functions/checkAuth';
 import { EventTypes } from '@config/EventTypes';
 import { routingUrl } from '@config/routingUrls';
 import { DIRECTIONS_DROPDOWN, DropDown } from '@smallComponents/dropDown/dropDown';
@@ -20,6 +19,7 @@ import { METHOD } from '@config/config';
 import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
 import templateHTML from './lineList.handlebars';
 import './lineList.less';
+import { checkAuth } from '@functions/checkAuth';
 
 /**
  * Tape for elements
@@ -62,7 +62,7 @@ export class LineList extends BaseComponent {
         this.isRendered = false;
         this.unsubscribeLines();
         const userId = localStorage.getItem('userId');
-        if (userId) {
+        if (checkAuth()) {
             UserActions.userPlaylists(Number(userId));
         }
     }
@@ -346,10 +346,9 @@ export class LineList extends BaseComponent {
                 }
 
                 if (!checkAuth()) {
-                    Router.go(routingUrl.LOGIN);
+                    Router.goToLogin();
                     return;
                 }
-
                 const indexBlock: HTMLDivElement = line.querySelector(`.${this.elementConfig.lineIndex}`) as HTMLDivElement;
                 if (!indexBlock) {
                     console.error('Cannot find index block');

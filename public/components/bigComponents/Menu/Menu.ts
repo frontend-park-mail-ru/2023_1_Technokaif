@@ -85,7 +85,9 @@ class Menu {
         API.subscribe(
             (playlistId) => {
                 this.unRenderPlaylists();
-                UserActions.userPlaylists(localStorage.getItem('userId'));
+                if (checkAuth()) {
+                    UserActions.favoriteTracks(localStorage.getItem('userId'));
+                }
                 Router.go(routingUrl.PLAYLIST_PAGE(playlistId));
             },
             EventTypes.CREATED_PLAYLIST,
@@ -95,7 +97,9 @@ class Menu {
         API.subscribe(
             () => {
                 this.unRenderPlaylists();
-                UserActions.userPlaylists(localStorage.getItem('userId'));
+                if (checkAuth()) {
+                    UserActions.favoriteTracks(localStorage.getItem('userId'));
+                }
             },
             EventTypes.DELETED_PLAYLIST,
             componentsNames.SIDEBAR,

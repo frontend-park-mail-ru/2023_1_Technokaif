@@ -22,7 +22,6 @@ import { LibraryPlaylists } from '@bigComponents/Library/libraryPlaylists';
 import { UserPlaylist } from '@bigComponents/Playlist/Library/userPlaylist';
 import { PlayerWithDummy } from '@bigComponents/playerWithDummy/playerWithDummy';
 import { ID_REG } from '@config/id';
-import { routingUrl } from '@config/routingUrls';
 import { Track } from '@bigComponents/Track/track';
 import { setupTrack } from '@setup/trackSetup';
 import Router from '../router/Router';
@@ -110,7 +109,7 @@ class ComponentsRenders {
      */
     renderUserPage(parent) {
         if (!checkAuth()) {
-            Router.go(routingUrl.ROOT);
+            Router.goToLogin();
             return;
         }
 
@@ -124,46 +123,31 @@ class ComponentsRenders {
 
     /** Render in navbar */
     renderLibraryList(parent) {
-        if (!checkAuth()) {
-            Router.go(routingUrl.LOGIN);
-        }
-
+        Router.goToLogin();
         new LibraryList(parent).render();
     }
 
     /** Render library in parent */
     renderTracksLibrary(parent) {
-        if (!checkAuth()) {
-            Router.go(routingUrl.LOGIN);
-        }
-
+        Router.goToLogin();
         new FavoriteTracks(parent, componentsNames.LIBRARY_TRACKS).renderFavoriteTracks();
     }
 
     /** Render library in parent */
     renderArtistsLibrary(parent) {
-        if (!checkAuth()) {
-            Router.go(routingUrl.LOGIN);
-        }
-
+        Router.goToLogin();
         new FavoriteArtists(parent, componentsNames.LIBRARY_ARTISTS).renderFavoriteArtists();
     }
 
     /** Render library in parent */
     renderAlbumsLibrary(parent) {
-        if (!checkAuth()) {
-            Router.go(routingUrl.LOGIN);
-        }
-
+        Router.goToLogin();
         new FavoriteAlbums(parent, componentsNames.LIBRARY_ALBUMS).renderFavoriteAlbums();
     }
 
     /** Render library in parent */
     renderPlaylistsLibrary(parent) {
-        if (!checkAuth()) {
-            Router.go(routingUrl.LOGIN);
-        }
-
+        Router.goToLogin();
         new LibraryPlaylists(parent, componentsNames.LIBRARY_PLAYLISTS).renderFavoritePlaylists();
     }
 

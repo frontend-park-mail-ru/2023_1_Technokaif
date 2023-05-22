@@ -24,6 +24,8 @@ import { pageNames } from '@config/pageNames';
 
 import template from './player.handlebars';
 import './player.less';
+import Router from '@router/Router';
+import { checkAuth } from '@functions/checkAuth';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer extends BaseComponent {
@@ -474,6 +476,10 @@ export class AudioPlayer extends BaseComponent {
         });
 
         like.addEventListener('click', () => {
+            if (!checkAuth()) {
+                Router.goToLogin();
+                return;
+            }
             const track = SongStore.trackInfo;
             if (track.isLiked) {
                 TrackActions.unlikeTrack(track.id);
@@ -489,7 +495,7 @@ export class AudioPlayer extends BaseComponent {
         });
 
         const userId = localStorage.getItem('userId');
-        if (userId) {
+        if (checkAuth()) {
             UserActions.userPlaylists(Number(userId));
         }
     }

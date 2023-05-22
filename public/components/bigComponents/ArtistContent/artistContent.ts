@@ -28,6 +28,7 @@ import SongStore from '@store/SongStore';
 import templateHtml from './artistContent.handlebars';
 import './artistContent.less';
 import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
+import Router from '@router/Router';
 
 /**
  * Create Artist content
@@ -153,6 +154,11 @@ export class ArtistContent extends BaseComponent {
         }
 
         imgLike.addEventListener('click', () => {
+            if (!checkAuth()) {
+                Router.goToLogin();
+                return;
+            }
+
             const { artist } = ContentStore.state[pageNames.ARTIST_PAGE];
             if (artist.isLiked) {
                 imgLike.src = imgPath.notLiked;
@@ -177,6 +183,11 @@ export class ArtistContent extends BaseComponent {
                 }
 
                 buttons.addEventListener('click', () => {
+                    if (!checkAuth()) {
+                        Router.goToLogin();
+                        return;
+                    }
+
                     if (!playButton.hidden) {
                         const isThisArtist = SongStore
                             .trackInfo
@@ -278,7 +289,6 @@ export class ArtistContent extends BaseComponent {
                 case 'tracks':
                     this.lineConfigs.push(setupLineList(tracks.slice(0, 5)));
                     this.#renderLines();
-
                     if (checkAuth()) {
                         UserActions.favoriteTracks(localStorage.getItem('userId'));
                     }
@@ -297,7 +307,9 @@ export class ArtistContent extends BaseComponent {
 
         API.subscribe(
             () => {
-                UserActions.favoriteTracks(localStorage.getItem('userId'));
+                if (checkAuth()) {
+                    UserActions.favoriteTracks(localStorage.getItem('userId'));
+                }
             },
             EventTypes.LIKED_TRACK,
             this.name,
@@ -305,7 +317,9 @@ export class ArtistContent extends BaseComponent {
 
         API.subscribe(
             () => {
-                UserActions.favoriteTracks(localStorage.getItem('userId'));
+                if (checkAuth()) {
+                    UserActions.favoriteTracks(localStorage.getItem('userId'));
+                }
             },
             EventTypes.UNLIKED_TRACK,
             this.name,

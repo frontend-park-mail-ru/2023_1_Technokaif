@@ -14,6 +14,8 @@ import ContentStore from '@store/ContentStore';
 import { BaseComponent } from '@components/BaseComponent';
 import { LineList } from '@bigComponents/LineList/lineList';
 import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
+import Router from '@router/Router';
+import { checkAuth } from '@functions/checkAuth';
 
 /**
  * Create Artist content
@@ -141,6 +143,11 @@ export abstract class Playlist extends BaseComponent {
                 this.playButton = buttons;
                 if (imgLike) {
                     imgLike.addEventListener('click', () => {
+                        if (!checkAuth()) {
+                            Router.goToLogin();
+                            return;
+                        }
+
                         const state = ContentStore.state[pageName];
                         if (state.isLiked) {
                             imgLike.src = imgPath.notLiked;
@@ -154,6 +161,11 @@ export abstract class Playlist extends BaseComponent {
                 }
 
                 buttons.addEventListener('click', () => {
+                    if (!checkAuth()) {
+                        Router.goToLogin();
+                        return;
+                    }
+
                     const trackIds = tracks.map((track) => track.id);
                     if (trackIds.length > 0 && (!this.#isAlbumLoaded
                         || !(SongStore.exist
