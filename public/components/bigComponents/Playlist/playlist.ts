@@ -209,9 +209,15 @@ export abstract class Playlist extends BaseComponent {
                     if (!placement) return;
 
                     const textElement = document.createElement('p');
-                    textElement.innerText = 'Nothing was added!';
-                    textElement.classList.add('titleText');
+                    const boldText = document.createElement('p');
 
+                    boldText.innerText = 'No tracks added to playlist';
+
+                    textElement.innerText = 'To add click "three dots" --> "Add" and choose playlist';
+                    textElement.style.paddingTop = '0.3rem';
+                    textElement.classList.add('smallText');
+
+                    placement.appendChild(boldText);
                     placement.appendChild(textElement);
                     return;
                 }
