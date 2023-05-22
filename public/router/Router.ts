@@ -34,6 +34,9 @@ class Router extends IStore {
     /** Set previous state */
     #prevState;
 
+    /** timer for redirects if too fast */
+    private timer;
+
     /** Construct a router */
     constructor() {
         // @ts-ignore
@@ -326,7 +329,8 @@ class Router extends IStore {
             this.#lenState = window.history.state.historyLen;
         });
 
-        window.addEventListener('popstate', (event) => {
+        const popStateFunc = (event) => {
+            debugger;
             let { state } = event;
             if (!state || !state.historyLen) {
                 if (window.history.length === 1) {
@@ -366,7 +370,7 @@ class Router extends IStore {
             this.#length = state.historyLen;
             this.#prevState = window.history.state;
 
-            let actionOnPath:string;
+            let actionOnPath = '';
             this.#permissions.forEach((permission) => {
                 if (!permission.isUser()) {
                     return;
@@ -374,18 +378,15 @@ class Router extends IStore {
                 actionOnPath = permission.getActionToTakeOnPop(pathToGo, direction);
             });
 
-            // @ts-ignore
             switch (actionOnPath) {
             case ACTION_ON_PATH.goForward:
                 // todo check if history can go forward
                 window.history.forward();
-                // @ts-ignore
-                setTimeout(window.dispatchEvent(new Event('popstate')), 100);
+                window.dispatchEvent(new Event('popstate'));
                 return;
             case ACTION_ON_PATH.goBackward:
                 window.history.back();
-                // @ts-ignore
-                setTimeout(window.dispatchEvent(new Event('popstate')), 100);
+                window.dispatchEvent(new Event('popstate'));
                 return;
             case ACTION_ON_PATH.login:
                 this.go('/login');
@@ -394,9 +395,13 @@ class Router extends IStore {
                 this.go(pathToGo, true);
                 break;
             default:
-                // @ts-ignore
                 console.warn('Error in actions on path, action taken:', actionOnPath);
             }
+        };
+
+        window.addEventListener('popstate', (event) => {
+            clearTimeout(this.timer);
+            this.timer = setTimeout(() => { popStateFunc(event); }, 10);
         });
         this.go(window.location.pathname);
     }

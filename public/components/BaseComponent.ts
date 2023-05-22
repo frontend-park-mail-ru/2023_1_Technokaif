@@ -93,6 +93,11 @@ export abstract class BaseComponent {
                         componentsNames.ALBUM,
                         componentsNames.ARTIST_CONTENT,
                         componentsNames.PLAYLIST,
+                        componentsNames.LIBRARY,
+                        componentsNames.LIBRARY_ALBUMS,
+                        componentsNames.LIBRARY_ARTISTS,
+                        componentsNames.LIBRARY_PLAYLISTS,
+                        componentsNames.LIBRARY_TRACKS,
                     ].includes(nameComp)) {
                         // eslint-disable-next-line max-len
                         const mainComponent = list.find((comp) => comp.name === componentsNames.MAIN);
