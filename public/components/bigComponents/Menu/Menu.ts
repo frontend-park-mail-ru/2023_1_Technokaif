@@ -18,6 +18,7 @@ import {
 } from '@smallComponents/listWithCoversAndNames/listWithCoversAndNames';
 import { setupMenuPlaylists } from '@setup/navbarMenuSetup';
 import { Playlist } from '@setup/playlistSetup';
+import { UserPlaylist } from '@bigComponents/Playlist/Library/userPlaylist';
 import templateHtml from './menu.handlebars';
 
 /**
@@ -118,6 +119,18 @@ class Menu {
                 }
             },
             EventTypes.GOT_USER_PLAYLISTS,
+            componentsNames.SIDEBAR,
+        );
+
+        API.subscribe(
+            (message) => {
+                if (message !== 'OK') {
+                    console.error('bad response from server during login');
+                } else {
+                    UserActions.userPlaylists(localStorage.getItem('userId'));
+                }
+            },
+            EventTypes.LOGIN_STATUS,
             componentsNames.SIDEBAR,
         );
 
