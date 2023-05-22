@@ -27,10 +27,6 @@ import './player.less';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer extends BaseComponent {
-    /** Flag to check if track exist in player */
-    // @ts-ignore
-    private isExist: boolean;
-
     /** Flag to set repeat of current track */
     #isRepeat: boolean;
 
@@ -61,8 +57,6 @@ export class AudioPlayer extends BaseComponent {
 
         this.playlists = [];
         this.isRendered = false;
-
-        this.isExist = false;
     }
 
     /**
@@ -125,8 +119,8 @@ export class AudioPlayer extends BaseComponent {
                     (element) => element.name === componentsNames.PLAYER,
                 )) {
                     ComponentsActions.playerDelete();
-                    // @ts-ignore
-                    delete this;
+                    // todo was removed
+                    // delete this;
                 }
             },
             EventTypes.ON_REMOVE_ANOTHER_ITEMS,
@@ -213,6 +207,7 @@ export class AudioPlayer extends BaseComponent {
         }, EventTypes.GOT_USER_PLAYLISTS, this.name);
     }
 
+    /** Unrender dropdown from player */
     private unRenderDropdown() {
         const addButton: HTMLImageElement|null = document.querySelector('.playerAdd');
         if (!addButton) {
@@ -224,9 +219,9 @@ export class AudioPlayer extends BaseComponent {
         const classes = addButton.classList;
 
         for (let i = classes.length - 1; i >= 0; i--) {
-            if (classes[i] && classes[i] !== classToKeep) {
-                // @ts-ignore
-                addButton.classList.remove(classes[i]);
+            const classText = classes[i];
+            if (classText && classText !== classToKeep) {
+                addButton.classList.remove(classText);
             }
         }
     }
@@ -505,25 +500,29 @@ export class AudioPlayer extends BaseComponent {
     private renderDropDown() {
         // todo REMOVE IT
         return;
-        // @ts-ignore
         const trackId = SongStore.trackInfo.id;
         const addButton = document.querySelector('.playerAdd');
         if (!addButton) {
             return;
         }
-
         const div1 = document.createElement('div');
         const parentOfDots = addButton?.parentElement;
-        if (!addButton || !(parentOfDots) || !(addButton instanceof HTMLImageElement)) {
+        if (!addButton || !parentOfDots || !(addButton instanceof HTMLImageElement)) {
             return;
         }
 
+        // todo Remove this ts ignores
+        // @ts-ignore
         parentOfDots.appendChild(div1);
+        // @ts-ignore
         div1.appendChild(addButton);
+        // @ts-ignore
         addButton.classList.add('dropdown-sub-title');
+        // @ts-ignore
         addButton.style.zIndex = '1';
-
+        // @ts-ignore
         addButton.addEventListener(METHOD.BUTTON, () => {
+            // @ts-ignore
             const playlistsContainer: HTMLUListElement|null = addButton.querySelector('.item-list');
             if (!playlistsContainer) {
                 return;

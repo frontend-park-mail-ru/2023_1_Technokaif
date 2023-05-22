@@ -43,7 +43,7 @@ export interface ArtistContent {
 
 /** JSON for album to set in cover */
 export interface AlbumApi {
-    artists: [ArtistApi],
+    artists: ArtistApi[],
     cover: string,
     isLiked: boolean,
     name: string,
@@ -85,7 +85,7 @@ export interface ContentArtist {
 
     defaultTrackSrc: string,
 
-    content: [AlbumApi],
+    content: AlbumApi[],
     isArtistPage: boolean,
     isPlaylistPage: boolean,
     isLikedSongs?: boolean,

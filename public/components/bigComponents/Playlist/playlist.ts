@@ -52,6 +52,9 @@ export abstract class Playlist extends BaseComponent {
      */
     protected type: string;
 
+    /** index of notification */
+    private indOfNotification;
+
     /**
      * Create Playlist. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place Playlist
@@ -65,6 +68,7 @@ export abstract class Playlist extends BaseComponent {
         this.#isAlbumLoaded = false;
         this.type = '';
         this.callbacksOnRender = [];
+        this.indOfNotification = 0;
     }
 
     /**
@@ -155,21 +159,22 @@ export abstract class Playlist extends BaseComponent {
                         || !(SongStore.exist
                         && tracks.filter((track) => SongStore.trackInfo.name === track.name)
                             .length > 0))) {
-                        this.activatedButton = true;
-
                         this.#isAlbumLoaded = true;
                         PlayerActions.playTrack(trackIds);
-                    } else {
+                    }
+
+                    if (tracks.length === 0) {
                         new Notification(
-                            document.querySelector('#root'),
+                            document.querySelector('.js__navbar'),
                             'Nothing to play!',
-                            undefined,
+                            String(this.indOfNotification++),
                             TypeOfNotification.warning,
                         ).appendElement();
 
                         return;
                     }
 
+                    this.activatedButton = true;
                     PlayerActions.changePlayState(!SongStore.isPlaying);
                 });
 
