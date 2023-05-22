@@ -9,11 +9,11 @@
                 <div class="{{infoBlockClass}}">
                     <div class="{{nameBlockClass}}">
                         <label for="name-input" class="{{labelClass}}">Name</label>
-                        <input id="name-input" type="text" class="{{nameInputClass}}" value="{{inputValue}}" placeholder="{{nameInputPlaceholder}}">
+                        <input maxlength="60" id="name-input" type="text" class="{{nameInputClass}}" value="{{inputValue}}" placeholder="{{nameInputPlaceholder}}">
                     </div>
                     <div class ="{{descriptionBlockClass}}">
                         <label for="description-textarea" class="{{labelClass}}">Description</label>
-                        <textarea id="description-textarea" class="{{descriptionInputClass}}" placeholder="{{descriptionPlaceholder}}">
+                        <textarea maxlength="2000" id="description-textarea" class="{{descriptionInputClass}}" placeholder="{{descriptionPlaceholder}}">
                             {{textareaValue}}
                         </textarea>
                     </div>

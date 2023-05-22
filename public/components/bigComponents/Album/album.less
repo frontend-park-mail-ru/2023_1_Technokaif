@@ -68,8 +68,8 @@
   cursor: pointer;
   color: @main-color;
   margin-bottom: 15px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+
+  word-break: break-word;
 
   .bigTitle();
 }
@@ -85,9 +85,9 @@
 }
 
 .js__description-album {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  max-width: 100%;
+  word-break: break-word;
+  white-space: break-spaces;
 }
 
 .by__div {
@@ -247,6 +247,10 @@
   color: @shadow-color;
   font-weight: 200;
   padding-top: 2px;
+}
+
+.header__img__sing-page {
+
 }
 
 @media @mobileMax, @tabletSize {
