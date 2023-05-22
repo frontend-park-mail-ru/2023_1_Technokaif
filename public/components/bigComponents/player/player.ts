@@ -71,10 +71,12 @@ export class AudioPlayer extends BaseComponent {
         }
 
         const track = SongStore.trackInfo;
-        if (track.id === Number(id) && track.isLiked) {
-            like.src = imgPath.liked;
-        } else if (track.id === Number(id)) {
-            like.src = imgPath.notLiked;
+        if (track && track.id === Number(id)) {
+            if (track.isLiked) {
+                like.src = imgPath.liked;
+            } else {
+                like.src = imgPath.notLiked;
+            }
         }
     }
 
