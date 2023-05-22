@@ -18,7 +18,6 @@ import {
 } from '@smallComponents/listWithCoversAndNames/listWithCoversAndNames';
 import { setupMenuPlaylists } from '@setup/navbarMenuSetup';
 import { Playlist } from '@setup/playlistSetup';
-import { UserPlaylist } from '@bigComponents/Playlist/Library/userPlaylist';
 import templateHtml from './menu.handlebars';
 
 /**

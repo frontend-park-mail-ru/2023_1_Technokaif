@@ -46,7 +46,6 @@ import IStore from '@store/IStore';
 import ContentActions from '@Actions/ContentActions';
 import Actions from '@actions/Actions';
 import APISongs from '@store/APISongs';
-import * as events from 'events';
 import { getValueFromLocalStorage } from '@functions/FunctionsToWorkWithLocalStore';
 import { RESPONSES } from '@config/config';
 
