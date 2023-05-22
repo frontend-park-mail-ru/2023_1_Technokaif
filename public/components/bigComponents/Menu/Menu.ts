@@ -125,6 +125,18 @@ class Menu {
             componentsNames.SIDEBAR,
         );
 
+        API.subscribe(
+            (message) => {
+                if (message !== 'OK') {
+                    console.error('bad response from server during login');
+                } else {
+                    UserActions.userPlaylists(localStorage.getItem('userId'));
+                }
+            },
+            EventTypes.LOGIN_STATUS,
+            componentsNames.SIDEBAR,
+        );
+
         this.#parent.addEventListener('click', (e) => {
             e.preventDefault();
 
