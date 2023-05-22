@@ -7,7 +7,9 @@
         {{/ifEquals}}
         {{#ifEquals isLikedSongs false}}
             {{#ifEquals isUserPlaylistPage false}}
-                <img class="{{headerImgClass}}" src="{{#if imgSrc}}{{#mediaConvert}}{{imgSrc}}{{/mediaConvert}}{{else}}/static/svg/playlistDefault.svg{{/if}}">
+                <div class="{{headerImgClass}}">
+                    <img class="{{imgClass}}" src="{{#if imgSrc}}{{#mediaConvert}}{{imgSrc}}{{/mediaConvert}}{{else}}/static/svg/playlistDefault.svg{{/if}}">
+                </div>
             {{/ifEquals}}
             {{#ifEquals isUserPlaylistPage true}}
                 <div class="cover">
