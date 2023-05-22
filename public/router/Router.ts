@@ -330,7 +330,6 @@ class Router extends IStore {
         });
 
         const popStateFunc = (event) => {
-            debugger;
             let { state } = event;
             if (!state || !state.historyLen) {
                 if (window.history.length === 1) {

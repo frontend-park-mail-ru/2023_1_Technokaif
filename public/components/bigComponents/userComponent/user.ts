@@ -405,7 +405,7 @@ export class User extends BaseComponent {
         );
 
         API.subscribe(
-            (message) => {
+            (message, avatar) => {
                 const errorElement: HTMLDivElement|null = document.querySelector('.user__error-text');
                 const successElement: HTMLDivElement|null = document.querySelector('.user__success-text');
                 if (!errorElement || !successElement) {
@@ -423,7 +423,7 @@ export class User extends BaseComponent {
                     successElement.hidden = false;
                     successElement.innerText = 'Successfully changed avatar';
                     const avatarImg = this.#parent.querySelector('.user-profile__img');
-                    const blob = new Blob(this.fileInput.files, { type: 'image/jpeg' });
+                    const blob = new Blob([avatar], { type: 'image/jpeg' });
                     const imageUrl = URL.createObjectURL(blob);
                     avatarImg.src = imageUrl;
                 }

@@ -197,6 +197,7 @@ export class AudioPlayer extends BaseComponent {
         );
 
         ContentStore.subscribe((instance) => {
+            return;
             this.playlists = ContentStore.state[pageNames.LIBRARY_PLAYLISTS][instance];
             if (this.isRendered) {
                 this.unRenderDropdown();
