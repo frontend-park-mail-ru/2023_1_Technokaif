@@ -540,7 +540,7 @@ export class AudioPlayer extends BaseComponent {
             if (!playlistsContainer.children.length) {
                 const notification = new Notification(
                     document.querySelector('.js__navbar'),
-                    'Error adding track in player. No players found.',
+                    'Cannot add track in playlist. No playlists without this track found.',
                     `${trackId}_queue`,
                     TypeOfNotification.failure,
                 );

@@ -11,7 +11,6 @@ import { BaseComponent } from '@components/BaseComponent';
 import { Form } from '@bigComponents/form/form';
 import UserInfoStore from '@store/UserInfoStore';
 import API from '@store/API';
-import { routingUrl } from '@config/routingUrls';
 import template from './registerComponent.handlebars';
 import './registerComponent.less';
 
@@ -326,7 +325,7 @@ export class RegisterComponent extends BaseComponent {
             METHOD.BUTTON,
             // @ts-ignore
             (nameOfReaction, element) => {
-                Router.go(routingUrl.ROOT);
+                Router.goToFeed();
             },
         );
 
@@ -336,7 +335,7 @@ export class RegisterComponent extends BaseComponent {
             METHOD.BUTTON,
             // @ts-ignore
             (nameOfReaction, element) => {
-                Router.go(routingUrl.LOGIN);
+                Router.goToLogin();
             },
         );
     }
@@ -365,7 +364,7 @@ export class RegisterComponent extends BaseComponent {
         API.subscribe(
             (message) => {
                 if (message === RESPONSES.OK) {
-                    Router.go(routingUrl.ROOT);
+                    Router.goToFeed();
                 } else {
                     console.error('failed after login with succeeded reg data');
                 }

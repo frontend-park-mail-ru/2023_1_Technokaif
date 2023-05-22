@@ -15,7 +15,6 @@ import API from '@store/API';
 import UserActions from '@API/UserActions';
 import ValidationActions from '@Actions/ValidationActions';
 import { Form } from '@bigComponents/form/form';
-import { routingUrl } from '@config/routingUrls';
 
 /**
  * Class for artists content in main page.
@@ -136,7 +135,7 @@ export class User extends BaseComponent {
 
         cancelButton.addEventListener(METHOD.BUTTON, (event) => {
             event.preventDefault();
-            Router.go(routingUrl.ROOT);
+            Router.goToFeed();
         });
 
         saveButton.addEventListener(METHOD.BUTTON, (event) => {

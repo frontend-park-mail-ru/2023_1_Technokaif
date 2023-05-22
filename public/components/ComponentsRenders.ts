@@ -123,31 +123,51 @@ class ComponentsRenders {
 
     /** Render in navbar */
     renderLibraryList(parent) {
-        Router.goToLogin();
+        if (!checkAuth()) {
+            Router.goToLogin();
+            return;
+        }
+
         new LibraryList(parent).render();
     }
 
     /** Render library in parent */
     renderTracksLibrary(parent) {
-        Router.goToLogin();
+        if (!checkAuth()) {
+            Router.goToLogin();
+            return;
+        }
+
         new FavoriteTracks(parent, componentsNames.LIBRARY_TRACKS).renderFavoriteTracks();
     }
 
     /** Render library in parent */
     renderArtistsLibrary(parent) {
-        Router.goToLogin();
+        if (!checkAuth()) {
+            Router.goToLogin();
+            return;
+        }
+
         new FavoriteArtists(parent, componentsNames.LIBRARY_ARTISTS).renderFavoriteArtists();
     }
 
     /** Render library in parent */
     renderAlbumsLibrary(parent) {
-        Router.goToLogin();
+        if (!checkAuth()) {
+            Router.goToLogin();
+            return;
+        }
+
         new FavoriteAlbums(parent, componentsNames.LIBRARY_ALBUMS).renderFavoriteAlbums();
     }
 
     /** Render library in parent */
     renderPlaylistsLibrary(parent) {
-        Router.goToLogin();
+        if (!checkAuth()) {
+            Router.goToLogin();
+            return;
+        }
+
         new LibraryPlaylists(parent, componentsNames.LIBRARY_PLAYLISTS).renderFavoritePlaylists();
     }
 

@@ -8,7 +8,6 @@ import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllSt
 import ContentStore from '@store/ContentStore';
 import API from '@store/API';
 import Router from '@router/Router';
-import { routingUrl } from '@config/routingUrls';
 
 const componentsListWhereMainWas = [componentsNames.FEED_CONTENT,
     componentsNames.SEARCH_CONTENT,
@@ -139,7 +138,7 @@ export abstract class BaseComponent {
         API.subscribe(
             (message) => {
                 if (message === 'OK' && componentsListProhibitedAfterLogout.includes(this.name)) {
-                    Router.go(routingUrl.ROOT);
+                    Router.goToFeed();
                 }
             },
             EventTypes.LOGOUT_STATUS,

@@ -167,7 +167,7 @@ class Navbar {
                 }
                 if (section === 'logout') {
                     if (window.location.pathname === routingUrl.PROFILE) {
-                        Router.go(routingUrl.ROOT);
+                        Router.goToFeed();
                     }
 
                     UserActions.logout();
@@ -221,7 +221,7 @@ class Navbar {
             return;
         }
         logo.addEventListener('click', () => {
-            Router.go(routingUrl.ROOT);
+            Router.goToFeed();
         });
     }
 

@@ -73,7 +73,7 @@ export class LoginComponent extends BaseComponent {
 
         header.addEventListener(METHOD.BUTTON, (event) => {
             event.preventDefault();
-            Router.go(routingUrl.ROOT);
+            Router.goToFeed();
         });
 
         main.addEventListener(
