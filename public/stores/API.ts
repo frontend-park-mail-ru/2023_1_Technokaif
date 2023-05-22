@@ -322,6 +322,7 @@ class API extends IStore {
         userUpdateAvatarAjax(id, avatar).then((message) => this.jsEmit(
             EventTypes.UPDATE_DATA_WITH_AVATAR_RECEIVED,
             message,
+            avatar,
         ));
     }
 

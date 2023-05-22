@@ -1,5 +1,3 @@
-import templateHtml from './categoryTracks.handlebars';
-import './library.less';
 import { componentsNames } from '@config/componentsNames';
 import { EventTypes } from '@config/EventTypes';
 import {
@@ -14,6 +12,9 @@ import ContentStore from '@store/ContentStore';
 import { BaseComponent } from '@components/BaseComponent';
 import { LineList } from '@bigComponents/LineList/lineList';
 import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
+
+import templateHtml from './categoryTracks.handlebars';
+import './library.less';
 
 /**
  * Create Artist content

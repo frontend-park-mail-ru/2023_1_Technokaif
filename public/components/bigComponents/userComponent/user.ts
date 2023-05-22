@@ -1,8 +1,6 @@
-import template from './user.handlebars';
 import { Button } from '@smallComponents/Button/button';
 import { Avatar } from '@smallComponents/avatar/avatar';
 import { dateSetup } from '@setup/registrationSetup';
-import './user.less';
 import { ElementsClassForUser, METHOD, RESPONSES } from '@config/config';
 import { ERRORS_USER } from '@config/errors';
 import { EventTypes } from '@config/EventTypes';
@@ -16,6 +14,9 @@ import UserActions from '@API/UserActions';
 import ValidationActions from '@Actions/ValidationActions';
 import { Form } from '@bigComponents/form/form';
 import { routingUrl } from '@config/routingUrls';
+
+import template from './user.handlebars';
+import './user.less';
 
 /**
  * Class for artists content in main page.
@@ -405,7 +406,7 @@ export class User extends BaseComponent {
         );
 
         API.subscribe(
-            (message) => {
+            (message, cover) => {
                 const errorElement: HTMLDivElement|null = document.querySelector('.user__error-text');
                 const successElement: HTMLDivElement|null = document.querySelector('.user__success-text');
                 if (!errorElement || !successElement) {
@@ -423,7 +424,7 @@ export class User extends BaseComponent {
                     successElement.hidden = false;
                     successElement.innerText = 'Successfully changed avatar';
                     const avatarImg = this.#parent.querySelector('.user-profile__img');
-                    const blob = new Blob(this.fileInput.files, { type: 'image/jpeg' });
+                    const blob = new Blob([cover], { type: 'image/jpeg' });
                     const imageUrl = URL.createObjectURL(blob);
                     avatarImg.src = imageUrl;
                 }
