@@ -172,7 +172,7 @@ class Menu {
      * Function to render playlists list in navbar for auth user
      * @private
      */
-    private renderPlaylists(playlists: Playlist) {
+    private renderPlaylists(playlists: Array<Playlist>) {
         const placement: HTMLElement|null = document.querySelector(`.${componentsNames.SIDEBAR}`);
         if (!placement) {
             console.error('Cannot get element placement for listWithCover');
@@ -184,6 +184,16 @@ class Menu {
             setupMenuPlaylists(playlists),
             componentsNames.MENU_PLAYLISTS_LIST,
         ).appendElement();
+
+        const menuElement: HTMLDivElement|null = placement.querySelector('.menu-playlists');
+        if (!menuElement) {
+            console.error('Cannot get menu element for listWithCover');
+            return;
+        }
+
+        if (!playlists.length) {
+            menuElement.classList.add('empty-playlist-menu');
+        }
     }
 
     /**

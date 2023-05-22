@@ -9,14 +9,14 @@ interface listOfItems {
     titleClass: string,
     defaultSrc: string,
 
-    items: Playlist
+    items: Array<Playlist>
 }
 
 /**
  * Function to set up menu placed list of playlists
  * @param playlists
  */
-export function setupMenuPlaylists(playlists: Playlist) : listOfItems {
+export function setupMenuPlaylists(playlists: Array<Playlist>) : listOfItems {
     return {
         jsMain: 'js__menu-playlists',
         mainElement: 'menu-playlists',
