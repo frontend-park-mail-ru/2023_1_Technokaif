@@ -150,12 +150,24 @@ export abstract class Playlist extends BaseComponent {
                 }
 
                 buttons.addEventListener('click', () => {
-                    this.activatedButton = true;
                     const trackIds = tracks.map((track) => track.id);
-                    // eslint-disable-next-line max-len
-                    if (!this.#isAlbumLoaded || !(SongStore.exist && tracks.filter((track) => SongStore.trackInfo.name === track.name).length > 0)) {
+                    if (trackIds.length > 0 && (!this.#isAlbumLoaded
+                        || !(SongStore.exist
+                        && tracks.filter((track) => SongStore.trackInfo.name === track.name)
+                            .length > 0))) {
+                        this.activatedButton = true;
+
                         this.#isAlbumLoaded = true;
                         PlayerActions.playTrack(trackIds);
+                    } else {
+                        new Notification(
+                            document.querySelector('#root'),
+                            'Nothing to play!',
+                            undefined,
+                            TypeOfNotification.warning,
+                        ).appendElement();
+
+                        return;
                     }
 
                     PlayerActions.changePlayState(!SongStore.isPlaying);
@@ -185,6 +197,18 @@ export abstract class Playlist extends BaseComponent {
                                 console.error(`Error in copy to clipboard: ${error}`);
                             });
                     });
+                }
+
+                if (!Array.isArray(tracks) || tracks.length === 0) {
+                    const placement = document.querySelector('.js__placement-tracks');
+                    if (!placement) return;
+
+                    const textElement = document.createElement('p');
+                    textElement.innerText = 'Nothing was added!';
+                    textElement.classList.add('titleText');
+
+                    placement.appendChild(textElement);
+                    return;
                 }
 
                 switch (instance) {

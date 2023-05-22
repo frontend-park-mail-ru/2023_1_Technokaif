@@ -503,6 +503,8 @@ export class AudioPlayer extends BaseComponent {
      * @private
      */
     private renderDropDown() {
+        // todo REMOVE IT
+        return;
         // @ts-ignore
         const trackId = SongStore.trackInfo.id;
         const addButton = document.querySelector('.playerAdd');

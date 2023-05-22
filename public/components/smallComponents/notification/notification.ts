@@ -8,6 +8,7 @@ import './notification.less';
 export const TypeOfNotification = {
     success: 'success',
     failure: 'failure',
+    warning: 'warning',
 };
 
 /** Text notification */
@@ -27,6 +28,9 @@ export class Notification extends BaseComponent {
         switch (variant) {
         case TypeOfNotification.failure:
             displayName = 'Failure!';
+            break;
+        case TypeOfNotification.warning:
+            displayName = 'Warning!';
             break;
         default:
             displayName = 'Success!';
