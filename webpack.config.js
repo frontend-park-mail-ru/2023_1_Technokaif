@@ -70,14 +70,22 @@ module.exports = {
                 exclude: /node_modules/,
             },
             {
-                test: /\.m?js$/,
+                test: /\.js$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
                     options: {
                         presets: [
-                            ['@babel/preset-env', { targets: 'defaults' }],
-                            '@babel/preset-typescript',
+                            [
+                                '@babel/preset-env',
+                                {
+                                    targets: {
+                                        browsers: [
+                                            'last 2 versions',
+                                        ],
+                                    },
+                                },
+                            ],
                         ],
                     },
                 },
