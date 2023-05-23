@@ -542,7 +542,7 @@ export class AudioPlayer extends BaseComponent {
      * @private
      */
     private renderDropDown() {
-        const trackId = SongStore.trackInfo.id;
+        const trackId = SongStore.trackInfo?.id;
         if (!trackId) {
             return;
         }
