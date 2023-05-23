@@ -460,7 +460,7 @@ export class LineList extends BaseComponent {
                         return;
                     }
                     // @ts-ignore
-                    if (Number(lines[key]?.dataset.id) === trackId && state === true) {
+                    if (Number(lines[key]?.dataset?.id) === trackId && state === true) {
                         // @ts-ignore
                         playButtons[Number(key)].hidden = true;
                         // @ts-ignore
