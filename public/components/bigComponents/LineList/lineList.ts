@@ -27,8 +27,6 @@ import { checkAuth } from '@functions/checkAuth';
 export class LineList extends BaseComponent {
     private playlists;
 
-    private parent;
-
     private elementConfig;
 
     /**
@@ -54,7 +52,6 @@ export class LineList extends BaseComponent {
      */
     constructor(parent, config, name) {
         super(parent, config, templateHTML, name);
-        this.parent = parent;
         this.elementConfig = config;
         this.dropDowns = [];
         this.playlistsDropDowns = [];

@@ -35,9 +35,6 @@ export class DropDown extends BaseComponent {
     /** If need to go in specific direction */
     private readonly whereMustGo;
 
-    /** Parent where render */
-    private readonly parent;
-
     /** Parent for render and config for base setup. Set whereToGo to render in this direction */
     constructor(parent, config, whereToGo = '') {
         super(parent, config, templateHtml, config.dropdownName);
@@ -45,7 +42,6 @@ export class DropDown extends BaseComponent {
         this.isRendered = false;
         this.listeners = [];
         this.whereMustGo = whereToGo;
-        this.parent = parent;
         this.parent.classList.add('dropdown-title');
         this.maxWidth = 0;
         this.parent.classList.add(`js__${this.configDropDown.dropdownName}-title`);

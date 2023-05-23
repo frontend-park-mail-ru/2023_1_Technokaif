@@ -15,9 +15,6 @@ import './modalWindow.less';
  * Create element with track-oriented line with img, title, duration, optionally (listens).
  */
 export class ModalWindow extends BaseComponent {
-    /** Parent element */
-    private parent: HTMLDivElement;
-
     /** Input file for playlist cover */
     private fileInput;
 
@@ -29,7 +26,6 @@ export class ModalWindow extends BaseComponent {
      */
     constructor(parent, config, name) {
         super(parent, config, templateHTML, name);
-        this.parent = parent;
         this.fileInput = document.createElement('input');
         this.fileInput.setAttribute('type', 'file');
         this.fileInput.setAttribute('id', 'file');

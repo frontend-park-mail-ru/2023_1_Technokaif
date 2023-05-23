@@ -40,7 +40,7 @@ export abstract class BaseComponent {
     /**
      * Parent where to render
      */
-    #parent;
+    protected parent;
 
     /**
      * Name of component
@@ -65,8 +65,8 @@ export abstract class BaseComponent {
      * @param {function} template - template to create elements
      */
     constructor(parent, config, template, name = 'elementary component') {
-        this.#parent = parent;
-        if (!this.#parent) {
+        this.parent = parent;
+        if (!this.parent) {
             console.warn('Parent doesn\'t exist in ', name);
         }
         this.#name = name;
@@ -151,7 +151,7 @@ export abstract class BaseComponent {
      */
     render() {
         this.#subscribeAll();
-        this.#parent.innerHTML = this.#template(this.#config);
+        this.parent.innerHTML = this.#template(this.#config);
     }
 
     /** Append element to parent without clearing it */
@@ -169,7 +169,7 @@ export abstract class BaseComponent {
             console.error('Element to append doesn\'t exist', this.#name);
             return;
         }
-        this.#parent.appendChild(newElement);
+        this.parent.appendChild(newElement);
     }
 
     /**
