@@ -554,7 +554,7 @@ class API extends IStore {
      */
     private addTrackInPlaylistRequest(playlistId: string, trackId: string) {
         addTrackAjaxRequest(playlistId, trackId).then((message) => {
-            this.jsEmit(EventTypes.ADDED_TRACK_IN_PLAYLIST, message);
+            this.jsEmit(EventTypes.ADDED_TRACK_IN_PLAYLIST, message, playlistId);
         });
     }
 

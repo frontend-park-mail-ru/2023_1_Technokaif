@@ -48,6 +48,12 @@ export class AudioPlayer extends BaseComponent {
 
     private isRendered: boolean;
 
+    /**
+     * Callback for add button
+     * @private
+     */
+    private addButtonEvent;
+
     /** Default all fields to empty except parent */
     constructor(parent) {
         super(parent, [], template, componentsNames.PLAYER);
@@ -59,6 +65,31 @@ export class AudioPlayer extends BaseComponent {
 
         this.playlists = [];
         this.isRendered = false;
+        this.addButtonEvent = () => {
+            const addButton: HTMLImageElement|null = document.querySelector('.playerAdd');
+            if (!addButton) {
+                return;
+            }
+
+            addButton.parentElement?.click();
+            // @ts-ignore
+            const playlistsContainer: HTMLUListElement|null = addButton.parentElement.querySelector('.item-list');
+            if (!playlistsContainer) {
+                return;
+            }
+
+            if (!playlistsContainer.children.length) {
+                const notification = new Notification(
+                    document.querySelector('.js__navbar'),
+                    'Cannot add track in playlist. No playlists without this track found.',
+                    'Track_add_bad',
+                    TypeOfNotification.failure,
+                );
+
+                notification.appendElement();
+                playlistsContainer.parentElement?.classList.add('empty-playlist-menu');
+            }
+        };
     }
 
     /**
@@ -201,7 +232,6 @@ export class AudioPlayer extends BaseComponent {
         );
 
         ContentStore.subscribe((instance) => {
-            return;
             this.playlists = ContentStore.state[pageNames.LIBRARY_PLAYLISTS][instance];
             if (this.isRendered) {
                 this.unRenderDropdown();
@@ -214,11 +244,16 @@ export class AudioPlayer extends BaseComponent {
 
     /** Unrender dropdown from player */
     private unRenderDropdown() {
+        const buttonsPlayerElement: HTMLDivElement|null = document.querySelector('.player__control');
         const addButton: HTMLImageElement|null = document.querySelector('.playerAdd');
-        if (!addButton) {
+        const dropdownElements: NodeListOf<HTMLDivElement>|null = document.querySelectorAll('.dropdown-title');
+        const dropdownElement = dropdownElements[dropdownElements.length - 1];
+        if (!buttonsPlayerElement || !addButton || !dropdownElements || !dropdownElement) {
             return;
         }
 
+        buttonsPlayerElement.appendChild(addButton);
+        dropdownElement.remove();
         addButton.innerHTML = '';
         const classToKeep = 'playerAdd';
         const classes = addButton.classList;
@@ -507,51 +542,30 @@ export class AudioPlayer extends BaseComponent {
      * @private
      */
     private renderDropDown() {
-        // todo REMOVE IT
-        return;
         const trackId = SongStore.trackInfo.id;
-        const addButton = document.querySelector('.playerAdd');
+        if (!trackId) {
+            return;
+        }
+        const addButton: HTMLImageElement|null = document.querySelector('.playerAdd');
         if (!addButton) {
             return;
         }
+        addButton.style.zIndex = '1';
         const div1 = document.createElement('div');
+        div1.classList.add('placement-trigger', 'normal-player-trigger');
         const parentOfDots = addButton?.parentElement;
+        div1.appendChild(addButton);
         if (!addButton || !parentOfDots || !(addButton instanceof HTMLImageElement)) {
             return;
         }
 
-        // todo Remove this ts ignores
-        // @ts-ignore
         parentOfDots.appendChild(div1);
-        // @ts-ignore
-        div1.appendChild(addButton);
-        // @ts-ignore
-        addButton.classList.add('dropdown-sub-title');
-        // @ts-ignore
-        addButton.style.zIndex = '1';
-        // @ts-ignore
-        addButton.addEventListener(METHOD.BUTTON, () => {
-            // @ts-ignore
-            const playlistsContainer: HTMLUListElement|null = addButton.querySelector('.item-list');
-            if (!playlistsContainer) {
-                return;
-            }
-
-            if (!playlistsContainer.children.length) {
-                const notification = new Notification(
-                    document.querySelector('.js__navbar'),
-                    'Cannot add track in playlist. No playlists without this track found.',
-                    `${trackId}_queue`,
-                    TypeOfNotification.failure,
-                );
-
-                notification.appendElement();
-            }
-        });
+        addButton.removeEventListener(METHOD.BUTTON, this.addButtonEvent);
+        addButton.addEventListener(METHOD.BUTTON, this.addButtonEvent);
 
         const addDropDown = new DropDown(
             div1,
-            dropDownTrackSetup(`${trackId}__subDropAdd`),
+            dropDownTrackSetup(`${trackId}__playerDropAdd`),
             DIRECTIONS_DROPDOWN.UP,
         );
         addDropDown.render();
@@ -603,7 +617,7 @@ export class AudioPlayer extends BaseComponent {
         });
 
         if (!hasPlaylist) {
-            div.classList.add('container-for-line');
+            div1.classList.add('container-for-line');
         }
     }
 

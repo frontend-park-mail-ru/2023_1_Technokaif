@@ -220,7 +220,7 @@ export class DropDown extends BaseComponent {
                 element.style.left = '0';
                 break;
             case DIRECTIONS_DROPDOWN.UP:
-                element.style.bottom = `-${element.offsetHeight + padding}`;
+                element.style.top = `-${element.offsetHeight + padding}`;
                 element.style.left = '0';
                 break;
             case DIRECTIONS_DROPDOWN.LEFT:

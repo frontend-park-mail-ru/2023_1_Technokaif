@@ -172,6 +172,18 @@ export class UserPlaylist extends Playlist {
         );
 
         API.subscribe(
+            (message, playlistId) => {
+                if (message !== 'OK') {
+                    console.error(message);
+                } else {
+                    PlaylistActions.playlistTracks(playlistId);
+                }
+            },
+            EventTypes.ADDED_TRACK_IN_PLAYLIST,
+            this.name,
+        );
+
+        API.subscribe(
             (message, cover) => {
                 if (message !== 'OK') {
                     console.error(message);

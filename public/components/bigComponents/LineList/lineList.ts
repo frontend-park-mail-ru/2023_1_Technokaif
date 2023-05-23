@@ -520,4 +520,12 @@ export class LineList extends BaseComponent {
         super.appendElement();
         this.#addListeners();
     }
+
+    /**
+     * Append line list
+     */
+    override render() {
+        super.render();
+        this.#addListeners();
+    }
 }

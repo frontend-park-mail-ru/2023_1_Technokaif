@@ -91,7 +91,6 @@ export abstract class Playlist extends BaseComponent {
             console.error('Error in rendering of lines');
             return;
         }
-
         // eslint-disable-next-line max-len
         const lineName: string = (this.isPlaylist) ? componentsNames.PLAYLIST : componentsNames.TRACK_LIBRARY_LINE_LIST;
         this.#lineConfigs.forEach((configForInsertElement) => {
@@ -100,7 +99,7 @@ export abstract class Playlist extends BaseComponent {
                 configForInsertElement,
                 lineName,
             );
-            line.appendElement();
+            line.render();
         });
     }
 
