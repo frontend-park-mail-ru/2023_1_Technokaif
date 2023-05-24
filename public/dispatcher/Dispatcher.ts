@@ -63,7 +63,7 @@ class Dispatcher {
 
         this.#isDispatching = true;
 
-        for (const id of this.#reactionsForAction) {
+        for (const id in this.#reactionsForAction) {
             this.#sendToReaction(id, payload);
         }
 
@@ -78,7 +78,7 @@ class Dispatcher {
         while (this.#waitOrder.length > 0) {
             const action = this.#waitOrder.shift();
 
-            for (const id of this.#reactionsForAction) {
+            for (const id in this.#reactionsForAction) {
                 this.#sendToReaction(id, action);
             }
         }
