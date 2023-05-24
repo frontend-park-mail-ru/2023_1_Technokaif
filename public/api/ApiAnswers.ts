@@ -8,9 +8,7 @@ export type PlaylistApi = definitions['models.PlaylistTransfer'];
 
 export type TrackApi = definitions['models.TrackTransfer'];
 export type TracksApi = {
-    tracks: [
-        TrackApi,
-    ]
+    tracks: TrackApi[]
 }
 
 export declare interface csrfResponse {

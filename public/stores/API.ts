@@ -48,6 +48,7 @@ import Actions from '@actions/Actions';
 import APISongs from '@store/APISongs';
 import { getValueFromLocalStorage } from '@functions/FunctionsToWorkWithLocalStore';
 import { RESPONSES } from '@config/config';
+import { TracksApi } from '@api/ApiAnswers';
 
 /**
  * Class using for getting data from backend.
@@ -606,6 +607,9 @@ class API extends IStore {
                 Promise.allSettled(promises).then(() => {
                     ActionsSearch.gotTracks(tracks);
                 });
+            } else {
+                const TracksApiEmpty:TracksApi = { tracks: [] };
+                ActionsSearch.gotTracks(TracksApiEmpty);
             }
         });
     }
