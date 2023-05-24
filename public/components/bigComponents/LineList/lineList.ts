@@ -453,23 +453,24 @@ export class LineList extends BaseComponent {
                 const stopButtons = document.querySelectorAll(`.${this.elementConfig.stopButton}`) as NodeListOf<HTMLButtonElement>;
                 const lines = document.querySelectorAll(`.${this.elementConfig.lineDiv}`) as NodeListOf<HTMLDivElement>;
                 const trackId = SongStore.trackInfo.id;
-                for (const key in lines) {
-                    if (key === 'entries') break;
-                    if (!lines[key]) {
-                        console.error('Cannot find line by key');
-                        return;
-                    }
-                    // @ts-ignore
-                    if (Number(lines[key]?.dataset?.id) === trackId && state === true) {
+                if (!playButtons || !stopButtons || !lines || !trackId) {
+                    console.error('Error in song store subscribe');
+                    return;
+                }
+                for (const [index, value] of lines.entries()) {
+                    if (playButtons[index] && stopButtons[index]) {
                         // @ts-ignore
-                        playButtons[Number(key)].hidden = true;
-                        // @ts-ignore
-                        stopButtons[Number(key)].hidden = false;
-                    } else {
-                        // @ts-ignore
-                        playButtons[Number(key)].hidden = false;
-                        // @ts-ignore
-                        stopButtons[Number(key)].hidden = true;
+                        if (Number(value?.dataset?.id) === trackId && state) {
+                            // @ts-ignore
+                            playButtons[index].hidden = true;
+                            // @ts-ignore
+                            stopButtons[index].hidden = false;
+                        } else {
+                            // @ts-ignore
+                            playButtons[index].hidden = false;
+                            // @ts-ignore
+                            stopButtons[index].hidden = true;
+                        }
                     }
                 }
             },

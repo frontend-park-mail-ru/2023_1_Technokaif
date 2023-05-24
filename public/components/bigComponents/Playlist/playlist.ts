@@ -140,7 +140,7 @@ export abstract class Playlist extends BaseComponent {
                     const buttons = document.querySelector('.js__button__play') as HTMLDivElement;
                     const imgLike = document.querySelector('.albumLike') as HTMLImageElement;
                     if (!buttons || !imgLike) {
-                        console.warn('Button doesn\'t\'exist on Album', buttons, imgLike);
+                        console.warn('Button doesn\'t\'exist on Album');
                     }
 
                     this.playButton = buttons;
@@ -163,7 +163,7 @@ export abstract class Playlist extends BaseComponent {
                         });
                     }
 
-                    buttons.addEventListener('click', () => {
+                    buttons?.addEventListener('click', () => {
                         if (!checkAuth()) {
                             Router.goToLogin();
                             return;
