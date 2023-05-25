@@ -4,13 +4,12 @@
   display: flex;
   flex-direction: column;
   padding: 10px 60px;
-  padding-top: 73px;
+  padding-top: @navbarSize;
 }
 
 @media @mobileMax, @tabletSize {
   .library-tapes {
-    padding-left: 2.5%;
-    padding-right: 2.5%;
+    .paddings-content();
   }
 }
 

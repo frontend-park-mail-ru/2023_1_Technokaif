@@ -167,27 +167,31 @@
 }
 
 .main {
+    min-height: fit-content;
+    max-height: 100%;
     max-width: 100%;
-    overflow-x: hidden;
-}
+    overflow: hidden;
 
-@media @mobileMax, @tabletSize {
-    .main {
-        height: fit-content;
-        margin-bottom: 300px;
-    }
+    .scrollElement();
+    height: 100%;
 }
 
 @media @tabletSize {
     .main {
-        height: fit-content;
-        margin-bottom: 200px;
+        padding-bottom: @bottomSizeForMobile;
     }
 }
 
 @media @desktopMin {
-        .main {
-            height: fit-content;
-            margin-bottom: 75px;
-        }
+    .main {
+        padding-bottom: @playerSizeDesktop;
+    }
 }
+
+@media @mobileMax {
+    .main {
+        padding-bottom: @bottomSizeForMobile;
+    }
+}
+
+
