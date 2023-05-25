@@ -188,7 +188,11 @@ class ComponentsRenders {
 
     /** Render search content */
     renderSearchContent(parent) {
-        new SearchContent(parent, componentsNames.SEARCH_CONTENT, { mainDiv: 'search-content' }).render();
+        new SearchContent(
+            parent,
+            componentsNames.SEARCH_CONTENT,
+            { mainDiv: 'search-content padding-top-search' },
+        ).render();
     }
 }
 

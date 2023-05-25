@@ -195,6 +195,9 @@ class API extends IStore {
             this.searchForTracksWithName(action.searchString);
             this.searchForPlaylistWithName(action.searchString);
             break;
+        case ActionTypes.SEARCH_FOR_TRACKS:
+            this.searchForTracksWithName(action.searchString);
+            break;
         case ActionTypes.PLAY_ARTIST:
             APISongs.dispatch(action);
             break;

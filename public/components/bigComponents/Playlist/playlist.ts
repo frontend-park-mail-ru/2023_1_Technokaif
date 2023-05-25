@@ -18,6 +18,8 @@ import Router from '@router/Router';
 import { checkAuth } from '@functions/checkAuth';
 import { runAfterFramePaint } from '@functions/renderAfterPaintDone';
 import { createErrorForPlaylist, TypeOfPlaylist } from '@functions/createErrorForPlaylist';
+import SearchActions from '@API/SearchActions';
+import { SearchContent } from '@bigComponents/searchContent/searchContent';
 
 /**
  * Create Artist content
@@ -294,6 +296,32 @@ export abstract class Playlist extends BaseComponent {
     protected renderPlaylist() {
         const renderProcess = new Promise((resolve) => {
             super.appendElement();
+            runAfterFramePaint(() => {
+                const placeSearch = document.querySelector('.js__placement__search');
+                if (!placeSearch) {
+                    console.error('Error at finding place for search in playlist');
+                    return;
+                }
+
+                const textOfSearch = document.createElement('p');
+                textOfSearch.classList.add('titleText');
+                textOfSearch.innerText = 'Search for tracks to add';
+                placeSearch.appendChild(textOfSearch);
+
+                new SearchContent(
+                    placeSearch,
+                    componentsNames.SEARCH_CONTENT,
+                    { mainDiv: 'search-content search-content-embedded' },
+                    (value) => {
+                        if (value === '') {
+                            SearchActions.emptySearch();
+                            return;
+                        }
+
+                        SearchActions.searchTracks(value);
+                    },
+                ).render();
+            });
             resolve(true);
         });
 

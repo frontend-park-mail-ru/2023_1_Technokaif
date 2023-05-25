@@ -17,14 +17,20 @@ export class SearchLine extends BaseComponent {
     /** config for element */
     #config;
 
+    /** Reaction to change of input */
+    private readonly reaction;
+
     /**
      * Create Input component. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place Input
      * @param {object} config -- what config use to compule template
+     * @param {(field:string):void} reaction -
+     * function to trigger. If not set will call to search with all values
     */
-    constructor(parent, config) {
+    constructor(parent, config, reaction?: {(value: string): void}) {
         super(parent, config, templateHtml, componentsNames.SEARCH_LINE);
         this.#config = config;
+        this.reaction = reaction ?? this.sendReaction;
     }
 
     /** Add input to search line */
@@ -39,15 +45,14 @@ export class SearchLine extends BaseComponent {
         let timer;
         const func = (field: HTMLInputElement) => (event) => {
             clearTimeout(timer);
-            timer = setTimeout(() => this.sendReaction(field), 100);
+            timer = setTimeout(() => this.reaction(field.value), 100);
             event.preventDefault();
         };
         input.addReaction(METHOD.CHANGE_FIELD_IMMEDIATELY, func);
     }
 
     /** Send reaction */
-    private sendReaction(field) {
-        const { value } = field;
+    private sendReaction(value) {
         if (value === '') {
             SearchActions.emptySearch();
             return;

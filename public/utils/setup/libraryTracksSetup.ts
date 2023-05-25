@@ -53,9 +53,9 @@ export function setupLibraryTracks() {
  * Setup line of track
  * @returns {{json}}
  */
-export function setupLineList(items: AlbumApi[]):ContentArtist {
+export function setupLineList(items: AlbumApi[], subStringInEnd = ''):ContentArtist {
     return {
-        lineListClass: 'line-list',
+        lineListClass: `line-list${subStringInEnd}`,
         title: 'popular-tracks-title',
         titleText: 'Popular tracks',
 
