@@ -196,8 +196,8 @@ export class DropDown extends BaseComponent {
             if (whereRender === '') {
                 whereRender = this.searchForFreeSpace();
             }
-            const element = this.options;
-            if (!element || !(element instanceof HTMLElement)) {
+            const optionsDropDown = this.options;
+            if (!optionsDropDown || !(optionsDropDown instanceof HTMLElement)) {
                 return;
             }
             const { title } = this;
@@ -205,40 +205,32 @@ export class DropDown extends BaseComponent {
                 return;
             }
 
-            if (element.offsetWidth > this.maxWidth) {
-                this.maxWidth = element.offsetWidth;
+            if (optionsDropDown.offsetWidth > this.maxWidth) {
+                this.maxWidth = optionsDropDown.offsetWidth;
             }
 
-            const padding = 5;
             switch (whereRender) {
             case DIRECTIONS_DROPDOWN.DOWN:
-                element.style.top = `${title.offsetHeight + padding}`;
-                element.style.left = '0';
+                optionsDropDown.style.top = `${title.offsetHeight}`;
+                optionsDropDown.style.left = '0';
                 break;
             case DIRECTIONS_DROPDOWN.UP:
-                element.style.top = `-${element.offsetHeight + padding}`;
-                element.style.left = '0';
+                optionsDropDown.style.top = `-${optionsDropDown.offsetHeight}`;
+                optionsDropDown.style.left = '0';
                 break;
             case DIRECTIONS_DROPDOWN.LEFT:
-                element.style.top = `-${padding}`;
-                element.style.left = `-${this.maxWidth + padding}`;
+                optionsDropDown.style.left = `-${this.maxWidth}`;
                 break;
             case DIRECTIONS_DROPDOWN.RIGHT:
-                element.style.top = `-${padding}`;
-                element.style.left = `${this.maxWidth + padding}`;
+                optionsDropDown.style.left = `${this.maxWidth}`;
                 break;
             default:
                 console.warn('Error at dropDown whereToRender', whereRender);
             }
-            if (title.offsetWidth <= 200 && this.maxWidth < 200) {
-                if (title.offsetWidth < this.maxWidth) {
-                    element.style.width = this.maxWidth;
-                } else {
-                // @ts-ignore
-                    element.style.width = title.offsetWidth;
-                }
-            }
-            setTimeout(this.whereToRender, 100);
+
+            // optionsDropDown.style.width = this.maxWidth;
+            optionsDropDown.style.width = 'fit-content';
+            setTimeout(this.whereToRender, 200);
         });
     }
 
