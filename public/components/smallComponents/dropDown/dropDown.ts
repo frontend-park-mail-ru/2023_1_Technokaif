@@ -20,6 +20,8 @@ export const DIRECTIONS_DROPDOWN = {
 };
 
 const TimerTime = 30;
+const MobileWindowBottom = 72 + 66 + 5;
+const DescktopWindowBottom = 72;
 
 /** Class for dropDown */
 export class DropDown extends BaseComponent {
@@ -30,6 +32,8 @@ export class DropDown extends BaseComponent {
     private maxWidth;
 
     private timerForOptionsWidth;
+
+    private timerForBeyond;
 
     /** Config to set up basic structure */
     private configDropDown:DropDownSetup;
@@ -100,6 +104,7 @@ export class DropDown extends BaseComponent {
         if (!this.isRendered) this.render();
         const optionsPlacement = this.options;
         this.addElement(optionsPlacement, element, eventTrigger, reaction);
+
         clearTimeout(this.timerForOptionsWidth);
         this.timerForOptionsWidth = setTimeout(this.changeWidth.bind(this), TimerTime);
     }
@@ -158,6 +163,9 @@ export class DropDown extends BaseComponent {
             timer = setTimeout(this.whereToRender.bind(this), TimerTime);
         };
         window.addEventListener('resize', resizeDropDown);
+
+        // todo magic
+        this.title?.addEventListener(METHOD.BUTTON, () => { this.whereToRender(); });
     }
 
     /** Search for free space around and render there */
@@ -193,26 +201,34 @@ export class DropDown extends BaseComponent {
     /** checks for size. If go beyond borders of screen then it will cling to border */
     private checkForBeyond() {
         runAfterFramePaint(() => {
+            const boundRectangle = this.title?.getBoundingClientRect();
+            if (!boundRectangle) return;
+
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const bottomSize = windowWidth > 1220 ? DescktopWindowBottom : MobileWindowBottom;
+
             if (!this.options) return;
             const element = (this.options as HTMLElement);
             const widthOfElement = element.offsetWidth;
             const heightOfElement = element.offsetHeight;
-            const boundRectangle = this.title?.getBoundingClientRect();
-            if (!boundRectangle) return;
 
             const distanceTop = boundRectangle.top;
-            const distanceRight = window.innerWidth - boundRectangle.right;
-            const distanceBottom = window.innerHeight - boundRectangle.bottom;
+            const distanceRight = windowWidth - boundRectangle.right;
+            const distanceBottom = windowHeight - boundRectangle.bottom;
             const distanceLeft = boundRectangle.left;
 
+            const heightFree = distanceBottom + boundRectangle.height - bottomSize;
             switch (this.whereMustGo) {
             case DIRECTIONS_DROPDOWN.LEFT:
+                console.log('distanceLeft', distanceLeft, widthOfElement, distanceBottom);
                 if (widthOfElement > distanceLeft) {
                     element.style.left = `-${distanceLeft}`;
                 }
 
-                if (heightOfElement > distanceBottom) {
-                    element.style.bottom = String(distanceBottom);
+                console.log(heightOfElement, distanceBottom, boundRectangle.height, bottomSize);
+                if (heightOfElement > heightFree) {
+                    element.style.top = `-${heightOfElement - heightFree}`;
                 }
                 break;
             case DIRECTIONS_DROPDOWN.DOWN:
@@ -220,8 +236,8 @@ export class DropDown extends BaseComponent {
                     element.style.left = `-${distanceLeft}`;
                 }
 
-                if (heightOfElement > distanceBottom) {
-                    element.style.bottom = String(distanceBottom);
+                if (heightOfElement > heightFree) {
+                    element.style.top = `-${heightOfElement - heightFree}`;
                 }
                 break;
             case DIRECTIONS_DROPDOWN.UP:
@@ -230,16 +246,16 @@ export class DropDown extends BaseComponent {
                 }
 
                 if (heightOfElement > distanceTop) {
-                    element.style.top = `-${distanceTop}`;
+                    element.style.top = `${heightOfElement - distanceTop}`;
                 }
                 break;
             case DIRECTIONS_DROPDOWN.RIGHT:
                 if (widthOfElement > distanceRight) {
-                    element.style.right = String(distanceRight);
+                    element.style.left = `-${distanceRight + boundRectangle.width - distanceRight}`;
                 }
 
-                if (heightOfElement > distanceTop) {
-                    element.style.bottom = String(distanceBottom);
+                if (heightOfElement > heightFree) {
+                    element.style.top = `-${heightOfElement - heightFree}`;
                 }
                 break;
             default:
@@ -294,14 +310,14 @@ export class DropDown extends BaseComponent {
                 console.warn('Error at dropDown whereToRender', whereRender);
             }
 
-            setTimeout(this.whereToRender, TimerTime);
+            clearTimeout(this.timerForBeyond);
+            this.timerForBeyond = setTimeout(() => { this.checkForBeyond(); }, TimerTime);
         };
         if (!notWaitingPaint) {
             runAfterFramePaint(functionOfRendering);
         } else {
             functionOfRendering();
         }
-        this.checkForBeyond();
     }
 
     /** Render base structure */
