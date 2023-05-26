@@ -173,11 +173,12 @@ export class Tape extends BaseComponent {
     #subscribe() {
         SongStore.subscribe(
             (state) => {
-                const covers = document.querySelectorAll(`.component__${this.#name}`);
+                const covers: NodeListOf<HTMLDivElement>|null = document.querySelectorAll(`.component__${this.#name}`);
                 if (!covers) {
                     console.error('Error at covers');
                     return;
                 }
+
                 let idArray:number[];
                 const artists = SongStore.artistsInfo;
 
@@ -231,29 +232,26 @@ export class Tape extends BaseComponent {
                     return;
                 }
 
-                for (const key in covers) {
-                    if (!covers[key]) {
+                for (const cover of covers) {
+                    if (!cover) {
                         console.error('Error at find covers');
                         return;
                     }
 
-                    if (key === 'entries') {
-                        return;
-                    }
-                    const button = (covers[key] as HTMLElement).querySelector('.buttonComponent');
+                    const button: HTMLImageElement|null = cover.querySelector('.buttonComponent');
                     if (button) {
                         // @ts-ignore
-                        const idOnElement = (covers[key] as HTMLElement).dataset.id;
+                        const idOnElement = cover.dataset?.id;
                         if (!idOnElement) {
                             console.warn('Id doesn\'t exist');
                             return;
                         }
 
                         if (idArray.includes(Number(idOnElement))
-                        && state === true) {
-                            (button as HTMLImageElement).src = imgPath.stopInArtist;
+                        && state) {
+                            button.src = imgPath.stopInArtist;
                         } else {
-                            (button as HTMLImageElement).src = imgPath.playInArtist;
+                            button.src = imgPath.playInArtist;
                         }
                     }
                 }
