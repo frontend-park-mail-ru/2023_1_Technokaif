@@ -269,7 +269,7 @@ class Navbar {
         );
         this.#dropDown.render();
         const { options } = this.#dropDown;
-        options.style.transform = 'translate(50%, 0)';
+        options.style.transform = 'translate(40%, 0)';
 
         const bt1 = document.createElement('a');
         bt1.textContent = 'Profile';

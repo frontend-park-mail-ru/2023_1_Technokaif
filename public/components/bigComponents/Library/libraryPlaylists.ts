@@ -111,6 +111,8 @@ export class LibraryPlaylists extends BaseComponent {
                 element.classList.remove('library-active');
             }
         });
+        const elementForDivider = document.querySelector('.js__divider__placement');
+        elementForDivider?.classList.add('divider');
     }
 
     /**
