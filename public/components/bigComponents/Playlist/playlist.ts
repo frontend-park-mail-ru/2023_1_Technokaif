@@ -1,5 +1,3 @@
-import templateHtml from './categoryTracks.handlebars';
-import './library.less';
 import { componentsNames } from '@config/componentsNames';
 import { EventTypes } from '@config/EventTypes';
 import {
@@ -20,6 +18,9 @@ import { runAfterFramePaint } from '@functions/renderAfterPaintDone';
 import { createErrorForPlaylist, TypeOfPlaylist } from '@functions/createErrorForPlaylist';
 import SearchActions from '@API/SearchActions';
 import { SearchContent } from '@bigComponents/searchContent/searchContent';
+
+import templateHtml from './categoryTracks.handlebars';
+import './library.less';
 
 /**
  * Create Artist content

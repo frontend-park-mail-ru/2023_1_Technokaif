@@ -1,8 +1,6 @@
-import template from './user.handlebars';
 import { Button } from '@smallComponents/Button/button';
 import { Avatar } from '@smallComponents/avatar/avatar';
 import { dateSetup } from '@setup/registrationSetup';
-import './user.less';
 import { ElementsClassForUser, METHOD, RESPONSES } from '@config/config';
 import { ERRORS_USER } from '@config/errors';
 import { EventTypes } from '@config/EventTypes';
@@ -15,6 +13,9 @@ import API from '@store/API';
 import UserActions from '@API/UserActions';
 import ValidationActions from '@Actions/ValidationActions';
 import { Form } from '@bigComponents/form/form';
+
+import template from './user.handlebars';
+import './user.less';
 
 /**
  * Class for artists content in main page.
