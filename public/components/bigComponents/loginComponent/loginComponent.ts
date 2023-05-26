@@ -12,6 +12,13 @@ import { BaseComponent } from '@components/BaseComponent';
 import Router from '@router/Router';
 import { Form } from '@bigComponents/form/form';
 import { routingUrl } from '@config/routingUrls';
+import { runAfterFramePaint } from '@functions/renderAfterPaintDone';
+import {
+    getValueFromInputOrDataElements,
+    setElementsToInputOrDate,
+    subscribeForUnload,
+} from '@functions/subscribeForUnload';
+import { getValueFromStorage, saveValueToStorage } from '@functions/FunctionsToWorkWithLocalStore';
 import template from './loginComponent.handlebars';
 
 const ElementsClassForLogin = {
@@ -24,10 +31,15 @@ const ElementsClassForLogin = {
     password_error: 'js__error__password',
 };
 
+const StorageNameLogin = 'LoginDataValue';
+
 /** Form component for login. */
 export class LoginComponent extends BaseComponent {
     /** parent where to render elements */
     #parent;
+
+    /** unsubscribe function on before unload */
+    private unsubscribeFunc;
 
     /** Set parent */
     constructor(parent) {
@@ -73,7 +85,7 @@ export class LoginComponent extends BaseComponent {
 
         header.addEventListener(METHOD.BUTTON, (event) => {
             event.preventDefault();
-            Router.go(routingUrl.ROOT);
+            Router.goToFeed();
         });
 
         main.addEventListener(
@@ -191,14 +203,46 @@ export class LoginComponent extends BaseComponent {
         }
     }
 
+    /** Get value of all elements in array */
+    private getValueOfElements() {
+        return getValueFromInputOrDataElements(
+            ElementsClassForLogin.login,
+        );
+    }
+
+    /** load value from store to elements */
+    private loadValueToElements() {
+        const value = getValueFromStorage('session', StorageNameLogin);
+        if (!value) return;
+
+        setElementsToInputOrDate(value);
+    }
+
     /** Render all view by components. */
     override render() {
         this.#renderContent();
         this.appendElement();
 
-        this.#createActionsForFields();
-        this.#subscribeStore();
+        runAfterFramePaint(() => {
+            this.unsubscribeFunc = subscribeForUnload(
+                () => {
+                    saveValueToStorage('session', StorageNameLogin, this.getValueOfElements());
+                },
+                () => {
+                    saveValueToStorage('session', StorageNameLogin, null);
+                },
+            );
+            this.#createActionsForFields();
+            this.#subscribeStore();
+            this.loadValueToElements();
+        });
 
         document.title = 'Login';
+    }
+
+    /** unrender component */
+    public override unRender() {
+        super.unRender();
+        this.unsubscribeFunc?.();
     }
 }

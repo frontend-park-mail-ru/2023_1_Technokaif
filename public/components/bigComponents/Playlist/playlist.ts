@@ -12,6 +12,12 @@ import ContentStore from '@store/ContentStore';
 import { BaseComponent } from '@components/BaseComponent';
 import { LineList } from '@bigComponents/LineList/lineList';
 import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
+import Router from '@router/Router';
+import { checkAuth } from '@functions/checkAuth';
+import { runAfterFramePaint } from '@functions/renderAfterPaintDone';
+import { createErrorForPlaylist, TypeOfPlaylist } from '@functions/createErrorForPlaylist';
+import SearchActions from '@API/SearchActions';
+import { SearchContent } from '@bigComponents/searchContent/searchContent';
 
 import templateHtml from './categoryTracks.handlebars';
 import './library.less';
@@ -90,7 +96,6 @@ export abstract class Playlist extends BaseComponent {
             console.error('Error in rendering of lines');
             return;
         }
-
         // eslint-disable-next-line max-len
         const lineName: string = (this.isPlaylist) ? componentsNames.PLAYLIST : componentsNames.TRACK_LIBRARY_LINE_LIST;
         this.#lineConfigs.forEach((configForInsertElement) => {
@@ -99,7 +104,7 @@ export abstract class Playlist extends BaseComponent {
                 configForInsertElement,
                 lineName,
             );
-            line.appendElement();
+            line.render();
         });
     }
 
@@ -130,105 +135,126 @@ export abstract class Playlist extends BaseComponent {
      * @protected
      */
     protected subscribeBaseLogic(eventType: string, pageName: string) {
+        // todo 2 times getting tracks
         ContentStore.subscribe(
             (instance) => {
-                const { tracks } = ContentStore.state[pageName];
-                const buttons = document.querySelector('.js__button__play') as HTMLDivElement;
-                const imgLike = document.querySelector('.albumLike') as HTMLImageElement;
-                if (!buttons || !imgLike) {
-                    console.warn('Button doesn\'t\'exist on Album', buttons, imgLike);
-                }
+                runAfterFramePaint(() => {
+                    const { tracks } = ContentStore.state[pageName];
+                    const buttons = document.querySelector('.js__button__play') as HTMLDivElement;
+                    const imgLike = document.querySelector('.albumLike') as HTMLImageElement;
+                    if (!buttons || !imgLike) {
+                        console.warn('Button doesn\'t\'exist on Album');
+                    }
 
-                this.playButton = buttons;
-                if (imgLike) {
-                    imgLike.addEventListener('click', () => {
-                        const state = ContentStore.state[pageName];
-                        if (state.isLiked) {
-                            imgLike.src = imgPath.notLiked;
-                            PlaylistActions.unlikePlaylist(state.id);
-                        } else {
-                            imgLike.src = imgPath.liked;
-                            PlaylistActions.likePlaylist(state.id);
+                    this.playButton = buttons;
+                    if (imgLike) {
+                        imgLike.addEventListener('click', () => {
+                            if (!checkAuth()) {
+                                Router.goToLogin();
+                                return;
+                            }
+
+                            const state = ContentStore.state[pageName];
+                            if (state.isLiked) {
+                                imgLike.src = imgPath.notLiked;
+                                PlaylistActions.unlikePlaylist(state.id);
+                            } else {
+                                imgLike.src = imgPath.liked;
+                                PlaylistActions.likePlaylist(state.id);
+                            }
+                            state.isLiked = !state.isLiked;
+                        });
+                    }
+
+                    buttons?.addEventListener('click', () => {
+                        if (!checkAuth()) {
+                            Router.goToLogin();
+                            return;
                         }
-                        state.isLiked = !state.isLiked;
-                    });
-                }
 
-                buttons.addEventListener('click', () => {
-                    const trackIds = tracks.map((track) => track.id);
-                    if (trackIds.length > 0 && (!this.#isAlbumLoaded
+                        const trackIds = tracks.map((track) => track.id);
+                        if (trackIds.length > 0 && (!this.#isAlbumLoaded
                         || !(SongStore.exist
                         && tracks.filter((track) => SongStore.trackInfo.name === track.name)
                             .length > 0))) {
-                        this.#isAlbumLoaded = true;
-                        PlayerActions.playTrack(trackIds);
+                            this.#isAlbumLoaded = true;
+                            PlayerActions.playTrack(trackIds);
+                        }
+
+                        if (tracks.length === 0) {
+                            new Notification(
+                                document.querySelector('.js__navbar'),
+                                'Nothing to play!',
+                                String(this.indOfNotification++),
+                                TypeOfNotification.warning,
+                            ).appendElement();
+
+                            return;
+                        }
+
+                        this.activatedButton = true;
+                        PlayerActions.changePlayState(!SongStore.isPlaying);
+                    });
+
+                    const share: HTMLImageElement|null = document.querySelector('.shareButton');
+                    if (!share) {
+                        console.error('Button doesn\'t\'exist on Album', buttons, imgLike);
+                    } else {
+                        share.addEventListener('click', () => {
+                            navigator.clipboard.writeText(window.location.href)
+                                .then(() => {
+                                    const notification = new Notification(
+                                        document.querySelector('.js__navbar'),
+                                        'Playlist link saved to clipboard!',
+                                    );
+                                    notification.appendElement();
+                                })
+                                .catch((error) => {
+                                    const notification = new Notification(
+                                        document.querySelector('.js__navbar'),
+                                        'Playlist link haven\'t been saved to clipboard!',
+                                        'notify',
+                                        TypeOfNotification.failure,
+                                    );
+                                    notification.appendElement();
+                                    console.error(`Error in copy to clipboard: ${error}`);
+                                });
+                        });
                     }
 
-                    if (tracks.length === 0) {
-                        new Notification(
-                            document.querySelector('.js__navbar'),
-                            'Nothing to play!',
-                            String(this.indOfNotification++),
-                            TypeOfNotification.warning,
-                        ).appendElement();
+                    const placement = document.querySelector('.js__placement-tracks');
+                    if (!placement) {
+                        console.error('Can\'t find placement for favourite tracks');
+                        return;
+                    }
+                    const isChildIsWarning = Array.from(placement.children)
+                        ?.some((el) => Array.from(el.classList)
+                            .some((classCss) => classCss === 'warning-placement'));
 
+                    if ((!Array.isArray(tracks) || tracks.length === 0) && !isChildIsWarning) {
+                        if (this.name === 'js__library-tracks') {
+                            placement.appendChild(
+                                createErrorForPlaylist(TypeOfPlaylist.favoriteTracks),
+                            );
+                        } else {
+                            placement.appendChild(createErrorForPlaylist());
+                        }
                         return;
                     }
 
-                    this.activatedButton = true;
-                    PlayerActions.changePlayState(!SongStore.isPlaying);
-                });
-
-                const share: HTMLImageElement|null = document.querySelector('.shareButton');
-                if (!share) {
-                    console.error('Button doesn\'t\'exist on Album', buttons, imgLike);
-                } else {
-                    share.addEventListener('click', () => {
-                        navigator.clipboard.writeText(window.location.href)
-                            .then(() => {
-                                const notification = new Notification(
-                                    document.querySelector('.js__navbar'),
-                                    'Playlist link saved to clipboard!',
-                                );
-                                notification.appendElement();
-                            })
-                            .catch((error) => {
-                                const notification = new Notification(
-                                    document.querySelector('.js__navbar'),
-                                    'Playlist link haven\'t been saved to clipboard!',
-                                    'notify',
-                                    TypeOfNotification.failure,
-                                );
-                                notification.appendElement();
-                                console.error(`Error in copy to clipboard: ${error}`);
-                            });
-                    });
-                }
-
-                if (!Array.isArray(tracks) || tracks.length === 0) {
-                    const placement = document.querySelector('.js__placement-tracks');
-                    if (!placement) return;
-
-                    const textElement = document.createElement('p');
-                    textElement.innerText = 'Nothing was added!';
-                    textElement.classList.add('titleText');
-
-                    placement.appendChild(textElement);
-                    return;
-                }
-
-                switch (instance) {
-                case 'tracks':
-                    this.isPlaylist = this.type !== '';
-                    if (this.isPlaylist) {
-                        this.#lineConfigs.push(setupPlaylistLineList(tracks));
-                    } else {
-                        this.#lineConfigs.push(setupLineList(tracks));
+                    switch (instance) {
+                    case 'tracks':
+                        this.isPlaylist = this.type !== '';
+                        if (this.isPlaylist) {
+                            this.#lineConfigs.push(setupPlaylistLineList(tracks));
+                        } else {
+                            this.#lineConfigs.push(setupLineList(tracks));
+                        }
+                        this.renderLines();
+                        break;
+                    default:
                     }
-                    this.renderLines();
-                    break;
-                default:
-                }
+                });
             },
             eventType,
             this.name,
@@ -271,6 +297,32 @@ export abstract class Playlist extends BaseComponent {
     protected renderPlaylist() {
         const renderProcess = new Promise((resolve) => {
             super.appendElement();
+            runAfterFramePaint(() => {
+                const placeSearch = document.querySelector('.js__placement__search');
+                if (!placeSearch) {
+                    console.error('Error at finding place for search in playlist');
+                    return;
+                }
+
+                const textOfSearch = document.createElement('p');
+                textOfSearch.classList.add('titleText');
+                textOfSearch.innerText = 'Search for tracks to add';
+                placeSearch.appendChild(textOfSearch);
+
+                new SearchContent(
+                    placeSearch,
+                    componentsNames.SEARCH_CONTENT,
+                    { mainDiv: 'search-content search-content-embedded' },
+                    (value) => {
+                        if (value === '') {
+                            SearchActions.emptySearch();
+                            return;
+                        }
+
+                        SearchActions.searchTracks(value);
+                    },
+                ).render();
+            });
             resolve(true);
         });
 

@@ -317,6 +317,16 @@ class Router extends IStore {
         sessionStorage.setItem('isRefresh', 'false');
     }
 
+    /** Function to go to login page */
+    goToLogin() {
+        this.go(routingUrl.LOGIN);
+    }
+
+    /** Function to go to feed page */
+    goToFeed() {
+        this.go(routingUrl.ROOT);
+    }
+
     /** First start Router */
     start() {
         if (sessionStorage.getItem('isStart') !== 'true') {
@@ -330,7 +340,6 @@ class Router extends IStore {
         });
 
         const popStateFunc = (event) => {
-            debugger;
             let { state } = event;
             if (!state || !state.historyLen) {
                 if (window.history.length === 1) {

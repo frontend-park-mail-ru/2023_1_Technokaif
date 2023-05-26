@@ -15,6 +15,7 @@ import Router from '@router/Router';
 import { LineList } from '@bigComponents/LineList/lineList';
 import { instancesNames } from '@config/instances';
 import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
+import { checkAuth } from '@functions/checkAuth';
 import tmp from './album.handlebars';
 import headerTemplate from './headerAlbum.handlebars';
 
@@ -95,6 +96,11 @@ export class Album extends BaseComponent {
                 this.playButton = button;
 
                 imgLike.addEventListener('click', () => {
+                    if (!checkAuth()) {
+                        Router.goToLogin();
+                        return;
+                    }
+
                     const state = ContentStore.state.ALBUM;
                     if (state.isLiked) {
                         imgLike.src = imgPath.notLiked;
@@ -107,6 +113,11 @@ export class Album extends BaseComponent {
                 });
 
                 button.addEventListener('click', () => {
+                    if (!checkAuth()) {
+                        Router.goToLogin();
+                        return;
+                    }
+
                     this.firstPlay = true;
                     if (!this.#isAlbumLoaded) {
                         this.#isAlbumLoaded = true;

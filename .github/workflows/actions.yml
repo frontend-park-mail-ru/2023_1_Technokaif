@@ -21,7 +21,7 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run buildProduct
+        run: npm run build -- --no-watch
 
       - name: Upload build result
         uses: actions/upload-artifact@v1

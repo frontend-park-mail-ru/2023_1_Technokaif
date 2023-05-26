@@ -94,6 +94,22 @@ class Navbar {
             componentsNames.NAVBAR,
         );
 
+        API.subscribe(
+            (message) => {
+                if (message !== 'OK') {
+                    console.error('bad respond from server during login');
+                } else {
+                    this.#reRender();
+                    const element: HTMLDivElement = document.querySelector(
+                        `.${componentsNames.PLAYER}`,
+                    ) as HTMLDivElement;
+                    element.hidden = false;
+                }
+            },
+            EventTypes.LOGIN_STATUS,
+            componentsNames.NAVBAR,
+        );
+
         UserInfoStore.subscribe(
             () => {
                 if (checkAuth()) {
@@ -151,7 +167,7 @@ class Navbar {
                 }
                 if (section === 'logout') {
                     if (window.location.pathname === routingUrl.PROFILE) {
-                        Router.go(routingUrl.ROOT);
+                        Router.goToFeed();
                     }
 
                     UserActions.logout();
@@ -205,7 +221,7 @@ class Navbar {
             return;
         }
         logo.addEventListener('click', () => {
-            Router.go(routingUrl.ROOT);
+            Router.goToFeed();
         });
     }
 
@@ -252,16 +268,20 @@ class Navbar {
             DIRECTIONS_DROPDOWN.DOWN,
         );
         this.#dropDown.render();
+        const { options } = this.#dropDown;
+        options.style.transform = 'translate(40%, 0)';
 
         const bt1 = document.createElement('a');
         bt1.textContent = 'Profile';
         bt1.setAttribute('data-section', 'profile');
         bt1.classList.add('dropdown-element');
+        bt1.classList.add('dropdown-navbar-element');
 
         const bt2 = document.createElement('a');
         bt2.textContent = 'Logout';
         bt2.setAttribute('data-section', 'logout');
         bt2.classList.add('dropdown-element');
+        bt2.classList.add('dropdown-navbar-element');
 
         this.#dropDown.addOptionsElement(bt1);
         this.#dropDown.addOptionsElement(bt2);

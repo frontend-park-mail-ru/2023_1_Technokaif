@@ -15,6 +15,7 @@ import TrackActions from '@API/TrackActions';
 
 import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
 import API from '@store/API';
+import { checkAuth } from '@functions/checkAuth';
 import tmp from './track.handlebars';
 import headerTemplate from './headerTrack.handlebars';
 
@@ -123,18 +124,27 @@ export class Track extends BaseComponent {
                 this.playButton = button;
 
                 imgLike.addEventListener('click', () => {
+                    if (!checkAuth()) {
+                        Router.goToLogin();
+                        return;
+                    }
                     const state = ContentStore.state.TRACK;
                     if (state.isLiked) {
                         imgLike.src = imgPath.notLiked;
                         TrackActions.likeTrack(this.#id);
                     } else {
-                        imgLike.src = imgPath.liked;
                         TrackActions.unlikeTrack(this.#id);
+                        imgLike.src = imgPath.liked;
                     }
                     state.isLiked = !state.isLiked;
                 });
 
                 button.addEventListener('click', () => {
+                    if (!checkAuth()) {
+                        Router.goToLogin();
+                        return;
+                    }
+
                     this.firstPlay = true;
                     if (!this.#isAlbumLoaded) {
                         this.#isAlbumLoaded = true;
@@ -250,7 +260,6 @@ export class Track extends BaseComponent {
      * @description render MainWindowContent in parent
      */
     override render() {
-        console.log(this.config);
         super.appendElement();
         this.addSubscribes();
         Actions.checkID(pageNames.TRACK);

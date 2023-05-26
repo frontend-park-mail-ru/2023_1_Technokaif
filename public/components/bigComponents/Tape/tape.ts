@@ -1,6 +1,5 @@
 import './tape.less';
 import { instancesNames } from '@config/instances';
-import { checkAuth } from '@functions/checkAuth';
 import { TapeSetup } from '@setup/artistSetup';
 import { METHOD } from '@config/config';
 import { EventTypes } from '@config/EventTypes';
@@ -9,7 +8,7 @@ import PlayerActions from '@Actions/PlayerActions';
 import SongStore from '@store/SongStore';
 import Router from '@router/Router';
 import { BaseComponent } from '@components/BaseComponent';
-import { routingUrl } from '@config/routingUrls';
+import { checkAuth } from '@functions/checkAuth';
 import template from './tape.handlebars';
 
 /** Tape for elements */
@@ -62,9 +61,10 @@ export class Tape extends BaseComponent {
                 case 'Artists':
                     if (isPlayPressed) {
                         if (!checkAuth()) {
-                            Router.go(routingUrl.LOGIN);
+                            Router.goToLogin();
                             return;
                         }
+
                         if (event.target.classList.contains('play')) {
                             PlayerActions.changePlayState(false);
                             event.target.classList.remove('play');
@@ -83,7 +83,7 @@ export class Tape extends BaseComponent {
                 case 'Tracks':
                     if (isPlayPressed) {
                         if (!checkAuth()) {
-                            Router.go(routingUrl.LOGIN);
+                            Router.goToLogin();
                             return;
                         }
 
@@ -105,7 +105,7 @@ export class Tape extends BaseComponent {
                 case 'Albums':
                     if (isPlayPressed) {
                         if (!checkAuth()) {
-                            Router.go(routingUrl.LOGIN);
+                            Router.goToLogin();
                             return;
                         }
 
@@ -127,7 +127,7 @@ export class Tape extends BaseComponent {
                 case 'Playlists':
                     if (isPlayPressed) {
                         if (!checkAuth()) {
-                            Router.go(routingUrl.LOGIN);
+                            Router.goToLogin();
                             return;
                         }
 
@@ -173,11 +173,12 @@ export class Tape extends BaseComponent {
     #subscribe() {
         SongStore.subscribe(
             (state) => {
-                const covers = document.querySelectorAll(`.component__${this.#name}`);
+                const covers: NodeListOf<HTMLDivElement>|null = document.querySelectorAll(`.component__${this.#name}`);
                 if (!covers) {
                     console.error('Error at covers');
                     return;
                 }
+
                 let idArray:number[];
                 const artists = SongStore.artistsInfo;
 
@@ -231,29 +232,26 @@ export class Tape extends BaseComponent {
                     return;
                 }
 
-                for (const key in covers) {
-                    if (!covers[key]) {
+                for (const cover of covers) {
+                    if (!cover) {
                         console.error('Error at find covers');
                         return;
                     }
 
-                    if (key === 'entries') {
-                        return;
-                    }
-                    const button = (covers[key] as HTMLElement).querySelector('.buttonComponent');
+                    const button: HTMLImageElement|null = cover.querySelector('.buttonComponent');
                     if (button) {
                         // @ts-ignore
-                        const idOnElement = (covers[key] as HTMLElement).dataset.id;
+                        const idOnElement = cover.dataset?.id;
                         if (!idOnElement) {
                             console.warn('Id doesn\'t exist');
                             return;
                         }
 
                         if (idArray.includes(Number(idOnElement))
-                        && state === true) {
-                            (button as HTMLImageElement).src = imgPath.stopInArtist;
+                        && state) {
+                            button.src = imgPath.stopInArtist;
                         } else {
-                            (button as HTMLImageElement).src = imgPath.playInArtist;
+                            button.src = imgPath.playInArtist;
                         }
                     }
                 }

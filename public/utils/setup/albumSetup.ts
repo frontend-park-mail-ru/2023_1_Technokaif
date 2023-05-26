@@ -98,9 +98,9 @@ export function setupAlbum(): ISetupAlbumConfg {
  * Setup line of track
  * @returns {{json}}
  */
-export function setupLineList(items) {
+export function setupLineList(items, subStringInEnd = '') {
     return {
-        lineListClass: 'line-list',
+        lineListClass: `line-list${subStringInEnd}`,
         title: 'popular-tracks-title',
         titleText: 'Popular tracks',
 

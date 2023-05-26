@@ -66,7 +66,7 @@ class Menu {
             return;
         }
         logo.addEventListener('click', () => {
-            Router.go(routingUrl.ROOT);
+            Router.goToFeed();
         });
 
         ComponentsStore.subscribe(
@@ -84,8 +84,9 @@ class Menu {
 
         API.subscribe(
             (playlistId) => {
-                this.unRenderPlaylists();
-                UserActions.userPlaylists(localStorage.getItem('userId'));
+                if (checkAuth()) {
+                    UserActions.userPlaylists(localStorage.getItem('userId'));
+                }
                 Router.go(routingUrl.PLAYLIST_PAGE(playlistId));
             },
             EventTypes.CREATED_PLAYLIST,
@@ -94,8 +95,9 @@ class Menu {
 
         API.subscribe(
             () => {
-                this.unRenderPlaylists();
-                UserActions.userPlaylists(localStorage.getItem('userId'));
+                if (checkAuth()) {
+                    UserActions.userPlaylists(localStorage.getItem('userId'));
+                }
             },
             EventTypes.DELETED_PLAYLIST,
             componentsNames.SIDEBAR,
@@ -104,13 +106,10 @@ class Menu {
         ContentStore.subscribe(
             (instance) => {
                 const playlists = ContentStore.state[pageNames.LIBRARY_PLAYLISTS][instance];
-                const element: HTMLDivElement|null = this.#parent.querySelector(`.${componentsNames.MENU_PLAYLISTS_LIST}`);
-                if (element) {
-                    return;
-                }
 
                 switch (instance) {
                 case instancesNames.USER_PLAYLISTS_PAGE:
+                    this.unRenderPlaylists();
                     this.renderPlaylists(playlists);
                     break;
                 default:
@@ -118,6 +117,18 @@ class Menu {
                 }
             },
             EventTypes.GOT_USER_PLAYLISTS,
+            componentsNames.SIDEBAR,
+        );
+
+        API.subscribe(
+            (message) => {
+                if (message !== 'OK') {
+                    console.error('bad response from server during login');
+                } else {
+                    UserActions.userPlaylists(localStorage.getItem('userId'));
+                }
+            },
+            EventTypes.LOGIN_STATUS,
             componentsNames.SIDEBAR,
         );
 
@@ -160,7 +171,7 @@ class Menu {
                     return;
                 }
                 if ((section === 'library' || section === 'createPlaylist' || section === 'likedSongs') && !checkAuth()) {
-                    Router.go(routingUrl.LOGIN);
+                    Router.goToLogin();
                 } else {
                     Router.go(this.#config[section].href);
                 }

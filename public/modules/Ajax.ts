@@ -134,7 +134,7 @@ class Ajax {
             });
         }
         // eslint-disable-next-line max-len
-        if (url !== apiUrl.AUTH && url !== apiUrl.LOGIN && url !== apiUrl.ALBUM_SEARCH_API && url !== apiUrl.ARTIST_SEARCH_API && url !== apiUrl.TRACK_SEARCH_API) {
+        if (url !== apiUrl.AUTH && url !== apiUrl.LOGIN && url !== apiUrl.ALBUM_SEARCH_API && url !== apiUrl.ARTIST_SEARCH_API && url !== apiUrl.TRACK_SEARCH_API && url !== apiUrl.PLAYLIST_SEARCH_API) {
             return csrfAjax().then((csrf) => {
                 if (!csrf) {
                     console.error('error in undefined csrf');

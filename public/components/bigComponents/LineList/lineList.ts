@@ -2,7 +2,6 @@ import { BaseComponent } from '@components/BaseComponent';
 import '@smallComponents/Line/line.less';
 import { componentsNames } from '@config/componentsNames';
 import { pageNames } from '@config/pageNames';
-import { checkAuth } from '@functions/checkAuth';
 import { EventTypes } from '@config/EventTypes';
 import { routingUrl } from '@config/routingUrls';
 import { DIRECTIONS_DROPDOWN, DropDown } from '@smallComponents/dropDown/dropDown';
@@ -20,14 +19,13 @@ import { METHOD } from '@config/config';
 import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
 import templateHTML from './lineList.handlebars';
 import './lineList.less';
+import { checkAuth } from '@functions/checkAuth';
 
 /**
  * Tape for elements
  */
 export class LineList extends BaseComponent {
     private playlists;
-
-    private parent;
 
     private elementConfig;
 
@@ -54,7 +52,6 @@ export class LineList extends BaseComponent {
      */
     constructor(parent, config, name) {
         super(parent, config, templateHTML, name);
-        this.parent = parent;
         this.elementConfig = config;
         this.dropDowns = [];
         this.playlistsDropDowns = [];
@@ -62,7 +59,7 @@ export class LineList extends BaseComponent {
         this.isRendered = false;
         this.unsubscribeLines();
         const userId = localStorage.getItem('userId');
-        if (userId) {
+        if (checkAuth()) {
             UserActions.userPlaylists(Number(userId));
         }
     }
@@ -166,7 +163,7 @@ export class LineList extends BaseComponent {
         }
 
         const textAdd = document.createElement('p');
-        textAdd.textContent = 'Add';
+        textAdd.textContent = 'Add to playlist';
         textAdd.classList.add('optionSize');
         dropDown.addOptionsElement(textAdd, METHOD.BUTTON, () => {
             const trackElement: HTMLDivElement|null = document.querySelector(`.track-line[data-id="${trackId}"]`);
@@ -182,7 +179,7 @@ export class LineList extends BaseComponent {
             if (!playlistsContainer.children.length) {
                 const notification = new Notification(
                     document.querySelector('.js__navbar'),
-                    'Error adding track in player. No players found.',
+                    'Cannot add track in playlist. No playlists without this track found.',
                     `${trackId}_queue`,
                     TypeOfNotification.failure,
                 );
@@ -209,7 +206,7 @@ export class LineList extends BaseComponent {
         addDropDown.render();
 
         const btQueue = document.createElement('div');
-        btQueue.textContent = 'Queue';
+        btQueue.textContent = 'Add to queue';
         btQueue.classList.add('optionSize');
         dropDown.addOptionsElement(btQueue, METHOD.BUTTON, () => {
             PlayerActions.queueTrack(
@@ -244,6 +241,7 @@ export class LineList extends BaseComponent {
         }
 
         this.#addSubDropDown(addDropDown, trackId, dropDown);
+        setTimeout(() => { (addDropDown.options as HTMLElement).style.top = '-5px'; }, 500);
     }
 
     /** Add sub drops where playlists are placed */
@@ -346,10 +344,9 @@ export class LineList extends BaseComponent {
                 }
 
                 if (!checkAuth()) {
-                    Router.go(routingUrl.LOGIN);
+                    Router.goToLogin();
                     return;
                 }
-
                 const indexBlock: HTMLDivElement = line.querySelector(`.${this.elementConfig.lineIndex}`) as HTMLDivElement;
                 if (!indexBlock) {
                     console.error('Cannot find index block');
@@ -457,23 +454,24 @@ export class LineList extends BaseComponent {
                 const stopButtons = document.querySelectorAll(`.${this.elementConfig.stopButton}`) as NodeListOf<HTMLButtonElement>;
                 const lines = document.querySelectorAll(`.${this.elementConfig.lineDiv}`) as NodeListOf<HTMLDivElement>;
                 const trackId = SongStore.trackInfo.id;
-                for (const key in lines) {
-                    if (key === 'entries') break;
-                    if (!lines[key]) {
-                        console.error('Cannot find line by key');
-                        return;
-                    }
-                    // @ts-ignore
-                    if (Number(lines[key]?.dataset.id) === trackId && state === true) {
+                if (!playButtons || !stopButtons || !lines || !trackId) {
+                    console.error('Error in song store subscribe');
+                    return;
+                }
+                for (const [index, value] of lines.entries()) {
+                    if (playButtons[index] && stopButtons[index]) {
                         // @ts-ignore
-                        playButtons[Number(key)].hidden = true;
-                        // @ts-ignore
-                        stopButtons[Number(key)].hidden = false;
-                    } else {
-                        // @ts-ignore
-                        playButtons[Number(key)].hidden = false;
-                        // @ts-ignore
-                        stopButtons[Number(key)].hidden = true;
+                        if (Number(value?.dataset?.id) === trackId && state) {
+                            // @ts-ignore
+                            playButtons[index].hidden = true;
+                            // @ts-ignore
+                            stopButtons[index].hidden = false;
+                        } else {
+                            // @ts-ignore
+                            playButtons[index].hidden = false;
+                            // @ts-ignore
+                            stopButtons[index].hidden = true;
+                        }
                     }
                 }
             },
@@ -519,6 +517,14 @@ export class LineList extends BaseComponent {
      */
     override appendElement() {
         super.appendElement();
+        this.#addListeners();
+    }
+
+    /**
+     * Append line list
+     */
+    override render() {
+        super.render();
         this.#addListeners();
     }
 }

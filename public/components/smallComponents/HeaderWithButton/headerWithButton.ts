@@ -8,7 +8,6 @@ import { componentsJSNames } from '@config/componentsJSNames';
 import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
 import ComponentsStore from '@store/ComponentsStore';
 import ComponentsActions from '@Actions/ComponentsActions';
-import { routingUrl } from '@config/routingUrls';
 
 import templateHtml from './headerWithButton.handlebars';
 import './headerWithButton.less';
@@ -70,11 +69,11 @@ export class HeaderWithButton {
 
         header.addEventListener('click', (event) => {
             event.preventDefault();
-            Router.go(routingUrl.ROOT);
+            Router.goToFeed();
         });
         button.addEventListener('click', (event) => {
             event.preventDefault();
-            Router.go(routingUrl.ROOT);
+            Router.goToFeed();
         });
     }
 

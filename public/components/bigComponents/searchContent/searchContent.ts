@@ -28,15 +28,21 @@ export class SearchContent extends BaseComponent {
     /** timer for render elements */
     private timer;
 
+    /** Reaction on search line */
+    private readonly reaction;
+
     /**
      * Create Playlist. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place Playlist
      * @param {string} componentName
      * @param {json} config
+     * @param {(value):void} reactionOnSearchLine reaction on search line to
+     * where to send value from it
      */
-    constructor(parent, componentName, config) {
+    constructor(parent, componentName, config, reactionOnSearchLine?: {(value):void}) {
         super(parent, config, templateHtml, componentName);
         this.lengths = [];
+        this.reaction = reactionOnSearchLine;
     }
 
     /** Function to render playlists by input configs. */
@@ -54,7 +60,7 @@ export class SearchContent extends BaseComponent {
 
     /** Function to render track lines by input configs. */
     private renderLines(tracks) {
-        const linesPlacement = document.querySelector('.js__placement-tracks');
+        const linesPlacement = document.querySelector('.js__placement-tracks-search');
         if (!linesPlacement) {
             console.error('Error in rendering of lines');
             return;
@@ -62,13 +68,13 @@ export class SearchContent extends BaseComponent {
 
         const divForPlace = document.createElement('div');
         linesPlacement.appendChild(divForPlace);
-        const lines = new LineList(divForPlace, setupLineList(tracks), componentsNames.SEARCH_LINE);
+        const lines = new LineList(divForPlace, setupLineList(tracks, '-search'), componentsNames.SEARCH_LINE);
         lines.appendElement();
     }
 
     /** Render Albums in search */
     private renderAlbums(albums) {
-        const albumPlacement = document.querySelector('.js__placement-albums');
+        const albumPlacement = document.querySelector('.js__placement-albums-search');
         if (!albumPlacement) {
             console.error('Error in rendering of albums');
             return;
@@ -81,7 +87,7 @@ export class SearchContent extends BaseComponent {
 
     /** Render Artist in search */
     private renderArtist(artists) {
-        const albumPlacement = document.querySelector('.js__placement-artists');
+        const albumPlacement = document.querySelector('.js__placement-artists-search');
         if (!albumPlacement) {
             console.error('Error in rendering of artists');
             return;
@@ -99,7 +105,7 @@ export class SearchContent extends BaseComponent {
             console.error('Error in rendering of search line');
             return;
         }
-        const searchLine = new SearchLine(searchPlacement, searchSetup().searchLine);
+        const searchLine = new SearchLine(searchPlacement, searchSetup().searchLine, this.reaction);
         searchLine.render();
     }
 
@@ -114,7 +120,7 @@ export class SearchContent extends BaseComponent {
             }
         });
 
-        const nothingPlacement = document.querySelector('.js__nothing-found');
+        const nothingPlacement = document.querySelector('.js__nothing-found-search');
         const label = document.createElement('p');
         if (!nothingPlacement) return;
         nothingPlacement.innerHTML = '';
@@ -147,7 +153,7 @@ export class SearchContent extends BaseComponent {
         ContentStore.subscribe(
             () => {
                 const state = ContentStore.state.search;
-                const tracksPlacement = document.querySelector('.js__placement-tracks');
+                const tracksPlacement = document.querySelector('.js__placement-tracks-search');
                 if (tracksPlacement) {
                     tracksPlacement.innerHTML = '';
                 }
@@ -171,7 +177,7 @@ export class SearchContent extends BaseComponent {
         ContentStore.subscribe(
             () => {
                 const state = ContentStore.state.search;
-                const albumsPlacement = document.querySelector('.js__placement-albums');
+                const albumsPlacement = document.querySelector('.js__placement-albums-search');
                 if (albumsPlacement) {
                     albumsPlacement.innerHTML = '';
                 }
@@ -196,7 +202,7 @@ export class SearchContent extends BaseComponent {
         ContentStore.subscribe(
             () => {
                 const state = ContentStore.state.search;
-                const artistsPlacement = document.querySelector('.js__placement-artists');
+                const artistsPlacement = document.querySelector('.js__placement-artists-search');
                 if (artistsPlacement) {
                     artistsPlacement.innerHTML = '';
                 }
@@ -220,7 +226,7 @@ export class SearchContent extends BaseComponent {
         ContentStore.subscribe(
             () => {
                 const state = ContentStore.state.search;
-                const playlistsPlacement = document.querySelector('.js__placement-playlists');
+                const playlistsPlacement = document.querySelector('.js__placement-playlists-search');
                 if (playlistsPlacement) {
                     playlistsPlacement.innerHTML = '';
                 }
@@ -245,11 +251,11 @@ export class SearchContent extends BaseComponent {
             () => {
                 clearTimeout(this.timer);
 
-                const tracksPlacement = document.querySelector('.js__placement-tracks');
-                const albumsPlacement = document.querySelector('.js__placement-albums');
-                const artistsPlacement = document.querySelector('.js__placement-artists');
-                const playlistsPlacement = document.querySelector('.js__placement-playlists');
-                const nothingPlacement = document.querySelector('.js__nothing-found');
+                const tracksPlacement = document.querySelector('.js__placement-tracks-search');
+                const albumsPlacement = document.querySelector('.js__placement-albums-search');
+                const artistsPlacement = document.querySelector('.js__placement-artists-search');
+                const playlistsPlacement = document.querySelector('.js__placement-playlists-search');
+                const nothingPlacement = document.querySelector('.js__nothing-found-search');
                 if (!playlistsPlacement || !artistsPlacement
                 || !albumsPlacement || !tracksPlacement || !nothingPlacement) {
                     console.warn('Can\'t find placements');

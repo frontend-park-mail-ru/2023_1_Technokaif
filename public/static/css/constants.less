@@ -74,7 +74,15 @@
 @maxSizeForFormDesktop: 400px;
 @maxSizeForUserInfoFormDesktop: 500px;
 
-@bottomSizeForMobile: 215px;
+@navbarSize: 74px;
+
+@playerSizeMobile: 72px;
+@playerSizeTablet: 102px;
+@playerSizeDesktop: @playerSizeMobile;
+
+@sideBarSizeMobile: 66px;
+@bottomSizeForMobile: calc(@playerSizeMobile + @sideBarSizeMobile);
+@bottomSizeForTablet: calc(@playerSizeTablet + @sideBarSizeMobile);
 
 @fontForCovers: 1.3rem;
 // todo another file with import in index.ts
@@ -96,7 +104,7 @@
   }
 }
 
-// text sizes not relative
+// fonts
 @hugeTextFont: 1.4rem;
 @bigTextFont: 1.2rem;
 @usualTextFont: 1rem;
@@ -104,14 +112,10 @@
 @verySmallTextFont: 0.66rem;
 @tinyTextFont: 0.6rem;
 
+// size of description
+@descriptionCoverSize: 150px;
 
-// relative text sizes
-@hugeTextFontR: 1.4em;
-@bigTextFontR: 1.2em;
-@usualTextFontR: 1em;
-@smallTextFontR: 0.8em;
-@verySmallTextFontR: 0.66em;
-@tinyTextFontR: 0.6em;
+@maxLinesInDescriptionsTapeElement: 5;
 
 .mainTitle {
   font-size: 1.2rem;
@@ -153,4 +157,31 @@
   ::-webkit-scrollbar-thumb:hover {
     background-color: #aaa;
   }
+}
+
+#root {
+  overflow: hidden;
+}
+
+body {
+  overflow: hidden;
+}
+
+
+.scrollElement {
+  overflow-y: auto;
+  max-height: 100%;
+  height: fit-content;
+  box-sizing: border-box;
+}
+
+.paddings-content {
+  padding-left: 2.5%;
+  padding-right: 2.5%;
+}
+
+.img-properties {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
 }

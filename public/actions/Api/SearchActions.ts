@@ -17,6 +17,14 @@ class ApiSearchActions {
             type: ActionTypes.EMPTY_SEARCH,
         });
     }
+
+    /** Search for tracks with value */
+    searchTracks(searchString:string) {
+        Dispatcher.dispatch({
+            type: ActionTypes.SEARCH_FOR_TRACKS,
+            searchString,
+        });
+    }
 }
 
 export default new ApiSearchActions();

@@ -3,6 +3,7 @@ import Ajax from '@modules/Ajax';
 
 const logout = () => {
     localStorage.setItem('isAuth', 'false');
+    localStorage.removeItem('userId');
 };
 
 /**

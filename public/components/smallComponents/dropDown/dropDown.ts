@@ -19,12 +19,17 @@ export const DIRECTIONS_DROPDOWN = {
     LEFT: 'LEFT',
 };
 
+const TimerTime = 30;
+
 /** Class for dropDown */
 export class DropDown extends BaseComponent {
     /** Flag to see if base structure was rendered */
     private isRendered;
 
+    /** max width of element inside options */
     private maxWidth;
+
+    private timerForOptionsWidth;
 
     /** Config to set up basic structure */
     private configDropDown:DropDownSetup;
@@ -35,9 +40,6 @@ export class DropDown extends BaseComponent {
     /** If need to go in specific direction */
     private readonly whereMustGo;
 
-    /** Parent where render */
-    private readonly parent;
-
     /** Parent for render and config for base setup. Set whereToGo to render in this direction */
     constructor(parent, config, whereToGo = '') {
         super(parent, config, templateHtml, config.dropdownName);
@@ -45,7 +47,6 @@ export class DropDown extends BaseComponent {
         this.isRendered = false;
         this.listeners = [];
         this.whereMustGo = whereToGo;
-        this.parent = parent;
         this.parent.classList.add('dropdown-title');
         this.maxWidth = 0;
         this.parent.classList.add(`js__${this.configDropDown.dropdownName}-title`);
@@ -99,7 +100,8 @@ export class DropDown extends BaseComponent {
         if (!this.isRendered) this.render();
         const optionsPlacement = this.options;
         this.addElement(optionsPlacement, element, eventTrigger, reaction);
-        this.whereToRender();
+        clearTimeout(this.timerForOptionsWidth);
+        this.timerForOptionsWidth = setTimeout(this.changeWidth.bind(this), TimerTime);
     }
 
     /** Show options of dropdown. Set css class 'dropdown-active' */
@@ -153,7 +155,7 @@ export class DropDown extends BaseComponent {
             }
 
             clearTimeout(timer);
-            timer = setTimeout(this.whereToRender.bind(this), 100);
+            timer = setTimeout(this.whereToRender.bind(this), TimerTime);
         };
         window.addEventListener('resize', resizeDropDown);
     }
@@ -188,20 +190,78 @@ export class DropDown extends BaseComponent {
         return DIRECTIONS_DROPDOWN.DOWN;
     }
 
+    /** checks for size. If go beyond borders of screen then it will cling to border */
+    private checkForBeyond() {
+        runAfterFramePaint(() => {
+            if (!this.options) return;
+            const element = (this.options as HTMLElement);
+            const widthOfElement = element.offsetWidth;
+            const heightOfElement = element.offsetHeight;
+            const boundRectangle = this.title?.getBoundingClientRect();
+            if (!boundRectangle) return;
+
+            const distanceTop = boundRectangle.top;
+            const distanceRight = window.innerWidth - boundRectangle.right;
+            const distanceBottom = window.innerHeight - boundRectangle.bottom;
+            const distanceLeft = boundRectangle.left;
+
+            switch (this.whereMustGo) {
+            case DIRECTIONS_DROPDOWN.LEFT:
+                if (widthOfElement > distanceLeft) {
+                    element.style.left = `-${distanceLeft}`;
+                }
+
+                if (heightOfElement > distanceBottom) {
+                    element.style.bottom = String(distanceBottom);
+                }
+                break;
+            case DIRECTIONS_DROPDOWN.DOWN:
+                if (widthOfElement > distanceLeft) {
+                    element.style.left = `-${distanceLeft}`;
+                }
+
+                if (heightOfElement > distanceBottom) {
+                    element.style.bottom = String(distanceBottom);
+                }
+                break;
+            case DIRECTIONS_DROPDOWN.UP:
+                if (widthOfElement > distanceLeft) {
+                    element.style.left = `-${distanceLeft}`;
+                }
+
+                if (heightOfElement > distanceTop) {
+                    element.style.top = `-${distanceTop}`;
+                }
+                break;
+            case DIRECTIONS_DROPDOWN.RIGHT:
+                if (widthOfElement > distanceRight) {
+                    element.style.right = String(distanceRight);
+                }
+
+                if (heightOfElement > distanceTop) {
+                    element.style.bottom = String(distanceBottom);
+                }
+                break;
+            default:
+                console.warn('Nowhere to go');
+            }
+        });
+    }
+
     /**
      * Watch where to render by free space or whereToGo in constructor.
      * Add css option to render options.<br>
      * If doesn't have any free space will render down by default.
      * <b>Watch only on window size! Occupied elements doesn't count.</b>
      */
-    private whereToRender() {
-        runAfterFramePaint(() => {
+    private whereToRender(notWaitingPaint?:boolean) {
+        const functionOfRendering = () => {
             let whereRender = this.whereMustGo;
             if (whereRender === '') {
                 whereRender = this.searchForFreeSpace();
             }
-            const element = this.options;
-            if (!element || !(element instanceof HTMLElement)) {
+            const optionsDropDown = this.options;
+            if (!optionsDropDown || !(optionsDropDown instanceof HTMLElement)) {
                 return;
             }
             const { title } = this;
@@ -209,41 +269,39 @@ export class DropDown extends BaseComponent {
                 return;
             }
 
-            if (element.offsetWidth > this.maxWidth) {
-                this.maxWidth = element.offsetWidth;
+            if (optionsDropDown.offsetWidth > this.maxWidth) {
+                this.maxWidth = optionsDropDown.offsetWidth;
             }
 
-            const padding = 5;
             switch (whereRender) {
             case DIRECTIONS_DROPDOWN.DOWN:
-                element.style.top = `${title.offsetHeight + padding}`;
-                element.style.left = '0';
+                optionsDropDown.style.top = `${title.offsetHeight}`;
+                optionsDropDown.style.left = '0';
                 break;
             case DIRECTIONS_DROPDOWN.UP:
-                element.style.bottom = `-${element.offsetHeight + padding}`;
-                element.style.left = '0';
+                optionsDropDown.style.top = `-${optionsDropDown.offsetHeight}`;
+                optionsDropDown.style.left = '0';
                 break;
             case DIRECTIONS_DROPDOWN.LEFT:
-                element.style.top = `-${padding}`;
-                element.style.left = `-${this.maxWidth + padding}`;
+                optionsDropDown.style.top = '0';
+                optionsDropDown.style.left = `-${this.maxWidth}`;
                 break;
             case DIRECTIONS_DROPDOWN.RIGHT:
-                element.style.top = `-${padding}`;
-                element.style.left = `${this.maxWidth + padding}`;
+                optionsDropDown.style.top = '0';
+                optionsDropDown.style.left = `${this.maxWidth}`;
                 break;
             default:
                 console.warn('Error at dropDown whereToRender', whereRender);
             }
-            if (title.offsetWidth <= 200 && this.maxWidth < 200) {
-                if (title.offsetWidth < this.maxWidth) {
-                    element.style.width = this.maxWidth;
-                } else {
-                // @ts-ignore
-                    element.style.width = title.offsetWidth;
-                }
-            }
-            setTimeout(this.whereToRender, 100);
-        });
+
+            setTimeout(this.whereToRender, TimerTime);
+        };
+        if (!notWaitingPaint) {
+            runAfterFramePaint(functionOfRendering);
+        } else {
+            functionOfRendering();
+        }
+        this.checkForBeyond();
     }
 
     /** Render base structure */
@@ -255,8 +313,38 @@ export class DropDown extends BaseComponent {
 
         runAfterFramePaint(() => {
             this.addBasicReactions();
-            this.whereToRender();
         });
+    }
+
+    /** get maximum width of all elements inside options */
+    private getMaxValue() {
+        let localMax = 0;
+
+        const children = this.options?.children;
+        if (children) {
+            Array.from(children).forEach((el) => {
+                if (el instanceof HTMLElement) {
+                    const width = el.offsetWidth;
+                    localMax = localMax < width ? width : localMax;
+                }
+            });
+        }
+
+        return localMax > this.maxWidth ? localMax : this.maxWidth;
+    }
+
+    /** change width options of dropdown */
+    private changeWidth() {
+        clearTimeout(this.timerForOptionsWidth);
+        this.timerForOptionsWidth = setTimeout(
+            () => {
+                runAfterFramePaint(() => {
+                    this.maxWidth = this.getMaxValue();
+                    this.whereToRender(true);
+                });
+            },
+            TimerTime,
+        );
     }
 
     /** Delete children. Delete listeners of dropDown */

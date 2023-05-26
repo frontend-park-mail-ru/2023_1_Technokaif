@@ -21,9 +21,6 @@ import { Playlist } from '../playlist';
  * Class of favorite tracks playlist
  */
 export class UserPlaylist extends Playlist {
-    /** Parent element */
-    private parent: HTMLDivElement;
-
     /** Input file for playlist cover */
     private fileInput: HTMLInputElement;
 
@@ -34,7 +31,6 @@ export class UserPlaylist extends Playlist {
      */
     constructor(parent, componentName: string) {
         super(parent, componentName, {});
-        this.parent = parent;
         this.fileInput = document.createElement('input');
         this.fileInput.setAttribute('type', 'file');
         this.fileInput.setAttribute('id', 'file');
@@ -168,6 +164,18 @@ export class UserPlaylist extends Playlist {
                 descriptionElement.innerText = playlistData.description;
             },
             EventTypes.UPDATED_PLAYLIST,
+            this.name,
+        );
+
+        API.subscribe(
+            (message, playlistId) => {
+                if (message !== 'OK') {
+                    console.error(message);
+                } else {
+                    PlaylistActions.playlistTracks(playlistId);
+                }
+            },
+            EventTypes.ADDED_TRACK_IN_PLAYLIST,
             this.name,
         );
 

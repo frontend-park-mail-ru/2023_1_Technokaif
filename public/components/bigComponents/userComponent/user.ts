@@ -13,7 +13,6 @@ import API from '@store/API';
 import UserActions from '@API/UserActions';
 import ValidationActions from '@Actions/ValidationActions';
 import { Form } from '@bigComponents/form/form';
-import { routingUrl } from '@config/routingUrls';
 
 import template from './user.handlebars';
 import './user.less';
@@ -137,7 +136,7 @@ export class User extends BaseComponent {
 
         cancelButton.addEventListener(METHOD.BUTTON, (event) => {
             event.preventDefault();
-            Router.go(routingUrl.ROOT);
+            Router.goToFeed();
         });
 
         saveButton.addEventListener(METHOD.BUTTON, (event) => {
@@ -406,7 +405,7 @@ export class User extends BaseComponent {
         );
 
         API.subscribe(
-            (message, cover) => {
+            (message, avatar) => {
                 const errorElement: HTMLDivElement|null = document.querySelector('.user__error-text');
                 const successElement: HTMLDivElement|null = document.querySelector('.user__success-text');
                 if (!errorElement || !successElement) {
@@ -424,7 +423,7 @@ export class User extends BaseComponent {
                     successElement.hidden = false;
                     successElement.innerText = 'Successfully changed avatar';
                     const avatarImg = this.#parent.querySelector('.user-profile__img');
-                    const blob = new Blob([cover], { type: 'image/jpeg' });
+                    const blob = new Blob([avatar], { type: 'image/jpeg' });
                     const imageUrl = URL.createObjectURL(blob);
                     avatarImg.src = imageUrl;
                 }

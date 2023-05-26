@@ -16,9 +16,6 @@ export class Notification extends BaseComponent {
     /** Name of notification */
     private readonly nameOfNotification;
 
-    /** Where to render */
-    private readonly parent;
-
     /** Parent where to render. Text to display. Name for js to search.
      * Element will have class 'js__notification-"name"'
      * Timer to remove notification 3.5s.
@@ -43,7 +40,6 @@ export class Notification extends BaseComponent {
         };
         super(parent, setup, template);
         this.nameOfNotification = name;
-        this.parent = parent;
     }
 
     /** Append element to parent */

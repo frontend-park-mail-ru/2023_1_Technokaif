@@ -1,18 +1,22 @@
 @import '../../../static/css/constants';
 
 .search-content {
-  padding: 100px 20px;
+  padding: 1rem 20px;
   box-sizing: border-box;
   width: 100%;
-}
-
-@media @mobileMax, @tabletSize {
-    .search-content {
-      padding-bottom: @bottomSizeForMobile;
-    }
 }
 
 .nothing-found {
   padding-top: 1%;
   .titleText();
+}
+
+.padding-top-search {
+  padding-top: 100px;
+}
+
+.search-content-embedded {
+  padding-left: 0;
+  padding-right: 0;
+  border-bottom: 1px solid @main-color;
 }

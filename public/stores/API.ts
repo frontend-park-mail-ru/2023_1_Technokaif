@@ -46,6 +46,9 @@ import IStore from '@store/IStore';
 import ContentActions from '@Actions/ContentActions';
 import Actions from '@actions/Actions';
 import APISongs from '@store/APISongs';
+import { getValueFromLocalStorage } from '@functions/FunctionsToWorkWithLocalStore';
+import { RESPONSES } from '@config/config';
+import { TracksApi } from '@api/ApiAnswers';
 
 /**
  * Class using for getting data from backend.
@@ -56,6 +59,20 @@ class API extends IStore {
      */
     constructor() {
         super('api');
+
+        window.addEventListener('storage', (event:StorageEvent) => {
+            if (event.key === 'isAuth') {
+                const auth = getValueFromLocalStorage('isAuth');
+
+                if (auth) {
+                    this.jsEmit(EventTypes.LOGIN_STATUS, RESPONSES.OK);
+                } else {
+                    this.jsEmit(EventTypes.LOGOUT_STATUS, RESPONSES.OK);
+                    Actions.clearStore('userInfo');
+                    Actions.clearStore('SONG_STORE');
+                }
+            }
+        });
     }
 
     /**
@@ -177,6 +194,9 @@ class API extends IStore {
             this.searchForArtistsWithName(action.searchString);
             this.searchForTracksWithName(action.searchString);
             this.searchForPlaylistWithName(action.searchString);
+            break;
+        case ActionTypes.SEARCH_FOR_TRACKS:
+            this.searchForTracksWithName(action.searchString);
             break;
         case ActionTypes.PLAY_ARTIST:
             APISongs.dispatch(action);
@@ -538,7 +558,7 @@ class API extends IStore {
      */
     private addTrackInPlaylistRequest(playlistId: string, trackId: string) {
         addTrackAjaxRequest(playlistId, trackId).then((message) => {
-            this.jsEmit(EventTypes.ADDED_TRACK_IN_PLAYLIST, message);
+            this.jsEmit(EventTypes.ADDED_TRACK_IN_PLAYLIST, message, playlistId);
         });
     }
 
@@ -590,6 +610,9 @@ class API extends IStore {
                 Promise.allSettled(promises).then(() => {
                     ActionsSearch.gotTracks(tracks);
                 });
+            } else {
+                const TracksApiEmpty:TracksApi = { tracks: [] };
+                ActionsSearch.gotTracks(TracksApiEmpty);
             }
         });
     }

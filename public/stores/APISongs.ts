@@ -118,7 +118,6 @@ class APISongs extends IStore {
         getPlaylistTracks(playlistId).then((tracks:TrackApi[]) => {
             const tracksWithPlaylist = tracks
                 .map((track): ApiTrackWithPlaylistID => ({ ...track, playlistID: playlistId }));
-            console.log(tracksWithPlaylist);
             PlayerActions.apiPlayPlaylist(tracksWithPlaylist, offset);
         });
     }
