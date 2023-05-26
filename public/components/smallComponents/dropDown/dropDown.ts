@@ -19,12 +19,17 @@ export const DIRECTIONS_DROPDOWN = {
     LEFT: 'LEFT',
 };
 
+const TimerTime = 30;
+
 /** Class for dropDown */
 export class DropDown extends BaseComponent {
     /** Flag to see if base structure was rendered */
     private isRendered;
 
+    /** max width of element inside options */
     private maxWidth;
+
+    private timerForOptionsWidth;
 
     /** Config to set up basic structure */
     private configDropDown:DropDownSetup;
@@ -95,7 +100,8 @@ export class DropDown extends BaseComponent {
         if (!this.isRendered) this.render();
         const optionsPlacement = this.options;
         this.addElement(optionsPlacement, element, eventTrigger, reaction);
-        this.whereToRender();
+        clearTimeout(this.timerForOptionsWidth);
+        this.timerForOptionsWidth = setTimeout(this.changeWidth.bind(this), TimerTime);
     }
 
     /** Show options of dropdown. Set css class 'dropdown-active' */
@@ -149,7 +155,7 @@ export class DropDown extends BaseComponent {
             }
 
             clearTimeout(timer);
-            timer = setTimeout(this.whereToRender.bind(this), 100);
+            timer = setTimeout(this.whereToRender.bind(this), TimerTime);
         };
         window.addEventListener('resize', resizeDropDown);
     }
@@ -190,8 +196,8 @@ export class DropDown extends BaseComponent {
      * If doesn't have any free space will render down by default.
      * <b>Watch only on window size! Occupied elements doesn't count.</b>
      */
-    private whereToRender() {
-        runAfterFramePaint(() => {
+    private whereToRender(notWaitingPaint?:boolean) {
+        const functionOfRendering = () => {
             let whereRender = this.whereMustGo;
             if (whereRender === '') {
                 whereRender = this.searchForFreeSpace();
@@ -219,19 +225,24 @@ export class DropDown extends BaseComponent {
                 optionsDropDown.style.left = '0';
                 break;
             case DIRECTIONS_DROPDOWN.LEFT:
+                optionsDropDown.style.top = '0';
                 optionsDropDown.style.left = `-${this.maxWidth}`;
                 break;
             case DIRECTIONS_DROPDOWN.RIGHT:
+                optionsDropDown.style.top = '0';
                 optionsDropDown.style.left = `${this.maxWidth}`;
                 break;
             default:
                 console.warn('Error at dropDown whereToRender', whereRender);
             }
 
-            // optionsDropDown.style.width = this.maxWidth;
-            optionsDropDown.style.width = 'fit-content';
-            setTimeout(this.whereToRender, 200);
-        });
+            setTimeout(this.whereToRender, TimerTime);
+        };
+        if (!notWaitingPaint) {
+            runAfterFramePaint(functionOfRendering);
+        } else {
+            functionOfRendering();
+        }
     }
 
     /** Render base structure */
@@ -243,8 +254,38 @@ export class DropDown extends BaseComponent {
 
         runAfterFramePaint(() => {
             this.addBasicReactions();
-            this.whereToRender();
         });
+    }
+
+    /** get maximum width of all elements inside options */
+    private getMaxValue() {
+        let localMax = 0;
+
+        const children = this.options?.children;
+        if (children) {
+            Array.from(children).forEach((el) => {
+                if (el instanceof HTMLElement) {
+                    const width = el.offsetWidth;
+                    localMax = localMax < width ? width : localMax;
+                }
+            });
+        }
+
+        return localMax > this.maxWidth ? localMax : this.maxWidth;
+    }
+
+    /** change width options of dropdown */
+    private changeWidth() {
+        clearTimeout(this.timerForOptionsWidth);
+        this.timerForOptionsWidth = setTimeout(
+            () => {
+                runAfterFramePaint(() => {
+                    this.maxWidth = this.getMaxValue();
+                    this.whereToRender(true);
+                });
+            },
+            TimerTime,
+        );
     }
 
     /** Delete children. Delete listeners of dropDown */

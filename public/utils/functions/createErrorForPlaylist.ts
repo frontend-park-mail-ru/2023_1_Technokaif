@@ -15,25 +15,8 @@ function createPlaylistError() {
     boldText.classList.add('usualText');
     boldText.innerText = 'No tracks added to playlist';
     warningPlace.appendChild(boldText);
+    warningPlace.style.paddingTop = '0.5rem';
 
-    const warningDiv = document.createElement('div');
-    warningDiv.classList.add('empty-warning-artist');
-
-    const textElementBeforeImg = document.createElement('p');
-    textElementBeforeImg.innerText = 'To add click';
-    textElementBeforeImg.classList.add('smallText');
-    warningDiv.appendChild(textElementBeforeImg);
-
-    const imgThreeDots = document.createElement('img');
-    imgThreeDots.src = imgPath.ellipseInArtist;
-    warningDiv.appendChild(imgThreeDots);
-
-    const textElementAfterImg = document.createElement('p');
-    textElementAfterImg.innerText = '--> "Add" and choose playlist';
-    textElementAfterImg.classList.add('smallText');
-    warningDiv.appendChild(textElementAfterImg);
-
-    warningPlace.appendChild(warningDiv);
     return warningPlace;
 }
 
@@ -46,16 +29,8 @@ function createErrorForFavoriteTracks() {
     boldText.classList.add('usualText');
     boldText.innerText = 'No tracks added to playlist';
     warningPlace.appendChild(boldText);
+    warningPlace.style.paddingTop = '0.5rem';
 
-    const warningDiv = document.createElement('div');
-    warningDiv.classList.add('empty-warning-artist');
-
-    const textElement = document.createElement('p');
-    textElement.innerText = 'To add click on heart near track';
-    textElement.classList.add('smallText');
-    textElement.style.paddingTop = '0.2rem';
-
-    warningPlace.appendChild(textElement);
     return warningPlace;
 }
 
