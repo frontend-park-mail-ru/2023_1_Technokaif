@@ -190,6 +190,64 @@ export class DropDown extends BaseComponent {
         return DIRECTIONS_DROPDOWN.DOWN;
     }
 
+    /** checks for size. If go beyond borders of screen then it will cling to border */
+    private checkForBeyond() {
+        runAfterFramePaint(() => {
+            if (!this.options) return;
+            const element = (this.options as HTMLElement);
+            const widthOfElement = element.offsetWidth;
+            const heightOfElement = element.offsetHeight;
+            const boundRectangle = this.title?.getBoundingClientRect();
+            if (!boundRectangle) return;
+
+            const distanceTop = boundRectangle.top;
+            const distanceRight = window.innerWidth - boundRectangle.right;
+            const distanceBottom = window.innerHeight - boundRectangle.bottom;
+            const distanceLeft = boundRectangle.left;
+
+            switch (this.whereMustGo) {
+            case DIRECTIONS_DROPDOWN.LEFT:
+                if (widthOfElement > distanceLeft) {
+                    element.style.left = `-${distanceLeft}`;
+                }
+
+                if (heightOfElement > distanceBottom) {
+                    element.style.bottom = String(distanceBottom);
+                }
+                break;
+            case DIRECTIONS_DROPDOWN.DOWN:
+                if (widthOfElement > distanceLeft) {
+                    element.style.left = `-${distanceLeft}`;
+                }
+
+                if (heightOfElement > distanceBottom) {
+                    element.style.bottom = String(distanceBottom);
+                }
+                break;
+            case DIRECTIONS_DROPDOWN.UP:
+                if (widthOfElement > distanceLeft) {
+                    element.style.left = `-${distanceLeft}`;
+                }
+
+                if (heightOfElement > distanceTop) {
+                    element.style.top = `-${distanceTop}`;
+                }
+                break;
+            case DIRECTIONS_DROPDOWN.RIGHT:
+                if (widthOfElement > distanceRight) {
+                    element.style.right = String(distanceRight);
+                }
+
+                if (heightOfElement > distanceTop) {
+                    element.style.bottom = String(distanceBottom);
+                }
+                break;
+            default:
+                console.warn('Nowhere to go');
+            }
+        });
+    }
+
     /**
      * Watch where to render by free space or whereToGo in constructor.
      * Add css option to render options.<br>
@@ -243,6 +301,7 @@ export class DropDown extends BaseComponent {
         } else {
             functionOfRendering();
         }
+        this.checkForBeyond();
     }
 
     /** Render base structure */

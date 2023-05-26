@@ -163,7 +163,7 @@ export class LineList extends BaseComponent {
         }
 
         const textAdd = document.createElement('p');
-        textAdd.textContent = 'Add';
+        textAdd.textContent = 'Add to playlist';
         textAdd.classList.add('optionSize');
         dropDown.addOptionsElement(textAdd, METHOD.BUTTON, () => {
             const trackElement: HTMLDivElement|null = document.querySelector(`.track-line[data-id="${trackId}"]`);
@@ -206,7 +206,7 @@ export class LineList extends BaseComponent {
         addDropDown.render();
 
         const btQueue = document.createElement('div');
-        btQueue.textContent = 'Queue';
+        btQueue.textContent = 'Add to queue';
         btQueue.classList.add('optionSize');
         dropDown.addOptionsElement(btQueue, METHOD.BUTTON, () => {
             PlayerActions.queueTrack(
@@ -241,6 +241,7 @@ export class LineList extends BaseComponent {
         }
 
         this.#addSubDropDown(addDropDown, trackId, dropDown);
+        setTimeout(() => { (addDropDown.options as HTMLElement).style.top = '-5px'; }, 500);
     }
 
     /** Add sub drops where playlists are placed */

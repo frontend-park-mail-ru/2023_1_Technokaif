@@ -63,14 +63,17 @@
 
 .playlist-name-input {
   background: hsla(0,0%,100%,.1);
-  border: 1px solid transparent;
+  //border: 1px solid transparent;
   border-radius: 4px;
   color: @main-color;
   font-family: inherit;
   font-size: @smallTextFont;
   height: 40px;
-  padding: 0 12px;
+  padding: 0 12px 0 10px;
   width: 100%;
+  margin-top: 3px;
+  // todo border???
+  border:0;
 }
 
 .playlist-name {
@@ -80,14 +83,20 @@
 
 .playlist-description-input {
   background: hsla(0,0%,100%,.1);
-  border: 1px solid transparent;
+  //border: 1px solid transparent;
   border-radius: 4px;
   color: @main-color;
   font-size: @smallTextFont;
-  padding: 8px 8px 28px;
+  padding: 8px 8px 28px 10px;
   resize: none;
   width: 100%;
   height: auto;
+  // todo border???
+  border: 0;
+  margin-top: 3px;
+}
+
+.playlist-description-input::placeholder {
 }
 
 .playlist-description {
@@ -96,7 +105,9 @@
 }
 
 .modal-window-label {
+  padding-left: 10px;
   font-size: @verySmallTextFont;
+  border:0;
 }
 
 .modal-playlist-button {

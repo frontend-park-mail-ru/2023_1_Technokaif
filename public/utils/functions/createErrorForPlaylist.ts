@@ -1,5 +1,3 @@
-import { imgPath } from '@config/pathConfig';
-
 /** All variants of playlist */
 export const TypeOfPlaylist = {
     playlist: 'playlist',
