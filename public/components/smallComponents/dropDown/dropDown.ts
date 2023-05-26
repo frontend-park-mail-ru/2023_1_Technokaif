@@ -221,12 +221,10 @@ export class DropDown extends BaseComponent {
             const heightFree = distanceBottom + boundRectangle.height - bottomSize;
             switch (this.whereMustGo) {
             case DIRECTIONS_DROPDOWN.LEFT:
-                console.log('distanceLeft', distanceLeft, widthOfElement, distanceBottom);
                 if (widthOfElement > distanceLeft) {
                     element.style.left = `-${distanceLeft}`;
                 }
 
-                console.log(heightOfElement, distanceBottom, boundRectangle.height, bottomSize);
                 if (heightOfElement > heightFree) {
                     element.style.top = `-${heightOfElement - heightFree}`;
                 }
