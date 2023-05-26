@@ -228,8 +228,6 @@ export class DropDown extends BaseComponent {
                 console.warn('Error at dropDown whereToRender', whereRender);
             }
 
-            // optionsDropDown.style.width = this.maxWidth;
-            optionsDropDown.style.width = 'fit-content';
             setTimeout(this.whereToRender, 200);
         });
     }
