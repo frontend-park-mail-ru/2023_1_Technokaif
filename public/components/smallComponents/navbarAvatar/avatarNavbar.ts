@@ -35,7 +35,7 @@ export class AvatarNavbar extends BaseComponent {
             () => {
                 setTimeout(() => {
                     UserActions.user(localStorage.getItem('userId'));
-                }, 100);
+                }, 400);
             },
             EventTypes.UPDATE_DATA_WITH_AVATAR_RECEIVED,
             this.name,
