@@ -131,6 +131,8 @@ class SongStore extends IStore {
         if (trackInd !== -1) {
             this.#songs[trackInd].isLiked = value;
         }
+
+        this.saveSongsAndPosition(this.#songs, this.#position);
     }
 
     /** Return what album is playing or null if doesn't exist */

@@ -165,7 +165,7 @@ export class LineList extends BaseComponent {
         const textAdd = document.createElement('p');
         textAdd.textContent = 'Add to playlist';
         textAdd.classList.add('optionSize');
-        dropDown.addOptionsElement(textAdd, METHOD.BUTTON, () => {
+        dropDown.addOptionsElement(textAdd, 'click', (event) => {
             const trackElement: HTMLDivElement|null = document.querySelector(`.track-line[data-id="${trackId}"]`);
             if (!trackElement) {
                 return;
@@ -176,11 +176,13 @@ export class LineList extends BaseComponent {
                 return;
             }
 
-            if (!playlistsContainer.children.length) {
+            // @ts-ignore
+            const tag = event?.target?.tagName.toLowerCase();
+            if (!playlistsContainer.children.length && tag !== 'li') {
                 const notification = new Notification(
                     document.querySelector('.js__navbar'),
                     'Cannot add track in playlist. No playlists without this track found.',
-                    `${trackId}_queue`,
+                    `${index}_failure_add`,
                     TypeOfNotification.failure,
                 );
 
@@ -240,12 +242,12 @@ export class LineList extends BaseComponent {
             });
         }
 
-        this.#addSubDropDown(addDropDown, trackId, dropDown);
+        this.#addSubDropDown(addDropDown, dropDown, index, trackId);
         setTimeout(() => { (addDropDown.options as HTMLElement).style.top = '-5px'; }, 500);
     }
 
     /** Add sub drops where playlists are placed */
-    #addSubDropDown(where, index, mainDropDown) {
+    #addSubDropDown(where, mainDropDown, index, trackId) {
         const div = document.createElement('div');
         div.classList.add('list-container');
         const ul = document.createElement('ul');
@@ -269,7 +271,7 @@ export class LineList extends BaseComponent {
 
         let hasPlaylist = false;
         this.playlists.forEach((playlist) => {
-            if (playlist.tracks.find((track) => Number(track.id) === Number(index))) {
+            if (playlist.tracks.find((track) => Number(track.id) === Number(trackId))) {
                 return;
             }
 
@@ -278,7 +280,7 @@ export class LineList extends BaseComponent {
             li.classList.add('li-element');
             li.textContent = playlist.name;
             where.addOptionsElement(li, 'click', () => {
-                PlaylistActions.addTrackInPlaylist(playlist.id, index);
+                PlaylistActions.addTrackInPlaylist(playlist.id, trackId);
             });
             ul.appendChild(li);
         });
@@ -286,6 +288,35 @@ export class LineList extends BaseComponent {
         if (!hasPlaylist) {
             div.classList.add('container-for-line');
         }
+
+        // const element = document.querySelector(`.js__track${index}__subDropAdd-dropDown__name-title`);
+        //
+        // if (!element) {
+        //     return;
+        // }
+        //
+        // element.addEventListener('click', () => {
+        //     const trackElement: HTMLDivElement|null = document.querySelector(`.track-line[data-id="${trackId}"]`);
+        //     if (!trackElement) {
+        //         return;
+        //     }
+        //
+        //     const playlistsContainer: HTMLUListElement|null = trackElement.querySelector('.item-list');
+        //     if (!playlistsContainer) {
+        //         return;
+        //     }
+        //
+        //     if (!playlistsContainer.children.length) {
+        //         const notification = new Notification(
+        //             document.querySelector('.js__navbar'),
+        //             'Cannot add track in playlist. No playlists without this track found.',
+        //             `${index}_failure_add`,
+        //             TypeOfNotification.failure,
+        //         );
+        //
+        //         notification.appendElement();
+        //     }
+        // });
     }
 
     /**
@@ -325,11 +356,18 @@ export class LineList extends BaseComponent {
             this.isRendered = true;
         }, EventTypes.GOT_USER_PLAYLISTS, this.name);
 
-        this.parent.addEventListener('click', (event) => {
+        const lineListCallback = (event) => {
             const line = event.target.closest(`.${this.elementConfig.lineDiv}`) as HTMLDivElement;
             const like = event.target.closest(`.${this.elementConfig.likeButtonImg}`) as HTMLImageElement;
-            const another: HTMLImageElement|null = event.target.closest(`.${this.elementConfig.anotherClass}`);
+            const another: HTMLImageElement | null = event.target.closest(`.${this.elementConfig.anotherClass}`);
             const album: HTMLDivElement = event.target.closest(`.${this.elementConfig.lineTitle}`);
+            const artist: HTMLDivElement = event.target.closest(`.${this.elementConfig.artistClass} span`);
+            const artistBlock: HTMLDivElement = event.target.closest(`.${this.elementConfig.artistClass}`);
+            let spansInArtists: NodeListOf<HTMLSpanElement>|null = null;
+            if (artist) {
+                spansInArtists = artistBlock.querySelectorAll('span');
+            }
+
             const buttons = event.target.closest(`.${this.elementConfig.playButtonImg}`) as HTMLImageElement;
             const playButtons = document
                 .querySelectorAll(`.${this.elementConfig.playButton}`) as NodeListOf<HTMLButtonElement>;
@@ -339,6 +377,7 @@ export class LineList extends BaseComponent {
                 if (event.target !== buttons
                     && event.target !== like
                     && event.target !== album
+                    && event.target !== artist
                     && event.target !== another) {
                     return;
                 }
@@ -444,9 +483,21 @@ export class LineList extends BaseComponent {
                 } else if (event.target === album) {
                     const { albumid } = line.dataset;
                     Router.go(routingUrl.ALBUM_PAGE(albumid));
+                } else if (event.target === artist) {
+                    const index = Array.from(spansInArtists as NodeListOf<HTMLSpanElement>).indexOf(artist);
+                    if (index !== -1) {
+                        const { artistids } = line.dataset;
+                        if (artistids) {
+                            const artistId = artistids.split(', ')[index];
+                            Router.go(routingUrl.ARTIST_PAGE(artistId));
+                        }
+                    }
                 }
             }
-        });
+        };
+
+        this.parent.removeEventListener('click', lineListCallback);
+        this.parent.addEventListener('click', lineListCallback);
 
         SongStore.subscribe(
             (state) => {

@@ -178,10 +178,10 @@ export class Album extends BaseComponent {
             () => {
                 const state = ContentStore.state.ALBUM;
 
-                const artistsText = state.artists.reduce((acc, { name }) => {
-                    acc.push(name);
+                const artistsText = state.artists.reduce((acc, { id, name }) => {
+                    acc.push(`<span data-id="${id}">${name}</span>`);
                     return acc;
-                }, []).join(' ');
+                }, []).join(', ');
 
                 const placement = document.querySelector('.album__descriptions');
                 if (!placement) {
@@ -193,17 +193,30 @@ export class Album extends BaseComponent {
                 this.config.headerNameOfElement = state.name;
                 this.config.ArtistName = artistsText;
                 this.config.Descriptions = state.description;
-                placement.innerHTML = headerTemplate();
                 placement.innerHTML = headerTemplate(this.config);
-                const artistItem = document.querySelector('.js__author');
-                if (!artistItem) {
-                    console.warn('Error at ablum. Can\'t add listener');
+
+                const artistsElement: HTMLParagraphElement|null = this.parent.querySelector('.js__author');
+                if (!artistsElement) {
+                    console.error('Bad in track artists');
                     return;
                 }
-                artistItem.addEventListener('click', () => {
-                    Router.go(`/${instancesNames.ARTIST_PAGE}/${ContentStore.state.ALBUM.id}`);
-                });
 
+                artistsElement.innerHTML = artistsText;
+                const spansInArtists: NodeListOf<HTMLSpanElement>|null = artistsElement.querySelectorAll('span');
+                if (!spansInArtists) {
+                    console.error('Bad in track artists');
+                    return;
+                }
+
+                spansInArtists.forEach((spanElement: HTMLSpanElement) => {
+                    spanElement.addEventListener('click', () => {
+                        // @ts-ignore
+                        const artistId: string|undefined = spanElement.dataset?.id;
+                        if (artistId) {
+                            Router.go(`/${instancesNames.ARTIST_PAGE}/${artistId}`);
+                        }
+                    });
+                });
                 const imgLike = document.querySelector('.albumLike');
 
                 if (!imgLike || !(imgLike instanceof HTMLImageElement)) {

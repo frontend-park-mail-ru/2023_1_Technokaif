@@ -35,7 +35,7 @@ export class FavoriteArtists extends BaseComponent {
 
         if (artists.length === 0) {
             const textOfNothing = document.createElement('p');
-            textOfNothing.innerText = 'No artist is liked';
+            textOfNothing.innerText = 'No liked artists';
             textOfNothing.classList.add('library__nothing-text');
             nothingPlacement.appendChild(textOfNothing);
             return;

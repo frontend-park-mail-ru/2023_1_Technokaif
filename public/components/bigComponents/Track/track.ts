@@ -193,10 +193,10 @@ export class Track extends BaseComponent {
             (instance) => {
                 if (instance === 'track') {
                     const { track } = ContentStore.state[pageNames.TRACK];
-                    const artistsText = track.artists.reduce((acc, { name }) => {
-                        acc.push(name);
+                    const artistsText = track.artists.reduce((acc, { id, name }) => {
+                        acc.push(`<span data-id="${id}">${name}</span>`);
                         return acc;
-                    }, []).join(' ');
+                    }, []).join(', ');
 
                     const placement = document.querySelector('.album__descriptions');
                     if (!placement) {
@@ -206,16 +206,28 @@ export class Track extends BaseComponent {
 
                     this.config.imgSrc = `/static/img${track.cover}`;
                     this.config.headerNameOfElement = track.name;
-                    this.config.ArtistName = artistsText;
-                    placement.innerHTML = headerTemplate();
                     placement.innerHTML = headerTemplate(this.config);
-                    const artistItem = document.querySelector('.js__author');
-                    if (!artistItem) {
-                        console.error('Error at track. Can\'t add listener');
+                    const artistsElement: HTMLParagraphElement|null = this.parent.querySelector('.js__author');
+                    if (!artistsElement) {
+                        console.error('Bad in track artists');
                         return;
                     }
-                    artistItem.addEventListener('click', () => {
-                        Router.go(`/${instancesNames.ARTIST_PAGE}/${track.id}`);
+
+                    artistsElement.innerHTML = artistsText;
+                    const spansInArtists: NodeListOf<HTMLSpanElement>|null = artistsElement.querySelectorAll('span');
+                    if (!spansInArtists) {
+                        console.error('Bad in track artists');
+                        return;
+                    }
+
+                    spansInArtists.forEach((spanElement: HTMLSpanElement) => {
+                        spanElement.addEventListener('click', () => {
+                            // @ts-ignore
+                            const artistId: string|undefined = spanElement.dataset?.id;
+                            if (artistId) {
+                                Router.go(`/${instancesNames.ARTIST_PAGE}/${artistId}`);
+                            }
+                        });
                     });
 
                     const imgLike = document.querySelector('.albumLike');

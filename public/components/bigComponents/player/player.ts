@@ -71,7 +71,6 @@ export class AudioPlayer extends BaseComponent {
                 return;
             }
 
-            addButton.parentElement?.click();
             // @ts-ignore
             const playlistsContainer: HTMLUListElement|null = addButton.parentElement.querySelector('.item-list');
             if (!playlistsContainer) {
@@ -89,6 +88,8 @@ export class AudioPlayer extends BaseComponent {
                 notification.appendElement();
                 playlistsContainer.parentElement?.classList.add('empty-playlist-menu');
             }
+
+            addButton.parentElement?.click();
         };
     }
 

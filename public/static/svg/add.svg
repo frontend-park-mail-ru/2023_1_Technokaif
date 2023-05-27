@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M9 1V17M17 9L1 9" stroke="white" stroke-width="2" stroke-linecap="round"/>
-=======
 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M10 2V18M18 10L2 10" stroke="white" stroke-width="2" stroke-linecap="round"/>
->>>>>>> c77d69dd7c6532f1f78d1a33191be8e2f1911527
 </svg>

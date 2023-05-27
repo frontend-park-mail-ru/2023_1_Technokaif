@@ -62,6 +62,8 @@ export abstract class Playlist extends BaseComponent {
     /** index of notification */
     private indOfNotification;
 
+    private mounted;
+
     /**
      * Create Playlist. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place Playlist
@@ -76,6 +78,7 @@ export abstract class Playlist extends BaseComponent {
         this.type = '';
         this.callbacksOnRender = [];
         this.indOfNotification = 0;
+        this.mounted = false;
     }
 
     /**
@@ -166,7 +169,7 @@ export abstract class Playlist extends BaseComponent {
                         });
                     }
 
-                    buttons?.addEventListener('click', () => {
+                    const buttonEvent = () => {
                         if (!checkAuth()) {
                             Router.goToLogin();
                             return;
@@ -174,9 +177,9 @@ export abstract class Playlist extends BaseComponent {
 
                         const trackIds = tracks.map((track) => track.id);
                         if (trackIds.length > 0 && (!this.#isAlbumLoaded
-                        || !(SongStore.exist
-                        && tracks.filter((track) => SongStore.trackInfo.name === track.name)
-                            .length > 0))) {
+                            || !(SongStore.exist
+                                && tracks.filter((track) => SongStore.trackInfo.name === track.name)
+                                    .length > 0))) {
                             this.#isAlbumLoaded = true;
                             PlayerActions.playTrack(trackIds);
                         }
@@ -194,8 +197,13 @@ export abstract class Playlist extends BaseComponent {
 
                         this.activatedButton = true;
                         PlayerActions.changePlayState(!SongStore.isPlaying);
-                    });
+                    };
 
+                    buttons.removeEventListener('click', buttonEvent, false);
+                    if (!this.mounted) {
+                        buttons?.addEventListener('click', buttonEvent);
+                        this.mounted = true;
+                    }
                     const share: HTMLImageElement|null = document.querySelector('.shareButton');
                     if (!share) {
                         console.error('Button doesn\'t\'exist on Album', buttons, imgLike);
