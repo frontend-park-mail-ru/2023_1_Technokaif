@@ -51,6 +51,7 @@ export function setupUserPlaylist(playlist: Playlist) {
         headerNameOfElement: playlist.name,
         byClass: 'author',
         headerDescription: 'author__place',
+        descClass: 'description-playlist',
         DescriptionsDiv: '',
         descriptionText: playlist.description,
         DescriptionsClass: 'js__description-album',
