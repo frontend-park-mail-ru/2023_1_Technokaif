@@ -47,7 +47,7 @@ export class SearchContent extends BaseComponent {
 
     /** Function to render playlists by input configs. */
     private renderPlaylists(playlist) {
-        const playlistsPlacement = document.querySelector('.js__placement-playlists');
+        const playlistsPlacement = document.querySelector('.js__placement-playlists-search');
         if (!playlistsPlacement) {
             console.error('Error in rendering of playlists');
             return;
