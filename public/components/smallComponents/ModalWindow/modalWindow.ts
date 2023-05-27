@@ -125,6 +125,10 @@ export class ModalWindow extends BaseComponent {
                 nameElement as HTMLInputElement,
                 descriptionElement as HTMLTextAreaElement,
             );
+
+            this.unrenderElement();
+            document.removeEventListener(METHOD.BUTTON, ff);
+            root.removeChild(this.fileInput);
         });
 
         modal.addEventListener(METHOD.FORM, (event) => {
@@ -133,6 +137,10 @@ export class ModalWindow extends BaseComponent {
                 nameElement as HTMLInputElement,
                 descriptionElement as HTMLTextAreaElement,
             );
+
+            this.unrenderElement();
+            document.removeEventListener(METHOD.BUTTON, ff);
+            root.removeChild(this.fileInput);
         });
 
         coverElement.addEventListener('click', () => {
