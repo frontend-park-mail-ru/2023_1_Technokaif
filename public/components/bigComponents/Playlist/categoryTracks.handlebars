@@ -25,20 +25,20 @@
 
         <div class="{{headerDescriptions}}">
             <div class="{{headerNameDiv}}">
-                <p class="{{headerNameClass}}">
+                <p class="{{headerNameClass}}>
                     {{headerName}}
                 </p>
             </div>
 
             <div class="{{headerNameOfElementDiv}}">
-                <p class="{{headerNameOfElementClass}}">
+                <p class="{{headerNameOfElementClass}} {{#ifEquals isUserPlaylistPage false}} not__clickable {{/ifEquals}}">
                     {{headerNameOfElement}}
                 </p>
             </div>
 
             <div class="{{headerDescription}}">
                 <div class="{{DescriptionsDiv}}">
-                    <p class="{{DescriptionsClass}}">{{descriptionText}}</p>
+                    <p class="{{DescriptionsClass}} {{#ifEquals isUserPlaylistPage false}} not__clickable {{/ifEquals}}">{{descriptionText}}</p>
                 </div>
             </div>
 

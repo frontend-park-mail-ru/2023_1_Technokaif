@@ -19,7 +19,7 @@ export function setupTrack(): ISetupAlbumConfg {
         headerNameClass: 'headerNameClass',
         headerName: 'Track',
         headerNameOfElementDiv: '',
-        headerNameOfElementClass: 'headerNameOfElementClass',
+        headerNameOfElementClass: 'headerNameOfElementClass not__clickable',
         headerNameOfElement: '',
         byClass: 'author',
         headerDescription: 'author__place',
