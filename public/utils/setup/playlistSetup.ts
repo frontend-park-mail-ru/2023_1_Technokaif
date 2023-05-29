@@ -1,7 +1,7 @@
 import { componentsNames } from '@config/componentsNames';
 import { imgPath } from '@config/pathConfig';
 import { DropDownSetup } from '@smallComponents/dropDown/dropDown';
-import { AlbumApi } from './artistSetup';
+import { AlbumApi, ContentArtist } from './artistSetup';
 
 export interface User {
     avatarSrc: string,
@@ -145,7 +145,7 @@ export function setupPlaylist(playlist: Playlist) {
  * Setup line of track
  * @returns {{json}}
  */
-export function setupPlaylistLineList(items: AlbumApi[]):{ optionsBlock: string; lineDuration: string; lineCover: string; lineIndex: string; stopButtonImg: string; albumClass: string; artistClass: string; unlikeButtonImg: string; title: string; likeButtonImg: string; anotherSrc: string; likeButtons: string; content: AlbumApi[]; isLikedSongs: boolean; lineListensClass: string; lineTitle: string; titleText: string; unlike: string; durationClass: string; playButtonImg: string; isArtistShow: boolean; isAlbumShow: boolean; anotherClass: string; like: string; unlikeButtonSrc: string; defaultTrackSrc: string; lineListClass: string; lineBlock: string; playButton: string; likeButtonSrc: string; isUserPlaylistPage: boolean; titleArtistDiv: string; albumDiv: string; isArtistPage: boolean; lineDiv: string; buttonsClass: string; stopButton: string; stopButtonSrc: string; isPlaylistPage: boolean; playButtonSrc: string; trackLineOptions: string; isShowTitle: boolean } {
+export function setupPlaylistLineList(items: AlbumApi[]): ContentArtist {
     return {
         lineListClass: 'line-list',
         title: 'popular-tracks-title',
@@ -190,8 +190,10 @@ export function setupPlaylistLineList(items: AlbumApi[]):{ optionsBlock: string;
         trackLineOptions: 'track-line-optionals',
         optionsBlock: 'options-block',
         isArtistShow: true,
-        isAlbumShow: false,
+        isAlbumShow: true,
         isShowTitle: false,
+        isOptionsShow: true,
+
         isUserPlaylistPage: true,
 
         durationClass: 'track-line__duration',

@@ -6,6 +6,8 @@ export const imgPath = {
     noVolume: '/static/svg/Player/no-sound.svg',
     pause: '/static/svg/Player/pause-solid.svg',
     play: '/static/svg/Player/play-solid.svg',
+    prevTrack: '/static/svg/Player/backward-step-solid.svg',
+    nextTrack: '/static/svg/Player/forward-step-solid.svg',
     defaultTrack: '/static/svg/default-track.svg',
     notActiveRepeat: '/static/svg/Player/arrows-rotate-solid_not_active.svg',
     activeRepeat: '/static/svg/Player/arrows-rotate-solid_active.svg',
@@ -22,6 +24,7 @@ export const imgPath = {
     trackPause: '/static/svg/trackPause.svg',
     trackLike: '/static/svg/like.svg',
     trackUnLike: '/static/svg/unlike.svg',
+    trackAdd: '/static/svg/add.svg',
 
     playInArtist: '/static/svg/play.svg',
     stopInArtist: '/static/svg/Pause.svg',
@@ -39,4 +42,5 @@ export const imgPath = {
     pauseAlbum: '/static/svg/Pause.svg',
 
     closeOppositeMain: '/static/svg/CloseBlack.svg',
+    searchDefault: '/static/svg/default-search.svg',
 };

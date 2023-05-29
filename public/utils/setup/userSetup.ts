@@ -75,7 +75,7 @@ export function userSetup() {
                     nameOfField: 'new__confirm__password',
                     labelClass: 'input-block__label',
                     labelText: 'Repeat new password:',
-                    placeholder: 'Your new password',
+                    placeholder: 'Repeat your password',
                     classInp: CLASS.classInp,
                     errorDiv: CLASS.errorDiv,
                     errorId: null,

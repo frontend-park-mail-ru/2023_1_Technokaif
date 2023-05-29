@@ -15,6 +15,9 @@ import ContentStore from '@store/ContentStore';
 import Actions from '@actions/Actions';
 import Router from '@router/Router';
 import { PlaylistContent } from '@api/playlists/createPlaylistAjaxRequest';
+import { runAfterFramePaint } from '@functions/renderAfterPaintDone';
+import { SearchContent } from '@bigComponents/searchContent/searchContent';
+import SearchActions from '@API/SearchActions';
 import { Playlist } from '../playlist';
 
 /**
@@ -135,6 +138,36 @@ export class UserPlaylist extends Playlist {
 
                 const pr = new Promise((resolve) => {
                     this.renderPlaylist();
+                    if (this.type === playlistTypes.USER_PLAYLIST) {
+                        runAfterFramePaint(() => {
+                            const placeSearch = document.querySelector('.js__placement__search');
+                            if (!placeSearch) {
+                                console.error('Error at finding place for search in playlist');
+                                return;
+                            }
+
+                            const textOfSearch = document.createElement('p');
+                            textOfSearch.classList.add('usualText');
+                            textOfSearch.style.paddingBottom = '5px';
+                            textOfSearch.innerText = 'Search for tracks to add';
+                            placeSearch.appendChild(textOfSearch);
+
+                            new SearchContent(
+                                placeSearch,
+                                componentsNames.SEARCH_LINE,
+                                'playlist',
+                                { mainDiv: 'search-content search-content-embedded' },
+                                (value) => {
+                                    if (value === '') {
+                                        SearchActions.emptySearch();
+                                        return;
+                                    }
+
+                                    SearchActions.searchTracks(value);
+                                },
+                            ).render();
+                        });
+                    }
                     resolve(true);
                 });
                 pr.then(() => {

@@ -26,6 +26,8 @@ import template from './player.handlebars';
 import './player.less';
 import Router from '@router/Router';
 import { checkAuth } from '@functions/checkAuth';
+import { routingUrl } from '@config/routingUrls';
+import { instancesNames } from '@config/instances';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer extends BaseComponent {
@@ -357,8 +359,8 @@ export class AudioPlayer extends BaseComponent {
 
         this.#elements.playpause_btn = document.querySelector(`.${playerElementsJS.playPauseButton}`);
         this.#elements.playpause_btnImg = document.querySelector(`.${playerElementsJS.playPauseImg}`);
-        this.#elements.next_btn = document.querySelector(`.${playerElementsJS.nextTrack}`);
-        this.#elements.prev_btn = document.querySelector(`.${playerElementsJS.prevTrack}`);
+        this.#elements.next_btn = document.querySelector(`.${playerElementsJS.nextTrack} img`);
+        this.#elements.prev_btn = document.querySelector(`.${playerElementsJS.prevTrack} img`);
 
         this.#elements.seek_slider = document.querySelector(`.${playerElementsJS.trackSlider}`);
         this.#elements.volume_icon = document.querySelector(`.${playerElementsJS.volumeIcon}`);
@@ -456,7 +458,10 @@ export class AudioPlayer extends BaseComponent {
         }
 
         if (response.artists.length > 0) {
-            this.#elements.track_artist.textContent = response.artists.reduce((accumulator, element, index) => accumulator.concat(` ${element.name}${(index !== response.artists.length - 1) ? ',' : ''}`), '');
+            this.#elements.track_artist.innerHTML = response.artists.reduce((acc, { id, name }) => {
+                acc.push(`<span data-id="${id}">${name}</span>`);
+                return acc;
+            }, []).join(', ');
         }
 
         this.#elements.track_name.textContent = response.name;
@@ -518,6 +523,7 @@ export class AudioPlayer extends BaseComponent {
                 Router.goToLogin();
                 return;
             }
+
             const track = SongStore.trackInfo;
             if (track.isLiked) {
                 TrackActions.unlikeTrack(track.id);
@@ -532,10 +538,33 @@ export class AudioPlayer extends BaseComponent {
             this.#toggleRepeat();
         });
 
+        const spansInArtists: NodeListOf<HTMLSpanElement>|null = this.#elements.track_artist.querySelectorAll('span');
+        if (!spansInArtists) {
+            console.error('Bad in player artists');
+            return;
+        }
+
+        spansInArtists.forEach((spanElement: HTMLSpanElement) => {
+            spanElement.addEventListener('click', () => {
+                // @ts-ignore
+                const artistId: string|undefined = spanElement.dataset?.id;
+                if (artistId) {
+                    Router.go(`/${instancesNames.ARTIST_PAGE}/${artistId}`);
+                }
+            });
+        });
+        const trackNameListener = () => { Router.go(routingUrl.ALBUM_PAGE(SongStore.trackInfo.albumID)); };
+        this.#elements.track_name?.removeEventListener('click', trackNameListener);
+        this.#elements.track_name?.addEventListener('click', trackNameListener);
+
         const userId = localStorage.getItem('userId');
         if (checkAuth()) {
             UserActions.userPlaylists(Number(userId));
         }
+
+        this.#elements.prev_btn.src = imgPath.prevTrack;
+        this.#elements.next_btn.src = imgPath.nextTrack;
+        this.#elements.playpause_btnImg.src = imgPath.play;
     }
 
     /**

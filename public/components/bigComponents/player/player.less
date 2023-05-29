@@ -82,6 +82,7 @@
 }
 
 .track-name {
+  cursor: pointer;
   .smallText();
   font-weight: @chars-weight;
   color: @main-color;
@@ -96,6 +97,7 @@
 }
 
 .track-artist {
+  cursor: pointer;
   .smallText();
   font-weight: @chars-weight;
   color: @shadow-color;
@@ -217,6 +219,10 @@ input[type="range"] {
   cursor: pointer;
 }
 
+.disable-player-slider {
+  cursor: default;
+}
+
 .player-slider__position {
   input[type="range"] {
     height: 10px;
@@ -281,4 +287,5 @@ input[type="range"] {
 
 .disabled__player-control {
   cursor: default;
+  pointer-events: none;
 }

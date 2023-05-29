@@ -5,7 +5,7 @@
     align-items: center;
     display: flex;
     justify-content: space-between;
-    .titleText();
+    .smallText();
 }
 
 .tape__show-text {
@@ -65,6 +65,7 @@
 .component-options {
     display: flex;
     flex-direction: column;
+    gap: 5px;
 
     font-size: @smallTextFont;
     overflow: hidden;
@@ -104,9 +105,8 @@
 .component__title {
     word-wrap: break-word;
     font-style: normal;
-    letter-spacing: -0.025em;
 
-    .titleText();
+    .smallTitleText();
     color: @main-color;
 }
 
@@ -126,7 +126,6 @@
     font-style: normal;
     letter-spacing: -0.025em;
     color: rgba(@main-color, .6);
-    padding-top: 0.1rem;
     .smallText();
 }
 

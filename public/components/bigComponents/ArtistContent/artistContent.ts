@@ -10,7 +10,6 @@ import {
     setupLineList,
     setupTape, TapeSetup,
 } from '@setup/artistSetup';
-import { shuffleArray } from '@functions/shuffleArray';
 import { LikedSongs } from '@smallComponents/LikedSongs/likedSongs';
 import { checkAuth } from '@functions/checkAuth';
 import { imgPath } from '@config/pathConfig';
@@ -93,12 +92,20 @@ export class ArtistContent extends BaseComponent {
         }
 
         this.tapeConfigs.forEach((configForInsertElement) => {
-            const tape = new Tape(
-                tapesPlacement,
-                configForInsertElement,
-                configForInsertElement.titleText,
-            );
-            tape.appendElement();
+            if (!configForInsertElement.content.length) {
+                const nothingPlacement = document.querySelector('.js__placement-nothing');
+                const textOfNothing = document.createElement('p');
+                textOfNothing.innerText = 'No albums';
+                textOfNothing.classList.add('library__nothing-text');
+                nothingPlacement?.appendChild(textOfNothing);
+            } else {
+                const tape = new Tape(
+                    tapesPlacement,
+                    configForInsertElement,
+                    configForInsertElement.titleText,
+                );
+                tape.appendElement();
+            }
         });
     }
 
@@ -295,7 +302,7 @@ export class ArtistContent extends BaseComponent {
 
                     break;
                 case 'albums':
-                    this.tapeConfigs.push(setupTape('Albums', 'Albums', shuffleArray(albums).slice(0, 5)));
+                    this.tapeConfigs.push(setupTape('Albums', 'Albums', albums.slice(0, 5)));
                     this.#renderTapes();
                     break;
                 default:

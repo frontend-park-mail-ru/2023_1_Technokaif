@@ -11,6 +11,7 @@
 
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 
   @media(max-width: @desktop) {
     bottom: 66px;
@@ -42,7 +43,6 @@
 }
 
 .dummy__button-div {
-  width: 20%;
   height: 100%;
   justify-content: center;
   align-items: center;
@@ -52,7 +52,7 @@
 
 @media @desktopMin, @tabletSize {
   .dummy__button-div {
-    max-width: 300px;
+    max-width: 200px;
   }
 }
 
@@ -64,8 +64,9 @@
   border-color: @main-color;
   border-radius: @big-radius;
   transition-duration: 300ms;
+  cursor: pointer;
 
-  .titleText();
+  .smallTitleText();
 }
 
 @media @mobileMax {

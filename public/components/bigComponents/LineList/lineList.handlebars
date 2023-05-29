@@ -11,22 +11,24 @@
     {{/ifEquals}}
 
     {{#ifEquals isArtistPage false}}
-    <div class="{{trackLineOptions}} {{optionsBlock}}">
-        <div class="{{lineIndex}}">
-            <p>#</p>
-        </div>
-        <div class="{{lineBlock}}">
-            <p>TITLE</p>
-        </div>
-        {{#ifEquals isPlaylistPage true}}
-            <div class="{{albumDiv}}">
-                <p>ALBUM</p>
+    {{#ifEquals isOptionsShow true}}
+        <div class="{{trackLineOptions}} {{optionsBlock}}">
+            <div class="{{lineIndex}}">
+                <p>#</p>
             </div>
-        {{/ifEquals}}
-        <div class="{{durationClass}}">
-            <p>DURATION</p>
+            <div class="{{lineBlock}}">
+                <p>TITLE</p>
+            </div>
+            {{#ifEquals isPlaylistPage true}}
+                <div class="{{albumDiv}}">
+                    <p>ALBUM</p>
+                </div>
+            {{/ifEquals}}
+            <div class="{{durationClass}}">
+                <p>DURATION</p>
+            </div>
         </div>
-    </div>
+    {{/ifEquals}}
     {{/ifEquals}}
 
     {{#each content}}

@@ -1,5 +1,6 @@
 import { csrfAjax } from '@api/auth/csrfAjaxReq';
 import { apiUrl } from '@config/apiUrls';
+import Router from '@router/Router';
 
 const AJAX_METHODS = {
     GET: 'GET',
@@ -42,8 +43,8 @@ class Ajax {
                 throw data.message;
             }))
             .catch((error) => {
+                Router.goToFeed();
                 reject(error);
-
                 throw error;
             });
     }

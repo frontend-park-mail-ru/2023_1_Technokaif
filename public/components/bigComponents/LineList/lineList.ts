@@ -59,7 +59,7 @@ export class LineList extends BaseComponent {
         this.isRendered = false;
         this.unsubscribeLines();
         const userId = localStorage.getItem('userId');
-        if (checkAuth()) {
+        if (checkAuth() && !this.config.playlistId) {
             UserActions.userPlaylists(Number(userId));
         }
     }
@@ -166,7 +166,7 @@ export class LineList extends BaseComponent {
         textAdd.textContent = 'Add to playlist';
         textAdd.classList.add('optionSize');
         dropDown.addOptionsElement(textAdd, 'click', (event) => {
-            const trackElement: HTMLDivElement|null = document.querySelector(`.track-line[data-id="${trackId}"]`);
+            const trackElement: HTMLDivElement|null = document.querySelector(`.${this.elementConfig.lineDiv}[data-id="${trackId}"]`);
             if (!trackElement) {
                 return;
             }
@@ -243,7 +243,11 @@ export class LineList extends BaseComponent {
         }
 
         this.#addSubDropDown(addDropDown, dropDown, index, trackId);
-        setTimeout(() => { (addDropDown.options as HTMLElement).style.top = '-5px'; }, 500);
+        setTimeout(() => {
+            if (addDropDown.options) {
+                (addDropDown.options as HTMLElement).style.top = '-5px';
+            }
+        }, 500);
     }
 
     /** Add sub drops where playlists are placed */
@@ -288,35 +292,6 @@ export class LineList extends BaseComponent {
         if (!hasPlaylist) {
             div.classList.add('container-for-line');
         }
-
-        // const element = document.querySelector(`.js__track${index}__subDropAdd-dropDown__name-title`);
-        //
-        // if (!element) {
-        //     return;
-        // }
-        //
-        // element.addEventListener('click', () => {
-        //     const trackElement: HTMLDivElement|null = document.querySelector(`.track-line[data-id="${trackId}"]`);
-        //     if (!trackElement) {
-        //         return;
-        //     }
-        //
-        //     const playlistsContainer: HTMLUListElement|null = trackElement.querySelector('.item-list');
-        //     if (!playlistsContainer) {
-        //         return;
-        //     }
-        //
-        //     if (!playlistsContainer.children.length) {
-        //         const notification = new Notification(
-        //             document.querySelector('.js__navbar'),
-        //             'Cannot add track in playlist. No playlists without this track found.',
-        //             `${index}_failure_add`,
-        //             TypeOfNotification.failure,
-        //         );
-        //
-        //         notification.appendElement();
-        //     }
-        // });
     }
 
     /**
@@ -324,6 +299,7 @@ export class LineList extends BaseComponent {
      */
     #addListeners() {
         ContentStore.subscribe((instance) => {
+            if (this.config.playlistId) return;
             if (this.isRendered) return;
             // eslint-disable-next-line max-len
             this.playlists = ContentStore.state[pageNames.LIBRARY_PLAYLISTS][instance];
@@ -332,7 +308,7 @@ export class LineList extends BaseComponent {
 
             lines.forEach((line, index) => {
                 const div = document.createElement('div');
-                div.classList.add('track-line__another');
+                div.classList.add(`${this.elementConfig.anotherClass}`);
                 div.classList.add('placement-trigger');
 
                 if (!(line instanceof HTMLElement)) {
@@ -435,6 +411,7 @@ export class LineList extends BaseComponent {
 
                                 PlayerActions.playTrack(trackIds, offset);
                                 break;
+                            case componentsNames.SEARCH_CONTENT:
                             case componentsNames.SEARCH_LINE:
                                 PlayerActions.playTrack([trackId]);
                                 break;
@@ -561,6 +538,26 @@ export class LineList extends BaseComponent {
             EventTypes.REMOVED_TRACK_FROM_PLAYLIST,
             this.name,
         );
+
+        if (this.config.playlistId) {
+            const anothers = document.querySelectorAll(`.${this.elementConfig.anotherClass}`) as NodeListOf<HTMLDivElement>;
+            const lines = document.querySelectorAll(`.${this.elementConfig.lineDiv}`) as NodeListOf<HTMLDivElement>;
+
+            const { playlistId } = this.config;
+            anothers.forEach((anotherElement, index) => {
+                anotherElement?.addEventListener('click', () => {
+                    // @ts-ignore
+                    PlaylistActions.addTrackInPlaylist(playlistId, lines[index].dataset?.id);
+
+                    const notification = new Notification(
+                        document.querySelector('.js__navbar'),
+                        'Song is added to playlist!',
+                        `${index}_search_add`,
+                    );
+                    notification.appendElement();
+                });
+            });
+        }
     }
 
     /**

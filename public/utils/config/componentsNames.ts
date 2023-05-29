@@ -31,6 +31,7 @@ export const componentsNames = {
     LIBRARY_PLAYLISTS: 'js__library-playlists',
     SEARCH_LINE: 'SEARCH_LINE',
     SEARCH_CONTENT: 'search-content',
+    SEARCH_PLAYLIST_PAGE: 'search-playlist-page',
     SEARCH_LIST: 'SEARCH_LIST',
 
     SIDEBAR_LINK: 'sidebar__link',

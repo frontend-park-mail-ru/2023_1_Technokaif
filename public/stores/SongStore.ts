@@ -7,7 +7,7 @@ import {
     getValueFromLocalStorage,
     saveValueToLocalStorage,
 } from '@functions/FunctionsToWorkWithLocalStore';
-import { TracksApi } from '@api/ApiAnswers';
+import { TrackApi, TracksApi } from '@api/ApiAnswers';
 
 const COUNTER = 'Counter';
 
@@ -121,7 +121,7 @@ class SongStore extends IStore {
     }
 
     /** Return audio info */
-    get trackInfo() {
+    get trackInfo(): TrackApi {
         return this.#songs[this.#position];
     }
 

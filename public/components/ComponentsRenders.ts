@@ -191,6 +191,7 @@ class ComponentsRenders {
         new SearchContent(
             parent,
             componentsNames.SEARCH_CONTENT,
+            'default',
             { mainDiv: 'search-content padding-top-search' },
         ).render();
     }

@@ -50,14 +50,30 @@ export class LibraryPlaylists extends BaseComponent {
             element.innerHTML = '';
         }
 
-        if (playlists.length === 0 && nothingPlacement.children.length < 2) {
-            const textOfNothing = document.createElement('p');
-            textOfNothing.innerText = textForNothing;
-            textOfNothing.classList.add('library__nothing-text');
-            nothingPlacement.appendChild(textOfNothing);
+        if (playlists.length === 0) {
+            const nothingElements = nothingPlacement.querySelectorAll('.library__nothing-text');
+            let indexOfSimilar = -1;
+            for (let i = 0; i < nothingElements.length; i++) {
+                // @ts-ignore
+                if (nothingElements[i].textContent === textForNothing) {
+                    indexOfSimilar = i;
+                }
+            }
+
+            if (indexOfSimilar === -1 && nothingPlacement.children.length < 2) {
+                const textOfNothing = document.createElement('p');
+                textOfNothing.innerText = textForNothing;
+                textOfNothing.classList.add('library__nothing-text');
+                nothingPlacement.appendChild(textOfNothing);
+                return;
+            }
+        }
+
+        if (playlists.length) {
+            nothingPlacement.innerHTML = '';
+        } else {
             return;
         }
-        nothingPlacement.innerHTML = '';
         if (!element) {
             return;
         }
@@ -111,8 +127,8 @@ export class LibraryPlaylists extends BaseComponent {
                 element.classList.remove('library-active');
             }
         });
-        const elementForDivider = document.querySelector('.js__divider__placement');
-        elementForDivider?.classList.add('divider');
+        // const elementForDivider = document.querySelector('.js__divider__placement');
+        // elementForDivider?.classList.add('divider');
     }
 
     /**

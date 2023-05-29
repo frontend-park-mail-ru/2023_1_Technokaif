@@ -89,6 +89,7 @@ export interface ContentArtist {
     isArtistPage: boolean,
     isPlaylistPage: boolean,
     isLikedSongs?: boolean,
+    isUserPlaylistPage?: boolean,
 
     trackLineOptions?: string
     optionsBlock?: string
@@ -98,10 +99,13 @@ export interface ContentArtist {
     albumDiv?: string
     isArtistShow?: boolean
     isAlbumShow?: boolean
+    isOptionsShow: boolean
     isShowTitle: boolean,
     durationClass: string,
     anotherClass: string,
     anotherSrc: string,
+
+    playlistId?: string,
 }
 
 /** JSON for liked songs */
@@ -254,6 +258,7 @@ export function setupLineList(items: [AlbumApi]):ContentArtist {
         isArtistPage: true,
         isPlaylistPage: false,
         isShowTitle: true,
+        isOptionsShow: false,
 
         durationClass: 'track-line__duration',
         anotherClass: 'track-line__another',

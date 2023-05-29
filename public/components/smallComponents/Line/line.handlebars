@@ -41,14 +41,14 @@
     </div>
 
     <!--Album show-->
-    {{#ifEquals root.isArtistShow true}}
-       {{#ifEquals root.isPlaylistPage true}}
+    {{#ifEquals root.isAlbumShow true}}
+<!--       {{#ifEquals root.isPlaylistPage true}}-->
             <div class="{{root.albumDiv}}">
                 <p class="{{root.albumClass}}">
                     {{item.albumName}}
                 </p>
             </div>
-        {{/ifEquals}}
+<!--        {{/ifEquals}}-->
     {{/ifEquals}}
 
     <!--Listens-->
@@ -82,5 +82,5 @@
 
     <!--Duration-->
     <div class="{{root.durationClass}}">{{#durationConvert}}{{item.duration}}{{/durationConvert}}</div>
-    <image src="{{root.anotherSrc}}" class="{{root.anotherClass}}"></image>
+    <image src="{{root.anotherSrc}}" class="{{root.anotherClass}} {{#ifEquals root.isOptionsShow false}}smaller-plus-img{{/ifEquals}}"></image>
 </div>

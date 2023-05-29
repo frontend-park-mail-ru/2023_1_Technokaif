@@ -5,12 +5,12 @@ import {
 } from '@setup/artistSetup';
 import { SearchLine } from '@smallComponents/searchLine/search';
 import { searchSetup } from '@setup/searchSetup';
-import { setupLineList } from '@setup/libraryTracksSetup';
-import { componentsNames } from '@config/componentsNames';
+import { setupSearchLineList, setupSearchLineListForPlaylist } from '@setup/libraryTracksSetup';
 import ContentStore from '@store/ContentStore';
 import { Tape } from '@bigComponents/Tape/tape';
 import { BaseComponent } from '@components/BaseComponent';
 import { LineList } from '@bigComponents/LineList/lineList';
+import { pageNames } from '@config/pageNames';
 import templateHtml from './searchContent.handlebars';
 
 declare interface ILenParam {
@@ -31,16 +31,21 @@ export class SearchContent extends BaseComponent {
     /** Reaction on search line */
     private readonly reaction;
 
+    /** Type of playlist search or default */
+    private type;
+
     /**
      * Create Playlist. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place Playlist
      * @param {string} componentName
+     * @param type
      * @param {json} config
      * @param {(value):void} reactionOnSearchLine reaction on search line to
      * where to send value from it
      */
-    constructor(parent, componentName, config, reactionOnSearchLine?: {(value):void}) {
+    constructor(parent, componentName, type, config, reactionOnSearchLine?: {(value):void}) {
         super(parent, config, templateHtml, componentName);
+        this.type = type;
         this.lengths = [];
         this.reaction = reactionOnSearchLine;
     }
@@ -52,7 +57,7 @@ export class SearchContent extends BaseComponent {
             console.error('Error in rendering of playlists');
             return;
         }
-        const configForTape = setupTape('Playlists', 'Playlists', playlist);
+        const configForTape = setupTape('Playlists', 'Found playlists', playlist);
 
         const tape = new Tape(playlistsPlacement as HTMLElement, configForTape, 'Playlists');
         tape.appendElement();
@@ -67,8 +72,19 @@ export class SearchContent extends BaseComponent {
         }
 
         const divForPlace = document.createElement('div');
+        const tracksTitleBlock = document.createElement('div');
+        tracksTitleBlock.classList.add('tape__title');
+        const tracksTitle = document.createElement('h2');
+        tracksTitleBlock.appendChild(tracksTitle);
+        tracksTitle.innerText = 'Found tracks';
+        divForPlace.appendChild(tracksTitleBlock);
         linesPlacement.appendChild(divForPlace);
-        const lines = new LineList(divForPlace, setupLineList(tracks, '-search'), componentsNames.SEARCH_LINE);
+        let lines;
+        if (this.type === 'default') {
+            lines = new LineList(divForPlace, setupSearchLineList(tracks), this.name);
+        } else {
+            lines = new LineList(divForPlace, setupSearchLineListForPlaylist(tracks, ContentStore.state[pageNames.PLAYLIST].id), this.name);
+        }
         lines.appendElement();
     }
 
@@ -79,7 +95,7 @@ export class SearchContent extends BaseComponent {
             console.error('Error in rendering of albums');
             return;
         }
-        const configForTape = setupTape('Albums', 'Albums', albums);
+        const configForTape = setupTape('Albums', 'Found albums', albums);
 
         const tape = new Tape(albumPlacement as HTMLElement, configForTape, 'Albums');
         tape.appendElement();
@@ -92,7 +108,7 @@ export class SearchContent extends BaseComponent {
             console.error('Error in rendering of artists');
             return;
         }
-        const configForTape = setupTape('Artists', 'Artists', artists);
+        const configForTape = setupTape('Artists', 'Found artists', artists);
 
         const tape = new Tape(albumPlacement as HTMLElement, configForTape, 'Artists');
         tape.appendElement();

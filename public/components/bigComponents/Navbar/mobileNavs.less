@@ -46,8 +46,8 @@
 
 .burgerSidebar {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  align-items: start;
   justify-content: center;
   height: 20%;
   width: 0;
@@ -57,7 +57,7 @@
   right: 0;
   overflow-x: hidden;
   transition: 0.5s;
-  gap: 30px;
+  gap: 10px;
   background-color: @opposed-main-color;
 
   @media (min-width: @desktop) {
@@ -100,7 +100,8 @@
 
 // бургерное меню
 .menu-burger {
-  margin-right: 20px;
+  padding-right: 20px;
+  margin-left: 15px;
   height: 16px;
   width: 37px;
   position: relative;
@@ -140,5 +141,5 @@
 }
 
 .header__img {
-  height: 1.4rem;
+  .collosalTitle();
 }

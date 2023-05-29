@@ -98,11 +98,132 @@ export function setupLineList(items: AlbumApi[], subStringInEnd = ''):ContentArt
         trackLineOptions: 'track-line-optionals',
         optionsBlock: 'options-block',
         isArtistShow: true,
-        isAlbumShow: false,
+        isOptionsShow: true,
+        isAlbumShow: true,
         isShowTitle: false,
 
         durationClass: 'track-line__duration',
         anotherClass: 'track-line__another',
         anotherSrc: imgPath.ellipseInArtist,
+    };
+}
+
+/**
+ * Setup line of track
+ * @returns {{json}}
+ */
+export function setupSearchLineList(items: AlbumApi[]): ContentArtist {
+    return {
+        lineListClass: 'line-list-search',
+        title: 'popular-tracks-title',
+        titleText: 'Popular tracks',
+
+        lineDiv: 'track-line',
+        lineIndex: 'track-line__index',
+        lineBlock: 'track-line__block',
+        lineCover: 'track-line__cover',
+        lineTitle: 'track-line__title',
+        lineListensClass: 'track-line__listens',
+        lineDuration: 'track-line__duration',
+
+        buttonsClass: 'buttons',
+        playButton: 'play-button-track',
+        playButtonSrc: imgPath.trackPlay,
+        playButtonImg: 'likeImg',
+        stopButton: 'stop-button-track',
+        stopButtonSrc: imgPath.trackPause,
+        stopButtonImg: 'likeImg',
+
+        likeButtons: 'like-button-block',
+        like: 'like-button',
+        likeButtonSrc: imgPath.trackLike,
+        likeButtonImg: 'like-button__img',
+
+        unlike: 'unlike-button',
+        unlikeButtonSrc: imgPath.trackUnLike,
+        unlikeButtonImg: 'unlike-button__img',
+
+        defaultTrackSrc: imgPath.defaultTrack,
+        titleArtistDiv: 'artist__with__title',
+        artistClass: 'artists__text',
+        albumClass: 'albumClass',
+        albumDiv: 'albumDiv',
+
+        content: items,
+        isArtistPage: false,
+        isPlaylistPage: true,
+        isLikedSongs: true,
+
+        trackLineOptions: 'track-line-optionals',
+        optionsBlock: 'options-block',
+        isArtistShow: true,
+        isAlbumShow: false,
+        isShowTitle: false,
+        isOptionsShow: false,
+
+        durationClass: 'track-line__duration',
+        anotherClass: 'track-line__another',
+        anotherSrc: imgPath.ellipseInArtist,
+    };
+}
+
+/**
+ * Setup line of track
+ * @returns {{json}}
+ */
+export function setupSearchLineListForPlaylist(items: AlbumApi[], playlistId: string): ContentArtist {
+    return {
+        lineListClass: 'line-list-search',
+        title: 'popular-tracks-title',
+        titleText: 'Popular tracks',
+
+        lineDiv: 'search-track-line',
+        lineIndex: 'track-line__index',
+        lineBlock: 'track-line__block',
+        lineCover: 'track-line__cover',
+        lineTitle: 'track-line__title',
+        lineListensClass: 'track-line__listens',
+        lineDuration: 'track-line__duration',
+
+        buttonsClass: 'buttons',
+        playButton: 'play-button-track',
+        playButtonSrc: imgPath.trackPlay,
+        playButtonImg: 'likeImg',
+        stopButton: 'stop-button-track',
+        stopButtonSrc: imgPath.trackPause,
+        stopButtonImg: 'likeImg',
+
+        likeButtons: 'like-button-block',
+        like: 'like-button',
+        likeButtonSrc: imgPath.trackLike,
+        likeButtonImg: 'like-button__img',
+
+        unlike: 'unlike-button',
+        unlikeButtonSrc: imgPath.trackUnLike,
+        unlikeButtonImg: 'unlike-button__img',
+
+        defaultTrackSrc: imgPath.defaultTrack,
+        titleArtistDiv: 'artist__with__title',
+        artistClass: 'artists__text',
+        albumClass: 'albumClass',
+        albumDiv: 'albumDiv',
+
+        content: items,
+        isArtistPage: false,
+        isPlaylistPage: true,
+        isLikedSongs: true,
+
+        trackLineOptions: 'track-line-optionals',
+        optionsBlock: 'options-block',
+        isArtistShow: true,
+        isAlbumShow: false,
+        isShowTitle: false,
+        isOptionsShow: false,
+
+        durationClass: 'track-line__duration',
+        anotherClass: 'search-track-line__another',
+        anotherSrc: imgPath.trackAdd,
+
+        playlistId,
     };
 }

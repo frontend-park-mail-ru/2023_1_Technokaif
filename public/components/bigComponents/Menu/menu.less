@@ -22,11 +22,12 @@
         bottom: 0;
         left: 0;
         width: 100%;
+        height: 66px;
         align-items: center;
         justify-content: space-around;
+        padding: 0;
 
         overflow-x: scroll;
-        padding: 20px 0;
         margin-left: 0;
         background-color: @sub-color;
     }
@@ -73,6 +74,9 @@
 
     @media(max-width: @desktop) {
         padding: 0;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
     }
 }
 
@@ -118,8 +122,7 @@
 
 .title__label {
     font-style: normal;
-    font-weight: @chars-weight;
-    font-size: @font-logo;
+    .collosalTitle();
     line-height: 20px;
 
     display: flex;
