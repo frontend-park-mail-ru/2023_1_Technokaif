@@ -22,12 +22,12 @@ import PlaylistActions from '@API/PlaylistActions';
 import ContentStore from '@store/ContentStore';
 import { pageNames } from '@config/pageNames';
 
-import template from './player.handlebars';
 import './player.less';
 import Router from '@router/Router';
 import { checkAuth } from '@functions/checkAuth';
 import { routingUrl } from '@config/routingUrls';
 import { instancesNames } from '@config/instances';
+import template from './player.handlebars';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer extends BaseComponent {
@@ -73,8 +73,7 @@ export class AudioPlayer extends BaseComponent {
                 return;
             }
 
-            // @ts-ignore
-            const playlistsContainer: HTMLUListElement|null = addButton.parentElement.querySelector('.item-list');
+            const playlistsContainer: HTMLUListElement|null|undefined = addButton?.parentElement?.querySelector('.item-list');
             if (!playlistsContainer) {
                 return;
             }
@@ -250,13 +249,25 @@ export class AudioPlayer extends BaseComponent {
         const buttonsPlayerElement: HTMLDivElement|null = document.querySelector('.player__control');
         const addButton: HTMLImageElement|null = document.querySelector('.playerAdd');
         const dropdownElements: NodeListOf<HTMLDivElement>|null = document.querySelectorAll('.dropdown-title');
-        const dropdownElement = dropdownElements[dropdownElements.length - 1];
-        if (!buttonsPlayerElement || !addButton || !dropdownElements || !dropdownElement) {
+
+        let dropdownElement;
+        if (dropdownElements) {
+            dropdownElement = Array.from(dropdownElements)
+                .find((dropDownElement) => Array.from(dropDownElement?.classList)
+                    .includes('normal-player-trigger'));
+        }
+        if (!buttonsPlayerElement || !addButton || !dropdownElements) {
             return;
         }
 
         buttonsPlayerElement.appendChild(addButton);
-        dropdownElement.remove();
+        if (dropdownElement) {
+            dropdownElement.remove();
+        } else {
+            const buttonDelete = document.querySelector('.placement-trigger');
+            buttonDelete?.parentElement?.removeChild(buttonDelete);
+        }
+
         addButton.innerHTML = '';
         const classToKeep = 'playerAdd';
         const classes = addButton.classList;
@@ -553,7 +564,9 @@ export class AudioPlayer extends BaseComponent {
                 }
             });
         });
-        const trackNameListener = () => { Router.go(routingUrl.ALBUM_PAGE(SongStore.trackInfo.albumID)); };
+        const trackNameListener = () => {
+            Router.go(routingUrl.ALBUM_PAGE(SongStore.trackInfo.albumID));
+        };
         this.#elements.track_name?.removeEventListener('click', trackNameListener);
         this.#elements.track_name?.addEventListener('click', trackNameListener);
 
@@ -576,18 +589,21 @@ export class AudioPlayer extends BaseComponent {
         if (!trackId) {
             return;
         }
+
         const addButton: HTMLImageElement|null = document.querySelector('.playerAdd');
         if (!addButton) {
             return;
         }
         addButton.style.zIndex = '1';
-        const div1 = document.createElement('div');
-        div1.classList.add('placement-trigger', 'normal-player-trigger');
+
         const parentOfDots = addButton?.parentElement;
-        div1.appendChild(addButton);
-        if (!addButton || !parentOfDots || !(addButton instanceof HTMLImageElement)) {
+        if (!parentOfDots || !(addButton instanceof HTMLImageElement)) {
             return;
         }
+
+        const div1 = document.createElement('div');
+        div1.classList.add('placement-trigger', 'normal-player-trigger');
+        div1.appendChild(addButton);
 
         parentOfDots.appendChild(div1);
         addButton.removeEventListener(METHOD.BUTTON, this.addButtonEvent);
