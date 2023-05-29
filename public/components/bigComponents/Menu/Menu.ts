@@ -160,9 +160,15 @@ class Menu {
                         console.error('Error in user id');
                         return;
                     }
+                    const element: HTMLElement|null = document.querySelector(`.${componentsNames.MENU_PLAYLISTS_LIST}`);
+                    if (!element) {
+                        console.error('Something bad in menu list elements or sidebar');
+                        return;
+                    }
+
                     PlaylistActions.createPlaylist({
                         description: '',
-                        name: 'New playlist',
+                        name: `New playlist ${element.children.length + 1}`,
                         users: [
                             +id,
                         ],

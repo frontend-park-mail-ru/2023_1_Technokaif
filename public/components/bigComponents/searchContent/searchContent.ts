@@ -11,6 +11,7 @@ import { Tape } from '@bigComponents/Tape/tape';
 import { BaseComponent } from '@components/BaseComponent';
 import { LineList } from '@bigComponents/LineList/lineList';
 import { pageNames } from '@config/pageNames';
+import { METHOD } from '@config/config';
 import templateHtml from './searchContent.handlebars';
 
 declare interface ILenParam {
@@ -143,8 +144,19 @@ export class SearchContent extends BaseComponent {
 
         if (!isExist) {
             label.innerHTML = 'Nothing was found';
+            if (this.type === 'default') {
+                const element: HTMLDivElement | null = document.querySelector('.search-img-block');
+                if (element) {
+                    element.hidden = false;
+                }
+            }
             label.classList.add('nothing-found');
             nothingPlacement.appendChild(label);
+        } else {
+            const element: HTMLDivElement | null = document.querySelector('.search-img-block');
+            if (element) {
+                element.hidden = true;
+            }
         }
 
         this.lengths = [];
@@ -287,6 +299,34 @@ export class SearchContent extends BaseComponent {
             EventTypes.EMPTY_SEARCH,
             this.name,
         );
+
+        if (this.type === 'default') {
+            const input: HTMLInputElement|null = document.querySelector('.search-line__input');
+            input?.addEventListener(METHOD.FIELD, () => {
+                const albums = document.querySelector('.js__placement-albums-search');
+                const tracks = document.querySelector('.js__placement-tracks-search');
+                const artists = document.querySelector('.js__placement-artists-search');
+                const playlists = document.querySelector('.js__placement-playlists-search');
+                if (albums?.children.length || tracks?.children.length || artists?.children.length || playlists?.children.length) {
+                    const element: HTMLDivElement | null = document.querySelector('.search-img-block');
+                    if (element) {
+                        element.hidden = true;
+                    }
+                } else {
+                    const element: HTMLDivElement | null = document.querySelector('.search-img-block');
+                    if (element) {
+                        element.hidden = false;
+                    }
+                }
+            });
+        }
+
+        if (this.type !== 'default') {
+            const element: HTMLDivElement | null = document.querySelector('.search-img-block');
+            if (element) {
+                element.hidden = true;
+            }
+        }
     }
 
     /**
