@@ -67,14 +67,15 @@
     display: none;
 }
 
-.navbar__login__item {
-    margin-left: 20px;
+@media @desktopMin {
+    .navbar__login__item {
+        margin-left: 20px;
+    }
 }
 
 .navbar__login {
     margin-right: 40px;
     border-radius: @radius;
-    width: 100px;
     font-size: @text-label;
     line-height: 19px;
     text-align: center;
@@ -84,6 +85,7 @@
     @media (min-width: @desktop) {
         background: @main-color;
         height: 50px;
+        width: 100px;
     }
 
     .titleText();

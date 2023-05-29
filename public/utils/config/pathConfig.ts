@@ -16,7 +16,7 @@ export const imgPath = {
     searchLogo: '/static/svg/VectorsearchLogo.svg',
     libraryLogo: '/static/svg/librarylibraryLogo.svg',
     createPlaylistLogo: '/static/svg/Frame 29createPlaylisLogo.svg',
-    likedLogo: '/static/svg/Frame 28likedSongsLogo.svg',
+    likedLogo: '/static/svg/favoriteSongs.svg',
 
     verify: '/static/svg/verify.svg',
 
