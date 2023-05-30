@@ -17,9 +17,9 @@ import ComponentsStore from '@store/ComponentsStore';
 import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
 import UserInfoStore from '@store/UserInfoStore';
 import ComponentsActions from '@Actions/ComponentsActions';
+import { runAfterFramePaint } from '@functions/renderAfterPaintDone';
 import templateHtml from './navbar.handlebars';
 import './mobileNavs.less';
-import { runAfterFramePaint } from '@functions/renderAfterPaintDone';
 
 /**
  * Class for Navbar element: Login, Registration, Logout and user info.

@@ -80,7 +80,7 @@ export class AudioPlayer extends BaseComponent {
 
             if (!playlistsContainer.children.length) {
                 const notification = new Notification(
-                    document.querySelector('.js__navbar'),
+                    document.querySelector('.notification__placement'),
                     'Cannot add track in playlist. No playlists without this track found.',
                     'Track_add_bad',
                     TypeOfNotification.failure,
@@ -512,14 +512,14 @@ export class AudioPlayer extends BaseComponent {
             navigator.clipboard.writeText(`${window.location.origin}/track/${SongStore.trackInfo.id}`)
                 .then(() => {
                     const notification = new Notification(
-                        document.querySelector('.js__navbar'),
+                        document.querySelector('.notification__placement'),
                         'Track link saved to clipboard!',
                     );
                     notification.appendElement();
                 })
                 .catch((error) => {
                     const notification = new Notification(
-                        document.querySelector('.js__navbar'),
+                        document.querySelector('.notification__placement'),
                         'Track link haven\'t been saved to clipboard!',
                         'notify',
                         TypeOfNotification.failure,
@@ -637,7 +637,7 @@ export class AudioPlayer extends BaseComponent {
             }
 
             const notification = new Notification(
-                document.querySelector('.js__navbar'),
+                document.querySelector('.notification__placement'),
                 'Song is added to playlist!',
                 `${trackId}_add`,
             );

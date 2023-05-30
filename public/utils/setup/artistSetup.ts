@@ -11,6 +11,9 @@ export interface ArtistApi {
 /** Cover for Artist */
 export interface ArtistCover {
     coverName: string,
+    divImg: string,
+    classImg: string,
+    allHeader: string,
     title: string;
     verifyBlock: string;
     verifyImgSrc: string;
@@ -181,6 +184,9 @@ export interface TapeSetup {
 export function setupArtistCover(artist):ArtistCover {
     return {
         coverName: 'artist-cover',
+        divImg: 'header__avatar-container',
+        classImg: 'header__avatar-img',
+        allHeader: 'header-avatar',
         title: 'artist-title',
         verifyBlock: 'artist-title__verify',
         verifyImgSrc: imgPath.verify,

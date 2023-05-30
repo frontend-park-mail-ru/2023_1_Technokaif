@@ -137,14 +137,14 @@ export class Album extends BaseComponent {
                     navigator.clipboard.writeText(window.location.href)
                         .then(() => {
                             const notification = new Notification(
-                                document.querySelector('.js__navbar'),
+                                document.querySelector('.notification__placement'),
                                 'Album link saved to clipboard!',
                             );
                             notification.appendElement();
                         })
                         .catch((error) => {
                             const notification = new Notification(
-                                document.querySelector('.js__navbar'),
+                                document.querySelector('.notification__placement'),
                                 'Album link haven\'t been saved to clipboard!',
                                 'notify',
                                 TypeOfNotification.failure,

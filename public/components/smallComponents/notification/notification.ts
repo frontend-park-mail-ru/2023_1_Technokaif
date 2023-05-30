@@ -56,6 +56,7 @@ export class Notification extends BaseComponent {
         const closeButton = document.querySelector(`.js__notification-${this.nameOfNotification}__close-button`);
         if (!closeButton) return;
         closeButton.addEventListener(METHOD.BUTTON, clearNotification);
+        this.parent.scrollTop = -this.parent.scrollHeight;
 
         setTimeout(clearNotification, 3500);
     }
