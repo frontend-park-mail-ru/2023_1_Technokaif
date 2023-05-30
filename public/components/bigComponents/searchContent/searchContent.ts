@@ -12,7 +12,12 @@ import { BaseComponent } from '@components/BaseComponent';
 import { LineList } from '@bigComponents/LineList/lineList';
 import { pageNames } from '@config/pageNames';
 import { METHOD } from '@config/config';
+import { runAfterFramePaint } from '@functions/renderAfterPaintDone';
+import { removeNothingPlacementInSearch } from '@functions/removeNothingPlacement';
 import templateHtml from './searchContent.handlebars';
+
+/** What element to search and hide */
+const searchElement = 'search-img';
 
 declare interface ILenParam {
     length: number,
@@ -84,7 +89,11 @@ export class SearchContent extends BaseComponent {
         if (this.type === 'default') {
             lines = new LineList(divForPlace, setupSearchLineList(tracks), this.name);
         } else {
-            lines = new LineList(divForPlace, setupSearchLineListForPlaylist(tracks, ContentStore.state[pageNames.PLAYLIST].id), this.name);
+            lines = new LineList(
+                divForPlace,
+                setupSearchLineListForPlaylist(tracks, ContentStore.state[pageNames.PLAYLIST].id),
+                this.name,
+            );
         }
         lines.appendElement();
     }
@@ -145,7 +154,7 @@ export class SearchContent extends BaseComponent {
         if (!isExist) {
             label.innerHTML = 'Nothing was found';
             if (this.type === 'default') {
-                const element: HTMLDivElement | null = document.querySelector('.search-img-block');
+                const element: HTMLDivElement | null = document.querySelector(`.${searchElement}`);
                 if (element) {
                     element.hidden = false;
                 }
@@ -153,8 +162,8 @@ export class SearchContent extends BaseComponent {
             label.classList.add('nothing-found');
             nothingPlacement.appendChild(label);
         } else {
-            const element: HTMLDivElement | null = document.querySelector('.search-img-block');
-            if (element) {
+            const element: HTMLDivElement | null = document.querySelector(`.${searchElement}`);
+            if (element && this.type === 'default') {
                 element.hidden = true;
             }
         }
@@ -189,12 +198,20 @@ export class SearchContent extends BaseComponent {
                 if (state.tracks?.tracks?.length > 0) {
                     len = state.tracks.tracks.length;
                     this.renderLines(state.tracks.tracks);
+                    removeNothingPlacementInSearch();
                 }
 
-                this.lengths.push({
-                    name: 'tracks',
-                    length: len,
-                });
+                const indexExist = this.lengths.findIndex((el) => el.name === 'tracks');
+                if (indexExist >= 0) {
+                    // todo ask grisha about this problem
+                    // @ts-ignore
+                    this.lengths.at(indexExist).length = len;
+                } else {
+                    this.lengths.push({
+                        name: 'tracks',
+                        length: len,
+                    });
+                }
 
                 this.setTimer();
             },
@@ -214,6 +231,7 @@ export class SearchContent extends BaseComponent {
                 if (state.albums?.albums?.length > 0) {
                     len = state.albums.albums.length;
                     this.renderAlbums(state.albums.albums);
+                    removeNothingPlacementInSearch();
                 }
 
                 this.lengths.push({
@@ -239,6 +257,7 @@ export class SearchContent extends BaseComponent {
                 if (state.artists?.artists?.length > 0) {
                     len = state.artists.artists.length;
                     this.renderArtist(state.artists.artists);
+                    removeNothingPlacementInSearch();
                 }
                 this.lengths.push({
                     name: 'artists',
@@ -263,6 +282,7 @@ export class SearchContent extends BaseComponent {
                 if (state.playlists?.playlists?.length > 0) {
                     len = state.playlists.playlists.length;
                     this.renderPlaylists(state.playlists.playlists);
+                    removeNothingPlacementInSearch();
                 }
                 this.lengths.push({
                     name: 'playlists',
@@ -307,13 +327,16 @@ export class SearchContent extends BaseComponent {
                 const tracks = document.querySelector('.js__placement-tracks-search');
                 const artists = document.querySelector('.js__placement-artists-search');
                 const playlists = document.querySelector('.js__placement-playlists-search');
-                if (albums?.children.length || tracks?.children.length || artists?.children.length || playlists?.children.length) {
-                    const element: HTMLDivElement | null = document.querySelector('.search-img-block');
+                if (albums?.children.length
+                    || tracks?.children.length
+                    || artists?.children.length
+                    || playlists?.children.length) {
+                    const element: HTMLDivElement | null = document.querySelector(`.${searchElement}`);
                     if (element) {
                         element.hidden = true;
                     }
                 } else {
-                    const element: HTMLDivElement | null = document.querySelector('.search-img-block');
+                    const element: HTMLDivElement | null = document.querySelector(`.${searchElement}`);
                     if (element) {
                         element.hidden = false;
                     }
@@ -322,7 +345,7 @@ export class SearchContent extends BaseComponent {
         }
 
         if (this.type !== 'default') {
-            const element: HTMLDivElement | null = document.querySelector('.search-img-block');
+            const element: HTMLDivElement | null = document.querySelector(`.${searchElement}`);
             if (element) {
                 element.hidden = true;
             }
@@ -333,12 +356,16 @@ export class SearchContent extends BaseComponent {
      * @description render MainWindowContent in parent
      */
     override render() {
-        const renderProcess = new Promise((resolve) => {
-            super.appendElement();
-            resolve(true);
-        });
+        super.appendElement();
 
-        renderProcess.then(() => {
+        runAfterFramePaint(() => {
+            if (this.type !== 'default') {
+                const nothingSVG: HTMLElement| null = document.querySelector(`.${searchElement}`);
+                if (nothingSVG) {
+                    nothingSVG.hidden = true;
+                }
+            }
+
             this.#renderSearchLine();
             this.#addSubscribes();
         });

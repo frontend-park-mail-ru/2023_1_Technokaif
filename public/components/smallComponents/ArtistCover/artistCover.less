@@ -15,6 +15,7 @@
   flex-direction: column;
   z-index: 1;
 
+  overflow: hidden;
   position: relative;
 }
 
@@ -93,9 +94,10 @@
   width: 100%;
   height: 100%;
 }
+@blurInArtist: 14px;
 
 .background__img {
-  filter: blur(14px);
+  filter: blur(@blurInArtist);
   object-fit: cover;
 }
 
@@ -106,11 +108,18 @@
 
 .background__img-container {
   z-index: -1;
-  width: 100%;
-  height: 100%;
+  width: calc(100% + calc(2 * @blurInArtist));
+  height: calc(100% + calc(2 * @blurInArtist));
+
+  margin-top: -@blurInArtist;
+  margin-left: -@blurInArtist;
 
   top: 0;
   left: 0;
 
   position: absolute;
+}
+
+.cover__text-artist {
+  // todo create good blur background
 }
