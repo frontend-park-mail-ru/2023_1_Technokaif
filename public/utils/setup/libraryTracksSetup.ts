@@ -9,7 +9,7 @@ import { AlbumApi, ContentArtist } from './artistSetup';
 export function setupLibraryTracks() {
     return {
         tracksClass: `library-tracks ${componentsNames.LIBRARY_TRACKS}`,
-        imgSrc: '/static/svg/favoriteSongs.svg',
+        imgSrc: '/static/svg/likedSongsLogo.svg',
         imgClass: 'album__img',
 
         headerDiv: 'album__descriptions',
