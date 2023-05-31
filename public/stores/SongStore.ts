@@ -98,7 +98,7 @@ class SongStore extends IStore {
         );
 
         this.#audioTrack.addEventListener('canplaythrough', () => {
-           this.isTrackReady = true;
+            this.isTrackReady = true;
         });
 
         window.addEventListener('storage', (event:StorageEvent) => {
@@ -429,11 +429,9 @@ class SongStore extends IStore {
 
     /** Set playing time */
     #setTime(newTime) {
-        if (isTrackReady
+        if (this.isTrackReady
             && this.#audioTrack.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) {
             this.#audioTrack.currentTime = newTime;
-        }
-        if () {
         }
     }
 
