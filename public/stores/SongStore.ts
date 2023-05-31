@@ -61,6 +61,9 @@ class SongStore extends IStore {
     /** Type of tape Store is using now */
     #storeType;
 
+    /** Flag to ready to play track */
+    private isTrackReady;
+
     /** Default value to delete all state */
     constructor() {
         super('SONG_STORE', () => {
@@ -87,11 +90,16 @@ class SongStore extends IStore {
         this.#position = -1;
         this.#songs = [];
         this.#storeType = null;
+        this.isTrackReady = false;
 
         this.#audioTrack.addEventListener(
             'ended',
             () => this.jsEmit(EventTypes.TRACK_END, {}),
         );
+
+        this.#audioTrack.addEventListener('canplaythrough', () => {
+           this.isTrackReady = true;
+        });
 
         window.addEventListener('storage', (event:StorageEvent) => {
             if (event.key !== this.name && event.key !== COUNTER) return;
@@ -399,6 +407,7 @@ class SongStore extends IStore {
         if (valueToReadFrom?.songs?.length > 0) {
             this.#clearTrack = false;
 
+            this.isTrackReady = false;
             this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
 
             this.jsEmit(EventTypes.GET_DATA_AFTER_RESTART, {
@@ -420,7 +429,12 @@ class SongStore extends IStore {
 
     /** Set playing time */
     #setTime(newTime) {
-        this.#audioTrack.currentTime = newTime;
+        if (isTrackReady
+            && this.#audioTrack.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) {
+            this.#audioTrack.currentTime = newTime;
+        }
+        if () {
+        }
     }
 
     /**
@@ -437,6 +451,7 @@ class SongStore extends IStore {
     /** Set track to play */
     private setTrack() {
         if (!this.#songs[this.#position]?.recordSrc) return;
+        this.isTrackReady = false;
         this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
         this.#clearTrack = false;
         this.jsEmit(EventTypes.SONG_FOUND, {
@@ -506,6 +521,7 @@ class SongStore extends IStore {
 
     /** Clear track */
     #clearTrackSrc() {
+        this.isTrackReady = false;
         this.#audioTrack.src = '';
         this.#clearTrack = true;
         this.#setPlaying(false);
