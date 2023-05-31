@@ -61,6 +61,9 @@ class SongStore extends IStore {
     /** Type of tape Store is using now */
     #storeType;
 
+    /** Quantity of time that user listen */
+    private listenTime;
+
     /** Default value to delete all state */
     constructor() {
         super('SONG_STORE', () => {
@@ -79,6 +82,7 @@ class SongStore extends IStore {
         this.#clearTrack = true;
         this.#isPlaying = false;
         this.#isRepeat = false;
+        this.listenTime = 0;
 
         this.#songVolume = 0.5;
         this.#prevVolume = 0.5;
@@ -92,6 +96,13 @@ class SongStore extends IStore {
             'ended',
             () => this.jsEmit(EventTypes.TRACK_END, {}),
         );
+
+        const timerFunction = () => {
+            this.countSeconds();
+            setTimeout(timerFunction, 1000);
+        };
+
+        setTimeout(timerFunction, 1000);
 
         window.addEventListener('storage', (event:StorageEvent) => {
             if (event.key !== this.name && event.key !== COUNTER) return;
@@ -113,6 +124,22 @@ class SongStore extends IStore {
             this.setTrack();
         });
         this.setTrackIfExistInStore();
+    }
+
+    /**
+     * Function to count. If listen more than 20 seconds then send message.
+     * If listen for more than 60% of track then send message
+     * */
+    private countSeconds() {
+        if (!this.#audioTrack.paused) {
+            this.listenTime += 1;
+        }
+
+        // todo set time to send
+        if (this.listenTime === 20
+            || (this.#audioTrack.duration && this.listenTime / this.#audioTrack.duration > 0.6)) {
+            console.log('Listen ten seconds');
+        }
     }
 
     /** Return audio element */
@@ -399,6 +426,7 @@ class SongStore extends IStore {
         if (valueToReadFrom?.songs?.length > 0) {
             this.#clearTrack = false;
 
+            this.listenTime = 0;
             this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
 
             this.jsEmit(EventTypes.GET_DATA_AFTER_RESTART, {
@@ -437,6 +465,7 @@ class SongStore extends IStore {
     /** Set track to play */
     private setTrack() {
         if (!this.#songs[this.#position]?.recordSrc) return;
+        this.listenTime = 0;
         this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
         this.#clearTrack = false;
         this.jsEmit(EventTypes.SONG_FOUND, {
@@ -506,6 +535,7 @@ class SongStore extends IStore {
 
     /** Clear track */
     #clearTrackSrc() {
+        this.listenTime = 0;
         this.#audioTrack.src = '';
         this.#clearTrack = true;
         this.#setPlaying(false);
