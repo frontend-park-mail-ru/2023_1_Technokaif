@@ -8,6 +8,7 @@ import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllSt
 import { METHOD } from '@config/config';
 import PlaylistActions from '@API/PlaylistActions';
 
+import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
 import templateHTML from './modalWindow.handlebars';
 import './modalWindow.less';
 
@@ -68,6 +69,21 @@ export class ModalWindow extends BaseComponent {
             users: ContentStore.state[pageNames.PLAYLIST]
                 .playlist.users.map((element) => element.id),
         });
+    }
+
+    /**
+     * Error rendering notification
+     * @param text
+     * @private
+     */
+    private renderErrorNotification(text: string) {
+        const notification = new Notification(
+            document.querySelector('.js__navbar'),
+            text,
+            'image-error',
+            TypeOfNotification.failure,
+        );
+        notification.appendElement();
     }
 
     /**
@@ -148,8 +164,35 @@ export class ModalWindow extends BaseComponent {
         });
 
         this.fileInput.addEventListener('change', () => {
+            const file: File = this.fileInput.files[0];
+
+            if (!file) {
+                console.error('Invalid photo');
+                this.renderErrorNotification('Invalid photo');
+
+                return;
+            }
+
+            const fileSizeLimit = 5 * 1024 * 1024;
+            const allowedExtensions = ['jpg', 'jpeg', 'png'];
+
+            if (file.size > fileSizeLimit) {
+                console.error('Invalid photo size');
+                this.renderErrorNotification('Invalid photo size');
+
+                return;
+            }
+
+            // @ts-ignore
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            if (!allowedExtensions.includes(fileExtension)) {
+                console.error('Invalid photo extension');
+                this.renderErrorNotification('Invalid photo extension');
+                return;
+            }
+
             const formData = new FormData();
-            formData.append('cover', this.fileInput.files[0]);
+            formData.append('cover', file);
 
             PlaylistActions.uploadPlaylistCover(
                 ContentStore.state[pageNames.PLAYLIST].id,

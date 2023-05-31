@@ -445,7 +445,42 @@ export class User extends BaseComponent {
         });
 
         this.fileInput.addEventListener('change', () => {
-            const file = this.fileInput.files[0];
+            const file: File = this.fileInput.files[0];
+            const errorElement: HTMLDivElement|null = document.querySelector('.user__error-text');
+            const successElement: HTMLDivElement|null = document.querySelector('.user__success-text');
+            if (!errorElement || !successElement) {
+                console.error('No any error or success blocks');
+                return;
+            }
+
+            if (!file) {
+                console.error('Invalid photo');
+                errorElement.hidden = false;
+                successElement.hidden = true;
+                errorElement.innerText = 'Invalid photo';
+                return;
+            }
+
+            const fileSizeLimit = 5 * 1024 * 1024;
+            const allowedExtensions = ['jpg', 'jpeg', 'png'];
+
+            if (file.size > fileSizeLimit) {
+                console.error('Invalid photo size');
+                errorElement.hidden = false;
+                successElement.hidden = true;
+                errorElement.innerText = 'Invalid photo size';
+                return;
+            }
+
+            // @ts-ignore
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            if (!allowedExtensions.includes(fileExtension)) {
+                console.error('Invalid photo extension');
+                errorElement.hidden = false;
+                successElement.hidden = true;
+                errorElement.innerText = 'Invalid photo extension';
+                return;
+            }
 
             const formData = new FormData();
             formData.append('avatar', file);

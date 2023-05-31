@@ -18,6 +18,7 @@ import { PlaylistContent } from '@api/playlists/createPlaylistAjaxRequest';
 import { runAfterFramePaint } from '@functions/renderAfterPaintDone';
 import { SearchContent } from '@bigComponents/searchContent/searchContent';
 import SearchActions from '@API/SearchActions';
+import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
 import { Playlist } from '../playlist';
 
 /**
@@ -53,6 +54,21 @@ export class UserPlaylist extends Playlist {
     }
 
     /**
+     * Error rendering notification
+     * @param text
+     * @private
+     */
+    private renderErrorNotification(text: string) {
+        const notification = new Notification(
+            document.querySelector('.js__navbar'),
+            text,
+            'image-error',
+            TypeOfNotification.failure,
+        );
+        notification.appendElement();
+    }
+
+    /**
      * Function to set listeners
      * @private
      */
@@ -78,7 +94,30 @@ export class UserPlaylist extends Playlist {
 
         this.fileInput.addEventListener('change', () => {
             // @ts-ignore
-            const file = this.fileInput.files[0];
+            const file: File = this.fileInput.files[0];
+
+            if (!file) {
+                console.error('Invalid photo');
+                this.renderErrorNotification('Invalid photo');
+                return;
+            }
+
+            const fileSizeLimit = 5 * 1024 * 1024;
+            const allowedExtensions = ['jpg', 'jpeg', 'png'];
+
+            if (file.size > fileSizeLimit) {
+                console.error('Invalid photo size');
+                this.renderErrorNotification('Invalid photo size');
+                return;
+            }
+
+            // @ts-ignore
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            if (!allowedExtensions.includes(fileExtension)) {
+                console.error('Invalid photo extension');
+                this.renderErrorNotification('Invalid photo extension');
+                return;
+            }
 
             const formData = new FormData();
             // @ts-ignore

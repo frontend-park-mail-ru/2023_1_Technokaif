@@ -148,7 +148,6 @@ export abstract class Playlist extends BaseComponent {
         ContentStore.subscribe(
             (instance) => {
                 runAfterFramePaint(() => {
-                    const { tracks } = ContentStore.state[pageName];
                     const buttons = document.querySelector('.js__button__play') as HTMLDivElement;
                     const imgLike = document.querySelector('.albumLike') as HTMLImageElement;
                     if (!buttons || !imgLike) {
@@ -181,6 +180,7 @@ export abstract class Playlist extends BaseComponent {
                             return;
                         }
 
+                        const { tracks } = ContentStore.state[pageName];
                         const trackIds = tracks.map((track) => track.id);
                         if (trackIds.length > 0 && (!this.#isAlbumLoaded
                             || !(SongStore.exist
@@ -236,6 +236,7 @@ export abstract class Playlist extends BaseComponent {
                         });
                     }
 
+                    const { tracks } = ContentStore.state[pageName];
                     const placement = document.querySelector('.js__placement-tracks');
                     if (!placement) {
                         console.error('Can\'t find placement for favourite tracks');

@@ -542,17 +542,21 @@ export class LineList extends BaseComponent {
         if (this.config.playlistId) {
             const anothers = document.querySelectorAll(`.${this.elementConfig.anotherClass}`) as NodeListOf<HTMLDivElement>;
             const lines = document.querySelectorAll(`.${this.elementConfig.lineDiv}`) as NodeListOf<HTMLDivElement>;
-            const playlistLines = document.querySelectorAll('.track-line') as NodeListOf<HTMLDivElement>;
-            // @ts-ignore
-            const trackIds = Array.from(playlistLines).map((line) => line.dataset?.id);
 
             const { playlistId } = this.config;
             anothers.forEach((anotherElement, index) => {
                 anotherElement?.addEventListener('click', () => {
+                    const playlistLines = document.querySelectorAll('.track-line') as NodeListOf<HTMLDivElement>;
+                    // @ts-ignore
+                    const trackIds = Array.from(playlistLines).map((line) => line.dataset?.id);
+
                     // @ts-ignore
                     const trackId = lines[index].dataset?.id;
                     if (trackId && !trackIds.includes(trackId)) {
                         PlaylistActions.addTrackInPlaylist(playlistId, trackId);
+                        if (SongStore.playlist() && SongStore.playlist() === Number(playlistId)) {
+                            PlayerActions.queueTrack([Number(trackId)]);
+                        }
 
                         const notification = new Notification(
                             document.querySelector('.js__navbar'),

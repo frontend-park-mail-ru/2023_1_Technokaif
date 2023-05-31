@@ -127,10 +127,10 @@ export function setupSearchLineList(items: AlbumApi[]): ContentArtist {
         lineDuration: 'track-line__duration',
 
         buttonsClass: 'buttons',
-        playButton: 'play-button-track',
+        playButton: 'search-play-button-track',
         playButtonSrc: imgPath.trackPlay,
         playButtonImg: 'likeImg',
-        stopButton: 'stop-button-track',
+        stopButton: 'search-stop-button-track',
         stopButtonSrc: imgPath.trackPause,
         stopButtonImg: 'likeImg',
 
