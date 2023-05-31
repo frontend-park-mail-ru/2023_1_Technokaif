@@ -192,7 +192,7 @@ export abstract class Playlist extends BaseComponent {
 
                         if (tracks.length === 0) {
                             new Notification(
-                                document.querySelector('.js__navbar'),
+                                document.querySelector('.notification__placement'),
                                 'Nothing to play!',
                                 String(this.indOfNotification++),
                                 TypeOfNotification.warning,
@@ -218,14 +218,14 @@ export abstract class Playlist extends BaseComponent {
                             navigator.clipboard.writeText(window.location.href)
                                 .then(() => {
                                     const notification = new Notification(
-                                        document.querySelector('.js__navbar'),
+                                        document.querySelector('.notification__placement'),
                                         'Playlist link saved to clipboard!',
                                     );
                                     notification.appendElement();
                                 })
                                 .catch((error) => {
                                     const notification = new Notification(
-                                        document.querySelector('.js__navbar'),
+                                        document.querySelector('.notification__placement'),
                                         'Playlist link haven\'t been saved to clipboard!',
                                         'notify',
                                         TypeOfNotification.failure,

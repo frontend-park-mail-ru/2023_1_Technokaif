@@ -180,7 +180,7 @@ export class LineList extends BaseComponent {
             const tag = event?.target?.tagName.toLowerCase();
             if (!playlistsContainer.children.length && tag !== 'li') {
                 const notification = new Notification(
-                    document.querySelector('.js__navbar'),
+                    document.querySelector('.notification__placement'),
                     'Cannot add track in playlist. No playlists without this track found.',
                     `${index}_failure_add`,
                     TypeOfNotification.failure,
@@ -216,7 +216,7 @@ export class LineList extends BaseComponent {
             );
             dropDown.hideOptions();
             const notification = new Notification(
-                document.querySelector('.js__navbar'),
+                document.querySelector('.notification__placement'),
                 'Song is added to queue!',
                 `${trackId}_queue`,
             );
@@ -234,7 +234,7 @@ export class LineList extends BaseComponent {
                 );
                 dropDown.hideOptions();
                 const notification = new Notification(
-                    document.querySelector('.js__navbar'),
+                    document.querySelector('.notification__placement'),
                     'Song is removed from Playlist!',
                     `${trackId}_remove`,
                 );
@@ -265,7 +265,7 @@ export class LineList extends BaseComponent {
             }
 
             const notification = new Notification(
-                document.querySelector('.js__navbar'),
+                document.querySelector('.notification__placement'),
                 'Song is added to playlist!',
                 `${index}_add`,
             );
@@ -559,14 +559,14 @@ export class LineList extends BaseComponent {
                         }
 
                         const notification = new Notification(
-                            document.querySelector('.js__navbar'),
+                            document.querySelector('.notification__placement'),
                             'Song is added to playlist!',
                             `${index}_search_add`,
                         );
                         notification.appendElement();
                     } else {
                         const notification = new Notification(
-                            document.querySelector('.js__navbar'),
+                            document.querySelector('.notification__placement'),
                             'You have already added this song!',
                             `${index}_search_bad_add`,
                             TypeOfNotification.warning,

@@ -17,6 +17,7 @@ import ComponentsStore from '@store/ComponentsStore';
 import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
 import UserInfoStore from '@store/UserInfoStore';
 import ComponentsActions from '@Actions/ComponentsActions';
+import { runAfterFramePaint } from '@functions/renderAfterPaintDone';
 import templateHtml from './navbar.handlebars';
 import './mobileNavs.less';
 
@@ -269,7 +270,14 @@ class Navbar {
         );
         this.#dropDown.render();
         const { options } = this.#dropDown;
-        options.style.transform = 'translate(40%, 0)';
+        runAfterFramePaint(() => {
+            const computedStyleOfPlacement = window.getComputedStyle(placement);
+            const computedOptions = window.getComputedStyle(options);
+            const shiftToCenter = parseInt(computedStyleOfPlacement.width, 10)
+                - parseInt(computedOptions.width, 10);
+
+            options.style.transform = `translateX(${shiftToCenter / 2}px`;
+        });
 
         const bt1 = document.createElement('a');
         bt1.textContent = 'Profile';

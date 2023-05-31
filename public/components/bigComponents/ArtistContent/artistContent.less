@@ -52,6 +52,8 @@
   cursor: pointer;
   background-color: transparent;
   border: none;
+
+  padding-left: 0;
 }
 
 .stop-button {
@@ -93,5 +95,24 @@
 .album-list {
   @media (min-width: @desktop) {
     width: max-content;
+  }
+}
+
+.header-avatar {
+  display: flex;
+  flex-direction: row;
+
+  margin-top: calc(@navbarSize);
+}
+
+@media @mobileMax {
+  .header__avatar-container {
+    max-width: 120px;
+    max-height: 120px;
+    height: auto;
+  }
+
+  .header-avatar {
+    align-items: center;
   }
 }

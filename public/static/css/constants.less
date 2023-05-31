@@ -171,6 +171,46 @@
 
 #root {
   overflow: hidden;
+  position: relative;
+}
+
+.notification__placement {
+  position: absolute;
+  right: 0;
+  top: calc(@navbarSize - 5px);
+
+  width: 100%;
+  overflow-Y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.notification__placement::-webkit-scrollbar {
+  width: 0;
+}
+
+@media @mobileMax {
+  .notification__placement {
+    max-width: 100%;
+    max-height: calc(calc(68px + 5px) * 2);
+  }
+}
+
+@media @tabletSize {
+  .notification__placement {
+    max-width: 60%;
+    margin-right: 10px;
+    max-height: calc(calc(92px + 5px) * 2);
+  }
+}
+
+@media @desktopMin {
+  .notification__placement {
+    max-width: 40%;
+    margin-right: 10px;
+    max-height: calc(calc(67px + 5px) * 3);
+  }
 }
 
 body {
