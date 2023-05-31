@@ -29,17 +29,41 @@
   justify-content: center;
 }
 
+@media @mobileMax {
+  .dummy__text-div {
+    width: 100%;
+  }
+}
+
 .dummy__text-title {
   margin-top: 0.3%;
   .titleText();
 }
 
-.dummy__text-class {
+.dummy__text-class, .dummy-mobile__text-class {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   margin-top: 0.4%;
   .smallText();
+}
+
+@media @mobileMax {
+  .dummy-mobile__text-class {
+    display: flex;
+  }
+  .dummy__text-class {
+    display: none;
+  }
+}
+
+@media @tabletSize, @desktopMin {
+  .dummy-mobile__text-class {
+    display: none;
+  }
+  .dummy__text-class {
+    display: flex;
+  }
 }
 
 .dummy__button-div {
