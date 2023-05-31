@@ -60,7 +60,7 @@ export class UserPlaylist extends Playlist {
      */
     private renderErrorNotification(text: string) {
         const notification = new Notification(
-            document.querySelector('.js__navbar'),
+            document.querySelector('.notification__placement'),
             text,
             'image-error',
             TypeOfNotification.failure,
