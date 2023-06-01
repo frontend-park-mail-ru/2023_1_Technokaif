@@ -1,0 +1,55 @@
+@import '../../../static/css/constants';
+
+.search__block__agitation-text {
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.search__block__button-nothing {
+  background-color: @main-color;
+  color: @opposed-main-color;
+  border-radius: @radius;
+  padding: 0.5rem;
+  .titleText();
+
+  cursor: pointer;
+  margin-top: 10px;
+  height: 40px;
+}
+
+@media @desktopMin {
+  .search__block__button-nothing {
+    width: 255px;
+    padding-top: 10px;
+  }
+}
+
+@media @tabletSize {
+  .search__block__button-nothing {
+    width: 316px;
+    padding-top: 5px;
+  }
+}
+
+@media @mobileMax {
+  .search__block__button-nothing {
+    width: 265px;
+    padding-top: 10px;
+  }
+}
+
+.search__block__nothing-text {
+  padding-top: 0.5em;
+  .bigTitle();
+
+  display: flex;
+  justify-content: center;
+}
+
+.search__block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
