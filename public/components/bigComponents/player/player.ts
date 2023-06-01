@@ -340,6 +340,20 @@ export class AudioPlayer extends BaseComponent {
             },
         );
 
+        let id = 255;
+        elements.shuffle.addEventListener(
+            METHOD.BUTTON,
+            () => {
+                new Notification(
+                    document.querySelector('.notification__placement'),
+                    'Shuffle was done!',
+                    String(id++),
+                    TypeOfNotification.success,
+                ).appendElement();
+                PlayerActions.shuffle();
+            },
+        );
+
         this.#elements.volume_icon.addEventListener(METHOD.BUTTON, () => {
             if (this.#elements.volume_slider.value > 0) {
                 this.#elements.volume_slider.value = 0;
@@ -380,6 +394,8 @@ export class AudioPlayer extends BaseComponent {
         this.#elements.total_duration = document.querySelector(`.${playerElementsJS.totalDuration}`);
         this.#elements.repeat = document.querySelector(`.${playerElementsJS.repeatButton}`);
         this.#elements.repeatImg = document.querySelector(`.${playerElementsJS.repeatImg}`);
+
+        this.#elements.shuffle = document.querySelector(`.${playerElementsJS.shuffle}`);
 
         this.#elements.updateTimer = playerConfig.FIRST_TIMER;
         this.#elements.volume_slider.value = 50;

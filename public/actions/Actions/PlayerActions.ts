@@ -239,6 +239,13 @@ class PlayerActions {
             idOfSecondTrack,
         });
     }
+
+    /** Shuffle tracks */
+    shuffle() {
+        Dispatcher.dispatch({
+            type: ActionTypes.SHUFFLE,
+        });
+    }
 }
 
 export default new PlayerActions();

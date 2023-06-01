@@ -9,6 +9,7 @@ import {
 } from '@functions/FunctionsToWorkWithLocalStore';
 import { TrackApi, TracksApi } from '@api/ApiAnswers';
 import TrackActions from '@API/TrackActions';
+import { shuffle } from '@functions/shuffle';
 
 const COUNTER = 'Counter';
 
@@ -346,10 +347,20 @@ class SongStore extends IStore {
         case ActionTypes.SWAP_IN_QUEUE:
             this.swapTrack(action.idOfFirstTrack, action.idOfSecondTrack);
             break;
+        case ActionTypes.SHUFFLE:
+            this.shuffle();
+            break;
         default:
             super.dispatch(action);
             break;
         }
+    }
+
+    /** Shuffle tracks */
+    private shuffle() {
+        // @ts-ignore
+        this.songs = shuffle(this.#position, this.#songs);
+        this.position = 0;
     }
 
     /** Remove tracks from queue */

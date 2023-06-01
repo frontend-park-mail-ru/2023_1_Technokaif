@@ -137,6 +137,7 @@ const ActionTypes = {
     SWAP_IN_QUEUE: 'SWAP_IN_QUEUE',
 
     LISTEN_TRACK: 'LISTEN_TRACK',
+    SHUFFLE: 'SHUFFLE',
 };
 
 export default ActionTypes;

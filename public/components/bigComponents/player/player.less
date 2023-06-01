@@ -37,7 +37,7 @@
 }
 
 @media @mobileMax {
-  .player-buttons__repeat {
+  .player-buttons__repeat, .player-buttons__shuffle {
     display: none;
   }
 }
@@ -294,4 +294,9 @@ input[type="range"] {
 .disabled__player-control {
   cursor: default;
   pointer-events: none;
+}
+
+
+.player-buttons__shuffle {
+  filter: invert();
 }

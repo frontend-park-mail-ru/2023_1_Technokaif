@@ -142,6 +142,8 @@ export const playerElementsJS = {
     volumeSlider: 'js__volume_slider',
     currentTime: 'js__current-time',
     totalDuration: 'js__total-duration',
+
+    shuffle: 'js__shuffle__img',
 };
 
 export const ElementsClassForRegister = {
