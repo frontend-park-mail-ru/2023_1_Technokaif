@@ -56,6 +56,18 @@ export class AudioPlayer extends BaseComponent {
      */
     private addButtonEvent;
 
+    /**
+     * Callback for toggle button
+     * @private
+     */
+    private toggleButtonEvent;
+
+    /**
+     * Callback for track name
+     * @private
+     */
+    private trackNameListener;
+
     /** Default all fields to empty except parent */
     constructor(parent) {
         super(parent, [], template, componentsNames.PLAYER);
@@ -91,6 +103,14 @@ export class AudioPlayer extends BaseComponent {
             }
 
             addButton.parentElement?.click();
+        };
+
+        this.toggleButtonEvent = () => {
+            this.#toggleRepeat();
+        };
+
+        this.trackNameListener = () => {
+            Router.go(routingUrl.ALBUM_PAGE(SongStore.trackInfo.albumID));
         };
     }
 
@@ -545,9 +565,8 @@ export class AudioPlayer extends BaseComponent {
             }
         });
 
-        this.#elements.repeat.addEventListener(METHOD.BUTTON, () => {
-            this.#toggleRepeat();
-        });
+        this.#elements.repeat.removeEventListener(METHOD.BUTTON, this.toggleButtonEvent);
+        this.#elements.repeat.addEventListener(METHOD.BUTTON, this.toggleButtonEvent);
 
         const spansInArtists: NodeListOf<HTMLSpanElement>|null = this.#elements.track_artist.querySelectorAll('span');
         if (!spansInArtists) {
@@ -564,11 +583,9 @@ export class AudioPlayer extends BaseComponent {
                 }
             });
         });
-        const trackNameListener = () => {
-            Router.go(routingUrl.ALBUM_PAGE(SongStore.trackInfo.albumID));
-        };
-        this.#elements.track_name?.removeEventListener('click', trackNameListener);
-        this.#elements.track_name?.addEventListener('click', trackNameListener);
+
+        this.#elements.track_name?.removeEventListener('click', this.trackNameListener);
+        this.#elements.track_name?.addEventListener('click', this.trackNameListener);
 
         const userId = localStorage.getItem('userId');
         if (checkAuth()) {

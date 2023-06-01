@@ -12,7 +12,7 @@ import PlaylistActions from '@API/PlaylistActions';
 import PlayerActions from '@Actions/PlayerActions';
 import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
 import API from '@store/API';
-import SongStore from '@store/SongStore';
+import SongStore, { TypesOfStore } from '@store/SongStore';
 import Router from '@router/Router';
 import ContentStore from '@store/ContentStore';
 import { METHOD } from '@config/config';
@@ -127,8 +127,8 @@ export class LineList extends BaseComponent {
             return;
         }
 
-        const likeButton: HTMLButtonElement|null = line.querySelector('.like-button');
-        const unlikeButton: HTMLButtonElement|null = line.querySelector('.unlike-button');
+        const likeButton: HTMLButtonElement|null = line.querySelector(`.${this.elementConfig.like}`);
+        const unlikeButton: HTMLButtonElement|null = line.querySelector(`.${this.elementConfig.unlike}`);
         if (!state) {
             if (unlikeButton && likeButton?.hidden) {
                 likeButton.hidden = false;
@@ -147,7 +147,7 @@ export class LineList extends BaseComponent {
      * @param another
      * @private
      */
-    #renderDropDownForOneLine(line:HTMLElement, index, another) {
+    #renderDropDownForOneLine(line: HTMLElement, index, another) {
         // @ts-ignore
         const trackId = line.dataset.id;
         const dropDown = new DropDown(
@@ -307,6 +307,11 @@ export class LineList extends BaseComponent {
             const anothers = document.querySelectorAll(`.${this.elementConfig.anotherClass}`);
 
             lines.forEach((line, index) => {
+                const dropDown: HTMLDivElement|null = line.querySelector('.dropDown__options');
+                if (dropDown) {
+                    return;
+                }
+
                 const div = document.createElement('div');
                 div.classList.add(`${this.elementConfig.anotherClass}`);
                 div.classList.add('placement-trigger');
@@ -541,12 +546,12 @@ export class LineList extends BaseComponent {
 
         if (this.config.playlistId) {
             const anothers = document.querySelectorAll(`.${this.elementConfig.anotherClass}`) as NodeListOf<HTMLDivElement>;
-            const lines = document.querySelectorAll(`.${this.elementConfig.lineDiv}`) as NodeListOf<HTMLDivElement>;
 
             const { playlistId } = this.config;
             anothers.forEach((anotherElement, index) => {
                 anotherElement?.addEventListener('click', () => {
-                    const playlistLines = document.querySelectorAll('.track-line') as NodeListOf<HTMLDivElement>;
+                    const lines = document.querySelectorAll(`.${this.elementConfig.lineDiv}`) as NodeListOf<HTMLDivElement>;
+                    const playlistLines = document.querySelectorAll(`.${this.elementConfig.generalLineDiv}`) as NodeListOf<HTMLDivElement>;
                     // @ts-ignore
                     const trackIds = Array.from(playlistLines).map((line) => line.dataset?.id);
 
@@ -554,7 +559,7 @@ export class LineList extends BaseComponent {
                     const trackId = lines[index].dataset?.id;
                     if (trackId && !trackIds.includes(trackId)) {
                         PlaylistActions.addTrackInPlaylist(playlistId, trackId);
-                        if (SongStore.playlist() && SongStore.playlist() === Number(playlistId)) {
+                        if (!SongStore.storeType && SongStore.storeType === TypesOfStore.playlist) {
                             PlayerActions.queueTrack([Number(trackId)]);
                         }
 

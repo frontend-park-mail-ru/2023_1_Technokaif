@@ -86,12 +86,16 @@ export class SearchContent extends BaseComponent {
         divForPlace.appendChild(tracksTitleBlock);
         linesPlacement.appendChild(divForPlace);
         let lines;
-        if (this.type === 'default') {
-            lines = new LineList(divForPlace, setupSearchLineList(tracks), this.name);
-        } else {
+        if (this.type === 'playlist') {
             lines = new LineList(
                 divForPlace,
                 setupSearchLineListForPlaylist(tracks, ContentStore.state[pageNames.PLAYLIST].id),
+                this.name,
+            );
+        } else {
+            lines = new LineList(
+                divForPlace,
+                setupSearchLineList(tracks),
                 this.name,
             );
         }

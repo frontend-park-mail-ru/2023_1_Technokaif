@@ -212,7 +212,7 @@ export abstract class Playlist extends BaseComponent {
                     }
                     const share: HTMLImageElement|null = document.querySelector('.shareButton');
                     if (!share) {
-                        console.error('Button doesn\'t\'exist on Album', buttons, imgLike);
+                        console.warn('Button doesn\'t\'exist on Album');
                     } else {
                         share.addEventListener('click', () => {
                             navigator.clipboard.writeText(window.location.href)

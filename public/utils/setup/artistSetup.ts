@@ -109,6 +109,7 @@ export interface ContentArtist {
     anotherSrc: string,
 
     playlistId?: string,
+    generalLineDiv?: string,
 }
 
 /** JSON for liked songs */

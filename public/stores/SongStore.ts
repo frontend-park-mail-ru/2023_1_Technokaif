@@ -22,7 +22,7 @@ declare interface CounterValueStorage{
     counter:number,
 }
 
-const TypesOfStore = {
+export const TypesOfStore = {
     album: 'albums',
     track: 'track',
     playlist: 'playlist',
@@ -154,6 +154,11 @@ class SongStore extends IStore {
         if (this.#storeType !== TypesOfStore.playlist
             || !this.#songs[this.#position]) return null;
         return this.#songs[this.#position].playlistID;
+    }
+
+    /** get storeType */
+    get storeType() {
+        return this.#storeType;
     }
 
     /** Return playing status */
@@ -420,7 +425,9 @@ class SongStore extends IStore {
 
     /** Set playing time */
     #setTime(newTime) {
-        this.#audioTrack.currentTime = newTime;
+        if (this.#audioTrack.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) {
+            this.#audioTrack.currentTime = newTime;
+        }
     }
 
     /**

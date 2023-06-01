@@ -14,7 +14,7 @@
   }
 }
 
-.buttons {
+.buttons, .search-buttons {
   cursor: pointer;
   display: none;
   grid-area: index;
@@ -93,7 +93,7 @@
   grid-area: like;
 }
 
-.like-button {
+.like-button, .search-like-button, .unlike-button, .search-unlike-button {
   cursor: pointer;
   width: 20px;
   height: 20px;
@@ -102,24 +102,10 @@
   border: none;
 }
 
-.like-button__img {
+.search-like-button__img, .search-unlike-button__img, .unlike-button__img, .like-button__img {
   cursor: pointer;
   width: 20px;
   height: 20px;
-}
-
-.unlike-button__img {
-  cursor: pointer;
-  width: 20px;
-  height: 20px;
-}
-
-.unlike-button {
-  background-color: transparent;
-  border: none;
-  width: 20px;
-  height: 20px;
-  box-sizing: content-box;
 }
 
 .track-line__duration {
