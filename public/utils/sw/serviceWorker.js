@@ -42,7 +42,9 @@ self.addEventListener('fetch', (event) => {
                         const urlOfResponse = response.url;
                         if (!(URL_SITE_REG_EXP('manifest.json').test(urlOfResponse)
                             || URL_SITE_REG_EXP('main').test(urlOfResponse)
-                            || URL_SITE_REG_EXP('static').test(urlOfResponse))) {
+                            || URL_SITE_REG_EXP('static').test(urlOfResponse)
+                            || URL_SITE_REG_EXP('$').test(urlOfResponse))) {
+                            console.log('Url', response.url);
                             return;
                         }
 
