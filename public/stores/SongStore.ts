@@ -8,6 +8,7 @@ import {
     saveValueToLocalStorage,
 } from '@functions/FunctionsToWorkWithLocalStore';
 import { TrackApi, TracksApi } from '@api/ApiAnswers';
+import TrackActions from '@API/TrackActions';
 
 const COUNTER = 'Counter';
 
@@ -64,6 +65,9 @@ class SongStore extends IStore {
     /** Quantity of time that user listen */
     private listenTime;
 
+    /** Flag if listen was send */
+    private isListenSend;
+
     /** Default value to delete all state */
     constructor() {
         super('SONG_STORE', () => {
@@ -82,7 +86,9 @@ class SongStore extends IStore {
         this.#clearTrack = true;
         this.#isPlaying = false;
         this.#isRepeat = false;
+
         this.listenTime = 0;
+        this.isListenSend = false;
 
         this.#songVolume = 0.5;
         this.#prevVolume = 0.5;
@@ -131,14 +137,20 @@ class SongStore extends IStore {
      * If listen for more than 60% of track then send message
      * */
     private countSeconds() {
+        if (this.listenTime === 0) {
+            this.isListenSend = false;
+        }
+
         if (!this.#audioTrack.paused) {
             this.listenTime += 1;
         }
 
         // todo set time to send
-        if (this.listenTime === 20
-            || (this.#audioTrack.duration && this.listenTime / this.#audioTrack.duration > 0.6)) {
-            console.log('Listen ten seconds');
+        if ((this.listenTime === 20
+            || (this.#audioTrack.duration && this.listenTime / this.#audioTrack.duration > 0.6))
+            && !this.isListenSend) {
+            this.isListenSend = true;
+            TrackActions.trackListen(this.#songs[this.#position].id);
         }
     }
 

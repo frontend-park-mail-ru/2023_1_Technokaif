@@ -28,6 +28,14 @@ class ApiTrackActions {
             id,
         });
     }
+
+    /** Listened track */
+    trackListen(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.LISTEN_TRACK,
+            id,
+        });
+    }
 }
 
 export default new ApiTrackActions();

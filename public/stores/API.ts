@@ -49,6 +49,7 @@ import APISongs from '@store/APISongs';
 import { getValueFromLocalStorage } from '@functions/FunctionsToWorkWithLocalStore';
 import { RESPONSES } from '@config/config';
 import { TracksApi } from '@api/ApiAnswers';
+import { listenTrackAjaxRequest } from '@api/tracks/listenTrackAjaxRequest';
 
 /**
  * Class using for getting data from backend.
@@ -201,8 +202,16 @@ class API extends IStore {
         case ActionTypes.PLAY_ARTIST:
             APISongs.dispatch(action);
             break;
+        case ActionTypes.LISTEN_TRACK:
+            this.listenTrack(action.id);
+            break;
         default:
         }
+    }
+
+    /** Track with id was listen */
+    private listenTrack(id) {
+        listenTrackAjaxRequest(id);
     }
 
     /**

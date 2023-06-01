@@ -55,4 +55,6 @@ export const apiUrl = {
     LOGOUT: '/api/auth/logout',
     CHECK_AUTH: '/api/auth/check',
     CSRF_REQ: '/api/csrf',
+
+    LISTEN_TRACK: (id) => `/api/tracks/${id}/listen`,
 };
