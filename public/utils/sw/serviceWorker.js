@@ -37,6 +37,15 @@ self.addEventListener('fetch', (event) => {
                             return response;
                         }
 
+                        const URL_SITE_REG_EXP = (afterMainUrl) => new RegExp(`^https://fluire.ru/${afterMainUrl}`);
+
+                        const urlOfResponse = response.url;
+                        if (!(URL_SITE_REG_EXP('manifest.json').test(urlOfResponse)
+                            || URL_SITE_REG_EXP('main').test(urlOfResponse)
+                            || URL_SITE_REG_EXP('static').test(urlOfResponse))) {
+                            return;
+                        }
+
                         const responseToCache = response.clone();
 
                         caches.open('Fluire')
