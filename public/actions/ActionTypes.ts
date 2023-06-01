@@ -135,6 +135,8 @@ const ActionTypes = {
 
     REMOVE_FROM_QUEUE: 'REMOVE_FROM_QUEUE',
     SWAP_IN_QUEUE: 'SWAP_IN_QUEUE',
+
+    LISTEN_TRACK: 'LISTEN_TRACK',
 };
 
 export default ActionTypes;
