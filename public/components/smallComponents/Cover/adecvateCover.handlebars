@@ -1,0 +1,52 @@
+<div data-id="{{item.id}}" class="{{coverMainClass}} {{coverMainClass}}__{{titleText}}">
+    <div class="{{imgDiv}}">
+        <img class="{{imgClass}}" src="
+        {{#ifEquals titleText 'Playlists'}}
+            {{#if item.cover}}
+                {{#mediaConvert}}{{item.cover}}{{/mediaConvert}}">
+            {{else}}
+                {{defaultSrc}}">
+            {{/if}}
+        {{/ifEquals}}
+            {{#ifNotEquals titleText 'Playlists'}}
+                {{#if item.cover}}
+                    {{#convert}}{{item.cover}}{{/convert}}">
+                {{else}}
+                    {{defaultSrc}}">
+                {{/if}}
+            {{/ifNotEquals}}
+
+        <div class="{{buttonDiv}}">
+            <img src="{{buttonSrc}}" class="{{buttonClass}} js__button__{{titleText}}-{{item.id}}">
+        </div>
+    </div>
+
+    <div class="component-options">
+        <div class="{{titleTextDiv}}">
+            <p class="text__cover">{{item.name}}</p>
+        </div>
+        {{#if item.artists}}
+            <div class="{{artistsDiv}}">
+                {{#each item.artists}}
+                    <p class="text__cover">{{this.name}} </p>
+                {{/each}}
+            </div>
+        {{/if}}
+<!--        {{#if item.description}}-->
+<!--            <div class="{{descriptionDiv}}">-->
+<!--                <p class="text__cover">{{item.description}}</p>-->
+<!--            </div>-->
+<!--        {{/if}}-->
+
+        {{#if footerElements}}
+            <div class="{{footerMainDiv}}">
+                {{#each footerElements}}
+                    <div class="{{footerElementDiv}}">
+                        <p class="text__cover">{{this.name}}</p>
+                    </div>
+                {{/each}}
+            </div>
+        {{/if}}
+
+    </div>
+</div>

@@ -143,6 +143,8 @@ export function setupLineList(items, subStringInEnd = '') {
         isPlaylistPage: false,
         isArtistShow: true,
         isAlbumShow: false,
+        isListensShow: true,
+        lineListensClass: 'track-line__listens',
         isOptionsShow: true,
 
         durationClass: 'track-line__duration',

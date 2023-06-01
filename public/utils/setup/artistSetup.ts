@@ -176,6 +176,8 @@ export interface TapeSetup {
     titleText: string,
     title: string,
     content: BaseComponentInTape[],
+    hideClass: string,
+    hideText: string,
 }
 
 /**
@@ -302,6 +304,8 @@ export function setupTape(name: string, title: string, items: BaseComponentInTap
         titleOfTrackClass: '',
         fullListClass: 'tape__show-text',
         fullListText: 'Show all',
+        hideClass: 'tape__hide-placement',
+        hideText: 'Hide',
         contentDivClass: 'tape__components',
         coverMainClass: 'component',
         imgDiv: 'component__img-div',

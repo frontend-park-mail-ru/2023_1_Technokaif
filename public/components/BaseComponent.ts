@@ -172,6 +172,42 @@ export abstract class BaseComponent {
         this.parent.appendChild(newElement);
     }
 
+    /** Insert before element to parent without clearing it */
+    insertBeforeElement(node) {
+        this.#subscribeAll();
+        if (!this.#config) {
+            return;
+        }
+        const tempElement = document.createElement('div');
+
+        tempElement.innerHTML = this.#template(this.#config);
+
+        const newElement = tempElement.firstChild;
+        if (!newElement) {
+            console.error('Element to append doesn\'t exist', this.#name);
+            return;
+        }
+        this.parent.insertBefore(newElement, node);
+    }
+
+    /** Insert after element to parent without clearing it */
+    insertAfterElement(node) {
+        this.#subscribeAll();
+        if (!this.#config) {
+            return;
+        }
+        const tempElement = document.createElement('div');
+
+        tempElement.innerHTML = this.#template(this.#config);
+
+        const newElement = tempElement.firstChild;
+        if (!newElement) {
+            console.error('Element to append doesn\'t exist', this.#name);
+            return;
+        }
+        this.parent.insertBefore(newElement, node.nextSibling);
+    }
+
     /**
      * UnRender component
      */

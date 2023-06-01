@@ -24,6 +24,11 @@
                     <p>ALBUM</p>
                 </div>
             {{/ifEquals}}
+            {{#ifEquals isListensShow true}}
+                <div class="{{lineListensClass}}">
+                    <p>LISTENS</p>
+                </div>
+            {{/ifEquals}}
             <div class="{{durationClass}}">
                 <p>DURATION</p>
             </div>
