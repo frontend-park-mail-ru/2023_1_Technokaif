@@ -57,10 +57,22 @@ export class AudioPlayer extends BaseComponent {
     private addButtonEvent;
 
     /**
+     * Callback for share button
+     * @private
+     */
+    private shareEvent;
+
+    /**
      * Callback for toggle button
      * @private
      */
     private toggleButtonEvent;
+
+    /**
+     * Callback for like button
+     * @private
+     */
+    private likeCallback;
 
     /**
      * Callback for track name
@@ -103,6 +115,48 @@ export class AudioPlayer extends BaseComponent {
             }
 
             addButton.parentElement?.click();
+        };
+
+        this.shareEvent = () => {
+            navigator.clipboard.writeText(`${window.location.origin}/track/${SongStore.trackInfo.id}`)
+                .then(() => {
+                    const notification = new Notification(
+                        document.querySelector('.notification__placement'),
+                        'Track link saved to clipboard!',
+                    );
+                    notification.appendElement();
+                })
+                .catch((error) => {
+                    const notification = new Notification(
+                        document.querySelector('.notification__placement'),
+                        'Track link haven\'t been saved to clipboard!',
+                        'notify',
+                        TypeOfNotification.failure,
+                    );
+                    notification.appendElement();
+                    console.error(`Error in copy to clipboard: ${error}`);
+                });
+        };
+
+        this.likeCallback = () => {
+            if (!checkAuth()) {
+                Router.goToLogin();
+                return;
+            }
+
+            const like: HTMLImageElement|null = document.querySelector('.playerLike');
+            if (!like) {
+                console.error('Cannot find player element');
+                return;
+            }
+            const track = SongStore.trackInfo;
+            if (track.isLiked) {
+                TrackActions.unlikeTrack(track.id);
+                like.src = imgPath.notLiked;
+            } else {
+                TrackActions.likeTrack(track.id);
+                like.src = imgPath.liked;
+            }
         };
 
         this.toggleButtonEvent = () => {
@@ -559,42 +613,11 @@ export class AudioPlayer extends BaseComponent {
             return;
         }
 
-        share.addEventListener('click', () => {
-            navigator.clipboard.writeText(`${window.location.origin}/track/${SongStore.trackInfo.id}`)
-                .then(() => {
-                    const notification = new Notification(
-                        document.querySelector('.notification__placement'),
-                        'Track link saved to clipboard!',
-                    );
-                    notification.appendElement();
-                })
-                .catch((error) => {
-                    const notification = new Notification(
-                        document.querySelector('.notification__placement'),
-                        'Track link haven\'t been saved to clipboard!',
-                        'notify',
-                        TypeOfNotification.failure,
-                    );
-                    notification.appendElement();
-                    console.error(`Error in copy to clipboard: ${error}`);
-                });
-        });
+        share.removeEventListener('click', this.shareEvent);
+        share.addEventListener('click', this.shareEvent);
 
-        like.addEventListener('click', () => {
-            if (!checkAuth()) {
-                Router.goToLogin();
-                return;
-            }
-
-            const track = SongStore.trackInfo;
-            if (track.isLiked) {
-                TrackActions.unlikeTrack(track.id);
-                like.src = imgPath.notLiked;
-            } else {
-                TrackActions.likeTrack(track.id);
-                like.src = imgPath.liked;
-            }
-        });
+        like.removeEventListener('click', this.likeCallback);
+        like.addEventListener('click', this.likeCallback);
 
         this.#elements.repeat.removeEventListener(METHOD.BUTTON, this.toggleButtonEvent);
         this.#elements.repeat.addEventListener(METHOD.BUTTON, this.toggleButtonEvent);
