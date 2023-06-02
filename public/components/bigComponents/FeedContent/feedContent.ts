@@ -55,6 +55,8 @@ export class FeedContent extends BaseComponent {
             );
             tape.appendElement();
         });
+
+        ContentStore.clearStateOnPage(pageNames.FEED);
     }
 
     /**
@@ -63,20 +65,29 @@ export class FeedContent extends BaseComponent {
     #addSubscribes() {
         ContentStore.subscribe(
             () => {
-                let feedElement: HTMLDivElement|null;
-                if (this.isCharts) {
-                    feedElement = this.parent.querySelector(`.${componentsNames.FEED_CONTENT}`);
-                } else {
-                    feedElement = this.parent.querySelector(`.${componentsJSNames.FEED_CONTENT}`);
+                const feedElement: HTMLDivElement|null = this.parent.querySelector(`.${componentsJSNames.FEED_CONTENT}`);
+
+                if (!feedElement) {
+                    return;
                 }
-                if (feedElement && feedElement.children.length) {
+
+                if (feedElement.children.length) {
                     return;
                 }
                 const state = ContentStore.state[pageNames.FEED];
                 this.#configs = [];
                 for (const key in state) {
+                    if (this.isCharts) {
+                        state[key].forEach((track, index, tracks) => {
+                            tracks[index].name = `${index + 1} ${track.name}`;
+                        });
+                    }
                     if (key === 'Tracks') {
-                        this.#configs.push(setupTape(key, key, shuffleArray(state[key])));
+                        if (!this.isCharts) {
+                            this.#configs.push(setupTape(key, key, shuffleArray(state[key])));
+                        } else {
+                            this.#configs.push(setupTape(key, key, state[key]));
+                        }
                     } else {
                         this.#configs.push(setupTape(key, key, state[key]));
                     }

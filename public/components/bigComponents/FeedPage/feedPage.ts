@@ -1,7 +1,6 @@
 import { componentsNames } from '@config/componentsNames';
 import ApiActions from '@actions/Api/ApiActions';
 import { BaseComponent } from '@components/BaseComponent';
-import { componentsJSNames } from '@config/componentsJSNames';
 import { FeedContent } from '@bigComponents/FeedContent/feedContent';
 import templateHtml from './feedPage.handlebars';
 import './feedPage.less';
@@ -25,7 +24,7 @@ export class FeedPage extends BaseComponent {
     #addSubscribes() {
         const selectElement: HTMLSelectElement|null = this.parent.querySelector('#chart-duration');
 
-        const contentBlock: HTMLElement| null = document.querySelector(`.${componentsNames.FEED_CONTENT}`);
+        const contentBlock: HTMLElement| null = document.querySelector('.feed-content__placement');
         if (!contentBlock || !selectElement) {
             console.error('No nothing element on search');
             return;
@@ -37,26 +36,26 @@ export class FeedPage extends BaseComponent {
         selectElement.addEventListener('change', (event) => {
             // @ts-ignore
             const selectedOption = event.target?.value;
-            let content: HTMLElement| null = document.querySelector(`.${componentsNames.FEED_CONTENT}`);
+            let content: HTMLElement| null = document.querySelector('.feed-content__placement');
             if (!content) {
                 return;
             }
             switch (selectedOption) {
             case 'week':
                 this.unrenderContent();
-                content = document.querySelector(`.${componentsNames.FEED_CONTENT}`);
+                content = document.querySelector('.feed-content__placement');
                 new FeedContent(content, {}, true).render();
                 ApiActions.feedCharts(7);
                 break;
             case 'month':
                 this.unrenderContent();
-                content = document.querySelector(`.${componentsNames.FEED_CONTENT}`);
+                content = document.querySelector('.feed-content__placement');
                 new FeedContent(content, {}, true).render();
                 ApiActions.feedCharts(31);
                 break;
             case 'year':
                 this.unrenderContent();
-                content = document.querySelector(`.${componentsNames.FEED_CONTENT}`);
+                content = document.querySelector('.feed-content__placement');
                 new FeedContent(content, {}, true).render();
                 ApiActions.feedCharts(365);
                 break;
@@ -70,13 +69,13 @@ export class FeedPage extends BaseComponent {
      * @private
      */
     private unrenderContent() {
-        const contentBlock: HTMLElement| null = document.querySelector(`.${componentsJSNames.FEED_CONTENT}`);
+        const contentBlock: HTMLElement| null = document.querySelector('.feed-content__placement');
         if (!contentBlock) {
             console.error('No nothing element on search');
             return;
         }
 
-        contentBlock.remove();
+        contentBlock.innerHTML = '';
     }
 
     /**
