@@ -79,7 +79,7 @@ export class FeedContent extends BaseComponent {
                 for (const key in state) {
                     if (this.isCharts) {
                         state[key].forEach((track, index, tracks) => {
-                            tracks[index].name = `${index + 1} ${track.name}`;
+                            tracks[index].name = `${index + 1}. ${track.name}`;
                         });
                     }
                     if (key === 'Tracks') {
