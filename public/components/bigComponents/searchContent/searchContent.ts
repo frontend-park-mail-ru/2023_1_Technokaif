@@ -315,6 +315,8 @@ export class SearchContent extends BaseComponent {
                 albumsPlacement.innerHTML = '';
                 artistsPlacement.innerHTML = '';
                 playlistsPlacement.innerHTML = '';
+
+                this.renderRecommendations();
             },
             EventTypes.EMPTY_SEARCH,
             this.name,
