@@ -4,23 +4,33 @@
 .select-element {
   cursor: pointer;
   outline: none;
-  border: 0 @opposed-main-color solid;
-  padding: 0 calc(calc(10 / 16) * 0.8rem);
+  border: 0;
+
   color: rgba(@main-color, 0.7);
-  background-color: @sub-color;
-  height: 2rem;
   transition-duration: 150ms;
   transition-property: border, outline;
   max-width: 100%;
-  width: 100%;
+  width: fit-content;
+  height: fit-content;
   .usualText();
+
+  background-color: @opposed-main-color;
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 
 .chart-option {
   cursor: pointer;
+  font-size: 1rem;
+}
+
+.chart-option:checked {
 }
 
 .charts-class {
+  margin-top: 0.83rem;
+  margin-bottom: 0.83rem;
+
   display: flex;
   justify-content: start;
   align-items: center;
@@ -29,4 +39,9 @@
 
 .charts-header {
   .smallTitleText();
+}
+
+.charts-text {
+  margin:0;
+  font-size: 1rem;
 }
