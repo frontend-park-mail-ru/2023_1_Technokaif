@@ -239,6 +239,16 @@ class PlayerActions {
             idOfSecondTrack,
         });
     }
+
+    /** Shuffle tracks
+     * @param status isOn shuffle or not
+     * */
+    shuffle(status) {
+        Dispatcher.dispatch({
+            type: ActionTypes.SHUFFLE,
+            status,
+        });
+    }
 }
 
 export default new PlayerActions();

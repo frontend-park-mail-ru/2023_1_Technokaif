@@ -11,6 +11,7 @@ export const imgPath = {
     defaultTrack: '/static/svg/default-track.svg',
     notActiveRepeat: '/static/svg/Player/arrows-rotate-solid_not_active.svg',
     activeRepeat: '/static/svg/Player/arrows-rotate-solid_active.svg',
+    shuffle: '/static/svg/Player/shuffle.svg',
 
     homeLogo: '/static/svg/VectorhomeLogo.svg',
     searchLogo: '/static/svg/VectorsearchLogo.svg',

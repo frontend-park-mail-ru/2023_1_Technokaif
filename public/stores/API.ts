@@ -166,6 +166,9 @@ class API extends IStore {
         case ActionTypes.GET_USER_PLAYLISTS:
             this.userPlaylistsRequest(action.userId);
             break;
+        case ActionTypes.GET_USER_PLAYLISTS_NO_TRACKS:
+            this.userPlaylistsWithoutTracksRequest(action.userId);
+            break;
         case ActionTypes.GET_PLAYLIST:
             this.playlistRequest(action.playlistId);
             break;
@@ -495,6 +498,18 @@ class API extends IStore {
             Promise.all(promises).then(() => {
                 ContentActions.addFavoriteContent(playlists, instancesNames.USER_PLAYLISTS_PAGE);
             });
+        });
+    }
+
+    /**
+     * Function to get user playlists by user id without tracks
+     */
+    private userPlaylistsWithoutTracksRequest(userId: string) {
+        userPlaylistsAjax(userId).then((playlists) => {
+            ContentActions.addFavoriteContentNoTracks(
+                playlists,
+                instancesNames.USER_PLAYLISTS_PAGE,
+            );
         });
     }
 

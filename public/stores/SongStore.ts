@@ -9,6 +9,7 @@ import {
 } from '@functions/FunctionsToWorkWithLocalStore';
 import { TrackApi, TracksApi } from '@api/ApiAnswers';
 import TrackActions from '@API/TrackActions';
+import { shuffle } from '@functions/shuffle';
 
 const COUNTER = 'Counter';
 
@@ -62,11 +63,17 @@ class SongStore extends IStore {
     /** Type of tape Store is using now */
     #storeType;
 
+    /** Flag is shuffle on */
+    private isShuffleOn;
+
     /** Quantity of time that user listen */
     private listenTime;
 
     /** Flag if listen was send */
     private isListenSend;
+
+    /** Tracks before shuttle */
+    private songsBeforeShuttle;
 
     /** Default value to delete all state */
     constructor() {
@@ -79,6 +86,8 @@ class SongStore extends IStore {
                 repeat: this.#isRepeat,
 
                 secondsPlayed: this.#audioTrack.currentTime,
+                isShuffleOn: this.isShuffleOn,
+                songsBeforeShuttle: this.songsBeforeShuttle,
             };
         });
 
@@ -97,6 +106,8 @@ class SongStore extends IStore {
         this.#position = -1;
         this.#songs = [];
         this.#storeType = null;
+        this.isShuffleOn = false;
+        this.songsBeforeShuttle = [];
 
         this.#audioTrack.addEventListener(
             'ended',
@@ -351,9 +362,42 @@ class SongStore extends IStore {
         case ActionTypes.SWAP_IN_QUEUE:
             this.swapTrack(action.idOfFirstTrack, action.idOfSecondTrack);
             break;
+        case ActionTypes.SHUFFLE:
+            this.shuffleChange(action.status);
+            break;
         default:
             super.dispatch(action);
             break;
+        }
+    }
+
+    /** Status of shuffle status */
+    get shuffleStatus() {
+        return this.isShuffleOn;
+    }
+
+    /** set shuffle */
+    private set shuffle(newShuffle) {
+        this.isShuffleOn = newShuffle;
+        this.jsEmit(EventTypes.CHANGE_SHUFFLE);
+    }
+
+    /** Shuffle tracks */
+    private shuffleChange(isOn) {
+        if (isOn) {
+            this.shuffle = isOn;
+            this.songsBefore = this.#songs;
+
+            // @ts-ignore
+            this.songs = shuffle(this.#position, this.#songs);
+            this.position = 0;
+        } else {
+            this.shuffle = isOn;
+            this.position = this
+                .songsBeforeShuttle
+                .findIndex((el) => el.id === this.#songs?.[this.#position]?.id);
+
+            this.songs = this.songsBeforeShuttle;
         }
     }
 
@@ -460,6 +504,8 @@ class SongStore extends IStore {
             this.#storeType = state.storeType;
             this.#setRepeat(state.repeat);
             this.#setTime(state.secondsPlayed);
+            this.shuffle = state.isShuffleOn ?? false;
+            this.songsBefore = state.songsBeforeShuttle;
         }
     }
 
@@ -494,6 +540,11 @@ class SongStore extends IStore {
             name: this.#songs[this.#position].name,
             cover: this.#songs[this.#position].cover,
         });
+    }
+
+    /** set new last songs */
+    private set songsBefore(newSongs) {
+        this.songsBeforeShuttle = newSongs;
     }
 
     /**

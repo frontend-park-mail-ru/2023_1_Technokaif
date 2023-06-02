@@ -7,6 +7,8 @@ import { setupTape } from '@setup/artistSetup';
 import { EventTypes } from '@config/EventTypes';
 import { Tape } from '@bigComponents/Tape/tape';
 import UserActions from '@API/UserActions';
+import Router from '@router/Router';
+import { AbsoluteSearchBlock } from '@smallComponents/absoluteSearchBlock/absoluteSearchBlock';
 
 /**
  * Class for favorite artists page
@@ -34,10 +36,11 @@ export class FavoriteArtists extends BaseComponent {
         }
 
         if (artists.length === 0) {
-            const textOfNothing = document.createElement('p');
-            textOfNothing.innerText = 'No liked artists';
-            textOfNothing.classList.add('library__nothing-text');
-            nothingPlacement.appendChild(textOfNothing);
+            new AbsoluteSearchBlock(
+                nothingPlacement,
+                'Artists',
+                () => { Router.go('/search'); },
+            ).appendElement();
             return;
         }
         nothingPlacement.innerHTML = '';

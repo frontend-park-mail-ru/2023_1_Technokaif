@@ -64,6 +64,15 @@ class ContentActions {
         });
     }
 
+    /** Function to send favorite data in ContentStore from API */
+    addFavoriteContentNoTracks(items, instance) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ADD_FAVORITE_CONTENT_NO_TRACKS,
+            items,
+            instance,
+        });
+    }
+
     /** Function to send data about playlists in ContentStore from API */
     addPlaylistContent(items, instance) {
         Dispatcher.dispatch({

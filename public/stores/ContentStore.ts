@@ -45,6 +45,9 @@ class ContentStore extends IStore {
         case ActionTypes.ADD_FAVORITE_CONTENT:
             this.addContentOnFavoritePages(action.items, action.instance);
             break;
+        case ActionTypes.ADD_FAVORITE_CONTENT_NO_TRACKS:
+            this.addContentOnFavoritePages(action.items, action.instance, true);
+            break;
         case ActionTypes.ADD_PLAYLIST_CONTENT:
             this.addContentOnPlaylistPage(action.items, action.instance);
             break;
@@ -163,10 +166,8 @@ class ContentStore extends IStore {
 
     /**
      * Add item(s) on favorite pages
-     * @param items
-     * @param instance
      */
-    private addContentOnFavoritePages(items, instance) {
+    private addContentOnFavoritePages(items, instance, isNoTrack?:boolean) {
         switch (instance) {
         case instancesNames.FAVORITE_TRACKS_PAGE:
             this.addContent(pageNames.LIBRARY_TRACKS, instance, items);
@@ -182,7 +183,11 @@ class ContentStore extends IStore {
             break;
         case instancesNames.USER_PLAYLISTS_PAGE:
             this.addContent(pageNames.LIBRARY_PLAYLISTS, instance, items);
-            this.jsEmit(EventTypes.GOT_USER_PLAYLISTS, instance);
+            if (isNoTrack) {
+                this.jsEmit(EventTypes.GOT_USER_PLAYLISTS_NO_TRACKS, instance);
+            } else {
+                this.jsEmit(EventTypes.GOT_USER_PLAYLISTS, instance);
+            }
             break;
         case instancesNames.FAVORITE_PLAYLISTS_PAGE:
             this.addContent(pageNames.LIBRARY_PLAYLISTS, instance, items);

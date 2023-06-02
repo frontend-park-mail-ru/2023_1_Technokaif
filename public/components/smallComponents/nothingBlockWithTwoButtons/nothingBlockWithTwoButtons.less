@@ -1,0 +1,88 @@
+@import '../../../static/css/constants';
+
+.search__two-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@media @mobileMax {
+  .search__two-block {
+    margin: 5px;
+  }
+}
+
+.search__two-block__nothing-text {
+  padding-top: 0.5em;
+  .bigTitle();
+
+  display: flex;
+  justify-content: center;
+}
+
+.search__two-block__agitation-text {
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.search__two-block__buttons-placement {
+  flex-direction: row;
+  display: flex;
+  width: 100%;
+  gap: 5px
+}
+
+.two-block__button-nothing {
+  background-color: @main-color;
+  color: @opposed-main-color;
+  border-radius: @radius;
+  .titleText();
+
+  cursor: pointer;
+  margin-top: 10px;
+  height: 40px;
+  width: 50%;
+
+  line-height: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+}
+
+
+
+.absolute__two-block {
+  position: absolute;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media @desktopMin {
+  .absolute__two-block {
+    height: calc(100vh - calc(@navbarSize + @playerSizeDesktop));
+    width: calc(100vw - @sidebarDesktop);
+    left: -60px;
+  }
+}
+
+@media @tabletSize {
+  .absolute__two-block {
+    height: calc(100vh - calc(@navbarSize + @bottomSizeForTablet));
+    width: 100vw;
+    left: -2.5%;
+  }
+}
+
+@media @mobileMax {
+  .absolute__two-block {
+    height: calc(100vh - calc(@navbarSize + @bottomSizeForMobile));
+    width: 100vw;
+    left: -2.5%;
+  }
+}

@@ -7,6 +7,8 @@ import { EventTypes } from '@config/EventTypes';
 import UserActions from '@API/UserActions';
 import { Tape } from '@bigComponents/Tape/tape';
 import ContentStore from '@store/ContentStore';
+import { AbsoluteSearchBlock } from '@smallComponents/absoluteSearchBlock/absoluteSearchBlock';
+import Router from '@router/Router';
 
 /**
  * Class for favorite albums page
@@ -34,10 +36,11 @@ export class FavoriteAlbums extends BaseComponent {
         }
 
         if (albums.length === 0) {
-            const textOfNothing = document.createElement('p');
-            textOfNothing.innerText = 'No liked albums';
-            textOfNothing.classList.add('library__nothing-text');
-            nothingPlacement.appendChild(textOfNothing);
+            new AbsoluteSearchBlock(
+                nothingPlacement,
+                'Albums',
+                () => { Router.go('/search'); },
+            ).appendElement();
             return;
         }
         nothingPlacement.innerHTML = '';

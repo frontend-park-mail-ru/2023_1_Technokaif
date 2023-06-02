@@ -1,5 +1,4 @@
 import { BaseComponent } from '@components/BaseComponent';
-import templateHtml from './favorite.handlebars';
 import './favorite.less';
 import { pageNames } from '@config/pageNames';
 import { BaseComponentInTape, setupTape } from '@setup/artistSetup';
@@ -7,6 +6,11 @@ import { EventTypes } from '@config/EventTypes';
 import UserActions from '@API/UserActions';
 import { Tape } from '@bigComponents/Tape/tape';
 import ContentStore from '@store/ContentStore';
+import { NothingBlockWithTwoButtons } from '@smallComponents/nothingBlockWithTwoButtons/nothingBlockWithTwoButtons';
+import Router from '@router/Router';
+import { componentsNames } from '@config/componentsNames';
+import PlaylistActions from '@API/PlaylistActions';
+import templateHtml from './favorite.handlebars';
 
 const playlistsTypes = {
     PERSONAL_PLAYLISTS: 'Your playlists',
@@ -17,6 +21,12 @@ const playlistsTypes = {
  * Class for favorite playlists page
  */
 export class LibraryPlaylists extends BaseComponent {
+    /** Store result for time */
+    private results;
+
+    /** Timer for result from server */
+    private timer;
+
     /**
      * Create Favorite playlists page. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place page
@@ -24,6 +34,70 @@ export class LibraryPlaylists extends BaseComponent {
      */
     constructor(parent, componentName) {
         super(parent, { category: componentName }, templateHtml, componentName);
+        this.results = [];
+    }
+
+    /** Set timeout before render tapes */
+    private renderTapeTimeout(playlists: BaseComponentInTape[], name: string) {
+        clearTimeout(this.timer);
+        const index = this.results.findIndex((el) => el.name === name);
+        if (index >= 0) {
+            this.results[index] = ({ playlists, name });
+        } else {
+            this.results.push({ playlists, name });
+        }
+
+        if (this.results.length === 2) {
+            this.renderTapes(this.results);
+            return;
+        }
+
+        this.timer = setTimeout(
+            () => this.renderTapes(this.results),
+            2000,
+        );
+    }
+
+    /** Render two tapes */
+    private renderTapes(results:{playlists:BaseComponentInTape[], name: string}[]) {
+        if (results[0]?.playlists.length === 0 && results[1]?.playlists.length === 0) {
+            const placement = document.querySelector('.nothing-two-placement');
+            if (placement) {
+                placement.innerHTML = '';
+            }
+
+            new NothingBlockWithTwoButtons(
+                document.querySelector('.nothing-two-placement'),
+                'Playlist',
+                () => { Router.go('/search'); },
+                () => {
+                    const id = localStorage.getItem('userId');
+                    if (!id) {
+                        console.error('Error in user id');
+                        return;
+                    }
+                    const element: HTMLElement|null = document.querySelector(`.${componentsNames.MENU_PLAYLISTS_LIST}`);
+                    if (!element) {
+                        console.error('Something bad in menu list elements or sidebar');
+                        return;
+                    }
+
+                    PlaylistActions.createPlaylist({
+                        description: '',
+                        name: `New playlist ${element.children.length + 1}`,
+                        users: [
+                            +id,
+                        ],
+                    });
+                },
+            ).appendElement();
+            return;
+        }
+
+        results.forEach((resultForTape) => {
+            this.renderTape(resultForTape.playlists, resultForTape.name);
+        });
+        this.results = [];
     }
 
     /**
@@ -93,10 +167,10 @@ export class LibraryPlaylists extends BaseComponent {
                     return;
                 }
                 const playlists = ContentStore.state[pageNames.LIBRARY_PLAYLISTS][instance];
-                this.renderTape(playlists, playlistsTypes.PERSONAL_PLAYLISTS);
+                this.renderTapeTimeout(playlists, playlistsTypes.PERSONAL_PLAYLISTS);
                 UserActions.userFavoritePlaylists(localStorage.getItem('userId'));
             },
-            EventTypes.GOT_USER_PLAYLISTS,
+            EventTypes.GOT_USER_PLAYLISTS_NO_TRACKS,
             this.name,
         );
 
@@ -107,7 +181,7 @@ export class LibraryPlaylists extends BaseComponent {
                     return;
                 }
                 const playlists = ContentStore.state[pageNames.LIBRARY_PLAYLISTS][instance];
-                this.renderTape(playlists, playlistsTypes.FAVORITE_PLAYLISTS);
+                this.renderTapeTimeout(playlists, playlistsTypes.FAVORITE_PLAYLISTS);
             },
             EventTypes.GOT_FAVORITE_PLAYLISTS,
             this.name,
@@ -127,8 +201,6 @@ export class LibraryPlaylists extends BaseComponent {
                 element.classList.remove('library-active');
             }
         });
-        // const elementForDivider = document.querySelector('.js__divider__placement');
-        // elementForDivider?.classList.add('divider');
     }
 
     /**
@@ -138,7 +210,7 @@ export class LibraryPlaylists extends BaseComponent {
         super.appendElement();
         this.subscribeForStores();
         this.actionsOnRender();
-        UserActions.userPlaylists(localStorage.getItem('userId'));
+        UserActions.userPlaylistsNoTracks(localStorage.getItem('userId'));
 
         document.title = 'Favourite Playlists';
     }

@@ -1,0 +1,56 @@
+@import '../../../static/css/constants';
+
+.search__block__agitation-text {
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.search__block__button-nothing {
+  background-color: @main-color;
+  color: @opposed-main-color;
+  border-radius: @radius;
+  .titleText();
+
+  cursor: pointer;
+  margin-top: 10px;
+  height: 40px;
+
+  line-height: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media @desktopMin {
+  .search__block__button-nothing {
+    width: 255px;
+  }
+}
+
+@media @tabletSize {
+  .search__block__button-nothing {
+    width: 316px;
+  }
+}
+
+@media @mobileMax {
+  .search__block__button-nothing {
+    width: 265px;
+  }
+}
+
+.search__block__nothing-text {
+  padding-top: 0.5em;
+  .bigTitle();
+
+  display: flex;
+  justify-content: center;
+}
+
+.search__block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
