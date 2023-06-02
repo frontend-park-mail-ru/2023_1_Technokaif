@@ -37,7 +37,7 @@ class FeedView extends BaseView {
             const componentName = component.name;
             const parent = ComponentsStore.checkWhereToPlace(componentName);
             switch (componentName) {
-            case componentsNames.FEED_CONTENT:
+            case componentsNames.FEED:
                 component.render(parent);
                 ComponentsActions.addElementOnPage(componentName);
                 break;

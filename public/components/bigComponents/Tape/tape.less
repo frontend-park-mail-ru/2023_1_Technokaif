@@ -8,7 +8,14 @@
     .smallText();
 }
 
+@media @desktopMin {
+    .tape__title {
+        width: 935px;
+    }
+}
+
 .tape__show-text, .tape__hide-placement {
+    text-decoration: underline;
     color: @shadow-color;
     cursor: pointer;
     .smallTitleText();
@@ -28,6 +35,13 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+}
+
+@media (min-width: 1220px) {
+    .component {
+        width: 175px;
+        flex-direction: column;
+    }
 }
 
 .tape__components {

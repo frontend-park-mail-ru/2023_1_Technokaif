@@ -9,7 +9,6 @@ import SongStore from '@store/SongStore';
 import Router from '@router/Router';
 import { BaseComponent } from '@components/BaseComponent';
 import { checkAuth } from '@functions/checkAuth';
-import { shuffleArray } from '@functions/shuffleArray';
 import { Cover } from '@smallComponents/Cover/cover';
 import template from './tape.handlebars';
 
@@ -427,7 +426,7 @@ export class Tape extends BaseComponent {
      * @private
      */
     private setItemsCount(count = 5) {
-        this.config.content = shuffleArray(this.allTracks)
+        this.config.content = this.allTracks
             .slice(0, count);
     }
 

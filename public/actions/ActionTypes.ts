@@ -5,6 +5,7 @@ const ActionTypes = {
     LOGOUT: 'LOGOUT',
     REGISTER: 'REGISTER',
     FEED: 'FEED',
+    FEED_CHARTS: 'FEED_CHARTS',
     PROFILE: 'PROFILE',
     ARTIST: 'ARTIST',
     ARTIST_ALBUMS: 'ARTIST_ALBUMS',

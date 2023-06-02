@@ -11,6 +11,14 @@ class ApiActions {
             type: ActionTypes.FEED,
         });
     }
+
+    /** Feed page */
+    feedCharts(days: number) {
+        Dispatcher.dispatch({
+            type: ActionTypes.FEED_CHARTS,
+            days,
+        });
+    }
 }
 
 export default new ApiActions();

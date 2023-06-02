@@ -84,6 +84,7 @@ class ComponentsStore extends IStore {
             return document.getElementById(`${componentsJSNames.BODY}`);
         case componentsNames.NAVBAR:
         case componentsNames.FEED_CONTENT:
+        case componentsNames.FEED:
         case componentsNames.USER:
         case componentsNames.ARTIST_CONTENT:
         case componentsNames.ALBUM:

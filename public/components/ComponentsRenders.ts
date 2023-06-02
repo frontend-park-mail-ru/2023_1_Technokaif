@@ -1,6 +1,5 @@
 import { checkAuth } from '@functions/checkAuth';
 import { authNavConfig, sidebarConfig, unAuthNavConfig } from '@config/config';
-import { FeedContent } from '@bigComponents/FeedContent/feedContent';
 import { componentsJSNames } from '@config/componentsJSNames';
 import { HeaderWithButton } from '@smallComponents/HeaderWithButton/headerWithButton';
 import { page404Setup } from '@setup/page404Setup';
@@ -24,6 +23,7 @@ import { PlayerWithDummy } from '@bigComponents/playerWithDummy/playerWithDummy'
 import { ID_REG } from '@config/id';
 import { Track } from '@bigComponents/Track/track';
 import { setupTrack } from '@setup/trackSetup';
+import { FeedPage } from '@bigComponents/FeedPage/feedPage';
 import Router from '../router/Router';
 import Menu from './bigComponents/Menu/Menu';
 import Navbar from './bigComponents/Navbar/Navbar';
@@ -68,7 +68,7 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- where to place Sidebar
      */
     renderFeedContent(parent) {
-        new FeedContent(parent, { mainPageWindowDiv: 'main-page-window' }).render();
+        new FeedPage(parent, {}).render();
     }
 
     /**
