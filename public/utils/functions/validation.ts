@@ -239,7 +239,7 @@ export function dateValidate(day, month, year) {
     console.log('Month', year);
     console.groupEnd();
 
-    const date = new Date(`${year}-${month}-${day}`);
+    const date = new Date(`${year}/${month}/${day}`);
     if (date.getDate() !== Number(day) || MONTHS[date.getMonth()] !== month) {
         return ERRORS.dayIncorrect;
     }
