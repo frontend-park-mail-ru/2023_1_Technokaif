@@ -491,7 +491,10 @@ class API extends IStore {
      */
     private userPlaylistsWithoutTracksRequest(userId: string) {
         userPlaylistsAjax(userId).then((playlists) => {
-            ContentActions.addFavoriteContentNoTracks(playlists, instancesNames.USER_PLAYLISTS_PAGE);
+            ContentActions.addFavoriteContentNoTracks(
+                playlists,
+                instancesNames.USER_PLAYLISTS_PAGE,
+            );
         });
     }
 

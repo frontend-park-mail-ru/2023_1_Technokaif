@@ -229,6 +229,20 @@ export class AudioPlayer extends BaseComponent {
             componentsNames.PLAYER,
         );
 
+        SongStore.subscribe(
+            () => {
+                if (SongStore.shuffleStatus) {
+                    this.#elements.shuffleOn.hidden = false;
+                    this.#elements.shuffleOff.hidden = true;
+                } else {
+                    this.#elements.shuffleOn.hidden = true;
+                    this.#elements.shuffleOff.hidden = false;
+                }
+            },
+            EventTypes.CHANGE_SHUFFLE,
+            componentsNames.PLAYER,
+        );
+
         API.subscribe(
             (message, id) => {
                 if (message === 'OK') {
@@ -360,17 +374,17 @@ export class AudioPlayer extends BaseComponent {
             },
         );
 
-        let id = 255;
-        elements.shuffle.addEventListener(
+        elements.shuffleOn.addEventListener(
             METHOD.BUTTON,
             () => {
-                new Notification(
-                    document.querySelector('.notification__placement'),
-                    'Shuffle was done!',
-                    String(id++),
-                    TypeOfNotification.success,
-                ).appendElement();
-                PlayerActions.shuffle();
+                PlayerActions.shuffle(!SongStore.shuffleStatus);
+            },
+        );
+
+        elements.shuffleOff.addEventListener(
+            METHOD.BUTTON,
+            () => {
+                PlayerActions.shuffle(!SongStore.shuffleStatus);
             },
         );
 
@@ -415,7 +429,8 @@ export class AudioPlayer extends BaseComponent {
         this.#elements.repeat = document.querySelector(`.${playerElementsJS.repeatButton}`);
         this.#elements.repeatImg = document.querySelector(`.${playerElementsJS.repeatImg}`);
 
-        this.#elements.shuffle = document.querySelector(`.${playerElementsJS.shuffle}`);
+        this.#elements.shuffleOn = document.querySelector(`.${playerElementsJS.shuffleOn}`);
+        this.#elements.shuffleOff = document.querySelector(`.${playerElementsJS.shuffleOff}`);
 
         this.#elements.updateTimer = playerConfig.FIRST_TIMER;
         this.#elements.volume_slider.value = 50;

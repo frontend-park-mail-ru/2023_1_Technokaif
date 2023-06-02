@@ -240,10 +240,13 @@ class PlayerActions {
         });
     }
 
-    /** Shuffle tracks */
-    shuffle() {
+    /** Shuffle tracks
+     * @param status isOn shuffle or not
+     * */
+    shuffle(status) {
         Dispatcher.dispatch({
             type: ActionTypes.SHUFFLE,
+            status,
         });
     }
 }

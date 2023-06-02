@@ -143,7 +143,8 @@ export const playerElementsJS = {
     currentTime: 'js__current-time',
     totalDuration: 'js__total-duration',
 
-    shuffle: 'js__shuffle__img',
+    shuffleOff: 'js__shuffle__img-off',
+    shuffleOn: 'js__shuffle__img-on',
 };
 
 export const ElementsClassForRegister = {
