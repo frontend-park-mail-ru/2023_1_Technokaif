@@ -102,7 +102,7 @@ export class LineList extends BaseComponent {
     private unrenderTrack(id: string) {
         const trackLines = document.querySelectorAll(`.${this.elementConfig.lineDiv}`) as NodeListOf<HTMLDivElement>;
         // @ts-ignore
-        const line = Array.from(trackLines).find((trackLine) => trackLine.dataset.id === id);
+        const line = Array.from(trackLines).find((trackLine) => trackLine.dataset?.id === id);
         if (!line) {
             return;
         }
@@ -122,7 +122,7 @@ export class LineList extends BaseComponent {
     private changeLikeState(id: string, state: boolean) {
         const trackLines = document.querySelectorAll(`.${this.elementConfig.lineDiv}`) as NodeListOf<HTMLDivElement>;
         // @ts-ignore
-        const line = Array.from(trackLines).find((trackLine) => trackLine.dataset.id === String(id));
+        const line = Array.from(trackLines).find((trackLine) => trackLine.dataset?.id === String(id));
         if (!line) {
             return;
         }
@@ -149,7 +149,7 @@ export class LineList extends BaseComponent {
      */
     #renderDropDownForOneLine(line: HTMLElement, index, another) {
         // @ts-ignore
-        const trackId = line.dataset.id;
+        const trackId = line.dataset?.id;
         const dropDown = new DropDown(
             another,
             dropDownTrackSetup(`${index}_sub`),
@@ -379,7 +379,7 @@ export class LineList extends BaseComponent {
                     return;
                 }
                 // @ts-ignore
-                const trackId = line.dataset.id;
+                const trackId = line.dataset?.id;
                 if (!trackId) {
                     console.error('Cannot get dataset variable');
                     return;
@@ -464,7 +464,9 @@ export class LineList extends BaseComponent {
                     }
                 } else if (event.target === album) {
                     const { albumid } = line.dataset;
-                    Router.go(routingUrl.ALBUM_PAGE(albumid));
+                    if (albumid) {
+                        Router.go(routingUrl.ALBUM_PAGE(albumid));
+                    }
                 } else if (event.target === artist) {
                     const index = Array.from(spansInArtists as NodeListOf<HTMLSpanElement>).indexOf(artist);
                     if (index !== -1) {
@@ -556,7 +558,7 @@ export class LineList extends BaseComponent {
                     const trackIds = Array.from(playlistLines).map((line) => line.dataset?.id);
 
                     // @ts-ignore
-                    const trackId = lines[index].dataset?.id;
+                    const trackId = lines[index].dataset.id;
                     if (trackId && !trackIds.includes(trackId)) {
                         PlaylistActions.addTrackInPlaylist(playlistId, trackId);
                         if (!SongStore.storeType && SongStore.storeType === TypesOfStore.playlist) {

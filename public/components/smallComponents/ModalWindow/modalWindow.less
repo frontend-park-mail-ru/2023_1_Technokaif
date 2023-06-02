@@ -11,7 +11,7 @@
   align-items: center;
   z-index: 10000;
 
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: @opposed-main-color;
 }
 
 .modal {
@@ -26,7 +26,7 @@
   gap: 20px;
 
   background-color: black;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 10px @full-black-color;
 }
 
 .playlist-title {
@@ -62,7 +62,7 @@
 }
 
 .playlist-name-input {
-  background: hsla(0,0%,100%,.1);
+  background: @notification-inside;
   //border: 1px solid transparent;
   border-radius: 4px;
   color: @main-color;
@@ -77,12 +77,12 @@
 }
 
 .playlist-name {
-  background: hsla(0,0%,100%,.1);
+  background: @notification-inside;
   border-radius: @small-radius;
 }
 
 .playlist-description-input {
-  background: hsla(0,0%,100%,.1);
+  background: @notification-inside;
   //border: 1px solid transparent;
   border-radius: 4px;
   color: @main-color;
@@ -100,7 +100,7 @@
 }
 
 .playlist-description {
-  background: hsla(0,0%,100%,.1);
+  background: @notification-inside;
   border-radius: @small-radius;
 }
 
@@ -112,7 +112,7 @@
 
 .modal-playlist-button {
   background-color: @main-color;
-  color: @opposed-main-color;
+  color: @full-black-color;
   font-size: 15px;
   font-weight: 700;
   border-radius: 100px;
