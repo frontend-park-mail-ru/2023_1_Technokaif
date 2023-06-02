@@ -298,7 +298,7 @@ export class AudioPlayer extends BaseComponent {
         if (dropdownElement) {
             dropdownElement.remove();
         } else {
-            const buttonDelete = document.querySelector('.placement-trigger');
+            const buttonDelete = document.querySelector('.normal-player-trigger');
             buttonDelete?.parentElement?.removeChild(buttonDelete);
         }
 
