@@ -294,6 +294,7 @@ export class ArtistContent extends BaseComponent {
                     imgLike.src = artist.isLiked ? imgPath.liked : imgPath.notLiked;
                     break;
                 case 'tracks':
+                    tracks.sort((a, b) => a.listens > b.listens);
                     this.lineConfigs.push(setupLineList(tracks.slice(0, 5)));
                     this.#renderLines();
                     if (checkAuth()) {
