@@ -233,6 +233,12 @@ export function dateValidate(day, month, year) {
         return null;
     }
 
+    console.group('Validate date bigger');
+    console.log('Day', day);
+    console.log('Month', month);
+    console.log('Month', year);
+    console.groupEnd();
+
     const date = new Date(`${year}-${month}-${day}`);
     if (date.getDate() !== Number(day) || MONTHS[date.getMonth()] !== month) {
         return ERRORS.dayIncorrect;

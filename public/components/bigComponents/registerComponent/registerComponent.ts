@@ -222,6 +222,12 @@ export class RegisterComponent extends BaseComponent {
     /** Add reactions to user actions */
     #addEventListeners() {
         const reactionOnInputElement = (nameOfReaction, element) => {
+            console.group('Reaction');
+            console.log('nameOfReaction', nameOfReaction);
+            console.log('element value', element?.value);
+            console.log('element', element);
+            console.groupEnd();
+
             ValidationActions.validationField(nameOfReaction, (element as HTMLInputElement).value);
         };
 

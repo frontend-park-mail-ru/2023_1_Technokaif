@@ -87,6 +87,7 @@ class UserInfoStore extends IStore {
             this.getPasswordError(value);
             break;
         case 'day':
+            console.log('Validation day in day', value);
             super.changeFieldInState('day', value);
             this.getDayError();
             this.checkForBiggerValue();
@@ -177,6 +178,7 @@ class UserInfoStore extends IStore {
     /** Check if picked date greater than current */
     private checkForBiggerValue() {
         const dateErr = dateValidate(this.state.day, this.state.month, this.state.year);
+        console.log('Day validate bigger', dateErr);
         this.emitResponse('date', dateErr);
     }
 
@@ -252,6 +254,7 @@ class UserInfoStore extends IStore {
                 this.changeFieldInState('day', `0${day}`);
             }
         }
+        console.log('Status in day error', status);
 
         if (status !== EMPTY_ERROR || loginType) {
             this.emitResponse('day', status);
