@@ -54,7 +54,7 @@ export class Tape extends BaseComponent {
         this.#name = name;
 
         this.showButtonCallback = (event) => {
-            const showButton = event.target.parentNode;
+            const showButton = event.target.closest('.tape__show-text');
             const tape = this.#parent.querySelector(`.tape__${this.#name}`);
             if (!tape) {
                 console.error('Tape doesn\'t exist:', this.#name);
@@ -76,7 +76,7 @@ export class Tape extends BaseComponent {
         };
 
         this.hideButtonCallback = (event) => {
-            const hideButton = event.target.parentNode;
+            const hideButton = event.target.closest('.tape__hide-placement');
             const tape = this.#parent.querySelector(`.tape__${this.#name}`);
             if (!tape) {
                 console.error('Tape doesn\'t exist:', this.#name);
