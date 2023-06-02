@@ -1,5 +1,6 @@
 import ActionTypes from '@actions/ActionTypes';
 import Dispatcher from '@dispatcher/Dispatcher';
+import { PlaylistContent } from '@api/playlists/createPlaylistAjaxRequest';
 
 /** Work with content of pages */
 class ContentActions {
@@ -17,6 +18,14 @@ class ContentActions {
             type: ActionTypes.ARTIST_GOT_ALL_CONTENT,
             item,
             instance,
+        });
+    }
+
+    /** Action to add items got from artist api in ContentStore */
+    addTrackContent(item) {
+        Dispatcher.dispatch({
+            type: ActionTypes.GOT_TRACK,
+            item,
         });
     }
 
@@ -55,12 +64,29 @@ class ContentActions {
         });
     }
 
+    /** Function to send favorite data in ContentStore from API */
+    addFavoriteContentNoTracks(items, instance) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ADD_FAVORITE_CONTENT_NO_TRACKS,
+            items,
+            instance,
+        });
+    }
+
     /** Function to send data about playlists in ContentStore from API */
     addPlaylistContent(items, instance) {
         Dispatcher.dispatch({
             type: ActionTypes.ADD_PLAYLIST_CONTENT,
             items,
             instance,
+        });
+    }
+
+    /** Function to update data about playlists in ContentStore from API */
+    updatePlaylistContent(items: PlaylistContent) {
+        Dispatcher.dispatch({
+            type: ActionTypes.UPDATE_PLAYLIST_CONTENT,
+            items,
         });
     }
 

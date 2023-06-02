@@ -10,7 +10,6 @@ import {
     setupLineList,
     setupTape, TapeSetup,
 } from '@setup/artistSetup';
-import { shuffleArray } from '@functions/shuffleArray';
 import { LikedSongs } from '@smallComponents/LikedSongs/likedSongs';
 import { checkAuth } from '@functions/checkAuth';
 import { imgPath } from '@config/pathConfig';
@@ -27,6 +26,8 @@ import Actions from '@actions/Actions';
 import SongStore from '@store/SongStore';
 import templateHtml from './artistContent.handlebars';
 import './artistContent.less';
+import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
+import Router from '@router/Router';
 
 /**
  * Create Artist content
@@ -91,12 +92,20 @@ export class ArtistContent extends BaseComponent {
         }
 
         this.tapeConfigs.forEach((configForInsertElement) => {
-            const tape = new Tape(
-                tapesPlacement,
-                configForInsertElement,
-                configForInsertElement.titleText,
-            );
-            tape.appendElement();
+            if (!configForInsertElement.content.length) {
+                const nothingPlacement = document.querySelector('.js__placement-nothing');
+                const textOfNothing = document.createElement('p');
+                textOfNothing.innerText = 'No albums';
+                textOfNothing.classList.add('library__nothing-text');
+                nothingPlacement?.appendChild(textOfNothing);
+            } else {
+                const tape = new Tape(
+                    tapesPlacement,
+                    configForInsertElement,
+                    configForInsertElement.titleText,
+                );
+                tape.appendElement();
+            }
         });
     }
 
@@ -152,6 +161,11 @@ export class ArtistContent extends BaseComponent {
         }
 
         imgLike.addEventListener('click', () => {
+            if (!checkAuth()) {
+                Router.goToLogin();
+                return;
+            }
+
             const { artist } = ContentStore.state[pageNames.ARTIST_PAGE];
             if (artist.isLiked) {
                 imgLike.src = imgPath.notLiked;
@@ -176,6 +190,11 @@ export class ArtistContent extends BaseComponent {
                 }
 
                 buttons.addEventListener('click', () => {
+                    if (!checkAuth()) {
+                        Router.goToLogin();
+                        return;
+                    }
+
                     if (!playButton.hidden) {
                         const isThisArtist = SongStore
                             .trackInfo
@@ -201,6 +220,34 @@ export class ArtistContent extends BaseComponent {
 
                     this.activatedButton = true;
                 });
+
+                const share: HTMLImageElement|null = document.querySelector('.shareButton');
+                if (!share) {
+                    console.error('Button share are not exist');
+                    return;
+                }
+
+                share.addEventListener('click', () => {
+                    navigator.clipboard.writeText(window.location.href)
+                        .then(() => {
+                            const notification = new Notification(
+                                document.querySelector('.notification__placement'),
+                                'Artist link saved to clipboard!',
+                            );
+                            notification.appendElement();
+                        })
+                        .catch((error) => {
+                            const notification = new Notification(
+                                document.querySelector('.notification__placement'),
+                                'Artist link haven\'t been saved to clipboard!',
+                                'notify',
+                                TypeOfNotification.failure,
+                            );
+                            notification.appendElement();
+                            console.error(`Error in copy to clipboard: ${error}`);
+                        });
+                });
+
                 if (id !== undefined) {
                     ArtistActions.artist(id);
                     ArtistActions.artistTracks(id);
@@ -247,16 +294,16 @@ export class ArtistContent extends BaseComponent {
                     imgLike.src = artist.isLiked ? imgPath.liked : imgPath.notLiked;
                     break;
                 case 'tracks':
+                    tracks.sort((a, b) => a.listens > b.listens);
                     this.lineConfigs.push(setupLineList(tracks.slice(0, 5)));
                     this.#renderLines();
-
                     if (checkAuth()) {
                         UserActions.favoriteTracks(localStorage.getItem('userId'));
                     }
 
                     break;
                 case 'albums':
-                    this.tapeConfigs.push(setupTape('Albums', 'Albums', shuffleArray(albums).slice(0, 5)));
+                    this.tapeConfigs.push(setupTape('Albums', 'Albums', albums.slice(0, 5)));
                     this.#renderTapes();
                     break;
                 default:
@@ -268,7 +315,9 @@ export class ArtistContent extends BaseComponent {
 
         API.subscribe(
             () => {
-                UserActions.favoriteTracks(localStorage.getItem('userId'));
+                if (checkAuth()) {
+                    UserActions.favoriteTracks(localStorage.getItem('userId'));
+                }
             },
             EventTypes.LIKED_TRACK,
             this.name,
@@ -276,7 +325,9 @@ export class ArtistContent extends BaseComponent {
 
         API.subscribe(
             () => {
-                UserActions.favoriteTracks(localStorage.getItem('userId'));
+                if (checkAuth()) {
+                    UserActions.favoriteTracks(localStorage.getItem('userId'));
+                }
             },
             EventTypes.UNLIKED_TRACK,
             this.name,

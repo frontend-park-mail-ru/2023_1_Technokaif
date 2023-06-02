@@ -3,6 +3,16 @@ import ActionTypes from '@actions/ActionTypes';
 
 /** Tracks Actions */
 class ApiTrackActions {
+    /** Get track
+     * @param id
+     */
+    getTrack(id: string) {
+        Dispatcher.dispatch({
+            type: ActionTypes.GET_TRACK,
+            id,
+        });
+    }
+
     /** Like track */
     likeTrack(id) {
         Dispatcher.dispatch({
@@ -15,6 +25,14 @@ class ApiTrackActions {
     unlikeTrack(id) {
         Dispatcher.dispatch({
             type: ActionTypes.UNLIKE_TRACK,
+            id,
+        });
+    }
+
+    /** Listened track */
+    trackListen(id) {
+        Dispatcher.dispatch({
+            type: ActionTypes.LISTEN_TRACK,
             id,
         });
     }

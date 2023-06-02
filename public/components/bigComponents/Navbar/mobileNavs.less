@@ -15,7 +15,8 @@
 
 .burger-logo {
   margin: 5px 0;
-  margin-left: 20px;
+  margin-left: 2.5%;
+  margin-right: 15px;
   border: none;
 
   @media (min-width: @desktop) {
@@ -45,18 +46,18 @@
 
 .burgerSidebar {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  align-items: start;
   justify-content: center;
-  height: 250px;
+  height: 20%;
   width: 0;
   position: fixed;
-  z-index: 106;
+  z-index: 11000;
   top: 0;
   right: 0;
   overflow-x: hidden;
   transition: 0.5s;
-  gap: 30px;
+  gap: 10px;
   background-color: @opposed-main-color;
 
   @media (min-width: @desktop) {
@@ -84,7 +85,7 @@
 
 .burgerSidebar .closebtn {
   position: absolute;
-  top: 23px;
+  top: 5px;
   right: 26px;
   font-size: 36px;
 
@@ -99,7 +100,8 @@
 
 // бургерное меню
 .menu-burger {
-  margin-right: 20px;
+  padding-right: 20px;
+  margin-left: 15px;
   height: 16px;
   width: 37px;
   position: relative;
@@ -136,4 +138,8 @@
 .menu-burger__header::before {
   top: 10px;
   left: 0;
+}
+
+.header__img {
+  .collosalTitle();
 }

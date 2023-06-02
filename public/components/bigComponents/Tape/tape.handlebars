@@ -3,11 +3,19 @@
         <div class="{{titleOfTrackClass}}">
             <h2>{{title}}</h2>
         </div>
+
+        <div class="{{fullListClass}}">
+            <p>{{fullListText}}</p>
+        </div>
+
     </div>
 
     <div class="{{contentDivClass}}">
         {{#each content}}
             {{> ../../smallComponents/Cover/cover.handlebars item = this root = ../. }}
         {{/each}}
+    </div>
+    <div class="{{hideClass}} hidden-class">
+        <p>{{hideText}}</p>
     </div>
 </div>

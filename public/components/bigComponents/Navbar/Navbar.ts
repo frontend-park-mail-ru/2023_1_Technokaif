@@ -12,13 +12,14 @@ import {
 import { dropDownAvatarSetup, navbarAvatarSetup } from '@setup/avatarInNavbar';
 import UserActions from '@API/UserActions';
 import Router from '@router/Router';
-import templateHtml from './navbar.handlebars';
 import API from '@store/API';
 import ComponentsStore from '@store/ComponentsStore';
 import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
 import UserInfoStore from '@store/UserInfoStore';
-import './mobileNavs.less';
 import ComponentsActions from '@Actions/ComponentsActions';
+import { runAfterFramePaint } from '@functions/renderAfterPaintDone';
+import templateHtml from './navbar.handlebars';
+import './mobileNavs.less';
 
 /**
  * Class for Navbar element: Login, Registration, Logout and user info.
@@ -94,6 +95,22 @@ class Navbar {
             componentsNames.NAVBAR,
         );
 
+        API.subscribe(
+            (message) => {
+                if (message !== 'OK') {
+                    console.error('bad respond from server during login');
+                } else {
+                    this.#reRender();
+                    const element: HTMLDivElement = document.querySelector(
+                        `.${componentsNames.PLAYER}`,
+                    ) as HTMLDivElement;
+                    element.hidden = false;
+                }
+            },
+            EventTypes.LOGIN_STATUS,
+            componentsNames.NAVBAR,
+        );
+
         UserInfoStore.subscribe(
             () => {
                 if (checkAuth()) {
@@ -151,7 +168,7 @@ class Navbar {
                 }
                 if (section === 'logout') {
                     if (window.location.pathname === routingUrl.PROFILE) {
-                        Router.go(routingUrl.ROOT);
+                        Router.goToFeed();
                     }
 
                     UserActions.logout();
@@ -205,7 +222,7 @@ class Navbar {
             return;
         }
         logo.addEventListener('click', () => {
-            Router.go(routingUrl.ROOT);
+            Router.goToFeed();
         });
     }
 
@@ -252,16 +269,27 @@ class Navbar {
             DIRECTIONS_DROPDOWN.DOWN,
         );
         this.#dropDown.render();
+        const { options } = this.#dropDown;
+        runAfterFramePaint(() => {
+            const computedStyleOfPlacement = window.getComputedStyle(placement);
+            const computedOptions = window.getComputedStyle(options);
+            const shiftToCenter = parseInt(computedStyleOfPlacement.width, 10)
+                - parseInt(computedOptions.width, 10);
+
+            options.style.transform = `translateX(${shiftToCenter / 2}px`;
+        });
 
         const bt1 = document.createElement('a');
         bt1.textContent = 'Profile';
         bt1.setAttribute('data-section', 'profile');
         bt1.classList.add('dropdown-element');
+        bt1.classList.add('dropdown-navbar-element');
 
         const bt2 = document.createElement('a');
         bt2.textContent = 'Logout';
         bt2.setAttribute('data-section', 'logout');
         bt2.classList.add('dropdown-element');
+        bt2.classList.add('dropdown-navbar-element');
 
         this.#dropDown.addOptionsElement(bt1);
         this.#dropDown.addOptionsElement(bt2);

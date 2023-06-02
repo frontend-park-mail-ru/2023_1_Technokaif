@@ -9,6 +9,15 @@ import ComponentsStore from '@store/ComponentsStore';
 import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
 import API from '@store/API';
 import ComponentsActions from '@Actions/ComponentsActions';
+import UserActions from '@API/UserActions';
+import ContentStore from '@store/ContentStore';
+import { instancesNames } from '@config/instances';
+import { pageNames } from '@config/pageNames';
+import {
+    ListWithCoversAndNames,
+} from '@smallComponents/listWithCoversAndNames/listWithCoversAndNames';
+import { setupMenuPlaylists } from '@setup/navbarMenuSetup';
+import { Playlist } from '@setup/playlistSetup';
 import templateHtml from './menu.handlebars';
 
 /**
@@ -50,15 +59,16 @@ class Menu {
     /**
      * add event listener to component. On 'click' redirect to section on dataset
      */
-    callEventListener() {
+    private addEventListeners() {
         const logo = document.querySelector('.sidebar__logo');
         if (!logo) {
             console.error('Menu element error');
             return;
         }
         logo.addEventListener('click', () => {
-            Router.go(routingUrl.ROOT);
+            Router.goToFeed();
         });
+
         ComponentsStore.subscribe(
             (list) => {
                 const component = list.find((comp) => comp.name === componentsNames.SIDEBAR);
@@ -71,42 +81,151 @@ class Menu {
             EventTypes.ON_REMOVE_ANOTHER_ITEMS,
             componentsNames.SIDEBAR,
         );
+
         API.subscribe(
             (playlistId) => {
+                if (checkAuth()) {
+                    UserActions.userPlaylists(localStorage.getItem('userId'));
+                }
                 Router.go(routingUrl.PLAYLIST_PAGE(playlistId));
             },
             EventTypes.CREATED_PLAYLIST,
             componentsNames.SIDEBAR,
         );
+
+        API.subscribe(
+            () => {
+                if (checkAuth()) {
+                    UserActions.userPlaylists(localStorage.getItem('userId'));
+                }
+            },
+            EventTypes.DELETED_PLAYLIST,
+            componentsNames.SIDEBAR,
+        );
+
+        ContentStore.subscribe(
+            (instance) => {
+                const playlists = ContentStore.state[pageNames.LIBRARY_PLAYLISTS][instance];
+
+                switch (instance) {
+                case instancesNames.USER_PLAYLISTS_PAGE:
+                    this.unRenderPlaylists();
+                    this.renderPlaylists(playlists);
+                    break;
+                default:
+                    break;
+                }
+            },
+            EventTypes.GOT_USER_PLAYLISTS,
+            componentsNames.SIDEBAR,
+        );
+
+        API.subscribe(
+            (message) => {
+                if (message !== 'OK') {
+                    console.error('bad response from server during login');
+                } else {
+                    UserActions.userPlaylists(localStorage.getItem('userId'));
+                }
+            },
+            EventTypes.LOGIN_STATUS,
+            componentsNames.SIDEBAR,
+        );
+
         this.#parent.addEventListener('click', (e) => {
             e.preventDefault();
-            if (e.target instanceof HTMLAnchorElement) {
-                const { section } = e.target.dataset;
-                if (this.#config[section] !== undefined) {
-                    if (section === 'createPlaylist' && checkAuth()) {
-                        const id = localStorage.getItem('userId');
-                        if (!id) {
-                            console.error('Error in user id');
-                            return;
-                        }
-                        PlaylistActions.createPlaylist({
-                            description: '',
-                            name: 'New playlist',
-                            users: [
-                                +id,
-                            ],
-                        });
 
+            const sidebarItem: HTMLElement|null = e.target.closest(`.${componentsNames.SIDEBAR_ITEM}`);
+            if (!sidebarItem) {
+                return;
+            }
+            const sidebarLink: HTMLAnchorElement|null = sidebarItem.querySelector(`.${componentsNames.SIDEBAR_LINK}`);
+            if (!sidebarItem?.contains(e.target) || !sidebarLink) {
+                return;
+            }
+
+            if (!sidebarLink || !sidebarItem) {
+                return;
+            }
+
+            const { section } = sidebarLink.dataset;
+            if (!section) {
+                console.error('Dont have an id data on menu link');
+                return;
+            }
+            if (this.#config[section] !== undefined) {
+                if (section === 'createPlaylist' && checkAuth()) {
+                    const id = localStorage.getItem('userId');
+                    if (!id) {
+                        console.error('Error in user id');
                         return;
                     }
-                    if ((section === 'library' || section === 'createPlaylist' || section === 'likedSongs') && !checkAuth()) {
-                        Router.go(routingUrl.LOGIN);
-                    } else {
-                        Router.go(this.#config[section].href);
+                    const element: HTMLElement|null = document.querySelector(`.${componentsNames.MENU_PLAYLISTS_LIST}`);
+                    if (!element) {
+                        console.error('Something bad in menu list elements or sidebar');
+                        return;
                     }
+
+                    PlaylistActions.createPlaylist({
+                        description: '',
+                        name: `New playlist ${element.children.length + 1}`,
+                        users: [
+                            +id,
+                        ],
+                    });
+
+                    return;
+                }
+                if ((section === 'library' || section === 'createPlaylist' || section === 'likedSongs') && !checkAuth()) {
+                    Router.goToLogin();
+                } else {
+                    Router.go(this.#config[section].href);
                 }
             }
         });
+    }
+
+    /**
+     * Function to render playlists list in navbar for auth user
+     * @private
+     */
+    private renderPlaylists(playlists: Array<Playlist>) {
+        const placement: HTMLElement|null = document.querySelector(`.${componentsNames.SIDEBAR}`);
+        if (!placement) {
+            console.error('Cannot get element placement for listWithCover');
+            return;
+        }
+
+        new ListWithCoversAndNames(
+            placement,
+            setupMenuPlaylists(playlists),
+            componentsNames.MENU_PLAYLISTS_LIST,
+        ).appendElement();
+
+        const menuElement: HTMLDivElement|null = placement.querySelector('.menu-playlists');
+        if (!menuElement) {
+            console.error('Cannot get menu element for listWithCover');
+            return;
+        }
+
+        if (!playlists.length) {
+            menuElement.classList.add('empty-playlist-menu');
+        }
+    }
+
+    /**
+     * Unrender list of playlists
+     * @private
+     */
+    private unRenderPlaylists() {
+        const parent: HTMLElement|null = document.querySelector(`.${componentsNames.SIDEBAR}`);
+        const element: HTMLElement|null = document.querySelector(`.${componentsNames.MENU_PLAYLISTS_LIST}`);
+        if (!element || !parent) {
+            console.error('Something bad in menu list elements or sidebar');
+            return;
+        }
+
+        parent?.removeChild(element);
     }
 
     /**
@@ -120,8 +239,11 @@ class Menu {
         const template = templateHtml;
         const templateInnerHtml = template(items);
         this.#parent.innerHTML += templateInnerHtml;
+        if (checkAuth()) {
+            UserActions.userPlaylists(localStorage.getItem('userId'));
+        }
 
-        this.callEventListener();
+        this.addEventListeners();
     }
 
     /**

@@ -46,6 +46,13 @@ import IStore from '@store/IStore';
 import ContentActions from '@Actions/ContentActions';
 import Actions from '@actions/Actions';
 import APISongs from '@store/APISongs';
+import { getValueFromLocalStorage } from '@functions/FunctionsToWorkWithLocalStore';
+import { RESPONSES } from '@config/config';
+import { TracksApi } from '@api/ApiAnswers';
+import { listenTrackAjaxRequest } from '@api/tracks/listenTrackAjaxRequest';
+import { feedChartTracksAjax } from '@api/tracks/feedChartsTracks';
+import { feedChartArtistsAjax } from '@api/artists/feedChartsArtists';
+import { feedChartAlbumsAjax } from '@api/albums/feedChartsAlbums';
 
 /**
  * Class using for getting data from backend.
@@ -56,6 +63,20 @@ class API extends IStore {
      */
     constructor() {
         super('api');
+
+        window.addEventListener('storage', (event:StorageEvent) => {
+            if (event.key === 'isAuth') {
+                const auth = getValueFromLocalStorage('isAuth');
+
+                if (auth) {
+                    this.jsEmit(EventTypes.LOGIN_STATUS, RESPONSES.OK);
+                } else {
+                    this.jsEmit(EventTypes.LOGOUT_STATUS, RESPONSES.OK);
+                    Actions.clearStore('userInfo');
+                    Actions.clearStore('SONG_STORE');
+                }
+            }
+        });
     }
 
     /**
@@ -76,6 +97,9 @@ class API extends IStore {
         case ActionTypes.FEED:
             this.#feedRequest();
             break;
+        case ActionTypes.FEED_CHARTS:
+            this.feedChartsRequest(action.days);
+            break;
         case ActionTypes.PROFILE:
             this.#profileRequest(action.id);
             break;
@@ -84,6 +108,9 @@ class API extends IStore {
             break;
         case ActionTypes.ARTIST_TRACKS:
             this.#artistTracksRequest(action.id);
+            break;
+        case ActionTypes.GET_TRACK:
+            this.trackRequest(action.id);
             break;
         case ActionTypes.LIKE_TRACK:
             this.#likeTrackRequest(action.id);
@@ -139,6 +166,9 @@ class API extends IStore {
         case ActionTypes.GET_USER_PLAYLISTS:
             this.userPlaylistsRequest(action.userId);
             break;
+        case ActionTypes.GET_USER_PLAYLISTS_NO_TRACKS:
+            this.userPlaylistsWithoutTracksRequest(action.userId);
+            break;
         case ActionTypes.GET_PLAYLIST:
             this.playlistRequest(action.playlistId);
             break;
@@ -175,11 +205,22 @@ class API extends IStore {
             this.searchForTracksWithName(action.searchString);
             this.searchForPlaylistWithName(action.searchString);
             break;
+        case ActionTypes.SEARCH_FOR_TRACKS:
+            this.searchForTracksWithName(action.searchString);
+            break;
         case ActionTypes.PLAY_ARTIST:
             APISongs.dispatch(action);
             break;
+        case ActionTypes.LISTEN_TRACK:
+            this.listenTrack(action.id);
+            break;
         default:
         }
+    }
+
+    /** Track with id was listen */
+    private listenTrack(id) {
+        listenTrackAjaxRequest(id);
     }
 
     /**
@@ -226,6 +267,15 @@ class API extends IStore {
     }
 
     /**
+     * Function to get feed page data from server.
+     */
+    private feedChartsRequest(days: number) {
+        feedChartTracksAjax({ days }).then((tracks) => ContentActions.feedAddContent({ Tracks: tracks }));
+        feedChartArtistsAjax({ days }).then((artists) => ContentActions.feedAddContent({ Artists: artists }));
+        feedChartAlbumsAjax({ days }).then((albums) => ContentActions.feedAddContent({ Albums: albums }));
+    }
+
+    /**
      * Function to get profile page data from server.
      */
     #profileRequest(id: string) {
@@ -249,6 +299,16 @@ class API extends IStore {
     #artistTracksRequest(id: string) {
         artistTracksAjax(id).then((tracks) => {
             ContentActions.artistAddContent(tracks, 'tracks');
+        });
+    }
+
+    /**
+     * Function to get one track by id
+     * @param id
+     */
+    private trackRequest(id: string) {
+        trackOneAjax(id).then((track) => {
+            ContentActions.addTrackContent(track);
         });
     }
 
@@ -309,6 +369,7 @@ class API extends IStore {
         userUpdateAvatarAjax(id, avatar).then((message) => this.jsEmit(
             EventTypes.UPDATE_DATA_WITH_AVATAR_RECEIVED,
             message,
+            avatar.get('avatar'),
         ));
     }
 
@@ -349,7 +410,7 @@ class API extends IStore {
      */
     private likeArtistRequest(id: string) {
         likeArtist(id).then((message) => {
-            this.jsEmit(EventTypes.LIKED_TRACK, message);
+            this.jsEmit(EventTypes.LIKED_ARTIST, message);
         });
     }
 
@@ -441,6 +502,18 @@ class API extends IStore {
     }
 
     /**
+     * Function to get user playlists by user id without tracks
+     */
+    private userPlaylistsWithoutTracksRequest(userId: string) {
+        userPlaylistsAjax(userId).then((playlists) => {
+            ContentActions.addFavoriteContentNoTracks(
+                playlists,
+                instancesNames.USER_PLAYLISTS_PAGE,
+            );
+        });
+    }
+
+    /**
      * Function to get playlist by playlist id
      * @param playlistId
      */
@@ -467,7 +540,8 @@ class API extends IStore {
      */
     private updatePlaylist(playlistId: string, playlistData: PlaylistContent) {
         updatePlaylistAjaxRequest(playlistId, playlistData).then((message) => {
-            this.jsEmit(EventTypes.UPDATED_PLAYLIST, message);
+            ContentActions.updatePlaylistContent(playlistData);
+            this.jsEmit(EventTypes.UPDATED_PLAYLIST, message, playlistData, playlistId);
         });
     }
 
@@ -488,7 +562,7 @@ class API extends IStore {
      */
     private uploadPlaylistCover(playlistId: string, cover: FormData) {
         uploadPlaylistCover(playlistId, cover).then((message) => {
-            this.jsEmit(EventTypes.UPLOADED_PLAYLIST_COVER, message);
+            this.jsEmit(EventTypes.UPLOADED_PLAYLIST_COVER, message, cover.get('cover'), playlistId);
         });
     }
 
@@ -498,7 +572,21 @@ class API extends IStore {
      */
     private playlistTracksRequest(playlistId: string) {
         getPlaylistTracks(playlistId).then((tracks) => {
-            ContentActions.addPlaylistContent(tracks, instancesNames.PLAYLIST_TRACKS_PAGE);
+            const promises: Promise<string>[] = [] as Promise<string>[];
+            if (tracks) {
+                (tracks as Array<TrackInTape>).forEach((element) => {
+                    const albumId = element.albumID;
+                    if (albumId) {
+                        promises.push(this.#getAlbumName(albumId).then((albumMessage) => {
+                            element.albumName = albumMessage;
+                            return albumMessage;
+                        }));
+                    }
+                });
+                Promise.allSettled(promises).then(() => {
+                    ContentActions.addPlaylistContent(tracks, instancesNames.PLAYLIST_TRACKS_PAGE);
+                });
+            }
         });
     }
 
@@ -509,7 +597,7 @@ class API extends IStore {
      */
     private addTrackInPlaylistRequest(playlistId: string, trackId: string) {
         addTrackAjaxRequest(playlistId, trackId).then((message) => {
-            this.jsEmit(EventTypes.ADDED_TRACK_IN_PLAYLIST, message);
+            this.jsEmit(EventTypes.ADDED_TRACK_IN_PLAYLIST, message, playlistId);
         });
     }
 
@@ -547,8 +635,25 @@ class API extends IStore {
     /** Search for track with value */
     private searchForTracksWithName(value) {
         search(apiUrl.TRACK_SEARCH_API, value).then((tracks) => {
-            ActionsSearch.gotTracks(tracks);
-        }).catch(() => {});
+            const promises: Promise<string>[] = [] as Promise<string>[];
+            if (tracks.tracks.length) {
+                (tracks.tracks as Array<TrackInTape>).forEach((element) => {
+                    const albumId = element.albumID;
+                    if (albumId) {
+                        promises.push(this.#getAlbumName(albumId).then((albumMessage) => {
+                            element.albumName = albumMessage;
+                            return albumMessage;
+                        }));
+                    }
+                });
+                Promise.allSettled(promises).then(() => {
+                    ActionsSearch.gotTracks(tracks);
+                });
+            } else {
+                const TracksApiEmpty:TracksApi = { tracks: [] };
+                ActionsSearch.gotTracks(TracksApiEmpty);
+            }
+        });
     }
 
     /** Search for playlist with name */

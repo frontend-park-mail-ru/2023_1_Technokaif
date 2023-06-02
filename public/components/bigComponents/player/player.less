@@ -14,54 +14,107 @@
   gap:5px;
 
   @media(max-width: @desktop) {
-    bottom: 81px;
+    bottom: 66px;
+  }
+}
+
+.playerLike, .playerShare, .playerAdd {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+}
+
+.shareButton {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+@media @mobileMax {
+  .playerShare, .playerAdd {
+    display: none;
+  }
+}
+
+@media @mobileMax {
+  .player-buttons__repeat, .player-buttons__shuffle {
+    display: none;
   }
 }
 
 .details {
   display: flex;
+  align-items: center;
   width: 100%;
   margin-left: 20px;
 }
 
+@media @mobileMax {
+  .details {
+    margin:0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+}
 
 .details__group-track-info {
   flex-direction: column;
   display: flex;
   width: fit-content;
 }
-
-.player__main-container {
-
+@media @mobileMax {
+    .details__group-track-info {
+      overflow: hidden;
+    }
 }
 
 .details__img-div {
-  width: 50px;
-  margin-right: 5px;
+  width: 40px;
+  height: 40px;
+
+  margin-right: 10px;
 }
 
 .details__img {
   width: 100%;
-  height: 30px;
-  object-fit: contain;
-  border-radius: @small-radius;
+  height: 100%;
+  object-fit: cover;
 }
 
 .track-name {
-  font-size: @font-input-element;
+  cursor: pointer;
+  .smallText();
   font-weight: @chars-weight;
   color: @main-color;
 }
 
+@media @mobileMax {
+  .track-name {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+  }
+}
+
 .track-artist {
-  font-size: @artist-name-font;
+  cursor: pointer;
+  .smallText();
   font-weight: @chars-weight;
   color: @shadow-color;
+}
+
+@media @mobileMax, @tabletSize {
+  .track-artist {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 
 .player-slider_container {
   display: flex;
   position: relative;
+  gap: 5px;
 }
 
 .player__main-container{
@@ -80,11 +133,15 @@
 
 .color_this {
   cursor: pointer;
-  height: 20px;
-  width: 20px;
+  height: 22px;
+  width: 22px;
 }
 
 .player-slider__current-time {
+  font-weight: 500;
+  font-size: 13px;
+  top: 2px;
+
   z-index: 6;
   color: rgba(@opposed-main-color);
   pointer-events: none;
@@ -92,12 +149,29 @@
   left: 2vw;
 }
 
-.player-slider__total-duration{
+@media @mobileMax, @tabletSize {
+  .player-slider__current-time {
+    display: none;
+    top: -2vw;
+  }
+}
+
+.player-slider__total-duration {
+  font-weight: 500;
+  font-size: 13px;
+  top: 2px;
+
   z-index: 6;
   color: rgba(@opposed-main-color);
   pointer-events: none;
   position: absolute;
   right: 2vw;
+}
+
+@media @mobileMax, @tabletSize {
+  .player-slider__total-duration {
+    display: none;
+  }
 }
 
 .player-slider__seek-slider {
@@ -120,10 +194,12 @@
   width: 60%;
 }
 
+@sizeOfTrackLine: 15px;
+
 input[type="range"]::-webkit-slider-thumb {
   width: 1px;
   -webkit-appearance: none;
-  height: 15px;
+  height: @sizeOfTrackLine;
   cursor: ew-resize;
   box-shadow: -100vw 0 0 100vw @complementary-color-theme, inset 0 0 0 15px;
   transition: box-shadow 0.2s ease-in-out;
@@ -132,12 +208,12 @@ input[type="range"]::-webkit-slider-thumb {
 
 input[type="range"]::-webkit-slider-runnable-track {
   background: rgba(@main-color, 0.75);
-  height: 15px;
+  height: @sizeOfTrackLine;
 }
 
 input[type="range"] {
   overflow: hidden;
-  height: 15px;
+  height: @sizeOfTrackLine;
   -webkit-appearance: none;
   outline: 0;
   border: 0;
@@ -147,6 +223,10 @@ input[type="range"] {
   appearance: none;
   background: transparent;
   cursor: pointer;
+}
+
+.disable-player-slider {
+  cursor: default;
 }
 
 .player-slider__position {
@@ -178,16 +258,45 @@ input[type="range"] {
   padding-left: 15px;
   padding-right: 15px;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
+@media @mobileMax {
+  .player__under-slider {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
 
 .player__sound-block {
 }
 
-
+@media @mobileMax {
+  .player__sound-block {
+    display:none;
+  }
+}
 
 .player__control{
   display: flex;
   gap:15px;
   align-items: center;
+}
+
+@media @mobileMax {
+  .player__control {
+    width: 100%;
+    gap: 10px;
+  }
+}
+
+.disabled__player-control {
+  cursor: default;
+  pointer-events: none;
+}
+
+
+.player-buttons__shuffle {
+
 }

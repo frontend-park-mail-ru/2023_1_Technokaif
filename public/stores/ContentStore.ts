@@ -3,6 +3,7 @@ import IStore from '@store/IStore';
 import { EventTypes } from '@config/EventTypes';
 import { pageNames } from '@config/pageNames';
 import { instancesNames } from '@config/instances';
+import { PlaylistContent } from '@api/playlists/createPlaylistAjaxRequest';
 
 /**
  * Stores Content of pages like artists, tracks.
@@ -44,8 +45,14 @@ class ContentStore extends IStore {
         case ActionTypes.ADD_FAVORITE_CONTENT:
             this.addContentOnFavoritePages(action.items, action.instance);
             break;
+        case ActionTypes.ADD_FAVORITE_CONTENT_NO_TRACKS:
+            this.addContentOnFavoritePages(action.items, action.instance, true);
+            break;
         case ActionTypes.ADD_PLAYLIST_CONTENT:
             this.addContentOnPlaylistPage(action.items, action.instance);
+            break;
+        case ActionTypes.UPDATE_PLAYLIST_CONTENT:
+            this.updatePlaylistData(action.items);
             break;
         case ActionTypes.FEED_GOT_CONTENT:
             this.addContentOnFeed(action.items);
@@ -75,6 +82,9 @@ class ContentStore extends IStore {
         case ActionTypes.EMPTY_SEARCH:
             this.jsEmit(EventTypes.EMPTY_SEARCH);
             break;
+        case ActionTypes.GOT_TRACK:
+            this.addTrack(action.item);
+            break;
         default:
         }
     }
@@ -103,6 +113,9 @@ class ContentStore extends IStore {
             break;
         case instancesNames.PLAYLIST_PAGE:
             this.addContent(pageNames.PLAYLIST, 'id', id);
+            break;
+        case instancesNames.TRACK_PAGE:
+            this.addContent(pageNames.TRACK, 'id', id);
             break;
         default:
         }
@@ -153,10 +166,8 @@ class ContentStore extends IStore {
 
     /**
      * Add item(s) on favorite pages
-     * @param items
-     * @param instance
      */
-    private addContentOnFavoritePages(items, instance) {
+    private addContentOnFavoritePages(items, instance, isNoTrack?:boolean) {
         switch (instance) {
         case instancesNames.FAVORITE_TRACKS_PAGE:
             this.addContent(pageNames.LIBRARY_TRACKS, instance, items);
@@ -172,7 +183,11 @@ class ContentStore extends IStore {
             break;
         case instancesNames.USER_PLAYLISTS_PAGE:
             this.addContent(pageNames.LIBRARY_PLAYLISTS, instance, items);
-            this.jsEmit(EventTypes.GOT_USER_PLAYLISTS, instance);
+            if (isNoTrack) {
+                this.jsEmit(EventTypes.GOT_USER_PLAYLISTS_NO_TRACKS, instance);
+            } else {
+                this.jsEmit(EventTypes.GOT_USER_PLAYLISTS, instance);
+            }
             break;
         case instancesNames.FAVORITE_PLAYLISTS_PAGE:
             this.addContent(pageNames.LIBRARY_PLAYLISTS, instance, items);
@@ -203,6 +218,18 @@ class ContentStore extends IStore {
             break;
         default:
         }
+    }
+
+    /**
+     * Update playlist info
+     * @param items
+     * @private
+     */
+    private updatePlaylistData(items: PlaylistContent) {
+        const { playlist } = this.state[pageNames.PLAYLIST];
+        playlist.name = items.name;
+        playlist.description = items.description;
+        this.addContent(pageNames.PLAYLIST, instancesNames.PLAYLIST_PAGE, playlist);
     }
 
     /**
@@ -246,6 +273,12 @@ class ContentStore extends IStore {
     private addPlaylistsToSearchPage(items) {
         this.addContent(pageNames.SEARCH, 'playlists', items);
         this.jsEmit(EventTypes.SEARCH_PLAYLIST_ADDED, 'playlists');
+    }
+
+    /** Track content */
+    private addTrack(item) {
+        this.addContent(pageNames.TRACK, 'track', item);
+        this.jsEmit(EventTypes.GOT_TRACK, 'track');
     }
 }
 

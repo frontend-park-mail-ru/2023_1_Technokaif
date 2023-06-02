@@ -23,26 +23,26 @@
 
     <div class="component-options">
         <div class="{{root.titleTextDiv}}">
-            <p>{{item.name}}</p>
+            <p class="text__cover">{{item.name}}</p>
         </div>
         {{#if item.artists}}
             <div class="{{root.artistsDiv}}">
                 {{#each item.artists}}
-                    <p>{{this.name}} </p>
+                    <p class="text__cover">{{this.name}} </p>
                 {{/each}}
             </div>
         {{/if}}
-        {{#if item.description}}
-            <div class="{{root.descriptionDiv}}">
-                <p>{{item.description}}</p>
-            </div>
-        {{/if}}
+<!--        {{#if item.description}}-->
+<!--            <div class="{{root.descriptionDiv}}">-->
+<!--                <p class="text__cover">{{item.description}}</p>-->
+<!--            </div>-->
+<!--        {{/if}}-->
 
         {{#if root.footerElements}}
             <div class="{{root.footerMainDiv}}">
                 {{#each root.footerElements}}
                     <div class="{{root.footerElementDiv}}">
-                        <p>{{this.name}}</p>
+                        <p class="text__cover">{{this.name}}</p>
                     </div>
                 {{/each}}
             </div>

@@ -55,22 +55,22 @@ export function setupAlbum(): ISetupAlbumConfg {
         imgClass: 'album__img',
 
         headerDiv: 'album__descriptions',
-        headerImgClass: '',
+        headerImgClass: 'header__img__sing-page',
         headerDescriptions: 'descriptions',
 
         headerNameDiv: '',
         headerNameClass: 'headerNameClass',
         headerName: 'Album',
         headerNameOfElementDiv: '',
-        headerNameOfElementClass: 'headerNameOfElementClass',
+        headerNameOfElementClass: 'headerNameOfElementClass not__clickable',
         headerNameOfElement: '',
-        byClass: 'author',
+        byClass: 'author not__clickable',
         headerDescription: 'author__place',
         ArtistDiv: 'by__div',
         ArtistClass: 'ArtistClass js__author',
         ArtistName: '',
         DescriptionsDiv: '',
-        DescriptionsClass: 'js__description-album',
+        DescriptionsClass: 'js__description-album not__clickable',
         Descriptions: '',
         ButtonsDiv: 'album__buttons',
         bottomDiv: 'bottomDiv',
@@ -98,9 +98,9 @@ export function setupAlbum(): ISetupAlbumConfg {
  * Setup line of track
  * @returns {{json}}
  */
-export function setupLineList(items) {
+export function setupLineList(items, subStringInEnd = '') {
     return {
-        lineListClass: 'line-list',
+        lineListClass: `line-list${subStringInEnd}`,
         title: 'popular-tracks-title',
         titleText: 'Popular tracks',
 
@@ -143,6 +143,9 @@ export function setupLineList(items) {
         isPlaylistPage: false,
         isArtistShow: true,
         isAlbumShow: false,
+        isListensShow: true,
+        lineListensClass: 'track-line__listens',
+        isOptionsShow: true,
 
         durationClass: 'track-line__duration',
         anotherClass: 'track-line__another',

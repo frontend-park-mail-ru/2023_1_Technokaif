@@ -102,6 +102,13 @@ class IStore extends EventEmitter {
     }
 
     /**
+     * Method to clear page state
+     */
+    clearStateOnPage(pageName: string) {
+        this.state[pageName] = { };
+    }
+
+    /**
      * Hooks a component's callback to the event and save to events.
      * @param callback
      * @param {string} eventName

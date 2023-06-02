@@ -1,7 +1,6 @@
 import { Tape } from '@bigComponents/Tape/tape';
-import templateHtml from './feedContent.handlebars';
-
 import './feedContent.less';
+
 import { pageNames } from '@config/pageNames';
 import { EventTypes } from '@config/EventTypes';
 import { componentsNames } from '@config/componentsNames';
@@ -11,6 +10,7 @@ import { componentsJSNames } from '@config/componentsJSNames';
 import ApiActions from '@actions/Api/ApiActions';
 import { BaseComponent } from '@components/BaseComponent';
 import ContentStore from '@store/ContentStore';
+import templateHtml from './feedContent.handlebars';
 
 /**
  * Create FeedContent content with tapes
@@ -21,13 +21,18 @@ export class FeedContent extends BaseComponent {
      */
     #configs;
 
+    /** Flag of charts page element */
+    private isCharts: boolean;
+
     /**
      * Create MainWindowContent component. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place MainWindowContent
      * @param config
+     * @param isCharts
      */
-    constructor(parent, config) {
+    constructor(parent, config, isCharts = false) {
         super(parent, config, templateHtml, componentsNames.FEED_CONTENT);
+        this.isCharts = isCharts;
         this.#configs = [];
     }
 
@@ -50,6 +55,8 @@ export class FeedContent extends BaseComponent {
             );
             tape.appendElement();
         });
+
+        ContentStore.clearStateOnPage(pageNames.FEED);
     }
 
     /**
@@ -58,9 +65,32 @@ export class FeedContent extends BaseComponent {
     #addSubscribes() {
         ContentStore.subscribe(
             () => {
+                const feedElement: HTMLDivElement|null = this.parent.querySelector(`.${componentsJSNames.FEED_CONTENT}`);
+
+                if (!feedElement) {
+                    return;
+                }
+
+                if (feedElement.children.length) {
+                    return;
+                }
                 const state = ContentStore.state[pageNames.FEED];
+                this.#configs = [];
                 for (const key in state) {
-                    this.#configs.push(setupTape(key, key, shuffleArray(state[key]).slice(0, 5)));
+                    if (this.isCharts) {
+                        state[key].forEach((track, index, tracks) => {
+                            tracks[index].name = `${index + 1} ${track.name}`;
+                        });
+                    }
+                    if (key === 'Tracks') {
+                        if (!this.isCharts) {
+                            this.#configs.push(setupTape(key, key, shuffleArray(state[key])));
+                        } else {
+                            this.#configs.push(setupTape(key, key, state[key]));
+                        }
+                    } else {
+                        this.#configs.push(setupTape(key, key, state[key]));
+                    }
                 }
 
                 this.#renderTapes();
@@ -76,7 +106,8 @@ export class FeedContent extends BaseComponent {
     override render() {
         super.appendElement();
         this.#addSubscribes();
-        ApiActions.feed();
-        document.title = 'Fluire';
+        if (!this.isCharts) {
+            ApiActions.feed();
+        }
     }
 }

@@ -1,5 +1,5 @@
 import { BaseComponent } from '@components/BaseComponent';
-import templateHtml from './cover.handlebars';
+import templateHtml from './adecvateCover.handlebars';
 
 /**
  * Create element with image and text below. Inside text: title, description, footer

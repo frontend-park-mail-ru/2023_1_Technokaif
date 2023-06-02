@@ -1,18 +1,22 @@
+@import '../../../static/css/constants.less';
 
 .artist-cover {
   display: flex;
   width: 100%;
-  height: 300px;
+  height: calc(300px + @navbarSize);
   background-size: contain;
 }
 
 .artist-title {
   display: flex;
   flex: 1;
-  align-content: flex-end;
-  justify-content: flex-end;
+  justify-content: center;
   padding: 30px;
   flex-direction: column;
+  z-index: 1;
+
+  overflow: hidden;
+  position: relative;
 }
 
 .artist-title img {
@@ -23,10 +27,18 @@
 .artist-title__verify {
   display: flex;
   gap: 10px;
+  .titleText();
+  font-weight: 500;
+}
+
+@media @mobileMax, @tabletSize {
+  .artist-title__verify {
+    .smallText();
+  }
 }
 
 .artist-title__name {
-  margin: 10px 0 20px 0 ;
+  margin: 10px 0 10px 0 ;
   font-style: normal;
   font-weight: 700;
   font-size: 50px;
@@ -34,11 +46,80 @@
   color: #FFFFFF;
 }
 
+@media @mobileMax {
+  .artist-title__name {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    .bigTitle();
+  }
+
+  .artist-title {
+    box-sizing: border-box;
+    max-width: 100%;
+    width: 100%;
+    overflow: hidden;
+
+    padding: 0.7rem 0.7rem 0.7rem 10px;
+  }
+}
+
 .artist-title__listens {
   font-style: normal;
-  font-weight: 700;
-  font-size: 14px;
   line-height: 17px;
+  .titleText();
+  font-weight: 500;
 
   color: #FFFFFF;
+}
+
+@media @mobileMax {
+  .artist-title__listens {
+    .smallText();
+  }
+}
+
+.header__avatar-container {
+  height: 300px;
+  max-width: min(40%, 500px);
+}
+
+.header__avatar-img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+@blurInArtist: 14px;
+
+.background__img {
+  filter: blur(@blurInArtist) brightness(0.5);
+  object-fit: cover;
+}
+
+#background-img-cover {
+  width: 100%;
+  height: 100%;
+}
+
+.background__img-container {
+  z-index: -1;
+  width: calc(100% + calc(2 * @blurInArtist));
+  height: calc(100% + calc(2 * @blurInArtist));
+
+  margin-top: -@blurInArtist;
+  margin-left: -@blurInArtist;
+
+  top: 0;
+  left: 0;
+
+  position: absolute;
+}
+
+.cover__text-artist {
+  // todo create good blur background
 }

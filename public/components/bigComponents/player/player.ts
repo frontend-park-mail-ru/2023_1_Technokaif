@@ -11,15 +11,26 @@ import SongStore from '@store/SongStore';
 import ComponentsStore from '@store/ComponentsStore';
 import { BaseComponent } from '@components/BaseComponent';
 
-import template from './player.handlebars';
+import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
+import TrackActions from '@API/TrackActions';
+import API from '@store/API';
+
+import UserActions from '@API/UserActions';
+import { DIRECTIONS_DROPDOWN, DropDown } from '@smallComponents/dropDown/dropDown';
+import { dropDownTrackSetup } from '@setup/playlistSetup';
+import PlaylistActions from '@API/PlaylistActions';
+import ContentStore from '@store/ContentStore';
+import { pageNames } from '@config/pageNames';
+
 import './player.less';
+import Router from '@router/Router';
+import { checkAuth } from '@functions/checkAuth';
+import { routingUrl } from '@config/routingUrls';
+import { instancesNames } from '@config/instances';
+import template from './player.handlebars';
 
 /** Class for Audio player view and its creation */
 export class AudioPlayer extends BaseComponent {
-    /** Flag to check if track exist in player */
-    // @ts-ignore
-    private isExist: boolean;
-
     /** Flag to set repeat of current track */
     #isRepeat: boolean;
 
@@ -35,6 +46,28 @@ export class AudioPlayer extends BaseComponent {
     /** Function to space */
     #functionSpace;
 
+    private playlists;
+
+    private isRendered: boolean;
+
+    /**
+     * Callback for add button
+     * @private
+     */
+    private addButtonEvent;
+
+    /**
+     * Callback for toggle button
+     * @private
+     */
+    private toggleButtonEvent;
+
+    /**
+     * Callback for track name
+     * @private
+     */
+    private trackNameListener;
+
     /** Default all fields to empty except parent */
     constructor(parent) {
         super(parent, [], template, componentsNames.PLAYER);
@@ -44,7 +77,69 @@ export class AudioPlayer extends BaseComponent {
         this.#isPlaying = false;
         this.#isRepeat = false;
 
-        this.isExist = false;
+        this.playlists = [];
+        this.isRendered = false;
+        this.addButtonEvent = () => {
+            const addButton: HTMLImageElement|null = document.querySelector('.playerAdd');
+            if (!addButton) {
+                return;
+            }
+
+            const playlistsContainer: HTMLUListElement|null|undefined = addButton?.parentElement?.querySelector('.item-list');
+            if (!playlistsContainer) {
+                return;
+            }
+
+            if (!playlistsContainer.children.length) {
+                const notification = new Notification(
+                    document.querySelector('.notification__placement'),
+                    'Cannot add track in playlist. No playlists without this track found.',
+                    'Track_add_bad',
+                    TypeOfNotification.failure,
+                );
+
+                notification.appendElement();
+                playlistsContainer.parentElement?.classList.add('empty-playlist-menu');
+            }
+
+            addButton.parentElement?.click();
+        };
+
+        this.toggleButtonEvent = () => {
+            this.#toggleRepeat();
+        };
+
+        this.trackNameListener = () => {
+            Router.go(routingUrl.ALBUM_PAGE(SongStore.trackInfo.albumID));
+        };
+    }
+
+    /**
+     * Function to check like state
+     * @private
+     */
+    private checkLikeState(like: HTMLImageElement|null, id: string) {
+        if (!like) {
+            return;
+        }
+
+        const track = SongStore.trackInfo;
+        if (track && track.id === Number(id)) {
+            if (track.isLiked) {
+                like.src = imgPath.liked;
+            } else {
+                like.src = imgPath.notLiked;
+            }
+        }
+    }
+
+    /** Remove all disabled from player */
+    private removeDisabled() {
+        const disabledElements = document.querySelectorAll('.disabled__player-control');
+        if (!disabledElements) return;
+        disabledElements.forEach((el) => {
+            el.classList.remove('disabled__player-control');
+        });
     }
 
     /** Subscribe Stores */
@@ -81,8 +176,8 @@ export class AudioPlayer extends BaseComponent {
                     (element) => element.name === componentsNames.PLAYER,
                 )) {
                     ComponentsActions.playerDelete();
-                    // @ts-ignore
-                    delete this;
+                    // todo was removed
+                    // delete this;
                 }
             },
             EventTypes.ON_REMOVE_ANOTHER_ITEMS,
@@ -133,6 +228,90 @@ export class AudioPlayer extends BaseComponent {
             EventTypes.GET_DATA_AFTER_RESTART,
             componentsNames.PLAYER,
         );
+
+        SongStore.subscribe(
+            () => {
+                if (SongStore.shuffleStatus) {
+                    this.#elements.shuffleOn.hidden = false;
+                    this.#elements.shuffleOff.hidden = true;
+                } else {
+                    this.#elements.shuffleOn.hidden = true;
+                    this.#elements.shuffleOff.hidden = false;
+                }
+            },
+            EventTypes.CHANGE_SHUFFLE,
+            componentsNames.PLAYER,
+        );
+
+        API.subscribe(
+            (message, id) => {
+                if (message === 'OK') {
+                    SongStore.setTrackIsLiked(true, id);
+                    const like: HTMLImageElement|null = document.querySelector('.playerLike');
+                    this.checkLikeState(like, id);
+                }
+            },
+            EventTypes.LIKED_TRACK,
+            this.name,
+        );
+
+        API.subscribe(
+            (message, id) => {
+                if (message === 'OK') {
+                    SongStore.setTrackIsLiked(false, id);
+                    const like: HTMLImageElement|null = document.querySelector('.playerLike');
+                    this.checkLikeState(like, id);
+                }
+            },
+            EventTypes.UNLIKED_TRACK,
+            this.name,
+        );
+
+        ContentStore.subscribe((instance) => {
+            this.playlists = ContentStore.state[pageNames.LIBRARY_PLAYLISTS][instance];
+            if (this.isRendered) {
+                this.unRenderDropdown();
+                this.isRendered = false;
+            }
+            this.renderDropDown();
+            this.isRendered = true;
+        }, EventTypes.GOT_USER_PLAYLISTS, this.name);
+    }
+
+    /** Unrender dropdown from player */
+    private unRenderDropdown() {
+        const buttonsPlayerElement: HTMLDivElement|null = document.querySelector('.player__control');
+        const addButton: HTMLImageElement|null = document.querySelector('.playerAdd');
+        const dropdownElements: NodeListOf<HTMLDivElement>|null = document.querySelectorAll('.dropdown-title');
+
+        let dropdownElement;
+        if (dropdownElements) {
+            dropdownElement = Array.from(dropdownElements)
+                .find((dropDownElement) => Array.from(dropDownElement?.classList)
+                    .includes('normal-player-trigger'));
+        }
+        if (!buttonsPlayerElement || !addButton || !dropdownElements) {
+            return;
+        }
+
+        buttonsPlayerElement.appendChild(addButton);
+        if (dropdownElement) {
+            dropdownElement.remove();
+        } else {
+            const buttonDelete = document.querySelector('.normal-player-trigger');
+            buttonDelete?.parentElement?.removeChild(buttonDelete);
+        }
+
+        addButton.innerHTML = '';
+        const classToKeep = 'playerAdd';
+        const classes = addButton.classList;
+
+        for (let i = classes.length - 1; i >= 0; i--) {
+            const classText = classes[i];
+            if (classText && classText !== classToKeep) {
+                addButton.classList.remove(classText);
+            }
+        }
     }
 
     /** Change player state */
@@ -195,6 +374,20 @@ export class AudioPlayer extends BaseComponent {
             },
         );
 
+        elements.shuffleOn.addEventListener(
+            METHOD.BUTTON,
+            () => {
+                PlayerActions.shuffle(!SongStore.shuffleStatus);
+            },
+        );
+
+        elements.shuffleOff.addEventListener(
+            METHOD.BUTTON,
+            () => {
+                PlayerActions.shuffle(!SongStore.shuffleStatus);
+            },
+        );
+
         this.#elements.volume_icon.addEventListener(METHOD.BUTTON, () => {
             if (this.#elements.volume_slider.value > 0) {
                 this.#elements.volume_slider.value = 0;
@@ -202,10 +395,6 @@ export class AudioPlayer extends BaseComponent {
                 this.#elements.volume_slider.value = SongStore.prevVolume;
             }
             this.#elements.volume_slider.dispatchEvent(new Event('input'));
-        });
-
-        elements.repeat.addEventListener(METHOD.BUTTON, () => {
-            this.#toggleRepeat();
         });
 
         this.#functionSpace = (event) => {
@@ -229,8 +418,8 @@ export class AudioPlayer extends BaseComponent {
 
         this.#elements.playpause_btn = document.querySelector(`.${playerElementsJS.playPauseButton}`);
         this.#elements.playpause_btnImg = document.querySelector(`.${playerElementsJS.playPauseImg}`);
-        this.#elements.next_btn = document.querySelector(`.${playerElementsJS.nextTrack}`);
-        this.#elements.prev_btn = document.querySelector(`.${playerElementsJS.prevTrack}`);
+        this.#elements.next_btn = document.querySelector(`.${playerElementsJS.nextTrack} img`);
+        this.#elements.prev_btn = document.querySelector(`.${playerElementsJS.prevTrack} img`);
 
         this.#elements.seek_slider = document.querySelector(`.${playerElementsJS.trackSlider}`);
         this.#elements.volume_icon = document.querySelector(`.${playerElementsJS.volumeIcon}`);
@@ -239,6 +428,9 @@ export class AudioPlayer extends BaseComponent {
         this.#elements.total_duration = document.querySelector(`.${playerElementsJS.totalDuration}`);
         this.#elements.repeat = document.querySelector(`.${playerElementsJS.repeatButton}`);
         this.#elements.repeatImg = document.querySelector(`.${playerElementsJS.repeatImg}`);
+
+        this.#elements.shuffleOn = document.querySelector(`.${playerElementsJS.shuffleOn}`);
+        this.#elements.shuffleOff = document.querySelector(`.${playerElementsJS.shuffleOff}`);
 
         this.#elements.updateTimer = playerConfig.FIRST_TIMER;
         this.#elements.volume_slider.value = 50;
@@ -268,6 +460,7 @@ export class AudioPlayer extends BaseComponent {
      *  }
      */
     trackLoading(responseFromStore) {
+        this.removeDisabled();
         if (responseFromStore.status === RESPONSES.REPEAT) {
             this.#resetAllToStart();
             return;
@@ -315,6 +508,7 @@ export class AudioPlayer extends BaseComponent {
      * @param {boolean} startAfterRefresh -if set dont clear fields and dont play
      */
     #setNewTrack(response, startAfterRefresh = false) {
+        this.removeDisabled();
         clearInterval(this.#elements.updateTimer);
         if (!startAfterRefresh) {
             this.#resetAllToStart();
@@ -326,7 +520,10 @@ export class AudioPlayer extends BaseComponent {
         }
 
         if (response.artists.length > 0) {
-            this.#elements.track_artist.textContent = response.artists.reduce((accumulator, element, index) => accumulator.concat(` ${element.name}${(index !== response.artists.length - 1) ? ',' : ''}`), '');
+            this.#elements.track_artist.innerHTML = response.artists.reduce((acc, { id, name }) => {
+                acc.push(`<span data-id="${id}">${name}</span>`);
+                return acc;
+            }, []).join(', ');
         }
 
         this.#elements.track_name.textContent = response.name;
@@ -341,6 +538,181 @@ export class AudioPlayer extends BaseComponent {
         }
 
         this.#lastResponse = response;
+
+        const imgLike: HTMLImageElement|null = document.querySelector('.playerLike');
+        if (!imgLike) {
+            console.error('Cannot find track like');
+            return;
+        }
+
+        imgLike.src = SongStore.trackInfo.isLiked ? imgPath.liked : imgPath.notLiked;
+
+        const like: HTMLImageElement|null = document.querySelector('.playerLike');
+        const player: HTMLDivElement|null = document.querySelector('.player');
+        if (!player || !like) {
+            console.error('Cannot find player element');
+            return;
+        }
+        const share: HTMLImageElement|null = player.querySelector('.playerShare');
+        if (!share) {
+            console.error('Button share are not exist');
+            return;
+        }
+
+        share.addEventListener('click', () => {
+            navigator.clipboard.writeText(`${window.location.origin}/track/${SongStore.trackInfo.id}`)
+                .then(() => {
+                    const notification = new Notification(
+                        document.querySelector('.notification__placement'),
+                        'Track link saved to clipboard!',
+                    );
+                    notification.appendElement();
+                })
+                .catch((error) => {
+                    const notification = new Notification(
+                        document.querySelector('.notification__placement'),
+                        'Track link haven\'t been saved to clipboard!',
+                        'notify',
+                        TypeOfNotification.failure,
+                    );
+                    notification.appendElement();
+                    console.error(`Error in copy to clipboard: ${error}`);
+                });
+        });
+
+        like.addEventListener('click', () => {
+            if (!checkAuth()) {
+                Router.goToLogin();
+                return;
+            }
+
+            const track = SongStore.trackInfo;
+            if (track.isLiked) {
+                TrackActions.unlikeTrack(track.id);
+                like.src = imgPath.notLiked;
+            } else {
+                TrackActions.likeTrack(track.id);
+                like.src = imgPath.liked;
+            }
+        });
+
+        this.#elements.repeat.removeEventListener(METHOD.BUTTON, this.toggleButtonEvent);
+        this.#elements.repeat.addEventListener(METHOD.BUTTON, this.toggleButtonEvent);
+
+        const spansInArtists: NodeListOf<HTMLSpanElement>|null = this.#elements.track_artist.querySelectorAll('span');
+        if (!spansInArtists) {
+            console.error('Bad in player artists');
+            return;
+        }
+
+        spansInArtists.forEach((spanElement: HTMLSpanElement) => {
+            spanElement.addEventListener('click', () => {
+                // @ts-ignore
+                const artistId: string|undefined = spanElement.dataset?.id;
+                if (artistId) {
+                    Router.go(`/${instancesNames.ARTIST_PAGE}/${artistId}`);
+                }
+            });
+        });
+
+        this.#elements.track_name?.removeEventListener('click', this.trackNameListener);
+        this.#elements.track_name?.addEventListener('click', this.trackNameListener);
+
+        const userId = localStorage.getItem('userId');
+        if (checkAuth()) {
+            UserActions.userPlaylists(Number(userId));
+        }
+
+        this.#elements.prev_btn.src = imgPath.prevTrack;
+        this.#elements.next_btn.src = imgPath.nextTrack;
+        this.#elements.playpause_btnImg.src = imgPath.play;
+    }
+
+    /**
+     * Render dropdown list for track line
+     * @private
+     */
+    private renderDropDown() {
+        const trackId = SongStore.trackInfo?.id;
+        if (!trackId) {
+            return;
+        }
+
+        const addButton: HTMLImageElement|null = document.querySelector('.playerAdd');
+        if (!addButton) {
+            return;
+        }
+        addButton.style.zIndex = '1';
+
+        const parentOfDots = addButton?.parentElement;
+        if (!parentOfDots || !(addButton instanceof HTMLImageElement)) {
+            return;
+        }
+
+        const div1 = document.createElement('div');
+        div1.classList.add('placement-trigger', 'normal-player-trigger');
+        div1.appendChild(addButton);
+
+        parentOfDots.appendChild(div1);
+        addButton.removeEventListener(METHOD.BUTTON, this.addButtonEvent);
+        addButton.addEventListener(METHOD.BUTTON, this.addButtonEvent);
+
+        const addDropDown = new DropDown(
+            div1,
+            dropDownTrackSetup(`${trackId}__playerDropAdd`),
+            DIRECTIONS_DROPDOWN.UP,
+        );
+        addDropDown.render();
+
+        const div = document.createElement('div');
+        div.classList.add('list-container');
+        const ul = document.createElement('ul');
+        div.appendChild(ul);
+        if (!addDropDown) {
+            console.error('Error in player dropDown');
+            return;
+        }
+
+        addDropDown.addOptionsElement(div, METHOD.BUTTON, (event) => {
+            if (!event) {
+                console.error('Error in player dropDown');
+                return;
+            }
+
+            const placeWhereDelete = addDropDown.options?.children[0]?.children[0];
+            if (placeWhereDelete) {
+                placeWhereDelete.removeChild(event.target as HTMLElement);
+            }
+
+            const notification = new Notification(
+                document.querySelector('.notification__placement'),
+                'Song is added to playlist!',
+                `${trackId}_add`,
+            );
+            notification.appendElement();
+        });
+
+        ul.classList.add('item-list');
+
+        let hasPlaylist = false;
+        this.playlists.forEach((playlist) => {
+            if (playlist.tracks.find((track) => Number(track.id) === Number(trackId))) {
+                return;
+            }
+
+            hasPlaylist = true;
+            const li = document.createElement('li');
+            li.classList.add('li-element');
+            li.textContent = playlist.name;
+            addDropDown.addOptionsElement(li, 'click', () => {
+                PlaylistActions.addTrackInPlaylist(playlist.id, trackId);
+            });
+            ul.appendChild(li);
+        });
+
+        if (!hasPlaylist) {
+            div1.classList.add('container-for-line');
+        }
     }
 
     /** Set values of Time, Duration, Line to 0 */

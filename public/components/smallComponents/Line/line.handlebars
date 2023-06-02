@@ -1,4 +1,5 @@
-<div class="{{root.lineDiv}}" data-id="{{item.id}}" data-albumId="{{item.albumID}}">
+<div class="{{root.lineDiv}}" data-id="{{item.id}}" data-albumId="{{item.albumID}}"
+    data-artistIds="{{#each item.artists}}{{this.id}}{{#unless @last}}, {{/unless}}{{/each}}">
 <!--    Index -->
     <div class="{{root.lineIndex}}">{{#position}}{{@index}}{{/position}}</div>
 <!--    Buttons -->
@@ -24,14 +25,14 @@
             <img src="{{#if item.cover}}{{#convert}}{{item.cover}}{{/convert}}{{else}}{{defaultTrackSrc}}{{/if}}" class="{{root.lineCover}}">
         {{/ifEquals}}
 <!--        Title-->
-        <div class="{{root.titleArtistDiv}}">
+        <div class="{{root.titleArtistDiv}} block__with__name">
             <div class="{{root.lineTitle}}">{{item.name}}</div>
 <!--            Show artist-->
             {{#ifEquals root.isArtistShow true}}
                 <div class="{{root.artistClass}}">
-                    <p>
+                    <p class="artist__text__line">
                         {{#each item.artists}}
-                            {{this.name}} {{#unless  @last}}, {{/unless}}
+                            <span>{{this.name}}</span>{{#unless  @last}}, {{/unless}}
                         {{/each}}
                     </p>
                 </div>
@@ -40,18 +41,21 @@
     </div>
 
     <!--Album show-->
-    {{#ifEquals root.isArtistShow true}}
-       {{#ifEquals root.isPlaylistPage true}}
+    {{#ifEquals root.isAlbumShow true}}
+<!--       {{#ifEquals root.isPlaylistPage true}}-->
             <div class="{{root.albumDiv}}">
                 <p class="{{root.albumClass}}">
                     {{item.albumName}}
                 </p>
             </div>
-        {{/ifEquals}}
+<!--        {{/ifEquals}}-->
     {{/ifEquals}}
 
     <!--Listens-->
     {{#ifEquals root.isArtistPage true}}
+        <div class="{{root.lineListensClass}}">{{item.listens}}</div>
+    {{/ifEquals}}
+    {{#ifEquals root.isListensShow true}}
         <div class="{{root.lineListensClass}}">{{item.listens}}</div>
     {{/ifEquals}}
 
@@ -81,5 +85,5 @@
 
     <!--Duration-->
     <div class="{{root.durationClass}}">{{#durationConvert}}{{item.duration}}{{/durationConvert}}</div>
-    <image src="{{root.anotherSrc}}" class="{{root.anotherClass}}"></image>
+    <image src="{{root.anotherSrc}}" class="{{root.anotherClass}} {{#ifEquals root.isOptionsShow false}}smaller-plus-img{{/ifEquals}}"></image>
 </div>

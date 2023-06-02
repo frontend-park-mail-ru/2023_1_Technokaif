@@ -1,8 +1,12 @@
 @import '../../../static/css/constants.less';
 
 .main-page-window__factBody {
-    margin-bottom: 400px;
     position: relative;
+    display: flex;
+    overflow:hidden;
+
+    max-height: 100%;
+    height: 100%;
 
     @media(min-width: @desktop) {
         display: grid;
@@ -11,7 +15,7 @@
         "menu main";
 
         grid-template-rows: 1fr;
-        grid-template-columns: 288px 1fr;
+        grid-template-columns: 300px 1fr;
     }
 }
 
@@ -20,15 +24,24 @@ main {
 
     @media(min-width: @desktop) {
         grid-area: main;
+        margin-bottom: 0;
     }
 }
 
 
 .main-page-window {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    padding: 10px 60px;
-    padding-top: 73px;
+    padding: @navbarSize 60px 0.5rem;
+
+    .scrollElement();
+}
+
+@media @mobileMax,@tabletSize {
+    .main-page-window {
+        .paddings-content();
+    }
 }
 
 .offline-logo {

@@ -11,11 +11,13 @@
 
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 
   @media(max-width: @desktop) {
-    bottom: 81px;
+    bottom: 66px;
   }
 }
+
 
 
 .dummy__text-div {
@@ -24,24 +26,58 @@
   width: 70%;
   height: 100%;
   margin-left: 2%;
+  justify-content: center;
+}
+
+@media @mobileMax {
+  .dummy__text-div {
+    width: 100%;
+  }
 }
 
 .dummy__text-title {
   margin-top: 0.3%;
-  font-size: @title-font;
+  .titleText();
 }
 
-.dummy__text-class {
+.dummy__text-class, .dummy-mobile__text-class {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   margin-top: 0.4%;
-  font-size: @artist-name-font;
+  .smallText();
+}
+
+@media @mobileMax {
+  .dummy-mobile__text-class {
+    display: flex;
+  }
+  .dummy__text-class {
+    display: none;
+  }
+}
+
+@media @tabletSize, @desktopMin {
+  .dummy-mobile__text-class {
+    display: none;
+  }
+  .dummy__text-class {
+    display: flex;
+  }
 }
 
 .dummy__button-div {
-  width: 20%;
   height: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  width: 100%;
+}
+
+@media @desktopMin, @tabletSize {
+  .dummy__button-div {
+    max-width: 200px;
+  }
 }
 
 .dummy__button-class {
@@ -49,13 +85,27 @@
   justify-content: center;
   align-items: center;
   margin-right: 1%;
-  margin-top: 4%;
   border-color: @main-color;
   border-radius: @big-radius;
-  width: 90%;
-  height: 60%;
   transition-duration: 300ms;
-  font-size: @font-input-element;
+  cursor: pointer;
+
+  .smallTitleText();
+}
+
+@media @mobileMax {
+  .dummy__button-class {
+    width: 70%;
+    height: 70%;
+    padding: 0.3rem;
+  }
+}
+
+@media @desktopMin,@tabletSize {
+  .dummy__button-class {
+    width: 90%;
+    height: 60%;
+  }
 }
 
 .dummy__button-class:hover {
@@ -66,4 +116,10 @@
 
 .dummy__space {
   width: 10%;
+}
+
+@media @mobileMax {
+  .dummy__space {
+    display: none;
+  }
 }

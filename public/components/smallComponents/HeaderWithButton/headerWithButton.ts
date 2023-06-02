@@ -8,7 +8,6 @@ import { componentsJSNames } from '@config/componentsJSNames';
 import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
 import ComponentsStore from '@store/ComponentsStore';
 import ComponentsActions from '@Actions/ComponentsActions';
-import { routingUrl } from '@config/routingUrls';
 
 import templateHtml from './headerWithButton.handlebars';
 import './headerWithButton.less';
@@ -45,9 +44,13 @@ export class HeaderWithButton {
             (list) => {
                 const component = list.find((comp) => comp.name === this.#name);
                 if (component) {
-                    component.forEach((element) => {
-                        ComponentsActions.removeElementFromPage(element.name);
-                    });
+                    if (Array.isArray(component)) {
+                        component.forEach((element) => {
+                            ComponentsActions.removeElementFromPage(element.name);
+                        });
+                    } else {
+                        ComponentsActions.removeElementFromPage(component.name);
+                    }
 
                     unsubscribeFromAllStoresOnComponent(this.#name);
                     this.unRender();
@@ -66,11 +69,11 @@ export class HeaderWithButton {
 
         header.addEventListener('click', (event) => {
             event.preventDefault();
-            Router.go(routingUrl.ROOT);
+            Router.goToFeed();
         });
         button.addEventListener('click', (event) => {
             event.preventDefault();
-            Router.go(routingUrl.ROOT);
+            Router.goToFeed();
         });
     }
 

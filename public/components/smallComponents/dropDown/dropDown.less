@@ -22,19 +22,23 @@
 .dropdown-options {
   max-width: 200px;
   width: fit-content;
-  box-sizing: content-box;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   position: absolute;
   left: -200px;
   opacity: 0;
   pointer-events: none;
-  gap: 10px;
   transition: opacity 150ms;
   background-color: @sub-color;
-  //padding: 5px;
-  border-radius: @small-radius;
   cursor: pointer
+}
+
+.js__navbar-dropDown__name-options {
+  padding:5px;
+  gap:5px;
+  min-width: 100px;
+  background-color: rgba(@opposed-main-color, 0.8);
 }
 
 .dropDown {
@@ -48,14 +52,14 @@
 
 .dropdown-element {
   cursor: pointer;
-  font-size: @font-sidebar;
   color: @main-color;
   text-decoration: none;
-  //padding: 5px 0;
   font-style: normal;
-  font-weight: @chars-weight;
-  line-height: 19px;
   text-align: center;
+
+  .titleText();
+  font-weight: 600;
+
   transition: background-color 150ms;
 }
 
@@ -68,3 +72,11 @@
   height: 100%;
   z-index: 999;
 }
+
+.normal-player-trigger {
+  width: auto;
+}
+
+.dropdown-active {
+}
+

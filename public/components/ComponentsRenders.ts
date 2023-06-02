@@ -1,6 +1,5 @@
 import { checkAuth } from '@functions/checkAuth';
 import { authNavConfig, sidebarConfig, unAuthNavConfig } from '@config/config';
-import { FeedContent } from '@bigComponents/FeedContent/feedContent';
 import { componentsJSNames } from '@config/componentsJSNames';
 import { HeaderWithButton } from '@smallComponents/HeaderWithButton/headerWithButton';
 import { page404Setup } from '@setup/page404Setup';
@@ -22,7 +21,9 @@ import { LibraryPlaylists } from '@bigComponents/Library/libraryPlaylists';
 import { UserPlaylist } from '@bigComponents/Playlist/Library/userPlaylist';
 import { PlayerWithDummy } from '@bigComponents/playerWithDummy/playerWithDummy';
 import { ID_REG } from '@config/id';
-import { routingUrl } from '@config/routingUrls';
+import { Track } from '@bigComponents/Track/track';
+import { setupTrack } from '@setup/trackSetup';
+import { FeedPage } from '@bigComponents/FeedPage/feedPage';
 import Router from '../router/Router';
 import Menu from './bigComponents/Menu/Menu';
 import Navbar from './bigComponents/Navbar/Navbar';
@@ -67,7 +68,7 @@ class ComponentsRenders {
      * @param {HTMLElement} parent -- where to place Sidebar
      */
     renderFeedContent(parent) {
-        new FeedContent(parent, { mainPageWindowDiv: 'main-page-window' }).render();
+        new FeedPage(parent, {}).render();
     }
 
     /**
@@ -108,7 +109,7 @@ class ComponentsRenders {
      */
     renderUserPage(parent) {
         if (!checkAuth()) {
-            Router.go(routingUrl.ROOT);
+            Router.goToLogin();
             return;
         }
 
@@ -123,7 +124,8 @@ class ComponentsRenders {
     /** Render in navbar */
     renderLibraryList(parent) {
         if (!checkAuth()) {
-            Router.go(routingUrl.LOGIN);
+            Router.goToLogin();
+            return;
         }
 
         new LibraryList(parent).render();
@@ -132,7 +134,8 @@ class ComponentsRenders {
     /** Render library in parent */
     renderTracksLibrary(parent) {
         if (!checkAuth()) {
-            Router.go(routingUrl.LOGIN);
+            Router.goToLogin();
+            return;
         }
 
         new FavoriteTracks(parent, componentsNames.LIBRARY_TRACKS).renderFavoriteTracks();
@@ -141,7 +144,8 @@ class ComponentsRenders {
     /** Render library in parent */
     renderArtistsLibrary(parent) {
         if (!checkAuth()) {
-            Router.go(routingUrl.LOGIN);
+            Router.goToLogin();
+            return;
         }
 
         new FavoriteArtists(parent, componentsNames.LIBRARY_ARTISTS).renderFavoriteArtists();
@@ -150,7 +154,8 @@ class ComponentsRenders {
     /** Render library in parent */
     renderAlbumsLibrary(parent) {
         if (!checkAuth()) {
-            Router.go(routingUrl.LOGIN);
+            Router.goToLogin();
+            return;
         }
 
         new FavoriteAlbums(parent, componentsNames.LIBRARY_ALBUMS).renderFavoriteAlbums();
@@ -159,7 +164,8 @@ class ComponentsRenders {
     /** Render library in parent */
     renderPlaylistsLibrary(parent) {
         if (!checkAuth()) {
-            Router.go(routingUrl.LOGIN);
+            Router.goToLogin();
+            return;
         }
 
         new LibraryPlaylists(parent, componentsNames.LIBRARY_PLAYLISTS).renderFavoritePlaylists();
@@ -175,9 +181,19 @@ class ComponentsRenders {
         new Album(parent, setupAlbum()).render();
     }
 
+    /** Render Track in parent */
+    renderTrack(parent) {
+        new Track(parent, setupTrack()).render();
+    }
+
     /** Render search content */
     renderSearchContent(parent) {
-        new SearchContent(parent, componentsNames.SEARCH_CONTENT, { mainDiv: 'search-content' }).render();
+        new SearchContent(
+            parent,
+            componentsNames.SEARCH_CONTENT,
+            'default',
+            { mainDiv: 'search-content padding-top-search' },
+        ).render();
     }
 }
 

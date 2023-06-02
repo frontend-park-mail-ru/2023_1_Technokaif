@@ -13,7 +13,7 @@ export const componentsJSNames = {
     FORM: 'content',
     PAGE404: 'page404-block',
     ARTIST_CONTENT: 'js__artist-page-window',
-    ARTIST_COVER: 'artist-cover',
+    ARTIST_COVER: 'js__header-placement',
     ARTIST_LIKED_SONGS: 'liked-songs',
     ARTIST_TAPE: 'tape',
     ARTIST_LINE_LIST: 'line-list',

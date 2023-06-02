@@ -7,7 +7,9 @@ import {
     getValueFromLocalStorage,
     saveValueToLocalStorage,
 } from '@functions/FunctionsToWorkWithLocalStore';
-import { TracksApi } from '@api/ApiAnswers';
+import { TrackApi, TracksApi } from '@api/ApiAnswers';
+import TrackActions from '@API/TrackActions';
+import { shuffle } from '@functions/shuffle';
 
 const COUNTER = 'Counter';
 
@@ -22,7 +24,7 @@ declare interface CounterValueStorage{
     counter:number,
 }
 
-const TypesOfStore = {
+export const TypesOfStore = {
     album: 'albums',
     track: 'track',
     playlist: 'playlist',
@@ -61,6 +63,18 @@ class SongStore extends IStore {
     /** Type of tape Store is using now */
     #storeType;
 
+    /** Flag is shuffle on */
+    private isShuffleOn;
+
+    /** Quantity of time that user listen */
+    private listenTime;
+
+    /** Flag if listen was send */
+    private isListenSend;
+
+    /** Tracks before shuttle */
+    private songsBeforeShuttle;
+
     /** Default value to delete all state */
     constructor() {
         super('SONG_STORE', () => {
@@ -72,6 +86,8 @@ class SongStore extends IStore {
                 repeat: this.#isRepeat,
 
                 secondsPlayed: this.#audioTrack.currentTime,
+                isShuffleOn: this.isShuffleOn,
+                songsBeforeShuttle: this.songsBeforeShuttle,
             };
         });
 
@@ -80,6 +96,9 @@ class SongStore extends IStore {
         this.#isPlaying = false;
         this.#isRepeat = false;
 
+        this.listenTime = 0;
+        this.isListenSend = false;
+
         this.#songVolume = 0.5;
         this.#prevVolume = 0.5;
         this.#audioTrack.volume = 0.5;
@@ -87,11 +106,20 @@ class SongStore extends IStore {
         this.#position = -1;
         this.#songs = [];
         this.#storeType = null;
+        this.isShuffleOn = false;
+        this.songsBeforeShuttle = [];
 
         this.#audioTrack.addEventListener(
             'ended',
             () => this.jsEmit(EventTypes.TRACK_END, {}),
         );
+
+        const timerFunction = () => {
+            this.countSeconds();
+            setTimeout(timerFunction, 1000);
+        };
+
+        setTimeout(timerFunction, 1000);
 
         window.addEventListener('storage', (event:StorageEvent) => {
             if (event.key !== this.name && event.key !== COUNTER) return;
@@ -112,6 +140,29 @@ class SongStore extends IStore {
             if (newValue.position >= newValue.songs.length) return;
             this.setTrack();
         });
+        this.setTrackIfExistInStore();
+    }
+
+    /**
+     * Function to count. If listen more than 20 seconds then send message.
+     * If listen for more than 60% of track then send message
+     * */
+    private countSeconds() {
+        if (this.listenTime === 0) {
+            this.isListenSend = false;
+        }
+
+        if (!this.#audioTrack.paused) {
+            this.listenTime += 1;
+        }
+
+        // todo set time to send
+        if ((this.listenTime === 20
+            || (this.#audioTrack.duration && this.listenTime / this.#audioTrack.duration > 0.6))
+            && !this.isListenSend) {
+            this.isListenSend = true;
+            TrackActions.trackListen(this.#songs[this.#position].id);
+        }
     }
 
     /** Return audio element */
@@ -120,8 +171,18 @@ class SongStore extends IStore {
     }
 
     /** Return audio info */
-    get trackInfo() {
+    get trackInfo(): TrackApi {
         return this.#songs[this.#position];
+    }
+
+    /** Set like status */
+    setTrackIsLiked(value, id: string) {
+        const trackInd = this.#songs.findIndex((song) => song.id === Number(id));
+        if (trackInd !== -1) {
+            this.#songs[trackInd].isLiked = value;
+        }
+
+        this.saveSongsAndPosition(this.#songs, this.#position);
     }
 
     /** Return what album is playing or null if doesn't exist */
@@ -143,6 +204,11 @@ class SongStore extends IStore {
         if (this.#storeType !== TypesOfStore.playlist
             || !this.#songs[this.#position]) return null;
         return this.#songs[this.#position].playlistID;
+    }
+
+    /** get storeType */
+    get storeType() {
+        return this.#storeType;
     }
 
     /** Return playing status */
@@ -296,9 +362,42 @@ class SongStore extends IStore {
         case ActionTypes.SWAP_IN_QUEUE:
             this.swapTrack(action.idOfFirstTrack, action.idOfSecondTrack);
             break;
+        case ActionTypes.SHUFFLE:
+            this.shuffleChange(action.status);
+            break;
         default:
             super.dispatch(action);
             break;
+        }
+    }
+
+    /** Status of shuffle status */
+    get shuffleStatus() {
+        return this.isShuffleOn;
+    }
+
+    /** set shuffle */
+    private set shuffle(newShuffle) {
+        this.isShuffleOn = newShuffle;
+        this.jsEmit(EventTypes.CHANGE_SHUFFLE);
+    }
+
+    /** Shuffle tracks */
+    private shuffleChange(isOn) {
+        if (isOn) {
+            this.shuffle = isOn;
+            this.songsBefore = this.#songs;
+
+            // @ts-ignore
+            this.songs = shuffle(this.#position, this.#songs);
+            this.position = 0;
+        } else {
+            this.shuffle = isOn;
+            this.position = this
+                .songsBeforeShuttle
+                .findIndex((el) => el.id === this.#songs?.[this.#position]?.id);
+
+            this.songs = this.songsBeforeShuttle;
         }
     }
 
@@ -385,30 +484,36 @@ class SongStore extends IStore {
         this.#position = valueToReadFrom.position;
         this.#songs = valueToReadFrom.songs;
 
-        if (state) {
-            if (state.songs?.length > 0) {
-                this.#setVolume(state.volume);
-                this.#storeType = state.storeType;
-                this.#clearTrack = false;
+        if (valueToReadFrom?.songs?.length > 0) {
+            this.#clearTrack = false;
 
-                this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
-                this.#setRepeat(state.repeat);
+            this.listenTime = 0;
+            this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
 
-                this.jsEmit(EventTypes.GET_DATA_AFTER_RESTART, {
-                    status: RESPONSES.OK,
-                    id: this.#songs[this.#position].id,
-                    artists: this.#songs[this.#position].artists,
-                    name: this.#songs[this.#position].name,
-                    cover: this.#songs[this.#position].cover,
-                });
-                this.#setTime(state.secondsPlayed);
-            }
+            this.jsEmit(EventTypes.GET_DATA_AFTER_RESTART, {
+                status: RESPONSES.OK,
+                id: this.#songs[this.#position].id,
+                artists: this.#songs[this.#position].artists,
+                name: this.#songs[this.#position].name,
+                cover: this.#songs[this.#position].cover,
+            });
+        }
+
+        if (state && state.songs?.length > 0) {
+            this.#setVolume(state.volume);
+            this.#storeType = state.storeType;
+            this.#setRepeat(state.repeat);
+            this.#setTime(state.secondsPlayed);
+            this.shuffle = state.isShuffleOn ?? false;
+            this.songsBefore = state.songsBeforeShuttle;
         }
     }
 
     /** Set playing time */
     #setTime(newTime) {
-        this.#audioTrack.currentTime = newTime;
+        if (this.#audioTrack.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) {
+            this.#audioTrack.currentTime = newTime;
+        }
     }
 
     /**
@@ -425,6 +530,7 @@ class SongStore extends IStore {
     /** Set track to play */
     private setTrack() {
         if (!this.#songs[this.#position]?.recordSrc) return;
+        this.listenTime = 0;
         this.#audioTrack.src = `/media${this.#songs[this.#position].recordSrc}`;
         this.#clearTrack = false;
         this.jsEmit(EventTypes.SONG_FOUND, {
@@ -434,6 +540,11 @@ class SongStore extends IStore {
             name: this.#songs[this.#position].name,
             cover: this.#songs[this.#position].cover,
         });
+    }
+
+    /** set new last songs */
+    private set songsBefore(newSongs) {
+        this.songsBeforeShuttle = newSongs;
     }
 
     /**
@@ -494,6 +605,7 @@ class SongStore extends IStore {
 
     /** Clear track */
     #clearTrackSrc() {
+        this.listenTime = 0;
         this.#audioTrack.src = '';
         this.#clearTrack = true;
         this.#setPlaying(false);
@@ -572,6 +684,11 @@ class SongStore extends IStore {
         if (this.#songs.length > 0) {
             this.setTrack();
         }
+    }
+
+    /** Get First track if in localStorage */
+    private setTrackIfExistInStore() {
+        this.firstLaunch();
     }
 }
 

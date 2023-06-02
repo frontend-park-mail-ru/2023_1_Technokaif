@@ -1,0 +1,13 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "chrome": "last 2 versions",
+          "safari": "last 2 versions"
+        }
+      }
+    ]
+  ]
+}

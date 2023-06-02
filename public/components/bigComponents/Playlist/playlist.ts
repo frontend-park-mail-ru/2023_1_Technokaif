@@ -1,5 +1,3 @@
-import templateHtml from './categoryTracks.handlebars';
-import './library.less';
 import { componentsNames } from '@config/componentsNames';
 import { EventTypes } from '@config/EventTypes';
 import {
@@ -13,6 +11,14 @@ import SongStore from '@store/SongStore';
 import ContentStore from '@store/ContentStore';
 import { BaseComponent } from '@components/BaseComponent';
 import { LineList } from '@bigComponents/LineList/lineList';
+import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
+import Router from '@router/Router';
+import { checkAuth } from '@functions/checkAuth';
+import { runAfterFramePaint } from '@functions/renderAfterPaintDone';
+import { createErrorForPlaylist, TypeOfPlaylist } from '@functions/createErrorForPlaylist';
+
+import templateHtml from './categoryTracks.handlebars';
+import './library.less';
 
 /**
  * Create Artist content
@@ -51,6 +57,11 @@ export abstract class Playlist extends BaseComponent {
      */
     protected type: string;
 
+    /** index of notification */
+    private indOfNotification;
+
+    private mounted;
+
     /**
      * Create Playlist. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place Playlist
@@ -64,6 +75,8 @@ export abstract class Playlist extends BaseComponent {
         this.#isAlbumLoaded = false;
         this.type = '';
         this.callbacksOnRender = [];
+        this.indOfNotification = 0;
+        this.mounted = false;
     }
 
     /**
@@ -76,6 +89,14 @@ export abstract class Playlist extends BaseComponent {
     }
 
     /**
+     * Getter of type
+     * @protected
+     */
+    protected getType(): string {
+        return this.type;
+    }
+
+    /**
      * Function to render track lines by input configs.
      */
     private renderLines() {
@@ -84,7 +105,6 @@ export abstract class Playlist extends BaseComponent {
             console.error('Error in rendering of lines');
             return;
         }
-
         // eslint-disable-next-line max-len
         const lineName: string = (this.isPlaylist) ? componentsNames.PLAYLIST : componentsNames.TRACK_LIBRARY_LINE_LIST;
         this.#lineConfigs.forEach((configForInsertElement) => {
@@ -93,7 +113,7 @@ export abstract class Playlist extends BaseComponent {
                 configForInsertElement,
                 lineName,
             );
-            line.appendElement();
+            line.render();
         });
     }
 
@@ -124,54 +144,132 @@ export abstract class Playlist extends BaseComponent {
      * @protected
      */
     protected subscribeBaseLogic(eventType: string, pageName: string) {
+        // todo 2 times getting tracks
         ContentStore.subscribe(
             (instance) => {
-                const { tracks } = ContentStore.state[pageName];
-                const buttons = document.querySelector('.js__button__play') as HTMLDivElement;
-                const imgLike = document.querySelector('.albumLike') as HTMLImageElement;
-                if (!buttons || !imgLike) {
-                    console.warn('Button doesn\'t\'exist on Album', buttons, imgLike);
-                }
+                runAfterFramePaint(() => {
+                    const buttons = document.querySelector('.js__button__play') as HTMLDivElement;
+                    const imgLike = document.querySelector('.albumLike') as HTMLImageElement;
+                    if (!buttons || !imgLike) {
+                        console.warn('Button doesn\'t\'exist on Album');
+                    }
 
-                this.playButton = buttons;
-                if (imgLike) {
-                    imgLike.addEventListener('click', () => {
-                        const state = ContentStore.state[pageName];
-                        if (state.isLiked) {
-                            imgLike.src = imgPath.notLiked;
-                            PlaylistActions.unlikePlaylist(state.id);
-                        } else {
-                            imgLike.src = imgPath.liked;
-                            PlaylistActions.likePlaylist(state.id);
+                    this.playButton = buttons;
+                    if (imgLike) {
+                        imgLike.addEventListener('click', () => {
+                            if (!checkAuth()) {
+                                Router.goToLogin();
+                                return;
+                            }
+
+                            const state = ContentStore.state[pageName];
+                            if (state.isLiked) {
+                                imgLike.src = imgPath.notLiked;
+                                PlaylistActions.unlikePlaylist(state.id);
+                            } else {
+                                imgLike.src = imgPath.liked;
+                                PlaylistActions.likePlaylist(state.id);
+                            }
+                            state.isLiked = !state.isLiked;
+                        });
+                    }
+
+                    const buttonEvent = () => {
+                        if (!checkAuth()) {
+                            Router.goToLogin();
+                            return;
                         }
-                        state.isLiked = !state.isLiked;
-                    });
-                }
 
-                buttons.addEventListener('click', () => {
-                    this.activatedButton = true;
-                    const trackIds = tracks.map((track) => track.id);
-                    // eslint-disable-next-line max-len
-                    if (!this.#isAlbumLoaded || !(SongStore.exist && tracks.filter((track) => SongStore.trackInfo.name === track.name).length > 0)) {
-                        this.#isAlbumLoaded = true;
-                        PlayerActions.playTrack(trackIds);
+                        const { tracks } = ContentStore.state[pageName];
+                        const trackIds = tracks.map((track) => track.id);
+                        if (trackIds.length > 0 && (!this.#isAlbumLoaded
+                            || !(SongStore.exist
+                                && tracks.filter((track) => SongStore.trackInfo.name === track.name)
+                                    .length > 0))) {
+                            this.#isAlbumLoaded = true;
+                            PlayerActions.playTrack(trackIds);
+                        }
+
+                        if (tracks.length === 0) {
+                            new Notification(
+                                document.querySelector('.notification__placement'),
+                                'Nothing to play!',
+                                String(this.indOfNotification++),
+                                TypeOfNotification.warning,
+                            ).appendElement();
+
+                            return;
+                        }
+
+                        this.activatedButton = true;
+                        PlayerActions.changePlayState(!SongStore.isPlaying);
+                    };
+
+                    buttons.removeEventListener('click', buttonEvent, false);
+                    if (!this.mounted) {
+                        buttons?.addEventListener('click', buttonEvent);
+                        this.mounted = true;
                     }
-
-                    PlayerActions.changePlayState(!SongStore.isPlaying);
-                });
-
-                switch (instance) {
-                case 'tracks':
-                    this.isPlaylist = this.type !== '';
-                    if (this.isPlaylist) {
-                        this.#lineConfigs.push(setupPlaylistLineList(tracks));
+                    const share: HTMLImageElement|null = document.querySelector('.shareButton');
+                    if (!share) {
+                        console.warn('Button doesn\'t\'exist on Album');
                     } else {
-                        this.#lineConfigs.push(setupLineList(tracks));
+                        share.addEventListener('click', () => {
+                            navigator.clipboard.writeText(window.location.href)
+                                .then(() => {
+                                    const notification = new Notification(
+                                        document.querySelector('.notification__placement'),
+                                        'Playlist link saved to clipboard!',
+                                    );
+                                    notification.appendElement();
+                                })
+                                .catch((error) => {
+                                    const notification = new Notification(
+                                        document.querySelector('.notification__placement'),
+                                        'Playlist link haven\'t been saved to clipboard!',
+                                        'notify',
+                                        TypeOfNotification.failure,
+                                    );
+                                    notification.appendElement();
+                                    console.error(`Error in copy to clipboard: ${error}`);
+                                });
+                        });
                     }
-                    this.renderLines();
-                    break;
-                default:
-                }
+
+                    const { tracks } = ContentStore.state[pageName];
+                    const placement = document.querySelector('.js__placement-tracks');
+                    if (!placement) {
+                        console.error('Can\'t find placement for favourite tracks');
+                        return;
+                    }
+                    const isChildIsWarning = Array.from(placement.children)
+                        ?.some((el) => Array.from(el.classList)
+                            .some((classCss) => classCss === 'warning-placement'));
+
+                    if ((!Array.isArray(tracks) || tracks.length === 0) && !isChildIsWarning) {
+                        if (this.name === 'js__library-tracks') {
+                            placement.appendChild(
+                                createErrorForPlaylist(TypeOfPlaylist.favoriteTracks),
+                            );
+                        } else {
+                            placement.appendChild(createErrorForPlaylist());
+                        }
+                        return;
+                    }
+
+                    switch (instance) {
+                    case 'tracks':
+                        this.isPlaylist = this.type !== '';
+                        if (this.isPlaylist) {
+                            this.#lineConfigs.push(setupPlaylistLineList(tracks));
+                        } else {
+                            this.#lineConfigs.push(setupLineList(tracks));
+                        }
+                        this.renderLines();
+                        break;
+                    default:
+                    }
+                });
             },
             eventType,
             this.name,
@@ -214,6 +312,7 @@ export abstract class Playlist extends BaseComponent {
     protected renderPlaylist() {
         const renderProcess = new Promise((resolve) => {
             super.appendElement();
+
             resolve(true);
         });
 

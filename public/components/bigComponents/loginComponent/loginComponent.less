@@ -1,0 +1,30 @@
+@import '../../../static/css/constants';
+
+.log {
+  width: 100%;
+}
+
+@media @desktopMin {
+  .log {
+    max-width: @maxSizeForFormDesktop;
+  }
+}
+
+@media @mobileMax {
+  .log {
+    width: 100%;
+  }
+}
+
+@media @tabletSize {
+  .log {
+    width: 80%;
+    max-width: @maxSizeForFormTablet;
+  }
+}
+
+
+.login-content {
+  .scrollElement();
+  justify-content: unset;
+}

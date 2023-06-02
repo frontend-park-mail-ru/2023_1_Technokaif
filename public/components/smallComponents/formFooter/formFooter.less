@@ -5,6 +5,15 @@
     justify-content: space-between;
     margin-top: 10px;
     margin-bottom: 20px;
+    align-items: center;
+
+    .smallText();
+}
+
+@media @mobileMax {
+    .bottom__placement {
+        .smallText();
+    }
 }
 
 .bottom__link {
@@ -14,8 +23,16 @@
 .bottom__button {
     background-color: @main-color;
     padding: 5px 10px;
-    font-weight: @chars-weight;
-    color: @sub-color;
+    color: @opposed-main-color;
     border-radius: @radius;
     text-decoration: none;
+    .titleText();
 }
+
+@media @mobileMax {
+    .bottom__button {
+        padding: 0.2rem;
+        font-weight: calc(@chars-weight - 100);
+    }
+}
+

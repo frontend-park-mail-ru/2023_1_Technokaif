@@ -1,0 +1,33 @@
+@import '../../../static/css/constants';
+
+.absolute-block {
+  position: absolute;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media @desktopMin {
+  .absolute-block {
+    height: calc(100vh - calc(@navbarSize + @playerSizeDesktop));
+    width: calc(100vw - @sidebarDesktop);
+    left: -60px;
+  }
+}
+
+@media @tabletSize {
+  .absolute-block {
+    height: calc(100vh - calc(@navbarSize + @bottomSizeForTablet));
+    width: 100vw;
+    left: -2.5%;
+  }
+}
+
+@media @mobileMax {
+  .absolute-block {
+    height: calc(100vh - calc(@navbarSize + @bottomSizeForMobile));
+    width: 100vw;
+    left: -2.5%;
+  }
+}

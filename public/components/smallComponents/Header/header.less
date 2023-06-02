@@ -1,39 +1,109 @@
-@import '../../../static/css/constants.less';
+@import '../../../static/css/constants';
+
+.header-placement {
+    width: 100%;
+    display: flex;
+}
 
 .header {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: 100%;
+    align-items: center;
+}
+
+@media @tabletSize {
+    .header-placement {
+        width: 100%;
+        display: flex;
+    }
+    .header {
+        width: 80%;
+        max-width: @maxSizeForFormTablet;
+        margin: 0 auto;
+    }
+}
+
+@media @mobileMax {
+    .header-placement {
+        width: 100%;
+    }
+    .header {
+        width: 100%;
+    }
+}
+
+@media @desktopMin {
+    .header {
+        max-width: @maxSizeForFormDesktop;
+        margin: 0 auto;
+    }
 }
 
 .title {
     cursor: pointer;
-    margin-top: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 .title__img {
-    width: @image-resolution;
-    height: @image-resolution;
+    width: auto;
+    height: 1.4em;
     margin-right: @image-margin;
 }
+
+@media @mobileMax {
+    .title__img {
+        width: auto;
+        height: 1.4rem;
+    }
+}
+
 .title__name {
-    font-size: @title-font;
     font-weight: @chars-weight;
     text-align: center;
     background: @main-color;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    font-size: 1.4rem
 }
+
+@media @mobileMax {
+    .title__name {
+        .mainTitle();
+    }
+}
+
+
 .title__page-description {
-    font-size: @description-font;
+    text-align: center;
     font-weight: @chars-weight;
-    height: 36px;
-    margin: 30px 0;
-    max-width: 390px;
+    margin: 1.4em 0;
+
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    font-size: 1rem;
 }
+
+@media @mobileMax {
+    .title__page-description {
+        margin: 1.3rem 0 1.8rem 0;
+        .bigTitle();
+    }
+}
+
+@media @tabletSize {
+    .title__page-description {
+        height: 100%;
+        width: 100%;
+        max-width: 100%;
+        font-size: 1rem;
+    }
+}
+
 .title__error-text {
     font-weight: @chars-weight;
     font-size: @text-label;

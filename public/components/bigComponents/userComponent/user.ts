@@ -1,8 +1,6 @@
-import template from './user.handlebars';
 import { Button } from '@smallComponents/Button/button';
 import { Avatar } from '@smallComponents/avatar/avatar';
 import { dateSetup } from '@setup/registrationSetup';
-import './user.less';
 import { ElementsClassForUser, METHOD, RESPONSES } from '@config/config';
 import { ERRORS_USER } from '@config/errors';
 import { EventTypes } from '@config/EventTypes';
@@ -15,7 +13,9 @@ import API from '@store/API';
 import UserActions from '@API/UserActions';
 import ValidationActions from '@Actions/ValidationActions';
 import { Form } from '@bigComponents/form/form';
-import { routingUrl } from '@config/routingUrls';
+
+import template from './user.handlebars';
+import './user.less';
 
 /**
  * Class for artists content in main page.
@@ -136,7 +136,7 @@ export class User extends BaseComponent {
 
         cancelButton.addEventListener(METHOD.BUTTON, (event) => {
             event.preventDefault();
-            Router.go(routingUrl.ROOT);
+            Router.goToFeed();
         });
 
         saveButton.addEventListener(METHOD.BUTTON, (event) => {
@@ -405,7 +405,7 @@ export class User extends BaseComponent {
         );
 
         API.subscribe(
-            (message) => {
+            (message, avatar) => {
                 const errorElement: HTMLDivElement|null = document.querySelector('.user__error-text');
                 const successElement: HTMLDivElement|null = document.querySelector('.user__success-text');
                 if (!errorElement || !successElement) {
@@ -423,7 +423,7 @@ export class User extends BaseComponent {
                     successElement.hidden = false;
                     successElement.innerText = 'Successfully changed avatar';
                     const avatarImg = this.#parent.querySelector('.user-profile__img');
-                    const blob = new Blob(this.fileInput.files, { type: 'image/jpeg' });
+                    const blob = new Blob([avatar], { type: 'image/jpeg' });
                     const imageUrl = URL.createObjectURL(blob);
                     avatarImg.src = imageUrl;
                 }
@@ -445,7 +445,42 @@ export class User extends BaseComponent {
         });
 
         this.fileInput.addEventListener('change', () => {
-            const file = this.fileInput.files[0];
+            const file: File = this.fileInput.files[0];
+            const errorElement: HTMLDivElement|null = document.querySelector('.user__error-text');
+            const successElement: HTMLDivElement|null = document.querySelector('.user__success-text');
+            if (!errorElement || !successElement) {
+                console.error('No any error or success blocks');
+                return;
+            }
+
+            if (!file) {
+                console.error('Invalid photo');
+                errorElement.hidden = false;
+                successElement.hidden = true;
+                errorElement.innerText = 'Invalid photo';
+                return;
+            }
+
+            const fileSizeLimit = 5 * 1024 * 1024;
+            const allowedExtensions = ['jpg', 'jpeg', 'png'];
+
+            if (file.size > fileSizeLimit) {
+                console.error('Invalid photo size');
+                errorElement.hidden = false;
+                successElement.hidden = true;
+                errorElement.innerText = 'Invalid photo size';
+                return;
+            }
+
+            // @ts-ignore
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            if (!allowedExtensions.includes(fileExtension)) {
+                console.error('Invalid photo extension');
+                errorElement.hidden = false;
+                successElement.hidden = true;
+                errorElement.innerText = 'Invalid photo extension';
+                return;
+            }
 
             const formData = new FormData();
             formData.append('avatar', file);

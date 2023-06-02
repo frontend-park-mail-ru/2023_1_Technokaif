@@ -4,11 +4,29 @@
   display: flex;
   flex-direction: column;
   padding: 10px 60px;
-  padding-top: 73px;
+  padding-top: @navbarSize;
+}
+
+@media @mobileMax, @tabletSize {
+  .library-tapes {
+    .paddings-content();
+  }
 }
 
 .library__nothing-text {
-  font-size: 1.5rem;
   padding-top: 0.5em;
-  font-weight: @chars-weight;
+  .bigTitle();
+}
+
+.divider {
+  margin-top: 0.5rem;
+  border-top: 1px solid @main-color;
+}
+
+.js__placement-nothing {
+  position: relative;
+}
+
+.nothing-two-placement {
+  position: relative;
 }

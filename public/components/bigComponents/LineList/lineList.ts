@@ -2,7 +2,6 @@ import { BaseComponent } from '@components/BaseComponent';
 import '@smallComponents/Line/line.less';
 import { componentsNames } from '@config/componentsNames';
 import { pageNames } from '@config/pageNames';
-import { checkAuth } from '@functions/checkAuth';
 import { EventTypes } from '@config/EventTypes';
 import { routingUrl } from '@config/routingUrls';
 import { DIRECTIONS_DROPDOWN, DropDown } from '@smallComponents/dropDown/dropDown';
@@ -13,13 +12,14 @@ import PlaylistActions from '@API/PlaylistActions';
 import PlayerActions from '@Actions/PlayerActions';
 import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
 import API from '@store/API';
-import SongStore from '@store/SongStore';
+import SongStore, { TypesOfStore } from '@store/SongStore';
 import Router from '@router/Router';
 import ContentStore from '@store/ContentStore';
 import { METHOD } from '@config/config';
-import { Notification } from '@smallComponents/notification/notification';
+import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
 import templateHTML from './lineList.handlebars';
 import './lineList.less';
+import { checkAuth } from '@functions/checkAuth';
 
 /**
  * Tape for elements
@@ -27,9 +27,7 @@ import './lineList.less';
 export class LineList extends BaseComponent {
     private playlists;
 
-    private parent;
-
-    private _config;
+    private elementConfig;
 
     /**
      * Dropdown elements for track lines
@@ -54,15 +52,14 @@ export class LineList extends BaseComponent {
      */
     constructor(parent, config, name) {
         super(parent, config, templateHTML, name);
-        this.parent = parent;
-        this._config = config;
+        this.elementConfig = config;
         this.dropDowns = [];
         this.playlistsDropDowns = [];
         this.playlists = [];
         this.isRendered = false;
         this.unsubscribeLines();
         const userId = localStorage.getItem('userId');
-        if (userId) {
+        if (checkAuth() && !this.config.playlistId) {
             UserActions.userPlaylists(Number(userId));
         }
     }
@@ -82,9 +79,9 @@ export class LineList extends BaseComponent {
      * @private
      */
     private indexLines() {
-        const trackLines: NodeListOf<HTMLDivElement> = document.querySelectorAll(`.${this._config.lineDiv}`);
+        const trackLines: NodeListOf<HTMLDivElement> = document.querySelectorAll(`.${this.elementConfig.lineDiv}`);
         Array.from(trackLines).forEach((trackLine, index) => {
-            const currentIndexElement: HTMLDivElement|null = trackLine.querySelector(`.${this._config.lineIndex}`);
+            const currentIndexElement: HTMLDivElement|null = trackLine.querySelector(`.${this.elementConfig.lineIndex}`);
             if (!currentIndexElement) {
                 console.error('Error in index element');
                 return;
@@ -103,9 +100,9 @@ export class LineList extends BaseComponent {
      * @private
      */
     private unrenderTrack(id: string) {
-        const trackLines = document.querySelectorAll(`.${this._config.lineDiv}`) as NodeListOf<HTMLDivElement>;
+        const trackLines = document.querySelectorAll(`.${this.elementConfig.lineDiv}`) as NodeListOf<HTMLDivElement>;
         // @ts-ignore
-        const line = Array.from(trackLines).find((trackLine) => trackLine.dataset.id === id);
+        const line = Array.from(trackLines).find((trackLine) => trackLine.dataset?.id === id);
         if (!line) {
             return;
         }
@@ -117,15 +114,42 @@ export class LineList extends BaseComponent {
     }
 
     /**
+     * Function to change state
+     * @param id
+     * @param state
+     * @private
+     */
+    private changeLikeState(id: string, state: boolean) {
+        const trackLines = document.querySelectorAll(`.${this.elementConfig.lineDiv}`) as NodeListOf<HTMLDivElement>;
+        // @ts-ignore
+        const line = Array.from(trackLines).find((trackLine) => trackLine.dataset?.id === String(id));
+        if (!line) {
+            return;
+        }
+
+        const likeButton: HTMLButtonElement|null = line.querySelector(`.${this.elementConfig.like}`);
+        const unlikeButton: HTMLButtonElement|null = line.querySelector(`.${this.elementConfig.unlike}`);
+        if (!state) {
+            if (unlikeButton && likeButton?.hidden) {
+                likeButton.hidden = false;
+                unlikeButton.hidden = true;
+            }
+        } else if (likeButton && unlikeButton?.hidden) {
+            unlikeButton.hidden = false;
+            likeButton.hidden = true;
+        }
+    }
+
+    /**
      * Render dropdown list for track line
      * @param line
      * @param index
      * @param another
      * @private
      */
-    #renderDropDownForOneLine(line:HTMLElement, index, another) {
+    #renderDropDownForOneLine(line: HTMLElement, index, another) {
         // @ts-ignore
-        const trackId = line.dataset.id;
+        const trackId = line.dataset?.id;
         const dropDown = new DropDown(
             another,
             dropDownTrackSetup(`${index}_sub`),
@@ -139,8 +163,33 @@ export class LineList extends BaseComponent {
         }
 
         const textAdd = document.createElement('p');
-        textAdd.textContent = 'Add';
-        dropDown.addOptionsElement(textAdd);
+        textAdd.textContent = 'Add to playlist';
+        textAdd.classList.add('optionSize');
+        dropDown.addOptionsElement(textAdd, 'click', (event) => {
+            const trackElement: HTMLDivElement|null = document.querySelector(`.${this.elementConfig.lineDiv}[data-id="${trackId}"]`);
+            if (!trackElement) {
+                return;
+            }
+
+            const playlistsContainer: HTMLUListElement|null = trackElement.querySelector('.item-list');
+            if (!playlistsContainer) {
+                return;
+            }
+
+            // @ts-ignore
+            const tag = event?.target?.tagName.toLowerCase();
+            if (!playlistsContainer.children.length && tag !== 'li') {
+                const notification = new Notification(
+                    document.querySelector('.notification__placement'),
+                    'Cannot add track in playlist. No playlists without this track found.',
+                    `${index}_failure_add`,
+                    TypeOfNotification.failure,
+                );
+
+                notification.appendElement();
+            }
+        });
+
         if (dropDown?.options && (dropDown.options instanceof HTMLElement)) {
             // @ts-ignore
             dropDown.options.style = {
@@ -160,13 +209,14 @@ export class LineList extends BaseComponent {
 
         const btQueue = document.createElement('div');
         btQueue.textContent = 'Add to queue';
+        btQueue.classList.add('optionSize');
         dropDown.addOptionsElement(btQueue, METHOD.BUTTON, () => {
             PlayerActions.queueTrack(
                 [Number(trackId)],
             );
             dropDown.hideOptions();
             const notification = new Notification(
-                document.querySelector('.js__navbar'),
+                document.querySelector('.notification__placement'),
                 'Song is added to queue!',
                 `${trackId}_queue`,
             );
@@ -176,6 +226,7 @@ export class LineList extends BaseComponent {
         if (this.name === componentsNames.PLAYLIST) {
             const bt3 = document.createElement('div');
             bt3.textContent = 'Remove';
+            bt3.classList.add('optionSize');
             dropDown.addOptionsElement(bt3, 'click', () => {
                 PlaylistActions.removeTrackFromPlaylist(
                     ContentStore.state[pageNames.PLAYLIST].id,
@@ -183,7 +234,7 @@ export class LineList extends BaseComponent {
                 );
                 dropDown.hideOptions();
                 const notification = new Notification(
-                    document.querySelector('.js__navbar'),
+                    document.querySelector('.notification__placement'),
                     'Song is removed from Playlist!',
                     `${trackId}_remove`,
                 );
@@ -191,11 +242,16 @@ export class LineList extends BaseComponent {
             });
         }
 
-        this.#addSubDropDown(addDropDown, trackId, dropDown);
+        this.#addSubDropDown(addDropDown, dropDown, index, trackId);
+        setTimeout(() => {
+            if (addDropDown.options) {
+                (addDropDown.options as HTMLElement).style.top = '-5px';
+            }
+        }, 500);
     }
 
     /** Add sub drops where playlists are placed */
-    #addSubDropDown(where, index, mainDropDown) {
+    #addSubDropDown(where, mainDropDown, index, trackId) {
         const div = document.createElement('div');
         div.classList.add('list-container');
         const ul = document.createElement('ul');
@@ -209,7 +265,7 @@ export class LineList extends BaseComponent {
             }
 
             const notification = new Notification(
-                document.querySelector('.js__navbar'),
+                document.querySelector('.notification__placement'),
                 'Song is added to playlist!',
                 `${index}_add`,
             );
@@ -217,19 +273,25 @@ export class LineList extends BaseComponent {
         });
         ul.classList.add('item-list');
 
+        let hasPlaylist = false;
         this.playlists.forEach((playlist) => {
-            if (playlist.tracks.find((track) => Number(track.id) === Number(index))) {
+            if (playlist.tracks.find((track) => Number(track.id) === Number(trackId))) {
                 return;
             }
 
+            hasPlaylist = true;
             const li = document.createElement('li');
             li.classList.add('li-element');
             li.textContent = playlist.name;
             where.addOptionsElement(li, 'click', () => {
-                PlaylistActions.addTrackInPlaylist(playlist.id, index);
+                PlaylistActions.addTrackInPlaylist(playlist.id, trackId);
             });
             ul.appendChild(li);
         });
+
+        if (!hasPlaylist) {
+            div.classList.add('container-for-line');
+        }
     }
 
     /**
@@ -237,15 +299,21 @@ export class LineList extends BaseComponent {
      */
     #addListeners() {
         ContentStore.subscribe((instance) => {
+            if (this.config.playlistId) return;
             if (this.isRendered) return;
             // eslint-disable-next-line max-len
             this.playlists = ContentStore.state[pageNames.LIBRARY_PLAYLISTS][instance];
-            const lines = document.querySelectorAll(`.${this._config.lineDiv}`);
-            const anothers = document.querySelectorAll(`.${this._config.anotherClass}`);
+            const lines = document.querySelectorAll(`.${this.elementConfig.lineDiv}`);
+            const anothers = document.querySelectorAll(`.${this.elementConfig.anotherClass}`);
 
             lines.forEach((line, index) => {
+                const dropDown: HTMLDivElement|null = line.querySelector('.dropDown__options');
+                if (dropDown) {
+                    return;
+                }
+
                 const div = document.createElement('div');
-                div.classList.add('track-line__another');
+                div.classList.add(`${this.elementConfig.anotherClass}`);
                 div.classList.add('placement-trigger');
 
                 if (!(line instanceof HTMLElement)) {
@@ -269,30 +337,37 @@ export class LineList extends BaseComponent {
             this.isRendered = true;
         }, EventTypes.GOT_USER_PLAYLISTS, this.name);
 
-        this.parent.addEventListener('click', (event) => {
-            const line = event.target.closest(`.${this._config.lineDiv}`) as HTMLDivElement;
-            const like = event.target.closest(`.${this._config.likeButtonImg}`) as HTMLImageElement;
-            const another: HTMLImageElement|null = event.target.closest(`.${this._config.anotherClass}`);
-            const album: HTMLDivElement = event.target.closest(`.${this._config.lineTitle}`);
-            const buttons = event.target.closest(`.${this._config.playButtonImg}`) as HTMLImageElement;
+        const lineListCallback = (event) => {
+            const line = event.target.closest(`.${this.elementConfig.lineDiv}`) as HTMLDivElement;
+            const like = event.target.closest(`.${this.elementConfig.likeButtonImg}`) as HTMLImageElement;
+            const another: HTMLImageElement | null = event.target.closest(`.${this.elementConfig.anotherClass}`);
+            const album: HTMLDivElement = event.target.closest(`.${this.elementConfig.lineTitle}`);
+            const artist: HTMLDivElement = event.target.closest(`.${this.elementConfig.artistClass} span`);
+            const artistBlock: HTMLDivElement = event.target.closest(`.${this.elementConfig.artistClass}`);
+            let spansInArtists: NodeListOf<HTMLSpanElement>|null = null;
+            if (artist) {
+                spansInArtists = artistBlock.querySelectorAll('span');
+            }
+
+            const buttons = event.target.closest(`.${this.elementConfig.playButtonImg}`) as HTMLImageElement;
             const playButtons = document
-                .querySelectorAll(`.${this._config.playButton}`) as NodeListOf<HTMLButtonElement>;
+                .querySelectorAll(`.${this.elementConfig.playButton}`) as NodeListOf<HTMLButtonElement>;
 
             if (line) {
                 // todo not clear solution dont forget about
                 if (event.target !== buttons
                     && event.target !== like
                     && event.target !== album
+                    && event.target !== artist
                     && event.target !== another) {
                     return;
                 }
 
                 if (!checkAuth()) {
-                    Router.go(routingUrl.LOGIN);
+                    Router.goToLogin();
                     return;
                 }
-
-                const indexBlock: HTMLDivElement = line.querySelector(`.${this._config.lineIndex}`) as HTMLDivElement;
+                const indexBlock: HTMLDivElement = line.querySelector(`.${this.elementConfig.lineIndex}`) as HTMLDivElement;
                 if (!indexBlock) {
                     console.error('Cannot find index block');
                     return;
@@ -304,7 +379,7 @@ export class LineList extends BaseComponent {
                     return;
                 }
                 // @ts-ignore
-                const trackId = line.dataset.id;
+                const trackId = line.dataset?.id;
                 if (!trackId) {
                     console.error('Cannot get dataset variable');
                     return;
@@ -320,6 +395,10 @@ export class LineList extends BaseComponent {
                             case componentsNames.ARTIST_LINE_LIST:
                                 // eslint-disable-next-line max-len
                                 PlayerActions.playArtist(ContentStore.state[pageNames.ARTIST_PAGE].id, id - 1);
+                                break;
+                            case componentsNames.TRACK_LINE_LIST:
+                                // eslint-disable-next-line max-len
+                                PlayerActions.apiPlayTrack([ContentStore.state[pageNames.TRACK].track]);
                                 break;
                             case componentsNames.ALBUM_LINE_LIST:
                                 // eslint-disable-next-line max-len
@@ -337,6 +416,7 @@ export class LineList extends BaseComponent {
 
                                 PlayerActions.playTrack(trackIds, offset);
                                 break;
+                            case componentsNames.SEARCH_CONTENT:
                             case componentsNames.SEARCH_LINE:
                                 PlayerActions.playTrack([trackId]);
                                 break;
@@ -361,8 +441,8 @@ export class LineList extends BaseComponent {
                         PlayerActions.changePlayState(false);
                     }
                 } else if (event.target === like) {
-                    const likeBlock: NodeListOf<HTMLButtonElement> = document.querySelectorAll(`.${this._config.like}`) as NodeListOf<HTMLButtonElement>;
-                    const unlike: NodeListOf<HTMLButtonElement> = document.querySelectorAll(`.${this._config.unlike}`) as NodeListOf<HTMLButtonElement>;
+                    const likeBlock: NodeListOf<HTMLButtonElement> = document.querySelectorAll(`.${this.elementConfig.like}`) as NodeListOf<HTMLButtonElement>;
+                    const unlike: NodeListOf<HTMLButtonElement> = document.querySelectorAll(`.${this.elementConfig.unlike}`) as NodeListOf<HTMLButtonElement>;
                     // eslint-disable-next-line max-len
                     if (!likeBlock || !unlike || likeBlock[id - 1] === undefined || unlike[id - 1] === undefined) {
                         console.error('Cannot find like block', id);
@@ -384,36 +464,49 @@ export class LineList extends BaseComponent {
                     }
                 } else if (event.target === album) {
                     const { albumid } = line.dataset;
-                    Router.go(routingUrl.ALBUM_PAGE(albumid));
-                } else if (event.target === another) {
-
+                    if (albumid) {
+                        Router.go(routingUrl.ALBUM_PAGE(albumid));
+                    }
+                } else if (event.target === artist) {
+                    const index = Array.from(spansInArtists as NodeListOf<HTMLSpanElement>).indexOf(artist);
+                    if (index !== -1) {
+                        const { artistids } = line.dataset;
+                        if (artistids) {
+                            const artistId = artistids.split(', ')[index];
+                            Router.go(routingUrl.ARTIST_PAGE(artistId));
+                        }
+                    }
                 }
             }
-        });
+        };
+
+        this.parent.removeEventListener('click', lineListCallback);
+        this.parent.addEventListener('click', lineListCallback);
 
         SongStore.subscribe(
             (state) => {
-                const playButtons = document.querySelectorAll(`.${this._config.playButton}`) as NodeListOf<HTMLButtonElement>;
-                const stopButtons = document.querySelectorAll(`.${this._config.stopButton}`) as NodeListOf<HTMLButtonElement>;
-                const lines = document.querySelectorAll(`.${this._config.lineDiv}`) as NodeListOf<HTMLDivElement>;
+                const playButtons = document.querySelectorAll(`.${this.elementConfig.playButton}`) as NodeListOf<HTMLButtonElement>;
+                const stopButtons = document.querySelectorAll(`.${this.elementConfig.stopButton}`) as NodeListOf<HTMLButtonElement>;
+                const lines = document.querySelectorAll(`.${this.elementConfig.lineDiv}`) as NodeListOf<HTMLDivElement>;
                 const trackId = SongStore.trackInfo.id;
-                for (const key in lines) {
-                    if (key === 'entries') break;
-                    if (!lines[key]) {
-                        console.error('Cannot find line by key');
-                        return;
-                    }
-                    // @ts-ignore
-                    if (Number(lines[key]?.dataset.id) === trackId && state === true) {
+                if (!playButtons || !stopButtons || !lines || !trackId) {
+                    console.error('Error in song store subscribe');
+                    return;
+                }
+                for (const [index, value] of lines.entries()) {
+                    if (playButtons[index] && stopButtons[index]) {
                         // @ts-ignore
-                        playButtons[Number(key)].hidden = true;
-                        // @ts-ignore
-                        stopButtons[Number(key)].hidden = false;
-                    } else {
-                        // @ts-ignore
-                        playButtons[Number(key)].hidden = false;
-                        // @ts-ignore
-                        stopButtons[Number(key)].hidden = true;
+                        if (Number(value?.dataset?.id) === trackId && state) {
+                            // @ts-ignore
+                            playButtons[index].hidden = true;
+                            // @ts-ignore
+                            stopButtons[index].hidden = false;
+                        } else {
+                            // @ts-ignore
+                            playButtons[index].hidden = false;
+                            // @ts-ignore
+                            stopButtons[index].hidden = true;
+                        }
                     }
                 }
             },
@@ -423,8 +516,20 @@ export class LineList extends BaseComponent {
 
         API.subscribe(
             (message, id) => {
+                if (message === 'OK') {
+                    this.changeLikeState(id, true);
+                }
+            },
+            EventTypes.LIKED_TRACK,
+            this.name,
+        );
+
+        API.subscribe(
+            (message, id) => {
                 if (message === 'OK' && this.name === componentsNames.TRACK_LIBRARY_LINE_LIST) {
                     this.unrenderTrack(id);
+                } else if (message === 'OK') {
+                    this.changeLikeState(id, false);
                 }
             },
             EventTypes.UNLIKED_TRACK,
@@ -440,6 +545,44 @@ export class LineList extends BaseComponent {
             EventTypes.REMOVED_TRACK_FROM_PLAYLIST,
             this.name,
         );
+
+        if (this.config.playlistId) {
+            const anothers = document.querySelectorAll(`.${this.elementConfig.anotherClass}`) as NodeListOf<HTMLDivElement>;
+
+            const { playlistId } = this.config;
+            anothers.forEach((anotherElement, index) => {
+                anotherElement?.addEventListener('click', () => {
+                    const lines = document.querySelectorAll(`.${this.elementConfig.lineDiv}`) as NodeListOf<HTMLDivElement>;
+                    const playlistLines = document.querySelectorAll(`.${this.elementConfig.generalLineDiv}`) as NodeListOf<HTMLDivElement>;
+                    // @ts-ignore
+                    const trackIds = Array.from(playlistLines).map((line) => line.dataset?.id);
+
+                    // @ts-ignore
+                    const trackId = lines[index].dataset.id;
+                    if (trackId && !trackIds.includes(trackId)) {
+                        PlaylistActions.addTrackInPlaylist(playlistId, trackId);
+                        if (!SongStore.storeType && SongStore.storeType === TypesOfStore.playlist) {
+                            PlayerActions.queueTrack([Number(trackId)]);
+                        }
+
+                        const notification = new Notification(
+                            document.querySelector('.notification__placement'),
+                            'Song is added to playlist!',
+                            `${index}_search_add`,
+                        );
+                        notification.appendElement();
+                    } else {
+                        const notification = new Notification(
+                            document.querySelector('.notification__placement'),
+                            'You have already added this song!',
+                            `${index}_search_bad_add`,
+                            TypeOfNotification.warning,
+                        );
+                        notification.appendElement();
+                    }
+                });
+            });
+        }
     }
 
     /**
@@ -447,6 +590,14 @@ export class LineList extends BaseComponent {
      */
     override appendElement() {
         super.appendElement();
+        this.#addListeners();
+    }
+
+    /**
+     * Append line list
+     */
+    override render() {
+        super.render();
         this.#addListeners();
     }
 }

@@ -57,7 +57,7 @@ class APISongs extends IStore {
     }
 
     /** Load tracks from server with offset in it */
-    private loadTracks(tracksIds: number[]) {
+    private loadTracks(tracksIds: string[]) {
         const promises: Promise<TrackApi>[] = [];
         tracksIds.forEach((ind) => {
             promises.push(trackOneAjax(String(ind)));
@@ -67,7 +67,7 @@ class APISongs extends IStore {
     }
 
     /** Play track */
-    private playTrack(ids: number[], offset = 0) {
+    private playTrack(ids: string[], offset = 0) {
         this.loadTracks(ids).then((tracks) => {
             PlayerActions.apiPlayTrack(tracks, offset);
         });
@@ -118,7 +118,7 @@ class APISongs extends IStore {
         getPlaylistTracks(playlistId).then((tracks:TrackApi[]) => {
             const tracksWithPlaylist = tracks
                 .map((track): ApiTrackWithPlaylistID => ({ ...track, playlistID: playlistId }));
-            PlayerActions.playPlaylist(tracksWithPlaylist, offset);
+            PlayerActions.apiPlayPlaylist(tracksWithPlaylist, offset);
         });
     }
 

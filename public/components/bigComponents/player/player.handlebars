@@ -3,7 +3,7 @@
     <div class="player-slider_container">
         <div class="player-slider__current-time js__current-time">00:00</div>
         <input type="range" min="1" max="100" step="0.1"
-               value="0" class="player-slider__seek-slider js__seek_slider">
+               value="0" class="disabled__player-control player-slider__seek-slider js__seek_slider">
         <div class="player-slider__total-duration js__total-duration">00:00</div>
     </div>
 
@@ -13,13 +13,13 @@
                 <!-- Define the section for displaying track buttons -->
                 <div class="player-buttons">
                     <div class="player-buttons__prev-track js__prev-track">
-                        <img class="color_this " src="/static/svg/Player/backward-step-solid.svg">
+                        <img class="color_this disabled__player-control" src="/static/svg/Player/nonactive-prev.svg">
                     </div>
                     <div class="player-buttons__play-pause-track  js__play-pause-track">
-                        <img class="color_this js__play-pause__img" src="/static/svg/Player/play-solid.svg">
+                        <img class="color_this js__play-pause__img disabled__player-control" src="/static/svg/Player/nonactive-play.svg">
                     </div>
                     <div class="player-buttons__next-track js__next-track">
-                        <img class="color_this " src="/static/svg/Player/forward-step-solid.svg">
+                        <img class="color_this disabled__player-control" src="/static/svg/Player/nonactive-next.svg">
                     </div>
                 </div>
             </div>
@@ -29,23 +29,31 @@
                     <img class="js__img details__img" src="/static/svg/default-track.svg">
                 </div>
                 <div class="details__group-track-info">
-                    <div class="track-name js__track-name">Track Name</div>
-                    <div class="track-artist js__track-artist">Track Artist</div>
+                    <div class="track-name js__track-name disabled__player-control">Start listening</div>
+                    <div class="track-artist js__track-artist disabled__player-control">Clicking on track</div>
                 </div>
             </div>
-            <div class="player-buttons__repeat color_this js__repeat">
-                <img class="color_this js__repeat__img" src="/static/svg/Player/arrows-rotate-solid_active.svg">
+            <div class="player-buttons__shuffle color_this js__shuffle disabled__player-control">
+                <img class="color_this js__shuffle__img-on" hidden src="/static/svg/Player/shuffleOn.svg">
+                <img class="color_this js__shuffle__img-off" src="/static/svg/Player/shuffleOff.svg">
             </div>
+            <div class="player-buttons__repeat color_this js__repeat">
+                <img class="color_this js__repeat__img disabled__player-control" src="/static/svg/Player/arrows-rotate-solid_active.svg">
+            </div>
+
+            <img class="playerLike disabled__player-control" src="/static/svg/notLiked.svg">
+            <img class="playerShare disabled__player-control" src="/static/svg/share.svg">
+            <img class="playerAdd disabled__player-control" src="/static/svg/add.svg">
         </div>
 
         <div class="player__sound-block">
             <div class="player-slider_container">
                 <div class="player-slider__position">
-                    <img class ="js__music-icon color_this "src="/static/svg/Player/mid-sound.svg">
+                    <img class ="js__music-icon color_this" src="/static/svg/Player/mid-sound.svg">
                 </div>
                 <div class="player-slider__position">
                     <input type="range" min="0" max="100"
-                           value="99" class="player-slider_container__volume-slider js__volume_slider">
+                           value="99" class="player-slider_container__volume-slider js__volume_slider disabled__player-control">
                 </div>
             </div>
         </div>

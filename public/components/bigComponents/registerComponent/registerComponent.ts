@@ -1,6 +1,8 @@
 import { componentsNames } from '@config/componentsNames';
 import { dateSetup, regFormSetup } from '@setup/registrationSetup';
-import { ElementsClassForRegister, METHOD, RESPONSES } from '@config/config';
+import {
+    ElementsClassForRegister, METHOD, RESPONSES,
+} from '@config/config';
 import { EventTypes } from '@config/EventTypes';
 import { ERRORS_REG } from '@config/errors';
 import { NAME_OF_VALIDATION } from '@config/validateConf';
@@ -11,18 +13,34 @@ import { BaseComponent } from '@components/BaseComponent';
 import { Form } from '@bigComponents/form/form';
 import UserInfoStore from '@store/UserInfoStore';
 import API from '@store/API';
-import { routingUrl } from '@config/routingUrls';
 import template from './registerComponent.handlebars';
+import './registerComponent.less';
+import { runAfterFramePaint } from '@functions/renderAfterPaintDone';
+import {
+    getValueFromInputOrDataElements,
+    setElementsToInputOrDate,
+    subscribeForUnload,
+} from '@functions/subscribeForUnload';
+import {
+    getValueFromStorage,
+    saveValueToStorage,
+} from '@functions/FunctionsToWorkWithLocalStore';
 
 /** Function to work with listener triggered */
 interface reactionOnTrigger {
     (nameOfReaction: string, element: HTMLElement): void;
 }
 
+/** name of register component in store */
+const StorageNameOfRegister = 'regFormData';
+
 /** Component that render register form */
 export class RegisterComponent extends BaseComponent {
     /** Place where render component */
     #place;
+
+    /** unsubscribe function */
+    private unsubscribeFunc;
 
     /** Set place where render register form */
     constructor(place) {
@@ -324,7 +342,7 @@ export class RegisterComponent extends BaseComponent {
             METHOD.BUTTON,
             // @ts-ignore
             (nameOfReaction, element) => {
-                Router.go(routingUrl.ROOT);
+                Router.goToFeed();
             },
         );
 
@@ -334,7 +352,7 @@ export class RegisterComponent extends BaseComponent {
             METHOD.BUTTON,
             // @ts-ignore
             (nameOfReaction, element) => {
-                Router.go(routingUrl.LOGIN);
+                Router.goToLogin();
             },
         );
     }
@@ -363,7 +381,7 @@ export class RegisterComponent extends BaseComponent {
         API.subscribe(
             (message) => {
                 if (message === RESPONSES.OK) {
-                    Router.go(routingUrl.ROOT);
+                    Router.goToFeed();
                 } else {
                     console.error('failed after login with succeeded reg data');
                 }
@@ -413,18 +431,50 @@ export class RegisterComponent extends BaseComponent {
         }
     }
 
+    /** Get value of all elements in array */
+    private getValueOfElements() {
+        return getValueFromInputOrDataElements(
+            ElementsClassForRegister.email,
+            ElementsClassForRegister.username,
+            ElementsClassForRegister.firstName,
+            ElementsClassForRegister.lastName,
+            ElementsClassForRegister.day,
+            ElementsClassForRegister.month,
+            ElementsClassForRegister.year,
+        );
+    }
+
+    /** load value from store to elements */
+    private loadValueToElements() {
+        const value = getValueFromStorage('session', StorageNameOfRegister);
+        if (!value) return;
+
+        setElementsToInputOrDate(value);
+    }
+
     /** Render component in parent */
     public override render() {
-        const renderProcess:Promise<void> = new Promise((resolve) => {
-            this.#renderContent();
-            this.appendElement();
-            resolve();
-        });
+        this.appendElement();
+        this.#renderContent();
 
-        renderProcess.then(() => {
+        runAfterFramePaint(() => {
+            this.unsubscribeFunc = subscribeForUnload(
+                () => {
+                    saveValueToStorage('session', StorageNameOfRegister, this.getValueOfElements());
+                },
+                () => {
+                    saveValueToStorage('session', StorageNameOfRegister, null);
+                },
+            );
             this.#subscribe();
             this.#addEventListeners();
+            this.loadValueToElements();
         });
         document.title = 'Register';
+    }
+
+    public override unRender() {
+        super.unRender();
+        this.unsubscribeFunc?.();
     }
 }

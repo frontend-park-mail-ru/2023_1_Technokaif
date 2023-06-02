@@ -8,15 +8,13 @@ import './notification.less';
 export const TypeOfNotification = {
     success: 'success',
     failure: 'failure',
+    warning: 'warning',
 };
 
 /** Text notification */
 export class Notification extends BaseComponent {
     /** Name of notification */
     private readonly nameOfNotification;
-
-    /** Where to render */
-    private readonly parent;
 
     /** Parent where to render. Text to display. Name for js to search.
      * Element will have class 'js__notification-"name"'
@@ -27,6 +25,9 @@ export class Notification extends BaseComponent {
         switch (variant) {
         case TypeOfNotification.failure:
             displayName = 'Failure!';
+            break;
+        case TypeOfNotification.warning:
+            displayName = 'Warning!';
             break;
         default:
             displayName = 'Success!';
@@ -39,7 +40,6 @@ export class Notification extends BaseComponent {
         };
         super(parent, setup, template);
         this.nameOfNotification = name;
-        this.parent = parent;
     }
 
     /** Append element to parent */
@@ -56,6 +56,7 @@ export class Notification extends BaseComponent {
         const closeButton = document.querySelector(`.js__notification-${this.nameOfNotification}__close-button`);
         if (!closeButton) return;
         closeButton.addEventListener(METHOD.BUTTON, clearNotification);
+        this.parent.scrollTop = -this.parent.scrollHeight;
 
         setTimeout(clearNotification, 3500);
     }

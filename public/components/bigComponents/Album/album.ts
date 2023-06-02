@@ -14,6 +14,8 @@ import { BaseComponent } from '@components/BaseComponent';
 import Router from '@router/Router';
 import { LineList } from '@bigComponents/LineList/lineList';
 import { instancesNames } from '@config/instances';
+import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
+import { checkAuth } from '@functions/checkAuth';
 import tmp from './album.handlebars';
 import headerTemplate from './headerAlbum.handlebars';
 
@@ -94,6 +96,11 @@ export class Album extends BaseComponent {
                 this.playButton = button;
 
                 imgLike.addEventListener('click', () => {
+                    if (!checkAuth()) {
+                        Router.goToLogin();
+                        return;
+                    }
+
                     const state = ContentStore.state.ALBUM;
                     if (state.isLiked) {
                         imgLike.src = imgPath.notLiked;
@@ -106,6 +113,11 @@ export class Album extends BaseComponent {
                 });
 
                 button.addEventListener('click', () => {
+                    if (!checkAuth()) {
+                        Router.goToLogin();
+                        return;
+                    }
+
                     this.firstPlay = true;
                     if (!this.#isAlbumLoaded) {
                         this.#isAlbumLoaded = true;
@@ -113,6 +125,33 @@ export class Album extends BaseComponent {
                     }
 
                     PlayerActions.changePlayState(!SongStore.isPlaying);
+                });
+
+                const share: HTMLImageElement|null = document.querySelector('.shareButton');
+                if (!share) {
+                    console.error('Button share are not exist');
+                    return;
+                }
+
+                share.addEventListener('click', () => {
+                    navigator.clipboard.writeText(window.location.href)
+                        .then(() => {
+                            const notification = new Notification(
+                                document.querySelector('.notification__placement'),
+                                'Album link saved to clipboard!',
+                            );
+                            notification.appendElement();
+                        })
+                        .catch((error) => {
+                            const notification = new Notification(
+                                document.querySelector('.notification__placement'),
+                                'Album link haven\'t been saved to clipboard!',
+                                'notify',
+                                TypeOfNotification.failure,
+                            );
+                            notification.appendElement();
+                            console.error(`Error in copy to clipboard: ${error}`);
+                        });
                 });
 
                 if (id !== undefined) {
@@ -139,10 +178,10 @@ export class Album extends BaseComponent {
             () => {
                 const state = ContentStore.state.ALBUM;
 
-                const artistsText = state.artists.reduce((acc, { name }) => {
-                    acc.push(name);
+                const artistsText = state.artists.reduce((acc, { id, name }) => {
+                    acc.push(`<span data-id="${id}">${name}</span>`);
                     return acc;
-                }, []).join(' ');
+                }, []).join(', ');
 
                 const placement = document.querySelector('.album__descriptions');
                 if (!placement) {
@@ -150,21 +189,34 @@ export class Album extends BaseComponent {
                     return;
                 }
 
-                this.config.imgSrc = '/static/img${state.cover';
+                this.config.imgSrc = `/static/img${state.cover}`;
                 this.config.headerNameOfElement = state.name;
                 this.config.ArtistName = artistsText;
                 this.config.Descriptions = state.description;
-                placement.innerHTML = headerTemplate();
                 placement.innerHTML = headerTemplate(this.config);
-                const artistItem = document.querySelector('.js__author');
-                if (!artistItem) {
-                    console.warn('Error at ablum. Can\'t add listener');
+
+                const artistsElement: HTMLParagraphElement|null = this.parent.querySelector('.js__author');
+                if (!artistsElement) {
+                    console.error('Bad in track artists');
                     return;
                 }
-                artistItem.addEventListener('click', () => {
-                    Router.go(`/${instancesNames.ARTIST_PAGE}/${ContentStore.state.ALBUM.id}`);
-                });
 
+                artistsElement.innerHTML = artistsText;
+                const spansInArtists: NodeListOf<HTMLSpanElement>|null = artistsElement.querySelectorAll('span');
+                if (!spansInArtists) {
+                    console.error('Bad in track artists');
+                    return;
+                }
+
+                spansInArtists.forEach((spanElement: HTMLSpanElement) => {
+                    spanElement.addEventListener('click', () => {
+                        // @ts-ignore
+                        const artistId: string|undefined = spanElement.dataset?.id;
+                        if (artistId) {
+                            Router.go(`/${instancesNames.ARTIST_PAGE}/${artistId}`);
+                        }
+                    });
+                });
                 const imgLike = document.querySelector('.albumLike');
 
                 if (!imgLike || !(imgLike instanceof HTMLImageElement)) {

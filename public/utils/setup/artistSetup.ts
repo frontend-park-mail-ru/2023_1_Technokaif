@@ -11,6 +11,9 @@ export interface ArtistApi {
 /** Cover for Artist */
 export interface ArtistCover {
     coverName: string,
+    divImg: string,
+    classImg: string,
+    allHeader: string,
     title: string;
     verifyBlock: string;
     verifyImgSrc: string;
@@ -43,7 +46,7 @@ export interface ArtistContent {
 
 /** JSON for album to set in cover */
 export interface AlbumApi {
-    artists: [ArtistApi],
+    artists: ArtistApi[],
     cover: string,
     isLiked: boolean,
     name: string,
@@ -85,10 +88,11 @@ export interface ContentArtist {
 
     defaultTrackSrc: string,
 
-    content: [AlbumApi],
+    content: AlbumApi[],
     isArtistPage: boolean,
     isPlaylistPage: boolean,
     isLikedSongs?: boolean,
+    isUserPlaylistPage?: boolean,
 
     trackLineOptions?: string
     optionsBlock?: string
@@ -98,10 +102,14 @@ export interface ContentArtist {
     albumDiv?: string
     isArtistShow?: boolean
     isAlbumShow?: boolean
+    isOptionsShow: boolean
     isShowTitle: boolean,
     durationClass: string,
     anotherClass: string,
     anotherSrc: string,
+
+    playlistId?: string,
+    generalLineDiv?: string,
 }
 
 /** JSON for liked songs */
@@ -168,6 +176,8 @@ export interface TapeSetup {
     titleText: string,
     title: string,
     content: BaseComponentInTape[],
+    hideClass: string,
+    hideText: string,
 }
 
 /**
@@ -177,6 +187,9 @@ export interface TapeSetup {
 export function setupArtistCover(artist):ArtistCover {
     return {
         coverName: 'artist-cover',
+        divImg: 'header__avatar-container',
+        classImg: 'header__avatar-img',
+        allHeader: 'header-avatar',
         title: 'artist-title',
         verifyBlock: 'artist-title__verify',
         verifyImgSrc: imgPath.verify,
@@ -254,6 +267,7 @@ export function setupLineList(items: [AlbumApi]):ContentArtist {
         isArtistPage: true,
         isPlaylistPage: false,
         isShowTitle: true,
+        isOptionsShow: false,
 
         durationClass: 'track-line__duration',
         anotherClass: 'track-line__another',
@@ -290,6 +304,8 @@ export function setupTape(name: string, title: string, items: BaseComponentInTap
         titleOfTrackClass: '',
         fullListClass: 'tape__show-text',
         fullListText: 'Show all',
+        hideClass: 'tape__hide-placement',
+        hideText: 'Hide',
         contentDivClass: 'tape__components',
         coverMainClass: 'component',
         imgDiv: 'component__img-div',

@@ -69,6 +69,14 @@ class ApiUserActions {
         });
     }
 
+    /** User playlists page api */
+    userPlaylistsNoTracks(userId) {
+        Dispatcher.dispatch({
+            type: ActionTypes.GET_USER_PLAYLISTS_NO_TRACKS,
+            userId,
+        });
+    }
+
     /** Favorite playlists page api */
     userFavoritePlaylists(userId) {
         Dispatcher.dispatch({

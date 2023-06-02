@@ -9,36 +9,42 @@
 
 .date__label {
     margin-bottom: 15px;
-    font-size: @text-label;
-    font-weight: @chars-weight;
     color: rgba(@main-color, .95);
     margin-top: -10px;
+    .smallTitleText();
 }
 
 .date__choose-place {
     display: flex;
-    padding-bottom: 15px;
 }
 
 .date__day, .date__month, .date__year {
     outline: none;
-    margin-left: 15px;
     border-radius: @small-radius;
     border: 1px rgba(@main-color, .4) solid;
     color: @main-color;
     background-color: transparent;
+    width: 100%;
+    height: 1.2rem;
+
+    .smallText();
+    padding-left: 0.2rem;
+}
+
+@media @mobileMax {
+    .date__day, .date__month, .date__year {
+        .smallText();
+        height: 200%;
+    }
 }
 
 .date__day {
-    margin-left: 0px;
-    width: 80px;
-    height: 30px;
+    height: 2rem;
 }
 
 .date__month {
     cursor: pointer;
-    width: 160px;
-    height: 30px;
+    height: 2rem;
 }
 
 .date__month>option {
@@ -46,6 +52,16 @@
 }
 
 .date__year {
-    width: 80px;
-    height: 30px;
+    height: 2rem;
+}
+
+
+.date__day__width, .date__month__width,
+.date__year__width {
+    width: 31.6%;
+    padding-left: 0.5rem;
+}
+
+.date__day__width {
+    padding: 0;
 }

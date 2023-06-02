@@ -14,15 +14,17 @@ import API from '@store/API';
 import ContentStore from '@store/ContentStore';
 import Actions from '@actions/Actions';
 import Router from '@router/Router';
+import { PlaylistContent } from '@api/playlists/createPlaylistAjaxRequest';
+import { runAfterFramePaint } from '@functions/renderAfterPaintDone';
+import { SearchContent } from '@bigComponents/searchContent/searchContent';
+import SearchActions from '@API/SearchActions';
+import { Notification, TypeOfNotification } from '@smallComponents/notification/notification';
 import { Playlist } from '../playlist';
 
 /**
  * Class of favorite tracks playlist
  */
 export class UserPlaylist extends Playlist {
-    /** Parent element */
-    private parent: HTMLDivElement;
-
     /** Input file for playlist cover */
     private fileInput: HTMLInputElement;
 
@@ -33,7 +35,6 @@ export class UserPlaylist extends Playlist {
      */
     constructor(parent, componentName: string) {
         super(parent, componentName, {});
-        this.parent = parent;
         this.fileInput = document.createElement('input');
         this.fileInput.setAttribute('type', 'file');
         this.fileInput.setAttribute('id', 'file');
@@ -46,8 +47,25 @@ export class UserPlaylist extends Playlist {
      */
     private callModalWindow() {
         const root = document.querySelector(`#${componentsJSNames.ROOT}`);
-        const modalWindow = new ModalWindow(root, setupModalWindow(ContentStore.state[pageNames.PLAYLIST].playlist), componentsNames.PLAYLIST_MODAL_WINDOW);
+
+        const { playlist } = ContentStore.state[pageNames.PLAYLIST];
+        const modalWindow = new ModalWindow(root, setupModalWindow(playlist), componentsNames.PLAYLIST_MODAL_WINDOW);
         modalWindow.appendElement();
+    }
+
+    /**
+     * Error rendering notification
+     * @param text
+     * @private
+     */
+    private renderErrorNotification(text: string) {
+        const notification = new Notification(
+            document.querySelector('.notification__placement'),
+            text,
+            'image-error',
+            TypeOfNotification.failure,
+        );
+        notification.appendElement();
     }
 
     /**
@@ -58,7 +76,7 @@ export class UserPlaylist extends Playlist {
         const root = document.querySelector(`#${componentsJSNames.ROOT}`);
         const coverElement: HTMLDivElement|null = document.querySelector('.cover');
         const nameElement: HTMLDivElement|null = document.querySelector('.headerNameOfElementClass');
-        const descriptionElement: HTMLDivElement|null = document.querySelector('.author__place');
+        const descriptionElement: HTMLDivElement|null = document.querySelector('.js__description-album');
         const deleteElement: HTMLDivElement|null = document.querySelector('.playlist-delete');
         if (!root || !coverElement || !nameElement || !descriptionElement || !deleteElement) {
             console.error('Cannot get cover element');
@@ -69,14 +87,6 @@ export class UserPlaylist extends Playlist {
             PlaylistActions.deletePlaylist(ContentStore.state[pageNames.PLAYLIST].id);
         });
 
-        API.subscribe(
-            () => {
-                Router.go(routingUrl.LIBRARY_PLAYLISTS);
-            },
-            EventTypes.DELETED_PLAYLIST,
-            this.name,
-        );
-
         coverElement.addEventListener('click', () => {
             root.appendChild(this.fileInput);
             this.fileInput.click();
@@ -84,7 +94,30 @@ export class UserPlaylist extends Playlist {
 
         this.fileInput.addEventListener('change', () => {
             // @ts-ignore
-            const file = this.fileInput.files[0];
+            const file: File = this.fileInput.files[0];
+
+            if (!file) {
+                console.error('Invalid photo');
+                this.renderErrorNotification('Invalid photo');
+                return;
+            }
+
+            const fileSizeLimit = 5 * 1024 * 1024;
+            const allowedExtensions = ['jpg', 'jpeg', 'png'];
+
+            if (file.size > fileSizeLimit) {
+                console.error('Invalid photo size');
+                this.renderErrorNotification('Invalid photo size');
+                return;
+            }
+
+            // @ts-ignore
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            if (!allowedExtensions.includes(fileExtension)) {
+                console.error('Invalid photo extension');
+                this.renderErrorNotification('Invalid photo extension');
+                return;
+            }
 
             const formData = new FormData();
             // @ts-ignore
@@ -104,6 +137,14 @@ export class UserPlaylist extends Playlist {
      * @private
      */
     private subscribes() {
+        API.subscribe(
+            () => {
+                Router.go(routingUrl.LIBRARY_PLAYLISTS);
+            },
+            EventTypes.DELETED_PLAYLIST,
+            this.name,
+        );
+
         ContentStore.subscribe(
             () => {
                 const { id } = ContentStore.state[pageNames.PLAYLIST];
@@ -123,10 +164,10 @@ export class UserPlaylist extends Playlist {
                     console.error('Cannot get user id');
                     return;
                 }
-                const numUserId: number = +userId;
+                const numUserId = Number(userId);
 
                 const state = ContentStore.state[pageNames.PLAYLIST];
-                if (state.playlist.users.filter((user) => user.id === numUserId).length !== 0) {
+                if (state.playlist.users.find((user) => user.id === numUserId)) {
                     this.setType(playlistTypes.USER_PLAYLIST);
                     super.setConfig(setupUserPlaylist(state.playlist));
                 } else {
@@ -136,6 +177,36 @@ export class UserPlaylist extends Playlist {
 
                 const pr = new Promise((resolve) => {
                     this.renderPlaylist();
+                    if (this.type === playlistTypes.USER_PLAYLIST) {
+                        runAfterFramePaint(() => {
+                            const placeSearch = document.querySelector('.js__placement__search');
+                            if (!placeSearch) {
+                                console.error('Error at finding place for search in playlist');
+                                return;
+                            }
+
+                            const textOfSearch = document.createElement('p');
+                            textOfSearch.classList.add('usualText');
+                            textOfSearch.style.paddingBottom = '5px';
+                            textOfSearch.innerText = 'Search for tracks to add';
+                            placeSearch.appendChild(textOfSearch);
+
+                            new SearchContent(
+                                placeSearch,
+                                componentsNames.SEARCH_LINE,
+                                'playlist',
+                                { mainDiv: 'search-content search-content-embedded' },
+                                (value) => {
+                                    if (value === '') {
+                                        SearchActions.emptySearch();
+                                        return;
+                                    }
+
+                                    SearchActions.searchTracks(value);
+                                },
+                            ).render();
+                        });
+                    }
                     resolve(true);
                 });
                 pr.then(() => {
@@ -148,7 +219,40 @@ export class UserPlaylist extends Playlist {
         );
 
         API.subscribe(
-            (message) => {
+            (message: string, playlistData: PlaylistContent) => {
+                if (message !== 'OK') {
+                    console.error('Error in playlist update api');
+                    return;
+                }
+
+                const nameElement: HTMLDivElement|null = document.querySelector('.headerNameOfElementClass');
+                const descriptionElement: HTMLDivElement|null = document.querySelector('.js__description-album');
+                if (!nameElement || !descriptionElement) {
+                    console.error('Cannot get name or description element');
+                    return;
+                }
+
+                nameElement.innerText = playlistData.name;
+                descriptionElement.innerText = playlistData.description;
+            },
+            EventTypes.UPDATED_PLAYLIST,
+            this.name,
+        );
+
+        API.subscribe(
+            (message, playlistId) => {
+                if (message !== 'OK') {
+                    console.error(message);
+                } else {
+                    PlaylistActions.playlistTracks(playlistId);
+                }
+            },
+            EventTypes.ADDED_TRACK_IN_PLAYLIST,
+            this.name,
+        );
+
+        API.subscribe(
+            (message, cover) => {
                 if (message !== 'OK') {
                     console.error(message);
                 } else {
@@ -158,7 +262,7 @@ export class UserPlaylist extends Playlist {
                         return;
                     }
                     // @ts-ignore
-                    const blob = new Blob(this.fileInput.files, { type: 'image/jpeg' });
+                    const blob = new Blob([cover], { type: 'image/jpeg' });
                     const imageUrl = URL.createObjectURL(blob);
                     avatarImg.src = imageUrl;
                 }

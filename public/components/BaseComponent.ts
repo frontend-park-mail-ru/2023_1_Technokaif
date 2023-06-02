@@ -6,6 +6,33 @@ import ComponentsStore from '@store/ComponentsStore';
 import ComponentsActions from '@Actions/ComponentsActions';
 import unsubscribeFromAllStoresOnComponent from '@functions/unsubscribeFromAllStores';
 import ContentStore from '@store/ContentStore';
+import API from '@store/API';
+import Router from '@router/Router';
+
+const componentsListWhereMainWas = [componentsNames.FEED_CONTENT,
+    componentsNames.SEARCH_CONTENT,
+    componentsNames.USER,
+    componentsNames.ALBUM,
+    componentsNames.ARTIST_CONTENT,
+    componentsNames.TRACK,
+    componentsNames.PLAYLIST,
+    componentsNames.LIBRARY,
+    componentsNames.LIBRARY_ALBUMS,
+    componentsNames.LIBRARY_ARTISTS,
+    componentsNames.LIBRARY_PLAYLISTS,
+    componentsNames.LIBRARY_TRACKS,
+    componentsNames.FEED,
+];
+
+const componentsListProhibitedAfterLogout = [
+    componentsNames.USER,
+    componentsNames.PLAYLIST,
+    componentsNames.LIBRARY,
+    componentsNames.LIBRARY_ALBUMS,
+    componentsNames.LIBRARY_ARTISTS,
+    componentsNames.LIBRARY_PLAYLISTS,
+    componentsNames.LIBRARY_TRACKS,
+];
 
 /**
  * Base Component class to handle render functions.
@@ -14,7 +41,7 @@ export abstract class BaseComponent {
     /**
      * Parent where to render
      */
-    #parent;
+    protected parent;
 
     /**
      * Name of component
@@ -39,8 +66,8 @@ export abstract class BaseComponent {
      * @param {function} template - template to create elements
      */
     constructor(parent, config, template, name = 'elementary component') {
-        this.#parent = parent;
-        if (!this.#parent) {
+        this.parent = parent;
+        if (!this.parent) {
             console.warn('Parent doesn\'t exist in ', name);
         }
         this.#name = name;
@@ -88,8 +115,7 @@ export abstract class BaseComponent {
 
                     // todo change to config
                     const nameComp = this.#name;
-                    // eslint-disable-next-line max-len
-                    if ([componentsNames.FEED_CONTENT, componentsNames.SEARCH_CONTENT, componentsNames.ALBUM, componentsNames.ARTIST_CONTENT].includes(nameComp)) {
+                    if (componentsListWhereMainWas.includes(nameComp)) {
                         // eslint-disable-next-line max-len
                         const mainComponent = list.find((comp) => comp.name === componentsNames.MAIN);
                         if (mainComponent) {
@@ -109,6 +135,16 @@ export abstract class BaseComponent {
             EventTypes.ON_REMOVE_ANOTHER_ITEMS,
             this.#name,
         );
+
+        API.subscribe(
+            (message) => {
+                if (message === 'OK' && componentsListProhibitedAfterLogout.includes(this.name)) {
+                    Router.goToFeed();
+                }
+            },
+            EventTypes.LOGOUT_STATUS,
+            componentsNames.PLAYER,
+        );
     }
 
     /**
@@ -116,7 +152,7 @@ export abstract class BaseComponent {
      */
     render() {
         this.#subscribeAll();
-        this.#parent.innerHTML = this.#template(this.#config);
+        this.parent.innerHTML = this.#template(this.#config);
     }
 
     /** Append element to parent without clearing it */
@@ -134,7 +170,43 @@ export abstract class BaseComponent {
             console.error('Element to append doesn\'t exist', this.#name);
             return;
         }
-        this.#parent.appendChild(newElement);
+        this.parent.appendChild(newElement);
+    }
+
+    /** Insert before element to parent without clearing it */
+    insertBeforeElement(node) {
+        this.#subscribeAll();
+        if (!this.#config) {
+            return;
+        }
+        const tempElement = document.createElement('div');
+
+        tempElement.innerHTML = this.#template(this.#config);
+
+        const newElement = tempElement.firstChild;
+        if (!newElement) {
+            console.error('Element to append doesn\'t exist', this.#name);
+            return;
+        }
+        this.parent.insertBefore(newElement, node);
+    }
+
+    /** Insert after element to parent without clearing it */
+    insertAfterElement(node) {
+        this.#subscribeAll();
+        if (!this.#config) {
+            return;
+        }
+        const tempElement = document.createElement('div');
+
+        tempElement.innerHTML = this.#template(this.#config);
+
+        const newElement = tempElement.firstChild;
+        if (!newElement) {
+            console.error('Element to append doesn\'t exist', this.#name);
+            return;
+        }
+        this.parent.insertBefore(newElement, node.nextSibling);
     }
 
     /**

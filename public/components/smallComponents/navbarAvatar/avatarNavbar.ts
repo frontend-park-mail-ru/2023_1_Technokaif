@@ -33,7 +33,9 @@ export class AvatarNavbar extends BaseComponent {
     private subscribe() {
         API.subscribe(
             () => {
-                UserActions.user(localStorage.getItem('userId'));
+                setTimeout(() => {
+                    UserActions.user(localStorage.getItem('userId'));
+                }, 400);
             },
             EventTypes.UPDATE_DATA_WITH_AVATAR_RECEIVED,
             this.name,

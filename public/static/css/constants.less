@@ -1,11 +1,11 @@
-@text-label: 15px;
-@title-font: 40px;
-@description-font: 24px;
-@artist-name-font: 13px;
-@font-input-element: 15px;
-@error-font: 15px;
-@font-sidebar: 18px;
-@font-logo: 36px;
+@text-label: 1rem;
+@title-font: 2.1rem;
+@description-font: 1.5rem;
+@artist-name-font: 0.8rem;
+@font-input-element: 1rem;
+@error-font: 1rem;
+@font-sidebar: 1.1rem;
+@font-logo: 2rem;
 
 @chars-weight: 700;
 @chars-less-weight:500;
@@ -27,6 +27,7 @@
 @special-gray-color: #b3b3b3;
 @sub-color: #333333;
 @opposed-main-color: #0C0C0C;
+@full-black-color: rgba(0, 0, 0, 0.5);
 @hover-color: #736D6D;
 @notification-inside: #434343;
 
@@ -65,4 +66,180 @@
 
 @mixin wrapper-tablet {
   padding: 0 38px;
+}
+
+@maxSizeForTextInLineListMobile:300px;
+
+// sizes of elements
+@maxSizeForFormTablet: 600px;
+@maxSizeForFormDesktop: 400px;
+@maxSizeForUserInfoFormDesktop: 500px;
+
+@navbarSize: 74px;
+
+@playerSizeMobile: 72px;
+@playerSizeTablet: 102px;
+@playerSizeDesktop: @playerSizeMobile;
+
+@sideBarSizeMobile: 66px;
+@sidebarDesktop: 300px;
+@bottomSizeForMobile: calc(@playerSizeMobile + @sideBarSizeMobile);
+@bottomSizeForTablet: calc(@playerSizeTablet + @sideBarSizeMobile);
+
+@fontForCovers: 1.3rem;
+// todo another file with import in index.ts
+@media @mobileMax {
+  html {
+    font-size: 25px;
+  }
+}
+
+@media @tabletSize {
+  html {
+    font-size: 30px;
+  }
+}
+
+@media @desktopMin {
+  html {
+    font-size: 25px;
+  }
+}
+
+// fonts
+@hugeTextFont: 1.4rem;
+@bigTextFont: 1.2rem;
+@usualTextFont: 1rem;
+@smallTextFont: 0.8rem;
+@verySmallTextFont: 0.66rem;
+@tinyTextFont: 0.6rem;
+
+// size of description
+@descriptionCoverSize: 150px;
+
+@maxLinesInDescriptionsTapeElement: 5;
+
+.mainTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.smallText {
+  font-size: 0.66rem;
+  font-weight: 500;
+  line-height: calc(0.66rem + 0.1rem);
+}
+
+.usualText {
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: calc(0.66rem + 0.1rem);
+}
+
+.smallTitleText {
+  font-size: 0.66rem;
+  font-weight: 700;
+}
+
+.titleText {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.bigTitle {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.collosalTitle {
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+@media @desktopMin {
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+    border-radius: @radius;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;
+  }
+}
+
+#root {
+  overflow: hidden;
+  position: relative;
+}
+
+.notification__placement {
+  position: absolute;
+  right: 0;
+  top: calc(@navbarSize - 5px);
+
+  width: 100%;
+  overflow-Y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.notification__placement::-webkit-scrollbar {
+  width: 0;
+}
+
+@media @mobileMax {
+  .notification__placement {
+    max-width: 100%;
+    max-height: calc(calc(68px + 5px) * 2);
+  }
+}
+
+@media @tabletSize {
+  .notification__placement {
+    max-width: 60%;
+    margin-right: 10px;
+    max-height: calc(calc(92px + 5px) * 2);
+  }
+}
+
+@media @desktopMin {
+  .notification__placement {
+    max-width: 40%;
+    margin-right: 10px;
+    max-height: calc(calc(67px + 5px) * 3);
+  }
+}
+
+body {
+  overflow: hidden;
+}
+
+
+.scrollElement {
+  overflow-y: auto;
+  max-height: 100%;
+  height: fit-content;
+  box-sizing: border-box;
+}
+
+.paddings-content {
+  padding-left: 2.5%;
+  padding-right: 2.5%;
+}
+
+.img-properties {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
 }
