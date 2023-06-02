@@ -54,7 +54,7 @@ function renderMainPage() {
                 render: ComponentsRenders.renderNavbar,
             },
             {
-                name: componentsNames.FEED_CONTENT,
+                name: componentsNames.FEED,
                 render: ComponentsRenders.renderFeedContent,
             },
             {

@@ -21,13 +21,18 @@ export class FeedContent extends BaseComponent {
      */
     #configs;
 
+    /** Flag of charts page element */
+    private isCharts: boolean;
+
     /**
      * Create MainWindowContent component. Empty innerHtml before placement
      * @param {HTMLElement} parent -- where to place MainWindowContent
      * @param config
+     * @param isCharts
      */
-    constructor(parent, config) {
+    constructor(parent, config, isCharts = false) {
         super(parent, config, templateHtml, componentsNames.FEED_CONTENT);
+        this.isCharts = isCharts;
         this.#configs = [];
     }
 
@@ -58,8 +63,13 @@ export class FeedContent extends BaseComponent {
     #addSubscribes() {
         ContentStore.subscribe(
             () => {
-                const feedElement: HTMLDivElement|null = this.parent.querySelector(`.${componentsJSNames.FEED_CONTENT}`);
-                if (feedElement?.children.length) {
+                let feedElement: HTMLDivElement|null;
+                if (this.isCharts) {
+                    feedElement = this.parent.querySelector(`.${componentsNames.FEED_CONTENT}`);
+                } else {
+                    feedElement = this.parent.querySelector(`.${componentsJSNames.FEED_CONTENT}`);
+                }
+                if (feedElement && feedElement.children.length) {
                     return;
                 }
                 const state = ContentStore.state[pageNames.FEED];
@@ -85,7 +95,8 @@ export class FeedContent extends BaseComponent {
     override render() {
         super.appendElement();
         this.#addSubscribes();
-        ApiActions.feed();
-        document.title = 'Fluire';
+        if (!this.isCharts) {
+            ApiActions.feed();
+        }
     }
 }

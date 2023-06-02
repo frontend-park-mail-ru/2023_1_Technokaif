@@ -50,6 +50,9 @@ import { getValueFromLocalStorage } from '@functions/FunctionsToWorkWithLocalSto
 import { RESPONSES } from '@config/config';
 import { TracksApi } from '@api/ApiAnswers';
 import { listenTrackAjaxRequest } from '@api/tracks/listenTrackAjaxRequest';
+import { feedChartTracksAjax } from '@api/tracks/feedChartsTracks';
+import { feedChartArtistsAjax } from '@api/artists/feedChartsArtists';
+import { feedChartAlbumsAjax } from '@api/albums/feedChartsAlbums';
 
 /**
  * Class using for getting data from backend.
@@ -93,6 +96,9 @@ class API extends IStore {
             break;
         case ActionTypes.FEED:
             this.#feedRequest();
+            break;
+        case ActionTypes.FEED_CHARTS:
+            this.feedChartsRequest(action.days);
             break;
         case ActionTypes.PROFILE:
             this.#profileRequest(action.id);
@@ -255,6 +261,15 @@ class API extends IStore {
         feedTracksAjax().then((tracks) => ContentActions.feedAddContent({ Tracks: tracks }));
         feedArtistsAjax().then((artists) => ContentActions.feedAddContent({ Artists: artists }));
         feedAlbumsAjax().then((albums) => ContentActions.feedAddContent({ Albums: albums }));
+    }
+
+    /**
+     * Function to get feed page data from server.
+     */
+    private feedChartsRequest(days: number) {
+        feedChartTracksAjax({ days }).then((tracks) => ContentActions.feedAddContent({ Tracks: tracks }));
+        feedChartArtistsAjax({ days }).then((artists) => ContentActions.feedAddContent({ Artists: artists }));
+        feedChartAlbumsAjax({ days }).then((albums) => ContentActions.feedAddContent({ Albums: albums }));
     }
 
     /**

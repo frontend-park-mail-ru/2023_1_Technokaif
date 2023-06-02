@@ -1,0 +1,32 @@
+@import '../../../static/css/constants.less';
+
+
+.select-element {
+  cursor: pointer;
+  outline: none;
+  border: 0 @opposed-main-color solid;
+  padding-left: calc(calc(10 / 16) * 0.8rem);
+  color: rgba(@main-color, 0.7);
+  background-color: @sub-color;
+  height: 2rem;
+  transition-duration: 150ms;
+  transition-property: border, outline;
+  max-width: 100%;
+  width: 100%;
+  .usualText();
+}
+
+.chart-option {
+  cursor: pointer;
+}
+
+.charts-class {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.charts-header {
+  .bigTitle();
+}

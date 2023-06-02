@@ -2,6 +2,7 @@ export const componentsNames = {
     MAIN: 'main',
     NAVBAR: 'js__navbar',
     SIDEBAR: 'js__sidebar',
+    FEED: 'feed-page',
     FEED_CONTENT: 'main-page-window',
     LOGIN_FORM: 'login-content',
     REGISTER_FORM: 'registration-content',
