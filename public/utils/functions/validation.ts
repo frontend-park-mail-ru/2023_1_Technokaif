@@ -233,7 +233,9 @@ export function dateValidate(day, month, year) {
         return null;
     }
 
-    const date = new Date(`${year}-${month}-${day}`);
+    const ind = MONTHS.findIndex((el) => el === month);
+    const date = new Date(`${year}/${ind + 1}/${day}`);
+
     if (date.getDate() !== Number(day) || MONTHS[date.getMonth()] !== month) {
         return ERRORS.dayIncorrect;
     }
