@@ -18,7 +18,9 @@
 <!--    IMG of line-->
     <div class="{{root.lineBlock}}">
         {{#ifEquals root.isArtistPage true}}
-            <img src="{{#if item.cover}}{{#convert}}{{item.cover}}{{/convert}}{{else}}{{defaultTrackSrc}}{{/if}}" class="{{root.lineCover}}">
+            <div class="line-img">
+                <img src="{{#if item.cover}}{{#convert}}{{item.cover}}{{/convert}}{{else}}{{defaultTrackSrc}}{{/if}}" class="{{root.lineCover}}">
+            </div>
         {{/ifEquals}}
 
         {{#ifEquals root.isPlaylistPage true}}
