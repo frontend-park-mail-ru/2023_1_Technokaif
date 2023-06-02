@@ -170,7 +170,7 @@ export class LibraryPlaylists extends BaseComponent {
                 this.renderTapeTimeout(playlists, playlistsTypes.PERSONAL_PLAYLISTS);
                 UserActions.userFavoritePlaylists(localStorage.getItem('userId'));
             },
-            EventTypes.GOT_USER_PLAYLISTS,
+            EventTypes.GOT_USER_PLAYLISTS_NO_TRACKS,
             this.name,
         );
 
@@ -210,7 +210,7 @@ export class LibraryPlaylists extends BaseComponent {
         super.appendElement();
         this.subscribeForStores();
         this.actionsOnRender();
-        UserActions.userPlaylists(localStorage.getItem('userId'));
+        UserActions.userPlaylistsNoTracks(localStorage.getItem('userId'));
 
         document.title = 'Favourite Playlists';
     }

@@ -10,32 +10,33 @@
   background-color: @main-color;
   color: @opposed-main-color;
   border-radius: @radius;
-  padding: 0.5rem;
   .titleText();
 
   cursor: pointer;
   margin-top: 10px;
   height: 40px;
+
+  line-height: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media @desktopMin {
   .search__block__button-nothing {
     width: 255px;
-    padding-top: 10px;
   }
 }
 
 @media @tabletSize {
   .search__block__button-nothing {
     width: 316px;
-    padding-top: 5px;
   }
 }
 
 @media @mobileMax {
   .search__block__button-nothing {
     width: 265px;
-    padding-top: 10px;
   }
 }
 
