@@ -55,6 +55,9 @@
     {{#ifEquals root.isArtistPage true}}
         <div class="{{root.lineListensClass}}">{{item.listens}}</div>
     {{/ifEquals}}
+    {{#ifEquals root.isListensShow true}}
+        <div class="{{root.lineListensClass}}">{{item.listens}}</div>
+    {{/ifEquals}}
 
     <!--Liked button-->
     {{#ifEquals item.isLiked true}}

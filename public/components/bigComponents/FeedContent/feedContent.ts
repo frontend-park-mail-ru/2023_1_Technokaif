@@ -1,7 +1,6 @@
 import { Tape } from '@bigComponents/Tape/tape';
-import templateHtml from './feedContent.handlebars';
-
 import './feedContent.less';
+
 import { pageNames } from '@config/pageNames';
 import { EventTypes } from '@config/EventTypes';
 import { componentsNames } from '@config/componentsNames';
@@ -11,6 +10,7 @@ import { componentsJSNames } from '@config/componentsJSNames';
 import ApiActions from '@actions/Api/ApiActions';
 import { BaseComponent } from '@components/BaseComponent';
 import ContentStore from '@store/ContentStore';
+import templateHtml from './feedContent.handlebars';
 
 /**
  * Create FeedContent content with tapes
@@ -58,13 +58,17 @@ export class FeedContent extends BaseComponent {
     #addSubscribes() {
         ContentStore.subscribe(
             () => {
+                const feedElement: HTMLDivElement|null = this.parent.querySelector(`.${componentsJSNames.FEED_CONTENT}`);
+                if (feedElement?.children.length) {
+                    return;
+                }
                 const state = ContentStore.state[pageNames.FEED];
+                this.#configs = [];
                 for (const key in state) {
                     if (key === 'Tracks') {
-                        this.#configs.push(setupTape(key, key, shuffleArray(state[key])
-                            .slice(0, 5)));
+                        this.#configs.push(setupTape(key, key, shuffleArray(state[key])));
                     } else {
-                        this.#configs.push(setupTape(key, key, state[key].slice(0, 5)));
+                        this.#configs.push(setupTape(key, key, state[key]));
                     }
                 }
 

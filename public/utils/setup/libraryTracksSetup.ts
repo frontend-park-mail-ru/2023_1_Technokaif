@@ -118,7 +118,7 @@ export function setupSearchLineList(items: AlbumApi[]): ContentArtist {
         title: 'popular-tracks-title',
         titleText: 'Popular tracks',
 
-        lineDiv: 'track-line',
+        lineDiv: 'search-track-line',
         lineIndex: 'track-line__index',
         lineBlock: 'track-line__block',
         lineCover: 'track-line__cover',
@@ -135,11 +135,11 @@ export function setupSearchLineList(items: AlbumApi[]): ContentArtist {
         stopButtonImg: 'likeImg',
 
         likeButtons: 'like-button-block',
-        like: 'like-button',
+        like: 'search-like-button',
         likeButtonSrc: imgPath.trackLike,
         likeButtonImg: 'like-button__img',
 
-        unlike: 'unlike-button',
+        unlike: 'search-unlike-button',
         unlikeButtonSrc: imgPath.trackUnLike,
         unlikeButtonImg: 'unlike-button__img',
 
@@ -162,7 +162,7 @@ export function setupSearchLineList(items: AlbumApi[]): ContentArtist {
         isOptionsShow: false,
 
         durationClass: 'track-line__duration',
-        anotherClass: 'track-line__another',
+        anotherClass: 'search-track-line__another',
         anotherSrc: imgPath.ellipseInArtist,
     };
 }
@@ -178,6 +178,7 @@ export function setupSearchLineListForPlaylist(items: AlbumApi[], playlistId: st
         titleText: 'Popular tracks',
 
         lineDiv: 'search-track-line',
+        generalLineDiv: 'track-line',
         lineIndex: 'track-line__index',
         lineBlock: 'track-line__block',
         lineCover: 'track-line__cover',
@@ -186,21 +187,21 @@ export function setupSearchLineListForPlaylist(items: AlbumApi[], playlistId: st
         lineDuration: 'track-line__duration',
 
         buttonsClass: 'buttons',
-        playButton: 'play-button-track',
+        playButton: 'search-play-button-track',
         playButtonSrc: imgPath.trackPlay,
         playButtonImg: 'likeImg',
-        stopButton: 'stop-button-track',
+        stopButton: 'search-stop-button-track',
         stopButtonSrc: imgPath.trackPause,
         stopButtonImg: 'likeImg',
 
         likeButtons: 'like-button-block',
-        like: 'like-button',
+        like: 'search-like-button',
         likeButtonSrc: imgPath.trackLike,
-        likeButtonImg: 'like-button__img',
+        likeButtonImg: 'search-like-button__img',
 
-        unlike: 'unlike-button',
+        unlike: 'search-unlike-button',
         unlikeButtonSrc: imgPath.trackUnLike,
-        unlikeButtonImg: 'unlike-button__img',
+        unlikeButtonImg: 'search-unlike-button__img',
 
         defaultTrackSrc: imgPath.defaultTrack,
         titleArtistDiv: 'artist__with__title',

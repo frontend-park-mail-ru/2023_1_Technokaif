@@ -8,8 +8,18 @@
     .smallText();
 }
 
-.tape__show-text {
+.tape__show-text, .tape__hide-placement {
     color: @shadow-color;
+    cursor: pointer;
+    .smallTitleText();
+}
+
+.hidden-class {
+    opacity: 0;
+}
+
+.hidden-with-padding {
+    padding: 20px 5px;
 }
 
 @media @mobileMax {

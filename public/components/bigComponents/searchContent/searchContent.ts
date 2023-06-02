@@ -14,10 +14,12 @@ import { pageNames } from '@config/pageNames';
 import { METHOD } from '@config/config';
 import { runAfterFramePaint } from '@functions/renderAfterPaintDone';
 import { removeNothingPlacementInSearch } from '@functions/removeNothingPlacement';
+import { FeedContent } from '@bigComponents/FeedContent/feedContent';
+import { componentsJSNames } from '@config/componentsJSNames';
 import templateHtml from './searchContent.handlebars';
 
 /** What element to search and hide */
-const searchElement = 'search-img';
+const searchNothingElement = 'search-nothing-block';
 
 declare interface ILenParam {
     length: number,
@@ -86,12 +88,16 @@ export class SearchContent extends BaseComponent {
         divForPlace.appendChild(tracksTitleBlock);
         linesPlacement.appendChild(divForPlace);
         let lines;
-        if (this.type === 'default') {
-            lines = new LineList(divForPlace, setupSearchLineList(tracks), this.name);
-        } else {
+        if (this.type === 'playlist') {
             lines = new LineList(
                 divForPlace,
                 setupSearchLineListForPlaylist(tracks, ContentStore.state[pageNames.PLAYLIST].id),
+                this.name,
+            );
+        } else {
+            lines = new LineList(
+                divForPlace,
+                setupSearchLineList(tracks),
                 this.name,
             );
         }
@@ -154,18 +160,12 @@ export class SearchContent extends BaseComponent {
         if (!isExist) {
             label.innerHTML = 'Nothing was found';
             if (this.type === 'default') {
-                const element: HTMLDivElement | null = document.querySelector(`.${searchElement}`);
-                if (element) {
-                    element.hidden = false;
-                }
+                this.renderRecommendations();
             }
             label.classList.add('nothing-found');
             nothingPlacement.appendChild(label);
-        } else {
-            const element: HTMLDivElement | null = document.querySelector(`.${searchElement}`);
-            if (element && this.type === 'default') {
-                element.hidden = true;
-            }
+        } else if (this.type === 'default') {
+            this.unrenderRecommendations();
         }
 
         this.lengths = [];
@@ -331,25 +331,44 @@ export class SearchContent extends BaseComponent {
                     || tracks?.children.length
                     || artists?.children.length
                     || playlists?.children.length) {
-                    const element: HTMLDivElement | null = document.querySelector(`.${searchElement}`);
-                    if (element) {
-                        element.hidden = true;
-                    }
+                    this.unrenderRecommendations();
                 } else {
-                    const element: HTMLDivElement | null = document.querySelector(`.${searchElement}`);
-                    if (element) {
-                        element.hidden = false;
-                    }
+                    this.renderRecommendations();
                 }
             });
         }
 
         if (this.type !== 'default') {
-            const element: HTMLDivElement | null = document.querySelector(`.${searchElement}`);
-            if (element) {
-                element.hidden = true;
-            }
+            this.unrenderRecommendations();
         }
+    }
+
+    /**
+     * Method to render recommendation block
+     * @private
+     */
+    private renderRecommendations() {
+        const nothingFoundBlock: HTMLElement| null = document.querySelector(`.${searchNothingElement}`);
+        if (!nothingFoundBlock) {
+            console.error('No nothing element on search');
+            return;
+        }
+
+        new FeedContent(nothingFoundBlock, {}).render();
+    }
+
+    /**
+     * Method to unrender recommendation block
+     * @private
+     */
+    private unrenderRecommendations() {
+        const nothingFoundBlock: HTMLElement| null = document.querySelector(`.${componentsJSNames.FEED_CONTENT}`);
+        if (!nothingFoundBlock) {
+            console.error('No nothing element on search');
+            return;
+        }
+
+        nothingFoundBlock.remove();
     }
 
     /**
@@ -359,11 +378,8 @@ export class SearchContent extends BaseComponent {
         super.appendElement();
 
         runAfterFramePaint(() => {
-            if (this.type !== 'default') {
-                const nothingSVG: HTMLElement| null = document.querySelector(`.${searchElement}`);
-                if (nothingSVG) {
-                    nothingSVG.hidden = true;
-                }
+            if (this.type === 'default') {
+                this.renderRecommendations();
             }
 
             this.#renderSearchLine();
