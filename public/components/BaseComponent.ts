@@ -21,6 +21,7 @@ const componentsListWhereMainWas = [componentsNames.FEED_CONTENT,
     componentsNames.LIBRARY_ARTISTS,
     componentsNames.LIBRARY_PLAYLISTS,
     componentsNames.LIBRARY_TRACKS,
+    componentsNames.FEED,
 ];
 
 const componentsListProhibitedAfterLogout = [
