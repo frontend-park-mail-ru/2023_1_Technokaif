@@ -41,6 +41,12 @@ export class Tape extends BaseComponent {
     private hideButtonCallback;
 
     /**
+     * Function for main action of tape
+     * @private
+     */
+    private mainActionCallback;
+
+    /**
      * Create Track component. Empty innerHtml before placement
      * @param {Element} parent -- where to place Track
      * @param {object} config -- what config use to compile template
@@ -52,6 +58,114 @@ export class Tape extends BaseComponent {
         this.#config = config;
         this.allTracks = config.content;
         this.#name = name;
+
+        this.mainActionCallback = (event) => {
+            event.preventDefault();
+            // // todo think about checker for existence
+            if (!document.querySelector(`.component__${this.#name}`)) {
+                return;
+            }
+            let isPlayPressed = false;
+            if (event.target.classList.contains('buttonComponent')) {
+                isPlayPressed = true;
+            }
+
+            const tape = event.target.closest(`.component__${this.#name}`);
+            if (tape) {
+                const id = tape.getAttribute('data-id');
+                switch (this.#name) {
+                case 'Artists':
+                    if (isPlayPressed) {
+                        if (!checkAuth()) {
+                            Router.goToLogin();
+                            return;
+                        }
+
+                        if (event.target.classList.contains('play')) {
+                            PlayerActions.changePlayState(false);
+                            event.target.classList.remove('play');
+                        } else {
+                            if (SongStore.artistsInfo?.find((artist) => Number(id) === artist.id)) {
+                                PlayerActions.changePlayState(true);
+                            } else {
+                                PlayerActions.playArtist(id);
+                            }
+                            event.target.classList.add('play');
+                        }
+                    } else {
+                        Router.go(`/${instancesNames.ARTIST_PAGE}/${id}`);
+                    }
+                    break;
+                case 'Tracks':
+                    if (isPlayPressed) {
+                        if (!checkAuth()) {
+                            Router.goToLogin();
+                            return;
+                        }
+
+                        if (event.target.classList.contains('play')) {
+                            PlayerActions.changePlayState(false);
+                            event.target.classList.remove('play');
+                        } else {
+                            if (SongStore.trackInfo.id === Number(id)) {
+                                PlayerActions.changePlayState(true);
+                            } else {
+                                PlayerActions.playTrack([id]);
+                            }
+                            event.target.classList.add('play');
+                        }
+                    } else {
+                        Router.go(`/${instancesNames.TRACK_PAGE}/${id}`);
+                    }
+                    break;
+                case 'Albums':
+                    if (isPlayPressed) {
+                        if (!checkAuth()) {
+                            Router.goToLogin();
+                            return;
+                        }
+
+                        if (event.target.classList.contains('play')) {
+                            PlayerActions.changePlayState(false);
+                            event.target.classList.remove('play');
+                        } else {
+                            if (SongStore.albumInfo === Number(id)) {
+                                PlayerActions.changePlayState(true);
+                            } else {
+                                PlayerActions.playAlbum(id);
+                            }
+                            event.target.classList.add('play');
+                        }
+                    } else {
+                        Router.go(`/${instancesNames.ALBUM_PAGE}/${id}`);
+                    }
+                    break;
+                case 'Playlists':
+                    if (isPlayPressed) {
+                        if (!checkAuth()) {
+                            Router.goToLogin();
+                            return;
+                        }
+
+                        if (event.target.classList.contains('play')) {
+                            PlayerActions.changePlayState(false);
+                            event.target.classList.remove('play');
+                        } else {
+                            if (SongStore.albumInfo === Number(id)) {
+                                PlayerActions.changePlayState(true);
+                            } else {
+                                PlayerActions.playPlaylist(id);
+                            }
+                            event.target.classList.add('play');
+                        }
+                    } else {
+                        Router.go(`/${instancesNames.PLAYLIST_PAGE}/${id}`);
+                    }
+                    break;
+                default:
+                }
+            }
+        };
 
         this.showButtonCallback = (event) => {
             const showButton = event.target.closest('.tape__show-text');
@@ -184,113 +298,8 @@ export class Tape extends BaseComponent {
             return;
         }
 
-        tapeTrigger.addEventListener(METHOD.BUTTON, (event) => {
-            event.preventDefault();
-            // // todo think about checker for existence
-            if (!document.querySelector(`.component__${this.#name}`)) {
-                return;
-            }
-            let isPlayPressed = false;
-            if (event.target.classList.contains('buttonComponent')) {
-                isPlayPressed = true;
-            }
-
-            const tape = event.target.closest(`.component__${this.#name}`);
-            if (tape) {
-                const id = tape.getAttribute('data-id');
-                switch (this.#name) {
-                case 'Artists':
-                    if (isPlayPressed) {
-                        if (!checkAuth()) {
-                            Router.goToLogin();
-                            return;
-                        }
-
-                        if (event.target.classList.contains('play')) {
-                            PlayerActions.changePlayState(false);
-                            event.target.classList.remove('play');
-                        } else {
-                            if (SongStore.artistsInfo?.find((artist) => Number(id) === artist.id)) {
-                                PlayerActions.changePlayState(true);
-                            } else {
-                                PlayerActions.playArtist(id);
-                            }
-                            event.target.classList.add('play');
-                        }
-                    } else {
-                        Router.go(`/${instancesNames.ARTIST_PAGE}/${id}`);
-                    }
-                    break;
-                case 'Tracks':
-                    if (isPlayPressed) {
-                        if (!checkAuth()) {
-                            Router.goToLogin();
-                            return;
-                        }
-
-                        if (event.target.classList.contains('play')) {
-                            PlayerActions.changePlayState(false);
-                            event.target.classList.remove('play');
-                        } else {
-                            if (SongStore.trackInfo.id === Number(id)) {
-                                PlayerActions.changePlayState(true);
-                            } else {
-                                PlayerActions.playTrack([id]);
-                            }
-                            event.target.classList.add('play');
-                        }
-                    } else {
-                        Router.go(`/${instancesNames.TRACK_PAGE}/${id}`);
-                    }
-                    break;
-                case 'Albums':
-                    if (isPlayPressed) {
-                        if (!checkAuth()) {
-                            Router.goToLogin();
-                            return;
-                        }
-
-                        if (event.target.classList.contains('play')) {
-                            PlayerActions.changePlayState(false);
-                            event.target.classList.remove('play');
-                        } else {
-                            if (SongStore.albumInfo === Number(id)) {
-                                PlayerActions.changePlayState(true);
-                            } else {
-                                PlayerActions.playAlbum(id);
-                            }
-                            event.target.classList.add('play');
-                        }
-                    } else {
-                        Router.go(`/${instancesNames.ALBUM_PAGE}/${id}`);
-                    }
-                    break;
-                case 'Playlists':
-                    if (isPlayPressed) {
-                        if (!checkAuth()) {
-                            Router.goToLogin();
-                            return;
-                        }
-
-                        if (event.target.classList.contains('play')) {
-                            PlayerActions.changePlayState(false);
-                            event.target.classList.remove('play');
-                        } else {
-                            if (SongStore.albumInfo === Number(id)) {
-                                PlayerActions.changePlayState(true);
-                            } else {
-                                PlayerActions.playPlaylist(id);
-                            }
-                            event.target.classList.add('play');
-                        }
-                    } else {
-                        Router.go(`/${instancesNames.PLAYLIST_PAGE}/${id}`);
-                    }
-                    break;
-                default:
-                }
-            }
-        });
+        tapeTrigger.removeEventListener(METHOD.BUTTON, this.mainActionCallback);
+        tapeTrigger.addEventListener(METHOD.BUTTON, this.mainActionCallback);
 
         const components = tapeTrigger.querySelectorAll(`.component__${this.#config.titleText}`);
         components.forEach((element) => {
