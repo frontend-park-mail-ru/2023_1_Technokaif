@@ -107,9 +107,11 @@ export interface ContentArtist {
     durationClass: string,
     anotherClass: string,
     anotherSrc: string,
+    anotherBlock: string,
 
     playlistId?: string,
     generalLineDiv?: string,
+    isPlusTrack?: boolean,
 }
 
 /** JSON for liked songs */
@@ -272,6 +274,7 @@ export function setupLineList(items: [AlbumApi]):ContentArtist {
         durationClass: 'track-line__duration',
         anotherClass: 'track-line__another',
         anotherSrc: imgPath.ellipseInArtist,
+        anotherBlock: 'track-line__another-block',
     };
 }
 

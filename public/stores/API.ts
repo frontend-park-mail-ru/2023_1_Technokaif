@@ -608,7 +608,7 @@ class API extends IStore {
      */
     private removeTrackFromPlaylistRequest(playlistId: string, trackId: string) {
         removeTrackAjaxRequest(playlistId, trackId).then((message) => {
-            this.jsEmit(EventTypes.REMOVED_TRACK_FROM_PLAYLIST, message, trackId);
+            this.jsEmit(EventTypes.REMOVED_TRACK_FROM_PLAYLIST, message, trackId, playlistId);
         });
     }
 

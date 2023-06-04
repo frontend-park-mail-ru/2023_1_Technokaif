@@ -93,7 +93,7 @@ export function setupLineList(items: AlbumApi[], subStringInEnd = ''):ContentArt
         content: items,
         isArtistPage: false,
         isPlaylistPage: true,
-        isLikedSongs: true,
+        isLikedSongs: false,
 
         trackLineOptions: 'track-line-optionals',
         optionsBlock: 'options-block',
@@ -105,6 +105,7 @@ export function setupLineList(items: AlbumApi[], subStringInEnd = ''):ContentArt
         durationClass: 'track-line__duration',
         anotherClass: 'track-line__another',
         anotherSrc: imgPath.ellipseInArtist,
+        anotherBlock: 'track-line__another-block',
     };
 }
 
@@ -153,6 +154,7 @@ export function setupSearchLineList(items: AlbumApi[]): ContentArtist {
         isArtistPage: false,
         isPlaylistPage: true,
         isLikedSongs: true,
+        isPlusTrack: false,
 
         trackLineOptions: 'track-line-optionals',
         optionsBlock: 'options-block',
@@ -164,6 +166,7 @@ export function setupSearchLineList(items: AlbumApi[]): ContentArtist {
         durationClass: 'track-line__duration',
         anotherClass: 'search-track-line__another',
         anotherSrc: imgPath.ellipseInArtist,
+        anotherBlock: 'search-track-line__another-block',
     };
 }
 
@@ -213,6 +216,7 @@ export function setupSearchLineListForPlaylist(items: AlbumApi[], playlistId: st
         isArtistPage: false,
         isPlaylistPage: true,
         isLikedSongs: true,
+        isPlusTrack: true,
 
         trackLineOptions: 'track-line-optionals',
         optionsBlock: 'options-block',
@@ -223,6 +227,7 @@ export function setupSearchLineListForPlaylist(items: AlbumApi[], playlistId: st
 
         durationClass: 'track-line__duration',
         anotherClass: 'search-track-line__another',
+        anotherBlock: 'search-track-line__another-block',
         anotherSrc: imgPath.trackAdd,
 
         playlistId,

@@ -146,6 +146,15 @@ export class DropDown extends BaseComponent {
             console.warn('Title or options doesn\'t exist in page');
         }
 
+        if (this.parent.children[1] && this.parent.children[1].children) {
+            Array.from(this.parent.children[1].children as NodeListOf<HTMLElement>)
+                .forEach((element: HTMLElement) => {
+                    element.addEventListener(METHOD.HIDE, () => this.hideOptions());
+                    element.addEventListener(METHOD.SHOW, () => this.showOptions());
+                    element.addEventListener(METHOD.TOGGLE, () => this.toggleOptions());
+                });
+        }
+
         title.addEventListener(METHOD.HIDE, () => this.hideOptions());
         title.addEventListener(METHOD.SHOW, () => this.showOptions());
         title.addEventListener(METHOD.TOGGLE, () => this.toggleOptions());

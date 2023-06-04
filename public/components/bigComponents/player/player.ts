@@ -330,6 +330,27 @@ export class AudioPlayer extends BaseComponent {
             this.renderDropDown();
             this.isRendered = true;
         }, EventTypes.GOT_USER_PLAYLISTS, this.name);
+
+        API.subscribe(
+            (message) => {
+                setTimeout(
+                    () => {
+                        if (message === 'OK') {
+                            if (this.isRendered) {
+                                this.unRenderDropdown();
+                                this.isRendered = false;
+                            }
+                            this.playlists = ContentStore.state[pageNames.LIBRARY_PLAYLISTS].playlists;
+                            this.renderDropDown();
+                            this.isRendered = true;
+                        }
+                    },
+                    2000,
+                );
+            },
+            EventTypes.REMOVED_TRACK_FROM_PLAYLIST,
+            this.name,
+        );
     }
 
     /** Unrender dropdown from player */
@@ -358,11 +379,12 @@ export class AudioPlayer extends BaseComponent {
 
         addButton.innerHTML = '';
         const classToKeep = 'playerAdd';
+        const classToKeep2 = 'disabled__player-control';
         const classes = addButton.classList;
 
         for (let i = classes.length - 1; i >= 0; i--) {
             const classText = classes[i];
-            if (classText && classText !== classToKeep) {
+            if (classText && classText !== classToKeep && classText !== classToKeep2) {
                 addButton.classList.remove(classText);
             }
         }
@@ -662,7 +684,7 @@ export class AudioPlayer extends BaseComponent {
         }
 
         const addButton: HTMLImageElement|null = document.querySelector('.playerAdd');
-        if (!addButton) {
+        if (!addButton || addButton.classList.contains('disabled__player-control')) {
             return;
         }
         addButton.style.zIndex = '1';

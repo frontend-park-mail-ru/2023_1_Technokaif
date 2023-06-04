@@ -185,7 +185,7 @@ export function setupPlaylistLineList(items: AlbumApi[]): ContentArtist {
         content: items,
         isArtistPage: false,
         isPlaylistPage: true,
-        isLikedSongs: true,
+        isLikedSongs: false,
 
         trackLineOptions: 'track-line-optionals',
         optionsBlock: 'options-block',
@@ -199,6 +199,7 @@ export function setupPlaylistLineList(items: AlbumApi[]): ContentArtist {
         durationClass: 'track-line__duration',
         anotherClass: 'track-line__another',
         anotherSrc: imgPath.ellipseInArtist,
+        anotherBlock: 'track-line__another-block',
     };
 }
 

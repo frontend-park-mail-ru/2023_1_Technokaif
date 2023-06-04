@@ -87,5 +87,7 @@
 
     <!--Duration-->
     <div class="{{root.durationClass}}">{{#durationConvert}}{{item.duration}}{{/durationConvert}}</div>
-    <image src="{{root.anotherSrc}}" class="{{root.anotherClass}} {{#ifEquals root.isOptionsShow false}}smaller-plus-img{{/ifEquals}}"></image>
+    <div class="{{root.anotherBlock}}">
+        <image src="{{root.anotherSrc}}" class="{{root.anotherClass}} {{#ifEquals root.isPlusTrack false}}rotate-mobile{{/ifEquals}} {{#ifEquals root.isPlusTrack true}}smaller-plus-img{{/ifEquals}}"></image>
+    </div>
 </div>
