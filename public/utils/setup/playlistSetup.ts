@@ -186,6 +186,7 @@ export function setupPlaylistLineList(items: AlbumApi[]): ContentArtist {
         isArtistPage: false,
         isPlaylistPage: true,
         isLikedSongs: false,
+        isPlusTrack: false,
 
         trackLineOptions: 'track-line-optionals',
         optionsBlock: 'options-block',

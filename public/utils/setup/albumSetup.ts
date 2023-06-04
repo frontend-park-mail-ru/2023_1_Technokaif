@@ -146,6 +146,7 @@ export function setupLineList(items, subStringInEnd = '') {
         isListensShow: true,
         lineListensClass: 'track-line__listens',
         isOptionsShow: true,
+        isPlusTrack: false,
 
         durationClass: 'track-line__duration',
         anotherClass: 'track-line__another',

@@ -547,8 +547,9 @@ export class LineList extends BaseComponent {
         API.subscribe(
             (message, id) => {
                 if (message === 'OK' && this.name === componentsNames.TRACK_LIBRARY_LINE_LIST) {
-                    this.unrenderTrack(id);
+                    this.unrenderTrack(String(id));
                 } else if (message === 'OK') {
+                    this.reRenderTracks();
                     this.changeLikeState(id, false);
                 }
             },

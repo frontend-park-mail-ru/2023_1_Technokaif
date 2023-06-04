@@ -270,6 +270,7 @@ export function setupLineList(items: [AlbumApi]):ContentArtist {
         isPlaylistPage: false,
         isShowTitle: true,
         isOptionsShow: false,
+        isPlusTrack: false,
 
         durationClass: 'track-line__duration',
         anotherClass: 'track-line__another',

@@ -94,6 +94,7 @@ export function setupLineList(items: AlbumApi[], subStringInEnd = ''):ContentArt
         isArtistPage: false,
         isPlaylistPage: true,
         isLikedSongs: false,
+        isPlusTrack: false,
 
         trackLineOptions: 'track-line-optionals',
         optionsBlock: 'options-block',
